@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+	<definition name="mainScriptsTemplate" template="/WEB-INF/jsp/scripts.jsp">
+		<put-list-attribute name="scripts">
+			<add-attribute value="/resources/js/lib/jquery/jquery-min.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="mainStylesTemplate" template="/WEB-INF/jsp/styles.jsp">
+		<put-list-attribute name="styles">
+			<add-attribute value="/resources/css/main.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="jqueryuiScriptsTemplate" extends="mainScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/resources/js/lib/jqueryui/js/jquery-ui-min.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/js/lib/jqueryui/css/jquery-ui-min.css" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="ckeditorScriptsTemplate" extends="mainScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/resources/js/lib/ckeditor/ckeditor.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/js/lib/jqueryui/css/jquery-ui-min.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="postScriptsTemplate" extends="ckeditorScriptsTemplate" />
+
+	<definition name="tidingsStylesTemplate" extends="jqueryuiStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/js/lib/checkboxtree/jquery.checkboxtree.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="tidingsScriptsTemplate" extends="jqueryuiScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/resources/js/lib/checkboxtree/jquery.checkboxtree.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="tidingsStylesTemplate" extends="jqueryuiStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/js/lib/checkboxtree/jquery.checkboxtree.css" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
+		<put-attribute name="scripts_ins" value="mainScriptsTemplate" />
+		<put-attribute name="styles_ins" value="mainStylesTemplate" />
+		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+	</definition>
+
+	<definition name="login" extends="mainTemplate">
+		<put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp" />
+	</definition>
+	
+	<definition name="registration" extends="mainTemplate">
+		<put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp" />
+	</definition>
+ 
+	<definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">
+		<put-attribute name="catalog_tabs" value="/WEB-INF/jsp/catalog/catalog_tabs.jsp" />
+		<put-attribute name="catalog_right_bar" value="" />
+		<put-attribute name="catalog_content" value="" />
+	</definition>
+
+	<definition name="travelsTemplate" extends="catalogTemplate">
+		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travels.jsp" />
+		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/travel/travels_right_bar.jsp" />
+	</definition>
+
+	<definition name="tidingsTemplate" extends="catalogTemplate">
+		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp" />
+		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/tiding/tidings_right_bar.jsp" />
+	</definition>
+
+	<definition name="postsTemplate" extends="catalogTemplate">
+		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/posts.jsp" />
+		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/post/posts_right_bar.jsp" />
+	</definition>
+
+	<definition name="postReadTemplate" extends="catalogTemplate">
+		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_read.jsp" />
+		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/post/posts_right_bar.jsp" />
+	</definition>
+
+	<definition name="postEditTemplate" extends="catalogTemplate">
+		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_edit.jsp" />
+		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/post/posts_right_bar.jsp" />
+	</definition>
+
+	<definition name="travels" extends="mainTemplate">
+		<put-attribute name="main_content" value="travelsTemplate" />
+	</definition>
+
+	<definition name="tidings" extends="mainTemplate">
+		<put-attribute name="scripts_ins" value="tidingsScriptsTemplate" />
+		<put-attribute name="style_ins" value="tidingsStylesTemplate" />
+		<put-attribute name="main_content" value="tidingsTemplate" />
+	</definition>
+	
+	<definition name="posts" extends="mainTemplate">
+		<put-attribute name="main_content" value="postsTemplate" />
+	</definition>
+
+	<definition name="post" extends="mainTemplate">
+		<put-attribute name="main_content" value="postReadTemplate" />
+	</definition>
+
+	<definition name="post/edit" extends="mainTemplate">
+		<put-attribute name="scripts_ins" value="postScriptsTemplate" />
+		<put-attribute name="main_content" value="postEditTemplate" />
+	</definition>
+
+	<definition name="postImage" extends="mainTemplate">
+		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp" />
+	</definition>
+
+	<definition name="categoryTree" template="/WEB-INF/jsp/component/category_tree.jsp" />
+
+</tiles-definitions>

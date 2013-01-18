@@ -1,0 +1,11 @@
+{
+  "apiVersion":"0.2",
+  "swaggerVersion":"1.1",
+  "basePath":"http://localhost:8080/heaptrip/apidoc",
+  "apis":[
+    {
+      "path":"/travel.{format}",
+      "description":"Operations about store"
+    }
+  ]
+}

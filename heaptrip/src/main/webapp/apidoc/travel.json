@@ -1,0 +1,106 @@
+{
+  "apiVersion":"0.2",
+  "swaggerVersion":"1.1",
+  "basePath":"http://localhost:8080/heaptrip/rest",
+  "resourcePath":"/travel",
+  "apis":[
+    {
+      "path":"/travel/{travelName}",
+      "description":"Get travel operation",
+      "operations":[
+        {
+          "httpMethod":"GET",
+          "summary":"Find travel by name",
+          "notes":"Returns a travel",
+          "responseClass":"Travel",
+          "nickname":"getTravelByName",
+          "parameters":[
+            {
+              "name":"travelName",
+              "description":"Name of travel that needs to be fetched",
+              "paramType":"path",
+              "required":true,
+              "allowMultiple":false,
+              "dataType":"string"
+            }
+          ],
+          "errorResponses":[
+            {
+              "code":400,
+              "reason":"Invalid ID supplied"
+            },
+            {
+              "code":404,
+              "reason":"Travel not found"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path":"/travel/searchRegion/{regionName}",
+      "description":"Search travel regionName",
+      "operations":[
+        {
+          "httpMethod":"GET",
+          "summary":"Search travel region",
+          "notes":"Returns a travel region",
+          "nickname":"searchRegion",
+          "parameters":[
+            {
+              "name":"regionName",
+              "description":"Name of travel region",
+              "paramType":"path",
+              "required":true,
+              "allowMultiple":false,
+              "dataType":"string"
+            }
+          ],
+          "errorResponses":[
+            {
+              "code":400,
+              "reason":"Invalid ID supplied"
+            },
+            {
+              "code":404,
+              "reason":"Travel not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models":{
+   "Travel":{
+      "id":"Travel",
+      "properties":{
+         "name":{
+        	"type": "string"
+     	 },
+     	 "dateCreate":{
+        	"type": "Date"
+     	 },
+        "owner":{
+        	"type": "User"
+     	},
+        "users":{
+          "items":{
+            "$ref":"User"
+          },
+          "type":"Array"
+        }
+      }
+    },
+    "User":{
+      "id":"User",
+      "properties":{
+         "firstName":{
+        	"type": "string"
+     	 },
+     	 "secondName":{
+        	"type": "string"
+     	 }
+       }
+  	}
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "apiVersion":"0.2",
+  "swaggerVersion":"1.1",
+  "basePath":"http://localhost:8080/heaptrip",
+  "resourcePath":"/travel",
+  "apis":[
+    {
+      "path":"/travel/{name}",
+      "description":"Get travel operation",
+      "operations":[
+        {
+          "httpMethod":"GET",
+          "summary":"Find travel by name",
+          "notes":"Returns a travel",
+          "responseClass":"Travel",
+          "nickname":"getTravelByName",
+          "parameters":[
+            {
+              "name":"travelName",
+              "description":"Name of travel that needs to be fetched",
+              "paramType":"path",
+              "required":true,
+              "allowMultiple":false,
+              "dataType":"string"
+            }
+          ],
+          "errorResponses":[
+            {
+              "code":400,
+              "reason":"Invalid ID supplied"
+            },
+            {
+              "code":404,
+              "reason":"Travel not found"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models":{
+    "Travel":{
+      "properties":{
+         "name":{
+        	"type": "string",
+     	 },
+     	 "dateCreate":{
+        	"type": "Date",
+     	 },
+        "owner":{
+        	"type": "User",
+     	},
+        "users":{
+          "items":{
+            "$ref":"User"
+          },
+          "type":"Array"
+        }
+      },
+      "id":"Travel"
+    },
+    "User":{
+      "properties":{
+         "firstName":{
+        	"type": "string",
+     	 },
+     	 "secondName":{
+        	"type": "string",
+     	 },
+     	 "id":"User"
+  }
+}
