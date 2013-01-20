@@ -15,12 +15,15 @@ import com.heaptrip.domain.repository.MongoContext;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 
 @Service(MongoContext.SERVICE_NAME)
 public class MongoContextImpl implements MongoContext {
 	private static final Logger logger = LoggerFactory.getLogger(MongoContextImpl.class);
+
+	private static final String ADMIN_DB_NAME = "admin";
 
 	private static final int PORT = 27017;
 
@@ -29,6 +32,12 @@ public class MongoContextImpl implements MongoContext {
 
 	@Value("${database.name}")
 	private String dbName;
+
+	@Value("${database.username}")
+	private String username;
+
+	@Value("${database.password}")
+	private String password;
 
 	private MongoClient mongoClient;
 
@@ -50,6 +59,15 @@ public class MongoContextImpl implements MongoContext {
 				mongoClient = new MongoClient(saList);
 				mongoClient.setWriteConcern(WriteConcern.SAFE);
 				logger.info("Defoult WriteConcern.SAFE");
+
+				DB db = mongoClient.getDB(ADMIN_DB_NAME);
+				boolean auth = db.authenticate(username, password.toCharArray());
+				if (auth) {
+					logger.info("Successfully database authenticate by admin user with username: {}", username);
+				} else {
+					throw new MongoException("Error database authenticate by admin user with username " + username);
+				}
+
 				logger.info("MongoClient successfully initialized");
 			} else {
 				logger.error("MongoClient not initialized: databese urls not filled");
@@ -60,8 +78,6 @@ public class MongoContextImpl implements MongoContext {
 	@Override
 	public DB getDb() {
 		DB db = mongoClient.getDB(dbName);
-		// TODO auth
-		// boolean auth = db.authenticate(myUserName, myPassword);
 		return db;
 	}
 
