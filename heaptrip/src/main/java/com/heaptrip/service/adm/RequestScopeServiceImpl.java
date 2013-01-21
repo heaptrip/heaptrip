@@ -47,7 +47,7 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 		String url = null;
 
 		if (request != null) {
-			url = request.getRequestURL().toString();
+			url = getCurrentContextPath() + request.getServletPath();
 			if (isWithParameters) {
 				url = "?" + request.getQueryString();
 			}
@@ -58,7 +58,7 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 
 	@Override
 	public String getCurrentContextPath() {
-		return (request != null) ? "http://" + request.getServerName() + ":" + request.getServerPort()
-				+ request.getContextPath() : null;
+		return (request != null) ? request.getScheme() + "://" + request.getServerName() + ":"
+				+ request.getServerPort() + request.getContextPath() : null;
 	}
 }
