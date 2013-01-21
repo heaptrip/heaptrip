@@ -2,14 +2,21 @@ package com.heaptrip.service.adm;
 
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.adm.User;
 import com.heaptrip.domain.service.adm.LocaleService;
-import com.heaptrip.domain.service.adm.SessionScopeService;
+import com.heaptrip.domain.service.adm.RequestScopeService;
 
-public class SessionScopeServiceImpl implements SessionScopeService {
+@Service
+public class RequestScopeServiceImpl implements RequestScopeService {
+
+	@Autowired(required = false)
+	private HttpServletRequest request;
 
 	@Autowired
 	LocaleService localeService;
@@ -34,4 +41,24 @@ public class SessionScopeServiceImpl implements SessionScopeService {
 		return result;
 	}
 
+	@Override
+	public String getCurrentUrl(boolean isWithParameters) {
+
+		String url = null;
+
+		if (request != null) {
+			url = request.getRequestURL().toString();
+			if (isWithParameters) {
+				url = "?" + request.getQueryString();
+			}
+		}
+
+		return url;
+	}
+
+	@Override
+	public String getCurrentContextPath() {
+		return (request != null) ? "http://" + request.getServerName() + ":" + request.getServerPort()
+				+ request.getContextPath() : null;
+	}
 }

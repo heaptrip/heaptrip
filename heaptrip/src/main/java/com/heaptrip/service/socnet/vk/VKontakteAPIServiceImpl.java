@@ -11,6 +11,8 @@ import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.util.json.JsonConverter;
 
 /*
+ * 
+ * 
  * http://vk.com/pages?oid=-1&p=%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D1%81%D0%B0%D0%B9%D1%82%D0%BE%D0%B2
  */
 @Service
@@ -41,7 +43,7 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 		url.append("&");
 		url.append("redirect_uri").append("=").append(redirectUrl);
 
-		String accessTokenJson = new HttpClient().doStringGet(url.toString());
+		String accessTokenJson = executeMethod(url.toString());
 
 		return new JsonConverter().JSONToObject(accessTokenJson, VKAccessToken.class);
 
@@ -87,8 +89,8 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 
 		String responseJson = new HttpClient().doStringGet(url.toString());
 
-		if (responseJson.indexOf("error_code") > 0) {
-			throw new RuntimeException(responseJson);
+		if (responseJson.indexOf("error_description") > 0 || responseJson.indexOf("error_code") > 0) {
+			throw new RuntimeException("VKontakte request error : " + responseJson);
 		}
 
 		return responseJson;

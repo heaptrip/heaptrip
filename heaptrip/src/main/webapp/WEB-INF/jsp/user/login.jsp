@@ -15,27 +15,32 @@
 	</c:if>
 </div>
 
-<c:url var="vkUrl" value="https://oauth.vk.com/authorize">
-	<c:param name="client_id" value="3354149" />
-	<c:param name="scope" value="notify,wall" />
-	<c:param name="redirect_uri"
-		value="http://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/registration.html" />
+<c:set var="domain_url"
+	value="${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
+
+<fmt:bundle basename="socnet">
+	<fmt:message key="socnet.vk.client_id" var="vk_client_id" />
+	<fmt:message key="socnet.vk.scope" var="vk_scope" />
+	<fmt:message key="socnet.vk.authorize_url" var="vk_authorize_url" />
+</fmt:bundle>
+
+<c:url var="vkUrl" value="${vk_authorize_url}">
+	<c:param name="client_id" value="${vk_client_id}" />
+	<c:param name="scope" value="${vk_scope}" />
+	<c:param name="redirect_uri" value="http://${domain_url}/registration/socnet/vk.html" />
 	<c:param name="display" value="page" />
 	<c:param name="response_type" value="code" />
 </c:url>
 
-<c:out value="${vkUrl}" />
+<!--<c:out value="${vkUrl}" />-->
 
 <div>
-	<p>Регистрация</p>
-
 	<table>
 		<tr>
-			<td><a href='<c:out value="${vkUrl}"/>'><fmt:message key="Vkontakte" /></a>
+			<td><fmt:message key="registration.title" /></td>
+			<td><a href='<c:out value="${vkUrl}"/>'><fmt:message key="socnet.vk.name" /></a></td>
 		</tr>
-
 	</table>
-
 </div>
 
 <div class="section">

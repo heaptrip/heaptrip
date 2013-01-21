@@ -6,21 +6,30 @@
 
 <div>
 
-	<h1>Registration</h1>
+	<h1>
+		<fmt:message key="registration.title" />
+	</h1>
 
 	<form:form modelAttribute="registrationInfo">
 
-
 		<fieldset>
-			<div>
-				<label for=firstName><fmt:message key="registration.form.firstName" />:</label> <span><form:input
+
+			<p>
+				<img src="${registrationInfo.photoUrl}">
+			</p>
+
+			<p>
+				<label for=firstName><fmt:message key="registration.firstName" />:</label> <span><form:input
 						path="firstName" /></span>
-			</div>
-			<div>
-				<label for=secondName><fmt:message key="registration.form.secondName" />:</label> <span><form:input
+			</p>
+
+			<p>
+				<label for=secondName><fmt:message key="registration.secondName" />:</label> <span><form:input
 						path="secondName" /></span>
-			</div>
+			</p>
+
 		</fieldset>
+
 	</form:form>
 
 </div>

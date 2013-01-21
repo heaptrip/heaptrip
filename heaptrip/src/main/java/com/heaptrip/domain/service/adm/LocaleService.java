@@ -8,5 +8,4 @@ public interface LocaleService {
 
 	String getMessage(String key);
 
-	
 }
