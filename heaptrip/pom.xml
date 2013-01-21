@@ -139,7 +139,7 @@
 			<version>${slf4j.version}</version>
 		</dependency>
 
-		<!-- Geonames -->
+		<!-- geonames -->
 		<dependency>
 			<groupId>org.geonames</groupId>
 			<artifactId>geonames</artifactId>
