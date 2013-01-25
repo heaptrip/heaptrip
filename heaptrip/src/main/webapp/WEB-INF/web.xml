@@ -62,9 +62,8 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>
-		<url-pattern>/post/browse/*</url-pattern>
+		<url-pattern>/post/upload/header</url-pattern>
 	</servlet-mapping>
-
 
 	<!-- Spring Сontext ConfigLocation -->
 	<context-param>

@@ -1,6 +1,7 @@
 package com.heaptrip.domain.entity.post;
 
 import java.util.Date;
+import java.util.List;
 
 import com.heaptrip.domain.entity.BaseEntity;
 
@@ -10,9 +11,8 @@ public class PostEntity extends BaseEntity {
 	private String id;
 	private String name;
 	private Date dateCreate;
-	private String photoUrl;
-	private String smallPhotoUrl;
 	private String description;
+	private List<ImageEntity> images;
 
 	@SuppressWarnings("unchecked")
 	@Override
@@ -40,22 +40,6 @@ public class PostEntity extends BaseEntity {
 		this.dateCreate = dateCreate;
 	}
 
-	public String getPhotoUrl() {
-		return photoUrl;
-	}
-
-	public void setPhotoUrl(String photoUrl) {
-		this.photoUrl = photoUrl;
-	}
-
-	public String getSmallPhotoUrl() {
-		return smallPhotoUrl;
-	}
-
-	public void setSmallPhotoUrl(String smallPhotoUrl) {
-		this.smallPhotoUrl = smallPhotoUrl;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -64,4 +48,11 @@ public class PostEntity extends BaseEntity {
 		this.description = description;
 	}
 
+	public List<ImageEntity> getImages() {
+		return images;
+	}
+
+	public void setImages(List<ImageEntity> images) {
+		this.images = images;
+	}
 }

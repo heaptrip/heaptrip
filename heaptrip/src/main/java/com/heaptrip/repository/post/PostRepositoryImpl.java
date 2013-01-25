@@ -8,13 +8,13 @@ import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.post.ImageEntity;
 import com.heaptrip.domain.entity.post.PostEntity;
 import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.repository.post.PostRepository;
-import com.heaptrip.repository.converter.EntityConverter;
+import com.heaptrip.repository.converter.PostConveter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -36,8 +36,7 @@ public class PostRepositoryImpl implements PostRepository {
 	private MongoContext mongoContext;
 
 	@Autowired
-	@Qualifier(EntityConverter.POST_CONVERTER)
-	private EntityConverter<PostEntity> postConverter;
+	private PostConveter postConverter;
 
 	@Override
 	public void savePost(PostEntity post) {
@@ -46,7 +45,7 @@ public class PostRepositoryImpl implements PostRepository {
 		logger.debug("Convert to dbObject: {}", dbObject);
 		DB db = mongoContext.getDb();
 		DBCollection coll = db.getCollection(PostEntity.COLLECTION_NAME);
-		if (post.getId() == null) {
+		if (post.getId() == null || post.getId().isEmpty()) {
 			WriteResult writeResult = coll.insert(dbObject);
 			logger.debug("Insert post writeResult: {}", writeResult);
 		} else {
@@ -90,13 +89,19 @@ public class PostRepositoryImpl implements PostRepository {
 	}
 
 	@Override
-	public String saveImage(InputStream is, String fileName) {
+	public ImageEntity saveImage(InputStream is, String fileName) {
 		DB db = mongoContext.getDb();
 		GridFS gfsPhoto = new GridFS(db, IMAGE_BUCKET);
 		GridFSInputFile gfsFile = gfsPhoto.createFile(is);
 		gfsFile.setFilename(fileName);
 		gfsFile.save();
-		return gfsFile.getId().toString();
+
+		ImageEntity image = new ImageEntity();
+		image.setId(gfsFile.getId().toString());
+		image.setName(gfsFile.getFilename());
+		image.setSize(gfsFile.getLength());
+
+		return image;
 	}
 
 	@Override

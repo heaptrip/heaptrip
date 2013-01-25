@@ -1,6 +1,7 @@
 package com.heaptrip.web.model.post;
 
 import java.util.Date;
+import java.util.List;
 
 import com.heaptrip.web.model.tiding.TidingView;
 
@@ -9,6 +10,8 @@ public class PostView implements TidingView {
 	private String name;
 	private Date dateCreate;
 	private String description;
+
+	private List<PostImage> images;
 
 	public String getId() {
 		return id;
@@ -40,6 +43,14 @@ public class PostView implements TidingView {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<PostImage> getImages() {
+		return images;
+	}
+
+	public void setImages(List<PostImage> images) {
+		this.images = images;
 	}
 
 }

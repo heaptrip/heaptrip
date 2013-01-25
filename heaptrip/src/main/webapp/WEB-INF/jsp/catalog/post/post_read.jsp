@@ -3,9 +3,52 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<script type='text/javascript' src='<c:url value="/resources/js/util.js"/>'></script>
+<script type='text/javascript' src='<c:url value="/resources/js/lib/jquery-fileupload/vendor/jquery.ui.widget.js"/>'></script>
+<script type='text/javascript' src='<c:url value="/resources/js/lib/jquery-fileupload/jquery.iframe-transport.js"/>'></script>
+<script type='text/javascript' src='<c:url value="/resources/js/lib/jquery-fileupload/jquery.fileupload.js"/>'></script>
+
+<script type='text/javascript'>
+	$(function() {
+		<c:forEach var="image" items="${post.images}">
+		var image = {
+			id : '${image.id}',
+			name : '${image.name}',
+			size : '${image.size}'
+		};
+		addRow(image);
+		</c:forEach>
+	});
+
+	function addRow(file) {
+		$('#dataTable > tbody:last').append(
+				'<tr id="' + file.id + '"><td>' + formatFileDisplay(file)
+						+ '</td></tr>');
+	}
+
+	function formatFileDisplay(file) {
+
+		var size = '<span style="font-style:italic">'
+				+ (file.size / 1000).toFixed(2) + 'K</span>';
+
+		var fileUrl = '${pageContext.request.contextPath}/image.html?imageId='
+				+ file.id;
+		var link = '<img src="' + fileUrl + '"/ ttt>';
+
+		return file.name + ' (' + size + ')' + link;
+	}
+</script>
+
 <h1>Post read</h1>
 
 <div id="postEdit">
+	<div>
+		<TABLE id="dataTable" width="350px" border="0">
+			<TR>
+				<TD></TD>
+			</TR>
+		</TABLE>
+	</div>
 
 	<h3>Name</h3>
 	<input type="text" name="name" value="${post.name}" />
