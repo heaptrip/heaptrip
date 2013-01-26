@@ -62,7 +62,7 @@
 						label : editor.lang.image.btnUpload,
 						'for' : [ 'Upload', 'upload' ]
 					} ]
-				}, ],
+				}, ]
 			};
 		});
 
