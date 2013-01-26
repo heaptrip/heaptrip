@@ -21,21 +21,16 @@
 	});
 
 	function addRow(file) {
-		$('#dataTable > tbody:last').append(
-				'<tr id="' + file.id + '"><td>' + formatFileDisplay(file)
-						+ '</td></tr>');
+		$('#dataTable > tbody:last').append('<tr id="' + file.id + '"><td>' + formatFileDisplay(file) + '</td></tr>');
 	}
 
 	function formatFileDisplay(file) {
+		var fileUrl = '${pageContext.request.contextPath}/image.html?imageId=' + file.id;
+		var link = '<img src="' + fileUrl + '"/><br/>';
 
-		var size = '<span style="font-style:italic">'
-				+ (file.size / 1000).toFixed(2) + 'K</span>';
+		var size = '<span style="font-style:italic">' + (file.size / 1000).toFixed(2) + 'K</span>';
 
-		var fileUrl = '${pageContext.request.contextPath}/image.html?imageId='
-				+ file.id;
-		var link = '<img src="' + fileUrl + '"/ ttt>';
-
-		return file.name + ' (' + size + ')' + link;
+		return link + file.name + ' (' + size + ')';
 	}
 </script>
 
@@ -43,7 +38,7 @@
 
 <div id="postEdit">
 	<div>
-		<TABLE id="dataTable" width="350px" border="0">
+		<TABLE id="dataTable" border="0">
 			<TR>
 				<TD></TD>
 			</TR>

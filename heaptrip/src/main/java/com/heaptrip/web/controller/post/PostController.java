@@ -84,21 +84,12 @@ public class PostController {
 	}
 
 	@RequestMapping(value = "/post/edit", method = RequestMethod.POST)
-	public @ResponseBody String savePost(@RequestBody PostView view) {
+	public @ResponseBody
+	void savePost(@RequestBody PostView view) {
 		PostEntity postEntity = PostConverter.postViewToEntity(view);
 		postEntity.setDateCreate(new Date());
 		postRepository.savePost(postEntity);
-		return "OK";
-		//return "redirect:/posts.html";
 	}
-
-	/*
-	 * @RequestMapping(value = "post/edit", method = RequestMethod.POST) public
-	 * String savePost(@ModelAttribute("post") PostView view) { PostEntity
-	 * postEntity = PostConverter.postViewToEntity(view);
-	 * postEntity.setDateCreate(new Date());
-	 * postRepository.savePost(postEntity); return "redirect:/posts.html"; }
-	 */
 
 	@RequestMapping(value = "post/upload/header", method = RequestMethod.POST)
 	public @ResponseBody

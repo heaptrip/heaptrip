@@ -17,11 +17,11 @@
 	</root>
 
 	<logger name="org">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="com.mongodb">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="com.forrest">
