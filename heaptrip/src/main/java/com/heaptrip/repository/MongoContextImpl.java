@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +73,14 @@ public class MongoContextImpl implements MongoContext {
 			} else {
 				logger.error("MongoClient not initialized: databese urls not filled");
 			}
+		}
+	}
+
+	@PreDestroy
+	public void release() {
+		logger.info("release MongoClient");
+		if (mongoClient != null) {
+			mongoClient.close();
 		}
 	}
 
