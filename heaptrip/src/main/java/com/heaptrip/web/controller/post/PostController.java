@@ -42,6 +42,8 @@ public class PostController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
+	private static float IMAGE_OUTPUT_QUALITY = 0.5f;
+
 	@Autowired
 	private PostRepository postRepository;
 
@@ -102,7 +104,8 @@ public class PostController {
 			// 100x100
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			Long start = System.currentTimeMillis();
-			Thumbnails.of(file.getInputStream()).size(100, 100).outputFormat("png").toOutputStream(os);
+			Thumbnails.of(file.getInputStream()).size(100, 100).useOriginalFormat().outputQuality(IMAGE_OUTPUT_QUALITY)
+					.toOutputStream(os);
 			System.out.println("100x100 resize=" + (System.currentTimeMillis() - start));
 
 			start = System.currentTimeMillis();
@@ -119,7 +122,8 @@ public class PostController {
 			// 200x200
 			os = new ByteArrayOutputStream();
 			start = System.currentTimeMillis();
-			Thumbnails.of(file.getInputStream()).size(200, 200).outputFormat("png").toOutputStream(os);
+			Thumbnails.of(file.getInputStream()).size(200, 200).useOriginalFormat().outputQuality(IMAGE_OUTPUT_QUALITY)
+					.toOutputStream(os);
 			System.out.println("200x200 resize=" + (System.currentTimeMillis() - start));
 
 			start = System.currentTimeMillis();
@@ -135,7 +139,8 @@ public class PostController {
 			// 843x403
 			os = new ByteArrayOutputStream();
 			start = System.currentTimeMillis();
-			Thumbnails.of(file.getInputStream()).size(843, 403).outputFormat("png").toOutputStream(os);
+			Thumbnails.of(file.getInputStream()).size(843, 403).useOriginalFormat().outputQuality(IMAGE_OUTPUT_QUALITY)
+					.toOutputStream(os);
 			System.out.println("843x403 resize=" + (System.currentTimeMillis() - start));
 
 			start = System.currentTimeMillis();
@@ -148,15 +153,16 @@ public class PostController {
 			uf.setSize(image.getSize());
 			uploadedImages.add(uf);
 
-			// 1000x1000
+			// 1280x930
 			os = new ByteArrayOutputStream();
 			start = System.currentTimeMillis();
-			Thumbnails.of(file.getInputStream()).size(1000, 1000).outputFormat("png").toOutputStream(os);
-			System.out.println("1000x1000 resize=" + (System.currentTimeMillis() - start));
+			Thumbnails.of(file.getInputStream()).size(1280, 930).useOriginalFormat()
+					.outputQuality(IMAGE_OUTPUT_QUALITY).toOutputStream(os);
+			System.out.println("1280x930 resize=" + (System.currentTimeMillis() - start));
 
 			start = System.currentTimeMillis();
 			image = postRepository.saveImage(new ByteArrayInputStream(os.toByteArray()), file.getOriginalFilename());
-			System.out.println("1000x1000 saveImage=" + (System.currentTimeMillis() - start));
+			System.out.println("1280x930 saveImage=" + (System.currentTimeMillis() - start));
 
 			uf = new PostImage();
 			uf.setId(image.getId());
