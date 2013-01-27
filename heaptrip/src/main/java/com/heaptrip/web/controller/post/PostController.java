@@ -181,7 +181,13 @@ public class PostController {
 		ImageEntity image = null;
 		for (MultipartFile file : files.values()) {
 			logger.info("Received image: {}, size {}", file.getOriginalFilename(), file.getSize());
-			image = postRepository.saveImage(file.getInputStream(), file.getOriginalFilename());
+
+			// 1280x930
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			Thumbnails.of(file.getInputStream()).size(1280, 930).useOriginalFormat()
+					.outputQuality(IMAGE_OUTPUT_QUALITY).toOutputStream(os);
+
+			image = postRepository.saveImage(new ByteArrayInputStream(os.toByteArray()), file.getOriginalFilename());
 			break;
 		}
 
