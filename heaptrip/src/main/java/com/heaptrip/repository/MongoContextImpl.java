@@ -78,7 +78,7 @@ public class MongoContextImpl implements MongoContext {
 
 	@PreDestroy
 	public void release() {
-		logger.info("release MongoClient");
+		logger.info("close MongoClient");
 		if (mongoClient != null) {
 			mongoClient.close();
 		}
