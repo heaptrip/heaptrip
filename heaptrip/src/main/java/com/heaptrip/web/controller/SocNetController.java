@@ -138,7 +138,7 @@ public class SocNetController {
 
 		registrationInfo.setFirstName(user.getFirst_name());
 		registrationInfo.setSecondName(user.getLast_name());
-		registrationInfo.setPhotoUrl(user.getLink());
+		registrationInfo.setPhotoUrl(user.getPicture_large());
 
 		return registrationInfo;
 
