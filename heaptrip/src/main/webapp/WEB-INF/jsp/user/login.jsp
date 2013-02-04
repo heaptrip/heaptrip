@@ -19,26 +19,37 @@
 	value="${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
 
 <fmt:bundle basename="socnet">
+	<!-- VKontakte properties -->
 	<fmt:message key="socnet.vk.client_id" var="vk_client_id" />
 	<fmt:message key="socnet.vk.scope" var="vk_scope" />
 	<fmt:message key="socnet.vk.authorize_url" var="vk_authorize_url" />
+	<!-- FaceBook properties -->
+	<fmt:message key="socnet.fb.client_id" var="fb_client_id" />
+	<fmt:message key="socnet.fb.scope" var="fb_scope" />
+	<fmt:message key="socnet.fb.authorize_url" var="fb_authorize_url" />
 </fmt:bundle>
 
 <c:url var="vkUrl" value="${vk_authorize_url}">
 	<c:param name="client_id" value="${vk_client_id}" />
 	<c:param name="scope" value="${vk_scope}" />
-	<c:param name="redirect_uri" value="http://${domain_url}/registration/socnet/vk.html" />
+	<c:param name="redirect_uri" value="http://${domain_url}/rest/registration/socnet/vk" />
 	<c:param name="display" value="page" />
 	<c:param name="response_type" value="code" />
 </c:url>
 
-<!--<c:out value="${vkUrl}" />-->
+<c:url var="fbUrl" value="${fb_authorize_url}">
+	<c:param name="client_id" value="${fb_client_id}" />
+	<c:param name="redirect_uri" value="http://${domain_url}/rest/registration/socnet/fb" />
+	<c:param name="display" value="page" />
+	<c:param name="response_type" value="code" />
+</c:url>
 
 <div>
 	<table>
 		<tr>
 			<td><fmt:message key="registration.title" /></td>
 			<td><a href='<c:out value="${vkUrl}"/>'><fmt:message key="socnet.vk.name" /></a></td>
+			<td><a href='<c:out value="${fbUrl}"/>'><fmt:message key="socnet.fb.name" /></a></td>
 		</tr>
 	</table>
 </div>

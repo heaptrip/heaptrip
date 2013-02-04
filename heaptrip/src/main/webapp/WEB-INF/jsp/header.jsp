@@ -6,15 +6,14 @@
 	<div>
 		<fmt:message key="locale.language" />
 
-		<c:url var="russianLocaleUrl" value="${urlBase}">
-			<c:param name="locale" value="ru" />
-		</c:url>
-		<c:url var="englishLocaleUrl" value="${urlBase}">
-			<c:param name="locale" value="en" />
-		</c:url>
+		<c:set var="page_url" value="${urlBase}" />
 
-		<a href='<c:out value="${englishLocaleUrl}"/>'><fmt:message key="locale.english" /></a> <a
-			href='<c:out value="${russianLocaleUrl}"/>'><fmt:message key="locale.russian" /></a>
+		<a href='<c:out value="${page_url}?locale=en&${pageContext.request.queryString}"/>'> <fmt:message
+				key="locale.english" />
+		</a>
+		<a href='<c:out value="${page_url}?locale=ru&${pageContext.request.queryString}"/>'> <fmt:message
+				key="locale.russian" />
+		</a>
 	</div>
 
 	<br />
@@ -33,7 +32,6 @@
 			</div>
 		</sec:authorize>
 	</div>
-
 
 </div>
 

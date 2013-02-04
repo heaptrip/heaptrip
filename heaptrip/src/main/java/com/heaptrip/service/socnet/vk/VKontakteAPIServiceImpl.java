@@ -1,11 +1,13 @@
 package com.heaptrip.service.socnet.vk;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.socnet.vk.VKAccessToken;
 import com.heaptrip.domain.entity.socnet.vk.VKUser;
 import com.heaptrip.domain.entity.socnet.vk.VKUsersResponse;
+import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
 import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.util.json.JsonConverter;
@@ -24,16 +26,27 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 	@Value("${socnet.vk.client_secret}")
 	private String CLIENT_SECRET;
 
-	private static final String URL_AUTH = "https://oauth.vk.com/access_token";
+	@Value("${socnet.vk.authorize_url}")
+	private String URL_AUTHORIZE;
 
-	private static final String URL_METHOD = "https://api.vk.com/method/";
+	@Value("${socnet.vk.access_token_url}")
+	private String URL_ACCESS_TOKEN;
+
+	@Value("${socnet.vk.method_url}")
+	private String URL_METHOD;
+
+	@Value("${socnet.vk.scope}")
+	private String SCOPE;
+
+	@Autowired
+	RequestScopeService sessionScope;
 
 	@Override
 	public VKAccessToken getAccessTokenByClientCode(String code, String redirectUrl) {
 
 		StringBuilder url = new StringBuilder();
 
-		url.append(URL_AUTH);
+		url.append(URL_ACCESS_TOKEN);
 		url.append("?");
 		url.append("client_id").append("=").append(CLIENT_ID);
 		url.append("&");
@@ -56,7 +69,7 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 
 		StringBuilder url = new StringBuilder();
 
-		url.append(URL_METHOD).append("users.get");
+		url.append(URL_METHOD).append("/users.get");
 		url.append("?");
 		url.append("uids").append("=").append(accessToken.getUser_id());
 		url.append("&");
@@ -89,6 +102,10 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 
 		String responseJson = new HttpClient().doStringGet(url.toString());
 
+		if (responseJson == null) {
+			return null;
+		}
+
 		if (responseJson.indexOf("error_description") > 0 || responseJson.indexOf("error_code") > 0) {
 			throw new RuntimeException("VKontakte request error : " + responseJson);
 		}
@@ -96,5 +113,7 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 		return responseJson;
 
 	}
+
+	
 
 }
