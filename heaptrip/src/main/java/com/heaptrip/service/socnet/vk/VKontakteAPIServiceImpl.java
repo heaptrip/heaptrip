@@ -1,24 +1,27 @@
 package com.heaptrip.service.socnet.vk;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.socnet.vk.VKAccessToken;
 import com.heaptrip.domain.entity.socnet.vk.VKUser;
 import com.heaptrip.domain.entity.socnet.vk.VKUsersResponse;
-import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
 import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.util.json.JsonConverter;
 
-/*
+/**
+ * Documentation
  * 
- * 
- * http://vk.com/pages?oid=-1&p=%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F_%D1%81%D0%B0%D0%B9%D1%82%D0%BE%D0%B2
+ * http://vk.com/pages?oid=-1&p=%D0%90%D0%B2%D1%82%D0%BE%D1%80%D0%B8%D0%B7%D0%B0
+ * %D1%86%D0%B8%D1%8F_%D1%81%D0%B0%D0%B9%D1%82%D0%BE%D0%B2
  */
 @Service
 public class VKontakteAPIServiceImpl implements VKontakteAPIService {
+
+	private static final Logger LOG = LoggerFactory.getLogger(VKontakteAPIServiceImpl.class);
 
 	@Value("${socnet.vk.client_id}")
 	private String CLIENT_ID;
@@ -37,9 +40,6 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 
 	@Value("${socnet.vk.scope}")
 	private String SCOPE;
-
-	@Autowired
-	RequestScopeService sessionScope;
 
 	@Override
 	public VKAccessToken getAccessTokenByClientCode(String code, String redirectUrl) {
@@ -113,7 +113,5 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 		return responseJson;
 
 	}
-
-	
 
 }
