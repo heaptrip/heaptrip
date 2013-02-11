@@ -57,8 +57,10 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
 
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-		for (String role : user.getRoles()) {
-			authorities.add(new SimpleGrantedAuthority(role));
+		if (user.getRoles() != null) {
+			for (String role : user.getRoles()) {
+				authorities.add(new SimpleGrantedAuthority(role));
+			}
 		}
 
 		return new UsernamePasswordAuthenticationToken(user, null, authorities);

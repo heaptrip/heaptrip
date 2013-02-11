@@ -5,6 +5,8 @@ public class RegistrationInfo {
 	private String firstName;
 	private String secondName;
 	private String photoUrl;
+	private String socNetName;
+	private String socNetUserUID;
 
 	public String getFirstName() {
 		return this.firstName;
@@ -29,4 +31,22 @@ public class RegistrationInfo {
 	public void setPhotoUrl(String photoUrl) {
 		this.photoUrl = photoUrl;
 	}
+
+	public String getSocNetName() {
+		return socNetName;
+	}
+
+	public void setSocNetName(String socNetName) {
+		this.socNetName = socNetName;
+	}
+
+	public String getSocNetUserUID() {
+		return socNetUserUID;
+	}
+
+	public void setSocNetUserUID(String socNetUserUID) {
+		this.socNetUserUID = socNetUserUID;
+	}
+	
+
 }

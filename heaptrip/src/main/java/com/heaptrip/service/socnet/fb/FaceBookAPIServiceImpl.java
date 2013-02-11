@@ -28,9 +28,6 @@ public class FaceBookAPIServiceImpl implements FaceBookAPIService {
 	@Value("${socnet.fb.client_secret}")
 	private String CLIENT_SECRET;
 
-	@Value("${socnet.fb.authorize_url}")
-	private String URL_AUTHORIZE;
-
 	@Value("${socnet.fb.access_token_url}")
 	private String URL_ACCESS_TOKEN;
 

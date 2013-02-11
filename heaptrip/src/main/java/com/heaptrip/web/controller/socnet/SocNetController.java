@@ -1,4 +1,4 @@
-package com.heaptrip.web.controller;
+package com.heaptrip.web.controller.socnet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.heaptrip.domain.entity.socnet.fb.FBAccessToken;
 import com.heaptrip.domain.entity.socnet.fb.FBUser;
@@ -82,6 +83,8 @@ public class SocNetController {
 		registrationInfo.setFirstName(vkUser.getFirst_name());
 		registrationInfo.setSecondName(vkUser.getLast_name());
 		registrationInfo.setPhotoUrl(vkUser.getPhoto_big());
+		registrationInfo.setSocNetName(VKontakteAPIService.SOC_NET_NAME);
+		registrationInfo.setSocNetName(vkUser.getUid());
 
 		return registrationInfo;
 
@@ -119,9 +122,10 @@ public class SocNetController {
 	}
 
 	@RequestMapping(value = "registration", params = ("fb=true"), method = RequestMethod.GET)
-	public @ModelAttribute("registrationInfo")
-	RegistrationInfo registrationFaceBook(@RequestParam("access_token") String accessToken) {
+	public ModelAndView registrationFaceBook(@RequestParam("access_token") String accessToken) {
 
+		ModelAndView mv = new ModelAndView();
+		
 		RegistrationInfo registrationInfo = new RegistrationInfo();
 
 		FBAccessToken fbAccessToken = new FBAccessToken();
@@ -139,8 +143,12 @@ public class SocNetController {
 		registrationInfo.setFirstName(user.getFirst_name());
 		registrationInfo.setSecondName(user.getLast_name());
 		registrationInfo.setPhotoUrl(user.getPicture_large());
+		registrationInfo.setSocNetName(FaceBookAPIService.SOC_NET_NAME);
+		registrationInfo.setSocNetUserUID(user.getId());
+		
+		mv.addObject("registrationInfo", registrationInfo);
 
-		return registrationInfo;
+		return mv;
 
 	}
 
@@ -153,7 +161,9 @@ public class SocNetController {
 	@ExceptionHandler(SocnetAuthorizeException.class)
 	public String handleIOException(SocnetAuthorizeException e) {
 		LOG.error("Social network authorize error", e);
-		return "redirect:" + requestScopeService.getCurrentContextPath() + "/login.html";
+		// return "redirect:" + requestScopeService.getCurrentContextPath() +
+		// "/login.html";
+		return "redirect:login.html";
 	}
 
 }

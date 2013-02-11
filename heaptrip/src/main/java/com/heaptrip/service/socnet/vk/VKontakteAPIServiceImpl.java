@@ -29,17 +29,11 @@ public class VKontakteAPIServiceImpl implements VKontakteAPIService {
 	@Value("${socnet.vk.client_secret}")
 	private String CLIENT_SECRET;
 
-	@Value("${socnet.vk.authorize_url}")
-	private String URL_AUTHORIZE;
-
 	@Value("${socnet.vk.access_token_url}")
 	private String URL_ACCESS_TOKEN;
 
 	@Value("${socnet.vk.method_url}")
 	private String URL_METHOD;
-
-	@Value("${socnet.vk.scope}")
-	private String SCOPE;
 
 	@Override
 	public VKAccessToken getAccessTokenByClientCode(String code, String redirectUrl) {

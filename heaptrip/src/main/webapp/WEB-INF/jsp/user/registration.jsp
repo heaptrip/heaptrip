@@ -3,32 +3,49 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-
 <div>
 
 	<h1>
 		<fmt:message key="registration.title" />
 	</h1>
 
-	<form:form modelAttribute="registrationInfo">
+	<form:form method="POST" modelAttribute="registrationInfo" action="registration.html">
+
+		<form:hidden path="socNetName" />
+		<form:hidden path="socNetUserUID" />
+		<form:hidden path="photoUrl" />
+
+
+		<c:if test="${not empty error}">
+			<div>
+				${error}
+			</div>
+			<br />
+		</c:if>
 
 		<fieldset>
-
 			<p>
 				<img src="${registrationInfo.photoUrl}">
 			</p>
-
-			<p>
-				<label for=firstName><fmt:message key="registration.firstName" />:</label> <span><form:input
-						path="firstName" /></span>
-			</p>
-
-			<p>
-				<label for=secondName><fmt:message key="registration.secondName" />:</label> <span><form:input
-						path="secondName" /></span>
-			</p>
+			<table>
+				<tr>
+					<td><label for=firstName><fmt:message key="registration.firstName" />:</label></td>
+					<td><span><form:input path="firstName" /></span></td>
+				</tr>
+				<tr>
+					<td><label for=secondName><fmt:message key="registration.secondName" />:</label></td>
+					<td><span><form:input path="secondName" /></span></td>
+				</tr>
+			</table>
 
 		</fieldset>
+
+		<table>
+			<tr>
+				<td><input type="submit" name="registration_aplay" value=<fmt:message key="bottom.submit" /> /></td>
+				<td><input type="button" onClick="window.location='tidings.html'" value=<fmt:message key="bottom.cancel" /> /></td>
+			</tr>
+		</table>
 
 	</form:form>
 
