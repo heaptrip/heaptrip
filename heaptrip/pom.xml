@@ -201,7 +201,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>heaptrip</finalName>
+		<finalName>ROOT</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
