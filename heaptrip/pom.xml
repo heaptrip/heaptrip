@@ -217,6 +217,14 @@
 					<packagingExcludes>
 						WEB-INF/classes/log4j.xml
 					</packagingExcludes>
+					<webResources>
+						<resource>
+							<directory>src/main/resources</directory>
+							<includes>
+								<include>META-INF/context.xml</include>
+							</includes>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 			<plugin>
