@@ -3,4 +3,8 @@
 
 	<Loader className="org.apache.catalina.loader.VirtualWebappLoader" virtualClasspath="${catalina.base}/conf/heaptrip" />
 
+	<Parameter name="javamelody.no-database" value="true" override="true" />
+
+	<Parameter name="javamelody.storage-directory" value="/var/lib/javamelody/storage" override="true" />
+
 </Context>
