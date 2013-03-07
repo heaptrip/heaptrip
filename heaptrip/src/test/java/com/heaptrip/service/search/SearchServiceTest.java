@@ -26,7 +26,9 @@ public class SearchServiceTest {
 	private static String GEO_COLLECTION = "geo";
 
 	@Test
-	public void testCloudSearch() throws SolrServerException, MalformedURLException {
+	public void TestCloudSearch() throws SolrServerException, MalformedURLException {
+		System.out.println("TestCloudSearch");
+		
 		String zookeeperEndpoints = "5.61.36.145:2181,5.61.32.48:2181,5.61.41.73:2181";
 		CloudSolrServer cloudSolrServer = new CloudSolrServer(zookeeperEndpoints);
 		cloudSolrServer.setDefaultCollection(GEO_COLLECTION);
@@ -50,7 +52,9 @@ public class SearchServiceTest {
 	}
 
 	@Test
-	public void testCloudIndex() throws SolrServerException, IOException {
+	public void TestCloudIndex() throws SolrServerException, IOException {
+		System.out.println("TestCloudIndex");
+		
 		String zookeeperEndpoints = "5.61.36.145:2181,5.61.32.48:2181,5.61.41.73:2181";
 		CloudSolrServer cloudSolrServer = new CloudSolrServer(zookeeperEndpoints);
 		cloudSolrServer.setDefaultCollection(CONTENT_COLLECTION);
@@ -91,7 +95,9 @@ public class SearchServiceTest {
 	}
 
 	@Test
-	public void testSingleSearch() throws SolrServerException, IOException {
+	public void TestSingleSearch() throws SolrServerException, IOException {
+		System.out.println("TestSingleSearch");
+		
 		SolrServer server = new HttpSolrServer("http://heaptrip:Qazwsx321@solr.heaptrip.com/geo");
 
 		String strQquery = "jap республика germany rus москва питер";
@@ -113,7 +119,9 @@ public class SearchServiceTest {
 	}
 	
 	@Test
-	public void testSingleIndex() throws SolrServerException, IOException {
+	public void TestSingleIndex() throws SolrServerException, IOException {
+		System.out.println("TestSingleIndex");
+		
 		SolrServer server = new HttpSolrServer("http://heaptrip:Qazwsx321@solr.heaptrip.com/content");
 
 		SolrInputDocument doc = new SolrInputDocument();
