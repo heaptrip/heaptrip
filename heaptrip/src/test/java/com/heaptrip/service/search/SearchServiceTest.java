@@ -25,7 +25,7 @@ public class SearchServiceTest {
 	private static String CONTENT_COLLECTION = "content";
 	private static String GEO_COLLECTION = "geo";
 
-	@Test
+	//@Test
 	public void TestCloudSearch() throws SolrServerException, MalformedURLException {
 		System.out.println("TestCloudSearch");
 		
@@ -51,7 +51,7 @@ public class SearchServiceTest {
 		}
 	}
 
-	@Test
+	//@Test
 	public void TestCloudIndex() throws SolrServerException, IOException {
 		System.out.println("TestCloudIndex");
 		
