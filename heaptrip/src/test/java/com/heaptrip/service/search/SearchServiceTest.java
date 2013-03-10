@@ -20,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
+@ContextConfiguration("file:src/test/resources/META-INF/spring/test-context.xml")
 public class SearchServiceTest {
 	private static String CONTENT_COLLECTION = "content";
 	private static String GEO_COLLECTION = "geo";
