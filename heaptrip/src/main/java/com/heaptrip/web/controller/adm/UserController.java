@@ -2,6 +2,7 @@ package com.heaptrip.web.controller.adm;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,23 +17,50 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.heaptrip.domain.entity.adm.User;
+import com.heaptrip.domain.exception.RestException;
+import com.heaptrip.util.http.Ajax;
+import com.heaptrip.web.controller.BaseControler;
 import com.heaptrip.web.model.adm.RegistrationInfo;
 
 @Controller
-public class UserController {
+public class UserController extends BaseControler{
 
-	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired(required = false)
 	private HttpServletRequest request;
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST)
+	public @ResponseBody Map<String, ? extends Object> registrationTest(RegistrationInfo registrationInfo) {
+
+		// ModelAndView mv = new ModelAndView();
+
+		LOG.info(registrationInfo.toString());
+
+		User user = new User();
+		
+		//try {
+		
+			user.setFirstName("петька123");
+			user.setSecondName("петька123");
+			
+			if (1==1)throw new RuntimeException("Ошшшшибкааааааа.....");
+			
+		//} catch (Throwable e) {
+		//	throw new BusinessException("Ошшшшибкааааааа.....");
+		//}
+	
+		return Ajax.successResponse(user);
+	}
+
+	// @RequestMapping(value = "registration", method = RequestMethod.POST)
 	public ModelAndView registration(RegistrationInfo registrationInfo) {
 
-		logger.info(registrationInfo.toString());
+		LOG.info(registrationInfo.toString());
 
 		if (registrationInfo.getFirstName().equals("123")) {
 

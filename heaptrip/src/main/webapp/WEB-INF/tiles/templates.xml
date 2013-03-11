@@ -8,6 +8,7 @@
 	<definition name="mainScriptsTemplate" template="/WEB-INF/jsp/scripts.jsp">
 		<put-list-attribute name="scripts">
 			<add-attribute value="/resources/js/lib/jquery/jquery-min.js" />
+			<add-attribute value="/resources/js/util.js" />
 		</put-list-attribute>
 	</definition>
 
@@ -74,6 +75,10 @@
 	
 	<definition name="registration" extends="mainTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp" />
+	</definition>
+	
+	<definition name="error" extends="mainTemplate">
+		<put-attribute name="main_content" value="/WEB-INF/jsp/error.jsp" />
 	</definition>
  
 	<definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">

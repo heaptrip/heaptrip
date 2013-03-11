@@ -1,0 +1,37 @@
+package com.heaptrip.util.http;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class Ajax {
+
+	private static final String KEY_DATA = "data";
+	private static final String KEY_STATUS = "status";
+	private static final String KEY_MESSAGE = "message";
+
+	private static final String STATUS_SUCCESS = "success";
+	private static final String STATUS_ERROR = "error";
+
+	public static Map<String, ? extends Object> successResponse(Object object) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(KEY_DATA, object);
+		map.put(KEY_STATUS, STATUS_SUCCESS);
+		return map;
+	}
+
+	public static Map<String, ? extends Object> successResponse(Map<String, ? extends Object> objects) {
+		return Ajax.successResponse(objects);
+	}
+
+	public static Map<String, ? extends Object> errorResponse(String message) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(KEY_MESSAGE, message);
+		map.put(KEY_STATUS, STATUS_ERROR);
+		return map;
+	}
+
+	public static Map<String, ? extends Object> errorResponse(Throwable exception) {
+		return Ajax.errorResponse(exception.getMessage());
+	}
+
+}

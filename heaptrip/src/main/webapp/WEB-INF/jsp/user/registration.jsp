@@ -1,9 +1,48 @@
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <div>
+
+
+
+	<script>
+	
+	var onRegistrationSubmit = function(){
+		
+		var url = 'rest/registration';
+		
+		// registrationInfo
+		var jsonData = {
+				socNetName:'',
+				socNetUserUID:''
+		};
+		
+		var callbackSuccess = function(data){
+			alert(data);
+		};
+		
+		var callbackError = function(error){
+			alert(error);
+		};
+		
+		var callbackFinally = function(){
+			
+		};
+		
+		$.postJSON(url, jsonData, callbackSuccess, callbackError, callbackFinally);
+		
+	};
+	
+	var onRegistrationCansel = function(){
+		window.location='tidings.html';
+	};
+	
+	</script>
+
 
 	<h1>
 		<fmt:message key="registration.title" />
@@ -42,8 +81,9 @@
 
 		<table>
 			<tr>
-				<td><input type="submit" name="registration_aplay" value=<fmt:message key="bottom.submit" /> /></td>
-				<td><input type="button" onClick="window.location='tidings.html'" value=<fmt:message key="bottom.cancel" /> /></td>
+				<!-- <td><input type="button" name="registration_aplay" value=<fmt:message key="bottom.submit" /> /></td> -->
+				<td><input type="button" onClick="onRegistrationSubmit()" value=<fmt:message key="bottom.submit" /> /></td>
+				<td><input type="button" onClick="onRegistrationCansel()" value=<fmt:message key="bottom.cancel" /> /></td>
 			</tr>
 		</table>
 
