@@ -23,6 +23,12 @@ public class Ajax {
 		return Ajax.successResponse(objects);
 	}
 
+	public static Map<String, ? extends Object> emptyResponse() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(KEY_STATUS, STATUS_SUCCESS);
+		return map;
+	}
+
 	public static Map<String, ? extends Object> errorResponse(String message) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put(KEY_MESSAGE, message);

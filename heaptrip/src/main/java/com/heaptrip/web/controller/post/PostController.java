@@ -34,11 +34,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.heaptrip.domain.entity.post.ImageEntity;
 import com.heaptrip.domain.entity.post.PostEntity;
 import com.heaptrip.domain.repository.post.PostRepository;
+import com.heaptrip.util.http.Ajax;
+import com.heaptrip.web.controller.base.ExceptionHandlerControler;
+import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.post.PostImage;
 import com.heaptrip.web.model.post.PostView;
 
 @Controller
-public class PostController {
+public class PostController extends ExceptionHandlerControler {
 
 	private static final Logger logger = LoggerFactory.getLogger(PostController.class);
 
@@ -87,10 +90,15 @@ public class PostController {
 
 	@RequestMapping(value = "/post/edit", method = RequestMethod.POST)
 	public @ResponseBody
-	void savePost(@RequestBody PostView view) {
-		PostEntity postEntity = PostConverter.postViewToEntity(view);
-		postEntity.setDateCreate(new Date());
-		postRepository.savePost(postEntity);
+	Map<String, ? extends Object> savePost(@RequestBody PostView view) {
+		try {
+			PostEntity postEntity = PostConverter.postViewToEntity(view);
+			postEntity.setDateCreate(new Date());
+			postRepository.savePost(postEntity);
+		} catch (Throwable exc) {
+			throw new RestException(exc);
+		}
+		return Ajax.emptyResponse();
 	}
 
 	@RequestMapping(value = "post/upload/header", method = RequestMethod.POST)

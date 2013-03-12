@@ -22,6 +22,9 @@
 		};
 		
 		var callbackSuccess = function(data){
+			
+			console.log(data);
+			
 			alert(data);
 		};
 		

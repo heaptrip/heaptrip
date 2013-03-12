@@ -5,11 +5,11 @@
 <div>
 
 	<h1>
-		<fmt:message key="error.title" />
+		<fmt:message key="notfound.title" />
 	</h1>
 	
 	<p>
-		<fmt:message key="error.message" /> <div id=message>"${message}"</div>
+		<fmt:message key="notfound.message" />
 	</p>
 
 </div>

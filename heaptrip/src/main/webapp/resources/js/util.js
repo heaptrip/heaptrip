@@ -6,7 +6,7 @@
 // 	alert(data);
 // };
 //
-// var callbackError = function(errorThrown, textStatus, jqXHR) {
+// var callbackError = function(errorThrown, jqXHR) {
 // 	alert(error);
 // };
 //
@@ -33,12 +33,12 @@
 				// dataType parameter;
 				// a string describing the status;
 				// and the jqXHR
-				success : function(data, textStatus, jqXHR) {
-					alert('success   ' + textStatus);
-					if (data.status && data.status == 'success') {
-						callbackSuccess(data, jqXHR);
+				success : function(response, textStatus, jqXHR) {
+					
+					if (response.status && response.status == 'success') {
+						callbackSuccess(response.data, jqXHR);
 					} else {
-						callbackError(data.message, data.status, jqXHR);
+						callbackError(response.message, jqXHR);
 					}
 
 				},
@@ -56,7 +56,14 @@
 				// portion of the HTTP status,
 				// such as "Not Found" or "Internal Server Error."
 				error : function(jqXHR, textStatus, errorThrown) {
-					callbackError(errorThrown, textStatus, jqXHR);
+
+					try {
+						errorThrown = $(jqXHR.responseText).find('#message')[0].textContent;
+					} catch (e) {
+						alert("For correct processing errors, use Exception Handler Controller");
+					}
+	
+					callbackError(errorThrown, jqXHR);
 				},
 				// A function to be called when the request finishes (after
 				// success and error callbacks are executed).

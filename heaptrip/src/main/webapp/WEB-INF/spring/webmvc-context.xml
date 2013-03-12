@@ -10,6 +10,7 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
 	<mvc:view-controller path="/login.html" />
+	<mvc:view-controller path="/notfound.html" />
 
 	<mvc:annotation-driven />
 

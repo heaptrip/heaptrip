@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.model.post.PostView;
 import com.heaptrip.web.model.tiding.TidingView;
 import com.heaptrip.web.model.travel.TravelView;
 
 @Controller
-public class TidingController {
+public class TidingController extends ExceptionHandlerControler{
 
 	@RequestMapping(value = "tidings", method = RequestMethod.GET)
 	public @ModelAttribute("tidings")

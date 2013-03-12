@@ -80,6 +80,10 @@
 	<definition name="error" extends="mainTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/error.jsp" />
 	</definition>
+	
+	<definition name="notfound" extends="mainTemplate">
+		<put-attribute name="main_content" value="/WEB-INF/jsp/notfound.jsp" />
+	</definition>
  
 	<definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">
 		<put-attribute name="catalog_tabs" value="/WEB-INF/jsp/catalog/catalog_tabs.jsp" />

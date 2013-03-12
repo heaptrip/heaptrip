@@ -114,4 +114,9 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 
+	<error-page>
+    	<error-code>404</error-code>
+    	<location>/notfound.html</location>
+	</error-page> 
+
 </web-app>

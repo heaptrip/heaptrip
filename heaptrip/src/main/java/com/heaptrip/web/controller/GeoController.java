@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.heaptrip.web.controller.base.ExceptionHandlerControler;
+
 @Controller
 @RequestMapping({ "/geo" })
-public class GeoController { 
+public class GeoController extends ExceptionHandlerControler{ 
 	final Logger logger = LoggerFactory.getLogger(GeoController.class);
 
 	/*@RequestMapping(value = { "{name}" }, method = { org.springframework.web.bind.annotation.RequestMethod.GET })

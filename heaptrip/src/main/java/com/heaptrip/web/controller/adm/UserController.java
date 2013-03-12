@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.heaptrip.domain.entity.adm.User;
-import com.heaptrip.domain.exception.RestException;
 import com.heaptrip.util.http.Ajax;
-import com.heaptrip.web.controller.BaseControler;
+import com.heaptrip.web.controller.base.ExceptionHandlerControler;
+import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.adm.RegistrationInfo;
 
 @Controller
-public class UserController extends BaseControler{
+public class UserController extends ExceptionHandlerControler{
 
 	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
 
@@ -43,16 +43,16 @@ public class UserController extends BaseControler{
 
 		User user = new User();
 		
-		//try {
+		try {
 		
 			user.setFirstName("петька123");
 			user.setSecondName("петька123");
 			
-			if (1==1)throw new RuntimeException("Ошшшшибкааааааа.....");
+			//if (1==1)throw new RuntimeException("Ошшшшибкааааааа.....");
 			
-		//} catch (Throwable e) {
-		//	throw new BusinessException("Ошшшшибкааааааа.....");
-		//}
+		} catch (Throwable e) {
+			throw new RestException(e);
+		}
 	
 		return Ajax.successResponse(user);
 	}

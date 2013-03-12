@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.model.travel.TravelView;
 
 @Controller
-public class TravelController {
+public class TravelController extends ExceptionHandlerControler{
 
 	@RequestMapping(value = "travels", method = RequestMethod.GET)
 	public @ModelAttribute("travels")
