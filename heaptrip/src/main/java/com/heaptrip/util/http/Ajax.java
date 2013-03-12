@@ -30,14 +30,28 @@ public class Ajax {
 	}
 
 	public static Map<String, ? extends Object> errorResponse(String message) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put(KEY_MESSAGE, message);
-		map.put(KEY_STATUS, STATUS_ERROR);
-		return map;
+		return Ajax.errorResponse(message, null);
 	}
 
 	public static Map<String, ? extends Object> errorResponse(Throwable exception) {
-		return Ajax.errorResponse(exception.getMessage());
+		return Ajax.errorResponse(exception.getMessage(), null);
+	}
+
+	public static Map<String, ? extends Object> errorResponse(String message, Map<String, ? extends Object> objects) {
+		return errorResponse(message, objects);
+	}
+
+	public static Map<String, ? extends Object> errorResponse(String message, Object object) {
+		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put(KEY_MESSAGE, message);
+		map.put(KEY_STATUS, STATUS_ERROR);
+
+		if (object != null) {
+			map.put(KEY_DATA, object);
+		}
+
+		return map;
 	}
 
 }

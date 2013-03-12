@@ -6,7 +6,7 @@
 // 	alert(data);
 // };
 //
-// var callbackError = function(errorThrown, jqXHR) {
+// var callbackError = function(message, data, jqXHR) {
 // 	alert(error);
 // };
 //
@@ -38,7 +38,7 @@
 					if (response.status && response.status == 'success') {
 						callbackSuccess(response.data, jqXHR);
 					} else {
-						callbackError(response.message, jqXHR);
+						callbackError(response.message,response.data,jqXHR);
 					}
 
 				},
@@ -63,7 +63,7 @@
 						alert("For correct processing errors, use Exception Handler Controller");
 					}
 	
-					callbackError(errorThrown, jqXHR);
+					callbackError(errorThrown, null, jqXHR);
 				},
 				// A function to be called when the request finishes (after
 				// success and error callbacks are executed).
