@@ -20,7 +20,7 @@ public class LocaleServiceImpl implements LocaleService {
 	private HttpServletRequest request;
 
 	@Autowired(required = false)
-	LocaleResolver localeResolver;
+	private LocaleResolver localeResolver;
 
 	@Resource(name = "messageSource")
 	private MessageSource messageSource;

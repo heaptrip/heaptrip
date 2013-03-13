@@ -32,7 +32,7 @@ public class ExceptionHandlerControler {
 		String message = null;
 
 		try {
-			message = URLEncoder.encode(ex.getMessage(), "UTF-8");
+			message = URLEncoder.encode(ex.getLocalizedMessage(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			message = e.getMessage();
 		}

@@ -1,5 +1,6 @@
 package com.heaptrip.service.adm;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.adm.User;
@@ -22,6 +23,16 @@ public class UserServiceImlp implements UserService {
 		}
 
 		return user;
+	}
+
+	@Override
+	public User getCurrentUser() {
+		User result = null;
+		try {
+			result = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Throwable e) {
+		}
+		return result;
 	}
 
 }
