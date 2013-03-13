@@ -4,6 +4,8 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import com.heaptrip.util.encoding.BundleUTF8Control;
+
 public class BaseExeption extends RuntimeException {
 
 	private static final long serialVersionUID = 7613126628186143461L;
@@ -36,7 +38,7 @@ public class BaseExeption extends RuntimeException {
 
 		String result = "Message not found " + key + "...";
 
-		ResourceBundle messages = ResourceBundle.getBundle("locale/messages", locale);
+		ResourceBundle messages = ResourceBundle.getBundle("locale/messages", locale, new BundleUTF8Control());
 
 		if (messages.containsKey(key)) {
 
