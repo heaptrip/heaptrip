@@ -1,4 +1,4 @@
-package com.heaptrip.service.search;
+package com.heaptrip.search;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,19 +16,25 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.heaptrip.domain.search.geo.GeoSearch;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("file:src/test/resources/META-INF/spring/test-context.xml")
-public class SearchServiceTest {
+public class SearchTest {
 	private static String CONTENT_COLLECTION = "content";
 	private static String GEO_COLLECTION = "geo";
+	
+	@Autowired
+	private GeoSearch geoSearch;
 
-	//@Test
+	// @Test
 	public void TestCloudSearch() throws SolrServerException, MalformedURLException {
 		System.out.println("TestCloudSearch");
-		
+
 		String zookeeperEndpoints = "5.61.36.145:2181,5.61.32.48:2181,5.61.41.73:2181";
 		CloudSolrServer cloudSolrServer = new CloudSolrServer(zookeeperEndpoints);
 		cloudSolrServer.setDefaultCollection(GEO_COLLECTION);
@@ -51,14 +57,14 @@ public class SearchServiceTest {
 		}
 	}
 
-	//@Test
+	// @Test
 	public void TestCloudIndex() throws SolrServerException, IOException {
 		System.out.println("TestCloudIndex");
-		
+
 		String zookeeperEndpoints = "5.61.36.145:2181,5.61.32.48:2181,5.61.41.73:2181";
 		CloudSolrServer cloudSolrServer = new CloudSolrServer(zookeeperEndpoints);
 		cloudSolrServer.setDefaultCollection(CONTENT_COLLECTION);
-		
+
 		SolrInputDocument doc = new SolrInputDocument();
 		doc.addField("id", UUID.randomUUID().toString());
 		doc.addField("text_en", "hello");
@@ -69,37 +75,41 @@ public class SearchServiceTest {
 
 		cloudSolrServer.add(docs);
 		cloudSolrServer.commit();
-		
+
 		/*
-		 String endpoints[] = { "http://heaptrip:Qazwsx321@1.solr.heaptrip.com/content",
-				"http://heaptrip:Qazwsx321@2.solr.heaptrip.com/content",
-				"http://heaptrip:Qazwsx321@1.solr.heaptrip.com/geo",
-				"http://heaptrip:Qazwsx321@2.solr.heaptrip.com/geo" };
-		String zookeeperEndpoints = "5.61.36.145:2181,5.61.32.48:2181,5.61.41.73:2181";
-		String collectionName = "content";
-
-		LBHttpSolrServer lbSolrServer = new LBHttpSolrServer(endpoints);
-		CloudSolrServer cloudSolrServer = new CloudSolrServer(zookeeperEndpoints, lbSolrServer);
-		cloudSolrServer.setDefaultCollection(collectionName);
-
-		SolrInputDocument doc = new SolrInputDocument();
-		doc.addField("id", UUID.randomUUID().toString());
-		doc.addField("text_en", "hello");
-		doc.addField("text_ru", "Привет");
-
-		UpdateRequest update2 = new UpdateRequest();
-		update2.setParam("collection", "content");
-		update2.add(doc);
-		update2.process(cloudSolrServer);
-		*/
+		 * String endpoints[] = {
+		 * "http://heaptrip:Qazwsx321@1.solr.heaptrip.com/content",
+		 * "http://heaptrip:Qazwsx321@2.solr.heaptrip.com/content",
+		 * "http://heaptrip:Qazwsx321@1.solr.heaptrip.com/geo",
+		 * "http://heaptrip:Qazwsx321@2.solr.heaptrip.com/geo" }; String
+		 * zookeeperEndpoints =
+		 * "5.61.36.145:2181,5.61.32.48:2181,5.61.41.73:2181"; String
+		 * collectionName = "content";
+		 * 
+		 * LBHttpSolrServer lbSolrServer = new LBHttpSolrServer(endpoints);
+		 * CloudSolrServer cloudSolrServer = new
+		 * CloudSolrServer(zookeeperEndpoints, lbSolrServer);
+		 * cloudSolrServer.setDefaultCollection(collectionName);
+		 * 
+		 * SolrInputDocument doc = new SolrInputDocument(); doc.addField("id",
+		 * UUID.randomUUID().toString()); doc.addField("text_en", "hello");
+		 * doc.addField("text_ru", "Привет");
+		 * 
+		 * UpdateRequest update2 = new UpdateRequest();
+		 * update2.setParam("collection", "content"); update2.add(doc);
+		 * update2.process(cloudSolrServer);
+		 */
 	}
 
 	@Test
 	public void TestSingleSearch() throws SolrServerException, IOException {
 		System.out.println("TestSingleSearch");
-		
-		SolrServer server = new HttpSolrServer("http://heaptrip:Qazwsx321@solr.heaptrip.com/geo");
 
+		String strQquery = "jap республика germany rus москва питер";
+		String[] str = geoSearch.searchIdsByName(strQquery, 0, 10);
+		
+		/*
+		SolrServer server = new HttpSolrServer("http://heaptrip:Qazwsx321@solr.heaptrip.com/geo");
 		String strQquery = "jap республика germany rus москва питер";
 		SolrQuery parameters = new SolrQuery();
 		// parameters.setParam("collection", "geo");
@@ -115,13 +125,17 @@ public class SearchServiceTest {
 		System.out.println("size=" + results.size());
 		for (int i = 0; i < results.size(); ++i) {
 			System.out.println(results.get(i));
+			SolrDocument doc = results.get(i);
+			String id = (String) doc.getFieldValue("id");
+			System.out.println("id=" + id);
 		}
+		*/
 	}
-	
-	@Test
+
+	// @Test
 	public void TestSingleIndex() throws SolrServerException, IOException {
 		System.out.println("TestSingleIndex");
-		
+
 		SolrServer server = new HttpSolrServer("http://heaptrip:Qazwsx321@solr.heaptrip.com/content");
 
 		SolrInputDocument doc = new SolrInputDocument();

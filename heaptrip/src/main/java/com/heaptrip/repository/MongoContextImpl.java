@@ -71,7 +71,7 @@ public class MongoContextImpl implements MongoContext {
 
 				logger.info("MongoClient successfully initialized");
 			} else {
-				logger.error("MongoClient not initialized: databese urls not filled");
+				logger.error("MongoClient not initialized: databese urls not defined");
 			}
 		}
 	}

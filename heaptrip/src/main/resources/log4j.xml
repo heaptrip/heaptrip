@@ -24,8 +24,8 @@
 		<level value="INFO" />
 	</logger>
 
-	<logger name="com.forrest">
-		<level value="DEBUG" />
+	<logger name="com.heaptrip">
+		<level value="TRACE" />
 	</logger>
 
 </log4j:configuration>
