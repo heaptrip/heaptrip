@@ -8,6 +8,18 @@ public class CategoryEntity extends BaseEntity {
 	private String nameRu;
 	private String nameEn;
 
+	public CategoryEntity() {
+		super();
+	}
+
+	public CategoryEntity(String id, String parentId, String nameRu, String nameEn) {
+		super();
+		this.id = id;
+		this.parentId = parentId;
+		this.nameRu = nameRu;
+		this.nameEn = nameEn;
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public String getId() {
