@@ -57,14 +57,12 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 		DBCollection coll = mongoContext.getDbCollection(CategoryEntity.COLLECTION_NAME);
 		DBCursor dbCursor = coll.find();
 		logger.debug("get dbCursor: {}", dbCursor);
-		while (dbCursor.hasNext()) {
-			DBObject dbObject = dbCursor.next();
+		List<DBObject> list = dbCursor.toArray();
+		for (DBObject dbObject : list) {
 			logger.debug("next dbObject: {}", dbObject);
-			if (dbObject != null) {
-				CategoryEntity entity = categoryConveter.parseDbObject(dbObject);
-				logger.debug("convert to categoryEntity: {}", entity);
-				result.add(entity);
-			}
+			CategoryEntity entity = categoryConveter.parseDbObject(dbObject);
+			logger.debug("convert to categoryEntity: {}", entity);
+			result.add(entity);
 		}
 		return result;
 	}
