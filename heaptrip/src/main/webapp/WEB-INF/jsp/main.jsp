@@ -6,32 +6,30 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <head>
-
 <!-- title  -->
 <title><fmt:message key="site.title" /></title>
-
 <!-- meta -->
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-
-
+<!-- css -->
+<tiles:insertAttribute name="styles_ins" />
 <!-- js -->
 <tiles:insertAttribute name="scripts_ins" />
-
 </head>
 
 <html>
-
 <body>
-	<div id="header">
-		<tiles:insertAttribute name="header" />
-	</div>
-	<div id="main_content">
+	<div id="top"></div>
+	<div id="wrapper">
+		<!-- #header-->
+		<header id="header">
+			<tiles:insertAttribute name="header" />
+		</header>
+		<!-- #main_content-->
 		<tiles:insertAttribute name="main_content" />
 	</div>
-	<div id="footer">
+	<!-- #footer -->
+	<footer id="footer">
 		<tiles:insertAttribute name="footer" />
-	</div>
+	</footer>
 </body>
-
 </html>

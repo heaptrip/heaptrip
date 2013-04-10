@@ -1,0 +1,86 @@
+/* nav
+---------------------------------------------------------*/
+
+#nav{
+	height: 37px;
+	background: #00BBFF;
+	border: 1px solid #0894C7;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	position: relative;
+	left: 0px;
+	margin-top: -36px;
+	z-index: 1;
+	text-align: center;
+	color: #FFFFFF;
+	font-family: verdana;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 37px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+/* Middle
+-----------------------------------------------------------------------------*/
+#middle {
+	width: 100%;
+	padding: 0;
+	height: 1%;
+	position: relative;
+}
+#middle:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+#container {
+	width: 100%;
+	float: left;
+	overflow: hidden;
+}
+#contents {
+	padding: 0;
+}
+/*
+-------------------------------------------------------------------------------*/
+#contents{
+	text-align: center;
+}
+
+#contents img,
+#contents a{
+	display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+}
+
+#contents img{
+	margin-top: 40px;
+}
+
+#contents a{
+	text-align: center;
+	padding: 2px 10px;
+	color: #FFFFFF;
+	font-family: verdana;
+	font-weight: normal;
+	font-size: 13px;
+	line-height: 15px;
+	letter-spacing: 1px;	
+	background: #A1A4A1;
+	border: 1px solid #D2D2CB;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	cursor: pointer;
+	margin-left: 5px;
+	text-decoration: none;
+	width: 174px;
+	margin-top: 7px;
+}

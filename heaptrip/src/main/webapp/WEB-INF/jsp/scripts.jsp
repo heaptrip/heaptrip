@@ -4,5 +4,4 @@
 <tiles:useAttribute id="script" name="scripts" classname="java.util.List" />
 <c:forEach var="script" items="${script}">
 	<script type="text/javascript" src="<c:url value="${script}" />"></script>
-	<br />
 </c:forEach>

@@ -6,7 +6,10 @@
 	<tiles:insertAttribute name="catalog_tabs" />
 </div>
 
-<table width="100%" border="0" cellspacing="3" cellpadding="10">
+<section id="middle">
+		<div id="container">
+			<div id="contents">
+			<table width="100%" border="0" cellspacing="3" cellpadding="10">
 
 	<tr>
 		<td bgcolor="#66CCFF">
@@ -22,3 +25,9 @@
 	</tr>
 
 </table>
+				
+			</div><!-- #content-->
+		</div><!-- #container-->
+	</section><!-- #middle-->
+
+

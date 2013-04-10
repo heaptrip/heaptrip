@@ -7,60 +7,38 @@
 
 	<definition name="mainScriptsTemplate" template="/WEB-INF/jsp/scripts.jsp">
 		<put-list-attribute name="scripts">
-			<add-attribute value="/resources/js/lib/jquery/jquery-min.js" />
+			<add-attribute value="/resources/js/jquery.js?ver=1.9.1-min" />
+			<add-attribute value="/resources/js/script.js" />
 			<add-attribute value="/resources/js/util.js" />
 		</put-list-attribute>
 	</definition>
 
 	<definition name="mainStylesTemplate" template="/WEB-INF/jsp/styles.jsp">
 		<put-list-attribute name="styles">
-			<add-attribute value="/resources/css/main.css" />
+			<add-attribute value="/resources/css/header.css" />
 		</put-list-attribute>
 	</definition>
 
 	<definition name="jqueryuiScriptsTemplate" extends="mainScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/resources/js/lib/jqueryui/js/jquery-ui-min.js" />
+			<add-attribute value="http://code.jquery.com/ui/1.10.2/jquery-ui.js" />
 		</put-list-attribute>
 	</definition>
 
 	<definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/js/lib/jqueryui/css/jquery-ui-min.css" />
+			<add-attribute value="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
 		</put-list-attribute>
 	</definition>
-	
+
 	<definition name="ckeditorScriptsTemplate" extends="mainScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
 			<add-attribute value="/resources/js/lib/ckeditor/ckeditor.js" />
 		</put-list-attribute>
 	</definition>
 
-	<definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/js/lib/jqueryui/css/jquery-ui-min.css" />
-		</put-list-attribute>
-	</definition>
-
 	<definition name="postScriptsTemplate" extends="ckeditorScriptsTemplate" />
 
-	<definition name="tidingsStylesTemplate" extends="jqueryuiStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/js/lib/checkboxtree/jquery.checkboxtree.css" />
-		</put-list-attribute>
-	</definition>
-
-	<definition name="tidingsScriptsTemplate" extends="jqueryuiScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/resources/js/lib/checkboxtree/jquery.checkboxtree.js" />
-		</put-list-attribute>
-	</definition>
-
-	<definition name="tidingsStylesTemplate" extends="jqueryuiStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/js/lib/checkboxtree/jquery.checkboxtree.css" />
-		</put-list-attribute>
-	</definition>
 
 	<definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
 		<put-attribute name="scripts_ins" value="mainScriptsTemplate" />
@@ -72,19 +50,40 @@
 	<definition name="login" extends="mainTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp" />
 	</definition>
-	
+
 	<definition name="registration" extends="mainTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp" />
 	</definition>
-	
+
+	<definition name="errorStylesTemplate" extends="mainStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/css/error.css" />
+		</put-list-attribute>
+	</definition>
+
 	<definition name="error" extends="mainTemplate">
+		<put-attribute name="styles_ins" value="errorStylesTemplate" />
 		<put-attribute name="main_content" value="/WEB-INF/jsp/error.jsp" />
 	</definition>
-	
+
 	<definition name="notfound" extends="mainTemplate">
+		<put-attribute name="styles_ins" value="errorStylesTemplate" />
 		<put-attribute name="main_content" value="/WEB-INF/jsp/notfound.jsp" />
 	</definition>
- 
+
+	<definition name="catalogScriptsTemplate" extends="jqueryuiScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/resources/js/jquery.jstree.js" />
+			<add-attribute value="/resources/js/filtr.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/css/style.css" />
+		</put-list-attribute>
+	</definition>
+
 	<definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">
 		<put-attribute name="catalog_tabs" value="/WEB-INF/jsp/catalog/catalog_tabs.jsp" />
 		<put-attribute name="catalog_right_bar" value="" />
@@ -96,9 +95,17 @@
 		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/travel/travels_right_bar.jsp" />
 	</definition>
 
+
+
 	<definition name="tidingsTemplate" extends="catalogTemplate">
 		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp" />
 		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/tiding/tidings_right_bar.jsp" />
+	</definition>
+
+	<definition name="tidings" extends="mainTemplate">
+			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+		<put-attribute name="main_content" value="tidingsTemplate" />
 	</definition>
 
 	<definition name="postsTemplate" extends="catalogTemplate">
@@ -117,16 +124,14 @@
 	</definition>
 
 	<definition name="travels" extends="mainTemplate">
+			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="travelsTemplate" />
 	</definition>
 
-	<definition name="tidings" extends="mainTemplate">
-		<put-attribute name="scripts_ins" value="tidingsScriptsTemplate" />
-		<put-attribute name="style_ins" value="tidingsStylesTemplate" />
-		<put-attribute name="main_content" value="tidingsTemplate" />
-	</definition>
-	
 	<definition name="posts" extends="mainTemplate">
+			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postsTemplate" />
 	</definition>
 

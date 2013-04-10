@@ -4,5 +4,4 @@
 <tiles:useAttribute id="style" name="styles" classname="java.util.List" />
 <c:forEach var="style" items="${style}">
 	<link rel="stylesheet" type="text/css" href="<c:url value="${style}"/>" />
-	<br />
 </c:forEach>

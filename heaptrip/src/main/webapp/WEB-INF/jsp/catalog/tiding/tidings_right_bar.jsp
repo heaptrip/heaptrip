@@ -4,6 +4,10 @@
 
 <h1>Tidings Rright Bar</h1>
 
+<!-- 
+
 <div>
 	<tiles:insertDefinition name="categoryTree" />
 </div>
+
+-->

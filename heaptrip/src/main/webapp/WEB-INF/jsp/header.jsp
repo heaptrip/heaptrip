@@ -2,21 +2,29 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<div align="right">
-	<div>
-		<fmt:message key="locale.language" />
 
-		<c:set var="page_url" value="${urlBase}" />
+	<c:set var="url" value="${urlBase}" />
+	<c:set var="params" value="${pageContext.request.queryString}" />
 
-		<a href='<c:out value="${page_url}?locale=en&${pageContext.request.queryString}"/>'> <fmt:message
-				key="locale.english" />
-		</a>
-		<a href='<c:out value="${page_url}?locale=ru&${pageContext.request.queryString}"/>'> <fmt:message
-				key="locale.russian" />
-		</a>
-	</div>
+	<c:set var="en" value="${url}?locale=en&${params}" />
+	<c:set var="ru" value="${url}?locale=ru&${params}" />
 
-	<br />
+
+	<a id="logo"></a>
+	<div id="language">
+		<div id="language_now"><span class='<fmt:message key="locale.name"/>'></span><fmt:message key="locale.current" /></div>
+			<ul>
+				<li><a href='<c:out value="${ru}"/>'><span class="ru"></span><fmt:message key="locale.ru" /></a></li>
+				<li><a href='<c:out value="${en}"/>'><span class="en"></span><fmt:message key="locale.en" /></a></li>
+				<li><a href="/"><span class="du"></span><fmt:message key="locale.du" /></a></li>
+				<li><a href="/"><span class="fr"></span><fmt:message key="locale.fr" /></a></li>
+				<li><a href="/"><span class="yk"></span><fmt:message key="locale.yk" /></a></li>
+				<li><a href="/"><span class="sw"></span><fmt:message key="locale.sw" /></a></li>
+			</ul>
+	</div>		
+
+	
+<!-- <div align="right">
 
 	<div>
 		<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
@@ -42,3 +50,6 @@
 	</h1>
 
 </div>
+
+
+ -->
