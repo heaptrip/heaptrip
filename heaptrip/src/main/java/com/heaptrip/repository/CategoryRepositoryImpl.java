@@ -40,7 +40,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
 	@Override
 	public void save(List<CategoryEntity> categories) {
-		List<DBObject> list = new ArrayList<>();
+		List<DBObject> list = new ArrayList<DBObject>();
 		for (CategoryEntity category : categories) {
 			DBObject dbObject = categoryConveter.toDbObject(category);
 			list.add(dbObject);

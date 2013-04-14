@@ -31,27 +31,31 @@
 		</put-list-attribute>
 	</definition>
 
-	<definition name="ckeditorScriptsTemplate" extends="mainScriptsTemplate">
+	
+	<definition name="postScriptsTemplate" extends="catalogScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
 			<add-attribute value="/resources/js/lib/ckeditor/ckeditor.js" />
 		</put-list-attribute>
 	</definition>
-
-	<definition name="postScriptsTemplate" extends="ckeditorScriptsTemplate" />
-
+	
 
 	<definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
 		<put-attribute name="scripts_ins" value="mainScriptsTemplate" />
 		<put-attribute name="styles_ins" value="mainStylesTemplate" />
 		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+		<put-attribute name="main_content" value="/WEB-INF/jsp/header.jsp" />
+		<put-attribute name="footer" value="" />
+	</definition>
+
+	<definition name="mainContentTemplate" extends="mainTemplate">
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 
-	<definition name="login" extends="mainTemplate">
+	<definition name="login" extends="mainContentTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp" />
 	</definition>
 
-	<definition name="registration" extends="mainTemplate">
+	<definition name="registration" extends="mainContentTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp" />
 	</definition>
 
@@ -102,8 +106,8 @@
 		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/tiding/tidings_right_bar.jsp" />
 	</definition>
 
-	<definition name="tidings" extends="mainTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+	<definition name="tidings" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="tidingsTemplate" />
 	</definition>
@@ -123,28 +127,31 @@
 		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/post/posts_right_bar.jsp" />
 	</definition>
 
-	<definition name="travels" extends="mainTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+	<definition name="travels" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="travelsTemplate" />
 	</definition>
 
-	<definition name="posts" extends="mainTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+	<definition name="posts" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postsTemplate" />
 	</definition>
 
-	<definition name="post" extends="mainTemplate">
+	<definition name="post" extends="mainContentTemplate">
+	<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />  
 		<put-attribute name="main_content" value="postReadTemplate" />
 	</definition>
 
-	<definition name="post/edit" extends="mainTemplate">
+	<definition name="post/edit" extends="mainContentTemplate">
 		<put-attribute name="scripts_ins" value="postScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postEditTemplate" />
 	</definition>
 
-	<definition name="postImage" extends="mainTemplate">
+	<definition name="postImage" extends="mainContentTemplate">
 		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp" />
 	</definition>
 

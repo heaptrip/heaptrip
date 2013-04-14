@@ -8,28 +8,28 @@
 	<nav id="nav">
     	<ul>
     		<li>
-    			<a href="<c:url value="/tidings.html"/>" class='${fn:contains(url, "/tidings.html") ? "active":"" }'>
-    				<fmt:message key="entity.tidings" />
+    			<a href="<c:url value="/tidings.html"/>" class="${fn:contains(url, '/tiding') ? 'active':'' }">
+    				<fmt:message key="tiding.list.title" />
     			</a>
     		</li>
     		<li>
-    			<a href="<c:url value="/travels.html"/>" class='${fn:contains(url, "/travels.html") ? "active":"" }'>
-    				<fmt:message key="entity.travels" />
+    			<a href="<c:url value="/travels.html"/>" class='${fn:contains(url, "/travel") ? "active":"" }'>
+    				<fmt:message key="trip.list.title" />
 				</a>
     		</li>
     			<li>
-    			<a href="<c:url value="/posts.html"/>" class='${fn:contains(url, "/posts.html") ? "active":"" }'>
-    				<fmt:message key="entity.posts" />
+    			<a href="<c:url value="/posts.html"/>" class='${fn:contains(url, "/post") ? "active":"" }'>
+    				<fmt:message key="post.list.title" />
 				</a>
     		</li>
     			<li>
-    			<a href="<c:url value="/questions.html"/>" class='${fn:contains(url, "/questions.html") ? "active":"" }'>
-    				<fmt:message key="entity.questions" />
+    			<a href="<c:url value="/questions.html"/>" class='${fn:contains(url, "/question") ? "active":"" }'>
+    				<fmt:message key="question.list.title" />
 				</a>
     		</li>
     			<li>
-    			<a href="<c:url value="/events.html"/>" class='${fn:contains(url, "/events.html") ? "active":"" }'>
-    				<fmt:message key="entity.events" />
+    			<a href="<c:url value="/events.html"/>" class='${fn:contains(url, "/event") ? "active":"" }'>
+    				<fmt:message key="event.list.title" />
 				</a>
     		</li>
     	</ul>	

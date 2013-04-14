@@ -24,7 +24,7 @@ import com.heaptrip.domain.repository.CategoryRepository;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CategoryRepositoryTest {
 
-	List<CategoryEntity> categories = new ArrayList<>();
+	List<CategoryEntity> categories = new ArrayList<CategoryEntity>();
 
 	@Before
 	public void init() {
@@ -91,8 +91,8 @@ public class CategoryRepositoryTest {
 		List<CategoryEntity> categories = categoryRepository.findAll();
 
 		// compare list without order
-		Set<CategoryEntity> expecteds = new HashSet<>();
-		Set<CategoryEntity> actuals = new HashSet<>();
+		Set<CategoryEntity> expecteds = new HashSet<CategoryEntity>();
+		Set<CategoryEntity> actuals = new HashSet<CategoryEntity>();
 
 		expecteds.addAll(this.categories);
 		actuals.addAll(categories);

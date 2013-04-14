@@ -5,7 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <h1>
-	<fmt:message key="entity.posts" />
+	<fmt:message key="post.list.title" />
 </h1>
 
 <a style="font-size: 16pt" href="<c:url value="/post/edit.html"/>">Add</a>

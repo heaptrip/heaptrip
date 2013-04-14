@@ -28,8 +28,7 @@
 		<tiles:insertAttribute name="main_content" />
 	</div>
 	<!-- #footer -->
-	<footer id="footer">
-		<tiles:insertAttribute name="footer" />
-	</footer>
+	<tiles:insertAttribute name="footer" />
+
 </body>
 </html>

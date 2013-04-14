@@ -12,7 +12,7 @@
 
 
 <h1>
-	<fmt:message key="entity.tidings" />
+	<fmt:message key="tiding.list.title" />
 </h1>
 
 <c:forEach var="tiding" items="${tidings}">

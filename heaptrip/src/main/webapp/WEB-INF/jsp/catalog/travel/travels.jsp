@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <h1>
-	<fmt:message key="entity.travels" />
+	<fmt:message key="trip.list.title" />
 </h1>
 
 <c:forEach var="travel" items="${travels}">
