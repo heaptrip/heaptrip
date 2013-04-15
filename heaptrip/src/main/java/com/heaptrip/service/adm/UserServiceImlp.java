@@ -14,7 +14,7 @@ public class UserServiceImlp implements UserService {
 
 		User user = null;
 
-		if (username.equals("user") && password.equals("userpsw")) {
+		if (username.equals("user") && password.equals("user")) {
 			user = new User();
 			user.setFirstName("Иван");
 			user.setSecondName("Иванов");

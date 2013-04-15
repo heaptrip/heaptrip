@@ -31,32 +31,50 @@
 		</put-list-attribute>
 	</definition>
 
-	
-	<definition name="postScriptsTemplate" extends="catalogScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/resources/js/lib/ckeditor/ckeditor.js" />
-		</put-list-attribute>
+	<definition name="baseHeaderTemplate" template="/WEB-INF/jsp/header.jsp">
+		<put-attribute name="account" value="" />
 	</definition>
-	
+
+	<definition name="headerTemplate" extends="baseHeaderTemplate">
+		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
+	</definition>
+
+	<definition name="mainContentTemplate" extends="mainTemplate">
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
+	</definition>
 
 	<definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
 		<put-attribute name="scripts_ins" value="mainScriptsTemplate" />
 		<put-attribute name="styles_ins" value="mainStylesTemplate" />
-		<put-attribute name="header" value="/WEB-INF/jsp/header.jsp" />
+		<put-attribute name="header" value="baseHeaderTemplate" />
 		<put-attribute name="main_content" value="/WEB-INF/jsp/header.jsp" />
 		<put-attribute name="footer" value="" />
 	</definition>
 
 	<definition name="mainContentTemplate" extends="mainTemplate">
+		<put-attribute name="header" value="headerTemplate" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 
-	<definition name="login" extends="mainContentTemplate">
-		<put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp" />
+	<definition name="registrationStylesTemplate" extends="jqueryuiStylesTemplate">
+		<put-list-attribute name="styles" inherit="true">
+			<add-attribute value="/resources/css/reg.css" />
+		</put-list-attribute>
 	</definition>
 
-	<definition name="registration" extends="mainContentTemplate">
+	<definition name="login" extends="mainTemplate">
+		<put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate" />
+		<put-attribute name="styles_ins" value="registrationStylesTemplate" />
+		<put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+	</definition>
+
+	<definition name="registration" extends="mainTemplate">
+		<put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate" />
+		<put-attribute name="styles_ins" value="registrationStylesTemplate" />
 		<put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 
 	<definition name="errorStylesTemplate" extends="mainStylesTemplate">
@@ -100,7 +118,6 @@
 	</definition>
 
 
-
 	<definition name="tidingsTemplate" extends="catalogTemplate">
 		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp" />
 		<put-attribute name="catalog_right_bar" value="/WEB-INF/jsp/catalog/tiding/tidings_right_bar.jsp" />
@@ -140,13 +157,19 @@
 	</definition>
 
 	<definition name="post" extends="mainContentTemplate">
-	<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
-		<put-attribute name="styles_ins" value="catalogStylesTemplate" />  
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postReadTemplate" />
 	</definition>
 
+	<definition name="postEditScriptsTemplate" extends="catalogScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/resources/js/lib/ckeditor/ckeditor.js" />
+		</put-list-attribute>
+	</definition>
+
 	<definition name="post/edit" extends="mainContentTemplate">
-		<put-attribute name="scripts_ins" value="postScriptsTemplate" />
+		<put-attribute name="scripts_ins" value="postEditScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postEditTemplate" />
 	</definition>
