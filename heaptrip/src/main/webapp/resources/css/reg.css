@@ -125,7 +125,7 @@
 #authorization input[type=password]{
 	width: 267px;
 	padding: 2px;
-	height: 16px;
+	/*height: 16px;*/
 	border: 1px solid #BEBEBE;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;

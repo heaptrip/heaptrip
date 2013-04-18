@@ -13,10 +13,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.heaptrip.domain.entity.adm.User;
 import com.heaptrip.domain.exception.ErrorEnum;
@@ -36,53 +37,28 @@ public class UserController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ? extends Object> registrationTest(RegistrationInfo registrationInfo) {
-
-		// ModelAndView mv = new ModelAndView();
+	Map<String, ? extends Object> registrationTest(@RequestBody RegistrationInfo registrationInfo) {
 
 		LOG.info(registrationInfo.toString());
 
-		User user = new User();
-
 		try {
 
-			user.setFirstName("петька123");
-			user.setSecondName("петька123");
+			if (registrationInfo.getEmail() == null || registrationInfo.getEmail().indexOf("@") < 0)
+				throw scopeService.getErrorServise().createBusinessExeption(ErrorEnum.REGISTRATION_FAILURE);
 
-			if (1 == 1)
-				throw scopeService.getErrorServise().createBusinessExeption(ErrorEnum.LOGIN_FAILURE);
+			User user = new User();
+			user.setFirstName(registrationInfo.getFirstName());
+			user.setSecondName(registrationInfo.getSecondName());
+			String[] roles = { "ROLE_USER" };
+			user.setRoles(roles);
+
+			authenticateInternal(user);
 
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
 
-		return Ajax.successResponse(user);
-	}
-
-	// @RequestMapping(value = "registration", method = RequestMethod.POST)
-	public ModelAndView registration(RegistrationInfo registrationInfo) {
-
-		LOG.info(registrationInfo.toString());
-
-		if (registrationInfo.getFirstName().equals("123")) {
-
-			ModelAndView view = new ModelAndView();
-
-			view.addObject("error", "Ошибкааааааа.....");
-
-			return view.addObject("registrationInfo", registrationInfo);
-		}
-
-		User user = new User();
-
-		user.setFirstName(registrationInfo.getFirstName());
-		user.setSecondName(registrationInfo.getSecondName());
-		String[] roles = { "ROLE_USER" };
-		user.setRoles(roles);
-
-		authenticateInternal(user);
-
-		return new ModelAndView("redirect:tidings.html");
+		return Ajax.emptyResponse();
 	}
 
 	public void authenticateInternal(User user) {

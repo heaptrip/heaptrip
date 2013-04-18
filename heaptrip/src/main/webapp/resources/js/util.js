@@ -58,7 +58,12 @@
 				error : function(jqXHR, textStatus, errorThrown) {
 
 					try {
-						errorThrown = $(jqXHR.responseText).find('#message')[0].textContent;
+						// errorThrown = $(jqXHR.responseText).find('#message')[0].textContent;
+						// без $('<div></div>').append(... возникает Exception т.к. JQ пытается захерачить всю страницу :)
+						errorThrown = $('<div></div>').append(jqXHR.responseText).find('#message')[0].textContent;
+						
+						
+						
 					} catch (e) {
 						alert("For correct processing errors, use Exception Handler Controller");
 					}

@@ -8,7 +8,7 @@
 			<div id="contents">
 			
 				<p>
-					<div id=message>"${message}"</div>
+					<div id="message">"${message}"</div>
 				</p>
 	
 				<img src="<c:url value="/resources/css/images/error.jpg"/>"><br /> 

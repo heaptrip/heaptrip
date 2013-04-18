@@ -57,7 +57,7 @@
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 
-	<definition name="registrationStylesTemplate" extends="jqueryuiStylesTemplate">
+	<definition name="registrationStylesTemplate" extends="mainStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
 			<add-attribute value="/resources/css/reg.css" />
 		</put-list-attribute>

@@ -22,7 +22,7 @@ import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.model.adm.RegistrationInfo;
 
 @Controller
-public class SocNetController extends ExceptionHandlerControler{
+public class SocNetController extends ExceptionHandlerControler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(SocNetController.class);
 
@@ -65,8 +65,8 @@ public class SocNetController extends ExceptionHandlerControler{
 	public ModelAndView registrationVKontakte(@RequestParam("access_token") String accessToken,
 			@RequestParam("user_id") String userId) {
 
-		//if (1==1)throw new RuntimeException("FFFFОшшшшибкааааааа.....");
-		
+		// if (1==1)throw new RuntimeException("FFFFОшшшшибкааааааа.....");
+
 		ModelAndView mv = new ModelAndView();
 
 		RegistrationInfo registrationInfo = new RegistrationInfo();
@@ -126,7 +126,7 @@ public class SocNetController extends ExceptionHandlerControler{
 
 	@RequestMapping(value = "registration", params = ("fb=true"), method = RequestMethod.GET)
 	public ModelAndView registrationFaceBook(@RequestParam("access_token") String accessToken) {
-		
+
 		ModelAndView mv = new ModelAndView();
 
 		RegistrationInfo registrationInfo = new RegistrationInfo();
@@ -166,7 +166,11 @@ public class SocNetController extends ExceptionHandlerControler{
 		LOG.error("Social network authorize error", e);
 		return "redirect:login.html";
 	}
-	
 
+	@RequestMapping(value = "registration", method = RequestMethod.GET)
+	public ModelAndView emptyRegistration() {
+		RegistrationInfo info = new RegistrationInfo();
+		return new ModelAndView().addObject("registrationInfo", info);
+	}
 
 }

@@ -20,23 +20,25 @@ public class ExceptionHandlerControler {
 
 	@ExceptionHandler(RestException.class)
 	public @ResponseBody
-	Map<String, ? extends Object> handleRestException(RestException e) {
-		return Ajax.errorResponse(e);
+	Map<String, ? extends Object> handleRestException(RestException exception) {
+		LOG.error("", exception);
+		return Ajax.errorResponse(exception);
 	}
 
 	@ExceptionHandler(Exception.class)
-	public RedirectView handleException(Exception ex) {
+	public RedirectView handleException(Exception exception) {
 
 		RedirectView redirectView = new RedirectView("error.html");
 
 		String message = null;
 
 		try {
-			message = URLEncoder.encode(ex.getLocalizedMessage(), "UTF-8");
+			message = URLEncoder.encode(exception.getLocalizedMessage(), "UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			message = e.getMessage();
 		}
 
+		LOG.error("", exception);
 		redirectView.addStaticAttribute("message", message);
 
 		return redirectView;
