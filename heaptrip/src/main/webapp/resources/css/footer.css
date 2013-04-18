@@ -1,0 +1,60 @@
+/* Footer
+-----------------------------------------------------------------------------*/
+#footer {
+	width: 939px;
+	margin: -200px auto 0;
+	height: 200px;
+	position: relative;
+	z-index: 2;
+	border-top: 1px solid #E2E6E6;
+}
+
+#footer ul{
+	margin: 0;
+	padding: 0;
+	position: relative;
+	top: 35px;
+}
+
+#footer ul ul{
+	top: 0;
+}
+
+#footer ul li{
+	width: 130px;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    margin-left: 27px;
+}
+
+#footer ul li:first-child{
+	margin-left: 0; 
+}
+
+#footer ul ul li{
+	height: 22px;
+	margin: 0;
+	padding: 0;
+}
+
+#footer ul li a{
+	font-family: "Verdana";
+	font-size: 13px;
+	color: #545454;
+	text-decoration: none;
+}
+
+#footer ul li a:hover{
+	color: #07284C;
+}
+
+#footer ul li a:active{
+	color: #07284C;
+}
+
+#footer ul li a.zag{
+	color: #08294C;
+}

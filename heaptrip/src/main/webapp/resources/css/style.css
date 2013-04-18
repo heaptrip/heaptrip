@@ -91,7 +91,7 @@
 	top: 0px;
 	cursor: pointer;
 	border: none;
-	background: url('images/search.jpg') center center no-repeat;
+	background: url('../images/search.jpg') center center no-repeat;
 }
 
 /* Middle
@@ -114,8 +114,12 @@
 }
 #contents {
 	padding: 0 298px 0 15px;
+	margin-bottom: 30px;
 }
 
+.red{
+	color: #EC403C;
+}
 
 /* Sidebar Right
 -----------------------------------------------------------------------------*/
@@ -127,16 +131,17 @@
 	position: relative;
 }
 
+
 /*Лента
 -------------------------------------*/
 #article{
 	font-family: "Verdana";
 	padding: 8px 0 12px 0;
-	border-bottom: 1px solid #E2E6E6;
 	position: relative;
+	border-top: 1px solid #DEE5EB;
 }
 
-#article:last-child{
+#article:first-child{
 	border: none;
 }
 
@@ -306,7 +311,7 @@
 #article .stars{
 	width: 56px;
 	height: 11px;
-	background-image: url('images/stars.png');
+	background-image: url('../images/stars.png');
 	background-repeat: no-repeat;
 	margin-top: 3px;
 	margin-left: 10px;	
@@ -326,7 +331,7 @@
 	border-top: 1px solid #DEE5EB; 
 	border-bottom: 1px solid #DEE5EB; 
 	text-align: center;
-	margin: 60px 0 20px 0;
+	margin: 60px 0 -1px 0;
 	padding: 4px 0;
 }
 
@@ -490,36 +495,17 @@
 	top: 12px;
 	right: 12px;
 	cursor: pointer;
-	background: url('images/hide_filtr.png') no-repeat;
+	background: url('../images/hide_filtr.png') no-repeat;
 }
 
-.filtr .button{
+.filtr .for_button{
 	text-align: right;
 	border-top: 1px dashed #C9C9C2;
 	margin: 5px 5px 0 5px;
 	padding: 5px 5px 0 5px;
 }
 
-.filtr .button input{
-	text-align: center;
-	padding: 2px 10px;
-	color: #FFFFFF;
-	font-family: verdana;
-	font-weight: bold;
-	font-size: 12px;
-	line-height: 15px;
-	letter-spacing: 1px;	
-	background: #A1A4A1;
-	border: 1px solid #D2D2CB;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	behavior: url(/pie/PIE.htc);
-	cursor: pointer;
-	margin-left: 5px;
-}
-
-a.button{
+.button{
 	text-align: center;
 	padding: 2px 10px;
 	color: #FFFFFF;
@@ -597,7 +583,7 @@ a.button{
 	top: 0px;
 	cursor: pointer;
 	border: none;
-	background: url('images/search.jpg') center center no-repeat;
+	background: url('../images/search.jpg') center center no-repeat;
 }
 
 /* Детально объявление
@@ -637,6 +623,7 @@ a.button{
 	border-top: 1px solid #E2E6E5;
 	border-bottom: 1px solid #E2E6E5;
 	padding: 12px 0;
+	margin-bottom: -13px
 }
 
 #contents .dop_inf a.button{
@@ -647,7 +634,7 @@ a.button{
 	margin-top: -1px;
 }
 /* таблица детального объявления
--------------------------------------*/
+----------------------------------------------------*/
 .table_inf{
 	margin: 5px 0 25px;
 }
@@ -695,3 +682,381 @@ a.button{
 	color: #ED3F3E;
 }
 
+/* комментарии
+------------------------------------------------------------------------------------*/
+
+.comments_post ul{
+	list-style: none;
+	margin-left: 25px;
+}
+
+.comments_post .comments_mother{
+	margin-left: 0px;
+}
+
+.comments_post .comments_mother:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+
+.comment_info{
+	margin: 12px 0 8px 0;
+}
+
+.connemt_name{
+	font-size: 12px;
+	font-weight: bold;
+	color: #254463;
+	margin-right: 5px;
+}
+
+.connemt_date{
+	font-size: 11px;
+	color: #A9A9A9;
+}
+
+.comment_avatar{
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	float: left;		
+    width: 55px;
+    height: 55px;
+    overflow: hidden;
+}
+
+.comment_text{
+	margin-left: 65px;
+	font-size: 12px;
+	font-style: italic;
+	color: #2D2D2D;
+	text-align: justify;
+}
+
+.comment_answer {
+	width: 100%;
+	float: left;
+	margin-bottom: 8px;
+}
+
+.comment_answer .answer{
+	font-size: 11px;
+	color: #284563;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+.comment_new{
+	width: 100%;
+	position: relative;
+	margin: 5px 0;
+}
+
+.comment_new textarea{
+	display: block;
+	width: 74.3%;
+	padding: 10px 24% 10px 10px;
+	height: 17px;
+	border: 1px solid #DEE5EB;
+	color: #AAAAAA;
+	font-style: italic;
+}
+
+.comment_new input{
+	position: absolute;
+	top: 9px;
+	right: 9px;
+}
+
+.comment_answer .comment_new{
+	display: none;
+}
+
+/* Меню детального описания путешествия
+---------------------------------------------------------------------------*/
+
+#travel_nav{
+	height: 45px;
+	border-top: 1px solid #E2E6E5;
+	border-bottom: 1px solid #E2E6E5;
+	position: relative;
+	text-align: right;
+	margin-top: 15px;
+}
+
+#travel_nav ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#travel_nav ul li{
+    margin: 0 17px 0 0;
+    padding: 0;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+}
+
+#travel_nav ul li a{
+    display: block;
+    height: 45px;
+    line-height: 45px;
+    margin: 0px;
+    padding-right: 21px;
+    text-decoration: none;
+    font-family: "Verdana";
+    font-size: 12px;
+    color: #ABABAB; 
+    letter-spacing: 0px;
+    position: relative;
+}
+
+#travel_nav ul li:last-child{
+	margin-right: 0px;
+}
+
+#travel_nav ul li a:hover{
+    color: #062748;
+}
+
+#travel_nav ul li a:active{
+    color: #062748;
+}
+
+#travel_nav ul li a.active{
+    color: #062748;
+}
+
+#travel_nav ul li a span{
+	position: absolute;
+	width: 11px;
+	height: 7px;
+	right: 0px;
+	top: 20px;
+	background-image: url('../images/travel_nav.png');
+	background-repeat: no-repeat;
+	background-position: 0px -7px;
+}
+
+#travel_nav ul li a.active span{
+	background-position: 0px 0px;
+}
+
+#travel_nav input.button{
+	position: absolute;
+	left: 0px;
+	top: 13px;
+}
+
+/* Страница "Маршрут" вкладки
+------------------------------------------------------------------------------*/
+
+.tabs{
+	position: relative;
+	margin-top: 15px;
+}
+
+.tabs ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tabs ul li{
+    margin: 0;
+    padding: 0;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+}
+
+#article .tabs ul li span{
+    display: block;
+    height: 20px;
+    line-height: 19px;
+    margin: 0px;
+    padding: 0 10px;
+    font-family: "Verdana";
+    font-size: 12px;
+    color: #AAACAB; 
+    background: #E8EDF0;
+    border-top: 1px solid #E2E6E7;
+    border-bottom: 1px solid #E2E6E7;
+    letter-spacing: 0px;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+}
+
+#article .tabs ul li:last-child>span{
+	border-right: 1px solid #E2E6E7;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+	border-radius: 0 5px 0 0;
+	behavior: url(/pie/PIE.htc);
+}
+
+#article .tabs ul li:first-child>span{
+	border-left: 1px solid #E2E6E7;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+	border-radius: 5px 0 0 0;
+	behavior: url(/pie/PIE.htc);
+}
+
+#article .tabs ul li span.activ{
+	border-right: 1px solid #E2E6E7;
+	border-left: 1px solid #E2E6E7;
+	border-bottom: 1px solid #FFFFFF;
+	background: #FFFFFF;
+	color: #07284B;
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+	behavior: url(/pie/PIE.htc);
+}
+
+#article .tabs ul li div.tabs_content{
+	width: 100%;
+	position: absolute;
+	border: 1px solid #E2E6E7;
+	margin-top: -1px;
+	left: 0px;
+	z-index: 1;
+	-webkit-border-radius: 0px 5px 5px 5px;
+	-moz-border-radius: 0px 5px 5px 5px;
+	border-radius: 0px 5px 5px 5px;
+	behavior: url(/pie/PIE.htc);
+	background: #FFFFFF;
+	display: none;
+}
+
+#article .tabs ul li div.tabs_content>div,
+#article .tabs ul li div.tabs_content>ul{
+	margin: 7px 0 0 7px;
+}
+
+#article .tabs ul li div.tabs_content>div{
+	margin-bottom: 7px;
+}
+
+#article .tabs ul li div.tabs_content li img{
+	width: 199px; 
+	height: 184px;
+	display: block;
+	margin: 0 7px 7px 0;
+}
+
+/* Страница фото (альбомы)
+----------------------------------------------------------*/
+#article .albom{
+	border-bottom: 1px solid #E2E6E5;
+	margin-bottom: 15px;
+}
+
+#article .albom:last-child{
+	border-bottom: none;
+}
+
+#article .albom .albom_inf{
+	font-size: 12px;
+	color: #2F2F2F;
+}
+
+#article .albom .albom_inf .albom_date,
+#article .albom .albom_inf .albom_my{
+	font-size: 14px;
+	color: #07294C;
+	margin-right: 5px;
+}
+
+#article .albom ul{
+	margin: 5px 0 0 5px;
+	padding: 0;
+	list-style: none;
+}
+
+#article .albom ul li{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    margin: 0 5px 5px 0;
+    padding: 0;
+    width: 150px;
+    height: 170px;
+    text-align: center;
+}
+
+#article .albom ul li .albom_img{
+	-webkit-border-radius: 8px;
+	-moz-border-radius: 8px;
+	border-radius: 8px;
+	behavior: url(/pie/PIE.htc);
+	float: left;		
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+}
+
+#article .albom ul li .albom_img img{
+    width: 150px;
+    height: 150px;
+    margin: 0;
+    padding: 0;	
+}
+
+#article .albom ul li a{
+	font-size: 11px;
+	font-weight: normal;
+	color: #ABABAB;
+}
+
+#article .albom .albom_button{
+	text-align: right;
+	padding-bottom: 10px;
+}
+
+#article .albom .albom_button .button{
+	margin-left: 5px;
+}
+
+#article .albom .albom_button a{
+	color: #FFFFFF;
+}
+
+#article .albom .albom_button a:hover{
+	text-decoration: none;
+}
+
+#contents .pagination_mini {
+	margin: -20px 0px -28px -17px;
+	border-bottom: none;
+	width: 650px;
+}
+
+.albom_img span.check_img{
+	position: absolute;
+	width: 13px;
+	height: 13px;
+	right: 7px;
+	top: 7px;
+	cursor: pointer;
+}
+
+.albom_img span.check_disabled{
+	background: url('../images/check_img.png') 0px 0px no-repeat;
+}
+
+.albom_img span.check_enabled{
+	background: url('../images/check_img.png') 0px -13px no-repeat;
+}

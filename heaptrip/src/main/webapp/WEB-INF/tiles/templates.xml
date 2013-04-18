@@ -16,6 +16,7 @@
 	<definition name="mainStylesTemplate" template="/WEB-INF/jsp/styles.jsp">
 		<put-list-attribute name="styles">
 			<add-attribute value="/resources/css/header.css" />
+			<add-attribute value="/resources/css/footer.css" />
 		</put-list-attribute>
 	</definition>
 

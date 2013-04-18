@@ -157,8 +157,10 @@
 								href="/"><br /> <fmt:message key="user.action.agreement" /> </a></label>
 						</dt>
 
-						<a href="#" onClick="onRegistrationSubmit()"><fmt:message key="user.action.registration" /></a>
-
+			
+						
+						<dd><a id="go" onClick="onRegistrationSubmit()"><fmt:message key="user.action.registration" /></a></dd>
+						
 						<!-- <dd><input onClick="onRegistrationCansel()" type="submit" id="go" name="go" value="<fmt:message key="user.action.registration" />"></dd> -->
 					</dl>
 				</form:form>

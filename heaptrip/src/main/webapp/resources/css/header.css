@@ -63,7 +63,7 @@ input {
 	display: block;
 	width: 142px;
 	height: 67px;
-	background: url('images/logo.png') no-repeat;
+	background: url('../images/logo.png') no-repeat;
 	position: absolute;
 	left: 13px;
 	top: 3px;
@@ -88,7 +88,7 @@ input {
 	padding: 0 28px 0 6px;
 	height: 18px;
 	line-height: 18px;
-	background: url('images/account.jpg') right center no-repeat;
+	background: url('../images/account.jpg') right center no-repeat;
 	border: 1px solid #404141;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -126,8 +126,8 @@ input {
 }
 
 #language{
-	background: #F0F0E7 url('images/language.png') -1px -1px no-repeat;
-	width: 106px;
+	background: #F0F0E7 url('../images/language.png') -1px -1px repeat-x;
+	min-width: 106px;
 	border: 1px solid #A7A7A7;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -139,18 +139,35 @@ input {
 	z-index: 3;
 }
 
+#language_show{
+	width: 15px;
+	height: 6px;
+	display: block;
+	position: absolute;
+	z-index: 1;
+	top: 6px;
+	right: 0px;
+	background: url('../images/lang_down.png') no-repeat;
+}
+
 #language_now{
+	width: 90%;
 	color: #000000;
-	padding: 0 28px 0 6px;
+	padding: 0 5px 0 6px;
 	height: 20px;
 	line-height: 20px;
-	background: url('images/lang_down.png') right center no-repeat;
 	cursor: pointer;
 	margin: -1px;
-	width: 74px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	position: relative;
+	z-index: 2;
 }
 
 #language ul{
+	width: 100%;
 	margin: 0;
 	padding: 0;
 	list-style: none;
@@ -159,6 +176,7 @@ input {
 }
 
 #language ul li{
+	width: 100%;
 	margin: 0;
 	padding: 0;
 }
@@ -168,6 +186,7 @@ input {
 	height: 21px;
 	line-height: 21px;
 	padding-left: 10px;
+	padding-right: 5px;
 	color: #000000;
 	text-decoration: none;
 }
@@ -188,76 +207,9 @@ input {
 	margin-right: 3px;
 }
 
-.ru{ background-position: 0px 0px; background-image: url('images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
-.en{ background-position: 0px -18px; background-image: url('images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
-.du{ background-position: 0px -36px; background-image: url('images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
-.fr{ background-position: 0px -54px; background-image: url('images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
-.yk{ background-position: 0px -72px; background-image: url('images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
-.sw{ background-position: 0px -90px; background-image: url('images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
-
-
-
-/* Footer
------------------------------------------------------------------------------*/
-#footer {
-	width: 939px;
-	margin: -200px auto 0;
-	height: 200px;
-	position: relative;
-	z-index: 2;
-}
-
-#footer ul{
-	margin: 0;
-	padding: 0;
-	position: relative;
-	top: 35px;
-}
-
-#footer ul ul{
-	top: 0;
-}
-
-#footer ul li{
-	width: 130px;
-    display: -moz-inline-stack;
-    display: inline-block;
-    vertical-align: top;
-    zoom: 1;
-    *display: inline;
-    margin-left: 27px;
-}
-
-#footer ul li:first-child{
-	margin-left: 0; 
-}
-
-#footer ul ul li{
-	height: 22px;
-	margin: 0;
-	padding: 0;
-}
-
-#footer ul li a{
-	font-family: "Verdana";
-	font-size: 13px;
-	color: #545454;
-	text-decoration: none;
-}
-
-#footer ul li a:hover{
-	color: #07284C;
-}
-
-#footer ul li a:active{
-	color: #07284C;
-}
-
-#footer ul li a.zag{
-	color: #08294C;
-}
-
-
-
-
-
+.ru{ background-position: 0px 0px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
+.en{ background-position: 0px -18px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
+.du{ background-position: 0px -36px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
+.fr{ background-position: 0px -54px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
+.yk{ background-position: 0px -72px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
+.sw{ background-position: 0px -90px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
