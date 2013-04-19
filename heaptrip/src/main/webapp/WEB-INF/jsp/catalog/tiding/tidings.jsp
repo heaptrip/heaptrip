@@ -10,7 +10,7 @@
 
 </c:forEach>-->
 
-
+	<div id="container">
 
 <div id="contents">
 
@@ -135,3 +135,9 @@
 				</article>				
 
 			</div><!-- #content-->
+			
+			
+			<tiles:insertDefinition name="pagination" />
+		
+		
+		</div><!-- #container-->

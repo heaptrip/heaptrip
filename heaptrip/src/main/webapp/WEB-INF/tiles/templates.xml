@@ -181,6 +181,11 @@
 		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp" />
 	</definition>
 
-	<definition name="categoryTree" template="/WEB-INF/jsp/component/category_tree.jsp" />
+	<definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp" />
+	<definition name="regionFilter" template="/WEB-INF/jsp/widget/region_filter.jsp" />
+	<definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp" />
+	
+	
+	
 
 </tiles-definitions>
