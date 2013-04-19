@@ -34,10 +34,12 @@
 
 	<definition name="baseHeaderTemplate" template="/WEB-INF/jsp/header.jsp">
 		<put-attribute name="account" value="" />
+		<put-attribute name="search" value="" />
 	</definition>
 
 	<definition name="headerTemplate" extends="baseHeaderTemplate">
 		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
+		<put-attribute name="search" value="/WEB-INF/jsp/search.jsp" />
 	</definition>
 
 	<definition name="mainContentTemplate" extends="mainTemplate">

@@ -14,6 +14,8 @@
 
 <tiles:insertAttribute name="account" />
 
+
+
 <div id="language">
 	<div id="language_now">
 		<span class='<fmt:message key="locale.name"/>'></span>
@@ -41,3 +43,5 @@
 	 
 	</ul>
 </div>
+
+<tiles:insertAttribute name="search" />

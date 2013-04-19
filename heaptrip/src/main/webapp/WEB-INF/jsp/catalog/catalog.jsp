@@ -1,6 +1,4 @@
-<%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
-
 
 <div id="catalog_tabs">
 	<tiles:insertAttribute name="catalog_tabs" />
@@ -8,26 +6,19 @@
 
 <section id="middle">
 		<div id="container">
-			<div id="contents">
-			<table width="100%" border="0" cellspacing="3" cellpadding="10">
-
-	<tr>
-		<td bgcolor="#66CCFF">
-			<div id="catalog_content">
 				<tiles:insertAttribute name="catalog_content" />
+				<div id="pagination">
+				<div id="pagination_name">Страница:</div>
+				<div id="pagination_prev"><</div>
+				<ul>
+					<li><a>1</a></li>
+					<li class="active"><a>2</a></li>
+					<li><a>3</a></li>
+					<li><a>4</a></li>
+					<li><a>5</a></li>
+				</ul>
+				<div id="pagination_next">></div>
 			</div>
-		</td>
-		<td bgcolor="#66CC99" width="300px" valign="top">
-			<div id="catalog_right_bar">
-				<tiles:insertAttribute name="catalog_right_bar" />
-			</div>
-		</td>
-	</tr>
-
-</table>
-				
-			</div><!-- #content-->
 		</div><!-- #container-->
-	</section><!-- #middle-->
-
-
+		<tiles:insertAttribute name="catalog_right_bar" />
+</section><!-- #middle-->

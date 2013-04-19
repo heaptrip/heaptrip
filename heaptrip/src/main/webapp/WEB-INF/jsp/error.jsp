@@ -11,7 +11,7 @@
 					<div id="message">"${message}"</div>
 				</p>
 	
-				<img src="<c:url value="/resources/css/images/error.jpg"/>"><br /> 
+				<img src="<c:url value="/resources/images/error.jpg"/>"><br /> 
 				<a href="/"><fmt:message key="page.action.refresh" /></a><br /> 
 				<a href="<c:url value="/"/>"><fmt:message key="page.action.home" /></a><br /> 
 				<a href="/"><fmt:message key="page.action.support" /></a><br />

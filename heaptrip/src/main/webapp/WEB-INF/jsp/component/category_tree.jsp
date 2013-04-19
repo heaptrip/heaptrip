@@ -1,48 +1,62 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script type="text/javascript" src="<c:url value="/resources/js/component/category_tree.js" />"></script>
 
-<ul id="category_tree">
-	<li><input type="checkbox"><label>Node 1</label>
-		<ul>
-			<li><input type="checkbox"><label>Node 1.1</label>
-				<ul>
-					<li><input type="checkbox"><label>Node 1.1.1</label>
-				</ul>
-		</ul>
-		<ul>
-			<li><input type="checkbox"><label>Node 1.2</label>
-				<ul>
-					<li><input type="checkbox"><label>Node 1.2.1</label>
-					<li><input type="checkbox"><label>Node 1.2.2</label>
-					<li><input type="checkbox"><label>Node 1.2.3</label>
-						<ul>
-							<li><input type="checkbox"><label>Node 1.2.3.1</label>
-							<li><input type="checkbox"><label>Node 1.2.3.2</label>
-						</ul>
-					<li><input type="checkbox"><label>Node 1.2.4</label>
-					<li><input type="checkbox"><label>Node 1.2.5</label>
-					<li><input type="checkbox"><label>Node 1.2.6</label>
-				</ul>
-		</ul>
-	<li><input type="checkbox"><label>Node 2</label>
-		<ul>
-			<li><input type="checkbox"><label>Node 2.1</label>
-				<ul>
-					<li><input type="checkbox"><label>Node 2.1.1</label>
-				</ul>
-			<li><input type="checkbox"><label>Node 2.2</label>
-				<ul>
-					<li><input type="checkbox"><label>Node 2.2.1</label>
-					<li><input type="checkbox"><label>Node 2.2.2</label>
-					<li><input type="checkbox"><label>Node 2.2.3</label>
-						<ul>
-							<li><input type="checkbox"><label>Node 2.2.3.1</label>
-							<li><input type="checkbox"><label>Node 2.2.3.2</label>
-						</ul>
-					<li><input type="checkbox"><label>Node 2.2.4</label>
-					<li><input type="checkbox"><label>Node 2.2.5</label>
-					<li><input type="checkbox"><label>Node 2.2.6</label>
-				</ul>
-		</ul>
-</ul>
+			<div id="category" class="filtr">
+				<div class="zag">Выбор категории</div>
+				<div class="content">
+				
+					<div class="tree">
+	    			<ul>
+	    			    <li><a href="#">Лента</a>
+	    					<ul>
+	    					    <li><a href="#">Лента</a></li>
+	    					    <li><a href="#">Путешествия</a>
+	    							<ul>
+	    							    <li><a href="#">Лента</a></li>
+	    							    <li><a href="#">Путешествия</a></li>
+	    							    <li><a href="#">Посты</a></li>
+	    							    <li><a href="#">Вопросы</a></li>
+	    							    <li><a href="#">События</a></li>
+	    							</ul>
+	    					    </li>
+	    					    <li><a href="#">Посты</a>
+	    							<ul>
+	    							    <li><a href="#">Лента</a></li>
+	    							    <li><a href="#">Путешествия</a></li>
+	    							    <li><a href="#">Посты</a></li>
+	    							    <li><a href="#">Вопросы</a></li>
+	    							    <li><a href="#">События</a></li>
+	    							</ul>
+	    					    </li>
+	    					    <li><a href="#">Вопросы</a></li>
+	    					    <li><a href="#">События</a></li>
+	    					</ul>
+	    				</li>		
+	    			    <li><a href="#">Путешествия</a>
+	    					<ul>
+	    					    <li><a href="#">Лента</a></li>
+	    					    <li><a href="#">Путешествия</a></li>
+	    					    <li><a href="#">Посты</a></li>
+	    					    <li><a href="#">Вопросы</a></li>
+	    					    <li><a href="#">События</a></li>
+	    					</ul>
+	    			    </li>
+	    			    <li><a href="#">Посты</a>
+	    					<ul>
+	    					    <li><a href="#">Лента</a></li>
+	    					    <li><a href="#">Путешествия</a></li>
+	    					    <li><a href="#">Посты</a></li>
+	    					    <li><a href="#">Вопросы</a></li>
+	    					    <li><a href="#">События</a></li>
+	    					</ul>
+	    			    </li>
+	    			    <li><a href="#">Вопросы</a></li>
+	    			    <li><a href="#">События</a></li>
+	    			</ul>
+	    			</div>
+	    			<div class="for_button">
+	    				<input type="button" class="button" value="Найти">
+	    				<input type="button" class="button" value="Сохранить">
+	    			</div>
+	    		</div>
+    		</div>		

@@ -5,7 +5,14 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
+
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+
 <!-- title  -->
 <title><fmt:message key="site.title" /></title>
 <!-- meta -->
@@ -16,7 +23,7 @@
 <tiles:insertAttribute name="scripts_ins" />
 </head>
 
-<html>
+
 <body>
 	<div id="top"></div>
 	<div id="wrapper">
