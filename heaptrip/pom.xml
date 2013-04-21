@@ -226,7 +226,8 @@
 			</exclusions>
 		</dependency>
 
-		<!-- jrobin (included in javamelody-core) & xstream for the remoting with the collector serve -->
+		<!-- jrobin (included in javamelody-core) & xstream for the remoting with 
+			the collector serve -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -244,6 +245,13 @@
 			<groupId>org.apache.solr</groupId>
 			<artifactId>solr-solrj</artifactId>
 			<version>4.1.0</version>
+		</dependency>
+
+		<!-- Jongo -->
+		<dependency>
+			<groupId>org.jongo</groupId>
+			<artifactId>jongo</artifactId>
+			<version>0.4</version>
 		</dependency>
 
 	</dependencies>
