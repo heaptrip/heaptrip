@@ -6,6 +6,19 @@ public class Category extends ContentCategory {
 
 	private String[] ancestors;
 
+	public Category() {
+		super();
+	}
+
+	protected Category(String id, String parentId, String[] ancestors, String nameRu, String nameEn) {
+		super();
+		this.id = id;
+		this.parentId = parentId;
+		this.ancestors = ancestors;
+		this.nameRu = nameRu;
+		this.nameEn = nameEn;
+	}
+
 	public String getParentId() {
 		return parentId;
 	}

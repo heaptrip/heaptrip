@@ -1,5 +1,6 @@
 package com.heaptrip.domain.entity;
 
+@Deprecated
 public class CategoryEntity extends BaseEntity {
 	public static final String COLLECTION_NAME = "categories";
 

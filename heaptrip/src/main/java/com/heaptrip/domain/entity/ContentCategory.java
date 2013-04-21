@@ -2,9 +2,9 @@ package com.heaptrip.domain.entity;
 
 public class ContentCategory extends CollectionObject {
 
-	private String nameRu;
+	protected String nameRu;
 
-	private String nameEn;
+	protected String nameEn;
 
 	public String getNameRu() {
 		return nameRu;

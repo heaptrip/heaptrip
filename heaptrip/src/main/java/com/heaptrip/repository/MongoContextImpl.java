@@ -7,6 +7,8 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import org.jongo.Jongo;
+import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +44,8 @@ public class MongoContextImpl implements MongoContext {
 
 	private MongoClient mongoClient;
 
+	private Jongo jongo;
+
 	@PostConstruct
 	public void init() throws UnknownHostException {
 		if (mongoClient == null) {
@@ -71,6 +75,8 @@ public class MongoContextImpl implements MongoContext {
 					}
 				}
 
+				jongo = new Jongo(mongoClient.getDB(dbName));
+
 				logger.info("MongoClient successfully initialized");
 			} else {
 				logger.error("MongoClient not initialized: databese urls not defined");
@@ -97,5 +103,10 @@ public class MongoContextImpl implements MongoContext {
 		DB db = getDb();
 		DBCollection coll = db.getCollection(name);
 		return coll;
+	}
+
+	@Override
+	public MongoCollection getCollection(String name) {
+		return jongo.getCollection(name);
 	}
 }
