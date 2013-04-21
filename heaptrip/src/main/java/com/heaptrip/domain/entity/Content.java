@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Content extends BaseDocument {
+public class Content extends CollectionObject {
 
 	private String _class;
 
@@ -18,7 +18,7 @@ public class Content extends BaseDocument {
 
 	private ContentName name;
 
-	private ContentPhoto photo;
+	private Photo photo;
 
 	private Date created;
 
@@ -76,11 +76,11 @@ public class Content extends BaseDocument {
 		this.deleted = deleted;
 	}
 
-	public ContentPhoto getPhoto() {
+	public Photo getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(ContentPhoto photo) {
+	public void setPhoto(Photo photo) {
 		this.photo = photo;
 	}
 

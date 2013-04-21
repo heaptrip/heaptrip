@@ -2,7 +2,7 @@ package com.heaptrip.domain.entity;
 
 import java.util.Date;
 
-public class File extends BaseDocument {
+public class File extends CollectionObject {
 
 	private String name;
 

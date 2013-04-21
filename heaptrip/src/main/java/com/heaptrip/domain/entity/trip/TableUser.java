@@ -1,8 +1,9 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.BaseDocument;
+import com.heaptrip.domain.entity.CollectionObject;
+import com.heaptrip.domain.entity.Photo;
 
-public class TableUser extends BaseDocument {
+public class TableUser extends CollectionObject {
 
 	private String name;
 
@@ -10,7 +11,7 @@ public class TableUser extends BaseDocument {
 
 	private TableUserStatusEnum status;
 
-	private TableUserPhoto photo;
+	private Photo photo;
 
 	public String getName() {
 		return name;
@@ -36,11 +37,11 @@ public class TableUser extends BaseDocument {
 		this.status = status;
 	}
 
-	public TableUserPhoto getPhoto() {
+	public Photo getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(TableUserPhoto photo) {
+	public void setPhoto(Photo photo) {
 		this.photo = photo;
 	}
 

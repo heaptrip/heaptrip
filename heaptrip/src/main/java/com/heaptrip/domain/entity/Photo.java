@@ -1,7 +1,6 @@
 package com.heaptrip.domain.entity;
 
-public class ContentPhoto {
-
+public class Photo {
 	private String photoId;
 
 	private String smallPhotoId;
@@ -21,5 +20,4 @@ public class ContentPhoto {
 	public void setSmallPhotoId(String smallPhotoId) {
 		this.smallPhotoId = smallPhotoId;
 	}
-
 }
