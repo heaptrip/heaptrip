@@ -34,10 +34,10 @@ public class MongoContextImpl implements MongoContext {
 	@Value("${database.name}")
 	private String dbName;
 
-	@Value("${database.username}")
+	@Value("${database.username:}")
 	private String username;
 
-	@Value("${database.password}")
+	@Value("${database.password:}")
 	private String password;
 
 	private MongoClient mongoClient;
@@ -61,12 +61,14 @@ public class MongoContextImpl implements MongoContext {
 				mongoClient.setWriteConcern(WriteConcern.SAFE);
 				logger.info("Defoult WriteConcern.SAFE");
 
-				DB db = mongoClient.getDB(ADMIN_DB_NAME);
-				boolean auth = db.authenticate(username, password.toCharArray());
-				if (auth) {
-					logger.info("Successfully database authenticate by admin user with username: {}", username);
-				} else {
-					throw new MongoException("Error database authenticate by admin user with username " + username);
+				if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+					DB db = mongoClient.getDB(ADMIN_DB_NAME);
+					boolean auth = db.authenticate(username, password.toCharArray());
+					if (auth) {
+						logger.info("Successfully database authenticate by admin user with username: {}", username);
+					} else {
+						throw new MongoException("Error database authenticate by admin user with username " + username);
+					}
 				}
 
 				logger.info("MongoClient successfully initialized");
