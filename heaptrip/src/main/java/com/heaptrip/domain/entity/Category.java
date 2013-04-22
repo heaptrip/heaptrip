@@ -2,6 +2,8 @@ package com.heaptrip.domain.entity;
 
 public class Category extends ContentCategory {
 
+	public static final String COLLECTION_NAME = "categories";
+
 	private String parentId;
 
 	private String[] ancestors;
@@ -10,7 +12,7 @@ public class Category extends ContentCategory {
 		super();
 	}
 
-	protected Category(String id, String parentId, String[] ancestors, String nameRu, String nameEn) {
+	public Category(String id, String parentId, String[] ancestors, String nameRu, String nameEn) {
 		super();
 		this.id = id;
 		this.parentId = parentId;
