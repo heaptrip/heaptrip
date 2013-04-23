@@ -6,9 +6,11 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Content extends CollectionObject {
+public class Content extends BaseObject {
 
 	private String _class;
+
+	private ContentOwner owner;
 
 	private ContentCategory[] categories;
 
@@ -24,6 +26,8 @@ public class Content extends CollectionObject {
 
 	private Date deleted;
 
+	private String[] allowed;
+
 	private Long views;
 
 	private LangEnum[] langs;
@@ -34,6 +38,14 @@ public class Content extends CollectionObject {
 
 	public void set_class(String _class) {
 		this._class = _class;
+	}
+
+	public ContentOwner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(ContentOwner owner) {
+		this.owner = owner;
 	}
 
 	public ContentCategory[] getCategories() {
@@ -106,6 +118,14 @@ public class Content extends CollectionObject {
 
 	public void setViews(Long views) {
 		this.views = views;
+	}
+
+	public String[] getAllowed() {
+		return allowed;
+	}
+
+	public void setAllowed(String[] allowed) {
+		this.allowed = allowed;
 	}
 
 }

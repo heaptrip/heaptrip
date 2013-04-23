@@ -4,7 +4,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jongo.marshall.jackson.oid.Id;
 
-public abstract class CollectionObject {
+public abstract class BaseObject {
 
 	@Id
 	protected String id;
@@ -28,7 +28,7 @@ public abstract class CollectionObject {
 		if (obj.getClass() != this.getClass()) {
 			return false;
 		}
-		CollectionObject bo = (CollectionObject) obj;
+		BaseObject bo = (BaseObject) obj;
 		if (getId() == null || bo.getId() == null) {
 			return false;
 		}

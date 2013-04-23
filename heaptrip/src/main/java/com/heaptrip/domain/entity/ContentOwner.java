@@ -1,6 +1,6 @@
 package com.heaptrip.domain.entity;
 
-public class ContentOwner extends CollectionObject {
+public class ContentOwner extends BaseObject {
 
 	private AccountEnum type;
 

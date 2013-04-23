@@ -1,6 +1,6 @@
 package com.heaptrip.domain.entity;
 
-public class ContentCategory extends CollectionObject {
+public class ContentCategory extends BaseObject {
 
 	protected String nameRu;
 

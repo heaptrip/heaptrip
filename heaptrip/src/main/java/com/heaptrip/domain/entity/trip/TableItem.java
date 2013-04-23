@@ -2,9 +2,10 @@ package com.heaptrip.domain.entity.trip;
 
 import java.util.Date;
 
+import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.Price;
 
-public class TableItem {
+public class TableItem extends BaseObject {
 
 	private Date begin;
 

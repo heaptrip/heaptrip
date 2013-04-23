@@ -1,9 +1,9 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.CollectionObject;
+import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.Photo;
 
-public class TableUser extends CollectionObject {
+public class TableUser extends BaseObject {
 
 	private String name;
 

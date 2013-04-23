@@ -1,6 +1,6 @@
 package com.heaptrip.domain.entity;
 
-public class ContentRegion extends CollectionObject {
+public class ContentRegion extends BaseObject {
 
 	private String nameRu;
 
