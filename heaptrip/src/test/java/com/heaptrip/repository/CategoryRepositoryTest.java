@@ -1,32 +1,27 @@
 package com.heaptrip.repository;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.repository.CategoryRepository;
 
-@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CategoryRepositoryTest {
+public class CategoryRepositoryTest extends AbstractTestNGSpringContextTests {
 
 	List<Category> categories = new ArrayList<Category>();
 
-	@Before
+	@BeforeClass
 	public void init() {
+		System.out.println("@BeforeClass");
+
 		categories.add(new Category("1", null, null, "Познавательные туры", "Informative tours"));
 		categories.add(new Category("1.1", "1", new String[] { "1" }, "Осмотр достопримечательностей", "Sightseeing"));
 		categories.add(new Category("1.2", "1", new String[] { "1" }, "Экзотические туры", "Exotic tours"));
@@ -74,29 +69,23 @@ public class CategoryRepositoryTest {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	@Test
-	// @Ignore
-	public void test1RemoveAll() {
+	@Test(suiteName = "Suite")
+	public void removeAll() {
+		System.out.println("removeAll");
 		categoryRepository.removeAll();
 	}
 
-	@Test
-	// @Ignore
-	public void test2SaveAll() {
+	@Test(groups = "fast")
+	public void saveAll() {
+		System.out.println("saveAll");
 		categoryRepository.save(categories);
 	}
 
-	@Test
-	public void test3FindAll() {
+	@Test(groups = "slow")
+	public void findAll() {
+		System.out.println("findAll");
 		List<Category> categories = categoryRepository.findAll();
 
-		// compare list without order
-		Set<Category> expecteds = new HashSet<Category>();
-		Set<Category> actuals = new HashSet<Category>();
-
-		expecteds.addAll(this.categories);
-		actuals.addAll(categories);
-
-		Assert.assertEquals(expecteds, actuals);
+		Assert.assertEqualsNoOrder(categories.toArray(), this.categories.toArray());
 	}
 }

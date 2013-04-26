@@ -191,6 +191,13 @@
 			<version>4.11</version>
 		</dependency>
 
+		<!-- testng -->
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.8</version>
+		</dependency>
+
 		<!-- thumbnailator -->
 		<dependency>
 			<groupId>net.coobird</groupId>
@@ -290,6 +297,9 @@
 				<version>2.14</version>
 				<configuration>
 					<argLine>-Xms64m -Xmx64m</argLine>
+					<suiteXmlFiles>
+						<suiteXmlFile>src//test/resources/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
 				</configuration>
 			</plugin>
 			<plugin>
