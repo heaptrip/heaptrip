@@ -1,10 +1,10 @@
-package com.heaptrip.domain.entity.trip;
+package com.heaptrip.domain.entity;
 
-public class Description {
+public class MultiLangText {
 
-	private String textRu;
+	protected String textRu;
 
-	private String textEn;
+	protected String textEn;
 
 	public String getTextRu() {
 		return textRu;
@@ -21,4 +21,5 @@ public class Description {
 	public void setTextEn(String textEn) {
 		this.textEn = textEn;
 	}
+
 }

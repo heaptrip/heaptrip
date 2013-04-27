@@ -1,9 +1,10 @@
 package com.heaptrip.domain.entity;
 
 public class Photo {
-	private String photoId;
 
-	private String smallPhotoId;
+	protected String photoId;
+
+	protected String smallPhotoId;
 
 	public String getPhotoId() {
 		return photoId;

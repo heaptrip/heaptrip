@@ -1,32 +1,35 @@
 package com.heaptrip.domain.entity.trip;
 
 import com.heaptrip.domain.entity.Content;
+import com.heaptrip.domain.entity.MultiLangText;
 
 public class Trip extends Content {
 
-	private Summary summary;
+	private MultiLangText summary;
 
-	private Description description;
+	private MultiLangText description;
 
 	private TableItem[] table;
+
+	private Route route;
 
 	private Double rating;
 
 	private Long comments;
 
-	public Summary getSummary() {
+	public MultiLangText getSummary() {
 		return summary;
 	}
 
-	public void setSummary(Summary summary) {
+	public void setSummary(MultiLangText summary) {
 		this.summary = summary;
 	}
 
-	public Description getDescription() {
+	public MultiLangText getDescription() {
 		return description;
 	}
 
-	public void setDescription(Description description) {
+	public void setDescription(MultiLangText description) {
 		this.description = description;
 	}
 
@@ -52,6 +55,14 @@ public class Trip extends Content {
 
 	public void setComments(Long comments) {
 		this.comments = comments;
+	}
+
+	public Route getRoute() {
+		return route;
+	}
+
+	public void setRoute(Route route) {
+		this.route = route;
 	}
 
 }

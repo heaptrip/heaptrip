@@ -18,7 +18,7 @@ public class Content extends BaseObject {
 
 	private ContentStatus status;
 
-	private ContentName name;
+	private MultiLangText name;
 
 	private Photo photo;
 
@@ -96,11 +96,11 @@ public class Content extends BaseObject {
 		this.photo = photo;
 	}
 
-	public ContentName getName() {
+	public MultiLangText getName() {
 		return name;
 	}
 
-	public void setName(ContentName name) {
+	public void setName(MultiLangText name) {
 		this.name = name;
 	}
 
