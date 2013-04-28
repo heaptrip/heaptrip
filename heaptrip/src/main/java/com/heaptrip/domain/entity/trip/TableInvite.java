@@ -1,6 +1,8 @@
 package com.heaptrip.domain.entity.trip;
 
-public class TableInvite {
+import com.heaptrip.domain.entity.BaseObject;
+
+public class TableInvite extends BaseObject {
 
 	private String email;
 
