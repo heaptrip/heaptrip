@@ -1,9 +1,13 @@
 package com.heaptrip.service.trip;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.stereotype.Service;
+
 import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.RoutePhoto;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -11,6 +15,7 @@ import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 
+@Service
 public class TripServiceImpl implements TripService {
 
 	@Override
@@ -165,8 +170,24 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Trip> trips = new ArrayList<Trip>();
+
+		int limit = 3;
+
+		if (tripCriteria.getLimit() != null) {
+			limit = tripCriteria.getLimit().intValue();
+		}
+
+		for (int i = 0; i < limit; i++) {
+			Trip trip = new Trip();
+			MultiLangText name = new MultiLangText();
+			name.setTextRu("Наименовани " + i);
+			name.setTextEn("Name " + i);
+			trip.setName(name);
+			trips.add(trip);
+		}
+
+		return trips;
 	}
 
 	@Override

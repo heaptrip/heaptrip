@@ -11,10 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.model.post.PostView;
 import com.heaptrip.web.model.tiding.TidingView;
-import com.heaptrip.web.model.travel.TravelView;
 
 @Controller
-public class TidingController extends ExceptionHandlerControler{
+public class TidingController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "tidings", method = RequestMethod.GET)
 	public @ModelAttribute("tidings")
@@ -23,14 +22,9 @@ public class TidingController extends ExceptionHandlerControler{
 		Collection<TidingView> tidings = new ArrayList<TidingView>();
 
 		for (int i = 0; i < 50; i++) {
-
 			PostView post = new PostView();
 			post.setName("Пост " + i);
 			tidings.add(post);
-
-			TravelView travel = new TravelView();
-			travel.setName("Путешествие " + i);
-			tidings.add(travel);
 
 		}
 

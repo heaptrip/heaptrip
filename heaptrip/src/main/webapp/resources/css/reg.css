@@ -100,7 +100,6 @@
 #registration form,
 #authorization form{
 	padding: 3px 5px;
-	border-bottom: 1px dashed #BEBEBE;
 }
 
 #registration dl,
@@ -209,7 +208,7 @@ dd #go,dd #submit{
 	line-height: 15px;
 	letter-spacing: 1px;
 	background: #A1A4A1;
-	border: 1px solid #D2D2CB;
+	border: 1px solid #7A7A73;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
@@ -228,6 +227,10 @@ dd #go,dd #submit{
 #authorization #go,#authorization #submit{
 	margin-top: 5px;
 	width: 96px;
+}
+
+#reg_soc{
+	border-top: 1px dashed #BEBEBE;
 }
 
 #reg_soc span,
@@ -266,10 +269,20 @@ dd #go,dd #submit{
 #error_message{
 	width: 283px;
 	margin: 24px auto;
+}
+
+.bad_message{
 	font-size: 11px;
 	font-style: italic;
 	color: #FF7173;
 	line-height: 12px;
+}
+
+.good_message{
+	font-size: 11px;
+	font-style: italic;
+	color: #6AC649;
+	line-height: 12px;	
 }
 
 #error_message ul{

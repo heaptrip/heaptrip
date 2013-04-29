@@ -44,26 +44,26 @@ $(document).ready(function() {
 		})
 	});
 
-	$('.comment_answer .answer').bind('click',function(e){
-		$(this).css('display','none');
-		$(this).parent().find('.comment_new').css('display','block');
+	$('.comment_content').hover(
+		function(e){
+			$(this).css('border-color','#DEE5EB');
+		},
+		function(e){
+			$(this).css('border-color','#FFFFFF');	
+		}
+	);
+
+	$('.comment_content').bind('click',function(e){
+		$(this).unbind('click');
+		$(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" value="Написать" class="button"></div>');
 	});
 
-	$('.comment_new textarea').bind('focus',function(e){
+	$(document).on('focus','.comment_new textarea',function(e){
 		$(this).animate({ height:"56px"}, 500);
 	});
 
 	if($('.tabs').length){
-		var tabs=$('.tabs');
-		activ_tab(tabs);
-		tabs.find('span').bind('click',function(e){
-			if($(this).next().is(':hidden')){
-				tabs.find('span.activ').next().css('display','none');
-				tabs.find('span.activ').removeClass('activ');
-				$(this).addClass('activ');
-				activ_tab(tabs);
-			}
-		});
+		setTimeout(create_tabs,200);
 	}
 
 	if($('div.albom .edit').length){
@@ -72,11 +72,26 @@ $(document).ready(function() {
 
 });
 
+function create_tabs(){
+	var tabs=$('.tabs');
+	var tabs_int=$('.tabs_interactiv');
+	activ_tab(tabs);
+	tabs_int.find('span').bind('click',function(e){
+		if($(this).next().is(':hidden')){
+			tabs.find('span.activ').next().css('display','none');
+			tabs.find('span.activ').removeClass('activ');
+			$(this).addClass('activ');
+			activ_tab(tabs);
+		}
+	});
+}
+
 function activ_tab(tabs){
 	var span=tabs.find('span.activ');
 	var div=span.next();
 	div.css('display','block');
 	var h_tab=div.height();
+	console.log(h_tab);
 	if(h_tab==0){
 		h_tab=350;
 	}
@@ -84,7 +99,7 @@ function activ_tab(tabs){
 }
 
 function edit_img_albom(data){
-	var list_block_img=data.find('li div.albom_img');
+	var list_block_img=data.find('li a.my');
 	$.each(list_block_img, function(index, value) {
 		$(value).append('<span class="check_img check_disabled"><span>');
 		$(value).find('span.check_img').bind('click',function(e){
@@ -95,6 +110,7 @@ function edit_img_albom(data){
 				$(this).addClass('check_disabled');
 				$(this).removeClass('check_enabled');				
 			}
+			return false;
 		});
 	});
 }

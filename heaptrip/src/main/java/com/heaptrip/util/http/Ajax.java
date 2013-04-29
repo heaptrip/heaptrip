@@ -20,7 +20,10 @@ public class Ajax {
 	}
 
 	public static Map<String, ? extends Object> successResponse(Map<String, ? extends Object> objects) {
-		return Ajax.successResponse(objects);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(KEY_DATA, objects);
+		map.put(KEY_STATUS, STATUS_SUCCESS);
+		return map;
 	}
 
 	public static Map<String, ? extends Object> emptyResponse() {

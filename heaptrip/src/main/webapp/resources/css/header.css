@@ -33,6 +33,7 @@ input {
 
 #top{
 	width: 100%;
+	min-width: 939px;
 	height: 44px;
 	background: #282828;
 	position: absolute;

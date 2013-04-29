@@ -165,8 +165,6 @@
 	color: #FCBCBD;
 }
 
-
-
 #article .inf .left,
 #article .inf .right{
 	display: -moz-inline-stack;
@@ -515,7 +513,7 @@
 	line-height: 15px;
 	letter-spacing: 1px;	
 	background: #A1A4A1;
-	border: 1px solid #D2D2CB;
+	border: 1px solid #7A7A73;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
@@ -616,7 +614,12 @@
     zoom: 1;
     *display: inline;
 	margin-right: 4px;
-	margin-left: -4px;    
+	margin-left: -4px; 
+	border: 1px solid #C9C9C9;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(/pie/PIE.htc);   
 }
 
 #contents .dop_inf{
@@ -701,7 +704,8 @@
 }
 
 .comment_info{
-	margin: 12px 0 8px 0;
+	margin: -3px 0 8px 0;
+	width: 100%;
 }
 
 .connemt_name{
@@ -738,14 +742,23 @@
 .comment_answer {
 	width: 100%;
 	float: left;
-	margin-bottom: 8px;
+	margin-bottom: 8px;	
 }
 
-.comment_answer .answer{
-	font-size: 11px;
-	color: #284563;
-	text-decoration: underline;
+.comment_content{
+	border: 1px solid #FFFFFF;
+	padding: 5px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(/pie/PIE.htc);	
 	cursor: pointer;
+}
+
+.comment_content:after {
+	content: '';
+	clear: both;
+	display: table;
 }
 
 .comment_new{
@@ -768,10 +781,6 @@
 	position: absolute;
 	top: 9px;
 	right: 9px;
-}
-
-.comment_answer .comment_new{
-	display: none;
 }
 
 /* Меню детального описания путешествия
@@ -886,16 +895,23 @@
     font-family: "Verdana";
     font-size: 12px;
     color: #AAACAB; 
-    background: #E8EDF0;
-    border-top: 1px solid #E2E6E7;
-    border-bottom: 1px solid #E2E6E7;
     letter-spacing: 0px;
     position: relative;
     z-index: 2;
     cursor: pointer;
 }
 
-#article .tabs ul li:last-child>span{
+#article .tabs_interactiv ul li span{
+	border-top: 1px solid #E2E6E7;
+	border-bottom: 1px solid #E2E6E7;
+	background: #E8EDF0;
+}
+
+#article .tabs ul li:first-child>span{
+	border-top: 1px solid #E2E6E7;
+}
+
+#article .tabs_interactiv ul li:last-child>span{
 	border-right: 1px solid #E2E6E7;
 	-webkit-border-radius: 0 5px 0 0;
 	-moz-border-radius: 0 5px 0 0;
@@ -954,6 +970,15 @@
 	margin: 0 7px 7px 0;
 }
 
+#article .tabs .tabs_autor{
+	font-size: 12px;
+	font-weight: bold;
+	color: #234165;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+
 /* Страница фото (альбомы)
 ----------------------------------------------------------*/
 #article .albom{
@@ -1008,6 +1033,10 @@
     position: relative;
 }
 
+#article .albom ul li .albom_img:hover{
+	text-decoration: none;
+}
+
 #article .albom ul li .albom_img img{
     width: 150px;
     height: 150px;
@@ -1059,4 +1088,124 @@
 
 .albom_img span.check_enabled{
 	background: url('../images/check_img.png') 0px -13px no-repeat;
+}
+/* Участники
+-------------------------------------------------------------*/
+#article .list_user{
+	border-bottom: 1px solid #E2E6E5;
+	margin-bottom: 15px;
+}
+
+#article .list_user:last-child{
+	border-bottom: none;
+}
+
+#article .list_user .list_user_inf{
+	font-size: 12px;
+	color: #2F2F2F;
+}
+
+#article .list_user .list_user_inf .list_user_date,
+#article .list_user .list_user_inf .list_user_my{
+	font-size: 14px;
+	color: #07294C;
+	margin-right: 5px;
+}
+
+#article .list_user ul{
+	margin: 7px 0 0 7px;
+	padding: 0;
+}
+
+#article .list_user ul li{
+	width: 186px;
+	padding: 5px;
+	margin: 0 7px 7px 0;	
+	border: 1px solid #E2E6E5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    position: relative;		
+}
+
+#article .list_user .list_user_button{
+	text-align: right;
+	padding-bottom: 10px;
+}
+
+#article .list_user .list_user_button .button{
+	margin-left: 5px;
+}
+
+#article .list_user .list_user_img {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	width: 55px;
+	height: 55px;
+	overflow: hidden;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	
+}
+
+#article .list_user .list_user_img img{
+	margin: 0px;
+	padding: 0px;
+}
+
+#article .list_user .list_user_name{
+	width: 115px;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    margin-left: 10px;
+    text-align: left;
+}
+
+#article .list_user .list_user_name a{
+	display: block;
+	font-size: 11px;
+	color: #092749;
+	text-decoration: none;
+	line-height: 12px;
+}
+
+#article .list_user .list_user_name span{
+	position: absolute;
+	font-size: 11px;
+	color: #AAAAAA;
+	left: 65px;
+	bottom: 1px;
+}
+/* Одна фотография
+---------------------------------------------------------------*/
+.one_photo_button{
+	border-bottom: 1px solid #E2E6E5;
+	position: relative;
+	padding: 0 15px;
+	height: 55px;
+}
+
+.one_photo_button input.button{
+	position: absolute;
+	top: 15px;
+	left: 7px;
+}
+
+.one_photo_button a.button{
+	position: absolute;
+	top: 15px;
+	right: 7px;
 }

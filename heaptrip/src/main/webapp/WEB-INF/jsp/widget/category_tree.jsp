@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 			<div id="category" class="filtr">
-				<div class="zag">Выбор категории</div>
+				<div class="zag"><fmt:message key="wgt.category.select" /></div>
 				<div class="content">
 				
 					<div class="tree">

@@ -86,3 +86,46 @@
 		}
 	});
 })(jQuery);
+
+
+var localHref = function (paramsJson){
+	var url = window.location.href + '#';
+	var newUrl = $.param.fragment( url, paramsJson );
+	window.location = newUrl;
+};
+
+
+/*$(window).bind( "onPageReady", function(e,paramsJson){
+	if(!$.isEmptyObject(localUrlParams)){
+		console.log(paramsJson);
+	}	
+}); */
+
+$(function(){
+
+	$(window).bind( "hashchange", function(event) {
+		var localUrlParams = $.deparam.fragment(window.location.href);
+			$(window).trigger("onPageReady",localUrlParams);
+	});
+	
+	$(window).trigger("hashchange");
+	
+});
+
+
+
+
+//var paramsObj = {page:2,r:["g",'H']};
+
+
+
+//var newUrl = $.param.querystring( url, paramsObj );
+
+// Build URL, merging params_obj into url query string.
+
+// newUrl is set to "http://example.com/file.php?a=7&b=2&c=8#c=3&d=4"
+
+
+
+
+
