@@ -208,4 +208,10 @@ public class TripServiceImpl implements TripService {
 		return null;
 	}
 
+	@Override
+	public void hardRemoveTrip(String tripId) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
