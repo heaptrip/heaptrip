@@ -12,11 +12,87 @@ import com.heaptrip.domain.service.SearchPeriod;
 public interface TripService {
 
 	/**
+	 * Add a new trip
 	 * 
 	 * @param trip
-	 * @return id
+	 * @return tripid
 	 */
 	public String addTrip(Trip trip);
+
+	/**
+	 * Soft remove trip
+	 * 
+	 * @param tripId
+	 */
+	public void removeTrip(String tripId);
+
+	/**
+	 * Hard remove trip. It is recommended to use the after tests to clear data
+	 * 
+	 * @param tripId
+	 */
+	public void hardRemoveTrip(String tripId);
+
+	/**
+	 * Get trips list which suitable for search criteria
+	 * 
+	 * @param tripCriteria
+	 * @return trips list
+	 */
+	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria);
+
+	/**
+	 * Get number of trips which suitable for search criteria
+	 * 
+	 * @param tripCriteria
+	 * @return number of trips
+	 */
+	public Long getTripsCountByCriteria(TripCriteria tripCriteria);
+
+	/**
+	 * Get nearest trip from the timetable
+	 * 
+	 * @param trip
+	 * @return item of timetable
+	 */
+	public TableItem getNearTableItem(Trip trip);
+
+	/**
+	 * Get nearest trip from the timetable which suitable for search period
+	 * 
+	 * @param trip
+	 * @param period
+	 * @return item of timetable
+	 */
+	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period);
+
+	/**
+	 * Set status of trip
+	 * 
+	 * @param tripId
+	 * @param status
+	 */
+	public void setTripStatus(String tripId, ContentStatusEnum status);
+
+	/**
+	 * Update information of the trip
+	 * 
+	 * @param trip
+	 * @param locale
+	 */
+	public void updateTripInfo(Trip trip, Locale locale);
+
+	/**
+	 * Get information of the trip
+	 * 
+	 * @param tripId
+	 * @param locale
+	 * @return trip
+	 */
+	public Trip getTripInfo(String tripId, Locale locale);
+
+	/***/
+	// TODO
 
 	/**
 	 * добавить пользователя в список разрешенных к просмотру во все путешествия
@@ -34,14 +110,6 @@ public interface TripService {
 	 * @param userId
 	 */
 	public void removeAllowed(String ownerId, String userId);
-
-	public void removeTrip(String tripId);
-
-	public void setTripStatus(String tripId, ContentStatusEnum status);
-
-	public void updateTripInfo(Trip trip, Locale locale);
-
-	public Trip getTripInfo(String tripId, Locale locale);
 
 	public void addTableItem(String tripId, TableItem tableItem);
 
@@ -124,7 +192,6 @@ public interface TripService {
 	public void setTableUserOrganizer(String tripId, String tableItemId, String userId, Boolean isOrganizer);
 
 	//
-
 	public void saveRouteDescription(String tripId, String description, Locale locale);
 
 	public String getRouteDescription(String tripId, Locale locale);
@@ -136,15 +203,4 @@ public interface TripService {
 	public void updateTripRoutePhoto(String tripId, RoutePhoto routePhoto);
 
 	public void removeTripRoutePhoto(String tripId, RoutePhoto routePhoto);
-
-	//
-
-	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria);
-
-	public Long getTripsCountByCriteria(TripCriteria tripCriteria);
-
-	public TableItem getNearTableItem(Trip trip);
-
-	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period);
-
 }
