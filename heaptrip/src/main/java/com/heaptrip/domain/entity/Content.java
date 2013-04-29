@@ -28,6 +28,8 @@ public class Content extends BaseObject {
 
 	private String[] allowed;
 
+	private String[] ownerIds;
+
 	private Long views;
 
 	private LangEnum[] langs;
@@ -126,6 +128,14 @@ public class Content extends BaseObject {
 
 	public void setAllowed(String[] allowed) {
 		this.allowed = allowed;
+	}
+
+	public String[] getOwnerIds() {
+		return ownerIds;
+	}
+
+	public void setOwnerIds(String[] ownerIds) {
+		this.ownerIds = ownerIds;
 	}
 
 }
