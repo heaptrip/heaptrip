@@ -1,10 +1,22 @@
 package com.heaptrip.domain.entity;
 
+import java.util.Locale;
+
 public class MultiLangText {
 
 	protected String textRu;
 
 	protected String textEn;
+
+	public MultiLangText() {
+		super();
+	}
+
+	public MultiLangText(String textRu, String textEn) {
+		super();
+		this.textRu = textRu;
+		this.textEn = textEn;
+	}
 
 	public String getTextRu() {
 		return textRu;
@@ -22,4 +34,19 @@ public class MultiLangText {
 		this.textEn = textEn;
 	}
 
+	public String getValue(Locale locale) {
+		if (locale.getLanguage() != null && locale.getLanguage().equals(LangEnum.ru.toString())) {
+			return textRu;
+		} else {
+			return textEn;
+		}
+	}
+
+	public void setValue(Locale locale, String value) {
+		if (locale.getLanguage() != null && locale.getLanguage().equals(LangEnum.ru.toString())) {
+			textRu = value;
+		} else {
+			textEn = value;
+		}
+	}
 }

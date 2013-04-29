@@ -17,8 +17,7 @@ public class Category extends ContentCategory {
 		this.id = id;
 		this.parentId = parentId;
 		this.ancestors = ancestors;
-		this.nameRu = nameRu;
-		this.nameEn = nameEn;
+		this.name = new MultiLangText(nameRu, nameEn);
 	}
 
 	public String getParentId() {

@@ -1,9 +1,9 @@
 package com.heaptrip.domain.service.trip;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.heaptrip.domain.entity.ContentStatusEnum;
-import com.heaptrip.domain.entity.LangEnum;
 import com.heaptrip.domain.entity.trip.RoutePhoto;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -17,9 +17,7 @@ public interface TripService {
 	 * @return id
 	 */
 	public String addTrip(Trip trip);
-	
-	
-	
+
 	/**
 	 * добавить пользователя в список разрешенных к просмотру во все путешествия
 	 * заданного автора вызывать при добавлении друга
@@ -37,15 +35,13 @@ public interface TripService {
 	 */
 	public void removeAllowed(String ownerId, String userId);
 
-	
-
 	public void removeTrip(String tripId);
-	
+
 	public void setTripStatus(String tripId, ContentStatusEnum status);
 
-	public void updateTripInfo(Trip trip, LangEnum lang);
+	public void updateTripInfo(Trip trip, Locale locale);
 
-	public Trip getTripInfo(String tripId, LangEnum lang);
+	public Trip getTripInfo(String tripId, Locale locale);
 
 	public void addTableItem(String tripId, TableItem tableItem);
 
@@ -129,9 +125,9 @@ public interface TripService {
 
 	//
 
-	public void saveRouteDescription(String tripId, String description, LangEnum lang);
+	public void saveRouteDescription(String tripId, String description, Locale locale);
 
-	public String getRouteDescription(String tripId, LangEnum lang);
+	public String getRouteDescription(String tripId, Locale locale);
 
 	public List<RoutePhoto> getRoutePhotos(String tripId);
 

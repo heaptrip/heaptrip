@@ -2,24 +2,14 @@ package com.heaptrip.domain.entity;
 
 public class ContentCategory extends BaseObject {
 
-	protected String nameRu;
+	protected MultiLangText name;
 
-	protected String nameEn;
-
-	public String getNameRu() {
-		return nameRu;
+	public MultiLangText getName() {
+		return name;
 	}
 
-	public void setNameRu(String nameRu) {
-		this.nameRu = nameRu;
-	}
-
-	public String getNameEn() {
-		return nameEn;
-	}
-
-	public void setNameEn(String nameEn) {
-		this.nameEn = nameEn;
+	public void setName(MultiLangText name) {
+		this.name = name;
 	}
 
 }
