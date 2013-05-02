@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
@@ -22,8 +23,13 @@ import com.heaptrip.util.RandomUtils;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripServiceTest extends AbstractTestNGSpringContextTests {
 
+	private static String TRIP_ID = "1";
+
 	@Autowired
 	private TripService tripService;
+
+	@Autowired
+	private TripRepository tripRepository;
 
 	@DataProvider(name = "tripCriteria")
 	public Object[][] createTripCriteria() {
@@ -111,5 +117,16 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 				Assert.assertTrue(item.equals(ti) || item.getBegin().before(ti.getBegin()));
 			}
 		}
+	}
+
+	@Test(enabled = true)
+	public void removeTrip() {
+		Trip trip = tripRepository.findById(TRIP_ID);
+		Assert.assertNotNull(trip);
+		Assert.assertNull(trip.getDeleted());
+		tripService.removeTrip(TRIP_ID, InitTripTest.OWNER_ID);
+		trip = tripRepository.findById(TRIP_ID);
+		Assert.assertNotNull(trip);
+		Assert.assertNotNull(trip.getDeleted());
 	}
 }

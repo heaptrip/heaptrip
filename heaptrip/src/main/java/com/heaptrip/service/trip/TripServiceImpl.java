@@ -1,6 +1,5 @@
 package com.heaptrip.service.trip;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -13,7 +12,6 @@ import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.entity.ContentCategory;
 import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
-import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.RoutePhoto;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -61,6 +59,7 @@ public class TripServiceImpl implements TripService {
 
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
+		trip.setDeleted(null);
 		trip.setViews(0L);
 		trip.setRating(0d);
 		trip.setComments(0L);
@@ -68,6 +67,43 @@ public class TripServiceImpl implements TripService {
 		tripRepository.save(trip);
 
 		return trip.getId();
+	}
+
+	@Override
+	public void removeTrip(String tripId, String ownerId) {
+		Assert.notNull(tripId, "tripId");
+		Assert.notNull(ownerId, "ownerId");
+		tripRepository.setTripDeleted(tripId, ownerId);
+	}
+
+	@Override
+	public void hardRemoveTrip(String tripId) {
+		Assert.notNull(tripId, "tripId");
+		tripRepository.removeTrip(tripId);
+	}
+
+	@Override
+	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
+		Assert.notNull(tripCriteria, "tripCriteria");
+
+		//
+		// List<Trip> trips = new ArrayList<Trip>();
+		//
+		// int limit = 3;
+		//
+		// if (tripCriteria.getLimit() != null) {
+		// limit = tripCriteria.getLimit().intValue();
+		// }
+		//
+		// for (int i = 0; i < limit; i++) {
+		// Trip trip = new Trip();
+		// MultiLangText name = new MultiLangText("Наименовани " + i, "Name " +
+		// i);
+		// trip.setName(name);
+		// trips.add(trip);
+		// }
+
+		return null;
 	}
 
 	@Override
@@ -80,13 +116,6 @@ public class TripServiceImpl implements TripService {
 	public void removeAllowed(String ownerId, String userId) {
 		// TODO Auto-generated method stub
 
-	}
-
-	@Override
-	public void removeTrip(String tripId, String ownerId) {
-		Assert.notNull(tripId, "tripId");
-		Assert.notNull(ownerId, "ownerId");
-		tripRepository.setTripDeleted(tripId, ownerId);
 	}
 
 	@Override
@@ -216,26 +245,6 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
-		List<Trip> trips = new ArrayList<Trip>();
-
-		int limit = 3;
-
-		if (tripCriteria.getLimit() != null) {
-			limit = tripCriteria.getLimit().intValue();
-		}
-
-		for (int i = 0; i < limit; i++) {
-			Trip trip = new Trip();
-			MultiLangText name = new MultiLangText("Наименовани " + i, "Name " + i);
-			trip.setName(name);
-			trips.add(trip);
-		}
-
-		return trips;
-	}
-
-	@Override
 	public Long getTripsCountByCriteria(TripCriteria tripCriteria) {
 		// TODO Auto-generated method stub
 		return null;
@@ -251,12 +260,6 @@ public class TripServiceImpl implements TripService {
 	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void hardRemoveTrip(String tripId) {
-		Assert.notNull(tripId, "tripId");
-		tripRepository.removeTrip(tripId);
 	}
 
 }

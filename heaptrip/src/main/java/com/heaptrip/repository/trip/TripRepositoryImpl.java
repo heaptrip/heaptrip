@@ -43,4 +43,10 @@ public class TripRepositoryImpl implements TripRepository {
 				Calendar.getInstance().getTime());
 		logger.debug("WriteResult for set trip deleted: {}", wr);
 	}
+
+	@Override
+	public Trip findById(String tripId) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		return coll.findOne("{ _id : #}", tripId).as(Trip.class);
+	}
 }

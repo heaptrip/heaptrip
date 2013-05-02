@@ -8,6 +8,8 @@ public interface TripRepository {
 
 	public void save(Trip trip);
 
+	public Trip findById(String tripId);
+
 	public void removeTrip(String tripId);
 
 	public void setTripDeleted(String tripId, String ownerId);
