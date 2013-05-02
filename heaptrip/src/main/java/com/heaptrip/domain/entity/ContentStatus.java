@@ -6,6 +6,15 @@ public class ContentStatus {
 
 	private String text;
 
+	public ContentStatus(ContentStatusEnum value) {
+		super();
+		this.value = value;
+	}
+
+	public ContentStatus() {
+		super();
+	}
+
 	public ContentStatusEnum getValue() {
 		return value;
 	}

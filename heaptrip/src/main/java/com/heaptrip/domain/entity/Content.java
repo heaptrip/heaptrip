@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public class Content extends BaseObject {
 
+	public static final String COLLECTION_NAME = "contents";
+
 	private String _class;
 
 	private ContentOwner owner;
@@ -28,7 +30,7 @@ public class Content extends BaseObject {
 
 	private String[] allowed;
 
-	private String[] ownerIds;
+	private String[] owners;
 
 	private Long views;
 
@@ -130,12 +132,12 @@ public class Content extends BaseObject {
 		this.allowed = allowed;
 	}
 
-	public String[] getOwnerIds() {
-		return ownerIds;
+	public String[] getOwners() {
+		return owners;
 	}
 
-	public void setOwnerIds(String[] ownerIds) {
-		this.ownerIds = ownerIds;
+	public void setOwners(String[] owners) {
+		this.owners = owners;
 	}
 
 }

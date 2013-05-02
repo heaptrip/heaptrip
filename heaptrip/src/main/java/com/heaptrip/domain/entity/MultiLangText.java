@@ -1,21 +1,16 @@
 package com.heaptrip.domain.entity;
 
+import java.util.HashMap;
 import java.util.Locale;
 
-public class MultiLangText {
+import com.heaptrip.util.LanguageUtils;
 
-	protected String textRu;
+public class MultiLangText extends HashMap<String, String> {
 
-	protected String textEn;
+	private static final long serialVersionUID = -248938959357861383L;
 
 	public MultiLangText() {
 		super();
-	}
-
-	public MultiLangText(String textRu, String textEn) {
-		super();
-		this.textRu = textRu;
-		this.textEn = textEn;
 	}
 
 	public MultiLangText(String value, Locale locale) {
@@ -23,35 +18,19 @@ public class MultiLangText {
 		setValue(value, locale);
 	}
 
-	public String getTextRu() {
-		return textRu;
-	}
-
-	public void setTextRu(String textRu) {
-		this.textRu = textRu;
-	}
-
-	public String getTextEn() {
-		return textEn;
-	}
-
-	public void setTextEn(String textEn) {
-		this.textEn = textEn;
+	public MultiLangText(String textRu, String textEn) {
+		super();
+		put(LangEnum.ru.toString(), textRu);
+		put(LangEnum.en.toString(), textEn);
 	}
 
 	public String getValue(Locale locale) {
-		if (locale.getLanguage() != null && locale.getLanguage().equals(LangEnum.ru.toString())) {
-			return textRu;
-		} else {
-			return textEn;
-		}
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		return get(lang);
 	}
 
 	public void setValue(String value, Locale locale) {
-		if (locale.getLanguage() != null && locale.getLanguage().equals(LangEnum.ru.toString())) {
-			textRu = value;
-		} else {
-			textEn = value;
-		}
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		put(lang, value);
 	}
 }

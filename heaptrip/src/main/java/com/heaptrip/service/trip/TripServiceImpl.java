@@ -1,16 +1,24 @@
 package com.heaptrip.service.trip;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.Category;
+import com.heaptrip.domain.entity.ContentCategory;
+import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.RoutePhoto;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.repository.CategoryRepository;
+import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
@@ -18,10 +26,48 @@ import com.heaptrip.domain.service.trip.TripService;
 @Service
 public class TripServiceImpl implements TripService {
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private TripRepository tripRepository;
+
 	@Override
 	public String saveTrip(Trip trip) {
-		// TODO Auto-generated method stub
-		return null;
+		Assert.notNull(trip, "trip");
+		Assert.notNull(trip.getOwner(), "owner");
+		Assert.notNull(trip.getOwner().getId(), "owner.id");
+		Assert.notEmpty(trip.getName(), "name");
+		Assert.notEmpty(trip.getLangs(), "langs");
+		Assert.notEmpty(trip.getSummary(), "summary");
+		Assert.notEmpty(trip.getDescription(), "description");
+
+		// TODO
+		// read and set owner name, account type and rating
+		// if owner account type == (CLUB or COMPANY) then set owners
+		trip.setOwners(new String[] { trip.getOwner().getId() });
+
+		if (trip.getCategories() != null) {
+			for (ContentCategory contentCategory : trip.getCategories()) {
+				Assert.notNull(contentCategory.getId(), "category.id");
+				Category category = categoryRepository.findById(contentCategory.getId());
+				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
+				contentCategory.setName(category.getName());
+			}
+		}
+
+		// TODO
+		// as well as categories read and set regions name
+
+		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
+		trip.setCreated(new Date());
+		trip.setViews(0L);
+		trip.setRating(0d);
+		trip.setComments(0L);
+
+		tripRepository.save(trip);
+
+		return trip.getId();
 	}
 
 	@Override
@@ -180,9 +226,7 @@ public class TripServiceImpl implements TripService {
 
 		for (int i = 0; i < limit; i++) {
 			Trip trip = new Trip();
-			MultiLangText name = new MultiLangText();
-			name.setTextRu("Наименовани " + i);
-			name.setTextEn("Name " + i);
+			MultiLangText name = new MultiLangText("Наименовани " + i, "Name " + i);
 			trip.setName(name);
 			trips.add(trip);
 		}
@@ -210,8 +254,8 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public void hardRemoveTrip(String tripId) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(tripId, "tripId");
+		tripRepository.hardRemoveTrip(tripId);
 	}
 
 }
