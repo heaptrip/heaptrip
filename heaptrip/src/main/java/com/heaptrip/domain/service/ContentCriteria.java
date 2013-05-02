@@ -4,6 +4,8 @@ import com.heaptrip.domain.entity.ContentStatusEnum;
 
 public class ContentCriteria {
 
+	private String ownerId;
+
 	protected String userId;
 
 	protected String[] categoryIds;
@@ -17,6 +19,14 @@ public class ContentCriteria {
 	protected Long limit;
 
 	protected ContentSortEnum sort;
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
+	}
 
 	public String getUserId() {
 		return userId;

@@ -5,19 +5,9 @@ import com.heaptrip.domain.service.SearchPeriod;
 
 public class TripCriteria extends ContentCriteria {
 
-	private String ownerId;
-
 	private String memberId;
 
 	private SearchPeriod period;
-
-	public String getOwnerId() {
-		return ownerId;
-	}
-
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
 
 	public String getMemberId() {
 		return memberId;
