@@ -11,6 +11,8 @@ public interface CategoryRepository {
 
 	public void save(List<Category> categories);
 
+	public Category findById(String Id);
+
 	public List<Category> findAll();
 
 	public void removeAll();

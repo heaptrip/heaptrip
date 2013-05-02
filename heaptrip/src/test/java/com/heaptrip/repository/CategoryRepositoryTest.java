@@ -73,11 +73,19 @@ public class CategoryRepositoryTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 2)
-	public void saveAll() {
+	public void save() {
 		categoryRepository.save(categories);
 	}
 
 	@Test(priority = 3)
+	public void findById() {
+		String id = "2.4.7";
+		Category category = categoryRepository.findById(id);
+		Assert.assertNotNull(category);
+		Assert.assertEquals(category.getId(), id);
+	}
+
+	@Test(priority = 4)
 	public void findAll() {
 		List<Category> categories = categoryRepository.findAll();
 		Assert.assertEqualsNoOrder(categories.toArray(), this.categories.toArray());
