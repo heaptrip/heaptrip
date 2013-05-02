@@ -1,10 +1,12 @@
 package com.heaptrip.domain.entity;
 
+import java.math.BigDecimal;
+
 public class Price {
 
 	private CurrencyEnum currency;
 
-	private Double value;
+	private BigDecimal value;
 
 	public CurrencyEnum getCurrency() {
 		return currency;
@@ -14,11 +16,11 @@ public class Price {
 		this.currency = currency;
 	}
 
-	public Double getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 
-	public void setValue(Double value) {
+	public void setValue(BigDecimal value) {
 		this.value = value;
 	}
 
