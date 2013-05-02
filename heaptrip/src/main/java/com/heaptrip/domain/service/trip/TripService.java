@@ -23,8 +23,9 @@ public interface TripService {
 	 * Soft remove trip
 	 * 
 	 * @param tripId
+	 * @param ownerId
 	 */
-	public void removeTrip(String tripId);
+	public void removeTrip(String tripId, String ownerId);
 
 	/**
 	 * Hard remove trip. It is recommended to use the after tests to clear data

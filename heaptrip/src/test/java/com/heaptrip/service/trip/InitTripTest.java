@@ -63,6 +63,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 		for (int i = 0; i < TRIPS_COUNT; i++) {
 			Trip trip = new Trip();
+			trip.setId(Integer.toString(i));
 			trip.setOwner(new ContentOwner(OWNER_ID));
 			trip.setCategories(new ContentCategory[] { new ContentCategory("1.2"), new ContentCategory("1.3") });
 			trip.setRegions(new ContentRegion[] { new ContentRegion("1"), new ContentRegion("2"),

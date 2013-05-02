@@ -1,5 +1,7 @@
 package com.heaptrip.repository.trip;
 
+import java.util.Calendar;
+
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,10 +30,17 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public void hardRemoveTrip(String tripId) {
+	public void removeTrip(String tripId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		WriteResult wr = coll.remove("{_id: #}", tripId);
 		logger.debug("WriteResult for remove trip: {}", wr);
 	}
 
+	@Override
+	public void setTripDeleted(String tripId, String ownerId) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		WriteResult wr = coll.update("{_id: #, owner._id : #}", tripId, ownerId).with("{$set: {deleted: #}}",
+				Calendar.getInstance().getTime());
+		logger.debug("WriteResult for set trip deleted: {}", wr);
+	}
 }

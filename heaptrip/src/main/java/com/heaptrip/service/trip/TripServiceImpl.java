@@ -83,9 +83,10 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public void removeTrip(String tripId) {
-		// TODO Auto-generated method stub
-
+	public void removeTrip(String tripId, String ownerId) {
+		Assert.notNull(tripId, "tripId");
+		Assert.notNull(ownerId, "ownerId");
+		tripRepository.setTripDeleted(tripId, ownerId);
 	}
 
 	@Override
@@ -255,7 +256,7 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void hardRemoveTrip(String tripId) {
 		Assert.notNull(tripId, "tripId");
-		tripRepository.hardRemoveTrip(tripId);
+		tripRepository.removeTrip(tripId);
 	}
 
 }
