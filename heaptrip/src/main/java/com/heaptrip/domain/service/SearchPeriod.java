@@ -8,6 +8,16 @@ public class SearchPeriod {
 
 	private Date dateEnd;
 
+	public SearchPeriod(Date dateBegin, Date dateEnd) {
+		super();
+		this.dateBegin = dateBegin;
+		this.dateEnd = dateEnd;
+	}
+
+	public SearchPeriod() {
+		super();
+	}
+
 	public Date getDateBegin() {
 		return dateBegin;
 	}
