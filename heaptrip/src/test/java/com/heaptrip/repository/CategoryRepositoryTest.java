@@ -16,12 +16,13 @@ import com.heaptrip.domain.repository.CategoryRepository;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class CategoryRepositoryTest extends AbstractTestNGSpringContextTests {
 
+	@Autowired
+	private CategoryRepository categoryRepository;
+
 	List<Category> categories = new ArrayList<Category>();
 
 	@BeforeClass
 	public void init() {
-		System.out.println("@BeforeClass");
-
 		categories.add(new Category("1", null, null, "Познавательные туры", "Informative tours"));
 		categories.add(new Category("1.1", "1", new String[] { "1" }, "Осмотр достопримечательностей", "Sightseeing"));
 		categories.add(new Category("1.2", "1", new String[] { "1" }, "Экзотические туры", "Exotic tours"));
@@ -66,26 +67,19 @@ public class CategoryRepositoryTest extends AbstractTestNGSpringContextTests {
 		categories.add(new Category("11", null, null, "Самостоятельная поездка", "Self drive"));
 	}
 
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Test(suiteName = "Suite")
+	@Test(priority = 1)
 	public void removeAll() {
-		System.out.println("removeAll");
 		categoryRepository.removeAll();
 	}
 
-	@Test(groups = "fast")
+	@Test(priority = 2)
 	public void saveAll() {
-		System.out.println("saveAll");
 		categoryRepository.save(categories);
 	}
 
-	@Test(groups = "slow")
+	@Test(priority = 3)
 	public void findAll() {
-		System.out.println("findAll");
 		List<Category> categories = categoryRepository.findAll();
-
 		Assert.assertEqualsNoOrder(categories.toArray(), this.categories.toArray());
 	}
 }
