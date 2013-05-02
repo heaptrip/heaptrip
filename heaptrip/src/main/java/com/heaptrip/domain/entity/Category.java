@@ -4,7 +4,7 @@ public class Category extends ContentCategory {
 
 	public static final String COLLECTION_NAME = "categories";
 
-	private String parentId;
+	private String parent;
 
 	private String[] ancestors;
 
@@ -12,20 +12,20 @@ public class Category extends ContentCategory {
 		super();
 	}
 
-	public Category(String id, String parentId, String[] ancestors, String nameRu, String nameEn) {
+	public Category(String id, String parent, String[] ancestors, String nameRu, String nameEn) {
 		super();
 		this.id = id;
-		this.parentId = parentId;
+		this.parent = parent;
 		this.ancestors = ancestors;
 		this.name = new MultiLangText(nameRu, nameEn);
 	}
 
-	public String getParentId() {
-		return parentId;
+	public String getParent() {
+		return parent;
 	}
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setParent(String parent) {
+		this.parent = parent;
 	}
 
 	public String[] getAncestors() {

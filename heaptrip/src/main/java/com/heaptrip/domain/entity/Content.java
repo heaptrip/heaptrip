@@ -32,7 +32,7 @@ public class Content extends BaseObject {
 
 	private Long views;
 
-	private LangEnum[] langs;
+	private String[] langs;
 
 	public String get_class() {
 		return _class;
@@ -106,11 +106,11 @@ public class Content extends BaseObject {
 		this.name = name;
 	}
 
-	public LangEnum[] getLangs() {
+	public String[] getLangs() {
 		return langs;
 	}
 
-	public void setLangs(LangEnum[] langs) {
+	public void setLangs(String[] langs) {
 		this.langs = langs;
 	}
 

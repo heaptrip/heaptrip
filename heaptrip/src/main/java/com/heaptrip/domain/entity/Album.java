@@ -4,18 +4,18 @@ import java.util.Date;
 
 public class Album extends BaseObject {
 
-	private String targetId;
+	private String target;
 
 	private Date created;
 
 	private AlbumPhoto[] photos;
 
-	public String getTargetId() {
-		return targetId;
+	public String getTarget() {
+		return target;
 	}
 
-	public void setTargetId(String targetId) {
-		this.targetId = targetId;
+	public void setTarget(String target) {
+		this.target = target;
 	}
 
 	public Date getCreated() {

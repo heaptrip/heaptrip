@@ -8,6 +8,15 @@ public class ContentOwner extends BaseObject {
 
 	private Double rating;
 
+	public ContentOwner() {
+		super();
+	}
+
+	public ContentOwner(String id) {
+		super();
+		this.id = id;
+	}
+
 	public AccountEnum getType() {
 		return type;
 	}

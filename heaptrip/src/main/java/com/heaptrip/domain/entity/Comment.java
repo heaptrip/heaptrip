@@ -4,9 +4,9 @@ import java.util.Date;
 
 public class Comment extends BaseObject {
 
-	private String targetId;
+	private String target;
 
-	private String parentId;
+	private String parent;
 
 	private String slug;
 
@@ -18,20 +18,20 @@ public class Comment extends BaseObject {
 
 	private String text;
 
-	public String getTargetId() {
-		return targetId;
+	public String getTarget() {
+		return target;
 	}
 
-	public void setTargetId(String targetId) {
-		this.targetId = targetId;
+	public void setTarget(String target) {
+		this.target = target;
 	}
 
-	public String getParentId() {
-		return parentId;
+	public String getParent() {
+		return parent;
 	}
 
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
+	public void setParent(String parent) {
+		this.parent = parent;
 	}
 
 	public String getSlug() {

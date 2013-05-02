@@ -12,12 +12,12 @@ import com.heaptrip.domain.service.SearchPeriod;
 public interface TripService {
 
 	/**
-	 * Add a new trip
+	 * Save a new trip
 	 * 
 	 * @param trip
 	 * @return tripid
 	 */
-	public String addTrip(Trip trip);
+	public String saveTrip(Trip trip);
 
 	/**
 	 * Soft remove trip

@@ -18,6 +18,11 @@ public class MultiLangText {
 		this.textEn = textEn;
 	}
 
+	public MultiLangText(String value, Locale locale) {
+		super();
+		setValue(value, locale);
+	}
+
 	public String getTextRu() {
 		return textRu;
 	}
@@ -42,7 +47,7 @@ public class MultiLangText {
 		}
 	}
 
-	public void setValue(Locale locale, String value) {
+	public void setValue(String value, Locale locale) {
 		if (locale.getLanguage() != null && locale.getLanguage().equals(LangEnum.ru.toString())) {
 			textRu = value;
 		} else {

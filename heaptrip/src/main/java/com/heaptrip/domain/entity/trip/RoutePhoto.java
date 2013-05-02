@@ -3,6 +3,7 @@ package com.heaptrip.domain.entity.trip;
 import com.heaptrip.domain.entity.Photo;
 
 public class RoutePhoto extends Photo {
+
 	private String name;
 
 	private String text;

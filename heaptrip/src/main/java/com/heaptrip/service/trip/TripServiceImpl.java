@@ -19,7 +19,7 @@ import com.heaptrip.domain.service.trip.TripService;
 public class TripServiceImpl implements TripService {
 
 	@Override
-	public String addTrip(Trip trip) {
+	public String saveTrip(Trip trip) {
 		// TODO Auto-generated method stub
 		return null;
 	}
