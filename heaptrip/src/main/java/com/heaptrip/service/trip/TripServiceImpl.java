@@ -86,6 +86,15 @@ public class TripServiceImpl implements TripService {
 	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
 		Assert.notNull(tripCriteria, "tripCriteria");
 
+		if (tripCriteria.getMemberId() != null && !tripCriteria.getMemberId().isEmpty()) {
+			// TODO find by memberId throw user profile service
+		} else if (tripCriteria.getOwnerId() != null && !tripCriteria.getOwnerId().isEmpty()) {
+			// find by ownerId
+		} else {
+			// feed
+			return tripRepository.findTripByCriteria(tripCriteria);
+		}
+
 		//
 		// List<Trip> trips = new ArrayList<Trip>();
 		//

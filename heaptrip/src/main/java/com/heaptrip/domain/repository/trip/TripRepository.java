@@ -1,6 +1,9 @@
 package com.heaptrip.domain.repository.trip;
 
+import java.util.List;
+
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.service.trip.TripCriteria;
 
 public interface TripRepository {
 
@@ -13,4 +16,6 @@ public interface TripRepository {
 	public void removeTrip(String tripId);
 
 	public void setTripDeleted(String tripId, String ownerId);
+
+	public List<Trip> findTripByCriteria(TripCriteria criteria);
 }

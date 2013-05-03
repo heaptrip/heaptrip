@@ -3,6 +3,7 @@ package com.heaptrip.service.trip;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -34,7 +35,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@DataProvider(name = "tripCriteria")
 	public Object[][] createTripCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
+		// tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
 		tripCriteria.setCategoryIds(new String[] { "1.2" });
 		tripCriteria.setSkip(0L);
 		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
@@ -45,6 +46,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		end.set(2013, 11, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
 		tripCriteria.setPeriod(period);
+		tripCriteria.setLocale(Locale.ENGLISH);
 		return new Object[][] { new Object[] { tripCriteria } };
 	}
 
@@ -77,7 +79,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		return new Object[][] { new Object[] { trip } };
 	}
 
-	@Test(dataProvider = "tripCriteria", enabled = false)
+	@Test(dataProvider = "tripCriteria", enabled = true)
 	public void getTripsByCriteria(TripCriteria tripCriteria) {
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
 		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);

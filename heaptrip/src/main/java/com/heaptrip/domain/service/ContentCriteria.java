@@ -1,5 +1,7 @@
 package com.heaptrip.domain.service;
 
+import java.util.Locale;
+
 import com.heaptrip.domain.entity.ContentStatusEnum;
 
 public class ContentCriteria {
@@ -19,6 +21,8 @@ public class ContentCriteria {
 	protected Long limit;
 
 	protected ContentSortEnum sort;
+
+	protected Locale locale;
 
 	public String getOwnerId() {
 		return ownerId;
@@ -82,6 +86,14 @@ public class ContentCriteria {
 
 	public void setSort(ContentSortEnum sort) {
 		this.sort = sort;
+	}
+
+	public Locale getLocale() {
+		return locale;
+	}
+
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 
 }

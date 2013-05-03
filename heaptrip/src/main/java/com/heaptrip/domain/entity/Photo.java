@@ -2,14 +2,14 @@ package com.heaptrip.domain.entity;
 
 public class Photo extends BaseObject {
 
-	protected String smallId;
+	protected String sId;
 
-	public String getSmallId() {
-		return smallId;
+	public String getsId() {
+		return sId;
 	}
 
-	public void setSmallId(String smallId) {
-		this.smallId = smallId;
+	public void setsId(String sId) {
+		this.sId = sId;
 	}
 
 }

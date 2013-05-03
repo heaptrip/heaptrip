@@ -74,6 +74,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setLangs(new String[] { locale.getLanguage() });
 			trip.setTable(getRandomTable());
+			trip.setAllowed(new String[] { "0" });
 			trips.add(trip);
 		}
 	}
@@ -90,7 +91,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	@AfterTest
 	public void afterTest() {
 		for (Trip trip : trips) {
-			tripService.hardRemoveTrip(trip.getId());
+			//tripService.hardRemoveTrip(trip.getId());
 		}
 	}
 }
