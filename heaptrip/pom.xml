@@ -281,7 +281,8 @@
 				<version>2.3</version>
 				<configuration>
 					<packagingExcludes>
-						WEB-INF/classes/log4j.xml
+						WEB-INF/classes/log4j.xml,
+						WEB-INF/classes/indexes.js
 					</packagingExcludes>
 					<webResources>
 						<resource>
