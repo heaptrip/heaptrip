@@ -1,5 +1,6 @@
 package com.heaptrip.service.trip;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -130,13 +131,28 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public TableItem getNearTableItem(Trip trip) {
-		// TODO Auto-generated method stub
-		return null;
+		Assert.notNull(trip, "trip");
+		Assert.notEmpty(trip.getTable(), "trip.table");
+		Arrays.sort(trip.getTable(), new TableItemComparator());
+		return trip.getTable()[0];
 	}
 
 	@Override
 	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
-		// TODO Auto-generated method stub
+		Assert.notNull(trip, "trip");
+		Assert.notEmpty(trip.getTable(), "trip.table");
+		Arrays.sort(trip.getTable(), new TableItemComparator());
+		for (TableItem item : trip.getTable()) {
+			if (period.getDateBegin() != null && item.getBegin() != null
+					&& item.getBegin().before(period.getDateBegin())) {
+				continue;
+			}
+			if (period.getDateEnd() != null && item.getEnd() != null && item.getEnd().after(period.getDateEnd())) {
+				continue;
+			}
+			return item;
+		}
+
 		return null;
 	}
 

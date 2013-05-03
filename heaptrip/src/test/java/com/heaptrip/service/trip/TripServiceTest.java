@@ -69,7 +69,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = false)
+	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = true)
 	public void getNearTableItem(Trip trip) {
 		TableItem item = tripService.getNearTableItem(trip);
 		Assert.assertNotNull(item);
@@ -78,7 +78,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = false)
+	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = true)
 	public void getNearTableItemByPeriod(Trip trip) {
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
