@@ -15,7 +15,17 @@ public interface TripRepository {
 
 	public void removeTrip(String tripId);
 
-	public void setTripDeleted(String tripId, String ownerId);
+	public void setDeleted(String tripId, String ownerId);
 
-	public List<Trip> findTripByCriteria(TripCriteria criteria);
+	public List<Trip> findForFeedByCriteria(TripCriteria criteria);
+
+	public List<Trip> findForMyAccountByCriteria(TripCriteria criteria);
+
+	public List<Trip> findForNotMyAccountByCriteria(TripCriteria criteria);
+
+	public long getCountForFeedByCriteria(TripCriteria criteria);
+
+	public long getCountFindForMyAccountByCriteria(TripCriteria criteria);
+
+	public long getCountFindForNotMyAccountByCriteria(TripCriteria criteria);
 }

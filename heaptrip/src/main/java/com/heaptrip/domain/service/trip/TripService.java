@@ -48,7 +48,7 @@ public interface TripService {
 	 * @param tripCriteria
 	 * @return number of trips
 	 */
-	public Long getTripsCountByCriteria(TripCriteria tripCriteria);
+	public long getTripsCountByCriteria(TripCriteria tripCriteria);
 
 	/**
 	 * Get nearest trip from the timetable

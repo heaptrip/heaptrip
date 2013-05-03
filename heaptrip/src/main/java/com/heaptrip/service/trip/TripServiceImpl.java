@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -73,7 +74,7 @@ public class TripServiceImpl implements TripService {
 	public void removeTrip(String tripId, String ownerId) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(ownerId, "ownerId");
-		tripRepository.setTripDeleted(tripId, ownerId);
+		tripRepository.setDeleted(tripId, ownerId);
 	}
 
 	@Override
@@ -85,33 +86,57 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
 		Assert.notNull(tripCriteria, "tripCriteria");
-
-		if (tripCriteria.getMemberId() != null && !tripCriteria.getMemberId().isEmpty()) {
+		List<Trip> result = null;
+		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
 			// TODO find by memberId throw user profile service
-		} else if (tripCriteria.getOwnerId() != null && !tripCriteria.getOwnerId().isEmpty()) {
-			// find by ownerId
+		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
+			if (StringUtils.isBlank(tripCriteria.getUserId())) {
+				// my account
+				// TODO read supported lang for user, not only current locale
+				result = tripRepository.findForMyAccountByCriteria(tripCriteria);
+			} else {
+				// not my account
+				// TODO if account type == user, then read supported lang for
+				// user, not only current locale
+				result = tripRepository.findForNotMyAccountByCriteria(tripCriteria);
+			}
 		} else {
 			// feed
-			return tripRepository.findTripByCriteria(tripCriteria);
+			result = tripRepository.findForFeedByCriteria(tripCriteria);
 		}
+		return result;
+	}
 
-		//
-		// List<Trip> trips = new ArrayList<Trip>();
-		//
-		// int limit = 3;
-		//
-		// if (tripCriteria.getLimit() != null) {
-		// limit = tripCriteria.getLimit().intValue();
-		// }
-		//
-		// for (int i = 0; i < limit; i++) {
-		// Trip trip = new Trip();
-		// MultiLangText name = new MultiLangText("Наименовани " + i, "Name " +
-		// i);
-		// trip.setName(name);
-		// trips.add(trip);
-		// }
+	@Override
+	public long getTripsCountByCriteria(TripCriteria tripCriteria) {
+		Assert.notNull(tripCriteria, "tripCriteria");
+		long result = 0;
+		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
+			// TODO find by memberId throw user profile service
+		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
+			if (StringUtils.isBlank(tripCriteria.getUserId())) {
+				// my account
+				result = tripRepository.getCountFindForMyAccountByCriteria(tripCriteria);
+			} else {
+				// not my account
+				result = tripRepository.getCountFindForNotMyAccountByCriteria(tripCriteria);
+			}
+		} else {
+			// feed
+			result = tripRepository.getCountForFeedByCriteria(tripCriteria);
+		}
+		return result;
+	}
 
+	@Override
+	public TableItem getNearTableItem(Trip trip) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -252,23 +277,4 @@ public class TripServiceImpl implements TripService {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public Long getTripsCountByCriteria(TripCriteria tripCriteria) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public TableItem getNearTableItem(Trip trip) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

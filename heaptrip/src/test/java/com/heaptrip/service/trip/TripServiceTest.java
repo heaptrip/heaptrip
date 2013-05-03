@@ -1,25 +1,20 @@
 package com.heaptrip.service.trip;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
-import com.heaptrip.util.RandomUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripServiceTest extends AbstractTestNGSpringContextTests {
@@ -32,67 +27,49 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private TripRepository tripRepository;
 
-	@DataProvider(name = "tripCriteria")
-	public Object[][] createTripCriteria() {
-		TripCriteria tripCriteria = new TripCriteria();
-		// tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
-		tripCriteria.setCategoryIds(new String[] { "1.2" });
-		tripCriteria.setSkip(0L);
-		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
-		tripCriteria.setSort(ContentSortEnum.CREATED);
-		Calendar begin = Calendar.getInstance();
-		begin.set(2013, 0, 1);
-		Calendar end = Calendar.getInstance();
-		end.set(2013, 11, 1);
-		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		tripCriteria.setPeriod(period);
-		tripCriteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { tripCriteria } };
-	}
-
-	@DataProvider(name = "tripWithTable")
-	private Object[][] getTripWithTable() {
-		int tableSize = RandomUtils.getRandomInt(1, 10);
-		TableItem[] table = new TableItem[tableSize];
-		for (int j = 0; j < tableSize; j++) {
-			TableItem item = new TableItem();
-
-			Calendar startBegin = Calendar.getInstance();
-			startBegin.set(2013, 0, 1);
-			Calendar startEnd = Calendar.getInstance();
-			startEnd.set(2013, 8, 1);
-			Calendar dateEnd = Calendar.getInstance();
-			dateEnd.set(2013, 11, 1);
-
-			Date begin = RandomUtils.getRandomDate(startBegin.getTime(), startEnd.getTime());
-			Date end = RandomUtils.getRandomDate(begin, dateEnd.getTime());
-
-			item.setBegin(begin);
-			item.setEnd(end);
-
-			table[j] = item;
-		}
-
-		Trip trip = new Trip();
-		trip.setTable(table);
-
-		return new Object[][] { new Object[] { trip } };
-	}
-
-	@Test(dataProvider = "tripCriteria", enabled = true)
-	public void getTripsByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "tripCriteriaForFeed", dataProviderClass = TripDataProvider.class, enabled = true)
+	public void getTripsForFeedByCriteria(TripCriteria tripCriteria) {
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
+		Assert.assertNotNull(trips);
 		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripCriteria", enabled = false)
-	public void getTripsCountByCriteria(TripCriteria tripCriteria) {
-		Long count = tripService.getTripsCountByCriteria(tripCriteria);
-		Assert.assertNotNull(count);
-		Assert.assertTrue(count.equals(InitTripTest.TRIPS_COUNT / 2L));
+	@Test(dataProvider = "tripCriteriaForMyAccount", dataProviderClass = TripDataProvider.class, enabled = true)
+	public void getTripsForMyAccountCountByCriteria(TripCriteria tripCriteria) {
+		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
+		Assert.assertNotNull(trips);
+		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripWithTable", enabled = false)
+	@Test(dataProvider = "tripCriteriaForNotMyAccount", dataProviderClass = TripDataProvider.class, enabled = true)
+	public void getTripsForNotMyAccountCountByCriteria(TripCriteria tripCriteria) {
+		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
+		Assert.assertNotNull(trips);
+		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
+	}
+
+	@Test(dataProvider = "tripCriteriaForFeed", dataProviderClass = TripDataProvider.class, enabled = true)
+	public void getCountForFeedByCriteria(TripCriteria tripCriteria) {
+		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		Assert.assertNotNull(count);
+		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
+	}
+
+	@Test(dataProvider = "tripCriteriaForMyAccount", dataProviderClass = TripDataProvider.class, enabled = true)
+	public void getCountForMyAccountByCriteria(TripCriteria tripCriteria) {
+		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		Assert.assertNotNull(count);
+		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
+	}
+
+	@Test(dataProvider = "tripCriteriaForNotMyAccount", dataProviderClass = TripDataProvider.class, enabled = true)
+	public void getCountForNotMyAccountByCriteria(TripCriteria tripCriteria) {
+		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		Assert.assertNotNull(count);
+		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
+	}
+
+	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = false)
 	public void getNearTableItem(Trip trip) {
 		TableItem item = tripService.getNearTableItem(trip);
 		Assert.assertNotNull(item);
@@ -101,16 +78,14 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(dataProvider = "tripWithTable", enabled = false)
+	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = false)
 	public void getNearTableItemByPeriod(Trip trip) {
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
 		Calendar end = Calendar.getInstance();
 		end.set(2013, 6, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-
 		TableItem item = tripService.getNearTableItemByPeriod(trip, period);
-
 		if (item != null) {
 			Assert.assertTrue(item.getBegin().after(period.getDateBegin())
 					&& item.getBegin().before(period.getDateEnd()));
@@ -126,9 +101,11 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Trip trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNull(trip.getDeleted());
+		Assert.assertNotNull(trip.getAllowed());
 		tripService.removeTrip(TRIP_ID, InitTripTest.OWNER_ID);
 		trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getDeleted());
+		Assert.assertNull(trip.getAllowed());
 	}
 }

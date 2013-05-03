@@ -28,6 +28,14 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	static String OWNER_ID = "1";
 
+	static String ALL_USERS = "0";
+
+	static String USER_ID = "2";
+
+	static String[] CATEGORY_IDS = new String[] { "1.2", "1.3" };
+
+	static String[] REGION_IDS = new String[] { "1", "2", "3" };
+
 	private List<Trip> trips = null;
 
 	@Autowired
@@ -65,16 +73,17 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 			Trip trip = new Trip();
 			trip.setId(Integer.toString(i));
 			trip.setOwner(new ContentOwner(OWNER_ID));
-			trip.setCategories(new ContentCategory[] { new ContentCategory("1.2"), new ContentCategory("1.3") });
-			trip.setRegions(new ContentRegion[] { new ContentRegion("1"), new ContentRegion("2"),
-					new ContentRegion("3") });
+			trip.setCategories(new ContentCategory[] { new ContentCategory(CATEGORY_IDS[0]),
+					new ContentCategory(CATEGORY_IDS[1]) });
+			trip.setRegions(new ContentRegion[] { new ContentRegion(REGION_IDS[0]), new ContentRegion(REGION_IDS[1]),
+					new ContentRegion(REGION_IDS[2]) });
 			trip.setName(new MultiLangText("my name No " + Integer.toString(i), locale));
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setDescription(new MultiLangText("my description", locale));
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setLangs(new String[] { locale.getLanguage() });
 			trip.setTable(getRandomTable());
-			trip.setAllowed(new String[] { "0" });
+			trip.setAllowed(new String[] { ALL_USERS, USER_ID });
 			trips.add(trip);
 		}
 	}
