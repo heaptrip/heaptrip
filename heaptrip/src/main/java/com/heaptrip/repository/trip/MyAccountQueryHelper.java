@@ -10,7 +10,8 @@ import com.heaptrip.domain.service.trip.TripCriteria;
 
 public class MyAccountQueryHelper extends AbstractQueryHelper {
 
-	static String getQuery(TripCriteria criteria) {
+	@Override
+	public String getQuery(TripCriteria criteria) {
 		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip','owner._id':#";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ",categories._id:{$in:#}";
@@ -33,7 +34,8 @@ public class MyAccountQueryHelper extends AbstractQueryHelper {
 		return query;
 	}
 
-	static Object[] getParameters(TripCriteria criteria) {
+	@Override
+	public Object[] getParameters(TripCriteria criteria) {
 		List<Object> parameters = new ArrayList<>();
 		// owner
 		parameters.add(criteria.getOwnerId());
@@ -60,7 +62,8 @@ public class MyAccountQueryHelper extends AbstractQueryHelper {
 		return parameters.toArray();
 	}
 
-	static String getHint(ContentSortEnum sort) {
+	@Override
+	public String getHint(ContentSortEnum sort) {
 		if (sort != null) {
 			switch (sort) {
 			case RATING:

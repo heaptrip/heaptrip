@@ -11,7 +11,8 @@ import com.heaptrip.domain.service.trip.TripCriteria;
 
 class FeedQueryHelper extends AbstractQueryHelper {
 
-	static String getQuery(TripCriteria criteria) {
+	@Override
+	public String getQuery(TripCriteria criteria) {
 		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip',allowed:{$in:#}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ",categories._id:{$in:#}";
@@ -31,7 +32,8 @@ class FeedQueryHelper extends AbstractQueryHelper {
 		return query;
 	}
 
-	static Object[] getParameters(TripCriteria criteria) {
+	@Override
+	public Object[] getParameters(TripCriteria criteria) {
 		List<Object> parameters = new ArrayList<>();
 		// allowed
 		List<String> allowed = new ArrayList<>();
@@ -60,7 +62,8 @@ class FeedQueryHelper extends AbstractQueryHelper {
 		return parameters.toArray();
 	}
 
-	static String getHint(ContentSortEnum sort) {
+	@Override
+	public String getHint(ContentSortEnum sort) {
 		if (sort != null) {
 			switch (sort) {
 			case RATING:

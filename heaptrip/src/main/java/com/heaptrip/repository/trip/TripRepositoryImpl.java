@@ -57,61 +57,36 @@ public class TripRepositoryImpl implements TripRepository {
 
 	@Override
 	public List<Trip> findForFeedByCriteria(TripCriteria criteria) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = FeedQueryHelper.getQuery(criteria);
-		Object[] parameters = FeedQueryHelper.getParameters(criteria);
-		String projection = FeedQueryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria.getLocale()));
-		String sort = FeedQueryHelper.getSort(criteria.getSort());
-		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
-		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
-		String hint = FeedQueryHelper.getHint(criteria.getSort());
-		if (logger.isDebugEnabled()) {
-			String msg = String
-					.format("call find\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
-							query, ArrayUtils.toString(parameters), projection, sort, skip, limit, hint);
-			logger.debug(msg);
-		}
-		Iterable<Trip> iter = coll.find(query, parameters).projection(projection).sort(sort).skip(skip).limit(limit)
-				.hint(hint).as(Trip.class);
-		return IteratorConverter.copyIterator(iter.iterator());
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
+		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
 	public List<Trip> findForMyAccountByCriteria(TripCriteria criteria) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = MyAccountQueryHelper.getQuery(criteria);
-		Object[] parameters = MyAccountQueryHelper.getParameters(criteria);
-		String projection = MyAccountQueryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria.getLocale()));
-		String sort = MyAccountQueryHelper.getSort(criteria.getSort());
-		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
-		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
-		String hint = MyAccountQueryHelper.getHint(criteria.getSort());
-		if (logger.isDebugEnabled()) {
-			String msg = String
-					.format("call find\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
-							query, ArrayUtils.toString(parameters), projection, sort, skip, limit, hint);
-			logger.debug(msg);
-		}
-		Iterable<Trip> iter = coll.find(query, parameters).projection(projection).sort(sort).skip(skip).limit(limit)
-				.hint(hint).as(Trip.class);
-		return IteratorConverter.copyIterator(iter.iterator());
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
+		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
 	public List<Trip> findForNotMyAccountByCriteria(TripCriteria criteria) {
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
+		return findByCriteria(criteria, queryHelper);
+	}
+
+	private List<Trip> findByCriteria(TripCriteria criteria, QueryHelper queryHelper) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = NotMyAccountQueryHelper.getQuery(criteria);
-		Object[] parameters = NotMyAccountQueryHelper.getParameters(criteria);
-		String projection = NotMyAccountQueryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria
-				.getLocale()));
-		String sort = NotMyAccountQueryHelper.getSort(criteria.getSort());
+		String query = queryHelper.getQuery(criteria);
+		Object[] parameters = queryHelper.getParameters(criteria);
+		String projection = queryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria.getLocale()));
+		String sort = queryHelper.getSort(criteria.getSort());
 		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
 		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
-		String hint = NotMyAccountQueryHelper.getHint(criteria.getSort());
+		String hint = queryHelper.getHint(criteria.getSort());
 		if (logger.isDebugEnabled()) {
 			String msg = String
-					.format("call find\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
-							query, ArrayUtils.toString(parameters), projection, sort, skip, limit, hint);
+					.format("find trips\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
+							queryHelper.getClass(), query, ArrayUtils.toString(parameters), projection, sort, skip,
+							limit, hint);
 			logger.debug(msg);
 		}
 		Iterable<Trip> iter = coll.find(query, parameters).projection(projection).sort(sort).skip(skip).limit(limit)
@@ -121,38 +96,29 @@ public class TripRepositoryImpl implements TripRepository {
 
 	@Override
 	public long getCountForFeedByCriteria(TripCriteria criteria) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = FeedQueryHelper.getQuery(criteria);
-		Object[] parameters = FeedQueryHelper.getParameters(criteria);
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("call count\n->query: %s\n->parameters: %s", query,
-					ArrayUtils.toString(parameters));
-			logger.debug(msg);
-		}
-		return coll.count(query, parameters);
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
+		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
 	public long getCountFindForMyAccountByCriteria(TripCriteria criteria) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = MyAccountQueryHelper.getQuery(criteria);
-		Object[] parameters = MyAccountQueryHelper.getParameters(criteria);
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("call count\n->query: %s\n->parameters: %s", query,
-					ArrayUtils.toString(parameters));
-			logger.debug(msg);
-		}
-		return coll.count(query, parameters);
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
+		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
 	public long getCountFindForNotMyAccountByCriteria(TripCriteria criteria) {
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
+		return getCountByCriteria(criteria, queryHelper);
+	}
+
+	public long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = NotMyAccountQueryHelper.getQuery(criteria);
-		Object[] parameters = NotMyAccountQueryHelper.getParameters(criteria);
+		String query = queryHelper.getQuery(criteria);
+		Object[] parameters = queryHelper.getParameters(criteria);
 		if (logger.isDebugEnabled()) {
-			String msg = String.format("call count\n->query: %s\n->parameters: %s", query,
-					ArrayUtils.toString(parameters));
+			String msg = String.format("get trips count\n->queryHelper: %s\n->query: %s\n->parameters: %s",
+					queryHelper.getClass(), query, ArrayUtils.toString(parameters));
 			logger.debug(msg);
 		}
 		return coll.count(query, parameters);
