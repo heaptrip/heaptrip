@@ -13,6 +13,15 @@ public class TableUser extends BaseObject {
 
 	private Photo photo;
 
+	public TableUser() {
+		super();
+	}
+
+	public TableUser(String id) {
+		super();
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}

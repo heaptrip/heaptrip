@@ -1,7 +1,9 @@
 package com.heaptrip.repository.trip;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.jongo.MongoCollection;
@@ -11,6 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Content;
+import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.trip.TableItem;
+import com.heaptrip.domain.entity.trip.TableUser;
+import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.repository.trip.TripRepository;
@@ -112,7 +118,7 @@ public class TripRepositoryImpl implements TripRepository {
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
-	public long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper) {
+	private long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria);
@@ -122,5 +128,147 @@ public class TripRepositoryImpl implements TripRepository {
 			logger.debug(msg);
 		}
 		return coll.count(query, parameters);
+	}
+
+	@Override
+	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		WriteResult wr = coll.update("{_id: #}", tripId)
+				.with("{$set: {status.value: #, allowed : #}}", status, allowed);
+		logger.debug("WriteResult for set status: {}", wr);
+	}
+
+	@Override
+	public void incViews(String tripId) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$inc: {views: 1}}");
+		logger.debug("WriteResult for inc views: {}", wr);
+	}
+
+	@Override
+	public Trip getTripInfo(String tripId, Locale locale) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_id: #}";
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		String projection = String
+				.format("{_class:1,owner:1,'categories._id':1,'categories.name.%s':1,'regions._id':1,'regions.name.%s':1,"
+						+ "'status':1,'name.%s':1,'summary.%s':1,'description.%s':1,'table._id':1,'table.begin':1,'table.end':1,"
+						+ "'table.min':1,'table.max':1,'table.status':1,'table.users':1,'table.price':1,photo:1,"
+						+ "created:1,owners:1,views:1,rating:1,comments:1,langs:1}", lang, lang, lang, lang, lang);
+		if (logger.isDebugEnabled()) {
+			String msg = String.format("get trip info\n->query: %s\n->parameters: %s\n->projection: %s", query, tripId,
+					projection);
+			logger.debug(msg);
+		}
+		return coll.findOne(query, tripId).projection(projection).as(Trip.class);
+	}
+
+	@Override
+	public void update(Trip trip, Locale locale) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		// update common data
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		String updateQuery = String.format(
+				"{$set:{categories:#,regions:#,'name.%s':#,'summary.%s':#,'description.%s':#,photo:#}}", lang, lang,
+				lang);
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(trip.getCategories());
+		parameters.add(trip.getRegions());
+		parameters.add(trip.getName().getValue(locale));
+		parameters.add(trip.getSummary().getValue(locale));
+		parameters.add(trip.getDescription().getValue(locale));
+		parameters.add(trip.getPhoto());
+		if (logger.isDebugEnabled()) {
+			String msg = String.format("update trip info\n->updateQuery: %s\n->parameters: %s", updateQuery,
+					ArrayUtils.toString(parameters));
+			logger.debug(msg);
+		}
+		WriteResult wr = coll.update("{_id: #}", trip.getId()).with(updateQuery, parameters.toArray());
+		logger.debug("WriteResult for update trip: {}", wr);
+		// update array with langs
+		wr = coll.update("{_id: #}", trip.getId()).with("{$addToSet :{langs:#}}", "ru");
+		logger.debug("WriteResult for add to set langs: {}", wr);
+		// update table items
+		if (trip.getTable() != null) {
+			for (TableItem item : trip.getTable()) {
+				String query = "{_id: #, table: {$elemMatch: {_id:#}}}";
+				parameters = new ArrayList<>();
+				parameters.add(trip.getId());
+				parameters.add(item.getId());
+				updateQuery = "{$set :{table.$.begin:#,table.$.end:#,table.$.min:#,table.$.max:#,table.$.price:#,table.$.status:#}}";
+				List<Object> updateParameters = new ArrayList<>();
+				updateParameters.add(item.getBegin());
+				updateParameters.add(item.getEnd());
+				updateParameters.add(item.getMin());
+				updateParameters.add(item.getMax());
+				updateParameters.add(item.getPrice());
+				updateParameters.add(item.getStatus());
+				if (logger.isDebugEnabled()) {
+					String msg = String
+							.format("update table item\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+									query, ArrayUtils.toString(parameters), updateQuery,
+									ArrayUtils.toString(updateParameters));
+					logger.debug(msg);
+				}
+				wr = coll.update(query, parameters.toArray()).with(updateQuery, updateParameters.toArray());
+				logger.debug("WriteResult for apdate table item: {}", wr);
+			}
+		}
+	}
+
+	@Override
+	public void addTableUser(String tripId, String tableItemId, TableUser tableUser) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_id: #, table: {$elemMatch: {_id:#}}}";
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(tripId);
+		parameters.add(tableItemId);
+		String updateQuery = "{$addToSet :{table.$.users:#}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"add table item user\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, ArrayUtils.toString(parameters), updateQuery, tableUser);
+			logger.debug(msg);
+		}
+		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, tableUser);
+		logger.debug("WriteResult for add table user: {}", wr);
+
+	}
+
+	@Override
+	public void removeTableUser(String tripId, String tableItemId, String userId) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_id:#,table._id:#}";
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(tripId);
+		parameters.add(tableItemId);
+		String updateQuery = "{$pull :{table.$.users: {_id:#}}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"add table item user\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, ArrayUtils.toString(parameters), updateQuery, userId);
+			logger.debug(msg);
+		}
+		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, userId);
+		logger.debug("WriteResult for remove table user: {}", wr);
+	}
+
+	@Override
+	public void updateTableUser(String tripId, String tableItemId, String userId, TableUserStatusEnum status) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_id:#, table:{ $elemMatch: {_id:#, users._id: #}}}";
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(tripId);
+		parameters.add(tableItemId);
+		parameters.add(userId);
+		String updateQuery = "{$set :{table.$.users$.status: #}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"update table item user\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, ArrayUtils.toString(parameters), updateQuery, userId);
+			logger.debug(msg);
+		}
+		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, userId);
+		logger.debug("WriteResult for update table item user: {}", wr);
 	}
 }

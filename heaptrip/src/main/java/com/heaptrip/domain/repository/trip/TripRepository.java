@@ -1,7 +1,11 @@
 package com.heaptrip.domain.repository.trip;
 
 import java.util.List;
+import java.util.Locale;
 
+import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.trip.TableUser;
+import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripCriteria;
 
@@ -28,4 +32,18 @@ public interface TripRepository {
 	public long getCountFindForMyAccountByCriteria(TripCriteria criteria);
 
 	public long getCountFindForNotMyAccountByCriteria(TripCriteria criteria);
+
+	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed);
+
+	public void incViews(String tripId);
+
+	public Trip getTripInfo(String tripId, Locale locale);
+
+	public void update(Trip trip, Locale locale);
+
+	public void addTableUser(String tripId, String tableItemId, TableUser tableUser);
+
+	public void removeTableUser(String tripId, String tableItemId, String userId);
+
+	public void updateTableUser(String tripId, String tableItemId, String userId, TableUserStatusEnum status);
 }

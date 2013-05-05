@@ -6,6 +6,11 @@ public class TableStatus {
 
 	private String text;
 
+	public TableStatus() {
+		super();
+		value = TableStatusEnum.OK;
+	}
+
 	public TableStatusEnum getValue() {
 		return value;
 	}

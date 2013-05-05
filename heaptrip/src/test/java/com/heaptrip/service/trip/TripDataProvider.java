@@ -8,6 +8,7 @@ import org.testng.annotations.DataProvider;
 
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
+import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.SearchPeriod;
@@ -93,5 +94,13 @@ public class TripDataProvider {
 		Trip trip = new Trip();
 		trip.setTable(table);
 		return new Object[][] { new Object[] { trip } };
+	}
+
+	@DataProvider(name = "tableItem")
+	private static Object[][] getTableItem() {
+		TableItem item = new TableItem();
+		TableUser[] users = new TableUser[] { new TableUser(InitTripTest.USER_ID), new TableUser(InitTripTest.OWNER_ID) };
+		item.setUsers(users);
+		return new Object[][] { new Object[] { item } };
 	}
 }

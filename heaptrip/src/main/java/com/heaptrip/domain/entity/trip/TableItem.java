@@ -19,6 +19,9 @@ public class TableItem extends BaseObject {
 
 	private TableStatus status;
 
+	// TODO create separate collection for users and invites
+	// add countUsers
+	// search trip members by this collection
 	private TableUser[] users;
 
 	private TableInvite[] invites;

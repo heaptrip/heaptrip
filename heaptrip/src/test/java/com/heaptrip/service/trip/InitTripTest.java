@@ -46,20 +46,17 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		TableItem[] table = new TableItem[tableSize];
 		for (int j = 0; j < tableSize; j++) {
 			TableItem item = new TableItem();
-
+			item.setId(Integer.toString(j));
 			Calendar startBegin = Calendar.getInstance();
 			startBegin.set(2013, 0, 1);
 			Calendar startEnd = Calendar.getInstance();
 			startEnd.set(2013, 8, 1);
 			Calendar dateEnd = Calendar.getInstance();
 			dateEnd.set(2013, 11, 1);
-
 			Date begin = RandomUtils.getRandomDate(startBegin.getTime(), startEnd.getTime());
 			Date end = RandomUtils.getRandomDate(begin, dateEnd.getTime());
-
 			item.setBegin(begin);
 			item.setEnd(end);
-
 			table[j] = item;
 		}
 		return table;
@@ -68,7 +65,6 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	private void initTrips() {
 		trips = new ArrayList<>();
 		Locale locale = Locale.ENGLISH;
-
 		for (int i = 0; i < TRIPS_COUNT; i++) {
 			Trip trip = new Trip();
 			trip.setId(Integer.toString(i));
@@ -100,7 +96,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	@AfterTest
 	public void afterTest() {
 		for (Trip trip : trips) {
-			//tripService.hardRemoveTrip(trip.getId());
+			// tripService.hardRemoveTrip(trip.getId());
 		}
 	}
 }
