@@ -39,8 +39,12 @@
 </div>
 <!-- #container-->
 
-
 <script type="text/javascript">
+
+	$(window).bind("onPageReady", function(e, paramsJson) {
+		getTripsList(paramsJson);
+	});
+
 	var getTripsList = function(paramsJson) {
 
 		var url = 'rest/trips';
@@ -52,6 +56,16 @@
 
 		var callbackSuccess = function(data) {
 			$("#contents").html($("#tripTemplate").render(data.trips));
+			$('#paginator').smartpaginator({
+				totalrecords : data.count,
+				skip : paramsJson.skip,
+				onchange : function onChange(pageIndex, skip, limit) {
+					$.handParamToURL({
+						skip : skip,
+						limit : limit
+					});
+				}
+			});
 		};
 
 		var callbackError = function(error) {
@@ -61,8 +75,5 @@
 		$.postJSON(url, tripCriteria, callbackSuccess, callbackError);
 
 	};
-
-	$(window).bind("onPageReady", function(e, paramsJson) {
-		getTripsList(paramsJson);
-	});
+	
 </script>

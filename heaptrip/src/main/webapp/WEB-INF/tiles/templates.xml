@@ -12,7 +12,6 @@
 			<add-attribute value="https://raw.github.com/cowboy/jquery-bbq/v1.2.1/jquery.ba-bbq.min.js" />
 			<!-- JS ШАБЛОНЫ : TODO: перенести по ПМЖ-->
 			<add-attribute value="http://borismoore.github.io/jsrender/jsrender.js" />
-			
 			<add-attribute value="/resources/js/script.js" />
 			<add-attribute value="/resources/js/util.js" />
 		</put-list-attribute>

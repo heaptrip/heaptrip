@@ -45,7 +45,7 @@ public class TripController extends ExceptionHandlerControler {
 	public @ResponseBody
 	Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripCriteria tripCriteria) {
 
-		// LOG.trace("CALL getTripsByCriteria ", tripCriteria);
+		LOG.trace("CALL getTripsByCriteria ", tripCriteria);
 
 		List<TripModel> tripModels = new ArrayList<TripModel>();
 
@@ -57,9 +57,9 @@ public class TripController extends ExceptionHandlerControler {
 
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("trips", tripModels);
-		result.put("count", tripModels.size());
+		result.put("count", tripService.getTripsCountByCriteria(tripCriteria));
 
-		// LOG.trace("END getTripsByCriteria");
+		LOG.trace("END getTripsByCriteria");
 
 		return Ajax.successResponse(result);
 	}

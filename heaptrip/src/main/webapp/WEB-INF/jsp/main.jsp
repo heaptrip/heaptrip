@@ -13,6 +13,7 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 
+
 <!-- title  -->
 <title><fmt:message key="site.title" /></title>
 <!-- meta -->
@@ -22,7 +23,6 @@
 <!-- js -->
 <tiles:insertAttribute name="scripts_ins" />
 </head>
-
 
 <body>
 	<div id="top"></div>

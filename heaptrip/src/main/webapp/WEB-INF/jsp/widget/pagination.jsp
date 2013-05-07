@@ -1,16 +1,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-		
-				<div id="pagination">
-				<div id="pagination_name">Страница:</div>
-				<div id="pagination_prev"><</div>
-				<ul>
-					<li><a>1</a></li>
-					<li class="active"><a>2</a></li>
-					<li><a>3</a></li>
-					<li><a>4</a></li>
-					<li><a>5</a></li>
-				</ul>
-				<div id="pagination_next">></div>
-				
-			</div>
+	<script type="text/javascript">
+
+		var pagingFMT = {
+			text: '<fmt:message key="wgt.paging.text" />',
+			go: '<fmt:message key="wgt.paging.go" />',
+	 	};
+	 
+	 	var pagingSET = {
+			recordsperpage: 5
+	 	}; 
+ 
+	</script>
+
+	<script src="<c:url value="/resources/js/paginator.js"/>" type="text/javascript"></script>
+	<link href="<c:url value="/resources/css/paginator.css"/>" rel="stylesheet" type="text/css" />
+
+	<div id="pagination">
+		<div id="paginator"></div>
+	</div>

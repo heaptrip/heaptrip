@@ -87,12 +87,17 @@
 	});
 })(jQuery);
 
+(function($) {
+	$.extend({
+		handParamToURL : function(paramsJson){
+			var url = window.location.href + '#';
+			var newUrl = $.param.fragment( url, paramsJson );
+			window.location = newUrl;
+		}
+	});
+})(jQuery);
 
-var localHref = function (paramsJson){
-	var url = window.location.href + '#';
-	var newUrl = $.param.fragment( url, paramsJson );
-	window.location = newUrl;
-};
+
 
 
 /*$(window).bind( "onPageReady", function(e,paramsJson){
@@ -112,7 +117,7 @@ $(function(){
 	
 });
 
-
+	
 
 
 //var paramsObj = {page:2,r:["g",'H']};

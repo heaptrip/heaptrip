@@ -23,15 +23,12 @@ public class TripModelServiceImpl implements TripModelService {
 
 	@Override
 	public List<TripModel> getTripsModelByCriteria(TripCriteria tripCriteria) {
-
 		return convertTripToModel(tripService.getTripsByCriteria(tripCriteria));
 	}
 
 	private TripModel convertTripToModel(Trip trip) {
-
 		TripModel tripModel = new TripModel();
 		tripModel.setName(trip.getName().getValue(scopeService.getCurrentLocale()));
-
 		return tripModel;
 	}
 
