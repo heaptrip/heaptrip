@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.util.LanguageUtils;
 
 class FeedQueryHelper extends AbstractQueryHelper {
 
@@ -20,11 +21,15 @@ class FeedQueryHelper extends AbstractQueryHelper {
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			query += ",regions._id:{$in:#}";
 		}
+		if (criteria.getLocale() != null) {
+			query += ",langs:#";
+		}
 		if (criteria.getPeriod() != null) {
-			if (criteria.getPeriod().getDateBegin() != null) {
+			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
+				query += ",'table.begin':{$gte:#, $lte:#}";
+			} else if (criteria.getPeriod().getDateBegin() != null) {
 				query += ",'table.begin':{$gte:#}";
-			}
-			if (criteria.getPeriod().getDateEnd() != null) {
+			} else if (criteria.getPeriod().getDateEnd() != null) {
 				query += ",'table.begin':{$lte:#}";
 			}
 		}
@@ -49,6 +54,11 @@ class FeedQueryHelper extends AbstractQueryHelper {
 		// regions
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			parameters.add(criteria.getRegionIds());
+		}
+		// lang
+		if (criteria.getLocale() != null) {
+			String lang = LanguageUtils.getLanguageByLocale(criteria.getLocale());
+			parameters.add(lang);
 		}
 		// period
 		if (criteria.getPeriod() != null) {

@@ -107,12 +107,9 @@ public class TripServiceImpl implements TripService {
 		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isBlank(tripCriteria.getUserId())) {
 				// my account
-				// TODO read supported lang for user, not only current locale
 				result = tripRepository.findForMyAccountByCriteria(tripCriteria);
 			} else {
 				// not my account
-				// TODO if account type == user, then read supported lang for
-				// user, not only current locale
 				result = tripRepository.findForNotMyAccountByCriteria(tripCriteria);
 			}
 		} else {
