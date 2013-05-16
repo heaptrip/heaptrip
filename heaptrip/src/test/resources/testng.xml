@@ -12,7 +12,7 @@
 		<classes>
 			<class name="com.heaptrip.service.trip.InitTripTest" />
 			<class name="com.heaptrip.service.trip.TripServiceCommonTest" />
-			<class name="com.heaptrip.service.trip.TripServiceUserTest" />
+			<!-- <class name="com.heaptrip.service.trip.TripServiceUserTest" /> -->
 		</classes>
 	</test>
 

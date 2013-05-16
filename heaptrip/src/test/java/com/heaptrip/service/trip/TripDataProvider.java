@@ -100,7 +100,7 @@ public class TripDataProvider {
 	private static Object[][] getTableItem() {
 		TableItem item = new TableItem();
 		TableUser[] users = new TableUser[] { new TableUser(InitTripTest.USER_ID), new TableUser(InitTripTest.OWNER_ID) };
-		item.setUsers(users);
+		//item.setUsers(users);
 		return new Object[][] { new Object[] { item } };
 	}
 }

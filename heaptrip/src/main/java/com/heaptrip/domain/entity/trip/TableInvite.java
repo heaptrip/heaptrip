@@ -1,9 +1,13 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.BaseObject;
+/**
+ * 
+ * Invitation to an external email address
+ * 
+ */
+public class TableInvite extends BaseTableMember {
 
-public class TableInvite extends BaseObject {
-
+	// email address
 	private String email;
 
 	public String getEmail() {

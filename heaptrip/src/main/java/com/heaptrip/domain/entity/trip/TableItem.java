@@ -5,26 +5,35 @@ import java.util.Date;
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.Price;
 
+/**
+ * 
+ * Table item
+ * 
+ */
 public class TableItem extends BaseObject {
 
+	// begin date
 	private Date begin;
 
+	// end date
 	private Date end;
 
+	// minimum number of members
 	private Long min;
 
+	// maximum number of members
 	private Long max;
 
+	// the cost of participation
 	private Price price;
 
 	private TableStatus status;
 
-	// TODO create separate collection for users and invites
-	// add countUsers
-	// search trip members by this collection
-	private TableUser[] users;
+	// The number of users
+	private Long users;
 
-	private TableInvite[] invites;
+	// The number of invites
+	private Long invites;
 
 	public Date getBegin() {
 		return begin;
@@ -58,22 +67,6 @@ public class TableItem extends BaseObject {
 		this.status = status;
 	}
 
-	public TableUser[] getUsers() {
-		return users;
-	}
-
-	public void setUsers(TableUser[] users) {
-		this.users = users;
-	}
-
-	public TableInvite[] getInvites() {
-		return invites;
-	}
-
-	public void setInvites(TableInvite[] invites) {
-		this.invites = invites;
-	}
-
 	public Long getMin() {
 		return min;
 	}
@@ -90,4 +83,19 @@ public class TableItem extends BaseObject {
 		this.max = max;
 	}
 
+	public Long getUsers() {
+		return users;
+	}
+
+	public void setUsers(Long users) {
+		this.users = users;
+	}
+
+	public Long getInvites() {
+		return invites;
+	}
+
+	public void setInvites(Long invites) {
+		this.invites = invites;
+	}
 }

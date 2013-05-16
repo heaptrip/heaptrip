@@ -231,13 +231,13 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public TableUser getUserFromTableItem(TableItem tableItem, String userId) {
 		Assert.notNull(tableItem, "tableItem");
-		Assert.notEmpty(tableItem.getUsers(), "tableItem.users");
-		for (TableUser user : tableItem.getUsers()) {
-			Assert.notNull(user.getId(), "user.id");
-			if (user.getId().equals(userId)) {
-				return user;
-			}
-		}
+//		Assert.notEmpty(tableItem.getUsers(), "tableItem.users");
+//		for (TableUser user : tableItem.getUsers()) {
+//			Assert.notNull(user.getId(), "user.id");
+//			if (user.getId().equals(userId)) {
+//				return user;
+//			}
+//		}
 		return null;
 	}
 

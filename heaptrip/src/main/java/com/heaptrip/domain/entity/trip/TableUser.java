@@ -1,16 +1,24 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.Photo;
 
-public class TableUser extends BaseObject {
+/**
+ * 
+ * Table user
+ * 
+ */
+public class TableUser extends BaseTableMember {
 
+	// user name
 	private String name;
 
+	// a sign that the user is the organizer
 	private Boolean isOrganizer;
 
+	// user status
 	private TableUserStatusEnum status;
 
+	// user photo
 	private Photo photo;
 
 	public TableUser() {
