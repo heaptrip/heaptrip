@@ -6,7 +6,7 @@ import java.util.Locale;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.RoutePhoto;
 import com.heaptrip.domain.entity.trip.TableItem;
-import com.heaptrip.domain.entity.trip.TableUser;
+import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.SearchPeriod;
 
@@ -102,83 +102,85 @@ public interface TripService {
 	public void updateTripInfo(Trip trip, Locale locale);
 
 	/**
-	 * Get user from table item.Should be used to determine the set of possible
-	 * user actions in the schedule
-	 * 
-	 * @param tableItem
-	 * @param userId
-	 * @return table user
-	 */
-	public TableUser getUserFromTableItem(TableItem tableItem, String userId);
-
-	/**
 	 * Send an invitation to registered users
 	 * 
 	 * @param tripId
-	 * @param tableItemId
+	 * @param tableId
 	 * @param userId
 	 */
-	public void addTableInvite(String tripId, String tableItemId, String userId);
+	public void addTableUser(String tripId, String tableId, String userId);
 
 	/**
 	 * Send an invitation to an external email address
 	 * 
 	 * @param tripId
-	 * @param tableItemId
+	 * @param tableId
 	 * @param invite
 	 */
-	public void addTableInviteToEmail(String tripId, String tableItemId, String email);
+	public void addTableInvite(String tripId, String tableId, String email);
 
 	/**
 	 * Send a user's request to participate in travel
 	 * 
 	 * @param tripId
-	 * @param tableItemId
+	 * @param tableId
 	 * @param userId
 	 */
-	public void addTableRequest(String tripId, String tableItemId, String userId);
+	public void addTableRequest(String tripId, String tableId, String userId);
 
 	/**
 	 * Accept user to the members trip. Needs to be called when the user accepts
 	 * the invitation to participate, or when the owner accepts the request from
 	 * a user to participate in travel
 	 * 
-	 * @param tripId
-	 * @param tableItemId
-	 * @param userId
+	 * @param tableUserId
 	 */
-	public void acceptTableUser(String tripId, String tableItemId, String userId);
-
-	/**
-	 * Remove the user from the travel. Needs to be called when the user reject
-	 * the invitation to participate, as well as the when owner rejects the
-	 * request from the user to participate in travel or when the owner removes
-	 * the participant travel
-	 * 
-	 * @param tripId
-	 * @param tableItemId
-	 * @param userId
-	 */
-	public void removeTableUser(String tripId, String tableItemId, String userId);
-
-	/**
-	 * Remove table invite to email
-	 * 
-	 * @param tripId
-	 * @param tableItemId
-	 * @param tableInviteId
-	 */
-	public void removeTableInviteToEmail(String tripId, String tableItemId, String tableInviteId);
+	public void acceptTableUser(String tableUserId);
 
 	/**
 	 * Set the trip organizer
 	 * 
-	 * @param tripId
-	 * @param tableItemId
-	 * @param userId
+	 * @param tableUserId
 	 * @param isOrganizer
 	 */
-	public void setTableUserOrganizer(String tripId, String tableItemId, String userId, Boolean isOrganizer);
+	public void setTableUserOrganizer(String tableUserId, Boolean isOrganizer);
+
+	/**
+	 * Get all members for table item
+	 * 
+	 * @param tripId
+	 * @param tableId
+	 * @return list of members
+	 */
+	public List<TableMember> getTableMembers(String tripId, String tableId);
+
+	/**
+	 * Get limit members for table item
+	 * 
+	 * @param tripId
+	 * @param tableId
+	 * @param limit
+	 * @return list of members
+	 */
+	public List<TableMember> getTableMembers(String tripId, String tableId, int limit);
+
+	/**
+	 * Remove the user or invite from the travel. Needs to be called when the
+	 * user reject the invitation to participate, as well as the when owner
+	 * rejects the request from the user to participate in travel, as well as
+	 * the when the owner removes user or when remove table invite to email
+	 * 
+	 * @param memberId
+	 */
+	public void removeTripMember(String memberId);
+
+	/**
+	 * Remove all trips members. It is recommended to use the after trips tests
+	 * to clear data
+	 * 
+	 * @param tripId
+	 */
+	public void removeTripMembers(String tripId);
 
 	/***/
 	// TODO

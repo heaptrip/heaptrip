@@ -90,6 +90,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		initTrips();
 		for (Trip trip : trips) {
 			tripService.saveTrip(trip);
+			tripService.removeTripMembers(trip.getId());
 		}
 	}
 
@@ -97,6 +98,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	public void afterTest() {
 		for (Trip trip : trips) {
 			// tripService.hardRemoveTrip(trip.getId());
+			tripService.removeTripMembers(trip.getId());
 		}
 	}
 }

@@ -16,12 +16,15 @@ import com.heaptrip.domain.entity.ContentCategory;
 import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.RoutePhoto;
+import com.heaptrip.domain.entity.trip.TableInvite;
 import com.heaptrip.domain.entity.trip.TableItem;
+import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.CategoryRepository;
+import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
@@ -35,6 +38,9 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private TripRepository tripRepository;
+
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Override
 	public String saveTrip(Trip trip) {
@@ -213,6 +219,8 @@ public class TripServiceImpl implements TripService {
 				contentCategory.setName(category.getName());
 			}
 		}
+		// TODO
+		// as well as categories read and set regions name
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
 				if (item.getId() == null) {
@@ -223,75 +231,97 @@ public class TripServiceImpl implements TripService {
 				}
 			}
 		}
-		// TODO
-		// as well as categories read and set regions name
 		tripRepository.update(trip, locale);
 	}
 
 	@Override
-	public TableUser getUserFromTableItem(TableItem tableItem, String userId) {
-		Assert.notNull(tableItem, "tableItem");
-//		Assert.notEmpty(tableItem.getUsers(), "tableItem.users");
-//		for (TableUser user : tableItem.getUsers()) {
-//			Assert.notNull(user.getId(), "user.id");
-//			if (user.getId().equals(userId)) {
-//				return user;
-//			}
-//		}
-		return null;
-	}
-
-	@Override
-	public void addTableInvite(String tripId, String tableItemId, String userId) {
+	public void addTableUser(String tripId, String tableId, String userId) {
 		Assert.notNull(tripId, "tripId");
-		Assert.notNull(tableItemId, "tableItemId");
+		Assert.notNull(tableId, "tableId");
 		Assert.notNull(userId, "userId");
 		TableUser tableUser = new TableUser();
-		tableUser.setId(userId);
-		// TODO read name and photo from profile
+		tableUser.setTripId(tripId);
+		tableUser.setTableId(tableId);
+		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.INVITE);
-		tripRepository.addTableUser(tripId, tableItemId, tableUser);
+		// TODO read name and photo from profile
+		memberRepository.save(tableUser);
+		tripRepository.incTableUsers(tripId, tableId, 1);
 	}
 
 	@Override
-	public void addTableInviteToEmail(String tripId, String tableItemId, String email) {
-		// TODO
-	}
-
-	@Override
-	public void addTableRequest(String tripId, String tableItemId, String userId) {
+	public void addTableInvite(String tripId, String tableId, String email) {
 		Assert.notNull(tripId, "tripId");
-		Assert.notNull(tableItemId, "tableItemId");
+		Assert.notNull(tableId, "tableId");
+		Assert.notNull(email, "email");
+		TableInvite invite = new TableInvite();
+		invite.setTripId(tripId);
+		invite.setTableId(tableId);
+		invite.setEmail(email);
+		memberRepository.save(invite);
+		tripRepository.incTableInvites(tripId, tableId, 1);
+	}
+
+	@Override
+	public void addTableRequest(String tripId, String tableId, String userId) {
+		Assert.notNull(tripId, "tripId");
+		Assert.notNull(tableId, "tableId");
 		Assert.notNull(userId, "userId");
 		TableUser tableUser = new TableUser();
-		tableUser.setId(userId);
-		// TODO read name and photo from profile
+		tableUser.setTripId(tripId);
+		tableUser.setTableId(tableId);
+		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.REQUEST);
-		tripRepository.addTableUser(tripId, tableItemId, tableUser);
+		// TODO read name and photo from profile
+		memberRepository.save(tableUser);
+		tripRepository.incTableUsers(tripId, tableId, 1);
 	}
 
 	@Override
-	public void acceptTableUser(String tripId, String tableItemId, String userId) {
-		// TODO set TableUser and TableInvite in own collection
+	public void acceptTableUser(String tableUserId) {
+		Assert.notNull(tableUserId, "tableUserId");
+		memberRepository.updateStatus(tableUserId, TableUserStatusEnum.OK);
+	}
+
+	@Override
+	public void setTableUserOrganizer(String tableUserId, Boolean isOrganizer) {
+		Assert.notNull(tableUserId, "tableUserId");
+		memberRepository.updateOrganizer(tableUserId, isOrganizer);
+	}
+
+	@Override
+	public List<TableMember> getTableMembers(String tripId, String tableId, int limit) {
 		Assert.notNull(tripId, "tripId");
-		Assert.notNull(tableItemId, "tableItemId");
-		Assert.notNull(userId, "userId");
-		tripRepository.updateTableUser(tripId, tableItemId, userId, TableUserStatusEnum.OK);
+		Assert.notNull(tableId, "tableId");
+		return memberRepository.find(tripId, tableId, limit);
 	}
 
 	@Override
-	public void removeTableUser(String tripId, String tableItemId, String userId) {
+	public List<TableMember> getTableMembers(String tripId, String tableId) {
 		Assert.notNull(tripId, "tripId");
-		Assert.notNull(tableItemId, "tableItemId");
-		Assert.notNull(userId, "userId");
-		tripRepository.removeTableUser(tripId, tableItemId, userId);
-
+		Assert.notNull(tableId, "tableId");
+		return memberRepository.find(tripId, tableId);
 	}
 
 	@Override
-	public void setTableUserOrganizer(String tripId, String tableItemId, String userId, Boolean isOrganizer) {
-		// TODO Auto-generated method stub
+	public void removeTripMember(String memberId) {
+		Assert.notNull(memberId, "memberId");
+		TableMember member = memberRepository.findById(memberId);
+		Assert.notNull(member, "error memberId");
+		memberRepository.removeById(memberId);
+		if (member.getTripId() != null && member.getTableId() != null) {
+			if (member instanceof TableUser) {
+				tripRepository.incTableUsers(member.getTripId(), member.getTableId(), -1);
+			} else if (member instanceof TableInvite) {
+				tripRepository.incTableInvites(member.getTripId(), member.getTableId(), -1);
+			}
+		}
+	}
 
+	@Override
+	public void removeTripMembers(String tripId) {
+		Assert.notNull(tripId, "tripId");
+		memberRepository.removeByTripId(tripId);
 	}
 
 	@Override
@@ -341,11 +371,4 @@ public class TripServiceImpl implements TripService {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void removeTableInviteToEmail(String tripId, String tableItemId, String tableInviteId) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

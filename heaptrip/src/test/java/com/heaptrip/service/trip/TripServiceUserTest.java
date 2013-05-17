@@ -1,13 +1,17 @@
 package com.heaptrip.service.trip;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.heaptrip.domain.entity.trip.TableItem;
+import com.heaptrip.domain.entity.trip.TableInvite;
+import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableUser;
+import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.trip.TripService;
@@ -29,109 +33,159 @@ public class TripServiceUserTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private TripRepository tripRepository;
 
-	@Test(dataProvider = "tableItem", dataProviderClass = TripDataProvider.class, enabled = true)
-	public void getUserFromTableItem(TableItem tableItem) {
-		TableUser user = tripService.getUserFromTableItem(tableItem, InitTripTest.USER_ID);
-		Assert.assertNotNull(user);
-		Assert.assertNotNull(user.getId());
-		Assert.assertEquals(user.getId(), InitTripTest.USER_ID);
-	}
-
 	@Test(priority = 1, enabled = true)
-	public void addTableInvite() {
+	public void addTableUser() {
+		// call
 		Trip trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNull(trip.getTable()[0].getUsers());
-		tripService.addTableInvite(TRIP_ID, TABLE_ITEM_ID, USER_ID);
+		tripService.addTableUser(TRIP_ID, TABLE_ITEM_ID, USER_ID);
+		// check
 		trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getUsers());
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0]);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getId());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getId(), USER_ID);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getStatus());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getStatus(), TableUserStatusEnum.INVITE);
+		Assert.assertTrue(trip.getTable()[0].getUsers().equals(1L));
+		List<TableMember> list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		TableMember member = list.get(0);
+		Assert.assertNotNull(member);
+		Assert.assertTrue(member instanceof TableUser);
+		TableUser user = (TableUser) member;
+		Assert.assertEquals(user.getTripId(), TRIP_ID);
+		Assert.assertEquals(user.getTableId(), TABLE_ITEM_ID);
+		Assert.assertEquals(user.getUserId(), USER_ID);
+		Assert.assertEquals(user.getStatus(), TableUserStatusEnum.INVITE);
 	}
 
 	@Test(priority = 2, enabled = true)
 	public void removeTableUser() {
-		tripService.removeTableUser(TRIP_ID, TABLE_ITEM_ID, USER_ID);
+		// call
+		List<TableMember> list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		TableMember member = list.get(0);
+		Assert.assertNotNull(member);
+		tripService.removeTripMember(member.getId());
+		// check
 		Trip trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
-		//Assert.assertTrue(trip.getTable()[0].getUsers() == null || trip.getTable()[0].getUsers().length == 0);
+		Assert.assertNotNull(trip.getTable()[0].getUsers());
+		Assert.assertTrue(trip.getTable()[0].getUsers().equals(0L));
+		list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 0);
 	}
 
 	@Test(priority = 3, enabled = true)
-	public void addTableRequest() {
-		tripService.addTableRequest(TRIP_ID, TABLE_ITEM_ID, USER_ID);
-		Trip trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getTable());
-		Assert.assertNotNull(trip.getTable()[0]);
-		Assert.assertNotNull(trip.getTable()[0].getUsers());
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0]);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getId());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getId(), USER_ID);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getStatus());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getStatus(), TableUserStatusEnum.REQUEST);
-	}
-
-	@Test(priority = 4, enabled = false)
-	public void acceptTableUser() {
-		tripService.acceptTableUser(TRIP_ID, TABLE_ITEM_ID, USER_ID);
-		Trip trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getTable());
-		Assert.assertNotNull(trip.getTable()[0]);
-		Assert.assertNotNull(trip.getTable()[0].getUsers());
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0]);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getId());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getId(), USER_ID);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getStatus());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getStatus(), TableUserStatusEnum.OK);
-	}
-
-	@Test(priority = 5, enabled = false)
-	public void setTableUserOrganizer() {
-		Trip trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getTable());
-		Assert.assertNotNull(trip.getTable()[0]);
-		Assert.assertNotNull(trip.getTable()[0].getUsers());
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0]);
-//		Assert.assertNull(trip.getTable()[0].getUsers()[0].getIsOrganizer());
-		tripService.setTableUserOrganizer(TRIP_ID, TABLE_ITEM_ID, USER_ID, true);
-		trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getTable());
-		Assert.assertNotNull(trip.getTable()[0]);
-		Assert.assertNotNull(trip.getTable()[0].getUsers());
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0]);
-//		Assert.assertNotNull(trip.getTable()[0].getUsers()[0].getIsOrganizer());
-//		Assert.assertEquals(trip.getTable()[0].getUsers()[0].getIsOrganizer().booleanValue(), true);
-	}
-
-	@Test(priority = 6, enabled = false)
-	public void addTableInviteToEmail() {
+	public void addTableInvite() {
+		// call
 		Trip trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNull(trip.getTable()[0].getInvites());
-		tripService.addTableInviteToEmail(TRIP_ID, TABLE_ITEM_ID, USER_EMAIL);
+		tripService.addTableInvite(TRIP_ID, TABLE_ITEM_ID, USER_EMAIL);
+		// check
+		trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getInvites());
-//		Assert.assertNotNull(trip.getTable()[0].getInvites()[0]);
-//		Assert.assertNotNull(trip.getTable()[0].getInvites()[0].getEmail());
-//		Assert.assertEquals(trip.getTable()[0].getInvites()[0].getEmail(), USER_EMAIL);
+		Assert.assertTrue(trip.getTable()[0].getInvites().equals(1L));
+		List<TableMember> list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		TableMember member = list.get(0);
+		Assert.assertNotNull(member);
+		Assert.assertTrue(member instanceof TableInvite);
+		TableInvite invite = (TableInvite) member;
+		Assert.assertEquals(invite.getTripId(), TRIP_ID);
+		Assert.assertEquals(invite.getTableId(), TABLE_ITEM_ID);
+		Assert.assertEquals(invite.getEmail(), USER_EMAIL);
+		// remove
+		tripService.removeTripMember(member.getId());
 	}
 
+	@Test(priority = 4, enabled = true)
+	public void addTableRequest() {
+		// call
+		Trip trip = tripRepository.findById(TRIP_ID);
+		Assert.assertNotNull(trip);
+		Assert.assertNotNull(trip.getTable());
+		Assert.assertNotNull(trip.getTable()[0]);
+		Assert.assertNotNull(trip.getTable()[0].getUsers());
+		Assert.assertTrue(trip.getTable()[0].getUsers().equals(0L));
+		tripService.addTableRequest(TRIP_ID, TABLE_ITEM_ID, USER_ID);
+		// check
+		trip = tripRepository.findById(TRIP_ID);
+		Assert.assertNotNull(trip);
+		Assert.assertNotNull(trip.getTable());
+		Assert.assertNotNull(trip.getTable()[0]);
+		Assert.assertNotNull(trip.getTable()[0].getUsers());
+		Assert.assertTrue(trip.getTable()[0].getUsers().equals(1L));
+		List<TableMember> list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		TableMember member = list.get(0);
+		Assert.assertNotNull(member);
+		Assert.assertTrue(member instanceof TableUser);
+		TableUser user = (TableUser) member;
+		Assert.assertEquals(user.getTripId(), TRIP_ID);
+		Assert.assertEquals(user.getTableId(), TABLE_ITEM_ID);
+		Assert.assertEquals(user.getUserId(), USER_ID);
+		Assert.assertEquals(user.getStatus(), TableUserStatusEnum.REQUEST);
+	}
+
+	@Test(priority = 5, enabled = true)
+	public void acceptTableUser() {
+		// call
+		List<TableMember> list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		TableMember member = list.get(0);
+		Assert.assertNotNull(member);
+		tripService.acceptTableUser(member.getId());
+		// check
+		list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		member = list.get(0);
+		Assert.assertNotNull(member);
+		Assert.assertTrue(member instanceof TableUser);
+		TableUser user = (TableUser) member;
+		Assert.assertEquals(user.getTripId(), TRIP_ID);
+		Assert.assertEquals(user.getTableId(), TABLE_ITEM_ID);
+		Assert.assertEquals(user.getUserId(), USER_ID);
+		Assert.assertEquals(user.getStatus(), TableUserStatusEnum.OK);
+	}
+
+	@Test(priority = 6, enabled = true)
+	public void setTableUserOrganizer() {
+		// call
+		List<TableMember> list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		TableMember member = list.get(0);
+		Assert.assertNotNull(member);
+		Assert.assertTrue(member instanceof TableUser);
+		TableUser user = (TableUser) member;
+		Assert.assertNull(user.getIsOrganizer());
+		tripService.setTableUserOrganizer(member.getId(), true);
+		// check
+		list = tripService.getTableMembers(TRIP_ID, TABLE_ITEM_ID);
+		Assert.assertNotNull(list);
+		Assert.assertEquals(list.size(), 1);
+		member = list.get(0);
+		Assert.assertNotNull(member);
+		Assert.assertTrue(member instanceof TableUser);
+		user = (TableUser) member;
+		Assert.assertTrue(user.getIsOrganizer());
+	}
 }

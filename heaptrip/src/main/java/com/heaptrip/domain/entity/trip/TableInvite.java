@@ -5,7 +5,7 @@ package com.heaptrip.domain.entity.trip;
  * Invitation to an external email address
  * 
  */
-public class TableInvite extends BaseTableMember {
+public class TableInvite extends TableMember {
 
 	// email address
 	private String email;

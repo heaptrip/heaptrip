@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.ContentStatusEnum;
-import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripCriteria;
@@ -41,7 +40,9 @@ public interface TripRepository {
 
 	public void update(Trip trip, Locale locale);
 
-	public void addTableUser(String tripId, String tableItemId, TableUser tableUser);
+	public void incTableUsers(String tripId, String tableId, int value);
+
+	public void incTableInvites(String tripId, String tableId, int value);
 
 	public void removeTableUser(String tripId, String tableItemId, String userId);
 

@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
-import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.MongoContext;
+import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.util.LanguageUtils;
@@ -32,6 +32,9 @@ public class TripRepositoryImpl implements TripRepository {
 
 	@Autowired
 	private MongoContext mongoContext;
+
+	@Autowired
+	private MemberRepository memberRepository;
 
 	@Override
 	public void save(Trip trip) {
@@ -191,7 +194,7 @@ public class TripRepositoryImpl implements TripRepository {
 		// update table items
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
-				String query = "{_id: #, table: {$elemMatch: {_id:#}}}";
+				String query = "{_id:#, 'table:_id':#}";
 				parameters = new ArrayList<>();
 				parameters.add(trip.getId());
 				parameters.add(item.getId());
@@ -217,22 +220,39 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public void addTableUser(String tripId, String tableItemId, TableUser tableUser) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = "{_id: #, table: {$elemMatch: {_id:#}}}";
+	public void incTableUsers(String tripId, String tableId, int value) {
+		String query = "{_id:#,'table._id':#}";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(tripId);
-		parameters.add(tableItemId);
-		String updateQuery = "{$addToSet :{table.$.users:#}}";
+		parameters.add(tableId);
+		String updateQuery = "{$inc: {'table.$.users': #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
-					"add table item user\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
-					query, ArrayUtils.toString(parameters), updateQuery, tableUser);
+					"inc table users\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
+					ArrayUtils.toString(parameters), updateQuery, value);
 			logger.debug(msg);
 		}
-		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, tableUser);
-		logger.debug("WriteResult for add table user: {}", wr);
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, value);
+		logger.debug("WriteResult for inc table users: {}", wr);
+	}
 
+	@Override
+	public void incTableInvites(String tripId, String tableId, int value) {
+		String query = "{_id:#,'table._id':#}";
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(tripId);
+		parameters.add(tableId);
+		String updateQuery = "{$inc: {'table.$.invites': #}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"inc table invites\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, ArrayUtils.toString(parameters), updateQuery, value);
+			logger.debug(msg);
+		}
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, value);
+		logger.debug("WriteResult for inc table invites: {}", wr);
 	}
 
 	@Override

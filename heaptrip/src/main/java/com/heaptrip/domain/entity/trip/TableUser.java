@@ -7,7 +7,10 @@ import com.heaptrip.domain.entity.Photo;
  * Table user
  * 
  */
-public class TableUser extends BaseTableMember {
+public class TableUser extends TableMember {
+
+	// userId
+	private String userId;
 
 	// user name
 	private String name;
@@ -60,6 +63,14 @@ public class TableUser extends BaseTableMember {
 
 	public void setPhoto(Photo photo) {
 		this.photo = photo;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 }

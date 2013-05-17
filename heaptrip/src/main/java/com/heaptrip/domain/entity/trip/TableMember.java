@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public abstract class BaseTableMember extends BaseObject {
+public abstract class TableMember extends BaseObject {
 
 	public static final String COLLECTION_NAME = "members";
 
