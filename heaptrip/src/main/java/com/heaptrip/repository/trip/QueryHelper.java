@@ -7,7 +7,7 @@ public interface QueryHelper {
 
 	public String getQuery(TripCriteria criteria);
 
-	public Object[] getParameters(TripCriteria criteria);
+	public Object[] getParameters(TripCriteria criteria, Object... objects);
 
 	public String getSort(ContentSortEnum sort);
 

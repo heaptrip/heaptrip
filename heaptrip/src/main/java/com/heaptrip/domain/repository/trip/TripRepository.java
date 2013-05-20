@@ -26,11 +26,15 @@ public interface TripRepository {
 
 	public List<Trip> findForNotMyAccountByCriteria(TripCriteria criteria);
 
+	public List<Trip> findForMemberByCriteria(TripCriteria criteria);
+
 	public long getCountForFeedByCriteria(TripCriteria criteria);
 
 	public long getCountFindForMyAccountByCriteria(TripCriteria criteria);
 
 	public long getCountFindForNotMyAccountByCriteria(TripCriteria criteria);
+
+	public long getCountFindForMemberByCriteria(TripCriteria criteria);
 
 	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed);
 

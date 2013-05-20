@@ -82,10 +82,17 @@ public class TripRepositoryImpl implements TripRepository {
 		return findByCriteria(criteria, queryHelper);
 	}
 
-	private List<Trip> findByCriteria(TripCriteria criteria, QueryHelper queryHelper) {
+	@Override
+	public List<Trip> findForMemberByCriteria(TripCriteria criteria) {
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
+		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
+		return findByCriteria(criteria, queryHelper, tripIds);
+	}
+
+	private List<Trip> findByCriteria(TripCriteria criteria, QueryHelper queryHelper, Object... objects) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		String query = queryHelper.getQuery(criteria);
-		Object[] parameters = queryHelper.getParameters(criteria);
+		Object[] parameters = queryHelper.getParameters(criteria, objects);
 		String projection = queryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria.getLocale()));
 		String sort = queryHelper.getSort(criteria.getSort());
 		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
@@ -120,11 +127,18 @@ public class TripRepositoryImpl implements TripRepository {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
+	
+	@Override
+	public long getCountFindForMemberByCriteria(TripCriteria criteria) {
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
+		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
+		return getCountByCriteria(criteria, queryHelper, tripIds);
+	}
 
-	private long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper) {
+	private long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper, Object... objects) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		String query = queryHelper.getQuery(criteria);
-		Object[] parameters = queryHelper.getParameters(criteria);
+		Object[] parameters = queryHelper.getParameters(criteria, objects);
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("get trips count\n->queryHelper: %s\n->query: %s\n->parameters: %s",
 					queryHelper.getClass(), query, ArrayUtils.toString(parameters));
@@ -291,4 +305,5 @@ public class TripRepositoryImpl implements TripRepository {
 		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, userId);
 		logger.debug("WriteResult for update table item user: {}", wr);
 	}
+
 }

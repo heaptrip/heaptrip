@@ -1,5 +1,6 @@
 package com.heaptrip.repository.trip;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -91,5 +92,29 @@ public class MemberRepositoryImpl implements MemberRepository {
 	public TableMember findById(String memberId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		return coll.findOne("{ _id : #}", memberId).as(TableMember.class);
+	}
+
+	@Override
+	public List<String> findTripIdsByUserId(String userId) {
+		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		String query = "{_class:'com.heaptrip.domain.entity.trip.TableUser', userId:#}";
+		String projection = "{_class : 1, tripId : 1}";
+		String hint = "{_class:1, userId : 1}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"find table members\n->query: %s\n->parameters: %s\n->projection: %s\n->hint: %s", query, userId,
+					projection, hint);
+			logger.debug(msg);
+		}
+		Iterator<TableMember> iter = coll.find(query, userId).projection(projection).hint(hint).as(TableMember.class)
+				.iterator();
+		List<String> result = new ArrayList<>();
+		if (iter != null) {
+			while (iter.hasNext()) {
+				TableMember member = iter.next();
+				result.add(member.getTripId());
+			}
+		}
+		return result;
 	}
 }

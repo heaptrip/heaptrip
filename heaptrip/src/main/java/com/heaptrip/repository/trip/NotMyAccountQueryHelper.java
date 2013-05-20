@@ -38,7 +38,7 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 	}
 
 	@Override
-	public Object[] getParameters(TripCriteria criteria) {
+	public Object[] getParameters(TripCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		// owner
 		parameters.add(criteria.getOwnerId());

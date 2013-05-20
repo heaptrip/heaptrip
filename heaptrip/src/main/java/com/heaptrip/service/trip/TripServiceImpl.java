@@ -104,7 +104,8 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(tripCriteria, "tripCriteria");
 		List<Trip> result = null;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
-			// TODO find by memberId throw user profile service
+			// find by memberId
+			result = tripRepository.findForMemberByCriteria(tripCriteria);
 		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isBlank(tripCriteria.getUserId())) {
 				// my account
@@ -125,7 +126,8 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(tripCriteria, "tripCriteria");
 		long result = 0;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
-			// TODO find by memberId throw user profile service
+			// find by memberId
+			result = tripRepository.getCountFindForMemberByCriteria(tripCriteria);
 		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isBlank(tripCriteria.getUserId())) {
 				// my account
@@ -232,12 +234,12 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void abortTableItem(String tripId, String tableId, String cause) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void cancelTableItem(String tripId, String tableId, String cause) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

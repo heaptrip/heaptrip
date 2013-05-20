@@ -38,7 +38,7 @@ class FeedQueryHelper extends AbstractQueryHelper {
 	}
 
 	@Override
-	public Object[] getParameters(TripCriteria criteria) {
+	public Object[] getParameters(TripCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		// allowed
 		List<String> allowed = new ArrayList<>();
