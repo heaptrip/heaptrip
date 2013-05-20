@@ -27,6 +27,7 @@ public class TableItem extends BaseObject {
 	// the cost of participation
 	private Price price;
 
+	// trip status
 	private TableStatus status;
 
 	// The number of users

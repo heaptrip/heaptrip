@@ -19,6 +19,7 @@ import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.domain.service.trip.TripUserService;
 import com.heaptrip.util.RandomUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
@@ -40,6 +41,9 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private TripService tripService;
+
+	@Autowired
+	private TripUserService tripUserService;
 
 	private TableItem[] getRandomTable() {
 		int tableSize = RandomUtils.getRandomInt(1, 10);
@@ -90,7 +94,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		initTrips();
 		for (Trip trip : trips) {
 			tripService.saveTrip(trip);
-			tripService.removeTripMembers(trip.getId());
+			tripUserService.removeTripMembers(trip.getId());
 		}
 	}
 
@@ -98,7 +102,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	public void afterTest() {
 		for (Trip trip : trips) {
 			// tripService.hardRemoveTrip(trip.getId());
-			tripService.removeTripMembers(trip.getId());
+			tripUserService.removeTripMembers(trip.getId());
 		}
 	}
 }

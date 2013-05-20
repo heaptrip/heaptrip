@@ -20,7 +20,7 @@ import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
-public class TripServiceCommonTest extends AbstractTestNGSpringContextTests {
+public class TripServiceTest extends AbstractTestNGSpringContextTests {
 
 	private static String TRIP_ID = "1";
 

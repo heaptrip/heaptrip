@@ -3,18 +3,28 @@ package com.heaptrip.domain.entity.trip;
 import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.MultiLangText;
 
+/**
+ * Trip
+ * 
+ */
 public class Trip extends Content {
 
+	// multilingual short description
 	private MultiLangText summary;
 
+	// multilingual description
 	private MultiLangText description;
 
+	// travel schedule
 	private TableItem[] table;
 
+	// route
 	private Route route;
 
+	// rating
 	private Double rating;
 
+	// number of comments
 	private Long comments;
 
 	public MultiLangText getSummary() {

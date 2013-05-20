@@ -9,7 +9,7 @@ import com.heaptrip.domain.entity.Photo;
  */
 public class TableUser extends TableMember {
 
-	// userId
+	// user id
 	private String userId;
 
 	// user name
