@@ -83,7 +83,11 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setLangs(new String[] { locale.getLanguage() });
 			trip.setTable(getRandomTable());
-			trip.setAllowed(new String[] { ALL_USERS, USER_ID });
+			if (i % 2 == 0) {
+				trip.setAllowed(new String[] { ALL_USERS });
+			} else {
+				trip.setAllowed(new String[] { USER_ID });
+			}
 			trips.add(trip);
 		}
 	}

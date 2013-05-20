@@ -72,6 +72,24 @@ public class TripDataProvider {
 		return new Object[][] { new Object[] { tripCriteria } };
 	}
 
+	@DataProvider(name = "tripCriteriaForMember")
+	public static Object[][] getTripCriteriaForMember() {
+		TripCriteria tripCriteria = new TripCriteria();
+		tripCriteria.setMemberId(InitTripTest.USER_ID);
+		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		tripCriteria.setSkip(0L);
+		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
+		tripCriteria.setSort(ContentSortEnum.RATING);
+		Calendar begin = Calendar.getInstance();
+		begin.set(2013, 0, 1);
+		Calendar end = Calendar.getInstance();
+		end.set(2013, 11, 1);
+		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
+		tripCriteria.setPeriod(period);
+		tripCriteria.setLocale(Locale.ENGLISH);
+		return new Object[][] { new Object[] { tripCriteria } };
+	}
+
 	@DataProvider(name = "tripWithTable")
 	private static Object[][] getTripWithTable() {
 		int tableSize = RandomUtils.getRandomInt(1, 10);
