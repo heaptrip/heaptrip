@@ -1,4 +1,4 @@
-package com.heaptrip.repository;
+package com.heaptrip.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +12,18 @@ import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.repository.CategoryRepository;
+import com.heaptrip.domain.service.CategoryService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
-public class CategoryRepositoryTest extends AbstractTestNGSpringContextTests {
+public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
+
+	private List<Category> categories = new ArrayList<Category>();
 
 	@Autowired
 	private CategoryRepository categoryRepository;
 
-	List<Category> categories = new ArrayList<Category>();
+	@Autowired
+	private CategoryService categoryService;
 
 	@BeforeClass
 	public void init() {
@@ -87,7 +91,7 @@ public class CategoryRepositoryTest extends AbstractTestNGSpringContextTests {
 
 	@Test(priority = 4)
 	public void findAll() {
-		List<Category> categories = categoryRepository.findAll();
+		List<Category> categories = categoryService.getCategories();
 		Assert.assertEqualsNoOrder(categories.toArray(), this.categories.toArray());
 	}
 }
