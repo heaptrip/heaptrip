@@ -1,7 +1,8 @@
 package com.heaptrip.web.converter;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,31 +23,18 @@ public class FilterModelServiceImpl implements FilterModelService {
 
 	@Override
 	public List<CategoryModel> getCategories() {
-
-		List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
 		List<Category> categories = categoryService.getCategories();
-
+		Map<String, CategoryModel> map = new HashMap<String, CategoryModel>();
+		map.put(null, new CategoryModel());
 		for (Category category : categories) {
-
 			CategoryModel categoryModel = new CategoryModel();
 			categoryModel.setId(category.getId());
 			categoryModel.setData(category.getName().getValue(scopeService.getCurrentLocale()));
 			categoryModel.setChecked(false);
-
-			if (categoryModels.size() > 0) {
-				CategoryModel preCategoryModel = categoryModels.get(categoryModels.size() - 1);
-				if (preCategoryModel.getId().equals(category.getParent())) {
-					preCategoryModel.addChildren(categoryModel);
-				} else {
-					categoryModels.add(categoryModel);
-				}
-			} else {
-				categoryModels.add(categoryModel);
-			}
+			map.put(categoryModel.getId(), categoryModel);
+			map.get(category.getParent()).addChildren(map.get(categoryModel.getId()));
 		}
-
-		return categoryModels;
-
+		return map.get(null).getChildren();
 	}
 
 }
