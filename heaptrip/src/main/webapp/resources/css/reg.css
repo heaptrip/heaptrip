@@ -181,23 +181,6 @@
 	width: 93px;
 }
 
-.chek{
-    display: -moz-inline-stack;
-    display: inline-block;
-    vertical-align: middle;
-    zoom: 1;
-    *display: inline;
-    background-image: url("../js/themes/default/d.png"); background-repeat:no-repeat; background-color:transparent;	
-}
-
-.check_false{
-    background-position: -2px -20px;
-}
-
-.check_true{
-    background-position: -38px -20px;
-}
-
 dd #go,dd #submit{
 	text-align: center;
 	padding: 2px 10px;

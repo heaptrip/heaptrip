@@ -130,7 +130,28 @@
 	margin-left: -283px;
 	position: relative;
 }
+/*
+------------------------------------------------------------------------------*/
+input[type=checkbox]{
+	cursor: pointer;
+}
+.chek{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+    *display: inline;
+    background-image: url("../js/themes/default/d.png"); background-repeat:no-repeat; background-color:transparent;	
+    cursor: pointer;
+}
 
+.check_false{
+    background-position: -2px -20px;
+}
+
+.check_true{
+    background-position: -38px -20px;
+}
 
 /*Лента
 -------------------------------------*/
@@ -503,6 +524,8 @@
 	padding: 5px 5px 0 5px;
 }
 
+#wrapper #article .button,
+#wrapper .button,
 .button{
 	text-align: center;
 	padding: 2px 10px;
@@ -856,7 +879,7 @@
 	background-position: 0px 0px;
 }
 
-#travel_nav input.button{
+#travel_nav .button{
 	position: absolute;
 	left: 0px;
 	top: 13px;
@@ -963,11 +986,15 @@
 	margin-bottom: 7px;
 }
 
+#article .tabs ul li div.tabs_content li{
+	position: relative;
+	margin: 0 7px 7px 0;
+}
+
 #article .tabs ul li div.tabs_content li img{
 	width: 199px; 
 	height: 184px;
 	display: block;
-	margin: 0 7px 7px 0;
 }
 
 #article .tabs .tabs_autor{
@@ -1073,21 +1100,29 @@
 	width: 650px;
 }
 
-.albom_img span.check_img{
-	position: absolute;
-	width: 13px;
-	height: 13px;
-	right: 7px;
-	top: 7px;
-	cursor: pointer;
+#contents span.check_img{
+	position: absolute !important;
+	width: 13px !important;
+	height: 13px !important;
+	right: 7px !important;
+	top: 7px !important;
+	cursor: pointer !important;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: none !important;
+	background-color: none !important;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+	border-radius: 0 !important;
+	behavior: url(/pie/PIE.htc);	
 }
 
-.albom_img span.check_disabled{
-	background: url('../images/check_img.png') 0px 0px no-repeat;
+#contents span.check_disabled{
+	background: url('../images/check_img.png') 0px 0px no-repeat !important;
 }
 
-.albom_img span.check_enabled{
-	background: url('../images/check_img.png') 0px -13px no-repeat;
+#contents span.check_enabled{
+	background: url('../images/check_img.png') 0px -13px no-repeat !important;
 }
 /* Участники
 -------------------------------------------------------------*/
@@ -1180,6 +1215,7 @@
 	color: #092749;
 	text-decoration: none;
 	line-height: 12px;
+	width: 99px;
 }
 
 #article .list_user .list_user_name span{
@@ -1208,4 +1244,309 @@
 	position: absolute;
 	top: 15px;
 	right: 7px;
+}
+
+.one_photo{
+	position: relative;
+}
+
+#article .one_photo .full_img{
+	display: block;
+	width: 35px;
+	height: 35px;
+	background: url('/images/full_img.png') no-repeat;
+	position: absolute;
+	top: 10px;
+	right: 17px;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+}
+
+#article .one_photo .prev_img{
+	display: block;
+	width: 23px;
+	height: 37px;
+	background: url('/images/prev_img.png') no-repeat;
+	position: absolute;
+	bottom: 16px;
+	left: 7px;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+}
+
+#article .one_photo .next_img{
+	display: block;
+	width: 23px;
+	height: 37px;
+	background: url('/images/next_img.png') no-repeat;
+	position: absolute;
+	bottom: 16px;
+	right: 15px;
+	padding: 0;
+	margin: 0;
+	cursor: pointer;
+}
+/* Редактирование описания путешествия
+----------------------------------------------------------------*/
+article.edit .left ul{
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+article.edit .left ul li{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	
+}
+
+article.edit .left ul li label{
+	font-weight: normal;
+	margin: 0 5px 0 5px;
+}
+
+
+article.edit input[type="text"],
+article.edit textarea{
+	display: block;
+	width: 606px;
+	padding: 10px 10px 10px 10px;
+	height: 17px;
+	border: 1px solid #DEE5EB;
+	color: #AAA;
+	font-style: italic;
+}
+
+article.edit textarea{
+	height: 70px;
+	margin-bottom: 10px;
+}
+
+article.edit .inf{
+	margin-bottom: 10px;
+}
+
+article.edit .table_inf{
+	text-align: right;
+}
+
+article.edit .table_inf table{
+	text-align: left;
+}
+
+article.edit .table_inf table thead{
+	text-align: center;
+}
+
+article.edit .table_inf table{
+	border-bottom: 1px dashed #AAA;
+}
+
+article.edit .table_inf input[type="text"]{
+	display: inline;
+	padding: 3px;
+	margin-bottom: 3px;
+}
+
+article.edit .table_inf tr td{
+	text-align: right;
+	padding: 3px 2px;
+}
+
+article.edit .table_inf tr td input{
+	height: 55px;
+	width: 91%;
+}
+
+article.edit .table_inf tr td:first-child>input{
+	height: 22px;
+	width: 75%;
+}
+
+article.edit .table_inf tr td input:last-child{
+	margin-bottom: 0px;
+}
+
+article.edit .table_inf .add_table_zap{
+	margin: 10px 7px;
+}
+
+article.edit .table_inf tr td.price_td input{
+	width: 60%;
+}
+
+#article.edit .currency{
+	width: 27%;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    position: relative;
+    margin-top: 24px;
+    margin-left: 3px;
+}
+
+#article.edit .currency span{
+	height: 14px;
+	background: url('/images/currency.jpg') repeat-x;
+	border: 1px solid #CDCDCD;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(/pie/PIE.htc);
+	cursor: pointer;
+	display: block;
+	min-width: 40px;
+	text-align: center;
+	line-height: 14px;
+	color: #8F8F8F;
+	font-size: 12px;
+	margin-left: 0px;
+}
+
+#article.edit .currency ul{
+	list-style: none;
+	display: none;
+	min-width: 38px;
+	background: #E9E9E9;
+	color: #8F8F8F;
+	text-align: left;
+	padding-left: 2px;
+	position: absolute;
+	left: 1px;
+	top: 17px;
+}
+
+#article.edit .currency ul li{
+	cursor: pointer;
+}
+
+article.edit .table_inf tr td.price_td{
+	text-align: left;
+}
+
+article.edit .del_article{
+	border-top: 1px solid #E2E6E5;
+	padding-top: 10px;
+}
+
+article.edit #img_load{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	
+    width: 300px;
+}
+
+article.edit #img_load_button{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    width: 280px;
+    margin-left: 20px;		
+}
+
+article.edit #img_load_button .button{
+	margin-top: 7px;
+	width: 180px;
+}
+
+/* Редактирование Маршрут
+------------------------------------------------------------------*/
+article.edit .tabs_edit_map{
+	text-align: right;
+	margin: 0 7px;
+}
+
+article.edit .tabs_edit_map .button{
+	margin: 7px 3px;
+}
+
+article.edit .description textarea{
+	min-height: 200px;
+	height: auto;
+	color: #2B2B2B;
+}
+
+/* Участники
+------------------------------------------------------------------*/
+#article.edit .list_user_name.list_user_mail{
+	margin-top: 21px;
+}
+
+#article.edit .participants_menu{
+	position: absolute;
+	top: 26px;
+	right: 5px;
+	width: 21px;
+	height: 21px;
+	z-index: 99999;
+	display: none;
+}
+
+#article.edit .participants_menu_show{
+	display: block;
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	margin-top:-23px;
+	background: url('/images/participants_func.jpg') right top no-repeat;
+	z-index: 2;
+	cursor: pointer;
+}
+
+#article.edit .participants_menu ul{
+	border: 1px solid #A7A7A9;
+	background: #F0F0E8;
+	-webkit-border-radius: 5px 0 5px 5px;
+	-moz-border-radius: 5px 0 5px 5px;
+	border-radius: 5px 0 5px 5px;
+	behavior: url(/pie/PIE.htc);
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	margin: 0px;
+	padding: 0px;
+	width: auto;
+	min-width: 104px;
+	z-index: 1;
+	display: none;
+}
+
+#article.edit .participants_menu ul li{
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+	behavior: url(/pie/PIE.htc);
+	border: none;
+	height: 20px;
+	min-width: 104px;
+	width: auto;
+	margin: 0px;
+	padding: 0px;
+}
+
+#article.edit .participants_menu ul li a{
+	display: block;
+	height: 20px;
+	line-height: 20px;
+	color: #000000;
+	font-size: 12px;
+	text-align: center;
+	cursor: pointer;
+	text-decoration: none;
+}
+
+#article.edit .participants_menu ul li a:hover{
+	background: #DCDCDC;
 }

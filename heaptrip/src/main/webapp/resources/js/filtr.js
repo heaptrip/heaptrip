@@ -5,19 +5,20 @@ $(document).ready(function() {
 			var slide=$(this).parents(".filtr");
 			if($(slide).find(".content").is(":hidden")){
 				$(slide).find(".content").slideDown();
-        $(this).css('background','url("images/show_filtr.png") no-repeat');
+        $(this).css('background','url("./resources/images/show_filtr.png") no-repeat');
 			}else{
 				$(slide).find(".content").slideUp();
-        $(this).css('background','url("images/hide_filtr.png") no-repeat');
+        $(this).css('background','url("./resources/images/hide_filtr.png") no-repeat');
 			}
 		});		
 	}
-	if($('#category .tree').length){
+	
+	/*if($('#category .tree').length){
 		$('#category .tree').jstree({ 
 			'plugins' : [ 'themes', 'html_data', 'checkbox' ]
 		});
-	}
-
+	}*/
+	
     function split( val ) {
       return val.split( /,\s*/ );
     }

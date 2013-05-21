@@ -208,9 +208,14 @@ input {
 	margin-right: 3px;
 }
 
+.lang{
+	display: block;
+}
+
 .ru{ background-position: 0px 0px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
 .en{ background-position: 0px -18px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
 .du{ background-position: 0px -36px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
 .fr{ background-position: 0px -54px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
 .yk{ background-position: 0px -72px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
 .sw{ background-position: 0px -90px; background-image: url('../images/country.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
+.add_lang{ background-position: 0px 0px; background-image: url('../images/add_lang.png'); background-repeat: no-repeat; width: 20px; height: 14px;}
