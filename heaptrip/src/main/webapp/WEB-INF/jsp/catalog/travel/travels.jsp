@@ -51,7 +51,8 @@
 
 		var tripCriteria = {
 			skip : paramsJson.skip,
-			limit : paramsJson.limit
+			limit : paramsJson.limit,
+			categoryIds: paramsJson.ct ? paramsJson.ct.split(',') : null
 		};
 
 		var callbackSuccess = function(data) {

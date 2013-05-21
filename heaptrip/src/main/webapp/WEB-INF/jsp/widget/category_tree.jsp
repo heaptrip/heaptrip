@@ -4,84 +4,70 @@
 
     <script type="text/javascript">
 
-    $(window).bind("onPageReady", function(e, paramsJson) {
+    	$(window).bind("onPageReady", function(e, paramsJson) {
 
-    	 if (!$("#category .tree").jstree.isLoad) {
+    		 if (!$("#category .tree").jstree.isLoad) {
     	
-        var url = 'rest/categories';
+        		var url = 'rest/categories';
 
-        var callbackSuccess = function(data) {
-           
-           
-               
-                $('#category .tree').jstree({
-                    json_data : {
+        		var callbackSuccess = function(data) {
+
+                	$('#category .tree').jstree({
+                    	json_data : {
                         data : data
-                    },
+                    	},
                     "plugins" : [ "themes", "json_data", "checkbox" ]
                    
-                }).bind("loaded.jstree", function() {
+                	}).bind("loaded.jstree", function() {
                    
-                    var checked_ids = [];
-                    $("#category .tree").jstree("get_checked", null, true)
-                    .each(function () {
-                        checked_ids.push(this.id);
-                    });
-                    $.handInitParamToURL({ct : checked_ids.join()});
-                    $("#category .tree").jstree.isLoad = true;
+                    	var checked_ids = [];
+                    	$("#category .tree").jstree("get_checked", null, true).each(function () {
+                        	checked_ids.push(this.id);
+                    	});
+                    	if(checked_ids.length > 0)
+                    		$.handInitParamToURL({ct : checked_ids.join()});
+                    	$("#category .tree").jstree.isLoad = true;
                    
-                });/*.bind("change_state.jstree", function(node, uncheck) {
-                    var checked_ids = [];
-                    $("#category .tree").jstree("get_checked", null, true)
-                        .each(function () {
+                	});
+                	/*.bind("change_state.jstree", function(node, uncheck) {
+                    	var checked_ids = [];
+                    	$("#category .tree").jstree("get_checked", null, true).each(function () {
                             checked_ids.push(this.id);
                         });
-                    $.handInitParamToURL({ct : checked_ids.join()});
-                });*/
-            }
+                    	$.handInitParamToURL({ct : checked_ids.join()});
+                	});*/
+            	};
         
 
-        var callbackError = function(error) {
-            alert(error);
-        };
+        	var callbackError = function(error) {
+            	alert(error);
+        	};
 
-        $.postJSON(url, null, callbackSuccess, callbackError);
+        	$.postJSON(url, null, callbackSuccess, callbackError);
        
-    	 }
-       
-       
-       
-
-    });
+    	 	}
+      
+    	});
    
-    $(function(){
-        $("#categoryFilterSubmit").click(function(){
-            var checked_ids = [];
-            $("#category .tree").jstree("get_checked", null, true)
-                .each(function () {
+    	$(function(){
+        	$("#categoryFilterSubmit").click(function(){
+            	var checked_ids = [];
+            	$("#category .tree").jstree("get_checked", null, true).each(function () {
                     checked_ids.push(this.id);
                 });
-            $.handParamToURL({ct : checked_ids.join()});
-        });
-    });
+            	//if(checked_ids.length > 0)
+            		$.handParamToURL({ct : checked_ids.join()});
+        	});
+    	});
    
-    $(function(){
-        $("#categoryFilterSave").click(function(){
-            if(window.user)
-                alert('Category filter save for ' + window.user.name + ' clicked!');
-            else
-                alert( 'You mast authorize for save!');
-        });
-    });
-   
-    var categoryFilterSave = function(){
-        var checked_ids = [];
-        $("#category .tree").jstree("get_checked", null, true)
-            .each(function () {
-                checked_ids.push(this.id);
-            });
-        $.handParamToURL({ct : checked_ids.join()});
-    };
+    	$(function(){
+        	$("#categoryFilterSave").click(function(){
+            	if(window.user)
+                	alert('Category filter save for ' + window.user.name + ' clicked!');
+            	else
+                	alert( 'You mast authorize for save!');
+        	});
+    	});
    
     </script>
 
