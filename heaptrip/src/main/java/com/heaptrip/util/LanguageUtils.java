@@ -5,30 +5,30 @@ import java.util.Locale;
 public class LanguageUtils {
 
 	public static String getLanguageByLocale(Locale locale) {
-		if (locale != null) {
-			switch (locale.getCountry()) {
-			// Azerbaijan
-			case "AZ":
-				// Armenia
-			case "AM":
+		if (locale != null && locale.getLanguage() != null) {
+			switch (locale.getLanguage()) {
+			// Azerbaijani
+			case "az":
+				// Armenian
+			case "hy":
 				// Byelorussia
-			case "BY":
-				// Kazakhstan
-			case "KZ":
-				// Kyrgyzstan
-			case "KG":
-				// Moldavia
-			case "MD":
-				// Russia
-			case "RU":
-				// Tajikistan
-			case "TJ":
-				// Turkmenistan
-			case "TM":
-				// Uzbekistan
-			case "UZ":
-				// Ukraine
-			case "UA":
+			case "be":
+				// Kazakh
+			case "kk":
+				// Kirghiz
+			case "ky":
+				// Moldavian
+			case "mo":
+				// Russian
+			case "ru":
+				// Tajik
+			case "tg":
+				// Turkmen
+			case "tk":
+				// Uzbek
+			case "uz":
+				// Ukrainian
+			case "uk":
 				return "ru";
 			default:
 				return "en";
