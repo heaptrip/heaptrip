@@ -25,9 +25,7 @@ public class MemberQueryHelper extends AbstractQueryHelper {
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			query += ",'regions._id':{$in:#}";
 		}
-		if (criteria.getLocale() != null) {
-			query += ",langs:#";
-		}
+		query += ",langs:#";
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
 				query += ",'table.begin':{$gte:#, $lte:#}";
@@ -64,10 +62,8 @@ public class MemberQueryHelper extends AbstractQueryHelper {
 			parameters.add(criteria.getRegionIds());
 		}
 		// lang
-		if (criteria.getLocale() != null) {
-			String lang = LanguageUtils.getLanguageByLocale(criteria.getLocale());
-			parameters.add(lang);
-		}
+		String lang = LanguageUtils.getLanguageByLocale(criteria.getLocale());
+		parameters.add(lang);
 		// period
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null) {
