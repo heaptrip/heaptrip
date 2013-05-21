@@ -33,7 +33,7 @@
 </c:url>
 
 
-<script>
+<script type="text/javascript">
 	var onRegistrationSubmit = function() {
 
 		var url = 'rest/registration';
