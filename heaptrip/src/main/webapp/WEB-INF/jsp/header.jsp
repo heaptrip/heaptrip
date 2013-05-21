@@ -16,6 +16,7 @@
 	
 </script>
 
+<c:set var="curr_locale"><fmt:message key="locale.name"/></c:set> 
 
 <div id="language">
 	<div id="language_now">
