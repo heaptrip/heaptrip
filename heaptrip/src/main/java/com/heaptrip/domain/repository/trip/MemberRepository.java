@@ -26,4 +26,8 @@ public interface MemberRepository {
 	public void removeByTripId(String tripId);
 
 	public List<String> findTripIdsByUserId(String userId);
+
+	public void addAllowed(String ownerId, String userId);
+
+	public void removeAllowed(String ownerId, String userId);
 }

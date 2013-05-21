@@ -35,7 +35,7 @@ public class TripUserServiceImpl implements TripUserService {
 		tableUser.setStatus(TableUserStatusEnum.INVITE);
 		// TODO read name and photo from profile
 		memberRepository.save(tableUser);
-		tripRepository.incTableUsers(tripId, tableId, 1);
+		tripRepository.incTableMembers(tripId, tableId, 1);
 	}
 
 	@Override
@@ -48,7 +48,7 @@ public class TripUserServiceImpl implements TripUserService {
 		invite.setTableId(tableId);
 		invite.setEmail(email);
 		memberRepository.save(invite);
-		tripRepository.incTableInvites(tripId, tableId, 1);
+		tripRepository.incTableMembers(tripId, tableId, 1);
 	}
 
 	@Override
@@ -63,7 +63,7 @@ public class TripUserServiceImpl implements TripUserService {
 		tableUser.setStatus(TableUserStatusEnum.REQUEST);
 		// TODO read name and photo from profile
 		memberRepository.save(tableUser);
-		tripRepository.incTableUsers(tripId, tableId, 1);
+		tripRepository.incTableMembers(tripId, tableId, 1);
 	}
 
 	@Override
@@ -99,11 +99,7 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(member, "error memberId");
 		memberRepository.removeById(memberId);
 		if (member.getTripId() != null && member.getTableId() != null) {
-			if (member instanceof TableUser) {
-				tripRepository.incTableUsers(member.getTripId(), member.getTableId(), -1);
-			} else if (member instanceof TableInvite) {
-				tripRepository.incTableInvites(member.getTripId(), member.getTableId(), -1);
-			}
+			tripRepository.incTableMembers(member.getTripId(), member.getTableId(), -1);
 		}
 	}
 
@@ -115,13 +111,15 @@ public class TripUserServiceImpl implements TripUserService {
 
 	@Override
 	public void addAllowed(String ownerId, String userId) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(ownerId, "ownerId");
+		Assert.notNull(userId, "userId");
+		memberRepository.addAllowed(ownerId, userId);
 	}
 
 	@Override
 	public void removeAllowed(String ownerId, String userId) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(ownerId, "ownerId");
+		Assert.notNull(userId, "userId");
+		memberRepository.removeAllowed(ownerId, userId);
 	}
 }

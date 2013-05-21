@@ -17,6 +17,7 @@ import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
+import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.CategoryRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
@@ -127,14 +128,14 @@ public class TripServiceImpl implements TripService {
 		long result = 0;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
 			// find by memberId
-			result = tripRepository.getCountFindForMemberByCriteria(tripCriteria);
+			result = tripRepository.getCountForMemberByCriteria(tripCriteria);
 		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isBlank(tripCriteria.getUserId())) {
 				// my account
-				result = tripRepository.getCountFindForMyAccountByCriteria(tripCriteria);
+				result = tripRepository.getCountForMyAccountByCriteria(tripCriteria);
 			} else {
 				// not my account
-				result = tripRepository.getCountFindForNotMyAccountByCriteria(tripCriteria);
+				result = tripRepository.getCountForNotMyAccountByCriteria(tripCriteria);
 			}
 		} else {
 			// feed
@@ -197,7 +198,7 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(locale, "locale");
 		Assert.notNull(locale.getCountry(), "locale.country");
-		return tripRepository.getTripInfo(tripId, locale);
+		return tripRepository.getInfo(tripId, locale);
 	}
 
 	@Override
@@ -233,13 +234,21 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public void abortTableItem(String tripId, String tableId, String cause) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(tripId, "tripId");
+		Assert.notNull(tableId, "tableId");
+		TableStatus status = new TableStatus();
+		status.setValue(TableStatusEnum.ABORTED);
+		status.setText(cause);
+		tripRepository.setTableStatus(tripId, tableId, status);
 	}
 
 	@Override
 	public void cancelTableItem(String tripId, String tableId, String cause) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(tripId, "tripId");
+		Assert.notNull(tableId, "tableId");
+		TableStatus status = new TableStatus();
+		status.setValue(TableStatusEnum.CANCELED);
+		status.setText(cause);
+		tripRepository.setTableStatus(tripId, tableId, status);
 	}
 }

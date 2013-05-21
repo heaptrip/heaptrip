@@ -188,7 +188,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trip.getDescription(), text);
 	}
 
-	@Test(enabled = false, priority = 14)
+	@Test(enabled = true, priority = 14)
 	public void abortTableItem() {
 		// call
 		String cause = "cause interruption of travel";
@@ -206,7 +206,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(item.getStatus().getText(), cause);
 	}
 
-	@Test(enabled = false, priority = 15)
+	@Test(enabled = true, priority = 15)
 	public void cancelTableItem() {
 		// call
 		String cause = "cause interruption of travel";

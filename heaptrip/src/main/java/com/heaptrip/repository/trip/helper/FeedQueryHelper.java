@@ -1,4 +1,4 @@
-package com.heaptrip.repository.trip;
+package com.heaptrip.repository.trip.helper;
 
 import java.util.ArrayList;
 import java.util.List;

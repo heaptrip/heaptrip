@@ -1,19 +1,20 @@
-package com.heaptrip.repository.trip;
+package com.heaptrip.repository.trip.helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.util.LanguageUtils;
 
-public class MyAccountQueryHelper extends AbstractQueryHelper {
+public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 
 	@Override
 	public String getQuery(TripCriteria criteria) {
-		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip','owner._id':#";
+		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip','owner._id':#,allowed:{$in:#}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ",categories._id:{$in:#}";
 		}
@@ -30,9 +31,6 @@ public class MyAccountQueryHelper extends AbstractQueryHelper {
 				query += ",'table.begin':{$lte:#}";
 			}
 		}
-		if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
-			query += ",'status.value':{$in:#}";
-		}
 		query += "}";
 		return query;
 	}
@@ -42,6 +40,13 @@ public class MyAccountQueryHelper extends AbstractQueryHelper {
 		List<Object> parameters = new ArrayList<>();
 		// owner
 		parameters.add(criteria.getOwnerId());
+		// allowed
+		List<String> allowed = new ArrayList<>();
+		allowed.add(ALL_USERS);
+		if (StringUtils.isNotBlank(criteria.getUserId())) {
+			allowed.add(criteria.getUserId());
+		}
+		parameters.add(allowed);
 		// categories
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			parameters.add(criteria.getCategoryIds());
@@ -61,9 +66,6 @@ public class MyAccountQueryHelper extends AbstractQueryHelper {
 			if (criteria.getPeriod().getDateEnd() != null) {
 				parameters.add(criteria.getPeriod().getDateEnd());
 			}
-		}
-		if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
-			parameters.add(criteria.getStatus());
 		}
 		return parameters.toArray();
 	}

@@ -1,4 +1,4 @@
-package com.heaptrip.repository.trip;
+package com.heaptrip.repository.trip.helper;
 
 public class QueryHelperFactory {
 

@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
-import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
+import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.repository.trip.helper.QueryHelper;
+import com.heaptrip.repository.trip.helper.QueryHelperFactory;
 import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
@@ -117,19 +119,19 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public long getCountFindForMyAccountByCriteria(TripCriteria criteria) {
+	public long getCountForMyAccountByCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountFindForNotMyAccountByCriteria(TripCriteria criteria) {
+	public long getCountForNotMyAccountByCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
-	
+
 	@Override
-	public long getCountFindForMemberByCriteria(TripCriteria criteria) {
+	public long getCountForMemberByCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
 		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
 		return getCountByCriteria(criteria, queryHelper, tripIds);
@@ -163,7 +165,7 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public Trip getTripInfo(String tripId, Locale locale) {
+	public Trip getInfo(String tripId, Locale locale) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		String query = "{_id: #}";
 		String lang = LanguageUtils.getLanguageByLocale(locale);
@@ -203,7 +205,7 @@ public class TripRepositoryImpl implements TripRepository {
 		WriteResult wr = coll.update("{_id: #}", trip.getId()).with(updateQuery, parameters.toArray());
 		logger.debug("WriteResult for update trip: {}", wr);
 		// update array with langs
-		wr = coll.update("{_id: #}", trip.getId()).with("{$addToSet :{langs:#}}", "ru");
+		wr = coll.update("{_id: #}", trip.getId()).with("{$addToSet :{langs:#}}", lang);
 		logger.debug("WriteResult for add to set langs: {}", wr);
 		// update table items
 		if (trip.getTable() != null) {
@@ -234,16 +236,16 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public void incTableUsers(String tripId, String tableId, int value) {
+	public void incTableMembers(String tripId, String tableId, int value) {
 		String query = "{_id:#,'table._id':#}";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(tripId);
 		parameters.add(tableId);
-		String updateQuery = "{$inc: {'table.$.users': #}}";
+		String updateQuery = "{$inc: {'table.$.members': #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
-					"inc table users\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
-					ArrayUtils.toString(parameters), updateQuery, value);
+					"inc table members\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, ArrayUtils.toString(parameters), updateQuery, value);
 			logger.debug(msg);
 		}
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
@@ -252,58 +254,20 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public void incTableInvites(String tripId, String tableId, int value) {
-		String query = "{_id:#,'table._id':#}";
+	public void setTableStatus(String tripId, String tableId, TableStatus status) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_id:#, 'table._id':#}";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(tripId);
 		parameters.add(tableId);
-		String updateQuery = "{$inc: {'table.$.invites': #}}";
+		String updateQuery = "{$set :{table.$.status: #}}";
 		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"inc table invites\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
-					query, ArrayUtils.toString(parameters), updateQuery, value);
+			String msg = String
+					.format("update table item status\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+							query, ArrayUtils.toString(parameters), updateQuery, status);
 			logger.debug(msg);
 		}
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, value);
-		logger.debug("WriteResult for inc table invites: {}", wr);
+		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, status);
+		logger.debug("WriteResult for update table item status: {}", wr);
 	}
-
-	@Override
-	public void removeTableUser(String tripId, String tableItemId, String userId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = "{_id:#,table._id:#}";
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(tripId);
-		parameters.add(tableItemId);
-		String updateQuery = "{$pull :{table.$.users: {_id:#}}}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"add table item user\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
-					query, ArrayUtils.toString(parameters), updateQuery, userId);
-			logger.debug(msg);
-		}
-		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, userId);
-		logger.debug("WriteResult for remove table user: {}", wr);
-	}
-
-	@Override
-	public void updateTableUser(String tripId, String tableItemId, String userId, TableUserStatusEnum status) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = "{_id:#, table:{ $elemMatch: {_id:#, users._id: #}}}";
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(tripId);
-		parameters.add(tableItemId);
-		parameters.add(userId);
-		String updateQuery = "{$set :{table.$.users$.status: #}}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"update table item user\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
-					query, ArrayUtils.toString(parameters), updateQuery, userId);
-			logger.debug(msg);
-		}
-		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, userId);
-		logger.debug("WriteResult for update table item user: {}", wr);
-	}
-
 }

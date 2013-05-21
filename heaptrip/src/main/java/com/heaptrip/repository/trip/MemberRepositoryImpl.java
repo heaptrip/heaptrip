@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.repository.MongoContext;
@@ -116,5 +117,37 @@ public class MemberRepositoryImpl implements MemberRepository {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public void addAllowed(String ownerId, String userId) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip', 'owner._id':#}";
+		String updateQuery = "{$addToSet :{allowed:#}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"add allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
+					ownerId, updateQuery, userId);
+			logger.debug(msg);
+		}
+		// XXX check index
+		WriteResult wr = coll.update(query, ownerId).multi().with(updateQuery, userId);
+		logger.debug("WriteResult for add allowed: {}", wr);
+	}
+
+	@Override
+	public void removeAllowed(String ownerId, String userId) {
+		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip', 'owner._id':#}";
+		String updateQuery = "{$pull :{allowed:#}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"remove allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
+					ownerId, updateQuery, userId);
+			logger.debug(msg);
+		}
+		// XXX check index
+		WriteResult wr = coll.update(query, ownerId).multi().with(updateQuery, userId);
+		logger.debug("WriteResult for remove allowed: {}", wr);
 	}
 }

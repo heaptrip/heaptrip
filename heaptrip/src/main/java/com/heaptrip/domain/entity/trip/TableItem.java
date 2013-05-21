@@ -30,11 +30,8 @@ public class TableItem extends BaseObject {
 	// trip status
 	private TableStatus status;
 
-	// The number of users
-	private Long users;
-
-	// The number of invites
-	private Long invites;
+	// The number of members
+	private Long members;
 
 	public Date getBegin() {
 		return begin;
@@ -84,19 +81,11 @@ public class TableItem extends BaseObject {
 		this.max = max;
 	}
 
-	public Long getUsers() {
-		return users;
+	public Long getMembers() {
+		return members;
 	}
 
-	public void setUsers(Long users) {
-		this.users = users;
-	}
-
-	public Long getInvites() {
-		return invites;
-	}
-
-	public void setInvites(Long invites) {
-		this.invites = invites;
+	public void setMembers(Long members) {
+		this.members = members;
 	}
 }

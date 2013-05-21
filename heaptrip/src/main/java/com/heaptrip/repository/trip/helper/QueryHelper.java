@@ -1,4 +1,4 @@
-package com.heaptrip.repository.trip;
+package com.heaptrip.repository.trip.helper;
 
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
