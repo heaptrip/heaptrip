@@ -23,7 +23,9 @@ public class TripModelServiceImpl implements TripModelService {
 
 	@Override
 	public List<TripModel> getTripsModelByCriteria(TripCriteria tripCriteria) {
-		return convertTripToModel(tripService.getTripsByCriteria(tripCriteria));
+		tripCriteria.setLocale(scopeService.getCurrentLocale());
+		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
+		return convertTripToModel(trips);
 	}
 
 	private TripModel convertTripToModel(Trip trip) {
