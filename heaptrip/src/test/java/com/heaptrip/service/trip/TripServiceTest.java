@@ -11,7 +11,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.ContentStatusEnum;
-import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -176,16 +175,20 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true, priority = 13)
 	public void updateTripInfo() {
 		// call
+		Locale locale = new Locale("ru");
 		Trip trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
-		MultiLangText text = new MultiLangText("test description", Locale.ENGLISH);
-		trip.setDescription(text);
-		tripService.updateTripInfo(trip, Locale.ENGLISH);
+		String name = "Тестовая поездка";
+		trip.getName().setValue(name, locale);
+		trip.getSummary().setValue("Краткое описание тестовой поездки", locale);
+		trip.getDescription().setValue("Полное описание тестовой поездки", locale);
+		tripService.updateTripInfo(trip, locale);
 		// check
 		trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getDescription());
-		Assert.assertEquals(trip.getDescription(), text);
+		Assert.assertNotNull(trip.getName());
+		Assert.assertNotNull(trip.getName().getValue(locale));
+		Assert.assertEquals(trip.getName().getValue(locale), name);
 	}
 
 	@Test(enabled = true, priority = 14)
