@@ -69,27 +69,27 @@ public class TripUserServiceImpl implements TripUserService {
 	@Override
 	public void acceptTableUser(String tableUserId) {
 		Assert.notNull(tableUserId, "tableUserId");
-		memberRepository.updateStatus(tableUserId, TableUserStatusEnum.OK);
+		memberRepository.setStatus(tableUserId, TableUserStatusEnum.OK);
 	}
 
 	@Override
 	public void setTableUserOrganizer(String tableUserId, Boolean isOrganizer) {
 		Assert.notNull(tableUserId, "tableUserId");
-		memberRepository.updateOrganizer(tableUserId, isOrganizer);
+		memberRepository.setOrganizer(tableUserId, isOrganizer);
 	}
 
 	@Override
 	public List<TableMember> getTableMembers(String tripId, String tableId, int limit) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(tableId, "tableId");
-		return memberRepository.find(tripId, tableId, limit);
+		return memberRepository.findByTable(tripId, tableId, limit);
 	}
 
 	@Override
 	public List<TableMember> getTableMembers(String tripId, String tableId) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(tableId, "tableId");
-		return memberRepository.find(tripId, tableId);
+		return memberRepository.findByTable(tripId, tableId);
 	}
 
 	@Override

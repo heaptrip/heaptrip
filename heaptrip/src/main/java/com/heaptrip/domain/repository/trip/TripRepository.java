@@ -16,9 +16,9 @@ public interface TripRepository {
 
 	public Trip findById(String tripId);
 
-	public void removeTrip(String tripId);
+	public void removeById(String tripId);
 
-	public void setDeleted(String tripId, String ownerId);
+	public void setDeleted(String tripId);
 
 	public List<Trip> findForFeedByCriteria(TripCriteria criteria);
 

@@ -34,44 +34,46 @@ public class MemberRepositoryImpl implements MemberRepository {
 	}
 
 	@Override
-	public void updateStatus(String memberId, TableUserStatusEnum status) {
+	public void setStatus(String memberId, TableUserStatusEnum status) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		WriteResult wr = coll.update("{_id: #}", memberId).with("{$set: {status: #}}", status);
-		logger.debug("WriteResult for update status: {}", wr);
+		logger.debug("WriteResult for set status: {}", wr);
 	}
 
 	@Override
-	public void updateOrganizer(String tableUserId, Boolean isOrganizer) {
+	public void setOrganizer(String tableUserId, Boolean isOrganizer) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		WriteResult wr = coll.update("{_id: #}", tableUserId).with("{$set: {isOrganizer: #}}", isOrganizer);
-		logger.debug("WriteResult for update organizer status: {}", wr);
+		logger.debug("WriteResult for set organizer: {}", wr);
 	}
 
 	@Override
-	public List<TableMember> find(String tripId, String tableId) {
+	public List<TableMember> findByTable(String tripId, String tableId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
-		String query = "{tripId:#, tableId:#}";
+		String query = "{tripId: #, tableId: #}";
+		String hint = "{tripId : 1, tableId : 1}";
 		if (logger.isDebugEnabled()) {
-			String msg = String
-					.format("find table members\n->query: %s\n->parameters: [%s,%s]", query, tripId, tableId);
+			String msg = String.format("find table members\n->query: %s\n->parameters: [%s,%s]\n->hint: %s", query,
+					tripId, tableId, hint);
 			logger.debug(msg);
 		}
-		Iterator<TableMember> iter = coll.find(query, tripId, tableId).hint("{tripId : 1, tableId : 1}")
-				.as(TableMember.class).iterator();
+		Iterator<TableMember> iter = coll.find(query, tripId, tableId).hint(hint).as(TableMember.class).iterator();
 		return IteratorConverter.copyIterator(iter);
 	}
 
 	@Override
-	public List<TableMember> find(String tripId, String tableId, int limit) {
+	public List<TableMember> findByTable(String tripId, String tableId, int limit) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
-		String query = "{tripId:#, tableId:#}";
+		String query = "{tripId: #, tableId: #}";
+		String hint = "{tripId : 1, tableId : 1}";
 		if (logger.isDebugEnabled()) {
-			String msg = String
-					.format("find table members\n->query: %s\n->parameters: [%s,%s]", query, tripId, tableId);
+			String msg = String.format(
+					"find table members\n->query: %s\n->parameters: [%s,%s]\n->limit: %d\n->hint: %s", query, tripId,
+					tableId, limit, hint);
 			logger.debug(msg);
 		}
-		Iterator<TableMember> iter = coll.find(query, tripId, tableId).limit(limit).hint("{tripId : 1, tableId : 1}")
-				.as(TableMember.class).iterator();
+		Iterator<TableMember> iter = coll.find(query, tripId, tableId).limit(limit).hint(hint).as(TableMember.class)
+				.iterator();
 		return IteratorConverter.copyIterator(iter);
 	}
 
@@ -98,7 +100,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 	@Override
 	public List<String> findTripIdsByUserId(String userId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
-		String query = "{_class:'com.heaptrip.domain.entity.trip.TableUser', userId:#}";
+		String query = "{_class: 'com.heaptrip.domain.entity.trip.TableUser', userId: #}";
 		String projection = "{_class : 1, tripId : 1}";
 		String hint = "{_class:1, userId : 1}";
 		if (logger.isDebugEnabled()) {
@@ -122,8 +124,8 @@ public class MemberRepositoryImpl implements MemberRepository {
 	@Override
 	public void addAllowed(String ownerId, String userId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip', 'owner._id':#}";
-		String updateQuery = "{$addToSet :{allowed:#}}";
+		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', 'owner._id': #}";
+		String updateQuery = "{$addToSet :{allowed: #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"add allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
@@ -138,8 +140,8 @@ public class MemberRepositoryImpl implements MemberRepository {
 	@Override
 	public void removeAllowed(String ownerId, String userId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip', 'owner._id':#}";
-		String updateQuery = "{$pull :{allowed:#}}";
+		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', 'owner._id': #}";
+		String updateQuery = "{$pull :{allowed: #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"remove allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,

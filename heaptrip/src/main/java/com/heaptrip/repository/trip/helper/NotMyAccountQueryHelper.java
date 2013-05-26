@@ -14,21 +14,21 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 
 	@Override
 	public String getQuery(TripCriteria criteria) {
-		String query = "{_class:'com.heaptrip.domain.entity.trip.Trip','owner._id':#,allowed:{$in:#}";
+		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', 'owner._id': #, allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			query += ",categories._id:{$in:#}";
+			query += ", 'categories._id': {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			query += ",regions._id:{$in:#}";
+			query += ", 'regions._id': {$in: #}";
 		}
-		query += ",langs:#";
+		query += ", langs: #";
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
-				query += ",'table.begin':{$gte:#, $lte:#}";
+				query += ", 'table.begin': {$gte: #, $lte: #}";
 			} else if (criteria.getPeriod().getDateBegin() != null) {
-				query += ",'table.begin':{$gte:#}";
+				query += ", 'table.begin': {$gte: #}";
 			} else if (criteria.getPeriod().getDateEnd() != null) {
-				query += ",'table.begin':{$lte:#}";
+				query += ", 'table.begin': {$lte: #}";
 			}
 		}
 		query += "}";
@@ -75,12 +75,12 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 		if (sort != null) {
 			switch (sort) {
 			case RATING:
-				return "{_class:1,'owner._id':1,rating:1}";
+				return "{_class: 1, 'owner._id': 1, rating: 1}";
 			default:
-				return "{_class:1,'owner._id':1,created:1}";
+				return "{_class: 1, 'owner._id': 1, created: 1}";
 			}
 		} else {
-			return "{_class:1,'owner._id:1',created:1}";
+			return "{_class: 1, 'owner._id': 1, created: 1}";
 		}
 	}
 

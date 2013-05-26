@@ -46,24 +46,24 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public void removeTrip(String tripId) {
+	public void removeById(String tripId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		WriteResult wr = coll.remove("{_id: #}", tripId);
 		logger.debug("WriteResult for remove trip: {}", wr);
 	}
 
 	@Override
-	public void setDeleted(String tripId, String ownerId) {
+	public void setDeleted(String tripId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update("{_id: #, owner._id : #}", tripId, ownerId).with(
-				"{$set: {deleted: #, allowed : null}}", Calendar.getInstance().getTime());
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, allowed : null}}",
+				Calendar.getInstance().getTime());
 		logger.debug("WriteResult for set trip deleted: {}", wr);
 	}
 
 	@Override
 	public Trip findById(String tripId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		return coll.findOne("{ _id : #}", tripId).as(Trip.class);
+		return coll.findOne("{ _id: #}", tripId).as(Trip.class);
 	}
 
 	@Override
@@ -152,8 +152,8 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update("{_id: #}", tripId)
-				.with("{$set: {status.value: #, allowed : #}}", status, allowed);
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {'status.value': #, allowed: #}}", status,
+				allowed);
 		logger.debug("WriteResult for set status: {}", wr);
 	}
 
@@ -170,10 +170,11 @@ public class TripRepositoryImpl implements TripRepository {
 		String query = "{_id: #}";
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String projection = String
-				.format("{_class:1,owner:1,'categories._id':1,'categories.name.%s':1,'regions._id':1,'regions.name.%s':1,"
-						+ "'status':1,'name.%s':1,'summary.%s':1,'description.%s':1,'table._id':1,'table.begin':1,'table.end':1,"
-						+ "'table.min':1,'table.max':1,'table.status':1,'table.users':1,'table.price':1,photo:1,"
-						+ "created:1,owners:1,views:1,rating:1,comments:1,langs:1}", lang, lang, lang, lang, lang);
+				.format("{_class: 1, owner: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1,"
+						+ " status: 1, 'name.%s': 1, 'summary.%s': 1, 'description.%s': 1, 'table._id': 1, 'table.begin': 1, 'table.end': 1,"
+						+ " 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1, 'table.price': 1, photo: 1,"
+						+ " created: 1, owners:1, views: 1, rating: 1, comments: 1, langs: 1}", lang, lang, lang, lang,
+						lang);
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("get trip info\n->query: %s\n->parameters: %s\n->projection: %s", query, tripId,
 					projection);
@@ -186,11 +187,13 @@ public class TripRepositoryImpl implements TripRepository {
 	public void update(Trip trip, Locale locale) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		// update common data
+		String query = "{_id: #}";
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		String updateQuery = String.format(
-				"{$set:{categories:#,regions:#,'name.%s':#,'summary.%s':#,'description.%s':#,photo:#}}", lang, lang,
-				lang);
+		String updateQuery = String
+				.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, photo: #}}",
+						lang, lang, lang);
 		List<Object> parameters = new ArrayList<>();
+		parameters.add(lang);
 		parameters.add(trip.getCategories());
 		parameters.add(trip.getRegions());
 		parameters.add(trip.getName().getValue(locale));
@@ -198,23 +201,21 @@ public class TripRepositoryImpl implements TripRepository {
 		parameters.add(trip.getDescription().getValue(locale));
 		parameters.add(trip.getPhoto());
 		if (logger.isDebugEnabled()) {
-			String msg = String.format("update trip info\n->updateQuery: %s\n->parameters: %s", updateQuery,
-					ArrayUtils.toString(parameters));
+			String msg = String.format(
+					"update trip info\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, trip.getId(), updateQuery, ArrayUtils.toString(parameters));
 			logger.debug(msg);
 		}
-		WriteResult wr = coll.update("{_id: #}", trip.getId()).with(updateQuery, parameters.toArray());
-		logger.debug("WriteResult for update trip: {}", wr);
-		// update array with langs
-		wr = coll.update("{_id: #}", trip.getId()).with("{$addToSet :{langs:#}}", lang);
-		logger.debug("WriteResult for add to set langs: {}", wr);
+		WriteResult wr = coll.update(query, trip.getId()).with(updateQuery, parameters.toArray());
+		logger.debug("WriteResult for update trip info: {}", wr);
 		// update table items
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
-				String query = "{_id:#, 'table:_id':#}";
+				query = "{_id: #, 'table:_id': #}";
 				parameters = new ArrayList<>();
 				parameters.add(trip.getId());
 				parameters.add(item.getId());
-				updateQuery = "{$set :{table.$.begin:#,table.$.end:#,table.$.min:#,table.$.max:#,table.$.price:#,table.$.status:#}}";
+				updateQuery = "{$set: {'table.$.begin': #, 'table.$.end': #, 'table.$.min': #, 'table.$.max': #, 'table.$.price': #, 'table.$.status': #}}";
 				List<Object> updateParameters = new ArrayList<>();
 				updateParameters.add(item.getBegin());
 				updateParameters.add(item.getEnd());
@@ -230,14 +231,14 @@ public class TripRepositoryImpl implements TripRepository {
 					logger.debug(msg);
 				}
 				wr = coll.update(query, parameters.toArray()).with(updateQuery, updateParameters.toArray());
-				logger.debug("WriteResult for apdate table item: {}", wr);
+				logger.debug("WriteResult for update table item: {}", wr);
 			}
 		}
 	}
 
 	@Override
 	public void incTableMembers(String tripId, String tableId, int value) {
-		String query = "{_id:#,'table._id':#}";
+		String query = "{_id: #, 'table._id': #}";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(tripId);
 		parameters.add(tableId);
@@ -250,17 +251,17 @@ public class TripRepositoryImpl implements TripRepository {
 		}
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
 		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, value);
-		logger.debug("WriteResult for inc table users: {}", wr);
+		logger.debug("WriteResult for inc table members: {}", wr);
 	}
 
 	@Override
 	public void setTableStatus(String tripId, String tableId, TableStatus status) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		String query = "{_id:#, 'table._id':#}";
+		String query = "{_id: #, 'table._id': #}";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(tripId);
 		parameters.add(tableId);
-		String updateQuery = "{$set :{table.$.status: #}}";
+		String updateQuery = "{$set: {'table.$.status': #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String
 					.format("update table item status\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
@@ -268,6 +269,6 @@ public class TripRepositoryImpl implements TripRepository {
 			logger.debug(msg);
 		}
 		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, status);
-		logger.debug("WriteResult for update table item status: {}", wr);
+		logger.debug("WriteResult for set table status: {}", wr);
 	}
 }

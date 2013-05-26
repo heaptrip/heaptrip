@@ -62,6 +62,9 @@ public class TripServiceImpl implements TripService {
 			}
 		}
 
+		// TODO
+		// as well as categories read and set regions name
+
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
 				if (item.getId() == null) {
@@ -70,9 +73,6 @@ public class TripServiceImpl implements TripService {
 				item.setStatus(new TableStatus());
 			}
 		}
-
-		// TODO
-		// as well as categories read and set regions name
 
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
@@ -87,17 +87,16 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public void removeTrip(String tripId, String ownerId) {
+	public void removeTrip(String tripId) {
 		Assert.notNull(tripId, "tripId");
-		Assert.notNull(ownerId, "ownerId");
 		// TODO add a check that in travel has no members
-		tripRepository.setDeleted(tripId, ownerId);
+		tripRepository.setDeleted(tripId);
 	}
 
 	@Override
 	public void hardRemoveTrip(String tripId) {
 		Assert.notNull(tripId, "tripId");
-		tripRepository.removeTrip(tripId);
+		tripRepository.removeById(tripId);
 	}
 
 	@Override
@@ -197,7 +196,6 @@ public class TripServiceImpl implements TripService {
 	public Trip getTripInfo(String tripId, Locale locale) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(locale, "locale");
-		Assert.notNull(locale.getCountry(), "locale.country");
 		return tripRepository.getInfo(tripId, locale);
 	}
 

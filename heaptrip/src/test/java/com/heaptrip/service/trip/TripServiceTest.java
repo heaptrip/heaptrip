@@ -125,7 +125,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip);
 		Assert.assertNull(trip.getDeleted());
 		Assert.assertNotNull(trip.getAllowed());
-		tripService.removeTrip(TRIP_ID, InitTripTest.OWNER_ID);
+		tripService.removeTrip(TRIP_ID);
 		// check
 		trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);

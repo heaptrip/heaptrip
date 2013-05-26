@@ -11,21 +11,21 @@ public interface MemberRepository {
 
 	public void save(TableMember member);
 
-	public void updateStatus(String memberId, TableUserStatusEnum status);
-
-	public void updateOrganizer(String tableUserId, Boolean isOrganizer);
-
 	public TableMember findById(String memberId);
 
-	public List<TableMember> find(String tripId, String tableId);
+	public List<TableMember> findByTable(String tripId, String tableId);
 
-	public List<TableMember> find(String tripId, String tableId, int limit);
+	public List<TableMember> findByTable(String tripId, String tableId, int limit);
+
+	public List<String> findTripIdsByUserId(String userId);
 
 	public void removeById(String memberId);
 
 	public void removeByTripId(String tripId);
 
-	public List<String> findTripIdsByUserId(String userId);
+	public void setStatus(String memberId, TableUserStatusEnum status);
+
+	public void setOrganizer(String tableUserId, Boolean isOrganizer);
 
 	public void addAllowed(String ownerId, String userId);
 

@@ -15,24 +15,24 @@ public class MemberQueryHelper extends AbstractQueryHelper {
 
 	@Override
 	public String getQuery(TripCriteria criteria) {
-		String query = "{_id:{$in:#}, _class:'com.heaptrip.domain.entity.trip.Trip'";
+		String query = "{_id: {$in: #}, _class: 'com.heaptrip.domain.entity.trip.Trip'";
 		if (StringUtils.isNotBlank(criteria.getUserId())) {
-			query += ",allowed:{$in:#}";
+			query += ", allowed: {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			query += ",'categories._id':{$in:#}";
+			query += ", 'categories._id': {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			query += ",'regions._id':{$in:#}";
+			query += ", 'regions._id': {$in: #}";
 		}
-		query += ",langs:#";
+		query += ", langs: #";
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
-				query += ",'table.begin':{$gte:#, $lte:#}";
+				query += ", 'table.begin': {$gte: #, $lte: #}";
 			} else if (criteria.getPeriod().getDateBegin() != null) {
-				query += ",'table.begin':{$gte:#}";
+				query += ", 'table.begin': {$gte: #}";
 			} else if (criteria.getPeriod().getDateEnd() != null) {
-				query += ",'table.begin':{$lte:#}";
+				query += ", 'table.begin': {$lte: #}";
 			}
 		}
 		query += "}";
@@ -78,7 +78,7 @@ public class MemberQueryHelper extends AbstractQueryHelper {
 
 	@Override
 	public String getHint(ContentSortEnum sort) {
-		return "{_id:1}";
+		return "{_id: 1}";
 	}
 
 }
