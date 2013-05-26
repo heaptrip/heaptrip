@@ -4,6 +4,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.jongo.marshall.jackson.oid.Id;
 
+/**
+ * 
+ * Base object for all entities that are stored in the collection and have a
+ * unique identifier
+ * 
+ */
 public abstract class BaseObject {
 
 	@Id

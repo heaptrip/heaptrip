@@ -1,6 +1,7 @@
 package com.heaptrip.domain.entity;
 
 /**
+ * 
  * Enumeration of accounts
  * 
  */

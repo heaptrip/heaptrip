@@ -1,9 +1,16 @@
 package com.heaptrip.domain.entity;
 
+/**
+ * 
+ * Content status
+ * 
+ */
 public class ContentStatus {
 
+	// status value
 	private ContentStatusEnum value;
 
+	// additional description
 	private String text;
 
 	public ContentStatus(ContentStatusEnum value) {

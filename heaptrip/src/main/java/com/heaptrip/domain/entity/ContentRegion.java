@@ -1,7 +1,13 @@
 package com.heaptrip.domain.entity;
 
+/**
+ * 
+ * Content regions
+ * 
+ */
 public class ContentRegion extends BaseObject {
 
+	// multilingual name of the region
 	protected MultiLangText name;
 
 	protected ContentRegion() {

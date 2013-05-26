@@ -1,11 +1,18 @@
 package com.heaptrip.domain.entity;
 
+/**
+ * 
+ * Category
+ * 
+ */
 public class Category extends ContentCategory {
 
 	public static final String COLLECTION_NAME = "categories";
 
+	// id of the parent
 	private String parent;
 
+	// id list of all parents
 	private String[] ancestors;
 
 	public Category() {

@@ -5,6 +5,11 @@ import java.util.Locale;
 
 import com.heaptrip.util.LanguageUtils;
 
+/**
+ * 
+ * MultiLangText is designed to work with multi-language text
+ * 
+ */
 public class MultiLangText extends HashMap<String, String> {
 
 	private static final long serialVersionUID = -248938959357861383L;

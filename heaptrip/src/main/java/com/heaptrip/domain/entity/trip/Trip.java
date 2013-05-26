@@ -4,6 +4,7 @@ import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.MultiLangText;
 
 /**
+ * 
  * Trip
  * 
  */

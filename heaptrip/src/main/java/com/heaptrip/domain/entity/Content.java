@@ -15,7 +15,7 @@ public class Content extends BaseObject {
 
 	public static final String COLLECTION_NAME = "contents";
 
-	// entity class
+	// entity class name
 	private String _class;
 
 	// content owner
@@ -36,10 +36,10 @@ public class Content extends BaseObject {
 	// photo
 	private Photo photo;
 
-	// date of creating
+	// date created
 	private Date created;
 
-	// date of removal
+	// date of remove
 	private Date deleted;
 
 	// list of user IDs that are allowed to view content. [0] - allow all

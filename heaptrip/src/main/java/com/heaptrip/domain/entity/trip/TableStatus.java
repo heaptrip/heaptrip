@@ -1,9 +1,16 @@
 package com.heaptrip.domain.entity.trip;
 
+/**
+ * 
+ * Table status
+ * 
+ */
 public class TableStatus {
 
+	// status value
 	private TableStatusEnum value;
 
+	// additional description
 	private String text;
 
 	public TableStatus() {

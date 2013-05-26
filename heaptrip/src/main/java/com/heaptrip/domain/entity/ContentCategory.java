@@ -1,7 +1,13 @@
 package com.heaptrip.domain.entity;
 
+/**
+ * 
+ * Content category
+ * 
+ */
 public class ContentCategory extends BaseObject {
 
+	// multilingual name of the category
 	protected MultiLangText name;
 
 	protected ContentCategory() {

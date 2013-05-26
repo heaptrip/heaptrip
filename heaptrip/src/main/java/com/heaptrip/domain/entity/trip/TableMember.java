@@ -14,7 +14,7 @@ public abstract class TableMember extends BaseObject {
 
 	public static final String COLLECTION_NAME = "members";
 
-	// entity class
+	// entity class name
 	private String _class;
 
 	// trip id

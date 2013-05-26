@@ -1,11 +1,19 @@
 package com.heaptrip.domain.entity;
 
+/**
+ * 
+ * The content owner
+ * 
+ */
 public class ContentOwner extends BaseObject {
 
+	// account type
 	private AccountEnum type;
 
+	// the owner's name
 	private String name;
 
+	// rating owner
 	private Double rating;
 
 	public ContentOwner() {

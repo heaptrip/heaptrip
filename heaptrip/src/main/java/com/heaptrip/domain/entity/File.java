@@ -2,6 +2,7 @@ package com.heaptrip.domain.entity;
 
 import java.util.Date;
 
+@Deprecated
 public class File extends BaseObject {
 
 	private String name;

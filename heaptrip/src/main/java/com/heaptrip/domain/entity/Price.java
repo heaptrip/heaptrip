@@ -2,10 +2,17 @@ package com.heaptrip.domain.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * 
+ * Price
+ * 
+ */
 public class Price {
 
+	// type of currency
 	private CurrencyEnum currency;
 
+	// amount
 	private BigDecimal value;
 
 	public CurrencyEnum getCurrency() {
