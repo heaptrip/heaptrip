@@ -2,6 +2,7 @@ package com.heaptrip.domain.entity;
 
 import java.util.Date;
 
+// TODO
 public class Album extends BaseObject {
 
 	private String target;
