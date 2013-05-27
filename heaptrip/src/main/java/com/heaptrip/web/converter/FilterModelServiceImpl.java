@@ -23,7 +23,7 @@ public class FilterModelServiceImpl implements FilterModelService {
 
 	@Override
 	public List<CategoryModel> getCategories() {
-		List<Category> categories = categoryService.getCategories();
+		List<Category> categories = categoryService.getCategories(scopeService.getCurrentLocale());
 		Map<String, CategoryModel> map = new HashMap<String, CategoryModel>();
 		map.put(null, new CategoryModel());
 		for (Category category : categories) {

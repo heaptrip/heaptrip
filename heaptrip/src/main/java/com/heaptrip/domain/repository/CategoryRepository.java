@@ -1,6 +1,7 @@
 package com.heaptrip.domain.repository;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.heaptrip.domain.entity.Category;
 
@@ -13,7 +14,7 @@ public interface CategoryRepository {
 
 	public Category findById(String Id);
 
-	public List<Category> findAll();
+	public List<Category> findAll(Locale locale);
 
 	public void removeAll();
 }

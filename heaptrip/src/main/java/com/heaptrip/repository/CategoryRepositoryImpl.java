@@ -1,6 +1,7 @@
 package com.heaptrip.repository;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.jongo.MongoCollection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 	}
 
 	@Override
-	public List<Category> findAll() {
+	public List<Category> findAll(Locale locale) {
 		MongoCollection coll = mongoContext.getCollection(Category.COLLECTION_NAME);
 		Iterable<Category> iter = coll.find().as(Category.class);
 		return IteratorConverter.copyIterator(iter.iterator());

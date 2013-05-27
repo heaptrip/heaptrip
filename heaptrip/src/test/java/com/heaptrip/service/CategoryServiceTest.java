@@ -2,6 +2,7 @@ package com.heaptrip.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -91,7 +92,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Test(priority = 4)
 	public void findAll() {
-		List<Category> categories = categoryService.getCategories();
+		List<Category> categories = categoryService.getCategories(Locale.ENGLISH);
 		Assert.assertEqualsNoOrder(categories.toArray(), this.categories.toArray());
 	}
 }
