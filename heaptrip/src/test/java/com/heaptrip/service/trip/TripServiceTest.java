@@ -104,9 +104,8 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
 		TableItem item = tripService.getNearTableItemByPeriod(trip, period);
 		// check
-		if (item != null) {
-			Assert.assertTrue(item.getBegin().after(period.getDateBegin())
-					&& item.getBegin().before(period.getDateEnd()));
+		if (item != null && item.getBegin() != null) {
+			Assert.assertTrue(item.getBegin().after(period.getDateBegin()));
 			for (TableItem ti : trip.getTable()) {
 				if (period.getDateBegin() != null && ti.getBegin() != null
 						&& ti.getBegin().before(period.getDateBegin())) {
