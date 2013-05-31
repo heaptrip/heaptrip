@@ -18,6 +18,9 @@ public class Region extends ContentRegion {
 	// type of region
 	private RegionEnum type;
 
+	// multilingual full name (path) of the region
+	protected MultiLangText path;
+
 	public String getParent() {
 		return parent;
 	}
@@ -41,4 +44,13 @@ public class Region extends ContentRegion {
 	public void setType(RegionEnum type) {
 		this.type = type;
 	}
+
+	public MultiLangText getPath() {
+		return path;
+	}
+
+	public void setPath(MultiLangText path) {
+		this.path = path;
+	}
+
 }
