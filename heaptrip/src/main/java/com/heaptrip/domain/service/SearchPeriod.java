@@ -2,10 +2,17 @@ package com.heaptrip.domain.service;
 
 import java.util.Date;
 
+/**
+ * 
+ * Search period
+ * 
+ */
 public class SearchPeriod {
 
+	// from which date
 	private Date dateBegin;
 
+	// until what date
 	private Date dateEnd;
 
 	public SearchPeriod(Date dateBegin, Date dateEnd) {

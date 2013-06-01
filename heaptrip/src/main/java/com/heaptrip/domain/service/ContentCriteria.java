@@ -4,24 +4,38 @@ import java.util.Locale;
 
 import com.heaptrip.domain.entity.ContentStatusEnum;
 
+/**
+ * 
+ * The basic criterion for finding content
+ * 
+ */
 public class ContentCriteria {
 
+	// id of the content owner
 	private String ownerId;
 
+	// user id
 	protected String userId;
 
+	// id list of categories
 	protected String[] categoryIds;
 
+	// id list of regions
 	protected String[] regionIds;
 
+	// content statuses
 	protected ContentStatusEnum[] status;
 
+	// the number of records to skip
 	protected Long skip;
 
+	// the maximum number of records
 	protected Long limit;
 
+	// how to sort
 	protected ContentSortEnum sort;
 
+	// locale
 	protected Locale locale;
 
 	public String getOwnerId() {

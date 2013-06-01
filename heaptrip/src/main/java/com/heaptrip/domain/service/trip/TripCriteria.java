@@ -3,10 +3,17 @@ package com.heaptrip.domain.service.trip;
 import com.heaptrip.domain.service.ContentCriteria;
 import com.heaptrip.domain.service.SearchPeriod;
 
+/**
+ * 
+ * Criteria for finding trips
+ * 
+ */
 public class TripCriteria extends ContentCriteria {
 
+	// id of the member trip
 	private String memberId;
 
+	// search period
 	private SearchPeriod period;
 
 	public String getMemberId() {
