@@ -20,7 +20,7 @@ public class RegionServiceTest extends AbstractTestNGSpringContextTests {
 	private RegionService regionService;
 
 	@Test(enabled = false)
-	public void removeAll() throws SolrServerException {
+	public void getRegionsByName() throws SolrServerException {
 		String name = "Moscow";
 		Locale locale = Locale.ENGLISH;
 		List<Region> regions = regionService.getRegionsByName(name, 0L, 10L, locale);
