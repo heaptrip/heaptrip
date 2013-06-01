@@ -1,4 +1,4 @@
-package com.heaptrip.search;
+package com.heaptrip.repository.solr;
 
 import java.net.MalformedURLException;
 
@@ -12,23 +12,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.search.SolrContext;
+import com.heaptrip.domain.repository.solr.SolrContext;
 
-@Service(SolrContext.SERVICE_NAME)
+@Service
 public class SolrContextImpl implements SolrContext {
 
 	private static final Logger logger = LoggerFactory.getLogger(SolrContextImpl.class);
 
-	private static String GEO_CORE = "geo";
-
-	private static String CONTENT_CORE = "content";
-
 	@Value("${search.urls}")
 	private String urls;
 
-	private SolrServer geoCore = null;
+	private SolrServer regionsCore = null;
 
-	private SolrServer contentCore = null;
+	private SolrServer contentsCore = null;
 
 	@PostConstruct
 	public void init() throws MalformedURLException {
@@ -41,30 +37,32 @@ public class SolrContextImpl implements SolrContext {
 
 		if (urls.startsWith("http")) {
 			// urls store solr url
-			geoCore = new HttpSolrServer(urls + "/" + GEO_CORE);
-			contentCore = new HttpSolrServer(urls + "/" + CONTENT_CORE);
+			regionsCore = new HttpSolrServer(urls + "/" + REGIONS_CORE);
+			contentsCore = new HttpSolrServer(urls + "/" + CONTENTS_CORE);
 		} else {
 			// urls store zookeeper endpoints
-			geoCore = new CloudSolrServer(urls);
-			((CloudSolrServer) geoCore).setDefaultCollection(GEO_CORE);
-			((CloudSolrServer) geoCore).connect();
+			regionsCore = new CloudSolrServer(urls);
+			((CloudSolrServer) regionsCore).setDefaultCollection(REGIONS_CORE);
+			((CloudSolrServer) regionsCore).connect();
 
-			contentCore = new CloudSolrServer(urls);
-			((CloudSolrServer) contentCore).setDefaultCollection(CONTENT_CORE);
-			((CloudSolrServer) contentCore).connect();
+			contentsCore = new CloudSolrServer(urls);
+			((CloudSolrServer) contentsCore).setDefaultCollection(CONTENTS_CORE);
+			((CloudSolrServer) contentsCore).connect();
 		}
 
 		logger.info("Solr cores successfully initialized");
 	}
 
 	@Override
-	public SolrServer getGeoCore() {
-		return geoCore;
-	}
-
-	@Override
-	public SolrServer getContentCore() {
-		return contentCore;
+	public SolrServer getCore(String coreName) {
+		switch (coreName) {
+		case REGIONS_CORE:
+			return regionsCore;
+		case CONTENTS_CORE:
+			return contentsCore;
+		default:
+			return null;
+		}
 	}
 
 }

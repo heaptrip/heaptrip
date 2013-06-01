@@ -1,4 +1,4 @@
-package com.heaptrip.search;
+package com.heaptrip.repository.solr;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -14,24 +14,11 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.heaptrip.domain.search.geo.GeoSearch;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("file:src/test/resources/META-INF/spring/test-context.xml")
-@Ignore
+// TODO after develope add content to index remove this class
 public class SearchTest {
 	private static String CONTENT_COLLECTION = "content";
 	private static String GEO_COLLECTION = "geo";
-
-	@Autowired
-	private GeoSearch geoSearch;
 
 	// @Test
 	public void TestCloudSearch() throws SolrServerException, MalformedURLException {
@@ -100,33 +87,6 @@ public class SearchTest {
 		 * UpdateRequest update2 = new UpdateRequest();
 		 * update2.setParam("collection", "content"); update2.add(doc);
 		 * update2.process(cloudSolrServer);
-		 */
-	}
-
-	@Test
-	public void TestSingleSearch() throws SolrServerException, IOException {
-		System.out.println("TestSingleSearch");
-
-		String strQquery = "jap республика germany rus москва питер";
-		String[] str = geoSearch.searchIdsByName(strQquery, 0, 10);
-
-		/*
-		 * SolrServer server = new
-		 * HttpSolrServer("http://heaptrip:Qazwsx321@solr.heaptrip.com/geo");
-		 * String strQquery = "jap республика germany rus москва питер";
-		 * SolrQuery parameters = new SolrQuery(); //
-		 * parameters.setParam("collection", "geo"); parameters.set("q",
-		 * strQquery); parameters.set("start", "0"); parameters.set("rows",
-		 * "100"); parameters.set("defType", "dismax"); parameters.set("qf",
-		 * "text_ru text_en");
-		 * 
-		 * QueryResponse response = server.query(parameters);
-		 * System.out.println("QTime=" + response.getQTime()); SolrDocumentList
-		 * results = response.getResults(); System.out.println("size=" +
-		 * results.size()); for (int i = 0; i < results.size(); ++i) {
-		 * System.out.println(results.get(i)); SolrDocument doc =
-		 * results.get(i); String id = (String) doc.getFieldValue("id");
-		 * System.out.println("id=" + id); }
 		 */
 	}
 
