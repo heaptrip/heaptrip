@@ -82,14 +82,14 @@ public class TripUserServiceImpl implements TripUserService {
 	public List<TableMember> getTableMembers(String tripId, String tableId, int limit) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(tableId, "tableId");
-		return memberRepository.findByTable(tripId, tableId, limit);
+		return memberRepository.findByTripIdAndTableId(tripId, tableId, limit);
 	}
 
 	@Override
 	public List<TableMember> getTableMembers(String tripId, String tableId) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(tableId, "tableId");
-		return memberRepository.findByTable(tripId, tableId);
+		return memberRepository.findByTripIdAndTableId(tripId, tableId);
 	}
 
 	@Override

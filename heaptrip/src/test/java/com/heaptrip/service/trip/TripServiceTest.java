@@ -32,8 +32,8 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private TripRepository tripRepository;
 
-	@Test(dataProvider = "tripCriteriaForFeed", dataProviderClass = TripDataProvider.class, enabled = true, priority = 1)
-	public void getTripsForFeedByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 1)
+	public void getTripsByFeedCriteria(TripCriteria tripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
 		// check
@@ -41,8 +41,8 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripCriteriaForMyAccount", dataProviderClass = TripDataProvider.class, enabled = true, priority = 2)
-	public void getTripsForMyAccountByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "myAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 2)
+	public void getTripsByMyAccountCriteria(TripCriteria tripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
 		// check
@@ -50,8 +50,8 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripCriteriaForNotMyAccount", dataProviderClass = TripDataProvider.class, enabled = true, priority = 3)
-	public void getTripsForNotMyAccountByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "notMyAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 3)
+	public void getTripsByNotMyAccountCriteria(TripCriteria tripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
 		// check
@@ -59,24 +59,24 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripCriteriaForFeed", dataProviderClass = TripDataProvider.class, enabled = true, priority = 4)
-	public void getCountForFeedByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 4)
+	public void getCountByFeedCriteria(TripCriteria tripCriteria) {
 		// call
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		// check
 		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripCriteriaForMyAccount", dataProviderClass = TripDataProvider.class, enabled = true, priority = 5)
-	public void getCountForMyAccountByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "myAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 5)
+	public void getCountByMyAccountCriteria(TripCriteria tripCriteria) {
 		// call
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		// check
 		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(dataProvider = "tripCriteriaForNotMyAccount", dataProviderClass = TripDataProvider.class, enabled = true, priority = 6)
-	public void getCountForNotMyAccountByCriteria(TripCriteria tripCriteria) {
+	@Test(dataProvider = "notMyAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 6)
+	public void getCountByNotMyAccountCriteria(TripCriteria tripCriteria) {
 		// call
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		// check

@@ -22,7 +22,7 @@ import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
 import com.mongodb.WriteConcern;
 
-@Service(MongoContext.SERVICE_NAME)
+@Service
 public class MongoContextImpl implements MongoContext {
 	private static final Logger logger = LoggerFactory.getLogger(MongoContextImpl.class);
 

@@ -197,8 +197,8 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(user.getIsOrganizer());
 	}
 
-	@Test(priority = 7, enabled = true, dataProvider = "tripCriteriaForMember", dataProviderClass = TripDataProvider.class)
-	public void getTripsForMemberByCriteria(TripCriteria tripCriteria) {
+	@Test(priority = 7, enabled = true, dataProvider = "memberCriteria", dataProviderClass = TripDataProvider.class)
+	public void getTripsByMemberCriteria(TripCriteria tripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
 		// check
@@ -206,8 +206,8 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trips.size(), 1);
 	}
 
-	@Test(priority = 8, enabled = true, dataProvider = "tripCriteriaForMember", dataProviderClass = TripDataProvider.class)
-	public void getCountForMemberByCriteria(TripCriteria tripCriteria) {
+	@Test(priority = 8, enabled = true, dataProvider = "memberCriteria", dataProviderClass = TripDataProvider.class)
+	public void getCountByMemberCriteria(TripCriteria tripCriteria) {
 		// call
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		// check

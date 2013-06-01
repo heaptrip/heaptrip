@@ -6,7 +6,6 @@ import java.util.Locale;
 import com.heaptrip.domain.entity.Category;
 
 public interface CategoryRepository {
-	public static final String SERVICE_NAME = "categoryRepository";
 
 	public void save(Category category);
 

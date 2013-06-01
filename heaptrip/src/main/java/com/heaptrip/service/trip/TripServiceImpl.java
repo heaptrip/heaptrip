@@ -105,18 +105,18 @@ public class TripServiceImpl implements TripService {
 		List<Trip> result = null;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
 			// find by memberId
-			result = tripRepository.findForMemberByCriteria(tripCriteria);
+			result = tripRepository.findByMemberCriteria(tripCriteria);
 		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isBlank(tripCriteria.getUserId())) {
 				// my account
-				result = tripRepository.findForMyAccountByCriteria(tripCriteria);
+				result = tripRepository.findByMyAccountCriteria(tripCriteria);
 			} else {
 				// not my account
-				result = tripRepository.findForNotMyAccountByCriteria(tripCriteria);
+				result = tripRepository.findByNotMyAccountCriteria(tripCriteria);
 			}
 		} else {
 			// feed
-			result = tripRepository.findForFeedByCriteria(tripCriteria);
+			result = tripRepository.findByFeedCriteria(tripCriteria);
 		}
 		return result;
 	}
@@ -127,18 +127,18 @@ public class TripServiceImpl implements TripService {
 		long result = 0;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
 			// find by memberId
-			result = tripRepository.getCountForMemberByCriteria(tripCriteria);
+			result = tripRepository.getCountByMemberCriteria(tripCriteria);
 		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isBlank(tripCriteria.getUserId())) {
 				// my account
-				result = tripRepository.getCountForMyAccountByCriteria(tripCriteria);
+				result = tripRepository.getCountByMyAccountCriteria(tripCriteria);
 			} else {
 				// not my account
-				result = tripRepository.getCountForNotMyAccountByCriteria(tripCriteria);
+				result = tripRepository.getCountByNotMyAccountCriteria(tripCriteria);
 			}
 		} else {
 			// feed
-			result = tripRepository.getCountForFeedByCriteria(tripCriteria);
+			result = tripRepository.getCountByFeedCriteria(tripCriteria);
 		}
 		return result;
 	}

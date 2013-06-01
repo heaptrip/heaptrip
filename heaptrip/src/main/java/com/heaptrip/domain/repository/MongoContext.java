@@ -6,7 +6,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 
 public interface MongoContext {
-	public static final String SERVICE_NAME = "mongoContext";
 
 	@Deprecated
 	public DB getDb();

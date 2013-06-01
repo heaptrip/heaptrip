@@ -7,15 +7,13 @@ import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 
 public interface MemberRepository {
 
-	public static final String SERVICE_NAME = "memberRepository";
-
 	public void save(TableMember member);
 
 	public TableMember findById(String memberId);
 
-	public List<TableMember> findByTable(String tripId, String tableId);
+	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId);
 
-	public List<TableMember> findByTable(String tripId, String tableId, int limit);
+	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit);
 
 	public List<String> findTripIdsByUserId(String userId);
 

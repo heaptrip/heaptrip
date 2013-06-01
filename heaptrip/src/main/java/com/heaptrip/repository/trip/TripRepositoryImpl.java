@@ -27,7 +27,7 @@ import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
-@Service(TripRepository.SERVICE_NAME)
+@Service
 public class TripRepositoryImpl implements TripRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(TripRepositoryImpl.class);
@@ -67,25 +67,25 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public List<Trip> findForFeedByCriteria(TripCriteria criteria) {
+	public List<Trip> findByFeedCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public List<Trip> findForMyAccountByCriteria(TripCriteria criteria) {
+	public List<Trip> findByMyAccountCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public List<Trip> findForNotMyAccountByCriteria(TripCriteria criteria) {
+	public List<Trip> findByNotMyAccountCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
 		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public List<Trip> findForMemberByCriteria(TripCriteria criteria) {
+	public List<Trip> findByMemberCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
 		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
 		return findByCriteria(criteria, queryHelper, tripIds);
@@ -113,25 +113,25 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	@Override
-	public long getCountForFeedByCriteria(TripCriteria criteria) {
+	public long getCountByFeedCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountForMyAccountByCriteria(TripCriteria criteria) {
+	public long getCountByMyAccountCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountForNotMyAccountByCriteria(TripCriteria criteria) {
+	public long getCountByNotMyAccountCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountForMemberByCriteria(TripCriteria criteria) {
+	public long getCountByMemberCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
 		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
 		return getCountByCriteria(criteria, queryHelper, tripIds);

@@ -13,7 +13,7 @@ import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
 
-@Service(CategoryRepository.SERVICE_NAME)
+@Service
 public class CategoryRepositoryImpl implements CategoryRepository {
 
 	@Autowired

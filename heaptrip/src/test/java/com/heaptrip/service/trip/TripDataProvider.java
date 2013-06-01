@@ -16,8 +16,8 @@ import com.heaptrip.util.RandomUtils;
 
 public class TripDataProvider {
 
-	@DataProvider(name = "tripCriteriaForFeed")
-	public static Object[][] getTripCriteriaForFeed() {
+	@DataProvider(name = "feedCriteria")
+	public static Object[][] getFeedCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
 		tripCriteria.setUserId(InitTripTest.USER_ID);
 		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
@@ -34,8 +34,8 @@ public class TripDataProvider {
 		return new Object[][] { new Object[] { tripCriteria } };
 	}
 
-	@DataProvider(name = "tripCriteriaForMyAccount")
-	public static Object[][] getTripCriteriaForMyAccount() {
+	@DataProvider(name = "myAccountCriteria")
+	public static Object[][] getMyAccountCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
 		tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
 		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[1] });
@@ -53,8 +53,8 @@ public class TripDataProvider {
 		return new Object[][] { new Object[] { tripCriteria } };
 	}
 
-	@DataProvider(name = "tripCriteriaForNotMyAccount")
-	public static Object[][] getTripCriteriaForNotMyAccount() {
+	@DataProvider(name = "notMyAccountCriteria")
+	public static Object[][] getNotMyAccountCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
 		tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
 		tripCriteria.setUserId(InitTripTest.USER_ID);
@@ -72,8 +72,8 @@ public class TripDataProvider {
 		return new Object[][] { new Object[] { tripCriteria } };
 	}
 
-	@DataProvider(name = "tripCriteriaForMember")
-	public static Object[][] getTripCriteriaForMember() {
+	@DataProvider(name = "memberCriteria")
+	public static Object[][] getMemberCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
 		tripCriteria.setMemberId(InitTripTest.USER_ID);
 		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });

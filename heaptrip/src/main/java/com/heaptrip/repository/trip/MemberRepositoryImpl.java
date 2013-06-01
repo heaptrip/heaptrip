@@ -18,7 +18,7 @@ import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
-@Service(MemberRepository.SERVICE_NAME)
+@Service
 public class MemberRepositoryImpl implements MemberRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberRepositoryImpl.class);
@@ -48,7 +48,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 	}
 
 	@Override
-	public List<TableMember> findByTable(String tripId, String tableId) {
+	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		String query = "{tripId: #, tableId: #}";
 		String hint = "{tripId : 1, tableId : 1}";
@@ -62,7 +62,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 	}
 
 	@Override
-	public List<TableMember> findByTable(String tripId, String tableId, int limit) {
+	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		String query = "{tripId: #, tableId: #}";
 		String hint = "{tripId : 1, tableId : 1}";
