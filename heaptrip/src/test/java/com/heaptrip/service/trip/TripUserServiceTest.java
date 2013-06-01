@@ -215,7 +215,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, 1);
 	}
 
-	@Test(priority = 9, enabled = true, dataProvider = "tripCriteriaForFeed", dataProviderClass = TripDataProvider.class)
+	@Test(priority = 9, enabled = true, dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class)
 	public void addAllowed(TripCriteria tripCriteria) {
 		// call
 		tripUserService.addAllowed(InitTripTest.OWNER_ID, ALLOWED_USER_ID);
@@ -225,7 +225,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(priority = 10, enabled = true, dataProvider = "tripCriteriaForFeed", dataProviderClass = TripDataProvider.class)
+	@Test(priority = 10, enabled = true, dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class)
 	public void removeAllowed(TripCriteria tripCriteria) {
 		// call
 		tripUserService.removeAllowed(InitTripTest.OWNER_ID, ALLOWED_USER_ID);
