@@ -44,7 +44,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 		MongoCollection coll = mongoContext.getCollection(Category.COLLECTION_NAME);
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String fields = String.format("{'name.%s': 1, parent: 1, ancestors: 1}", lang);
-		Iterable<Category> iter = coll.find().projection(fields).as(Category.class);
+		Iterable<Category> iter = coll.find().projection(fields).sort("{_id: 1}").as(Category.class);
 		return IteratorConverter.copyIterator(iter.iterator());
 	}
 
