@@ -4,7 +4,7 @@ public class CommentAuthor extends BaseObject {
 
 	private String name;
 
-	private Photo photo;
+	private Image image;
 
 	public String getName() {
 		return name;
@@ -14,11 +14,12 @@ public class CommentAuthor extends BaseObject {
 		this.name = name;
 	}
 
-	public Photo getPhoto() {
-		return photo;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
+	public void setImage(Image image) {
+		this.image = image;
 	}
+
 }

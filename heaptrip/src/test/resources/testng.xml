@@ -2,6 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="false">
 
+	<test name="ImageStorageTest">
+		<classes>
+			<class name="com.heaptrip.service.ImageStorageServiceTest" />
+		</classes>
+	</test>
+
 	<test name="RegionTest">
 		<classes>
 			<class name="com.heaptrip.service.RegionServiceTest" />

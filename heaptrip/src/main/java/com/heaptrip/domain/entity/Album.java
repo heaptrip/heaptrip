@@ -9,7 +9,7 @@ public class Album extends BaseObject {
 
 	private Date created;
 
-	private AlbumPhoto[] photos;
+	private AlbumImage[] images;
 
 	public String getTarget() {
 		return target;
@@ -27,11 +27,12 @@ public class Album extends BaseObject {
 		this.created = created;
 	}
 
-	public AlbumPhoto[] getPhotos() {
-		return photos;
+	public AlbumImage[] getImages() {
+		return images;
 	}
 
-	public void setPhotos(AlbumPhoto[] photos) {
-		this.photos = photos;
+	public void setImages(AlbumImage[] images) {
+		this.images = images;
 	}
+
 }

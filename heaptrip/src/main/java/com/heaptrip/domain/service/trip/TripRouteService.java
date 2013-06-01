@@ -3,7 +3,7 @@ package com.heaptrip.domain.service.trip;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.trip.RoutePhoto;
+import com.heaptrip.domain.entity.Image;
 
 public interface TripRouteService {
 
@@ -11,12 +11,13 @@ public interface TripRouteService {
 
 	public String getRouteDescription(String tripId, Locale locale);
 
-	public List<RoutePhoto> getRoutePhotos(String tripId);
+	public List<Image> getRouteImages(String tripId);
 
-	public void addTripRoutePhoto(String tripId, RoutePhoto routePhoto);
+	public void addTripRouteImage(String tripId, Image routeImage);
 
-	public void updateTripRoutePhoto(String tripId, RoutePhoto routePhoto);
+	// what is?
+	public void updateTripRouteImage(String tripId, Image routeImage);
 
-	public void removeTripRoutePhoto(String tripId, RoutePhoto routePhoto);
+	public void removeTripRouteImage(String tripId, Image routeImage);
 
 }

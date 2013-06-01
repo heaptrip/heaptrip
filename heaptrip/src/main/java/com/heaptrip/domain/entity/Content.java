@@ -33,8 +33,8 @@ public class Content extends BaseObject {
 	// multilingual name of the content
 	private MultiLangText name;
 
-	// photo
-	private Photo photo;
+	// image
+	private Image image;
 
 	// date created
 	private Date created;
@@ -111,12 +111,12 @@ public class Content extends BaseObject {
 		this.deleted = deleted;
 	}
 
-	public Photo getPhoto() {
-		return photo;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 	public MultiLangText getName() {

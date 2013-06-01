@@ -1,12 +1,13 @@
 package com.heaptrip.domain.entity.trip;
 
+import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.MultiLangText;
 
 public class Route {
 
 	private MultiLangText description;
 
-	private RoutePhoto[] photos;
+	private Image[] images;
 
 	public MultiLangText getDescription() {
 		return description;
@@ -16,11 +17,12 @@ public class Route {
 		this.description = description;
 	}
 
-	public RoutePhoto[] getPhotos() {
-		return photos;
+	public Image[] getImages() {
+		return images;
 	}
 
-	public void setPhotos(RoutePhoto[] photos) {
-		this.photos = photos;
+	public void setImages(Image[] images) {
+		this.images = images;
 	}
+
 }

@@ -1,6 +1,6 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.Photo;
+import com.heaptrip.domain.entity.Image;
 
 /**
  * 
@@ -21,8 +21,8 @@ public class TableUser extends TableMember {
 	// user status
 	private TableUserStatusEnum status;
 
-	// user photo
-	private Photo photo;
+	// user image
+	private Image image;
 
 	public TableUser() {
 		super();
@@ -57,12 +57,12 @@ public class TableUser extends TableMember {
 		this.status = status;
 	}
 
-	public Photo getPhoto() {
-		return photo;
+	public Image getImage() {
+		return image;
 	}
 
-	public void setPhoto(Photo photo) {
-		this.photo = photo;
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 	public String getUserId() {

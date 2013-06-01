@@ -33,7 +33,7 @@ public class TripUserServiceImpl implements TripUserService {
 		tableUser.setTableId(tableId);
 		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.INVITE);
-		// TODO read name and photo from profile
+		// TODO read name and image from profile
 		memberRepository.save(tableUser);
 		tripRepository.incTableMembers(tripId, tableId, 1);
 	}
@@ -61,7 +61,7 @@ public class TripUserServiceImpl implements TripUserService {
 		tableUser.setTableId(tableId);
 		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.REQUEST);
-		// TODO read name and photo from profile
+		// TODO read name and image from profile
 		memberRepository.save(tableUser);
 		tripRepository.incTableMembers(tripId, tableId, 1);
 	}

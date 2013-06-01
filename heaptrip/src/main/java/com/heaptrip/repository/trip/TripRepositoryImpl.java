@@ -172,7 +172,7 @@ public class TripRepositoryImpl implements TripRepository {
 		String projection = String
 				.format("{_class: 1, owner: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1,"
 						+ " status: 1, 'name.%s': 1, 'summary.%s': 1, 'description.%s': 1, 'table._id': 1, 'table.begin': 1, 'table.end': 1,"
-						+ " 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1, 'table.price': 1, photo: 1,"
+						+ " 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1, 'table.price': 1, image: 1,"
 						+ " created: 1, owners:1, views: 1, rating: 1, comments: 1, langs: 1}", lang, lang, lang, lang,
 						lang);
 		if (logger.isDebugEnabled()) {
@@ -190,7 +190,7 @@ public class TripRepositoryImpl implements TripRepository {
 		String query = "{_id: #}";
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String updateQuery = String
-				.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, photo: #}}",
+				.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, image: #}}",
 						lang, lang, lang);
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(lang);
@@ -199,7 +199,7 @@ public class TripRepositoryImpl implements TripRepository {
 		parameters.add(trip.getName().getValue(locale));
 		parameters.add(trip.getSummary().getValue(locale));
 		parameters.add(trip.getDescription().getValue(locale));
-		parameters.add(trip.getPhoto());
+		parameters.add(trip.getImage());
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"update trip info\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
