@@ -7,44 +7,33 @@ package com.heaptrip.domain.entity;
  */
 public enum ImageEnum {
 
-	TRIP_IMAGE("id", "300", "208");
-
-	// field name
-	private String field;
+	TRIP_IMAGE(300, 208);
 
 	// image width
-	private String width;
+	private int width;
 
 	// image height
-	private String height;
+	private int height;
 
-	private ImageEnum(String field, String width, String height) {
-		this.field = field;
+	private ImageEnum(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
-	public String getField() {
-		return field;
-	}
-
-	public void setField(String field) {
-		this.field = field;
-	}
-
-	public String getWidth() {
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth(String width) {
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public String getHeight() {
+	public int getHeight() {
 		return height;
 	}
 
-	public void setHeight(String height) {
+	public void setHeight(int height) {
 		this.height = height;
 	}
+
 }

@@ -29,7 +29,7 @@ public class ImageStorageServiceTest extends AbstractTestNGSpringContextTests {
 
 	private String imageId = null;
 
-	@Test(enabled = false, priority = 0)
+	@Test(enabled = true, priority = 0)
 	public void saveImage() throws IOException {
 		// call
 		Resource resource = loader.getResource(IMAGE_NAME);
@@ -42,8 +42,8 @@ public class ImageStorageServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(imageId);
 	}
 
-	@Test(enabled = false, priority = 1)
-	public void getImage(String imageId) {
+	@Test(enabled = true, priority = 1)
+	public void getImage() {
 		// call
 		Assert.assertNotNull(imageId);
 		InputStream is = imageStorageService.getImage(imageId);
@@ -51,8 +51,8 @@ public class ImageStorageServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(is);
 	}
 
-	@Test(enabled = false, priority = 2)
-	public void removeImage(String imageId) {
+	@Test(enabled = true, priority = 2)
+	public void removeImage() {
 		// call
 		Assert.assertNotNull(imageId);
 		imageStorageService.removeImage(imageId);

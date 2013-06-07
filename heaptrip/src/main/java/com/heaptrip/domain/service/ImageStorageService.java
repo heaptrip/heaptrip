@@ -1,5 +1,6 @@
 package com.heaptrip.domain.service;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import com.heaptrip.domain.entity.ImageEnum;
@@ -22,7 +23,7 @@ public interface ImageStorageService {
 	 *            input stream
 	 * @return image id
 	 */
-	public String saveImage(String fileName, ImageEnum imageType, InputStream is);
+	public String saveImage(String fileName, ImageEnum imageType, InputStream is) throws IOException;
 
 	/**
 	 * Get image

@@ -93,6 +93,16 @@ public class MongoContextImpl implements MongoContext {
 	}
 
 	@Override
+	public DB getDatabase() {
+		return jongo.getDatabase();
+	}
+
+	@Override
+	public MongoCollection getCollection(String name) {
+		return jongo.getCollection(name);
+	}
+
+	@Override
 	public DB getDb() {
 		DB db = mongoClient.getDB(dbName);
 		return db;
@@ -103,10 +113,5 @@ public class MongoContextImpl implements MongoContext {
 		DB db = getDb();
 		DBCollection coll = db.getCollection(name);
 		return coll;
-	}
-
-	@Override
-	public MongoCollection getCollection(String name) {
-		return jongo.getCollection(name);
 	}
 }

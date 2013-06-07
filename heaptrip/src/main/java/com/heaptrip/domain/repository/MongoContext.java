@@ -7,11 +7,13 @@ import com.mongodb.DBCollection;
 
 public interface MongoContext {
 
+	public DB getDatabase();
+
+	public MongoCollection getCollection(String name);
+
 	@Deprecated
 	public DB getDb();
 
 	@Deprecated
 	public DBCollection getDbCollection(String name);
-
-	public MongoCollection getCollection(String name);
 }
