@@ -1,5 +1,6 @@
 package com.heaptrip.domain.service.trip;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
@@ -133,8 +134,9 @@ public interface TripService {
 	 * @param is
 	 *            input stream
 	 * @return image
+	 * @throws IOException
 	 */
-	public Image saveImage(String fileName, InputStream is);
+	public Image saveImage(String fileName, InputStream is) throws IOException;
 
 	// TODO
 	// rating

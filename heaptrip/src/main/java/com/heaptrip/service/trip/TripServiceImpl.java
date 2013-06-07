@@ -1,5 +1,6 @@
 package com.heaptrip.service.trip;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
@@ -17,6 +18,7 @@ import com.heaptrip.domain.entity.ContentCategory;
 import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.Image;
+import com.heaptrip.domain.entity.ImageEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
@@ -24,6 +26,7 @@ import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.CategoryRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
+import com.heaptrip.domain.service.ImageStorageService;
 import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
@@ -39,6 +42,9 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@Autowired
+	private ImageStorageService imageStorageService;
 
 	@Override
 	public String saveTrip(Trip trip) {
@@ -253,8 +259,12 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public Image saveImage(String fileName, InputStream is) {
-		// TODO Auto-generated method stub
-		return null;
+	public Image saveImage(String fileName, InputStream is) throws IOException {
+		Image image = new Image();
+		String imageId = imageStorageService.saveImage(fileName, ImageEnum.TRIP_IMAGE, is);
+		image.setId(imageId);
+		image.setName(fileName);
+		image.setUploaded(new Date());
+		return image;
 	}
 }

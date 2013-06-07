@@ -125,7 +125,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	public void beforeTest() throws Exception {
 		this.springTestContextPrepareTestInstance();
 		trips = getTrips();
-		// image = getImage();
+		image = getImage();
 		for (Trip trip : trips) {
 			trip.setImage(image);
 			tripService.saveTrip(trip);
@@ -140,7 +140,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 			tripUserService.removeTripMembers(trip.getId());
 		}
 		if (image != null) {
-			// imageStorageService.removeImage(image.getId());
+			//imageStorageService.removeImage(image.getId());
 		}
 	}
 }
