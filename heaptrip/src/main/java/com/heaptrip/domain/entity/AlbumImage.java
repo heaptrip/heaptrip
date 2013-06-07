@@ -2,8 +2,6 @@ package com.heaptrip.domain.entity;
 
 public class AlbumImage extends Image {
 
-	private static final long serialVersionUID = -3263134567529035230L;
-
 	private AlbumImageOwner owner;
 
 	private Long likes;

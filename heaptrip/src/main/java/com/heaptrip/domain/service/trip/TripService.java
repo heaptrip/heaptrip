@@ -1,9 +1,11 @@
 package com.heaptrip.domain.service.trip;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.SearchPeriod;
@@ -122,6 +124,17 @@ public interface TripService {
 	 * @param cause
 	 */
 	public void cancelTableItem(String tripId, String tableId, String cause);
+
+	/**
+	 * Save image to GridFS
+	 * 
+	 * @param fileName
+	 *            file name
+	 * @param is
+	 *            input stream
+	 * @return image
+	 */
+	public Image saveImage(String fileName, InputStream is);
 
 	// TODO
 	// rating

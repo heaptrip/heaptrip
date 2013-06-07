@@ -1,5 +1,6 @@
 package com.heaptrip.service.trip;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.entity.ContentCategory;
 import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
@@ -248,5 +250,11 @@ public class TripServiceImpl implements TripService {
 		status.setValue(TableStatusEnum.CANCELED);
 		status.setText(cause);
 		tripRepository.setTableStatus(tripId, tableId, status);
+	}
+
+	@Override
+	public Image saveImage(String fileName, InputStream is) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
