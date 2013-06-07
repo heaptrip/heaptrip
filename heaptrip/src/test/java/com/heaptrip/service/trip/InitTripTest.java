@@ -1,5 +1,9 @@
 package com.heaptrip.service.trip;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -7,23 +11,30 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
 import com.heaptrip.domain.entity.ContentCategory;
 import com.heaptrip.domain.entity.ContentOwner;
 import com.heaptrip.domain.entity.ContentRegion;
+import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.service.ImageStorageService;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.TripUserService;
 import com.heaptrip.util.RandomUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitTripTest extends AbstractTestNGSpringContextTests {
+
+	private static final String IMAGE_NAME = "penguins.jpg";
 
 	static long TRIPS_COUNT = 10;
 
@@ -39,11 +50,19 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	private List<Trip> trips = null;
 
+	private Image image = null;
+
 	@Autowired
 	private TripService tripService;
 
 	@Autowired
 	private TripUserService tripUserService;
+
+	@Autowired
+	private ResourceLoader loader;
+
+	@Autowired
+	private ImageStorageService imageStorageService;
 
 	private TableItem[] getRandomTable() {
 		int tableSize = RandomUtils.getRandomInt(1, 10);
@@ -66,8 +85,8 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		return table;
 	}
 
-	private void initTrips() {
-		trips = new ArrayList<>();
+	private List<Trip> getTrips() {
+		List<Trip> trips = new ArrayList<>();
 		Locale locale = Locale.ENGLISH;
 		for (int i = 0; i < TRIPS_COUNT; i++) {
 			Trip trip = new Trip();
@@ -90,13 +109,25 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 			}
 			trips.add(trip);
 		}
+		return trips;
+	}
+
+	public Image getImage() throws IOException {
+		Resource resource = loader.getResource(IMAGE_NAME);
+		Assert.assertNotNull(resource);
+		Assert.assertNotNull(resource);
+		File file = resource.getFile();
+		InputStream is = new FileInputStream(file);
+		return tripService.saveImage(IMAGE_NAME, is);
 	}
 
 	@BeforeTest()
 	public void beforeTest() throws Exception {
 		this.springTestContextPrepareTestInstance();
-		initTrips();
+		trips = getTrips();
+		// image = getImage();
 		for (Trip trip : trips) {
+			trip.setImage(image);
 			tripService.saveTrip(trip);
 			tripUserService.removeTripMembers(trip.getId());
 		}
@@ -107,6 +138,9 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		for (Trip trip : trips) {
 			// tripService.hardRemoveTrip(trip.getId());
 			tripUserService.removeTripMembers(trip.getId());
+		}
+		if (image != null) {
+			// imageStorageService.removeImage(image.getId());
 		}
 	}
 }
