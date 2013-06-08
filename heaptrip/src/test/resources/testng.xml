@@ -20,6 +20,12 @@
 		</classes>
 	</test>
 
+	<test name="ContentTest">
+		<classes>
+			<class name="com.heaptrip.service.ContentServiceTest" />
+		</classes>
+	</test>
+
 	<test name="TripTest">
 		<classes>
 			<class name="com.heaptrip.service.trip.InitTripTest" />

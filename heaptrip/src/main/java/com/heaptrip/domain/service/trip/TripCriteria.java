@@ -10,6 +10,8 @@ import com.heaptrip.domain.service.SearchPeriod;
  */
 public class TripCriteria extends ContentCriteria {
 
+	// TODO boolean member;
+	// TODO boolean favorite;
 	// id of the member trip
 	private String memberId;
 
