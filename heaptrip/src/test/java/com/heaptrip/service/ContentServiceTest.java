@@ -20,7 +20,9 @@ import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.ContentRepository;
 import com.heaptrip.domain.service.ContentService;
+import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.service.trip.TripDataProvider;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentServiceTest extends AbstractTestNGSpringContextTests {
@@ -93,16 +95,25 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(content.getViews().longValue(), ++views);
 	}
 
-	@Test(priority = 1, enabled = true)
-	public void addFavoriteContent() {
+	@Test(priority = 1, enabled = true, dataProvider = "favoritesCriteria", dataProviderClass = TripDataProvider.class)
+	public void addFavoriteContent(TripCriteria tripCriteria) {
 		// call
 		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
 		// check
-		boolean isFavorite = contentService.isFavoriteContent(TRIP_ID, USER_ID);
-		Assert.assertTrue(isFavorite);
+		tripCriteria.setUserId(USER_ID);
+		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		Assert.assertEquals(count, 1);
 	}
 
 	@Test(priority = 2, enabled = true)
+	public void isFavoriteContent() {
+		// call
+		boolean isFavorite = contentService.isFavoriteContent(TRIP_ID, USER_ID);
+		// check
+		Assert.assertTrue(isFavorite);
+	}
+
+	@Test(priority = 3, enabled = true)
 	public void getFavoriteContents() {
 		// call
 		List<FavoriteContent> list = contentService.getFavoriteContents(ContentEnum.TRIP, USER_ID);
@@ -116,12 +127,13 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(list.size() > 0);
 	}
 
-	@Test(priority = 3, enabled = true)
-	public void removeFavoriteContent() {
+	@Test(priority = 4, enabled = true, dataProvider = "favoritesCriteria", dataProviderClass = TripDataProvider.class)
+	public void removeFavoriteContent(TripCriteria tripCriteria) {
 		// call
 		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
 		// check
-		boolean isFavorite = contentService.isFavoriteContent(TRIP_ID, USER_ID);
-		Assert.assertFalse(isFavorite);
+		tripCriteria.setUserId(USER_ID);
+		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		Assert.assertEquals(count, 0);
 	}
 }

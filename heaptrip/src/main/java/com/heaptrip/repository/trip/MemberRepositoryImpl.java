@@ -51,7 +51,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		String query = "{tripId: #, tableId: #}";
-		String hint = "{tripId : 1, tableId : 1}";
+		String hint = "{tripId: 1, tableId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("find table members\n->query: %s\n->parameters: [%s,%s]\n->hint: %s", query,
 					tripId, tableId, hint);
@@ -65,7 +65,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		String query = "{tripId: #, tableId: #}";
-		String hint = "{tripId : 1, tableId : 1}";
+		String hint = "{tripId: 1, tableId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"find table members\n->query: %s\n->parameters: [%s,%s]\n->limit: %d\n->hint: %s", query, tripId,
@@ -101,8 +101,8 @@ public class MemberRepositoryImpl implements MemberRepository {
 	public List<String> findTripIdsByUserId(String userId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		String query = "{_class: 'com.heaptrip.domain.entity.trip.TableUser', userId: #}";
-		String projection = "{_class : 1, tripId : 1}";
-		String hint = "{_class:1, userId : 1}";
+		String projection = "{_class: 1, tripId: 1}";
+		String hint = "{_class: 1, userId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"find table members\n->query: %s\n->parameters: %s\n->projection: %s\n->hint: %s", query, userId,

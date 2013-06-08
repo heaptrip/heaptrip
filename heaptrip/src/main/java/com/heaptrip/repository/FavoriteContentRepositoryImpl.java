@@ -1,5 +1,6 @@
 package com.heaptrip.repository;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -77,6 +78,30 @@ public class FavoriteContentRepositoryImpl implements FavoriteContentRepository 
 		// XXX check index
 		WriteResult wr = coll.remove("{userId: #, contentId: #}", userId, contentId);
 		logger.debug("WriteResult for remove favorite: {}", wr);
+	}
+
+	@Override
+	public List<String> findContentIdsByTypeAndUserId(ContentEnum contentType, String userId) {
+		MongoCollection coll = mongoContext.getCollection(FavoriteContent.COLLECTION_NAME);
+		String query = "{userId: #, type: #}";
+		String hint = "{userId: 1, type: 1}";
+		String fields = "{contentId: 1}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"find favorites\n->query: %s\n->parameters: [%s,%s]\n->projection: %s\n->hint: %s", query, userId,
+					contentType, fields, hint);
+			logger.debug(msg);
+		}
+		Iterator<FavoriteContent> iter = coll.find(query, userId, contentType).projection(fields).hint(hint)
+				.as(FavoriteContent.class).iterator();
+		List<String> result = new ArrayList<>();
+		if (iter != null) {
+			while (iter.hasNext()) {
+				FavoriteContent fc = iter.next();
+				result.add(fc.getContentId());
+			}
+		}
+		return result;
 	}
 
 }

@@ -16,4 +16,6 @@ public interface FavoriteContentRepository {
 	public FavoriteContent findOneByContentIdAndUserId(String contentId, String userId);
 
 	public void removeByContentIdAndUserId(String contentId, String userId);
+
+	public List<String> findContentIdsByTypeAndUserId(ContentEnum contentType, String userId);
 }

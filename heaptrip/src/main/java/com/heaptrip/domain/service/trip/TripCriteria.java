@@ -10,20 +10,18 @@ import com.heaptrip.domain.service.SearchPeriod;
  */
 public class TripCriteria extends ContentCriteria {
 
-	// TODO boolean member;
-	// TODO boolean favorite;
-	// id of the member trip
-	private String memberId;
+	// search trips where the current user was a trip member
+	private boolean member;
 
-	// search period
+	// search periodsl
 	private SearchPeriod period;
 
-	public String getMemberId() {
-		return memberId;
+	public boolean isMember() {
+		return member;
 	}
 
-	public void setMemberId(String memberId) {
-		this.memberId = memberId;
+	public void setMember(boolean member) {
+		this.member = member;
 	}
 
 	public SearchPeriod getPeriod() {
@@ -33,5 +31,4 @@ public class TripCriteria extends ContentCriteria {
 	public void setPeriod(SearchPeriod period) {
 		this.period = period;
 	}
-
 }

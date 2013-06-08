@@ -38,6 +38,7 @@ public class TripDataProvider {
 	public static Object[][] getMyAccountCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
 		tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
+		tripCriteria.setUserId(InitTripTest.OWNER_ID);
 		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[1] });
 		tripCriteria.setSkip(0L);
 		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
@@ -75,7 +76,8 @@ public class TripDataProvider {
 	@DataProvider(name = "memberCriteria")
 	public static Object[][] getMemberCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setMemberId(InitTripTest.USER_ID);
+		tripCriteria.setUserId(InitTripTest.USER_ID);
+		tripCriteria.setMember(true);
 		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
 		tripCriteria.setSkip(0L);
 		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
@@ -86,6 +88,17 @@ public class TripDataProvider {
 		end.set(2013, 11, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
 		tripCriteria.setPeriod(period);
+		tripCriteria.setLocale(Locale.ENGLISH);
+		return new Object[][] { new Object[] { tripCriteria } };
+	}
+
+	@DataProvider(name = "favoritesCriteria")
+	public static Object[][] getFavoritesCriteria() {
+		TripCriteria tripCriteria = new TripCriteria();
+		tripCriteria.setFavorite(true);
+		tripCriteria.setSkip(0L);
+		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
+		tripCriteria.setSort(ContentSortEnum.RATING);
 		tripCriteria.setLocale(Locale.ENGLISH);
 		return new Object[][] { new Object[] { tripCriteria } };
 	}

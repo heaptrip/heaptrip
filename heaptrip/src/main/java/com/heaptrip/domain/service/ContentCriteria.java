@@ -14,8 +14,11 @@ public class ContentCriteria {
 	// id of the content owner
 	private String ownerId;
 
-	// user id
+	// current user id
 	protected String userId;
+
+	// search favorite contents for current user
+	protected boolean favorite;
 
 	// id list of categories
 	protected String[] categoryIds;
@@ -52,6 +55,14 @@ public class ContentCriteria {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public boolean isFavorite() {
+		return favorite;
+	}
+
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
 	}
 
 	public String[] getCategoryIds() {

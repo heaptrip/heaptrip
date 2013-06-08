@@ -25,6 +25,8 @@ public interface TripRepository {
 
 	public List<Trip> findByMemberCriteria(TripCriteria criteria);
 
+	public List<Trip> findByFavoritesCriteria(TripCriteria criteria);
+
 	public long getCountByFeedCriteria(TripCriteria criteria);
 
 	public long getCountByMyAccountCriteria(TripCriteria criteria);
@@ -32,6 +34,8 @@ public interface TripRepository {
 	public long getCountByNotMyAccountCriteria(TripCriteria criteria);
 
 	public long getCountByMemberCriteria(TripCriteria criteria);
+
+	public long getCountByFavoritesCriteria(TripCriteria criteria);
 
 	public Trip getInfo(String tripId, Locale locale);
 

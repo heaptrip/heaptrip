@@ -13,9 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Content;
+import com.heaptrip.domain.entity.ContentEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.repository.FavoriteContentRepository;
 import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
@@ -36,6 +38,9 @@ public class TripRepositoryImpl implements TripRepository {
 
 	@Autowired
 	private MemberRepository memberRepository;
+
+	@Autowired
+	private FavoriteContentRepository favoriteContentRepository;
 
 	@Override
 	public void save(Trip trip) {
@@ -86,7 +91,15 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public List<Trip> findByMemberCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
-		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
+		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+		return findByCriteria(criteria, queryHelper, tripIds);
+	}
+
+	@Override
+	public List<Trip> findByFavoritesCriteria(TripCriteria criteria) {
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FAVORITES_HELPER);
+		List<String> tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP,
+				criteria.getUserId());
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -132,7 +145,15 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public long getCountByMemberCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
-		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
+		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+		return getCountByCriteria(criteria, queryHelper, tripIds);
+	}
+
+	@Override
+	public long getCountByFavoritesCriteria(TripCriteria criteria) {
+		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FAVORITES_HELPER);
+		List<String> tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP,
+				criteria.getUserId());
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 

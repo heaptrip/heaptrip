@@ -111,19 +111,28 @@ public class TripServiceImpl implements TripService {
 	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
 		Assert.notNull(tripCriteria, "tripCriteria");
 		List<Trip> result = null;
-		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
-			// find by memberId
-			result = tripRepository.findByMemberCriteria(tripCriteria);
-		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
-			if (StringUtils.isBlank(tripCriteria.getUserId())) {
+		if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
+			if (StringUtils.isNotBlank(tripCriteria.getUserId())
+					&& tripCriteria.getOwnerId().equals(tripCriteria.getUserId())) {
 				// my account
 				result = tripRepository.findByMyAccountCriteria(tripCriteria);
 			} else {
 				// not my account
 				result = tripRepository.findByNotMyAccountCriteria(tripCriteria);
 			}
+		} else if (StringUtils.isNotBlank(tripCriteria.getUserId())) {
+			if (tripCriteria.isFavorite()) {
+				// favorites
+				result = tripRepository.findByFavoritesCriteria(tripCriteria);
+			} else if (tripCriteria.isMember()) {
+				// member
+				result = tripRepository.findByMemberCriteria(tripCriteria);
+			} else {
+				// feed for authorized user
+				result = tripRepository.findByFeedCriteria(tripCriteria);
+			}
 		} else {
-			// feed
+			// feed for unauthorized user
 			result = tripRepository.findByFeedCriteria(tripCriteria);
 		}
 		return result;
@@ -133,19 +142,28 @@ public class TripServiceImpl implements TripService {
 	public long getTripsCountByCriteria(TripCriteria tripCriteria) {
 		Assert.notNull(tripCriteria, "tripCriteria");
 		long result = 0;
-		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
-			// find by memberId
-			result = tripRepository.getCountByMemberCriteria(tripCriteria);
-		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
-			if (StringUtils.isBlank(tripCriteria.getUserId())) {
+		if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
+			if (StringUtils.isNotBlank(tripCriteria.getUserId())
+					&& tripCriteria.getOwnerId().equals(tripCriteria.getUserId())) {
 				// my account
 				result = tripRepository.getCountByMyAccountCriteria(tripCriteria);
 			} else {
 				// not my account
 				result = tripRepository.getCountByNotMyAccountCriteria(tripCriteria);
 			}
+		} else if (StringUtils.isNotBlank(tripCriteria.getUserId())) {
+			if (tripCriteria.isFavorite()) {
+				// favorites
+				result = tripRepository.getCountByFavoritesCriteria(tripCriteria);
+			} else if (tripCriteria.isMember()) {
+				// member
+				result = tripRepository.getCountByMemberCriteria(tripCriteria);
+			} else {
+				// feed for authorized user
+				result = tripRepository.getCountByFeedCriteria(tripCriteria);
+			}
 		} else {
-			// feed
+			// feed for unauthorized user
 			result = tripRepository.getCountByFeedCriteria(tripCriteria);
 		}
 		return result;
