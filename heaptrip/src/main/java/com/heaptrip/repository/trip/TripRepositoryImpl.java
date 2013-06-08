@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.ContentEnum;
+import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -59,8 +60,8 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public void setDeleted(String tripId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, allowed : []}}",
-				Calendar.getInstance().getTime());
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, 'status.value': #, allowed : []}}",
+				Calendar.getInstance().getTime(), ContentStatusEnum.DELETED);
 		logger.debug("WriteResult for set trip deleted: {}", wr);
 	}
 

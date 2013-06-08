@@ -4,12 +4,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -22,6 +24,8 @@ import com.heaptrip.domain.service.trip.TripService;
 public class TripServiceTest extends AbstractTestNGSpringContextTests {
 
 	private static String TRIP_ID = "1";
+
+	private static String DELETED_TRIP_ID = "2";
 
 	private static String TABLE_ID = "0";
 
@@ -118,16 +122,17 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true, priority = 9)
 	public void removeTrip() {
 		// call
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findById(DELETED_TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNull(trip.getDeleted());
 		Assert.assertNotNull(trip.getAllowed());
-		tripService.removeTrip(TRIP_ID);
+		tripService.removeTrip(DELETED_TRIP_ID);
 		// check
-		trip = tripRepository.findById(TRIP_ID);
+		trip = tripRepository.findById(DELETED_TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getDeleted());
-		Assert.assertTrue(trip.getAllowed().length == 0);
+		Assert.assertTrue(ArrayUtils.isEmpty(trip.getAllowed()));
+		Assert.assertEquals(trip.getStatus().getValue(), ContentStatusEnum.DELETED);
 	}
 
 	@Test(enabled = true, priority = 10)

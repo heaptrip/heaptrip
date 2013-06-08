@@ -36,7 +36,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	private static final String IMAGE_NAME = "penguins.jpg";
 
-	static long TRIPS_COUNT = 10;
+	static long TRIPS_COUNT = 20;
 
 	static String OWNER_ID = "1";
 
