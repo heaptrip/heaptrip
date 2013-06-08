@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Content;
-import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -55,7 +54,7 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public void setDeleted(String tripId) {
 		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, allowed : null}}",
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, allowed : []}}",
 				Calendar.getInstance().getTime());
 		logger.debug("WriteResult for set trip deleted: {}", wr);
 	}
@@ -147,21 +146,6 @@ public class TripRepositoryImpl implements TripRepository {
 			logger.debug(msg);
 		}
 		return coll.count(query, parameters);
-	}
-
-	@Override
-	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {'status.value': #, allowed: #}}", status,
-				allowed);
-		logger.debug("WriteResult for set status: {}", wr);
-	}
-
-	@Override
-	public void incViews(String tripId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.update("{_id: #}", tripId).with("{$inc: {views: 1}}");
-		logger.debug("WriteResult for inc views: {}", wr);
 	}
 
 	@Override

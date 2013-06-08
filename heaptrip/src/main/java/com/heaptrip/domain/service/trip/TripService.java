@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -92,22 +91,6 @@ public interface TripService {
 	public void updateTripInfo(Trip trip, Locale locale);
 
 	/**
-	 * Set status of trip
-	 * 
-	 * @param tripId
-	 * @param ownerId
-	 * @param status
-	 */
-	public void setTripStatus(String tripId, String ownerId, ContentStatusEnum status);
-
-	/**
-	 * Increase the views trip
-	 * 
-	 * @param tripId
-	 */
-	public void incTripViews(String tripId);
-
-	/**
 	 * Abort table item
 	 * 
 	 * @param tripId
@@ -137,8 +120,4 @@ public interface TripService {
 	 * @throws IOException
 	 */
 	public Image saveImage(String fileName, InputStream is) throws IOException;
-
-	// TODO
-	// rating
-	// comment
 }

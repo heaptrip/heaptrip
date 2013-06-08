@@ -234,4 +234,5 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		Assert.assertNotEquals(count, InitTripTest.TRIPS_COUNT);
 	}
+
 }

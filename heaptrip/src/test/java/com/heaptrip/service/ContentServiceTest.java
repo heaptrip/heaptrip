@@ -11,11 +11,14 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.ContentEnum;
 import com.heaptrip.domain.entity.ContentOwner;
+import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.FavoriteContent;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.repository.ContentRepository;
 import com.heaptrip.domain.service.ContentService;
 import com.heaptrip.domain.service.trip.TripService;
 
@@ -31,10 +34,13 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	private Trip trip = null;
 
 	@Autowired
-	private TripService tripService;
+	private ContentService contentService;
 
 	@Autowired
-	private ContentService contentService;
+	private ContentRepository contentRepository;
+
+	@Autowired
+	private TripService tripService;
 
 	@BeforeClass
 	public void init() {
@@ -53,6 +59,38 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		if (trip != null) {
 			tripService.hardRemoveTrip(trip.getId());
 		}
+	}
+
+	@Test(enabled = true)
+	public void setTripStatus() {
+		// call
+		Content content = contentRepository.findById(TRIP_ID);
+		Assert.assertNotNull(content);
+		Assert.assertNotNull(content.getStatus());
+		Assert.assertNotNull(content.getStatus().getValue());
+		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.DRAFT);
+		contentService.setContentStatus(TRIP_ID, OWNER_ID, ContentStatusEnum.PUBLISHED_ALL);
+		// check
+		content = contentRepository.findById(TRIP_ID);
+		Assert.assertNotNull(content);
+		Assert.assertNotNull(content.getStatus());
+		Assert.assertNotNull(content.getStatus().getValue());
+		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.PUBLISHED_ALL);
+	}
+
+	@Test(enabled = true)
+	public void incTripViews() {
+		// call
+		Content content = contentRepository.findById(TRIP_ID);
+		Assert.assertNotNull(content);
+		Assert.assertNotNull(content.getViews());
+		long views = content.getViews().longValue();
+		contentService.incContentViews(TRIP_ID);
+		// check
+		content = contentRepository.findById(TRIP_ID);
+		Assert.assertNotNull(content);
+		Assert.assertNotNull(content.getViews());
+		Assert.assertEquals(content.getViews().longValue(), ++views);
 	}
 
 	@Test(priority = 1, enabled = true)

@@ -175,32 +175,6 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public void setTripStatus(String tripId, String ownerId, ContentStatusEnum status) {
-		Assert.notNull(tripId, "tripId");
-		Assert.notNull(ownerId, "ownerId");
-		Assert.notNull(status, "status");
-		String[] allowed = null;
-		switch (status) {
-		case PUBLISHED_ALL:
-			allowed = new String[] { "0" };
-			break;
-		case PUBLISHED_FRIENDS:
-			// TODO add owner freinds
-			allowed = new String[] { "0" };
-			break;
-		default:
-			break;
-		}
-		tripRepository.setStatus(tripId, status, allowed);
-	}
-
-	@Override
-	public void incTripViews(String tripId) {
-		Assert.notNull(tripId, "tripId");
-		tripRepository.incViews(tripId);
-	}
-
-	@Override
 	public Trip getTripInfo(String tripId, Locale locale) {
 		Assert.notNull(tripId, "tripId");
 		Assert.notNull(locale, "locale");

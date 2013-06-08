@@ -3,7 +3,6 @@ package com.heaptrip.domain.repository.trip;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripCriteria;
@@ -33,10 +32,6 @@ public interface TripRepository {
 	public long getCountByNotMyAccountCriteria(TripCriteria criteria);
 
 	public long getCountByMemberCriteria(TripCriteria criteria);
-
-	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed);
-
-	public void incViews(String tripId);
 
 	public Trip getInfo(String tripId, Locale locale);
 

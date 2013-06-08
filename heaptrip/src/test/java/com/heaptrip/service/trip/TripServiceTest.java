@@ -10,7 +10,6 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -128,42 +127,10 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		trip = tripRepository.findById(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getDeleted());
-		Assert.assertNull(trip.getAllowed());
+		Assert.assertTrue(trip.getAllowed().length == 0);
 	}
 
 	@Test(enabled = true, priority = 10)
-	public void setTripStatus() {
-		// call
-		Trip trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getStatus());
-		Assert.assertNotNull(trip.getStatus().getValue());
-		Assert.assertEquals(trip.getStatus().getValue(), ContentStatusEnum.DRAFT);
-		tripService.setTripStatus(TRIP_ID, InitTripTest.OWNER_ID, ContentStatusEnum.PUBLISHED_ALL);
-		// check
-		trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getStatus());
-		Assert.assertNotNull(trip.getStatus().getValue());
-		Assert.assertEquals(trip.getStatus().getValue(), ContentStatusEnum.PUBLISHED_ALL);
-	}
-
-	@Test(enabled = true, priority = 11)
-	public void incTripViews() {
-		// call
-		Trip trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getViews());
-		long views = trip.getViews().longValue();
-		tripService.incTripViews(TRIP_ID);
-		// check
-		trip = tripRepository.findById(TRIP_ID);
-		Assert.assertNotNull(trip);
-		Assert.assertNotNull(trip.getViews());
-		Assert.assertEquals(trip.getViews().longValue(), ++views);
-	}
-
-	@Test(enabled = true, priority = 12)
 	public void getTripInfo() {
 		// call
 		Trip trip = tripService.getTripInfo(TRIP_ID, Locale.ENGLISH);
@@ -171,7 +138,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip);
 	}
 
-	@Test(enabled = true, priority = 13)
+	@Test(enabled = true, priority = 11)
 	public void updateTripInfo() {
 		// call
 		Locale locale = new Locale("ru");
@@ -190,7 +157,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trip.getName().getValue(locale), name);
 	}
 
-	@Test(enabled = true, priority = 14)
+	@Test(enabled = true, priority = 12)
 	public void abortTableItem() {
 		// call
 		String cause = "cause interruption of travel";
@@ -208,7 +175,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(item.getStatus().getText(), cause);
 	}
 
-	@Test(enabled = true, priority = 15)
+	@Test(enabled = true, priority = 13)
 	public void cancelTableItem() {
 		// call
 		String cause = "cause interruption of travel";
