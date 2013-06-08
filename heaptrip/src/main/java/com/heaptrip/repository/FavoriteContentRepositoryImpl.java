@@ -67,12 +67,14 @@ public class FavoriteContentRepositoryImpl implements FavoriteContentRepository 
 			String msg = String.format("find favorite\n->query: %s\n->parameters: [%s,%s]", query, userId, contentId);
 			logger.debug(msg);
 		}
+		// XXX check index
 		return coll.findOne(query, userId, contentId).as(FavoriteContent.class);
 	}
 
 	@Override
 	public void removeByContentIdAndUserId(String contentId, String userId) {
 		MongoCollection coll = mongoContext.getCollection(FavoriteContent.COLLECTION_NAME);
+		// XXX check index
 		WriteResult wr = coll.remove("{userId: #, contentId: #}", userId, contentId);
 		logger.debug("WriteResult for remove favorite: {}", wr);
 	}
