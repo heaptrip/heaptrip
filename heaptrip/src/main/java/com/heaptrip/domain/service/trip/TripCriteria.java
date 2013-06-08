@@ -10,18 +10,18 @@ import com.heaptrip.domain.service.SearchPeriod;
  */
 public class TripCriteria extends ContentCriteria {
 
-	// search trips where the current user was a trip member
-	private boolean member;
+	// search trips by trip member id
+	private String memberId;
 
 	// search periodsl
 	private SearchPeriod period;
 
-	public boolean isMember() {
-		return member;
+	public String getMemberId() {
+		return memberId;
 	}
 
-	public void setMember(boolean member) {
-		this.member = member;
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
 	}
 
 	public SearchPeriod getPeriod() {

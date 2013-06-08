@@ -111,7 +111,13 @@ public class TripServiceImpl implements TripService {
 	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
 		Assert.notNull(tripCriteria, "tripCriteria");
 		List<Trip> result = null;
-		if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
+		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
+			// member
+			result = tripRepository.findByMemberCriteria(tripCriteria);
+		} else if (StringUtils.isNotBlank(tripCriteria.getFavoriteUserId())) {
+			// favorites
+			result = tripRepository.findByFavoritesCriteria(tripCriteria);
+		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isNotBlank(tripCriteria.getUserId())
 					&& tripCriteria.getOwnerId().equals(tripCriteria.getUserId())) {
 				// my account
@@ -120,19 +126,8 @@ public class TripServiceImpl implements TripService {
 				// not my account
 				result = tripRepository.findByNotMyAccountCriteria(tripCriteria);
 			}
-		} else if (StringUtils.isNotBlank(tripCriteria.getUserId())) {
-			if (tripCriteria.isFavorite()) {
-				// favorites
-				result = tripRepository.findByFavoritesCriteria(tripCriteria);
-			} else if (tripCriteria.isMember()) {
-				// member
-				result = tripRepository.findByMemberCriteria(tripCriteria);
-			} else {
-				// feed for authorized user
-				result = tripRepository.findByFeedCriteria(tripCriteria);
-			}
 		} else {
-			// feed for unauthorized user
+			// feed
 			result = tripRepository.findByFeedCriteria(tripCriteria);
 		}
 		return result;
@@ -142,7 +137,13 @@ public class TripServiceImpl implements TripService {
 	public long getTripsCountByCriteria(TripCriteria tripCriteria) {
 		Assert.notNull(tripCriteria, "tripCriteria");
 		long result = 0;
-		if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
+		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
+			// member
+			result = tripRepository.getCountByMemberCriteria(tripCriteria);
+		} else if (StringUtils.isNotBlank(tripCriteria.getFavoriteUserId())) {
+			// favorites
+			result = tripRepository.getCountByFavoritesCriteria(tripCriteria);
+		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
 			if (StringUtils.isNotBlank(tripCriteria.getUserId())
 					&& tripCriteria.getOwnerId().equals(tripCriteria.getUserId())) {
 				// my account
@@ -151,19 +152,8 @@ public class TripServiceImpl implements TripService {
 				// not my account
 				result = tripRepository.getCountByNotMyAccountCriteria(tripCriteria);
 			}
-		} else if (StringUtils.isNotBlank(tripCriteria.getUserId())) {
-			if (tripCriteria.isFavorite()) {
-				// favorites
-				result = tripRepository.getCountByFavoritesCriteria(tripCriteria);
-			} else if (tripCriteria.isMember()) {
-				// member
-				result = tripRepository.getCountByMemberCriteria(tripCriteria);
-			} else {
-				// feed for authorized user
-				result = tripRepository.getCountByFeedCriteria(tripCriteria);
-			}
 		} else {
-			// feed for unauthorized user
+			// feed
 			result = tripRepository.getCountByFeedCriteria(tripCriteria);
 		}
 		return result;

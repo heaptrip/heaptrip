@@ -76,8 +76,7 @@ public class TripDataProvider {
 	@DataProvider(name = "memberCriteria")
 	public static Object[][] getMemberCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setUserId(InitTripTest.USER_ID);
-		tripCriteria.setMember(true);
+		tripCriteria.setMemberId(InitTripTest.USER_ID);
 		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
 		tripCriteria.setSkip(0L);
 		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
@@ -95,7 +94,7 @@ public class TripDataProvider {
 	@DataProvider(name = "favoritesCriteria")
 	public static Object[][] getFavoritesCriteria() {
 		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setFavorite(true);
+		tripCriteria.setFavoriteUserId(InitTripTest.USER_ID);
 		tripCriteria.setSkip(0L);
 		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
 		tripCriteria.setSort(ContentSortEnum.RATING);

@@ -17,8 +17,8 @@ public class ContentCriteria {
 	// current user id
 	protected String userId;
 
-	// search favorite contents for current user
-	protected boolean favorite;
+	// search favorite contents by user id
+	protected String favoriteUserId;
 
 	// id list of categories
 	protected String[] categoryIds;
@@ -57,12 +57,12 @@ public class ContentCriteria {
 		this.userId = userId;
 	}
 
-	public boolean isFavorite() {
-		return favorite;
+	public String getFavoriteUserId() {
+		return favoriteUserId;
 	}
 
-	public void setFavorite(boolean favorite) {
-		this.favorite = favorite;
+	public void setFavoriteUserId(String favoriteUserId) {
+		this.favoriteUserId = favoriteUserId;
 	}
 
 	public String[] getCategoryIds() {

@@ -92,7 +92,7 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public List<Trip> findByMemberCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
-		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -100,7 +100,7 @@ public class TripRepositoryImpl implements TripRepository {
 	public List<Trip> findByFavoritesCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FAVORITES_HELPER);
 		List<String> tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP,
-				criteria.getUserId());
+				criteria.getFavoriteUserId());
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -146,7 +146,7 @@ public class TripRepositoryImpl implements TripRepository {
 	@Override
 	public long getCountByMemberCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
-		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -154,7 +154,7 @@ public class TripRepositoryImpl implements TripRepository {
 	public long getCountByFavoritesCriteria(TripCriteria criteria) {
 		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FAVORITES_HELPER);
 		List<String> tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP,
-				criteria.getUserId());
+				criteria.getFavoriteUserId());
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 

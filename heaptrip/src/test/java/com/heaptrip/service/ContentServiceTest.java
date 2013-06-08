@@ -100,7 +100,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		// call
 		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
 		// check
-		tripCriteria.setUserId(USER_ID);
+		tripCriteria.setFavoriteUserId(USER_ID);
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		Assert.assertEquals(count, 1);
 	}
@@ -132,7 +132,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		// call
 		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
 		// check
-		tripCriteria.setUserId(USER_ID);
+		tripCriteria.setFavoriteUserId(USER_ID);
 		long count = tripService.getTripsCountByCriteria(tripCriteria);
 		Assert.assertEquals(count, 0);
 	}
