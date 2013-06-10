@@ -3,33 +3,60 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 
+<script type="text/javascript">
+
+	$.dateFormat = function (dateObject) {
+	    var d = new Date(dateObject);
+	    var day = d.getDate();
+	    var month = d.getMonth();
+	    var year = d.getFullYear();
+	    var date = day + "." + month + "." + year;
+	
+	    return date;
+	};
+
+	$.views.helpers({
+		toDate: function( msDat ) {
+			return $.dateFormat(new Date(msDat));
+		}
+	});
+	
+</script>
+
 <script id="tripTemplate" type="text/x-jsrender">
 
-<article id="article">
-					<div class="date">15.01.13<span><fmt:message key="trip.list.title" /></span></div>
-					<div class="inf">
-						<div class="left">
-							<h2><a href="/">{{>name}}</a></h2>
-							Нева тревел<span>(4,7)</span>
-						</div>
-						<div class="right">
-							<div>Период:<span class="date">с 19.01.13 по 29.01.13</span></div>
-							<div>Место:<span class="location">Италия</span></div>
-						</div>
-					</div>
-					<div class="description"><img src="1.jpg" width="300" align="left">Барселона расположена на северо-востоке Иберийского полуострова на побережье Средиземного моря на плато шириной в 5 км, границы которого с юга составляют горная гряда Кольсерола (кат. Collserola) и река Льобрегат, а на севере — река Бесос. Пиренеи находятся приблизительно в 120 км к северу от города.
-Прибрежные горы Кольсерола создают слегка скруглённый фон города. Высота самой высшей точки — горы Тибидабо составляет 512 м, над ней возвышается заметная издалека башня-антенна Кольсерола высотой 288,4 м. Самой высокой точкой в черте города является холм Мон-Табер (кат. Mont Taber) высотой 12 м, на нём расположен Барселонский собор.
-Барселона лежит на холмах, давших название городским кварталам: Кармель (кат. Carmel, 267 м), Монтерольс (кат. Monterols, 121 м), Пучет (кат. Putxet, 181 м), Ровира (кат. Rovira, 261 м) и Пейра (кат. Peira, 133 м). С горы Монжуик высотой 173 м в юго-западной части города открывается великолепный вид на порт Барселоны. На Монжуике расположена крепость XVII—XVIII веков, взявшая на себя оборонные функции разрушенной цитадели Сьютаделья (кат. Ciutadella), в то время как на месте последней разбили парк. В настоящее время в крепости размещается Военный музей. Помимо крепости на Монжуике находятся олимпийские объекты, учреждения культуры и знаменитые сады.</div>
-					<div>
-						<div class="tags"><a href="#">Морская прогулка</a><a href="#">Шоппинг</a><a href="#">Пляжный отдых</a></div>
-						<div class="price">99999 р.</div>
-					</div>
-					<div>
-						<div class="views">Просмотров:<span>234</span></div>
-						<div class="comments">Коментариев:<span>24</span></div>
-						<div class="wertung">Рейтинг:<div class="stars star2"></div><span>(196)</span></div>
-					</div>
-				</article>
+	<article id="article">
+		<div class="date">{{>~toDate(created)}}
+			<span><fmt:message key="trip.list.title" /></span>
+		</div>
+		<div class="inf">
+			<div class="left">
+				<h2><a href="/">{{>name}}</a></h2>TODO:owner<span>(4,7)</span>
+			</div>
+			<div class="right">
+				<div><fmt:message key="page.date.period" />:<span class="date"><fmt:message key="page.date.from" /> {{>~toDate(created)}} <fmt:message key="page.date.to" /> {{>~toDate(created)}}</span></div>
+				<div><fmt:message key="content.place" />:<span class="location">TODO:place</span></div>
+			</div>
+		</div>
+		<div class="description">
+			<img src="<c:url value="/image.html?imageId={{>image}}"/>" width="300" align="left">
+				{{>summary}}
+		</div>
+		<div>
+			<div class="tags">
+				{{for categories}}
+					<a href="#ct={{>id}}">{{>data}}</a>
+				{{/for}}
+			</div>
+			<div class="price">TODO:price <fmt:message key="locale.currency" /></div>
+		</div>
+		<div>
+			<div class="views"><fmt:message key="content.views" />:<span>111</span></div>
+			<div class="comments"><fmt:message key="content.comments" />:<span>{{>comments}}</span></div>
+			<div class="wertung"><fmt:message key="content.wertung" />:<div class="stars star2"></div><span>({{>rating}})</span></div>
+		</div>
+	</article>
+
 </script>
 
 <div id="container">

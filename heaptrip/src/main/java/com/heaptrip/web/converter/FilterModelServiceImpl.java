@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.service.CategoryService;
 import com.heaptrip.domain.service.adm.RequestScopeService;
-import com.heaptrip.web.model.filter.CategoryModel;
+import com.heaptrip.web.model.filter.CategoryTreeModel;
 
 @Service
 public class FilterModelServiceImpl implements FilterModelService {
@@ -22,12 +22,12 @@ public class FilterModelServiceImpl implements FilterModelService {
 	private CategoryService categoryService;
 
 	@Override
-	public List<CategoryModel> getCategories() {
+	public List<CategoryTreeModel> getCategories() {
 		List<Category> categories = categoryService.getCategories(scopeService.getCurrentLocale());
-		Map<String, CategoryModel> map = new HashMap<String, CategoryModel>();
-		map.put(null, new CategoryModel());
+		Map<String, CategoryTreeModel> map = new HashMap<String, CategoryTreeModel>();
+		map.put(null, new CategoryTreeModel());
 		for (Category category : categories) {
-			CategoryModel categoryModel = new CategoryModel();
+			CategoryTreeModel categoryModel = new CategoryTreeModel();
 			categoryModel.setId(category.getId());
 			categoryModel.setData(category.getName().getValue(scopeService.getCurrentLocale()));
 			categoryModel.setChecked(false);

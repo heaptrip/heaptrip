@@ -59,7 +59,7 @@ $(document).ready(function() {
 	$('.comment_content').bind('click',function(e){
 		//$(this).unbind('click');
 		$('.comments_mother .comment_new').remove();
-		$(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" value="Написать" class="button"></div>');
+		$(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" value="Ответить" class="button"></div>');
 	});
 
 	// раздвижное текстовое поле по клику
@@ -71,35 +71,22 @@ $(document).ready(function() {
 		setTimeout(create_tabs,200);
 	}
 
-	if($('div.albom .edit').length){
-		edit_img_albom($('div.albom .edit'));
-	}
-
-	if($('.tabs_content .edit').length){
-		edit_img_albom($('.tabs_content .edit'));
-	}
-
-
-	// календарь
-	if($(".datepicker" ).length){
-      	$(".datepicker" ).datepicker();
-  	}
-
   	// звездочки рейтинга
 	if($(".stars" ).length){
       	if($(".stars" ).hasClass("activ")){
-      		$(".stars" ).bind('mousedown',function(e){
-      			var s=this;
-      			var delta=0;
-      			var value=0;
-      			$(s).bind('mousemove',function(e){
-      				delta=e.pageX-$(this).offset().left*1;
-      				value=Math.ceil(delta/11);
-      				console.log(value);
-      				$(this).removeClass();
-      				$(this).addClass("stars star"+value+" activ");
-      			});
-      		});
+   			var delta=0;
+   			var value=0;
+   			$(".stars").bind('mousemove',function(e){
+   				delta=e.pageX-$(this).offset().left*1;
+   				value=Math.ceil(delta/11);
+   				$(this).removeClass();
+   				$(this).addClass("stars star"+value+" activ");
+   			});
+ 			$(document).on('mouseout','.stars',function(e){
+ 				value=$(this).find('input').val();
+ 				$(this).removeClass();
+   				$(this).addClass("stars star"+value+" activ");
+   			});
       		$(".stars" ).bind('click',function(e){
       			var delta=0;
       			var value=0;
@@ -111,62 +98,38 @@ $(document).ready(function() {
       			$(this).find('input').val(value);
       		});
       	}
-    	$(document).on('mouseup','.stars',function(e){
-      		$(this).unbind('mousemove');
-      	});      	
-    	$(document).on('mouseout','.stars',function(e){
-      		$(this).unbind('mousemove');
-      	});
   	}
 
-  	// выбор валюты
-
-  		$(document).on('click','.currency span',function(e){
-  			if($(this).next().is(':hidden')){
-  				$(this).next().slideDown(200);
-  			}else{
-  				$(this).next().slideUp(200);
-  			}
-  		});
-
-  		$(document).on('click','.currency li',function(e){
-  			$(this).parents('.currency').find('span').html($(this).html());
-  			$(this).parent().slideUp(200);
-  		});
-
-  		$(document).on('click','.del_per',function(e){
-  			$(this).parents('tr').remove();
-  		});
-
-  	if($('.add_table_zap').length){
-  		$('.add_table_zap').click(function(e){
-  			var new_zap='<tr><td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td><td class="price_td"><input type="text"><div class="currency"><span>РУБ</span><ul><li>РУБ</li><li>US</li><li>EURO</li><ul></div></td><td><input type="text"></td><td><input type="text"></td><td><a class="button del_per">Удалить</a></td></tr>';
-  			$('article.edit .table_inf tbody').append(new_zap);
-  			$(".datepicker" ).datepicker();
-  		});
-  	}
-
-  	if($('article.edit').length){
-  		alt_input('article.edit');
-  	}
-
-  	if($('.one_photo').length){
-  		$('.one_photo .full_img').click(function(){
-  			view_img('.one_photo');	
+  	if($('.full_img').length){
+  		$('.full_img').css('cursor','pointer');
+  		$('.full_img').click(function(e){
+  			view_img(this);	
   		})
   	}
 
-  	if('.participants_func'){
+  	if($('.participants_func').length){
   		var commands=Array('Сообщение','Организатор','Переписка','Удалить');
   		participants_menu('.participants_func',commands);
   	}
 
-  	if('.participants_is'){
+  	if($('.participants_is').length){
   		var commands=Array('Принять','Отказать');
   		participants_menu('.participants_is',commands);
   	}
 
+  	if($('.add_lang').length){
+  		
+  	}
+
 });
+
+    function split( val ) {
+      return val.split( /,\s*/ );
+    }
+    function extractLast( term ) {
+      return split( term ).pop();
+    }
+
 
 // анимация контекстного меню в участниках
 function participants_menu(name,commands){
@@ -181,17 +144,17 @@ function participants_menu(name,commands){
   		},function(e){
   			$(this).find('.participants_menu').css('display','none');
   			$(this).find('.participants_menu ul').css('display','none');
-  			$(this).find('.participants_menu span').css("background","url('./resources/images/participants_func.jpg') right top no-repeat");
+  			$(this).find('.participants_menu span').css("background","url('/images/participants_func.jpg') right top no-repeat");
   		}
   	);
   	$(name+' .participants_menu_show').click(function(e){
   		var menu=$(this).next();
   		if(menu.is(':hidden')){
   			menu.css('display','block');
-  			$(this).css("background","url('./resources/images/participants_func_a.jpg') right top no-repeat");
+  			$(this).css("background","url('/images/participants_func_a.jpg') right top no-repeat");
   		}else{
   			menu.css('display','none');
-  			$(this).css("background","url('./resources/images/participants_func.jpg') right top no-repeat");
+  			$(this).css("background","url('/images/participants_func.jpg') right top no-repeat");
   		}
   	});
 }
@@ -242,82 +205,53 @@ function edit_img_albom(data){
 	});
 }
 
-function alt_input(name){
-    var input=$(name+' input[type=text], '+name+' textarea');
-    $.each(input, function(index, value) {
-        var alt=$(value).attr('alt');
-        if(alt){
-            $(value).val(alt);
-            $(value).bind('focus',function(e){
-                if($(this).val()==alt){
-                    $(this).val('');
-                }
-            });
-            $(value).bind('blur',function(e){
-                var v=$(this).val();
-                if((v=='')||(v=='alt')){
-                    $(value).val(alt);
-                }
-            });
-        }
-    });    
-}
-
-
 function view_img(element,w_){
-				var src=$(element).find('img').attr('src');
-				var new_src=src.replace(/\.jpg/g,'_full\.jpg');
-				var img_new = new Image();
-				img_new.onload = function() {
-	        		var x=width=$(window).width()/2;
-    	    		var y=height=$(window).height()/2+$(document).scrollTop();
-	    			var w=this.width;
-	    			var h=this.height;
-					var w_=$(window).width();
-					var h_=$(window).height();
-					if(w>=w_){
-						var k=h/w;
-						w=w_-40;
-						h=w*k;
-					}
-
-					if(h>=h_){
-						var k=w/h;
-						h=h_-40;
-						w=h*k;
-					}
-
-	    			//alert(w+'|'+h);
-	    			if($('.show_img').length){
-	    				$('.show_img').remove();
-	    			}
-					$('body').append('<div class="show_img"><img src="'+new_src+'" /></div>');
-					$('.show_img img').css({
-						'width': '1px',
-						'height': '1px',
-						'position' : 'absolute',
-						'left' : x+'px',
-						'top' : y+'px',
-						'border': '2px solid #555555',
-						'-webkit-border-radius': '7px',
-						'border-radius': '7px',
-						'behavior': 'url("/PIE/PIE.htc")',
-						'z-index':'999999',
-						'cursor':'pointer'
-					});
-					$('.show_img img').click(function(){
-						$('.show_img').remove();
-					});
-				
-					$('.show_img img').animate({
-	        			'width': w+'px',
-    	    			'height': h+'px',
-	        			'left': (x*1-w/2)*1+'px',
-    	    			'top': (y*1-h/2)*1+'px',
-        				},
-        			200 );
-			
-				}
-				
-				img_new.src = new_src;
+	var src=$(element).parent().find('img').attr('src');
+	var new_src=src.replace(/\.jpg/g,'_full\.jpg');
+	var img_new = new Image();
+	img_new.onload = function() {
+		var x=width=$(window).width()/2;
+    	var y=height=$(window).height()/2+$(document).scrollTop();
+		var w=this.width;
+	    var h=this.height;
+		var w_=$(window).width();
+		var h_=$(window).height();
+		if(w>=w_){
+			var k=h/w;
+			w=w_-40;
+			h=w*k;
+		}
+		if(h>=h_){
+			var k=w/h;
+			h=h_-40;
+			w=h*k;
+		}
+		if($('.show_img').length){
+			$('.show_img').remove();
+		}
+		$('body').append('<div class="show_img"><img src="'+new_src+'" /></div>');
+		$('.show_img img').css({
+			'width': '1px',
+			'height': '1px',
+			'position' : 'absolute',
+			'left' : x+'px',
+			'top' : y+'px',
+			'border': '2px solid #555555',
+			'-webkit-border-radius': '7px',
+			'border-radius': '7px',
+			'behavior': 'url("/PIE/PIE.htc")',
+			'z-index':'999999',
+			'cursor':'pointer'
+		});
+		$('.show_img img').click(function(){
+			$('.show_img').remove();
+		});
+		$('.show_img img').animate({
+			'width': w+'px',
+    		'height': h+'px',
+			'left': (x*1-w/2)*1+'px',
+    		'top': (y*1-h/2)*1+'px',
+    	},200 );
+	}
+	img_new.src = new_src;
 }

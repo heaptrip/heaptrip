@@ -5,27 +5,26 @@ $(document).ready(function() {
 			var slide=$(this).parents(".filtr");
 			if($(slide).find(".content").is(":hidden")){
 				$(slide).find(".content").slideDown();
-        $(this).css('background','url("./resources/images/show_filtr.png") no-repeat');
+        $(this).css('background','url("images/show_filtr.png") no-repeat');
 			}else{
 				$(slide).find(".content").slideUp();
-        $(this).css('background','url("./resources/images/hide_filtr.png") no-repeat');
+        $(this).css('background','url("images/hide_filtr.png") no-repeat');
 			}
 		});		
 	}
 	
-	/*if($('#category .tree').length){
-		$('#category .tree').jstree({ 
-			'plugins' : [ 'themes', 'html_data', 'checkbox' ]
-		});
-	}*/
+  var isRunTime=false;
+
+	if(!isRunTime){
+		if($('#category .tree').length){
+			$('#category .tree').jstree({ 
+				'plugins' : [ 'themes', 'html_data', 'checkbox' ]
+			});
+		}
+	}
+
+	if(!isRunTime){
 	
-    function split( val ) {
-      return val.split( /,\s*/ );
-    }
-    function extractLast( term ) {
-      return split( term ).pop();
-    }
- 
     $( "#region input[type=text]" )
       // don't navigate away from the field on tab when selecting an item
       .bind( "keydown", function( event ) {
@@ -63,14 +62,14 @@ $(document).ready(function() {
           return false;
         }
       });
-
-
-
+	}
+	 
+    if(!isRunTime){
 	if($('#region .tree').length){
 		$('#region .tree').jstree({
 			'plugins' : [ 'themes', 'ui','add_del','crrm',"html_data" ]
 		});
-
+	}
     
     $(".ui-autocomplete .ui-menu-item").unbind();
     $(".ui-autocomplete a.ui-corner-all").unbind();

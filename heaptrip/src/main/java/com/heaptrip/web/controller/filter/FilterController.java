@@ -18,7 +18,7 @@ import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.converter.FilterModelService;
-import com.heaptrip.web.model.filter.CategoryModel;
+import com.heaptrip.web.model.filter.CategoryTreeModel;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class FilterController extends ExceptionHandlerControler {
 	public @ResponseBody
 	Map<String, ? extends Object> getTripsByCriteria() {
 
-		List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
+		List<CategoryTreeModel> categoryModels = new ArrayList<CategoryTreeModel>();
 
 		try {
 			categoryModels = filterModelService.getCategories();

@@ -673,6 +673,7 @@ input[type=checkbox]{
 
 .table_inf a.button{
 	width: 107px;
+	margin: 3px 0;
 }
 
 .table_inf td{
@@ -698,6 +699,7 @@ input[type=checkbox]{
 	line-height: 12px;
 	vertical-align: bottom;
 	padding: 15px 0 5px;
+	width: 18%;
 }
 
 .table_inf th:first-child{
@@ -1352,6 +1354,15 @@ article.edit .table_inf input[type="text"]{
 	margin-bottom: 3px;
 }
 
+article.edit .table_inf tr th{
+	width: auto;
+	padding: 15px 4px 5px;
+}
+
+article.edit .table_inf tr th:last-child{
+	width: 139px;
+}
+
 article.edit .table_inf tr td{
 	text-align: right;
 	padding: 3px 2px;
@@ -1360,6 +1371,7 @@ article.edit .table_inf tr td{
 article.edit .table_inf tr td input{
 	height: 55px;
 	width: 91%;
+	text-align: center;
 }
 
 article.edit .table_inf tr td:first-child>input{
@@ -1428,6 +1440,11 @@ article.edit .table_inf tr td.price_td input{
 
 article.edit .table_inf tr td.price_td{
 	text-align: left;
+	padding-left: 3px;
+}
+
+article.edit .table_inf tr th.price_th{
+	width: 134px;	
 }
 
 article.edit .del_article{
@@ -1505,7 +1522,7 @@ article.edit .description textarea{
 	cursor: pointer;
 }
 
-#article.edit .participants_menu ul{
+#article.edit .participants_menu div{
 	border: 1px solid #A7A7A9;
 	background: #F0F0E8;
 	-webkit-border-radius: 5px 0 5px 5px;
@@ -1521,6 +1538,11 @@ article.edit .description textarea{
 	min-width: 104px;
 	z-index: 1;
 	display: none;
+}
+
+#article.edit .participants_menu div ul{
+	margin: 0;
+	padding: 0;
 }
 
 #article.edit .participants_menu ul li{
@@ -1549,4 +1571,247 @@ article.edit .description textarea{
 
 #article.edit .participants_menu ul li a:hover{
 	background: #DCDCDC;
+}
+
+#article.edit .participants_invite{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	
+	width: 78px;
+	height: 23px;
+	position: relative;
+}
+
+
+#article.edit .participants_invite a.participants_invite_button{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	
+	width: 76px;
+	height: 21px;
+	padding: 0 0 3px 2px;
+	line-height: 21px;
+	text-align: center;
+	color: #FFF;
+	font-family: verdana;
+	font-weight: bold;
+	font-size: 12px;
+	letter-spacing: 1px;
+	background: url('/images/participants_invite.jpg') right top no-repeat;
+	cursor: pointer;
+	position: relative;
+	z-index: 2;
+}
+
+#article.edit .participants_invite a.participants_invite_button:hover{
+	text-decoration: none;
+}
+
+#article.edit .participants_invite_show{
+	border: 1px solid #A7A7A9;
+	background: #F0F0E8;
+	-webkit-border-radius: 5px 0 5px 5px;
+	-moz-border-radius: 5px 0 5px 5px;
+	border-radius: 5px 0 5px 5px;
+	behavior: url(/pie/PIE.htc);
+	position: absolute;
+	top: 23px;
+	right: 0px;
+	margin: 0px;
+	padding: 0px;
+	width: auto;
+	min-width: 104px;
+	z-index: 1;
+	display: none;
+	padding: 3px 7px 7px 7px;
+}
+
+#article.edit .participants_invite input{
+	padding: 2px 3px; 
+	margin: 3px 0 7px; 
+	width: 200px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+}
+
+#article.edit .participants_invite span{
+	display: block;
+	color: #7A7A73;
+	text-align: left;
+}
+
+#article.edit .participants_find{
+	width: 525px;
+	position: relative;
+	top: -21px;
+	left: 7px;
+}
+
+#article.edit .participants_find input[type="text"]{
+	width: 505px;
+	padding: 1px 4px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);	
+}
+
+.add_is{
+	position: absolute;
+	display: block;
+	height: 19px;
+	width: 19px;
+	border: 1px solid #E0E4E3;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	behavior: url(/pie/PIE.htc);
+	right: 5px;
+	top: 5px;
+	cursor: pointer;
+	color: #8E8E8E !important;
+	text-decoration: none;
+	text-align: center;
+	font-size: 16px;
+	line-height: 19px;
+}
+
+.add_is:hover{
+	text-decoration: none !important;
+}
+
+/* Редактирование фотографии
+----------------------------------------------------------------*/
+article.edit .tabs input[type="text"] {
+	width: 300px;
+	height: 20px;
+	padding: 0px 5px;
+	margin-top: 1px;
+}
+
+/* Удаление/Добавление постов
+-----------------------------------------------------------------*/
+.list_posts_button{
+	text-align: right;
+	padding-bottom: 10px;
+}
+
+.list_posts_button .button{
+	margin-left: 5px;
+}
+
+.posts_find{
+	width: 548px;
+	position: relative;
+	top: -21px;
+	left: 0px;
+}
+
+.posts_find input[type="text"]{
+	width: 535px;
+	padding: 1px 4px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	height: 17px;
+	border: 1px solid #DEE5EB;
+	color: #AAA;
+	font-style: italic;	
+}
+
+.list_posts_add{
+	border-bottom: 1px solid #E2E6E5;
+	margin-bottom: 15px;
+}
+
+.list_posts_add ul{
+	margin: 7px 0 0 7px;
+	padding: 0;
+}
+
+.list_posts_add ul li{
+	padding: 5px;
+	margin: 0 7px 7px 0;
+	border: 1px solid #E2E6E5;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	display: block;
+	zoom: 1;
+	position: relative;
+}
+
+.list_posts_add .list_posts_img {
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	width: 79px;
+	height: 55px;
+	overflow: hidden;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	
+}
+
+.list_posts_add .list_posts_img img{
+	margin: 0px;
+	padding: 0px;
+}
+
+.list_posts_add .list_posts_inf{
+	width: 480px;
+    margin-left: 10px;
+    margin-top: 7px;
+    text-align: left;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;	    
+	color: #545454;
+}
+
+.list_posts_add .list_posts_inf span{
+	color: #ACACAC;
+	margin-right: 5px;
+}
+
+
+.list_posts_add .list_posts_name{
+	width: 480px;
+    margin-top: 5px;
+    text-align: left;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;   
+}
+
+.list_posts_add .list_posts_name a{
+	display: block;
+	font-size: 11px;
+	color: #092749;
+	text-decoration: none;
+	line-height: 12px;
+	font-weight: bold;
+}
+
+.list_posts_add .list_posts_name span{
+	position: absolute;
+	font-size: 11px;
+	color: #AAAAAA;
+	left: 65px;
+	bottom: 1px;
 }

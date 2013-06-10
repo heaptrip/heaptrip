@@ -2,10 +2,10 @@ package com.heaptrip.web.converter;
 
 import java.util.List;
 
-import com.heaptrip.web.model.filter.CategoryModel;
+import com.heaptrip.web.model.filter.CategoryTreeModel;
 
 public interface FilterModelService {
  
-	List<CategoryModel> getCategories();
+	List<CategoryTreeModel> getCategories();
 	
 }

@@ -5,29 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CategoryModel {
+import com.heaptrip.web.model.content.CategoryModel;
 
-	private String id;
-	private String data;
+public class CategoryTreeModel extends CategoryModel {
+
 	private boolean checked;
 	private Map<String, String> attr;
-	private List<CategoryModel> children;
+	private List<CategoryTreeModel> children;
 
-	public String getId() {
-		return id;
-	}
-
+	@Override
 	public void setId(String id) {
 		this.id = id;
 		buildAttr();
-	}
-
-	public String getData() {
-		return data;
-	}
-
-	public void setData(String data) {
-		this.data = data;
 	}
 
 	public boolean getChecked() {
@@ -52,17 +41,17 @@ public class CategoryModel {
 			attr.put("class", "jstree-checked");
 	}
 
-	public List<CategoryModel> getChildren() {
+	public List<CategoryTreeModel> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<CategoryModel> children) {
+	public void setChildren(List<CategoryTreeModel> children) {
 		this.children = children;
 	}
 
-	public void addChildren(CategoryModel categoryModel) {
+	public void addChildren(CategoryTreeModel categoryModel) {
 		if (children == null)
-			children = new ArrayList<CategoryModel>();
+			children = new ArrayList<CategoryTreeModel>();
 		children.add(categoryModel);
 	}
 

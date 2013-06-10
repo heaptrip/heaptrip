@@ -21,6 +21,9 @@ public class TripModelServiceImpl implements TripModelService {
 	@Autowired
 	private RequestScopeService scopeService;
 
+	@Autowired
+	private ContentModelService contentModelService;
+
 	@Override
 	public List<TripModel> getTripsModelByCriteria(TripCriteria tripCriteria) {
 		tripCriteria.setLocale(scopeService.getCurrentLocale());
@@ -30,7 +33,21 @@ public class TripModelServiceImpl implements TripModelService {
 
 	private TripModel convertTripToModel(Trip trip) {
 		TripModel tripModel = new TripModel();
-		tripModel.setName(trip.getName().getValue(scopeService.getCurrentLocale()));
+		tripModel.setId(trip.getId());
+		tripModel.setCreated(trip.getCreated());
+		tripModel.setRating(trip.getRating());
+		tripModel.setComments(trip.getComments());
+		tripModel.setImage(trip.getImage().getId());
+		
+		if (trip.getSummary() != null)
+			tripModel.setSummary(trip.getSummary().getValue(scopeService.getCurrentLocale()));
+		if (trip.getName() != null)
+			tripModel.setName(trip.getName().getValue(scopeService.getCurrentLocale()));
+		if (trip.getDescription() != null)
+			tripModel.setDescription(trip.getDescription().getValue(scopeService.getCurrentLocale()));
+
+		tripModel.setCategories(contentModelService.convertCategoriesToModel(trip.getCategories()));
+
 		return tripModel;
 	}
 
