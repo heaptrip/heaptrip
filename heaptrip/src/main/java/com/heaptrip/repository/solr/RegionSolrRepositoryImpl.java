@@ -42,7 +42,7 @@ public class RegionSolrRepositoryImpl implements SolrRegionRepository {
 			query.set("rows", limit.toString());
 		}
 		query.set("defType", "dismax");
-		query.set("qf", "text_ru text_en");
+		query.set("qf", "name_ru name_en");
 		query.set("fl", fields);
 
 		if (logger.isDebugEnabled()) {

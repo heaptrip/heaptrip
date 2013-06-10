@@ -76,7 +76,7 @@ public class SolrRegion {
 
 	public String getName(Locale locale) {
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		if (lang.equals(LangEnum.en)) {
+		if (lang.equals(LangEnum.en.toString())) {
 			return nameEn;
 		} else {
 			return nameRu;
@@ -85,7 +85,7 @@ public class SolrRegion {
 
 	public String getPath(Locale locale) {
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		if (lang.equals(LangEnum.en)) {
+		if (lang.equals(LangEnum.en.toString())) {
 			return pathEn;
 		} else {
 			return pathRu;

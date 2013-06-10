@@ -19,7 +19,7 @@ public class RegionServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private RegionService regionService;
 
-	@Test(enabled = false)
+	@Test(enabled = true)
 	public void getRegionsByName() throws SolrServerException {
 		String name = "Moscow";
 		Locale locale = Locale.ENGLISH;
