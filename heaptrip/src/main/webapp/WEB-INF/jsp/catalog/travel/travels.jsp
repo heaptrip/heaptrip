@@ -4,23 +4,21 @@
 
 
 <script type="text/javascript">
+	$.dateFormat = function(dateObject) {
+		var d = new Date(dateObject);
+		var day = d.getDate();
+		var month = d.getMonth();
+		var year = d.getFullYear();
+		var date = day + "." + month + "." + year;
 
-	$.dateFormat = function (dateObject) {
-	    var d = new Date(dateObject);
-	    var day = d.getDate();
-	    var month = d.getMonth();
-	    var year = d.getFullYear();
-	    var date = day + "." + month + "." + year;
-	
-	    return date;
+		return date;
 	};
 
 	$.views.helpers({
-		toDate: function( msDat ) {
+		toDate : function(msDat) {
 			return $.dateFormat(new Date(msDat));
 		}
 	});
-	
 </script>
 
 <script id="tripTemplate" type="text/x-jsrender">
@@ -31,15 +29,27 @@
 		</div>
 		<div class="inf">
 			<div class="left">
-				<h2><a href="/">{{>name}}</a></h2>TODO:owner<span>(4,7)</span>
+				<h2><a href="/">{{>name}}</a></h2>{{>owner.name}}<span>({{>owner.rating}})</span>
 			</div>
 			<div class="right">
-				<div><fmt:message key="page.date.period" />:<span class="date"><fmt:message key="page.date.from" /> {{>~toDate(created)}} <fmt:message key="page.date.to" /> {{>~toDate(created)}}</span></div>
-				<div><fmt:message key="content.place" />:<span class="location">TODO:place</span></div>
+				<div>
+					<fmt:message key="page.date.period" />:
+					<span class="date">
+						<fmt:message key="page.date.from" /> {{>~toDate(created)}} <fmt:message key="page.date.to" /> {{>~toDate(created)}}
+					</span>
+				</div>
+				<div>
+					<fmt:message key="content.place" />:
+						{{for regions}}
+							<span class="location">{{>data}}</span>
+						{{/for}}
+				</div>
 			</div>
 		</div>
 		<div class="description">
-			<img src="<c:url value="/image.html?imageId={{>image}}"/>" width="300" align="left">
+			{{if image}}
+				<img src="<c:url value="/rest/image?imageId={{>image}}"/>" width="300" align="left">
+			{{/if}}
 				{{>summary}}
 		</div>
 		<div>
@@ -48,10 +58,13 @@
 					<a href="#ct={{>id}}">{{>data}}</a>
 				{{/for}}
 			</div>
-			<div class="price">TODO:price <fmt:message key="locale.currency" /></div>
+			{{if price}}
+				<div class="price">{{>price}}<fmt:message key="locale.currency" /></div>
+			{{/if}}
+			
 		</div>
 		<div>
-			<div class="views"><fmt:message key="content.views" />:<span>111</span></div>
+			<div class="views"><fmt:message key="content.views" />:<span>{{>views}}</span></div>
 			<div class="comments"><fmt:message key="content.comments" />:<span>{{>comments}}</span></div>
 			<div class="wertung"><fmt:message key="content.wertung" />:<div class="stars star2"></div><span>({{>rating}})</span></div>
 		</div>
@@ -67,7 +80,6 @@
 <!-- #container-->
 
 <script type="text/javascript">
-
 	$(window).bind("onPageReady", function(e, paramsJson) {
 		getTripsList(paramsJson);
 	});
@@ -79,7 +91,7 @@
 		var tripCriteria = {
 			skip : paramsJson.skip,
 			limit : paramsJson.limit,
-			categoryIds: paramsJson.ct ? paramsJson.ct.split(',') : null
+			categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null
 		};
 
 		var callbackSuccess = function(data) {
@@ -103,5 +115,4 @@
 		$.postJSON(url, tripCriteria, callbackSuccess, callbackError);
 
 	};
-	
 </script>

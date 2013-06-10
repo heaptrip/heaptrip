@@ -38,7 +38,8 @@ public class TripModelServiceImpl implements TripModelService {
 		tripModel.setRating(trip.getRating());
 		tripModel.setComments(trip.getComments());
 		tripModel.setImage(trip.getImage().getId());
-		
+		tripModel.setViews(trip.getViews());
+
 		if (trip.getSummary() != null)
 			tripModel.setSummary(trip.getSummary().getValue(scopeService.getCurrentLocale()));
 		if (trip.getName() != null)
@@ -46,7 +47,9 @@ public class TripModelServiceImpl implements TripModelService {
 		if (trip.getDescription() != null)
 			tripModel.setDescription(trip.getDescription().getValue(scopeService.getCurrentLocale()));
 
+		tripModel.setOwner(contentModelService.convertContentOwnerToModel(trip.getOwner()));
 		tripModel.setCategories(contentModelService.convertCategoriesToModel(trip.getCategories()));
+		tripModel.setRegions(contentModelService.convertRegionsToModel(trip.getRegions()));
 
 		return tripModel;
 	}

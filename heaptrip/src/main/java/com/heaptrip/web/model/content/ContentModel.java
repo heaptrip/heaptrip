@@ -9,9 +9,12 @@ public class ContentModel {
 	private String description;
 	private String image;
 	private Date created;
-	private CategoryModel[] categories;
-	private Double rating;
+	private ContentOwnerModel owner;
 	private Long comments;
+	private Long views;
+	private CategoryModel[] categories;
+	private RegionModel[] regions;
+
 	private String summary;
 
 	public String getName() {
@@ -62,14 +65,6 @@ public class ContentModel {
 		this.description = description;
 	}
 
-	public Double getRating() {
-		return rating;
-	}
-
-	public void setRating(Double rating) {
-		this.rating = rating;
-	}
-
 	public Long getComments() {
 		return comments;
 	}
@@ -84,6 +79,30 @@ public class ContentModel {
 
 	public void setSummary(String summary) {
 		this.summary = summary;
+	}
+
+	public Long getViews() {
+		return views;
+	}
+
+	public void setViews(Long views) {
+		this.views = views;
+	}
+
+	public ContentOwnerModel getOwner() {
+		return owner;
+	}
+
+	public void setOwner(ContentOwnerModel owner) {
+		this.owner = owner;
+	}
+
+	public RegionModel[] getRegions() {
+		return regions;
+	}
+
+	public void setRegions(RegionModel[] regions) {
+		this.regions = regions;
 	}
 
 }
