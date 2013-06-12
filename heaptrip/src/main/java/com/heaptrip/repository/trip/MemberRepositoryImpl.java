@@ -78,6 +78,12 @@ public class MemberRepositoryImpl implements MemberRepository {
 	}
 
 	@Override
+	public long getCountByTripId(String tripId) {
+		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		return coll.count("{tripId: #}", tripId);
+	}
+
+	@Override
 	public void removeById(String memberId) {
 		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
 		WriteResult wr = coll.remove("{_id: #}", memberId);

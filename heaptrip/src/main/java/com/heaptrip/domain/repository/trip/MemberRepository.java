@@ -15,6 +15,8 @@ public interface MemberRepository {
 
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit);
 
+	public long getCountByTripId(String tripId);
+
 	public List<String> findTripIdsByUserId(String userId);
 
 	public void removeById(String memberId);

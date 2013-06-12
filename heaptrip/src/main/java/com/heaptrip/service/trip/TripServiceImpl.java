@@ -15,15 +15,18 @@ import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.entity.ContentCategory;
+import com.heaptrip.domain.entity.ContentRegion;
 import com.heaptrip.domain.entity.ContentStatus;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.ImageEnum;
+import com.heaptrip.domain.entity.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.CategoryRepository;
+import com.heaptrip.domain.repository.RegionRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.ImageStorageService;
@@ -36,6 +39,9 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private RegionRepository regionRepository;
 
 	@Autowired
 	private TripRepository tripRepository;
@@ -70,8 +76,14 @@ public class TripServiceImpl implements TripService {
 			}
 		}
 
-		// TODO
-		// as well as categories read and set regions name
+		if (trip.getRegions() != null) {
+			for (ContentRegion contentRegion : trip.getRegions()) {
+				Assert.notNull(contentRegion.getId(), "region.id");
+				Region region = regionRepository.findById(contentRegion.getId());
+				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
+				contentRegion.setName(region.getName());
+			}
+		}
 
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
@@ -97,7 +109,10 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void removeTrip(String tripId) {
 		Assert.notNull(tripId, "tripId");
-		// TODO add a check that in travel has no members
+		long members = memberRepository.getCountByTripId(tripId);
+		if (members > 0) {
+			throw new IllegalStateException("The trip contains members");
+		}
 		tripRepository.setDeleted(tripId);
 	}
 
@@ -205,8 +220,14 @@ public class TripServiceImpl implements TripService {
 				contentCategory.setName(category.getName());
 			}
 		}
-		// TODO
-		// as well as categories read and set regions name
+		if (trip.getRegions() != null) {
+			for (ContentRegion contentRegion : trip.getRegions()) {
+				Assert.notNull(contentRegion.getId(), "region.id");
+				Region region = regionRepository.findById(contentRegion.getId());
+				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
+				contentRegion.setName(region.getName());
+			}
+		}
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
 				if (item.getId() == null) {

@@ -15,6 +15,15 @@ import com.heaptrip.domain.entity.Region;
 public interface RegionService {
 
 	/**
+	 * Get region by id
+	 * 
+	 * @param regionId
+	 * @param locale
+	 * @return region
+	 */
+	public Region getRegionById(String regionId, Locale locale);
+
+	/**
 	 * Search regions by name
 	 * 
 	 * @param name

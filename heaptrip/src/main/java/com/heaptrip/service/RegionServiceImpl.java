@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.Region;
+import com.heaptrip.domain.repository.RegionRepository;
 import com.heaptrip.domain.repository.solr.SolrRegion;
 import com.heaptrip.domain.repository.solr.SolrRegionRepository;
 import com.heaptrip.domain.service.RegionService;
@@ -19,6 +20,9 @@ public class RegionServiceImpl implements RegionService {
 
 	@Autowired
 	private SolrRegionRepository regionSolrRepository;
+
+	@Autowired
+	private RegionRepository regionRepository;
 
 	@Override
 	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale) throws SolrServerException {
@@ -33,6 +37,13 @@ public class RegionServiceImpl implements RegionService {
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public Region getRegionById(String regionId, Locale locale) {
+		Assert.notNull(regionId, "regionId");
+		Assert.notNull(locale, "locale");
+		return regionRepository.findById(regionId, locale);
 	}
 
 }

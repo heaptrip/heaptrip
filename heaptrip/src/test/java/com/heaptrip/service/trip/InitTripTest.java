@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -24,9 +25,11 @@ import com.heaptrip.domain.entity.ContentOwner;
 import com.heaptrip.domain.entity.ContentRegion;
 import com.heaptrip.domain.entity.Image;
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.ImageStorageService;
+import com.heaptrip.domain.service.RegionService;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.TripUserService;
 import com.heaptrip.util.RandomUtils;
@@ -46,7 +49,9 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	static String[] CATEGORY_IDS = new String[] { "1.2", "1.3" };
 
-	static String[] REGION_IDS = new String[] { "1", "2", "3" };
+	static String REGION_NAME = "Russia Ukraine Belarus";
+
+	private Locale locale = Locale.ENGLISH;
 
 	private List<Trip> trips = null;
 
@@ -63,6 +68,29 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private ImageStorageService imageStorageService;
+
+	@Autowired
+	private RegionService regionService;
+
+	private ContentCategory[] getCategories() {
+		return new ContentCategory[] { new ContentCategory(CATEGORY_IDS[0]), new ContentCategory(CATEGORY_IDS[1]) };
+	}
+
+	private ContentRegion[] getRegions() throws SolrServerException {
+		ContentRegion[] contentRegions = null;
+		List<Region> regions = regionService.getRegionsByName(REGION_NAME, 0L, 10L, locale);
+		if (regions != null) {
+			contentRegions = new ContentRegion[regions.size()];
+			for (int i = 0; i < regions.size(); i++) {
+				Region region = regions.get(i);
+				ContentRegion contentRegion = new ContentRegion();
+				contentRegion.setId(region.getId());
+				contentRegion.setName(region.getName());
+				contentRegions[i] = contentRegion;
+			}
+		}
+		return contentRegions;
+	}
 
 	private TableItem[] getRandomTable() {
 		int tableSize = RandomUtils.getRandomInt(1, 10);
@@ -85,17 +113,14 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		return table;
 	}
 
-	private List<Trip> getTrips() {
+	private List<Trip> getTrips() throws SolrServerException {
 		List<Trip> trips = new ArrayList<>();
-		Locale locale = Locale.ENGLISH;
 		for (int i = 0; i < TRIPS_COUNT; i++) {
 			Trip trip = new Trip();
 			trip.setId(Integer.toString(i));
 			trip.setOwner(new ContentOwner(OWNER_ID));
-			trip.setCategories(new ContentCategory[] { new ContentCategory(CATEGORY_IDS[0]),
-					new ContentCategory(CATEGORY_IDS[1]) });
-			trip.setRegions(new ContentRegion[] { new ContentRegion(REGION_IDS[0]), new ContentRegion(REGION_IDS[1]),
-					new ContentRegion(REGION_IDS[2]) });
+			trip.setCategories(getCategories());
+			trip.setRegions(getRegions());
 			trip.setName(new MultiLangText("my name No " + Integer.toString(i), locale));
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setDescription(new MultiLangText("my description", locale));

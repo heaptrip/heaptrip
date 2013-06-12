@@ -24,7 +24,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
 	private static final String FOLDER_NAME = "images";
 
-	private static float RESIZE_QUALITY = 0.5f;
+	private static float RESIZE_QUALITY = 0.9f;
 
 	@Autowired
 	private MongoContext mongoContext;
