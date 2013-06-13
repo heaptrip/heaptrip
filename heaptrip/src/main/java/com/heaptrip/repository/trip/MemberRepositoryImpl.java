@@ -7,49 +7,48 @@ import java.util.List;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
-import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.repository.trip.MemberRepository;
+import com.heaptrip.repository.BaseRepositoryImpl;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class MemberRepositoryImpl implements MemberRepository {
+public class MemberRepositoryImpl extends BaseRepositoryImpl<TableMember> implements MemberRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberRepositoryImpl.class);
 
-	@Autowired
-	private MongoContext mongoContext;
+	@Override
+	protected String getCollectionName() {
+		return TableMember.COLLECTION_NAME;
+	}
 
 	@Override
-	public void save(TableMember member) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
-		WriteResult wr = coll.save(member);
-		logger.debug("WriteResult for save member: {}", wr);
+	protected Class<TableMember> getCollectionClass() {
+		return TableMember.class;
 	}
 
 	@Override
 	public void setStatus(String memberId, TableUserStatusEnum status) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update("{_id: #}", memberId).with("{$set: {status: #}}", status);
 		logger.debug("WriteResult for set status: {}", wr);
 	}
 
 	@Override
 	public void setOrganizer(String tableUserId, Boolean isOrganizer) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update("{_id: #}", tableUserId).with("{$set: {isOrganizer: #}}", isOrganizer);
 		logger.debug("WriteResult for set organizer: {}", wr);
 	}
 
 	@Override
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = "{tripId: #, tableId: #}";
 		String hint = "{tripId: 1, tableId: 1}";
 		if (logger.isDebugEnabled()) {
@@ -63,7 +62,7 @@ public class MemberRepositoryImpl implements MemberRepository {
 
 	@Override
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = "{tripId: #, tableId: #}";
 		String hint = "{tripId: 1, tableId: 1}";
 		if (logger.isDebugEnabled()) {
@@ -79,33 +78,20 @@ public class MemberRepositoryImpl implements MemberRepository {
 
 	@Override
 	public long getCountByTripId(String tripId) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		return coll.count("{tripId: #}", tripId);
 	}
 
 	@Override
-	public void removeById(String memberId) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
-		WriteResult wr = coll.remove("{_id: #}", memberId);
-		logger.debug("WriteResult for remove table member: {}", wr);
-	}
-
-	@Override
 	public void removeByTripId(String tripId) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		WriteResult wr = coll.remove("{tripId: #}", tripId);
 		logger.debug("WriteResult for remove table member by tripId: {}", wr);
 	}
 
 	@Override
-	public TableMember findById(String memberId) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
-		return coll.findOne("{ _id : #}", memberId).as(TableMember.class);
-	}
-
-	@Override
 	public List<String> findTripIdsByUserId(String userId) {
-		MongoCollection coll = mongoContext.getCollection(TableMember.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = "{_class: 'com.heaptrip.domain.entity.trip.TableUser', userId: #}";
 		String projection = "{_class: 1, tripId: 1}";
 		String hint = "{_class: 1, userId: 1}";
@@ -158,4 +144,5 @@ public class MemberRepositoryImpl implements MemberRepository {
 		WriteResult wr = coll.update(query, ownerId).multi().with(updateQuery, userId);
 		logger.debug("WriteResult for remove allowed: {}", wr);
 	}
+
 }

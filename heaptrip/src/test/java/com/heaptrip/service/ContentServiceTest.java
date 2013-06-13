@@ -66,14 +66,14 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true)
 	public void setTripStatus() {
 		// call
-		Content content = contentRepository.findById(TRIP_ID);
+		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getStatus());
 		Assert.assertNotNull(content.getStatus().getValue());
 		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.DRAFT);
 		contentService.setContentStatus(TRIP_ID, OWNER_ID, ContentStatusEnum.PUBLISHED_ALL);
 		// check
-		content = contentRepository.findById(TRIP_ID);
+		content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getStatus());
 		Assert.assertNotNull(content.getStatus().getValue());
@@ -83,13 +83,13 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true)
 	public void incTripViews() {
 		// call
-		Content content = contentRepository.findById(TRIP_ID);
+		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getViews());
 		long views = content.getViews().longValue();
 		contentService.incContentViews(TRIP_ID);
 		// check
-		content = contentRepository.findById(TRIP_ID);
+		content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getViews());
 		Assert.assertEquals(content.getViews().longValue(), ++views);

@@ -5,15 +5,10 @@ import java.util.Locale;
 
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.repository.CrudRepository;
 import com.heaptrip.domain.service.trip.TripCriteria;
 
-public interface TripRepository {
-
-	public void save(Trip trip);
-
-	public Trip findById(String tripId);
-
-	public void removeById(String tripId);
+public interface TripRepository extends CrudRepository<Trip> {
 
 	public void setDeleted(String tripId);
 

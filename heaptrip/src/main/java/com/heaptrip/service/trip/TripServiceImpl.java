@@ -75,7 +75,7 @@ public class TripServiceImpl implements TripService {
 		if (trip.getCategories() != null) {
 			for (ContentCategory contentCategory : trip.getCategories()) {
 				Assert.notNull(contentCategory.getId(), "category.id");
-				Category category = categoryRepository.findById(contentCategory.getId());
+				Category category = categoryRepository.findOne(contentCategory.getId());
 				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
 				contentCategory.setName(category.getName());
 			}
@@ -84,7 +84,7 @@ public class TripServiceImpl implements TripService {
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
 				Assert.notNull(contentRegion.getId(), "region.id");
-				Region region = regionRepository.findById(contentRegion.getId());
+				Region region = regionRepository.findOne(contentRegion.getId());
 				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
 				contentRegion.setName(region.getName());
 			}
@@ -124,7 +124,7 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void hardRemoveTrip(String tripId) {
 		Assert.notNull(tripId, "tripId");
-		tripRepository.removeById(tripId);
+		tripRepository.remove(tripId);
 	}
 
 	@Override
@@ -220,7 +220,7 @@ public class TripServiceImpl implements TripService {
 		if (trip.getCategories() != null) {
 			for (ContentCategory contentCategory : trip.getCategories()) {
 				Assert.notNull(contentCategory.getId(), "category.id");
-				Category category = categoryRepository.findById(contentCategory.getId());
+				Category category = categoryRepository.findOne(contentCategory.getId());
 				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
 				contentCategory.setName(category.getName());
 			}
@@ -228,7 +228,7 @@ public class TripServiceImpl implements TripService {
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
 				Assert.notNull(contentRegion.getId(), "region.id");
-				Region region = regionRepository.findById(contentRegion.getId());
+				Region region = regionRepository.findOne(contentRegion.getId());
 				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
 				contentRegion.setName(region.getName());
 			}

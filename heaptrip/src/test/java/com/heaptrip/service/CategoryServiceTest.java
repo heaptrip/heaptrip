@@ -85,7 +85,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(priority = 3)
 	public void findById() {
 		String id = "2.4.7";
-		Category category = categoryRepository.findById(id);
+		Category category = categoryRepository.findOne(id);
 		Assert.assertNotNull(category);
 		Assert.assertEquals(category.getId(), id);
 	}

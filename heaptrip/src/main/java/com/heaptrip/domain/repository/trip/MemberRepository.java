@@ -4,12 +4,9 @@ import java.util.List;
 
 import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
+import com.heaptrip.domain.repository.CrudRepository;
 
-public interface MemberRepository {
-
-	public void save(TableMember member);
-
-	public TableMember findById(String memberId);
+public interface MemberRepository extends CrudRepository<TableMember> {
 
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId);
 
@@ -18,8 +15,6 @@ public interface MemberRepository {
 	public long getCountByTripId(String tripId);
 
 	public List<String> findTripIdsByUserId(String userId);
-
-	public void removeById(String memberId);
 
 	public void removeByTripId(String tripId);
 

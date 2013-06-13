@@ -122,13 +122,13 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true, priority = 9)
 	public void removeTrip() {
 		// call
-		Trip trip = tripRepository.findById(DELETED_TRIP_ID);
+		Trip trip = tripRepository.findOne(DELETED_TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNull(trip.getDeleted());
 		Assert.assertNotNull(trip.getAllowed());
 		tripService.removeTrip(DELETED_TRIP_ID);
 		// check
-		trip = tripRepository.findById(DELETED_TRIP_ID);
+		trip = tripRepository.findOne(DELETED_TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getDeleted());
 		Assert.assertTrue(ArrayUtils.isEmpty(trip.getAllowed()));
@@ -147,7 +147,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	public void updateTripInfo() {
 		// call
 		Locale locale = new Locale("ru");
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		String name = "Тестовая поездка";
 		trip.getName().setValue(name, locale);
@@ -155,7 +155,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		trip.getDescription().setValue("Полное описание тестовой поездки", locale);
 		tripService.updateTripInfo(trip, locale);
 		// check
-		trip = tripRepository.findById(TRIP_ID);
+		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getName());
 		Assert.assertNotNull(trip.getName().getValue(locale));
@@ -168,7 +168,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		String cause = "cause interruption of travel";
 		tripService.abortTableItem(TRIP_ID, TABLE_ID, cause);
 		// check
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
@@ -186,7 +186,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		String cause = "cause interruption of travel";
 		tripService.cancelTableItem(TRIP_ID, TABLE_ID, cause);
 		// check
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);

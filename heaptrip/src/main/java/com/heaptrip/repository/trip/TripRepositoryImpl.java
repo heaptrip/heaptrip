@@ -12,17 +12,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.ContentEnum;
 import com.heaptrip.domain.entity.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.FavoriteContentRepository;
-import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.repository.BaseRepositoryImpl;
 import com.heaptrip.repository.trip.helper.QueryHelper;
 import com.heaptrip.repository.trip.helper.QueryHelperFactory;
 import com.heaptrip.util.LanguageUtils;
@@ -30,12 +29,9 @@ import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class TripRepositoryImpl implements TripRepository {
+public class TripRepositoryImpl extends BaseRepositoryImpl<Trip> implements TripRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(TripRepositoryImpl.class);
-
-	@Autowired
-	private MongoContext mongoContext;
 
 	@Autowired
 	private MemberRepository memberRepository;
@@ -44,31 +40,21 @@ public class TripRepositoryImpl implements TripRepository {
 	private FavoriteContentRepository favoriteContentRepository;
 
 	@Override
-	public void save(Trip trip) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.save(trip);
-		logger.debug("WriteResult for save trip: {}", wr);
+	protected String getCollectionName() {
+		return Trip.COLLECTION_NAME;
 	}
 
 	@Override
-	public void removeById(String tripId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		WriteResult wr = coll.remove("{_id: #}", tripId);
-		logger.debug("WriteResult for remove trip: {}", wr);
+	protected Class<Trip> getCollectionClass() {
+		return Trip.class;
 	}
 
 	@Override
 	public void setDeleted(String tripId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, 'status.value': #, allowed : []}}",
 				Calendar.getInstance().getTime(), ContentStatusEnum.DELETED);
 		logger.debug("WriteResult for set trip deleted: {}", wr);
-	}
-
-	@Override
-	public Trip findById(String tripId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
-		return coll.findOne("{ _id: #}", tripId).as(Trip.class);
 	}
 
 	@Override
@@ -105,7 +91,7 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	private List<Trip> findByCriteria(TripCriteria criteria, QueryHelper queryHelper, Object... objects) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);
 		String projection = queryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria.getLocale()));
@@ -159,7 +145,7 @@ public class TripRepositoryImpl implements TripRepository {
 	}
 
 	private long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper, Object... objects) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);
 		if (logger.isDebugEnabled()) {
@@ -172,7 +158,7 @@ public class TripRepositoryImpl implements TripRepository {
 
 	@Override
 	public Trip getInfo(String tripId, Locale locale) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String projection = String
@@ -191,7 +177,7 @@ public class TripRepositoryImpl implements TripRepository {
 
 	@Override
 	public void update(Trip trip, Locale locale) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		// update common data
 		String query = "{_id: #}";
 		String lang = LanguageUtils.getLanguageByLocale(locale);
@@ -255,14 +241,14 @@ public class TripRepositoryImpl implements TripRepository {
 					query, ArrayUtils.toString(parameters), updateQuery, value);
 			logger.debug(msg);
 		}
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, value);
 		logger.debug("WriteResult for inc table members: {}", wr);
 	}
 
 	@Override
 	public void setTableStatus(String tripId, String tableId, TableStatus status) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = getCollection();
 		String query = "{_id: #, 'table._id': #}";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(tripId);

@@ -43,14 +43,14 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(priority = 1, enabled = true)
 	public void addTableUser() {
 		// call
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNull(trip.getTable()[0].getMembers());
 		tripUserService.addTableUser(TRIP_ID, TABLE_ID, USER_ID);
 		// check
-		trip = tripRepository.findById(TRIP_ID);
+		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
@@ -79,7 +79,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(member);
 		tripUserService.removeTripMember(member.getId());
 		// check
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
@@ -93,7 +93,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(priority = 3, enabled = true)
 	public void addTableInvite() {
 		// call
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
@@ -101,7 +101,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(0L));
 		tripUserService.addTableInvite(TRIP_ID, TABLE_ID, USER_EMAIL);
 		// check
-		trip = tripRepository.findById(TRIP_ID);
+		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
@@ -124,7 +124,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(priority = 4, enabled = true)
 	public void addTableRequest() {
 		// call
-		Trip trip = tripRepository.findById(TRIP_ID);
+		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
@@ -132,7 +132,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(0L));
 		tripUserService.addTableRequest(TRIP_ID, TABLE_ID, USER_ID);
 		// check
-		trip = tripRepository.findById(TRIP_ID);
+		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);

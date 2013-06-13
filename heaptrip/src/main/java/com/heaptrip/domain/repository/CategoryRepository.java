@@ -5,15 +5,8 @@ import java.util.Locale;
 
 import com.heaptrip.domain.entity.Category;
 
-public interface CategoryRepository {
-
-	public void save(Category category);
-
-	public void save(List<Category> categories);
-
-	public Category findById(String Id);
+public interface CategoryRepository extends CrudRepository<Category> {
 
 	public List<Category> findAll(Locale locale);
 
-	public void removeAll();
 }

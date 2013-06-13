@@ -12,14 +12,14 @@ import org.springframework.util.Assert;
 import com.heaptrip.domain.entity.Region;
 import com.heaptrip.domain.repository.RegionRepository;
 import com.heaptrip.domain.repository.solr.SolrRegion;
-import com.heaptrip.domain.repository.solr.SolrRegionRepository;
+import com.heaptrip.domain.repository.solr.RegionSolrRepository;
 import com.heaptrip.domain.service.RegionService;
 
 @Service
 public class RegionServiceImpl implements RegionService {
 
 	@Autowired
-	private SolrRegionRepository regionSolrRepository;
+	private RegionSolrRepository regionSolrRepository;
 
 	@Autowired
 	private RegionRepository regionRepository;

@@ -95,9 +95,9 @@ public class TripUserServiceImpl implements TripUserService {
 	@Override
 	public void removeTripMember(String memberId) {
 		Assert.notNull(memberId, "memberId");
-		TableMember member = memberRepository.findById(memberId);
+		TableMember member = memberRepository.findOne(memberId);
 		Assert.notNull(member, "error memberId");
-		memberRepository.removeById(memberId);
+		memberRepository.remove(memberId);
 		if (member.getTripId() != null && member.getTableId() != null) {
 			tripRepository.incTableMembers(member.getTripId(), member.getTableId(), -1);
 		}

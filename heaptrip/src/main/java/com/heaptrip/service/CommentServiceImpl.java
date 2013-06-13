@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 		Assert.notNull(parentId, "parentId must not be null");
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(text, "text must not be null");
-		Comment rootComment = commentRepository.findById(parentId);
+		Comment rootComment = commentRepository.findOne(parentId);
 		Assert.notNull(rootComment, "Error parentId");
 
 		String slugPart = SlugUtils.generateSlug();
