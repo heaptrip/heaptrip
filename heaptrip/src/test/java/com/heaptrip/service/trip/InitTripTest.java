@@ -114,13 +114,15 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	}
 
 	private List<Trip> getTrips() throws SolrServerException {
+		ContentCategory[] categories = getCategories();
+		ContentRegion[] regions = getRegions();
 		List<Trip> trips = new ArrayList<>();
 		for (int i = 0; i < TRIPS_COUNT; i++) {
 			Trip trip = new Trip();
 			trip.setId(Integer.toString(i));
 			trip.setOwner(new ContentOwner(OWNER_ID));
-			trip.setCategories(getCategories());
-			trip.setRegions(getRegions());
+			trip.setCategories(categories);
+			trip.setRegions(regions);
 			trip.setName(new MultiLangText("my name No " + Integer.toString(i), locale));
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setDescription(new MultiLangText("my description", locale));

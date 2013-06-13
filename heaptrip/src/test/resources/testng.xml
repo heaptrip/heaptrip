@@ -34,4 +34,10 @@
 		</classes>
 	</test>
 
+	<test name="CommentTest">
+		<classes>
+			<class name="com.heaptrip.service.CommentServiceTest" />
+		</classes>
+	</test>
+
 </suite>

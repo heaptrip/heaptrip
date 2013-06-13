@@ -1,9 +1,16 @@
 package com.heaptrip.domain.entity;
 
+/**
+ * 
+ * CommentAuthor
+ * 
+ */
 public class CommentAuthor extends BaseObject {
 
+	// user name
 	private String name;
 
+	// user avatar
 	private Image image;
 
 	public String getName() {
