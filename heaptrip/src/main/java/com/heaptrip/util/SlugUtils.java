@@ -9,7 +9,7 @@ public class SlugUtils {
 
 	private static SecureRandom random = new SecureRandom();
 
-	private static SimpleDateFormat formatter = new SimpleDateFormat("%Y.%m.%d.%H.%M.%S");
+	private static SimpleDateFormat formatter = new SimpleDateFormat("Y.M.d.H.m.s");
 
 	public static String generateSlug() {
 		return new BigInteger(24, random).toString(32);

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.Comment;
@@ -21,6 +22,11 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private CommentService commentService;
+
+	@BeforeClass
+	public void init() {
+		commentService.removeComments(TARGET_ID);
+	}
 
 	@Test(enabled = true, priority = 0)
 	public void addComment() throws IOException {
