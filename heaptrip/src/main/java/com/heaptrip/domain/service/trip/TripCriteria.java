@@ -13,7 +13,7 @@ public class TripCriteria extends ContentCriteria {
 	// search trips by trip member id
 	private String memberId;
 
-	// search periodsl
+	// search period
 	private SearchPeriod period;
 
 	public String getMemberId() {

@@ -2,7 +2,9 @@ package com.heaptrip.domain.service.trip;
 
 import java.util.List;
 
+import com.heaptrip.domain.entity.trip.TableInvite;
 import com.heaptrip.domain.entity.trip.TableMember;
+import com.heaptrip.domain.entity.trip.TableUser;
 
 /**
  * 
@@ -17,8 +19,9 @@ public interface TripUserService {
 	 * @param tripId
 	 * @param tableId
 	 * @param userId
+	 * @return table user
 	 */
-	public void addTableUser(String tripId, String tableId, String userId);
+	public TableUser addTableUser(String tripId, String tableId, String userId);
 
 	/**
 	 * Send an invitation to an external email address
@@ -26,8 +29,9 @@ public interface TripUserService {
 	 * @param tripId
 	 * @param tableId
 	 * @param invite
+	 * @return table invite
 	 */
-	public void addTableInvite(String tripId, String tableId, String email);
+	public TableInvite addTableInvite(String tripId, String tableId, String email);
 
 	/**
 	 * Send a user's request to participate in trip
@@ -35,8 +39,9 @@ public interface TripUserService {
 	 * @param tripId
 	 * @param tableId
 	 * @param userId
+	 * @return table user
 	 */
-	public void addTableRequest(String tripId, String tableId, String userId);
+	public TableUser addTableRequest(String tripId, String tableId, String userId);
 
 	/**
 	 * Accept user to the members trip. Needs to be called when the user accepts

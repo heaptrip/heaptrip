@@ -20,9 +20,9 @@ public interface TripService {
 	 * Save a new trip
 	 * 
 	 * @param trip
-	 * @return tripId
+	 * @return trip
 	 */
-	public String saveTrip(Trip trip);
+	public Trip saveTrip(Trip trip);
 
 	/**
 	 * Soft remove trip

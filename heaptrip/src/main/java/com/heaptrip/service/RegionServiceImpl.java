@@ -11,8 +11,8 @@ import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.Region;
 import com.heaptrip.domain.repository.RegionRepository;
-import com.heaptrip.domain.repository.solr.SolrRegion;
 import com.heaptrip.domain.repository.solr.RegionSolrRepository;
+import com.heaptrip.domain.repository.solr.SolrRegion;
 import com.heaptrip.domain.service.RegionService;
 
 @Service
@@ -26,8 +26,8 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale) throws SolrServerException {
-		Assert.notNull(name, "name");
-		Assert.notNull(locale, "locale");
+		Assert.notNull(name, "name must not be null");
+		Assert.notNull(locale, "locale must not be null");
 		List<SolrRegion> solrRegions = regionSolrRepository.findByName(name, skip, limit, locale);
 		List<Region> result = new ArrayList<>();
 		if (solrRegions != null) {
@@ -41,8 +41,8 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public Region getRegionById(String regionId, Locale locale) {
-		Assert.notNull(regionId, "regionId");
-		Assert.notNull(locale, "locale");
+		Assert.notNull(regionId, "regionId must not be null");
+		Assert.notNull(locale, "locale must not be null");
 		return regionRepository.findById(regionId, locale);
 	}
 

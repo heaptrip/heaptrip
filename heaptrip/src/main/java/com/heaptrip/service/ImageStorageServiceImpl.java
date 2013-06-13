@@ -10,6 +10,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.ImageEnum;
 import com.heaptrip.domain.repository.MongoContext;
@@ -31,6 +32,9 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
 	@Override
 	public String saveImage(String fileName, ImageEnum imageType, InputStream is) throws IOException {
+		Assert.notNull(fileName, "fileName must not be null");
+		Assert.notNull(imageType, "imageType must not be null");
+		Assert.notNull(is, "inputStream must not be null");
 		DB db = mongoContext.getDatabase();
 		GridFS fs = new GridFS(db, FOLDER_NAME);
 		GridFSInputFile file = fs.createFile(resize(imageType, is));
@@ -41,6 +45,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
 	@Override
 	public InputStream getImage(String imageId) {
+		Assert.notNull(imageId, "imageId must not be null");
 		DB db = mongoContext.getDatabase();
 		GridFS fs = new GridFS(db, FOLDER_NAME);
 		GridFSDBFile file = fs.find(new ObjectId(imageId));
@@ -49,6 +54,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
 	@Override
 	public void removeImage(String imageId) {
+		Assert.notNull(imageId, "imageId must not be null");
 		DB db = mongoContext.getDatabase();
 		GridFS fs = new GridFS(db, FOLDER_NAME);
 		fs.remove(new ObjectId(imageId));

@@ -24,9 +24,9 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public void setContentStatus(String contentId, String ownerId, ContentStatusEnum status) {
-		Assert.notNull(contentId, "tripId");
-		Assert.notNull(ownerId, "ownerId");
-		Assert.notNull(status, "status");
+		Assert.notNull(contentId, "tripId must not be null");
+		Assert.notNull(ownerId, "ownerId must not be null");
+		Assert.notNull(status, "status must not be null");
 		String[] allowed = null;
 		switch (status) {
 		case PUBLISHED_ALL:
@@ -51,9 +51,9 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public void addFavoriteContent(String contentId, ContentEnum contentType, String userId) {
-		Assert.notNull(contentId, "contentId");
-		Assert.notNull(contentType, "contentType");
-		Assert.notNull(userId, "userId");
+		Assert.notNull(contentId, "contentId must not be null");
+		Assert.notNull(contentType, "contentType must not be null");
+		Assert.notNull(userId, "userId must not be null");
 		FavoriteContent fc = new FavoriteContent();
 		fc.setContentId(contentId);
 		fc.setType(contentType);
@@ -63,29 +63,29 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public List<FavoriteContent> getFavoriteContents(ContentEnum contentType, String userId) {
-		Assert.notNull(contentType, "contentType");
-		Assert.notNull(userId, "userId");
+		Assert.notNull(contentType, "contentType must not be null");
+		Assert.notNull(userId, "userId must not be null");
 		return favoriteContentRepository.findByTypeAndUserId(contentType, userId);
 	}
 
 	@Override
 	public List<FavoriteContent> getFavoriteContents(String userId) {
-		Assert.notNull(userId, "userId");
+		Assert.notNull(userId, "userId must not be null");
 		return favoriteContentRepository.findByUserId(userId);
 	}
 
 	@Override
 	public boolean isFavoriteContent(String contentId, String userId) {
-		Assert.notNull(contentId, "contentId");
-		Assert.notNull(userId, "userId");
+		Assert.notNull(contentId, "contentId must not be null");
+		Assert.notNull(userId, "userId must not be null");
 		FavoriteContent fc = favoriteContentRepository.findOneByContentIdAndUserId(contentId, userId);
 		return (fc == null) ? false : true;
 	}
 
 	@Override
 	public void removeFavoriteContent(String contentId, String userId) {
-		Assert.notNull(contentId, "contentId");
-		Assert.notNull(userId, "userId");
+		Assert.notNull(contentId, "contentId must not be null");
+		Assert.notNull(userId, "userId must not be null");
 		favoriteContentRepository.removeByContentIdAndUserId(contentId, userId);
 
 	}

@@ -58,14 +58,14 @@ public class TripServiceImpl implements TripService {
 	private ErrorService errorService;
 
 	@Override
-	public String saveTrip(Trip trip) {
-		Assert.notNull(trip, "trip");
-		Assert.notNull(trip.getOwner(), "owner");
-		Assert.notNull(trip.getOwner().getId(), "owner.id");
-		Assert.notEmpty(trip.getName(), "name");
-		Assert.notEmpty(trip.getLangs(), "langs");
-		Assert.notEmpty(trip.getSummary(), "summary");
-		Assert.notEmpty(trip.getDescription(), "description");
+	public Trip saveTrip(Trip trip) {
+		Assert.notNull(trip, "trip must not be null");
+		Assert.notNull(trip.getOwner(), "owner must not be null");
+		Assert.notNull(trip.getOwner().getId(), "owner.id must not be null");
+		Assert.notEmpty(trip.getName(), "name must not be empty");
+		Assert.notEmpty(trip.getLangs(), "langs must not be empty");
+		Assert.notEmpty(trip.getSummary(), "summary must not be empty");
+		Assert.notEmpty(trip.getDescription(), "description must not be empty");
 
 		// TODO
 		// read and set owner name, account type and rating
@@ -74,7 +74,7 @@ public class TripServiceImpl implements TripService {
 
 		if (trip.getCategories() != null) {
 			for (ContentCategory contentCategory : trip.getCategories()) {
-				Assert.notNull(contentCategory.getId(), "category.id");
+				Assert.notNull(contentCategory.getId(), "category.id must not be null");
 				Category category = categoryRepository.findOne(contentCategory.getId());
 				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
 				contentCategory.setName(category.getName());
@@ -83,7 +83,7 @@ public class TripServiceImpl implements TripService {
 
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
-				Assert.notNull(contentRegion.getId(), "region.id");
+				Assert.notNull(contentRegion.getId(), "region.id must not be null");
 				Region region = regionRepository.findOne(contentRegion.getId());
 				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
 				contentRegion.setName(region.getName());
@@ -106,14 +106,12 @@ public class TripServiceImpl implements TripService {
 		trip.setRating(0d);
 		trip.setComments(0L);
 
-		tripRepository.save(trip);
-
-		return trip.getId();
+		return tripRepository.save(trip);
 	}
 
 	@Override
 	public void removeTrip(String tripId) {
-		Assert.notNull(tripId, "tripId");
+		Assert.notNull(tripId, "tripId must not be null");
 		long members = memberRepository.getCountByTripId(tripId);
 		if (members > 0) {
 			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_FAILURE);
@@ -123,13 +121,13 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public void hardRemoveTrip(String tripId) {
-		Assert.notNull(tripId, "tripId");
+		Assert.notNull(tripId, "tripId must not be null");
 		tripRepository.remove(tripId);
 	}
 
 	@Override
 	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
-		Assert.notNull(tripCriteria, "tripCriteria");
+		Assert.notNull(tripCriteria, "tripCriteria must not be null");
 		List<Trip> result = null;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
 			// member
@@ -155,7 +153,7 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public long getTripsCountByCriteria(TripCriteria tripCriteria) {
-		Assert.notNull(tripCriteria, "tripCriteria");
+		Assert.notNull(tripCriteria, "tripCriteria must not be null");
 		long result = 0;
 		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
 			// member
@@ -181,16 +179,16 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public TableItem getNearTableItem(Trip trip) {
-		Assert.notNull(trip, "trip");
-		Assert.notEmpty(trip.getTable(), "trip.table");
+		Assert.notNull(trip, "trip must not be null");
+		Assert.notEmpty(trip.getTable(), "trip.table must not be empty");
 		Arrays.sort(trip.getTable(), new TableItemComparator());
 		return trip.getTable()[0];
 	}
 
 	@Override
 	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
-		Assert.notNull(trip, "trip");
-		Assert.notEmpty(trip.getTable(), "trip.table");
+		Assert.notNull(trip, "trip must not be null");
+		Assert.notEmpty(trip.getTable(), "trip.table must not be empty");
 		Arrays.sort(trip.getTable(), new TableItemComparator());
 		for (TableItem item : trip.getTable()) {
 			if (period.getDateBegin() != null && item.getBegin() != null
@@ -204,22 +202,22 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public Trip getTripInfo(String tripId, Locale locale) {
-		Assert.notNull(tripId, "tripId");
-		Assert.notNull(locale, "locale");
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(locale, "locale must not be null");
 		return tripRepository.getInfo(tripId, locale);
 	}
 
 	@Override
 	public void updateTripInfo(Trip trip, Locale locale) {
-		Assert.notNull(trip, "trip");
-		Assert.notNull(trip.getId(), "trip.id");
-		Assert.notEmpty(trip.getName(), "name");
-		Assert.notEmpty(trip.getSummary(), "summary");
-		Assert.notEmpty(trip.getDescription(), "description");
-		Assert.notEmpty(trip.getLangs(), "langs");
+		Assert.notNull(trip, "trip must not be null");
+		Assert.notNull(trip.getId(), "trip.id must not be null");
+		Assert.notEmpty(trip.getName(), "name must not be empty");
+		Assert.notEmpty(trip.getSummary(), "summary must not be empty");
+		Assert.notEmpty(trip.getDescription(), "description must not be empty");
+		Assert.notEmpty(trip.getLangs(), "langs must not be empty");
 		if (trip.getCategories() != null) {
 			for (ContentCategory contentCategory : trip.getCategories()) {
-				Assert.notNull(contentCategory.getId(), "category.id");
+				Assert.notNull(contentCategory.getId(), "category.id must not be null");
 				Category category = categoryRepository.findOne(contentCategory.getId());
 				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
 				contentCategory.setName(category.getName());
@@ -227,7 +225,7 @@ public class TripServiceImpl implements TripService {
 		}
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
-				Assert.notNull(contentRegion.getId(), "region.id");
+				Assert.notNull(contentRegion.getId(), "region.id must not be null");
 				Region region = regionRepository.findOne(contentRegion.getId());
 				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
 				contentRegion.setName(region.getName());
@@ -248,8 +246,8 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public void abortTableItem(String tripId, String tableId, String cause) {
-		Assert.notNull(tripId, "tripId");
-		Assert.notNull(tableId, "tableId");
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(tableId, "tableId must not be null");
 		TableStatus status = new TableStatus();
 		status.setValue(TableStatusEnum.ABORTED);
 		status.setText(cause);
@@ -258,8 +256,8 @@ public class TripServiceImpl implements TripService {
 
 	@Override
 	public void cancelTableItem(String tripId, String tableId, String cause) {
-		Assert.notNull(tripId, "tripId");
-		Assert.notNull(tableId, "tableId");
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(tableId, "tableId must not be null");
 		TableStatus status = new TableStatus();
 		status.setValue(TableStatusEnum.CANCELED);
 		status.setText(cause);
