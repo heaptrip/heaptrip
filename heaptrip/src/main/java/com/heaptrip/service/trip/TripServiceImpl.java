@@ -25,12 +25,14 @@ import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.repository.CategoryRepository;
 import com.heaptrip.domain.repository.RegionRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.ImageStorageService;
 import com.heaptrip.domain.service.SearchPeriod;
+import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 
@@ -51,6 +53,9 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private ImageStorageService imageStorageService;
+
+	@Autowired
+	private ErrorService errorService;
 
 	@Override
 	public String saveTrip(Trip trip) {
@@ -111,7 +116,7 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(tripId, "tripId");
 		long members = memberRepository.getCountByTripId(tripId);
 		if (members > 0) {
-			throw new IllegalStateException("The trip contains members");
+			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_FAILURE);
 		}
 		tripRepository.setDeleted(tripId);
 	}
