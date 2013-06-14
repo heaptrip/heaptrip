@@ -11,7 +11,7 @@
         		var url = 'rest/categories';
 
         		var callbackSuccess = function(data) {
-
+        			
                 	$('#category .tree').jstree({
                     	json_data : {
                         data : data
@@ -43,7 +43,7 @@
             	alert(error);
         	};
 
-        	$.postJSON(url, null, callbackSuccess, callbackError);
+        	$.postJSON(url, {categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null}, callbackSuccess, callbackError);
        
     	 	}
       

@@ -23,7 +23,7 @@
 			var config = {
 				url : url,
 				type : "POST",
-				data : jsonData ? JSON.stringify(jsonData) : null,
+				data : $.isPlainObject(jsonData) ? JSON.stringify(jsonData) : jsonData,
 				dataType : "json",
 				contentType : "application/json; charset=utf-8",
 				// A function to be called if the request succeeds.

@@ -3,7 +3,6 @@ package com.heaptrip.web.controller.trip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -44,23 +43,17 @@ public class TripController extends ExceptionHandlerControler {
 	@RequestMapping(value = "trips", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripCriteria tripCriteria) {
-
 		LOG.trace("CALL getTripsByCriteria ", tripCriteria);
-
 		List<TripModel> tripModels = new ArrayList<TripModel>();
-
 		try {
 			tripModels = tripModelService.getTripsModelByCriteria(tripCriteria);
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
-
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("trips", tripModels);
 		result.put("count", tripService.getTripsCountByCriteria(tripCriteria));
-
 		LOG.trace("END getTripsByCriteria");
-
 		return Ajax.successResponse(result);
 	}
 }
