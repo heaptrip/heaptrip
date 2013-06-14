@@ -20,12 +20,12 @@
                    
                 	}).bind("loaded.jstree", function() {
                    
-                    	var checked_ids = [];
+                    	/*var checked_ids = [];
                     	$("#category .tree").jstree("get_checked", null, true).each(function () {
                         	checked_ids.push(this.id);
                     	});
                     	if(checked_ids.length > 0)
-                    		$.handInitParamToURL({ct : checked_ids.join()});
+                    		$.handInitParamToURL({ct : checked_ids.join()});*/
                     	$("#category .tree").jstree.isLoad = true;
                    
                 	});

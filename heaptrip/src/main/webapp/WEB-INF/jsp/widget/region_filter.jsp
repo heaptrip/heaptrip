@@ -3,120 +3,99 @@
 
 <script type="text/javascript">
 
-
 $(window).bind("onPageReady", function(e, paramsJson) {
 	
-	$("#region input[type=text]")
-		.bind("keydown", function( event ) {
-  			if ( event.keyCode === $.ui.keyCode.TAB &&
-      			$( this ).data( "ui-autocomplete" ).menu.active ) {
-    			event.preventDefault();
-  			}
-		})
-		.autocomplete({
-			source: function( request, response ) {
-
-
-        		var url = 'rest/search_regions';
-
-        		var callbackSuccess = function(data) {
+	if(!$("#region input[type=text]").isLoad){
+	
+		$("#region input[type=text]")
+			.bind("keydown", function( event ) {
+  				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {
+    				event.preventDefault();
+  				}
+			})
+			.autocomplete({
+				source: function( request, response ) {
+					
+        			var url = 'rest/search_regions';
         			
-        			response(
-        			
-        			$.map( data, function( item ) {
-                        return {
-                            label: item.data + "(" + item.path + ")",
-                            value: item.id
-                        };
-                    }));
-        			
-           
-            	};
+        			var callbackSuccess = function(data) {
+        				response(
+        					$.map( data, function( item ) {
+                        		return {
+                            		label: item.data + "(" + item.path + ")",
+                            		value: item.id
+                        		};
+                    		}));
+            		};
         
+        			var callbackError = function(error) {
+            			alert(error);
+        			};
 
-        	var callbackError = function(error) {
-            	alert(error);
-        	};
-
-        	$.postJSON(url, request.term, callbackSuccess, callbackError);	
+        			$.postJSON(url, request.term, callbackSuccess, callbackError);	
 				
-				
-    		
-    		
-    		
-    		
-    		
-  		},
-  search: function() {
-    // custom minLength
-    var term = extractLast( this.value );
-    if ( term.length < 2 ) {
-      return false;
-    }
-  },
-  focus: function() {
-    // prevent value inserted on focus
-    return false;
-  },
-  select: function( event, ui ) {
-    console.log(ui.item.value);
-    $("#region form input[type=text]").val('');
-    var m=Array('wwww','rrrr','tttt');
-    var n=Array('wwww','mmmm','dddd');
-    var t=Array('wwww','mmmm','ssss');
-    create_tree(m);
-    create_tree(n);
-    create_tree(t);
-    return false;
-  }
-});
+  				},
+  				search: function() {
+    				// custom minLength
+    				var term = extractLast( this.value );
+    				if ( term.length < 2 ) {
+      					return false;
+    				}
+  				},
+  				focus: function() {
+    				// prevent value inserted on focus
+    				return false;
+  				},
+				select: function( event, ui ) {
+    				console.log(ui.item.value);
+    				$("#region form input[type=text]").val('');
+    				var m=Array('wwww','rrrr','tttt');
+    				var n=Array('wwww','mmmm','dddd');
+    				var t=Array('wwww','mmmm','ssss');
+    				create_tree(m);
+    				create_tree(n);
+    				create_tree(t);
+    				return false;
+  				}
+			});
 
+		if($('#region .tree').length){
+			$('#region .tree').jstree({
+				'plugins' : [ 'themes', 'ui','add_del','crrm',"html_data" ]
+			});
+		}
 
-
-if($('#region .tree').length){
-	$('#region .tree').jstree({
-		'plugins' : [ 'themes', 'ui','add_del','crrm',"html_data" ]
-	});
-}
-
-$(".ui-autocomplete .ui-menu-item").unbind();
-$(".ui-autocomplete a.ui-corner-all").unbind();
-	$(".ui-autocomplete a.ui-corner-all").click(function (e) {
-//alert($(this).html());
+		$(".ui-autocomplete .ui-menu-item").unbind();
+		$(".ui-autocomplete a.ui-corner-all").unbind();
+		$(".ui-autocomplete a.ui-corner-all").click(function (e) {
+	
 		$("#region .search input[type=text]").val('');
-return false;
-	});
+			return false;
+		});
 
-
-
-
+		$("#region input[type=text]").isLoad = true;
+	}
 });
 
 function fnShowProps(obj, objName){
-var result = "";
-for (var i in obj) // обращение к свойствам объекта по индексу
-  result += objName + "." + i + " = " + obj[i] + "<br />\n";
-console.log(result);
+	var result = "";
+	for (var i in obj) // обращение к свойствам объекта по индексу
+  	result += objName + "." + i + " = " + obj[i] + "<br />\n";
+	console.log(result);
 }
 
 function create_tree(n){
-var i=0;
-while(n[i]){
-if(!$("#region .tree #"+n[i]).length){
-$("#region .tree").jstree("create", "#"+n[i-1], "last", {attr:{id:n[i]},data: n[i]},false,true);  
+	var i=0;
+	while(n[i]){
+		if(!$("#region .tree #"+n[i]).length){
+			$("#region .tree").jstree("create", "#"+n[i-1], "last", {attr:{id:n[i]},data: n[i]},false,true);  
+		}
+		i++;
+	}
+	return false;
 }
-i++;
-}
-return false;
-}
 
-
-
-
-
-	
 </script>
-
 
 <div id="region" class="filtr">
 	<div class="zag">
