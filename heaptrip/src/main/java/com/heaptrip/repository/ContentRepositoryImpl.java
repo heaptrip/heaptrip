@@ -11,7 +11,7 @@ import com.heaptrip.domain.repository.ContentRepository;
 import com.mongodb.WriteResult;
 
 @Service
-public class ContentRepositoryImpl extends BaseRepositoryImpl<Content> implements ContentRepository {
+public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implements ContentRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContentRepositoryImpl.class);
 

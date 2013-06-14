@@ -16,7 +16,7 @@ import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl<FavoriteContent> implements
+public class FavoriteContentRepositoryImpl extends CrudRepositoryImpl<FavoriteContent> implements
 		FavoriteContentRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(FavoriteContentRepositoryImpl.class);

@@ -126,12 +126,11 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 			trip.setName(new MultiLangText("my name No " + Integer.toString(i), locale));
 			trip.setSummary(new MultiLangText("my summary", locale));
 			trip.setDescription(new MultiLangText("my description", locale));
-			trip.setLangs(new String[] { locale.getLanguage() });
 			trip.setTable(getRandomTable());
 			if (i % 2 == 0) {
-				trip.setAllowed(new String[] { ALL_USERS });
-			} else {
 				trip.setAllowed(new String[] { USER_ID });
+			} else {
+				trip.setAllowed(new String[] { ALL_USERS });
 			}
 			trips.add(trip);
 		}
@@ -154,7 +153,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		image = getImage();
 		for (Trip trip : trips) {
 			trip.setImage(image);
-			tripService.saveTrip(trip);
+			tripService.saveTrip(trip, locale);
 			tripUserService.removeTripMembers(trip.getId());
 		}
 	}

@@ -20,9 +20,11 @@ public interface TripService {
 	 * Save a new trip
 	 * 
 	 * @param trip
+	 * @param locale
+	 *            the locale for which to create the trip
 	 * @return trip
 	 */
-	public Trip saveTrip(Trip trip);
+	public Trip saveTrip(Trip trip, Locale locale);
 
 	/**
 	 * Soft remove trip
@@ -87,6 +89,7 @@ public interface TripService {
 	 * 
 	 * @param trip
 	 * @param locale
+	 *            the locale for which to update the trip
 	 */
 	public void updateTripInfo(Trip trip, Locale locale);
 

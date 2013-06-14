@@ -14,6 +14,8 @@ public class MultiLangText extends HashMap<String, String> {
 
 	private static final long serialVersionUID = -248938959357861383L;
 
+	private static final String MAIN_LANG = "main";
+
 	public MultiLangText() {
 		super();
 	}
@@ -31,11 +33,16 @@ public class MultiLangText extends HashMap<String, String> {
 
 	public String getValue(Locale locale) {
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		return get(lang);
+		String value = get(lang);
+		return (value == null) ? get(MAIN_LANG) : value;
 	}
 
 	public void setValue(String value, Locale locale) {
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		put(lang, value);
+	}
+
+	public void setMainLanguage(String lang) {
+		put(MAIN_LANG, get(lang));
 	}
 }

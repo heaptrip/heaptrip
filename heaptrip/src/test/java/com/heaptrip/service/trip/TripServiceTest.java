@@ -149,7 +149,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Locale locale = new Locale("ru");
 		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
-		String name = "Тестовая поездка";
+		String name = "Тестовая поездка No1";
 		trip.getName().setValue(name, locale);
 		trip.getSummary().setValue("Краткое описание тестовой поездки", locale);
 		trip.getDescription().setValue("Полное описание тестовой поездки", locale);

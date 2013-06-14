@@ -10,7 +10,7 @@ import com.heaptrip.domain.repository.CommentRepository;
 import com.heaptrip.util.collection.IteratorConverter;
 
 @Service
-public class CommentRepositoryImpl extends BaseRepositoryImpl<Comment> implements CommentRepository {
+public class CommentRepositoryImpl extends CrudRepositoryImpl<Comment> implements CommentRepository {
 
 	@Override
 	public List<Comment> findByTargetIdOrderByFullSlugAsc(String targetId) {

@@ -13,12 +13,12 @@ import com.heaptrip.domain.entity.Content;
 import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.repository.trip.MemberRepository;
-import com.heaptrip.repository.BaseRepositoryImpl;
+import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class MemberRepositoryImpl extends BaseRepositoryImpl<TableMember> implements MemberRepository {
+public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implements MemberRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(MemberRepositoryImpl.class);
 

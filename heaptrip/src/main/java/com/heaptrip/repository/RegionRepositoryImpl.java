@@ -10,7 +10,7 @@ import com.heaptrip.domain.repository.RegionRepository;
 import com.heaptrip.util.LanguageUtils;
 
 @Service
-public class RegionRepositoryImpl extends BaseRepositoryImpl<Region> implements RegionRepository {
+public class RegionRepositoryImpl extends CrudRepositoryImpl<Region> implements RegionRepository {
 
 	@Override
 	public Region findById(String Id, Locale locale) {

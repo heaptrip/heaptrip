@@ -9,7 +9,6 @@ import org.springframework.util.Assert;
 
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
-import com.heaptrip.util.LanguageUtils;
 
 public class MemberQueryHelper extends AbstractQueryHelper {
 
@@ -25,7 +24,6 @@ public class MemberQueryHelper extends AbstractQueryHelper {
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			query += ", 'regions._id': {$in: #}";
 		}
-		query += ", langs: #";
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
 				query += ", 'table.begin': {$gte: #, $lte: #}";
@@ -61,9 +59,6 @@ public class MemberQueryHelper extends AbstractQueryHelper {
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			parameters.add(criteria.getRegionIds());
 		}
-		// lang
-		String lang = LanguageUtils.getLanguageByLocale(criteria.getLocale());
-		parameters.add(lang);
 		// period
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null) {

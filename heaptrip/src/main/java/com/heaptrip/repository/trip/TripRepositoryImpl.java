@@ -21,7 +21,7 @@ import com.heaptrip.domain.repository.FavoriteContentRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.trip.TripCriteria;
-import com.heaptrip.repository.BaseRepositoryImpl;
+import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.trip.helper.QueryHelper;
 import com.heaptrip.repository.trip.helper.QueryHelperFactory;
 import com.heaptrip.util.LanguageUtils;
@@ -29,7 +29,7 @@ import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class TripRepositoryImpl extends BaseRepositoryImpl<Trip> implements TripRepository {
+public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements TripRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(TripRepositoryImpl.class);
 
@@ -94,7 +94,7 @@ public class TripRepositoryImpl extends BaseRepositoryImpl<Trip> implements Trip
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);
-		String projection = queryHelper.getProjection(LanguageUtils.getLanguageByLocale(criteria.getLocale()));
+		String projection = queryHelper.getProjection(criteria.getLocale());
 		String sort = queryHelper.getSort(criteria.getSort());
 		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
 		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
@@ -163,10 +163,10 @@ public class TripRepositoryImpl extends BaseRepositoryImpl<Trip> implements Trip
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String projection = String
 				.format("{_class: 1, owner: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1,"
-						+ " status: 1, 'name.%s': 1, 'summary.%s': 1, 'description.%s': 1, 'table._id': 1, 'table.begin': 1, 'table.end': 1,"
-						+ " 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1, 'table.price': 1, image: 1,"
-						+ " created: 1, owners:1, views: 1, rating: 1, comments: 1, langs: 1}", lang, lang, lang, lang,
-						lang);
+						+ " status: 1, 'name.%s': 1, 'name.main': 1, 'summary.%s': 1, 'summary.main': 1, 'description.%s': 1, 'description.main': 1,"
+						+ " 'table._id': 1, 'table.begin': 1, 'table.end': 1, 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1,"
+						+ " 'table.price': 1, image: 1, created: 1, owners:1, views: 1, mainlang: 1, rating: 1, comments: 1, langs: 1}",
+						lang, lang, lang, lang, lang);
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("get trip info\n->query: %s\n->parameters: %s\n->projection: %s", query, tripId,
 					projection);

@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.heaptrip.domain.service.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
-import com.heaptrip.util.LanguageUtils;
 
 public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 
@@ -21,7 +20,6 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			query += ", 'regions._id': {$in: #}";
 		}
-		query += ", langs: #";
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
 				query += ", 'table.begin': {$gte: #, $lte: #}";
@@ -55,9 +53,6 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			parameters.add(criteria.getRegionIds());
 		}
-		// lang
-		String lang = LanguageUtils.getLanguageByLocale(criteria.getLocale());
-		parameters.add(lang);
 		// period
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null) {

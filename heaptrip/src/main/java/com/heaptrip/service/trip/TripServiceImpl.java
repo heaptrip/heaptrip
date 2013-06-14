@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.AccountEnum;
 import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.entity.ContentCategory;
 import com.heaptrip.domain.entity.ContentRegion;
@@ -35,6 +36,7 @@ import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.util.LanguageUtils;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -58,18 +60,21 @@ public class TripServiceImpl implements TripService {
 	private ErrorService errorService;
 
 	@Override
-	public Trip saveTrip(Trip trip) {
+	public Trip saveTrip(Trip trip, Locale locale) {
 		Assert.notNull(trip, "trip must not be null");
+		Assert.notNull(trip, "locale must not be null");
 		Assert.notNull(trip.getOwner(), "owner must not be null");
 		Assert.notNull(trip.getOwner().getId(), "owner.id must not be null");
 		Assert.notEmpty(trip.getName(), "name must not be empty");
-		Assert.notEmpty(trip.getLangs(), "langs must not be empty");
 		Assert.notEmpty(trip.getSummary(), "summary must not be empty");
 		Assert.notEmpty(trip.getDescription(), "description must not be empty");
 
-		// TODO
-		// read and set owner name, account type and rating
-		// if owner account type == (CLUB or COMPANY) then set owners
+		// TODO read and set owner name, account type and rating
+		trip.getOwner().setName("Ivan Petrov");
+		trip.getOwner().setRating(0D);
+		trip.getOwner().setType(AccountEnum.USER);
+
+		// TODO if owner account type == (CLUB or COMPANY) then set owners
 		trip.setOwners(new String[] { trip.getOwner().getId() });
 
 		if (trip.getCategories() != null) {
@@ -80,7 +85,6 @@ public class TripServiceImpl implements TripService {
 				contentCategory.setName(category.getName());
 			}
 		}
-
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
 				Assert.notNull(contentRegion.getId(), "region.id must not be null");
@@ -89,7 +93,6 @@ public class TripServiceImpl implements TripService {
 				contentRegion.setName(region.getName());
 			}
 		}
-
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
 				if (item.getId() == null) {
@@ -98,6 +101,13 @@ public class TripServiceImpl implements TripService {
 				item.setStatus(new TableStatus());
 			}
 		}
+		// set lang
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		trip.setLangs(new String[] { lang });
+		trip.setMainlang(lang);
+		trip.getName().setMainLanguage(lang);
+		trip.getSummary().setMainLanguage(lang);
+		trip.getDescription().setMainLanguage(lang);
 
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
@@ -105,7 +115,6 @@ public class TripServiceImpl implements TripService {
 		trip.setViews(0L);
 		trip.setRating(0d);
 		trip.setComments(0L);
-
 		return tripRepository.save(trip);
 	}
 
@@ -210,10 +219,13 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public void updateTripInfo(Trip trip, Locale locale) {
 		Assert.notNull(trip, "trip must not be null");
+		Assert.notNull(locale, "locale must not be null");
 		Assert.notNull(trip.getId(), "trip.id must not be null");
+		Assert.notNull(trip.getMainlang(), "mainlang must not be empty");
 		Assert.notEmpty(trip.getName(), "name must not be empty");
 		Assert.notEmpty(trip.getSummary(), "summary must not be empty");
 		Assert.notEmpty(trip.getDescription(), "description must not be empty");
+
 		Assert.notEmpty(trip.getLangs(), "langs must not be empty");
 		if (trip.getCategories() != null) {
 			for (ContentCategory contentCategory : trip.getCategories()) {
@@ -240,6 +252,14 @@ public class TripServiceImpl implements TripService {
 					item.setStatus(new TableStatus());
 				}
 			}
+		}
+		// set lang
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		String mainLang = trip.getMainlang();
+		if (mainLang.equals(lang)) {
+			trip.getName().setMainLanguage(mainLang);
+			trip.getSummary().setMainLanguage(mainLang);
+			trip.getDescription().setMainLanguage(mainLang);
 		}
 		tripRepository.update(trip, locale);
 	}

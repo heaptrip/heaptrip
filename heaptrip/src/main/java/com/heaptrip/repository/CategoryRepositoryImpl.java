@@ -12,7 +12,7 @@ import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
 
 @Service
-public class CategoryRepositoryImpl extends BaseRepositoryImpl<Category> implements CategoryRepository {
+public class CategoryRepositoryImpl extends CrudRepositoryImpl<Category> implements CategoryRepository {
 
 	@Override
 	public List<Category> findAll(Locale locale) {

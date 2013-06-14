@@ -46,14 +46,14 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void init() {
+		Locale locale = Locale.ENGLISH;
 		trip = new Trip();
 		trip.setId(TRIP_ID);
 		trip.setOwner(new ContentOwner(OWNER_ID));
-		trip.setName(new MultiLangText("test name", Locale.ENGLISH));
-		trip.setSummary(new MultiLangText("test summary", Locale.ENGLISH));
-		trip.setDescription(new MultiLangText("test description", Locale.ENGLISH));
-		trip.setLangs(new String[] { Locale.ENGLISH.getLanguage() });
-		tripService.saveTrip(trip);
+		trip.setName(new MultiLangText("test name", locale));
+		trip.setSummary(new MultiLangText("test summary", locale));
+		trip.setDescription(new MultiLangText("test description", locale));
+		tripService.saveTrip(trip, locale);
 	}
 
 	@AfterClass

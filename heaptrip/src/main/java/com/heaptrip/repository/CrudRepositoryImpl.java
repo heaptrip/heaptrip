@@ -7,7 +7,7 @@ import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.repository.CrudRepository;
 import com.heaptrip.domain.repository.MongoContext;
 
-public abstract class BaseRepositoryImpl<T extends BaseObject> implements CrudRepository<T> {
+public abstract class CrudRepositoryImpl<T extends BaseObject> implements CrudRepository<T> {
 
 	@Autowired
 	protected MongoContext mongoContext;
