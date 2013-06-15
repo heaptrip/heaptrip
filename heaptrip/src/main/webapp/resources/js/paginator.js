@@ -5,7 +5,7 @@
 
 					var settings = $.extend({
 						totalrecords : 0,
-						recordsperpage :pagingSET.recordsperpage,
+						recordsperpage : 10,//pagingSET.recordsperpage,
 						length : 5,
 						next : '>',
 						prev : '<',

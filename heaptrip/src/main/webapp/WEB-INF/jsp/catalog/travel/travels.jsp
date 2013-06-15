@@ -17,7 +17,7 @@
 	$.views.helpers({
 		toDate : function(msDat) {
 			return $.dateFormat(new Date(msDat));
-		}
+		}	
 	});
 </script>
 
@@ -55,7 +55,7 @@
 		<div>
 			<div class="tags">
 				{{for categories}}
-					<a href="#ct={{>id}}">{{>data}}</a>
+					<a onclick="$.handParamToURL({ct:'1.2', skip : null ,limit : null})">{{>data}}</a>
 				{{/for}}
 			</div>
 			{{if price}}
@@ -86,11 +86,13 @@
 
 	var getTripsList = function(paramsJson) {
 
+		var recordsperpage = 4;
+		
 		var url = 'rest/trips';
 
 		var tripCriteria = {
-			skip : paramsJson.skip,
-			limit : paramsJson.limit,
+			skip : paramsJson.skip ? paramsJson.skip : 0,
+			limit : paramsJson.limit ? paramsJson.limit : recordsperpage,
 			categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null
 		};
 
@@ -99,6 +101,7 @@
 			$('#paginator').smartpaginator({
 				totalrecords : data.count,
 				skip : paramsJson.skip,
+				recordsperpage:recordsperpage,
 				onchange : function onChange(pageIndex, skip, limit) {
 					$.handParamToURL({
 						skip : skip,

@@ -20,6 +20,7 @@
 
 <div id="language">
 	<div id="language_now">
+		<span id="language_show"></span>
 		<span class='<fmt:message key="locale.name"/>'></span>
 		<fmt:message key="locale.current" />
 	</div>

@@ -8,9 +8,9 @@
 			go: '<fmt:message key="wgt.paging.go" />',
 	 	};
 	 
-	 	var pagingSET = {
-			recordsperpage: 5
-	 	}; 
+	 	/*var pagingSET = {
+			recordsperpage: 3
+	 	};*/ 
  
 	</script>
 

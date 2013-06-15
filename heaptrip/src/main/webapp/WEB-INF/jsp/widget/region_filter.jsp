@@ -3,9 +3,7 @@
 
 <script type="text/javascript">
 
-$(window).bind("onPageReady", function(e, paramsJson) {
-	
-	if(!$("#region input[type=text]").isLoad){
+$(document).ready(function() {
 	
 		$("#region input[type=text]")
 			.bind("keydown", function( event ) {
@@ -73,8 +71,8 @@ $(window).bind("onPageReady", function(e, paramsJson) {
 			return false;
 		});
 
-		$("#region input[type=text]").isLoad = true;
-	}
+
+	
 });
 
 function fnShowProps(obj, objName){
