@@ -22,8 +22,8 @@ public class TripModelServiceImpl implements TripModelService {
 	@Autowired
 	private RequestScopeService scopeService;
 
-	@Autowired
-	private FilterModelService filterModelService;
+	//@Autowired
+	//private FilterModelService filterModelService;
 
 	@Autowired
 	private ContentModelService contentModelService;
@@ -31,7 +31,7 @@ public class TripModelServiceImpl implements TripModelService {
 	@Override
 	public List<TripModel> getTripsModelByCriteria(TripCriteria tripCriteria) {
 		tripCriteria.setLocale(scopeService.getCurrentLocale());
-		tripCriteria.setCategoryIds(filterModelService.getCategoriesForCurrentUser(tripCriteria.getCategoryIds()));
+		//tripCriteria.setCategoryIds(filterModelService.getCategoriesForCurrentUser());
 
 		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
 		return convertTripToModel(trips);

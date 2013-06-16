@@ -7,10 +7,10 @@ import com.heaptrip.web.model.filter.CategoryTreeModel;
 
 public interface FilterModelService {
 
-	List<CategoryTreeModel> getCategories(String[] checkedCategoryIds);
-
-	String[] getCategoriesForCurrentUser(String[] checkedCategoryIds);
+	List<CategoryTreeModel> getCategories();
 
 	List<RegionModel> searchRegionsByText(String text);
+	
+	String[] getUserCategories();
 
 }

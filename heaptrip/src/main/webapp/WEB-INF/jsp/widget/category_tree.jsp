@@ -4,9 +4,36 @@
 
     <script type="text/javascript">
 
-    	$(window).bind("onPageReady", function(e, paramsJson) {
+    var selectCategories = function(categoryIdArr){
+    	
+    	$('#category .tree').jstree("uncheck_all"); 
+    	
+    	$.each(categoryIdArr , function(index, val){
+    		
+    		
+			var idSelector = val.replace(/\./g, "\\.");
+			$('#category .tree').jstree("check_node", "#" + idSelector);
+			var checked_ids = [];
+        	$("#category .tree").jstree("get_checked", null, true).each(function () {
+            	checked_ids.push(this.id);
+        	});
+        	if(checked_ids.length > 0)
+        		$.handInitParamToURL({ct : checked_ids.join()});
+		});
+    };
+    
+    
+    $(window).bind("onPageReady", function(e, paramsJson) {
+    	if(paramsJson.ct){
+    		selectCategories(paramsJson.ct.split(','));
+		}
+    });
+    
+    
+    $(document).ready(function() {
+    	
 
-    		 if (!$("#category .tree").jstree.isLoad) {
+    		 //if (!$("#category .tree").jstree.isLoad) {
     	
         		var url = 'rest/categories';
 
@@ -14,7 +41,7 @@
         			
                 	$('#category .tree').jstree({
                     	json_data : {
-                        data : data
+                        data : data.categories
                     	},
                     "plugins" : [ "themes", "json_data", "checkbox" ]
                    
@@ -26,7 +53,14 @@
                     	});
                     	if(checked_ids.length > 0)
                     		$.handInitParamToURL({ct : checked_ids.join()});*/
-                    	$("#category .tree").jstree.isLoad = true;
+                    	//$("#category .tree").jstree.isLoad = true;
+                    		//alert('ddd');
+                    		
+                    		if(data.userCategories){
+                        		selectCategories(data.userCategories);
+                			}else{
+                				//TODO: вытащить параметры из урла и selectCategories(...) и поменять; 
+                			}
                    
                 	});
                 	/*.bind("change_state.jstree", function(node, uncheck) {
@@ -35,7 +69,12 @@
                             checked_ids.push(this.id);
                         });
                     	$.handInitParamToURL({ct : checked_ids.join()});
-                	});*/
+                	});
+                	
+                	
+                	*/
+                	
+                	
             	};
         
 
@@ -43,9 +82,9 @@
             	alert(error);
         	};
 
-        	$.postJSON(url, {categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null}, callbackSuccess, callbackError);
+        	$.postJSON(url, null , callbackSuccess, callbackError);
        
-    	 	}
+    	 	//}
       
     	});
    

@@ -1,6 +1,7 @@
 package com.heaptrip.web.controller.filter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.heaptrip.domain.service.ContentCriteria;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
@@ -38,17 +38,26 @@ public class FilterController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "categories", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ? extends Object> getCategoriesByCriteria(@RequestBody ContentCriteria contentCriteria) {
-		LOG.trace("CALL getCategoriesByCriteria ", contentCriteria);
+	Map<String, ? extends Object> getCategories() {
+		LOG.trace("CALL getCategories");
 		List<CategoryTreeModel> categoryModels = new ArrayList<CategoryTreeModel>();
 		try {
-			String[] checkedCategoryIds = contentCriteria != null ? contentCriteria.getCategoryIds() : null;
-			categoryModels = filterModelService.getCategories(checkedCategoryIds);
+			categoryModels = filterModelService.getCategories();
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
 		LOG.trace("END getCategoriesByCriteria");
-		return Ajax.successResponse(categoryModels);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("categories", categoryModels);
+
+		String[] userCategories = filterModelService.getUserCategories();
+
+		if (userCategories != null && userCategories.length > 0) {
+			result.put("userCategories", userCategories);
+		}
+
+		return Ajax.successResponse(result);
 	}
 
 	@RequestMapping(value = "search_regions", method = RequestMethod.POST)

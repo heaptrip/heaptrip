@@ -31,7 +31,8 @@ public class FilterModelServiceImpl implements FilterModelService {
 	private RegionService regionService;
 
 	@Override
-	public List<CategoryTreeModel> getCategories(String[] checkedCategoryIds) {
+	public List<CategoryTreeModel> getCategories() {
+
 		List<Category> categories = categoryService.getCategories(scopeService.getCurrentLocale());
 		Map<String, CategoryTreeModel> map = new HashMap<String, CategoryTreeModel>();
 		map.put(null, new CategoryTreeModel());
@@ -41,10 +42,6 @@ public class FilterModelServiceImpl implements FilterModelService {
 			categoryModel.setData(category.getName().getValue(scopeService.getCurrentLocale()));
 			map.put(categoryModel.getId(), categoryModel);
 			map.get(category.getParent()).addChildren(map.get(categoryModel.getId()));
-			if (isCategoriesContainsId(checkedCategoryIds, category.getId()))
-				categoryModel.setChecked(true);
-			else
-				categoryModel.setChecked(false);
 		}
 		return map.get(null).getChildren();
 	}
@@ -74,21 +71,9 @@ public class FilterModelServiceImpl implements FilterModelService {
 	}
 
 	@Override
-	public String[] getCategoriesForCurrentUser(String[] checkedCategoryIds) {
-		// TODO: voronenko вычислить критерии текущего пользователя если
-		// String[] categoryIds is null;
-		return checkedCategoryIds;
-	}
-
-	private boolean isCategoriesContainsId(String[] checkedCategoryIds, String categoryId) {
-		boolean result = false;
-		if (checkedCategoryIds != null) {
-			for (String checkedId : checkedCategoryIds) {
-				if (checkedId.equals(categoryId))
-					return true;
-			}
-		}
-		return result;
+	public String[] getUserCategories() {
+		String[] arr = {"1","2"};
+		return arr;
 	}
 
 }

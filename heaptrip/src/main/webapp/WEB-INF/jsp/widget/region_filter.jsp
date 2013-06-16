@@ -4,7 +4,6 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-	
 		$("#region input[type=text]")
 			.bind("keydown", function( event ) {
   				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {

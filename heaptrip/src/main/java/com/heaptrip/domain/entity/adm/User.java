@@ -1,12 +1,16 @@
 package com.heaptrip.domain.entity.adm;
 
+import com.heaptrip.domain.entity.ContentCategory;
+
 public class User {
 
 	private String firstName;
 	private String secondName;
 	private String password;
 	private String[] roles;
+	private ContentCategory[] categories;
 
+	
 	public String getFirstName() {
 		return this.firstName;
 	}
@@ -41,6 +45,14 @@ public class User {
 
 	public void setRoles(String[] roles) {
 		this.roles = roles;
+	}
+
+	public ContentCategory[] getCategories() {
+		return categories;
+	}
+
+	public void setCategories(ContentCategory[] categories) {
+		this.categories = categories;
 	}
 
 }
