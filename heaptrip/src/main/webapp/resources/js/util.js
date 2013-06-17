@@ -109,6 +109,15 @@
 	});
 })(jQuery);
 
+(function($) {
+	$.extend({
+		getParamFromURL : function(){
+			var url = window.location.href;
+			return $.deparam.fragment( url );
+		}
+	});
+})(jQuery);
+
 /*$(window).bind( "onPageReady", function(e,paramsJson){
 	if(!$.isEmptyObject(localUrlParams)){
 		console.log(paramsJson);

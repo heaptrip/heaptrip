@@ -72,8 +72,12 @@ public class FilterModelServiceImpl implements FilterModelService {
 
 	@Override
 	public String[] getUserCategories() {
-		String[] arr = {"1","2"};
-		return arr;
+		String[] result = null;
+		if (scopeService.getCurrentUser() != null) {
+			// TODO: voronenko получить пользовательские категории когда они появятся. 
+			String[] testArr = { "1", "2.1" };
+			result = testArr;
+		}
+		return result;
 	}
-
 }
