@@ -29,7 +29,7 @@
 		</div>
 		<div class="inf">
 			<div class="left">
-				<h2><a href="/">{{>name}}</a></h2>{{>owner.name}}<span>({{>owner.rating}})</span>
+				<h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>{{>owner.name}}<span>({{>owner.rating}})</span>
 			</div>
 			<div class="right">
 				<div>

@@ -154,6 +154,13 @@
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="travelsTemplate" />
 	</definition>
+	
+	<definition name="travel_info" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/travel/travel_info.jsp"  />
+	</definition>
+	
 
 	<definition name="posts" extends="mainContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
