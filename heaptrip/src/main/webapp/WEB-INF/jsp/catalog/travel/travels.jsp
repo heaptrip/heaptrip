@@ -55,7 +55,7 @@
 		<div>
 			<div class="tags">
 				{{for categories}}
-					<a onclick="$.handParamToURL({ct:'1.2', skip : null ,limit : null})">{{>data}}</a>
+					<a onclick="$.handParamToURL({ct:{{>id}}, skip : null ,limit : null})">{{>data}}</a>
 				{{/for}}
 			</div>
 			{{if price}}
