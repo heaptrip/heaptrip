@@ -13,6 +13,10 @@
 	<mvc:view-controller path="/notfound.html" />
 	<mvc:view-controller path="/travels.html" />
 	<mvc:view-controller path="/travel_info.html" />
+	<mvc:view-controller path="/travel_maps.html" />
+	<mvc:view-controller path="/travel_photos.html" />
+	<mvc:view-controller path="/travel_participants.html" />
+	<mvc:view-controller path="/travel_posts.html" /> 
 
 	<mvc:annotation-driven />
 

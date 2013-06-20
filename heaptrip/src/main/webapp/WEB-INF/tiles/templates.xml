@@ -155,13 +155,64 @@
 		<put-attribute name="main_content" value="travelsTemplate" />
 	</definition>
 	
+	<!-- Trip page -->
+	
+	<definition name="travelTemplate" template="/WEB-INF/jsp/catalog/travel/travel.jsp">
+		<put-attribute name="travel_content" value=""  />
+	</definition>
+	
+	<definition name="travelInfoTemplate" extends="travelTemplate">
+		<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_info.jsp"  />
+	</definition>
+	
+	<definition name="travelMapsTemplate" extends="travelTemplate">
+		<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_maps.jsp"  />
+	</definition>
+	
+	<definition name="travelPhotosTemplate" extends="travelTemplate">
+		<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_photos.jsp"  />
+	</definition>
+	
+	<definition name="travelParticipantsTemplate" extends="travelTemplate">
+		<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_participants.jsp"  />
+	</definition>
+	
+	<definition name="travelPostsTemplate" extends="travelTemplate">
+		<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_posts.jsp"  />
+	</definition>
+	
 	<definition name="travel_info" extends="mainContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/travel/travel_info.jsp"  />
+		<put-attribute name="main_content" value="travelInfoTemplate"  />
 	</definition>
 	
-
+	<definition name="travel_maps" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+		<put-attribute name="main_content" value="travelMapsTemplate"  />
+	</definition>
+	
+	<definition name="travel_photos" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+		<put-attribute name="main_content" value="travelPhotosTemplate"  />
+	</definition>
+	
+	<definition name="travel_participants" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+		<put-attribute name="main_content" value="travelParticipantsTemplate"  />
+	</definition>
+	
+	<definition name="travel_posts" extends="mainContentTemplate">
+		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+		<put-attribute name="main_content" value="travelPostsTemplate"  />
+	</definition>
+	
+	<!-- end Trip page -->
+		
 	<definition name="posts" extends="mainContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />

@@ -2,4 +2,4 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
-<h>Travel Info <b>(id=<%= request.getParameter("id") %>)</b> </h>
+<br><br><h>Travel Info <b>(id=<%= request.getParameter("id") %>)</b> </h>
