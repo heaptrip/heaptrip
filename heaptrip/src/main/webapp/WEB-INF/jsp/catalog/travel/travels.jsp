@@ -100,7 +100,8 @@
 		var tripCriteria = {
 			skip : paramsJson.skip ? paramsJson.skip : 0,
 			limit : paramsJson.limit ? paramsJson.limit : recordsperpage,
-			categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null
+			categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null,
+			regionIds : paramsJson.rg ? paramsJson.rg.split(',') : null		
 		};
 
 		var callbackSuccess = function(data) {

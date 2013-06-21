@@ -3,7 +3,32 @@
 
 <script type="text/javascript">
 
+var  getAllRegionsIds = function(){
+	
+	 var idArr = [];
+	
+	$('#region .tree').each(function(){
+	   
+	    $(this).find('li').each(function(){
+	        var current = $(this);
+	        idArr.push(current[0].id);
+	    });
+	    
+		
+	});
+	return (idArr.length > 0 ? idArr : null);
+	};
+
+	// TODO: УБРАТЬ
+	
+	
+	
 $(document).ready(function() {
+	
+	
+	$.handInitParamToURL({rg:null})
+	
+	
 		$("#region input[type=text]")
 			.bind("keydown", function( event ) {
   				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {
@@ -62,6 +87,8 @@ $(document).ready(function() {
         				if(city) arr.push( {id:city.id,data:city.data});
    
         				create_tree(arr);
+        				
+        				$.handParamToURL({rg : getAllRegionsIds().join()});
             		};
         
         			var callbackError = function(error) {
@@ -79,7 +106,9 @@ $(document).ready(function() {
 		if($('#region .tree').length){
 			$('#region .tree').jstree({
 				'plugins' : [ 'themes', 'ui','add_del','crrm',"html_data" ]
-			});
+			}).bind("delete_node.jstree", function() {		
+				$.handParamToURL({rg : getAllRegionsIds() ? getAllRegionsIds().join(): null});
+    	});
 		}
 
 		$(".ui-autocomplete .ui-menu-item").unbind();
@@ -94,9 +123,11 @@ $(document).ready(function() {
 	
 });
 
+
+
 function fnShowProps(obj, objName){
 	var result = "";
-	for (var i in obj) // обращение к свойствам объекта по индексу
+	for (var i in obj) // Ð¾Ð±ÑÐ°ÑÐµÐ½Ð¸Ðµ Ðº ÑÐ²Ð¾Ð¹ÑÑÐ²Ð°Ð¼ Ð¾Ð±ÑÐµÐºÑÐ° Ð¿Ð¾ Ð¸Ð½Ð´ÐµÐºÑÑ
   	result += objName + "." + i + " = " + obj[i] + "<br />\n";
 	console.log(result);
 }
@@ -105,7 +136,9 @@ function create_tree(n){
 	var i=0;
 	while(n[i]){
 		if(!$("#region .tree #"+n[i].id).length){
-			$("#region .tree").jstree("create", "#"+(n[i-1] ? n[i-1].id:n[i].id), "last", {attr:{id:n[i].id},data: n[i].data},false,true);  
+			$("#region .tree").jstree("create", "#"+(n[i-1] ? n[i-1].id:n[i].id), "last", {attr:{id:n[i].id},data: n[i].data},false,true)
+			.delete_node;
+			
 		}
 		i++;
 	}

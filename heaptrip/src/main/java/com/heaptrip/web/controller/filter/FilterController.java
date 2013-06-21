@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.heaptrip.domain.entity.RegionEnum;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
