@@ -79,6 +79,13 @@
 </div>
 <!-- #container-->
 
+<aside id="sideRight">
+
+	<tiles:insertDefinition name="categoryTree" />
+	<tiles:insertDefinition name="regionFilter" />
+
+</aside><!-- #sideRight -->
+
 <script type="text/javascript">
 	$(window).bind("onPageReady", function(e, paramsJson) {
 		getTripsList(paramsJson);

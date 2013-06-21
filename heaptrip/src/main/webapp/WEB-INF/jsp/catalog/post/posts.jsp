@@ -32,3 +32,5 @@
 		</c:forEach>
 	</table>
 </c:if>
+
+<h1>Posts Rright Bar</h1>

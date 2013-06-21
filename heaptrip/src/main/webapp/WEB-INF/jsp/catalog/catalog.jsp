@@ -8,5 +8,5 @@
 	
 			<tiles:insertAttribute name="catalog_content" />
 				
-		<tiles:insertAttribute name="catalog_right_bar" />
+		
 </section><!-- #middle-->
