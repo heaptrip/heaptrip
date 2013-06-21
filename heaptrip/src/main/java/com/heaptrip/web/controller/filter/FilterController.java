@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.heaptrip.domain.entity.RegionEnum;
 import com.heaptrip.util.http.Ajax;
+import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.converter.FilterModelService;
@@ -73,6 +75,29 @@ public class FilterController extends ExceptionHandlerControler {
 		}
 		LOG.trace("END searchRegionsByText");
 		return Ajax.successResponse(regionModels);
+	}
+
+	@RequestMapping(value = "get_region_hierarchy", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, ? extends Object> getRegionHierarchy(@RequestBody String regionId) {
+		LOG.trace("CALL getRegionHierarchy ", regionId);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+
+		try {
+			if (regionId != null) {
+				TreObject<RegionModel, RegionModel, RegionModel> regions = filterModelService
+						.getRegionHierarchy(regionId);
+
+				result.put("country", regions.getUno());
+				result.put("area", regions.getDue());
+				result.put("city", regions.getTre());
+			}
+		} catch (Throwable e) {
+			throw new RestException(e);
+		}
+		LOG.trace("END getRegionHierarchy");
+		return Ajax.successResponse(result);
 	}
 
 }

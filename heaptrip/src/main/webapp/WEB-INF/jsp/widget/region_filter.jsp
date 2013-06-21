@@ -19,7 +19,7 @@ $(document).ready(function() {
         				response(
         					$.map( data, function( item ) {
                         		return {
-                            		label: item.data + "(" + item.path + ")",
+                            		label:  item.data + " " + "(" + item.path + ")",
                             		value: item.id
                         		};
                     		}));
@@ -44,14 +44,34 @@ $(document).ready(function() {
     				return false;
   				},
 				select: function( event, ui ) {
-    				console.log(ui.item.value);
+    		
+    				var regId = ui.item.value;
+    				
+				var url = 'rest/get_region_hierarchy';
+        			
+        			var callbackSuccess = function(data) {
+        				
+        				var arr = [];
+        				
+        				var country = data.country;
+        				var area = data.area;
+        				var city = data.city;
+   				
+        				if(country)	arr.push({id:country.id,data:country.data});
+        				if(area) arr.push({id:area.id,data:area.data});
+        				if(city) arr.push( {id:city.id,data:city.data});
+   
+        				create_tree(arr);
+            		};
+        
+        			var callbackError = function(error) {
+            			alert(error);
+        			};
+
+        			$.postJSON(url, regId, callbackSuccess, callbackError);	
+			
     				$("#region form input[type=text]").val('');
-    				var m=Array('wwww','rrrr','tttt');
-    				var n=Array('wwww','mmmm','dddd');
-    				var t=Array('wwww','mmmm','ssss');
-    				create_tree(m);
-    				create_tree(n);
-    				create_tree(t);
+
     				return false;
   				}
 			});
@@ -84,8 +104,8 @@ function fnShowProps(obj, objName){
 function create_tree(n){
 	var i=0;
 	while(n[i]){
-		if(!$("#region .tree #"+n[i]).length){
-			$("#region .tree").jstree("create", "#"+n[i-1], "last", {attr:{id:n[i]},data: n[i]},false,true);  
+		if(!$("#region .tree #"+n[i].id).length){
+			$("#region .tree").jstree("create", "#"+(n[i-1] ? n[i-1].id:n[i].id), "last", {attr:{id:n[i].id},data: n[i].data},false,true);  
 		}
 		i++;
 	}

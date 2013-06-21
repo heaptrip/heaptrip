@@ -11,12 +11,15 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Category;
 import com.heaptrip.domain.entity.Region;
+import com.heaptrip.domain.entity.RegionEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.service.CategoryService;
 import com.heaptrip.domain.service.RegionService;
 import com.heaptrip.domain.service.adm.RequestScopeService;
+import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.filter.CategoryTreeModel;
+import com.lowagie.text.pdf.hyphenation.TernaryTree.Iterator;
 
 @Service
 public class FilterModelServiceImpl implements FilterModelService {
@@ -55,11 +58,7 @@ public class FilterModelServiceImpl implements FilterModelService {
 			List<Region> regions = regionService.getRegionsByName(text, 0L, 20L, scopeService.getCurrentLocale());
 			if (regions != null) {
 				for (Region region : regions) {
-					RegionModel regionModel = new RegionModel();
-					regionModel.setId(region.getId());
-					regionModel.setData(region.getName().getValue(scopeService.getCurrentLocale()));
-					regionModel.setPath(region.getPath().getValue(scopeService.getCurrentLocale()));
-					regionModels.add(regionModel);
+					regionModels.add(convertRegionToModel(region));
 				}
 			}
 
@@ -74,10 +73,44 @@ public class FilterModelServiceImpl implements FilterModelService {
 	public String[] getUserCategories() {
 		String[] result = null;
 		if (scopeService.getCurrentUser() != null) {
-			// TODO: voronenko получить пользовательские категории когда они появятся. 
+			// TODO: voronenko получить пользовательские категории когда они
+			// появятся.
 			String[] testArr = { "1", "2.1" };
 			result = testArr;
 		}
 		return result;
+	}
+
+	@Override
+	public TreObject<RegionModel, RegionModel, RegionModel> getRegionHierarchy(String regionId) {
+		Region region = regionService.getRegionById(regionId, scopeService.getCurrentLocale());
+		Map<RegionEnum, Region> map = new HashMap<RegionEnum, Region>();
+		map.put(RegionEnum.COUNTRY, null);
+		map.put(RegionEnum.AREA, null);
+		map.put(RegionEnum.CITY, null);
+		iterateRegions(region, map);
+		return new TreObject<RegionModel, RegionModel, RegionModel>(convertRegionToModel(map.get(RegionEnum.COUNTRY)),
+				convertRegionToModel(map.get(RegionEnum.AREA)), convertRegionToModel(map.get(RegionEnum.CITY)));
+	}
+
+	private void iterateRegions(Region region, Map<RegionEnum, Region> map) {
+		map.put(region.getType(), region);
+		if (region.getParent() != null) {
+			Region regionParent = regionService.getRegionById(region.getParent(), scopeService.getCurrentLocale());
+			if (regionParent != null)
+				iterateRegions(regionParent, map);
+		}
+	}
+
+	private RegionModel convertRegionToModel(Region region) {
+
+		RegionModel regionModel = null;
+		if (region != null) {
+			regionModel = new RegionModel();
+			regionModel.setId(region.getId());
+			regionModel.setData(region.getName().getValue(scopeService.getCurrentLocale()));
+			regionModel.setPath(region.getPath().getValue(scopeService.getCurrentLocale()));
+		}
+		return regionModel;
 	}
 }
