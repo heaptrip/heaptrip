@@ -20,16 +20,16 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.heaptrip.domain.entity.ContentCategory;
-import com.heaptrip.domain.entity.ContentOwner;
-import com.heaptrip.domain.entity.ContentRegion;
-import com.heaptrip.domain.entity.Image;
-import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.Region;
+import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.content.ContentOwner;
+import com.heaptrip.domain.entity.content.ContentRegion;
+import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.ImageStorageService;
-import com.heaptrip.domain.service.RegionService;
+import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.TripUserService;
 import com.heaptrip.util.RandomUtils;
@@ -67,7 +67,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	private ResourceLoader loader;
 
 	@Autowired
-	private ImageStorageService imageStorageService;
+	private ImageService imageStorageService;
 
 	@Autowired
 	private RegionService regionService;

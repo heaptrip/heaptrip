@@ -3,7 +3,7 @@ package com.heaptrip.domain.service.trip;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.Image;
+import com.heaptrip.domain.entity.image.Image;
 
 public interface TripRouteService {
 

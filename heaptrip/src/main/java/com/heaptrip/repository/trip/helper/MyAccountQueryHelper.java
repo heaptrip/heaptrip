@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import com.heaptrip.domain.service.ContentSortEnum;
+import com.heaptrip.domain.service.content.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
 
 public class MyAccountQueryHelper extends AbstractQueryHelper {

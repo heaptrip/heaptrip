@@ -2,6 +2,7 @@ package com.heaptrip.domain.entity;
 
 import java.math.BigDecimal;
 
+
 /**
  * 
  * Price

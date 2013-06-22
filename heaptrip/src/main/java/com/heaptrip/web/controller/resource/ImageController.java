@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.heaptrip.domain.service.ImageStorageService;
+import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 
 @Controller
@@ -21,7 +21,7 @@ public class ImageController extends ExceptionHandlerControler {
 
 	
 	@Autowired
-	private ImageStorageService imageStorageService;
+	private ImageService imageStorageService;
 	
 	@RequestMapping("/image")
 	public ResponseEntity<byte[]> getImage(@RequestParam(value = "imageId") String imageId) throws IOException {

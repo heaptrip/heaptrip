@@ -1,6 +1,6 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.Image;
+import com.heaptrip.domain.entity.image.Image;
 
 /**
  * 

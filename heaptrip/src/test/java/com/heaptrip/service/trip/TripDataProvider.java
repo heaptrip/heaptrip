@@ -6,11 +6,11 @@ import java.util.Locale;
 
 import org.testng.annotations.DataProvider;
 
-import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.ContentSortEnum;
-import com.heaptrip.domain.service.SearchPeriod;
+import com.heaptrip.domain.service.content.ContentSortEnum;
+import com.heaptrip.domain.service.trip.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.util.RandomUtils;
 

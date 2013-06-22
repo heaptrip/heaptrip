@@ -25,6 +25,7 @@ import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
 
+@Deprecated
 @Service(PostRepository.SERVICE_NAME)
 public class PostRepositoryImpl implements PostRepository {
 

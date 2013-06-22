@@ -7,7 +7,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.ContentSortEnum;
+import com.heaptrip.domain.service.content.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
 
 public class MemberQueryHelper extends AbstractQueryHelper {

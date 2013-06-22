@@ -1,6 +1,6 @@
 package com.heaptrip.domain.entity.adm;
 
-import com.heaptrip.domain.entity.ContentCategory;
+import com.heaptrip.domain.entity.content.ContentCategory;
 
 public class User {
 

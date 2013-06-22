@@ -9,13 +9,13 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.Category;
-import com.heaptrip.domain.entity.Region;
-import com.heaptrip.domain.entity.RegionEnum;
+import com.heaptrip.domain.entity.category.Category;
+import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.entity.region.RegionEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.service.CategoryService;
-import com.heaptrip.domain.service.RegionService;
 import com.heaptrip.domain.service.adm.RequestScopeService;
+import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.filter.CategoryTreeModel;

@@ -1,7 +1,6 @@
 package com.heaptrip.domain.service.trip;
 
-import com.heaptrip.domain.service.ContentCriteria;
-import com.heaptrip.domain.service.SearchPeriod;
+import com.heaptrip.domain.service.content.ContentCriteria;
 
 /**
  * 

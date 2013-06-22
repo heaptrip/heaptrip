@@ -13,27 +13,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.AccountEnum;
-import com.heaptrip.domain.entity.Category;
-import com.heaptrip.domain.entity.ContentCategory;
-import com.heaptrip.domain.entity.ContentRegion;
-import com.heaptrip.domain.entity.ContentStatus;
-import com.heaptrip.domain.entity.ContentStatusEnum;
-import com.heaptrip.domain.entity.Image;
-import com.heaptrip.domain.entity.ImageEnum;
-import com.heaptrip.domain.entity.Region;
+import com.heaptrip.domain.entity.account.AccountEnum;
+import com.heaptrip.domain.entity.category.Category;
+import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.content.ContentRegion;
+import com.heaptrip.domain.entity.content.ContentStatus;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.image.ImageEnum;
+import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.repository.CategoryRepository;
-import com.heaptrip.domain.repository.RegionRepository;
+import com.heaptrip.domain.repository.category.CategoryRepository;
+import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.ImageStorageService;
-import com.heaptrip.domain.service.SearchPeriod;
 import com.heaptrip.domain.service.adm.ErrorService;
+import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.trip.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.util.LanguageUtils;
@@ -54,7 +54,7 @@ public class TripServiceImpl implements TripService {
 	private MemberRepository memberRepository;
 
 	@Autowired
-	private ImageStorageService imageStorageService;
+	private ImageService imageStorageService;
 
 	@Autowired
 	private ErrorService errorService;
@@ -287,7 +287,7 @@ public class TripServiceImpl implements TripService {
 	@Override
 	public Image saveImage(String fileName, InputStream is) throws IOException {
 		Image image = new Image();
-		String imageId = imageStorageService.saveImage(fileName, ImageEnum.TRIP_IMAGE, is);
+		String imageId = imageStorageService.saveImage(fileName, ImageEnum.CONTENT_TITLE_IMAGE, is);
 		image.setId(imageId);
 		image.setName(fileName);
 		image.setUploaded(new Date());

@@ -2,27 +2,27 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Suite" parallel="false">
 
-	<test name="ImageStorageTest">
+	<test name="ImageTest">
 		<classes>
-			<class name="com.heaptrip.service.ImageStorageServiceTest" />
+			<class name="com.heaptrip.service.image.ImageServiceTest" />
 		</classes>
 	</test>
 
 	<test name="RegionTest">
 		<classes>
-			<class name="com.heaptrip.service.RegionServiceTest" />
+			<class name="com.heaptrip.service.region.RegionServiceTest" />
 		</classes>
 	</test>
 
 	<test name="CategoryTest">
 		<classes>
-			<class name="com.heaptrip.service.CategoryServiceTest" />
+			<class name="com.heaptrip.service.category.CategoryServiceTest" />
 		</classes>
 	</test>
 
 	<test name="ContentTest">
 		<classes>
-			<class name="com.heaptrip.service.ContentServiceTest" />
+			<class name="com.heaptrip.service.content.ContentServiceTest" />
 		</classes>
 	</test>
 
@@ -36,7 +36,7 @@
 
 	<test name="CommentTest">
 		<classes>
-			<class name="com.heaptrip.service.CommentServiceTest" />
+			<class name="com.heaptrip.service.comment.CommentServiceTest" />
 		</classes>
 	</test>
 

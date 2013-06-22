@@ -3,9 +3,9 @@ package com.heaptrip.domain.repository.solr;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.LangEnum;
-import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.Region;
-import com.heaptrip.domain.entity.RegionEnum;
+import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.entity.region.RegionEnum;
 import com.heaptrip.util.LanguageUtils;
 
 public class SolrRegion {

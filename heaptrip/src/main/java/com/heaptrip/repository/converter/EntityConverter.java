@@ -1,8 +1,9 @@
 package com.heaptrip.repository.converter;
 
-import com.heaptrip.domain.entity.BaseEntity;
+import com.heaptrip.domain.entity.post.BaseEntity;
 import com.mongodb.DBObject;
 
+@Deprecated
 public interface EntityConverter<T extends BaseEntity> {
 
 	public static final String POST_CONVERTER = "postConveter";

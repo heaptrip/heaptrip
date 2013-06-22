@@ -1,7 +1,7 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.Image;
-import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.image.Image;
 
 public class Route {
 

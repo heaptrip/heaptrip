@@ -11,6 +11,7 @@ import com.heaptrip.domain.entity.post.PostEntity;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+@Deprecated
 @Service(EntityConverter.POST_CONVERTER)
 public class PostConveter implements EntityConverter<PostEntity> {
 

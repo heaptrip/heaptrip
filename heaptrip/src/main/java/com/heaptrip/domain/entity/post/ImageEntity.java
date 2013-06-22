@@ -1,7 +1,7 @@
 package com.heaptrip.domain.entity.post;
 
-import com.heaptrip.domain.entity.BaseEntity;
 
+@Deprecated
 public class ImageEntity extends BaseEntity {
 	private String id;
 	private String name;

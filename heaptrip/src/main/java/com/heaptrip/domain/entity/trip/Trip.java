@@ -1,7 +1,7 @@
 package com.heaptrip.domain.entity.trip;
 
-import com.heaptrip.domain.entity.Content;
-import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.MultiLangText;
 
 /**
  * 

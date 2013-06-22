@@ -1,8 +1,8 @@
 package com.heaptrip.web.converter;
 
-import com.heaptrip.domain.entity.ContentCategory;
-import com.heaptrip.domain.entity.ContentOwner;
-import com.heaptrip.domain.entity.ContentRegion;
+import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.content.ContentOwner;
+import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
 import com.heaptrip.web.model.content.RegionModel;

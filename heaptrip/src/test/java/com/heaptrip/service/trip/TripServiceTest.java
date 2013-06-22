@@ -11,12 +11,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.SearchPeriod;
+import com.heaptrip.domain.service.trip.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 

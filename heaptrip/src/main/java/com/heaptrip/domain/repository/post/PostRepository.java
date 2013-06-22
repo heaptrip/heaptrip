@@ -6,6 +6,7 @@ import java.util.List;
 import com.heaptrip.domain.entity.post.ImageEntity;
 import com.heaptrip.domain.entity.post.PostEntity;
 
+@Deprecated
 public interface PostRepository {
 	public static final String SERVICE_NAME = "postRepository";
 

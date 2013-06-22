@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.ContentCategory;
-import com.heaptrip.domain.entity.ContentOwner;
-import com.heaptrip.domain.entity.ContentRegion;
+import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.content.ContentOwner;
+import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;

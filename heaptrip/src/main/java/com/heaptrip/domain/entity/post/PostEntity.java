@@ -3,8 +3,8 @@ package com.heaptrip.domain.entity.post;
 import java.util.Date;
 import java.util.List;
 
-import com.heaptrip.domain.entity.BaseEntity;
 
+@Deprecated
 public class PostEntity extends BaseEntity {
 	public static final String COLLECTION_NAME = "posts";
 

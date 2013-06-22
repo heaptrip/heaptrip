@@ -12,12 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.ContentEnum;
-import com.heaptrip.domain.entity.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.repository.FavoriteContentRepository;
+import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.trip.TripCriteria;

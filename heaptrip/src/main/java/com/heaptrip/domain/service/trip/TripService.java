@@ -5,10 +5,9 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.Image;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.SearchPeriod;
 
 /**
  * Basic service to work with trips

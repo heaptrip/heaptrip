@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.heaptrip.domain.service.ContentSortEnum;
+import com.heaptrip.domain.service.content.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
 
 class FeedQueryHelper extends AbstractQueryHelper {

@@ -2,7 +2,7 @@ package com.heaptrip.repository.trip.helper;
 
 import java.util.Locale;
 
-import com.heaptrip.domain.service.ContentSortEnum;
+import com.heaptrip.domain.service.content.ContentSortEnum;
 import com.heaptrip.domain.service.trip.TripCriteria;
 
 public interface QueryHelper {
