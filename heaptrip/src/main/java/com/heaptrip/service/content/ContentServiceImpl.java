@@ -35,6 +35,7 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
+	// TODO konovalov add test
 	public List<Content> getContentsByMyAccountCriteria(MyAccountCriteria myAccountCriteria) {
 		Assert.notNull(myAccountCriteria, "myAccountCriteria must not be null");
 		Assert.notNull(myAccountCriteria.getContentType(), "contentType must not be null");
@@ -45,6 +46,7 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
+	// TODO konovalov add test
 	public List<Content> getContentsByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
 		Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
 		Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
@@ -61,6 +63,7 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
+	// TODO konovalov add test
 	public long getContentsCountByMyAccountCriteria(MyAccountCriteria myAccountCriteria) {
 		Assert.notNull(myAccountCriteria, "myAccountCriteria must not be null");
 		Assert.notNull(myAccountCriteria.getContentType(), "contentType must not be null");
@@ -71,6 +74,7 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
+	// TODO konovalov add test
 	public long getContentsCountByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
 		Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
 		Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
