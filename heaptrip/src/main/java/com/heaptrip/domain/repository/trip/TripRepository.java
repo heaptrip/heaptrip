@@ -6,31 +6,25 @@ import java.util.Locale;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.CrudRepository;
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
+import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
+import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 
 public interface TripRepository extends CrudRepository<Trip> {
 
 	public void setDeleted(String tripId);
 
-	public List<Trip> findByFeedCriteria(TripCriteria criteria);
+	public List<Trip> findByFeedTripCriteria(FeedTripCriteria criteria);
 
-	public List<Trip> findByMyAccountCriteria(TripCriteria criteria);
+	public List<Trip> findByMyAccountTripCriteria(MyAccountTripCriteria criteria);
 
-	public List<Trip> findByNotMyAccountCriteria(TripCriteria criteria);
+	public List<Trip> findByForeignAccountTripCriteria(ForeignAccountTripCriteria criteria);
 
-	public List<Trip> findByMemberCriteria(TripCriteria criteria);
+	public long getCountByFeedTripCriteria(FeedTripCriteria criteria);
 
-	public List<Trip> findByFavoritesCriteria(TripCriteria criteria);
+	public long getCountByMyAccountTripCriteria(MyAccountTripCriteria criteria);
 
-	public long getCountByFeedCriteria(TripCriteria criteria);
-
-	public long getCountByMyAccountCriteria(TripCriteria criteria);
-
-	public long getCountByNotMyAccountCriteria(TripCriteria criteria);
-
-	public long getCountByMemberCriteria(TripCriteria criteria);
-
-	public long getCountByFavoritesCriteria(TripCriteria criteria);
+	public long getCountByForeignAccountTripCriteria(ForeignAccountTripCriteria criteria);
 
 	public Trip getInfo(String tripId, Locale locale);
 

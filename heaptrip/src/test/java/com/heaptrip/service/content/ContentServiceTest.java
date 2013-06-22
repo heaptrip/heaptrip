@@ -1,39 +1,32 @@
 package com.heaptrip.service.content;
 
 import java.util.List;
-import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
-import com.heaptrip.domain.entity.content.MultiLangText;
-import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.content.FeedCriteria;
+import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.service.trip.TripDataProvider;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
-	private static String TRIP_ID = "11";
+	private static final String TRIP_ID = InitContentTest.TRIP_ID;
 
-	static String OWNER_ID = "1";
+	private static final String OWNER_ID = InitContentTest.OWNER_ID;
 
-	static String USER_ID = "1";
-
-	private Trip trip = null;
+	private static final String USER_ID = InitContentTest.USER_ID;
 
 	@Autowired
 	private ContentService contentService;
@@ -43,25 +36,6 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private TripService tripService;
-
-	@BeforeClass
-	public void init() {
-		Locale locale = Locale.ENGLISH;
-		trip = new Trip();
-		trip.setId(TRIP_ID);
-		trip.setOwner(new ContentOwner(OWNER_ID));
-		trip.setName(new MultiLangText("test name", locale));
-		trip.setSummary(new MultiLangText("test summary", locale));
-		trip.setDescription(new MultiLangText("test description", locale));
-		tripService.saveTrip(trip, locale);
-	}
-
-	@AfterClass
-	public void destroy() {
-		if (trip != null) {
-			tripService.hardRemoveTrip(trip.getId());
-		}
-	}
 
 	@Test(enabled = true)
 	public void setTripStatus() {
@@ -95,13 +69,13 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(content.getViews().longValue(), ++views);
 	}
 
-	@Test(priority = 1, enabled = true, dataProvider = "favoritesCriteria", dataProviderClass = TripDataProvider.class)
-	public void addFavoriteContent(TripCriteria tripCriteria) {
+	@Test(priority = 1, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
+	public void addFavoriteContent(MyAccountTripCriteria myAccountTripCriteria) {
 		// call
 		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
 		// check
-		tripCriteria.setFavoriteUserId(USER_ID);
-		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		myAccountTripCriteria.setUserId(USER_ID);
+		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
 		Assert.assertEquals(count, 1);
 	}
 
@@ -127,13 +101,30 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(list.size() > 0);
 	}
 
-	@Test(priority = 4, enabled = true, dataProvider = "favoritesCriteria", dataProviderClass = TripDataProvider.class)
-	public void removeFavoriteContent(TripCriteria tripCriteria) {
+	@Test(priority = 4, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
+	public void removeFavoriteContent(MyAccountTripCriteria myAccountTripCriteria) {
 		// call
 		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
 		// check
-		tripCriteria.setFavoriteUserId(USER_ID);
-		long count = tripService.getTripsCountByCriteria(tripCriteria);
+		myAccountTripCriteria.setUserId(USER_ID);
+		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
 		Assert.assertEquals(count, 0);
+	}
+
+	@Test(priority = 5, enabled = true, dataProvider = "feedCriteria", dataProviderClass = ContentDataProvider.class)
+	public void getContentsByCriteria(FeedCriteria feedCriteria) {
+		// call
+		List<Content> content = contentService.getContentsByFeedCriteria(feedCriteria);
+		// check
+		Assert.assertNotNull(content);
+		Assert.assertTrue(content.size() > 0);
+	}
+
+	@Test(priority = 6, enabled = true, dataProvider = "feedCriteria", dataProviderClass = ContentDataProvider.class)
+	public void getCountByFeedCriteria(FeedCriteria feedCriteria) {
+		// call
+		long count = contentService.getContentsCountByFeedCriteria(feedCriteria);
+		// check
+		Assert.assertTrue(count > 0);
 	}
 }

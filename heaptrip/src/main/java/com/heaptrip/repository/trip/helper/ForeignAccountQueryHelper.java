@@ -5,15 +5,24 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.ContentSortEnum;
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
 
-public class NotMyAccountQueryHelper extends AbstractQueryHelper {
+public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccountTripCriteria> {
 
 	@Override
-	public String getQuery(TripCriteria criteria) {
-		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', 'owner._id': #, allowed: {$in: #}";
+	public String getQuery(ForeignAccountTripCriteria criteria) {
+		String query = "{";
+		if (criteria.getRelation().equals(RelationEnum.OWN)) {
+			// OWNER
+			query += "_class: #, 'owner._id': #";
+		} else {
+			// FAVORITES || MEMBER
+			query += "_id: {$in: #}, _class: #";
+		}
+		query += ", allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ", 'categories._id': {$in: #}";
 		}
@@ -34,10 +43,22 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 	}
 
 	@Override
-	public Object[] getParameters(TripCriteria criteria, Object... objects) {
+	public Object[] getParameters(ForeignAccountTripCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
-		// owner
-		parameters.add(criteria.getOwnerId());
+		if (criteria.getRelation().equals(RelationEnum.OWN)) {
+			// clazz
+			parameters.add(criteria.getContentType().getClazz());
+			// owner
+			parameters.add(criteria.getOwnerId());
+		} else {
+			// FAVORITES || MEMBER
+			// id list
+			Assert.notNull(objects);
+			Assert.notNull(objects[0]);
+			parameters.add(objects[0]);
+			// class
+			parameters.add(criteria.getContentType().getClazz());
+		}
 		// allowed
 		List<String> allowed = new ArrayList<>();
 		allowed.add(ALL_USERS);
@@ -66,17 +87,22 @@ public class NotMyAccountQueryHelper extends AbstractQueryHelper {
 	}
 
 	@Override
-	public String getHint(ContentSortEnum sort) {
-		if (sort != null) {
-			switch (sort) {
-			case RATING:
-				return "{_class: 1, 'owner._id': 1, rating: 1}";
-			default:
+	public String getHint(ForeignAccountTripCriteria criteria) {
+		if (criteria.getRelation().equals(RelationEnum.OWN)) {
+			// OWNER
+			if (criteria.getSort() != null) {
+				switch (criteria.getSort()) {
+				case RATING:
+					return "{_class: 1, 'owner._id': 1, rating: 1}";
+				default:
+					return "{_class: 1, 'owner._id': 1, created: 1}";
+				}
+			} else {
 				return "{_class: 1, 'owner._id': 1, created: 1}";
 			}
 		} else {
-			return "{_class: 1, 'owner._id': 1, created: 1}";
+			// FAVORITES || MEMBER
+			return "{_id: 1}";
 		}
 	}
-
 }

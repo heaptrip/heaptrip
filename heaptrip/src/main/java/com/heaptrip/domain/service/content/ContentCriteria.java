@@ -2,32 +2,26 @@ package com.heaptrip.domain.service.content;
 
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentEnum;
 
 /**
  * 
- * The basic criterion for finding content
+ * Base class for all criterian classes
  * 
  */
-public class ContentCriteria {
+public abstract class ContentCriteria {
 
-	// id of the content owner
-	private String ownerId;
+	// content type
+	protected ContentEnum contentType;
 
 	// current user id
 	protected String userId;
-
-	// search favorite contents by user id
-	protected String favoriteUserId;
 
 	// id list of categories
 	protected String[] categoryIds;
 
 	// id list of regions
 	protected String[] regionIds;
-
-	// content statuses
-	protected ContentStatusEnum[] status;
 
 	// the number of records to skip
 	protected Long skip;
@@ -41,12 +35,12 @@ public class ContentCriteria {
 	// locale
 	protected Locale locale;
 
-	public String getOwnerId() {
-		return ownerId;
+	public ContentEnum getContentType() {
+		return contentType;
 	}
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setContentType(ContentEnum contentType) {
+		this.contentType = contentType;
 	}
 
 	public String getUserId() {
@@ -55,14 +49,6 @@ public class ContentCriteria {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getFavoriteUserId() {
-		return favoriteUserId;
-	}
-
-	public void setFavoriteUserId(String favoriteUserId) {
-		this.favoriteUserId = favoriteUserId;
 	}
 
 	public String[] getCategoryIds() {
@@ -79,14 +65,6 @@ public class ContentCriteria {
 
 	public void setRegionIds(String[] regionIds) {
 		this.regionIds = regionIds;
-	}
-
-	public ContentStatusEnum[] getStatus() {
-		return status;
-	}
-
-	public void setStatus(ContentStatusEnum[] status) {
-		this.status = status;
 	}
 
 	public Long getSkip() {

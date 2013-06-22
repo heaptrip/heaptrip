@@ -2,6 +2,7 @@ package com.heaptrip.domain.service.content;
 
 import java.util.List;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
@@ -12,6 +13,54 @@ import com.heaptrip.domain.entity.content.FavoriteContent;
  * 
  */
 public interface ContentService {
+
+	/**
+	 * Get contents list which suitable for search criteria
+	 * 
+	 * @param feedCriteria
+	 * @return contents list
+	 */
+	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria);
+
+	/**
+	 * Get contents list which suitable for search criteria
+	 * 
+	 * @param myAccountCriteria
+	 * @return contents list
+	 */
+	public List<Content> getContentsByMyAccountCriteria(MyAccountCriteria myAccountCriteria);
+
+	/**
+	 * Get contents list which suitable for search criteria
+	 * 
+	 * @param foreignAccountCriteria
+	 * @return contents list
+	 */
+	public List<Content> getContentsByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria);
+
+	/**
+	 * Get number of contents which suitable for search criteria
+	 * 
+	 * @param feedCriteria
+	 * @return number of contents
+	 */
+	public long getContentsCountByFeedCriteria(FeedCriteria feedCriteria);
+
+	/**
+	 * Get number of contents which suitable for search criteria
+	 * 
+	 * @param myAccountCriteria
+	 * @return number of contents
+	 */
+	public long getContentsCountByMyAccountCriteria(MyAccountCriteria myAccountCriteria);
+
+	/**
+	 * Get number of contents which suitable for search criteria
+	 * 
+	 * @param foreignAccountCriteria
+	 * @return number of contents
+	 */
+	public long getContentsCountByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria);
 
 	/**
 	 * Increase the content views

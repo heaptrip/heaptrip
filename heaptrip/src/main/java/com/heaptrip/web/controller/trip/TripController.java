@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -42,17 +42,17 @@ public class TripController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "trips", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripCriteria tripCriteria) {
-		LOG.trace("CALL getTripsByCriteria ", tripCriteria);
+	Map<String, ? extends Object> getTripsByCriteria(@RequestBody FeedTripCriteria feedTripCriteria) {
+		LOG.trace("CALL getTripsByCriteria ", feedTripCriteria);
 		List<TripModel> tripModels = new ArrayList<TripModel>();
 		try {
-			tripModels = tripModelService.getTripsModelByCriteria(tripCriteria);
+			tripModels = tripModelService.getTripsModelByCriteria(feedTripCriteria);
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("trips", tripModels);
-		result.put("count", tripService.getTripsCountByCriteria(tripCriteria));
+		result.put("count", tripService.getTripsCountByFeedTripCriteria(feedTripCriteria));
 		LOG.trace("END getTripsByCriteria");
 		return Ajax.successResponse(result);
 	}

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.adm.RequestScopeService;
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.web.model.travel.TripModel;
 
@@ -22,18 +22,18 @@ public class TripModelServiceImpl implements TripModelService {
 	@Autowired
 	private RequestScopeService scopeService;
 
-	//@Autowired
-	//private FilterModelService filterModelService;
+	// @Autowired
+	// private FilterModelService filterModelService;
 
 	@Autowired
 	private ContentModelService contentModelService;
 
 	@Override
-	public List<TripModel> getTripsModelByCriteria(TripCriteria tripCriteria) {
-		tripCriteria.setLocale(scopeService.getCurrentLocale());
-		//tripCriteria.setCategoryIds(filterModelService.getCategoriesForCurrentUser());
+	public List<TripModel> getTripsModelByCriteria(FeedTripCriteria feedTripCriteria) {
+		feedTripCriteria.setLocale(scopeService.getCurrentLocale());
+		// tripCriteria.setCategoryIds(filterModelService.getCategoriesForCurrentUser());
 
-		List<Trip> trips = tripService.getTripsByCriteria(tripCriteria);
+		List<Trip> trips = tripService.getTripsByFeedTripCriteria(feedTripCriteria);
 		return convertTripToModel(trips);
 	}
 
@@ -53,7 +53,7 @@ public class TripModelServiceImpl implements TripModelService {
 				tripModel.setBegin(tableItem.getBegin());
 				tripModel.setEnd(tableItem.getEnd());
 			}
-			
+
 			if (trip.getSummary() != null)
 				tripModel.setSummary(trip.getSummary().getValue(scopeService.getCurrentLocale()));
 			if (trip.getName() != null)

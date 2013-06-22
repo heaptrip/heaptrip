@@ -1,9 +1,9 @@
-package com.heaptrip.repository.trip.helper;
+package com.heaptrip.repository.content.helper;
 
 import com.heaptrip.domain.service.content.ContentCriteria;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
-import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
+import com.heaptrip.domain.service.content.FeedCriteria;
+import com.heaptrip.domain.service.content.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.MyAccountCriteria;
 
 public class QueryHelperFactory {
 
@@ -11,9 +11,9 @@ public class QueryHelperFactory {
 	public static final int MY_ACCOUNT_HELPER = 1;
 	public static final int FOREIGN_ACCOUNT_HELPER = 2;
 
-	private static final QueryHelper<FeedTripCriteria> feedQueryHelper = new FeedQueryHelper();
-	private static final QueryHelper<MyAccountTripCriteria> myAccountQueryHelper = new MyAccountQueryHelper();
-	private static final QueryHelper<ForeignAccountTripCriteria> foreignAccountQueryHelper = new ForeignAccountQueryHelper();
+	private static final QueryHelper<FeedCriteria> feedQueryHelper = new FeedQueryHelper();
+	private static final QueryHelper<MyAccountCriteria> myAccountQueryHelper = new MyAccountQueryHelper();
+	private static final QueryHelper<ForeignAccountCriteria> foreignAccountQueryHelper = new ForeignAccountQueryHelper();
 
 	@SuppressWarnings("unchecked")
 	public static <T extends ContentCriteria> QueryHelper<T> getInstance(int helperType) {

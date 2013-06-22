@@ -2,16 +2,22 @@ package com.heaptrip.service.content;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
+import com.heaptrip.domain.service.content.FeedCriteria;
+import com.heaptrip.domain.service.content.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.MyAccountCriteria;
+import com.heaptrip.domain.service.content.RelationEnum;
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -23,8 +29,60 @@ public class ContentServiceImpl implements ContentService {
 	private FavoriteContentRepository favoriteContentRepository;
 
 	@Override
+	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria) {
+		Assert.notNull(feedCriteria, "feedCriteria must not be null");
+		return contentRepository.findByFeedCriteria(feedCriteria);
+	}
+
+	@Override
+	public List<Content> getContentsByMyAccountCriteria(MyAccountCriteria myAccountCriteria) {
+		Assert.notNull(myAccountCriteria, "myAccountCriteria must not be null");
+		Assert.notNull(myAccountCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(myAccountCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(myAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
+		Assert.isTrue(StringUtils.isNotBlank(myAccountCriteria.getUserId()), "userId must not be null");
+		return contentRepository.findByMyAccountCriteria(myAccountCriteria);
+	}
+
+	@Override
+	public List<Content> getContentsByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
+		Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
+		Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(foreignAccountCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(foreignAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
+		Assert.isTrue(StringUtils.isNotBlank(foreignAccountCriteria.getOwnerId()), "ownerId must not be null");
+		return contentRepository.findByForeignAccountCriteria(foreignAccountCriteria);
+	}
+
+	@Override
+	public long getContentsCountByFeedCriteria(FeedCriteria feedCriteria) {
+		Assert.notNull(feedCriteria, "feedCriteria must not be null");
+		return contentRepository.getCountByFeedCriteria(feedCriteria);
+	}
+
+	@Override
+	public long getContentsCountByMyAccountCriteria(MyAccountCriteria myAccountCriteria) {
+		Assert.notNull(myAccountCriteria, "myAccountCriteria must not be null");
+		Assert.notNull(myAccountCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(myAccountCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(myAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
+		Assert.isTrue(StringUtils.isNotBlank(myAccountCriteria.getUserId()), "userId must not be null");
+		return contentRepository.getCountByMyAccountCriteria(myAccountCriteria);
+	}
+
+	@Override
+	public long getContentsCountByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
+		Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
+		Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(foreignAccountCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(foreignAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
+		Assert.isTrue(StringUtils.isNotBlank(foreignAccountCriteria.getOwnerId()), "ownerId must not be null");
+		return contentRepository.getCountByForeignAccountCriteria(foreignAccountCriteria);
+	}
+
+	@Override
 	public void setContentStatus(String contentId, String ownerId, ContentStatusEnum status) {
-		Assert.notNull(contentId, "tripId must not be null");
+		Assert.notNull(contentId, "contentId must not be null");
 		Assert.notNull(ownerId, "ownerId must not be null");
 		Assert.notNull(status, "status must not be null");
 		String[] allowed = null;
@@ -45,7 +103,7 @@ public class ContentServiceImpl implements ContentService {
 
 	@Override
 	public void incContentViews(String contentId) {
-		Assert.notNull(contentId, "tripId");
+		Assert.notNull(contentId, "contentId must not be null");
 		contentRepository.incViews(contentId);
 	}
 
@@ -89,5 +147,4 @@ public class ContentServiceImpl implements ContentService {
 		favoriteContentRepository.removeByContentIdAndUserId(contentId, userId);
 
 	}
-
 }

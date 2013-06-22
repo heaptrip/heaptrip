@@ -1,4 +1,4 @@
-package com.heaptrip.repository.trip.helper;
+package com.heaptrip.repository.content.helper;
 
 import java.util.Locale;
 

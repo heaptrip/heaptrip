@@ -20,7 +20,11 @@ import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.content.ContentCriteria;
+import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
+import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
+import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.trip.helper.QueryHelper;
 import com.heaptrip.repository.trip.helper.QueryHelperFactory;
@@ -58,39 +62,38 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public List<Trip> findByFeedCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
+	public List<Trip> findByFeedTripCriteria(FeedTripCriteria criteria) {
+		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public List<Trip> findByMyAccountCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
-		return findByCriteria(criteria, queryHelper);
-	}
-
-	@Override
-	public List<Trip> findByNotMyAccountCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
-		return findByCriteria(criteria, queryHelper);
-	}
-
-	@Override
-	public List<Trip> findByMemberCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
-		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
+	public List<Trip> findByMyAccountTripCriteria(MyAccountTripCriteria criteria) {
+		List<String> tripIds = null;
+		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
+			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
+			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getUserId());
+		}
+		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
 	@Override
-	public List<Trip> findByFavoritesCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FAVORITES_HELPER);
-		List<String> tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP,
-				criteria.getFavoriteUserId());
+	public List<Trip> findByForeignAccountTripCriteria(ForeignAccountTripCriteria criteria) {
+		List<String> tripIds = null;
+		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
+			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());
+		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
+			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getOwnerId());
+		}
+		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
+				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Trip> findByCriteria(TripCriteria criteria, QueryHelper queryHelper, Object... objects) {
+	private List<Trip> findByCriteria(ContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);
@@ -98,7 +101,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		String sort = queryHelper.getSort(criteria.getSort());
 		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
 		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
-		String hint = queryHelper.getHint(criteria.getSort());
+		String hint = queryHelper.getHint(criteria);
 		if (logger.isDebugEnabled()) {
 			String msg = String
 					.format("find trips\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
@@ -112,39 +115,38 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public long getCountByFeedCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
+	public long getCountByFeedTripCriteria(FeedTripCriteria criteria) {
+		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountByMyAccountCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
-		return getCountByCriteria(criteria, queryHelper);
-	}
-
-	@Override
-	public long getCountByNotMyAccountCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.NOT_MY_ACCOUNT_HELPER);
-		return getCountByCriteria(criteria, queryHelper);
-	}
-
-	@Override
-	public long getCountByMemberCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MEMBER_HELPER);
-		List<String> tripIds = memberRepository.findTripIdsByUserId(criteria.getMemberId());
+	public long getCountByMyAccountTripCriteria(MyAccountTripCriteria criteria) {
+		List<String> tripIds = null;
+		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
+			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
+			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getUserId());
+		}
+		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
 	@Override
-	public long getCountByFavoritesCriteria(TripCriteria criteria) {
-		QueryHelper queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FAVORITES_HELPER);
-		List<String> tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP,
-				criteria.getFavoriteUserId());
+	public long getCountByForeignAccountTripCriteria(ForeignAccountTripCriteria criteria) {
+		List<String> tripIds = null;
+		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
+			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());
+		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
+			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getOwnerId());
+		}
+		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
+				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private long getCountByCriteria(TripCriteria criteria, QueryHelper queryHelper, Object... objects) {
+	private long getCountByCriteria(ContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);

@@ -6,14 +6,13 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.heaptrip.domain.service.content.ContentSortEnum;
-import com.heaptrip.domain.service.trip.TripCriteria;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
 
-class FeedQueryHelper extends AbstractQueryHelper {
+class FeedQueryHelper extends AbstractQueryHelper<FeedTripCriteria> {
 
 	@Override
-	public String getQuery(TripCriteria criteria) {
-		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', allowed: {$in: #}";
+	public String getQuery(FeedTripCriteria criteria) {
+		String query = "{_class: #, allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ", 'categories._id': {$in: #}";
 		}
@@ -34,8 +33,10 @@ class FeedQueryHelper extends AbstractQueryHelper {
 	}
 
 	@Override
-	public Object[] getParameters(TripCriteria criteria, Object... objects) {
+	public Object[] getParameters(FeedTripCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
+		// _class
+		parameters.add(criteria.getContentType().getClazz());
 		// allowed
 		List<String> allowed = new ArrayList<>();
 		allowed.add(ALL_USERS);
@@ -64,9 +65,9 @@ class FeedQueryHelper extends AbstractQueryHelper {
 	}
 
 	@Override
-	public String getHint(ContentSortEnum sort) {
-		if (sort != null) {
-			switch (sort) {
+	public String getHint(FeedTripCriteria criteria) {
+		if (criteria.getSort() != null) {
+			switch (criteria.getSort()) {
 			case RATING:
 				return "{_class: 1, rating: 1, allowed: 1}";
 			default:
@@ -76,4 +77,5 @@ class FeedQueryHelper extends AbstractQueryHelper {
 			return "{_class: 1, created: 1, allowed: 1}";
 		}
 	}
+
 }

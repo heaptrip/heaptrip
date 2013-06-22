@@ -42,18 +42,50 @@ public interface TripService {
 	/**
 	 * Get trips list which suitable for search criteria
 	 * 
-	 * @param tripCriteria
+	 * @param feedTripCriteria
 	 * @return trips list
 	 */
-	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria);
+	public List<Trip> getTripsByFeedTripCriteria(FeedTripCriteria feedTripCriteria);
+
+	/**
+	 * Get trips list which suitable for search criteria
+	 * 
+	 * @param myAccountTripCriteria
+	 * @return trips list
+	 */
+	public List<Trip> getTripsByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria);
+
+	/**
+	 * Get trips list which suitable for search criteria
+	 * 
+	 * @param foreignAccountTripCriteria
+	 * @return trips list
+	 */
+	public List<Trip> getTripsByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria);
 
 	/**
 	 * Get number of trips which suitable for search criteria
 	 * 
-	 * @param tripCriteria
+	 * @param feedTripCriteria
 	 * @return number of trips
 	 */
-	public long getTripsCountByCriteria(TripCriteria tripCriteria);
+	public long getTripsCountByFeedTripCriteria(FeedTripCriteria feedTripCriteria);
+
+	/**
+	 * Get number of trips which suitable for search criteria
+	 * 
+	 * @param myAccountTripCriteria
+	 * @return number of trips
+	 */
+	public long getTripsCountByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria);
+
+	/**
+	 * Get number of trips which suitable for search criteria
+	 * 
+	 * @param foreignAccountTripCriteria
+	 * @return number of trips
+	 */
+	public long getTripsCountByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria);
 
 	/**
 	 * Get nearest trip from the timetable. It is recommended to use to display

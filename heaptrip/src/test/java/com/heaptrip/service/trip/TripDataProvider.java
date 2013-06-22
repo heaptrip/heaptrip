@@ -10,96 +10,102 @@ import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.content.ContentSortEnum;
+import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
+import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
+import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 import com.heaptrip.domain.service.trip.SearchPeriod;
-import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.util.RandomUtils;
 
 public class TripDataProvider {
 
-	@DataProvider(name = "feedCriteria")
+	@DataProvider(name = "feedTripCriteria")
 	public static Object[][] getFeedCriteria() {
-		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setUserId(InitTripTest.USER_ID);
-		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
-		tripCriteria.setSkip(0L);
-		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
-		tripCriteria.setSort(ContentSortEnum.CREATED);
+		FeedTripCriteria criteria = new FeedTripCriteria();
+		criteria.setUserId(InitTripTest.USER_ID);
+		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		criteria.setSkip(0L);
+		criteria.setLimit(InitTripTest.TRIPS_COUNT);
+		criteria.setSort(ContentSortEnum.CREATED);
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
 		Calendar end = Calendar.getInstance();
 		end.set(2013, 11, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		tripCriteria.setPeriod(period);
-		tripCriteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { tripCriteria } };
+		criteria.setPeriod(period);
+		criteria.setLocale(Locale.ENGLISH);
+		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "myAccountCriteria")
-	public static Object[][] getMyAccountCriteria() {
-		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
-		tripCriteria.setUserId(InitTripTest.OWNER_ID);
-		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[1] });
-		tripCriteria.setSkip(0L);
-		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
-		tripCriteria.setSort(ContentSortEnum.RATING);
-		tripCriteria.setStatus(new ContentStatusEnum[] { ContentStatusEnum.DRAFT });
+	@DataProvider(name = "myAccountTripCriteria")
+	public static Object[][] getMyAccountTripCriteria() {
+		MyAccountTripCriteria criteria = new MyAccountTripCriteria();
+		criteria.setUserId(InitTripTest.OWNER_ID);
+		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[1] });
+		criteria.setSkip(0L);
+		criteria.setLimit(InitTripTest.TRIPS_COUNT);
+		criteria.setSort(ContentSortEnum.RATING);
+		criteria.setStatus(new ContentStatusEnum[] { ContentStatusEnum.DRAFT });
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
 		Calendar end = Calendar.getInstance();
 		end.set(2013, 11, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		tripCriteria.setPeriod(period);
-		tripCriteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { tripCriteria } };
+		criteria.setPeriod(period);
+		criteria.setLocale(Locale.ENGLISH);
+		criteria.setRelation(RelationEnum.OWN);
+		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "notMyAccountCriteria")
-	public static Object[][] getNotMyAccountCriteria() {
-		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setOwnerId(InitTripTest.OWNER_ID);
-		tripCriteria.setUserId(InitTripTest.USER_ID);
-		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
-		tripCriteria.setSkip(0L);
-		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
-		tripCriteria.setSort(ContentSortEnum.CREATED);
+	@DataProvider(name = "foreignAccountTripCriteria")
+	public static Object[][] getForeignAccountTripCriteria() {
+		ForeignAccountTripCriteria criteria = new ForeignAccountTripCriteria();
+		criteria.setOwnerId(InitTripTest.OWNER_ID);
+		criteria.setUserId(InitTripTest.USER_ID);
+		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		criteria.setSkip(0L);
+		criteria.setLimit(InitTripTest.TRIPS_COUNT);
+		criteria.setSort(ContentSortEnum.CREATED);
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
 		Calendar end = Calendar.getInstance();
 		end.set(2013, 11, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		tripCriteria.setPeriod(period);
-		tripCriteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { tripCriteria } };
+		criteria.setPeriod(period);
+		criteria.setLocale(Locale.ENGLISH);
+		criteria.setRelation(RelationEnum.OWN);
+		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "memberCriteria")
-	public static Object[][] getMemberCriteria() {
-		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setMemberId(InitTripTest.USER_ID);
-		tripCriteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
-		tripCriteria.setSkip(0L);
-		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
-		tripCriteria.setSort(ContentSortEnum.RATING);
+	@DataProvider(name = "myAccountMemberTripCriteria")
+	public static Object[][] getMyAccountMemberTripCriteria() {
+		MyAccountTripCriteria criteria = new MyAccountTripCriteria();
+		criteria.setUserId(InitTripTest.USER_ID);
+		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		criteria.setSkip(0L);
+		criteria.setLimit(InitTripTest.TRIPS_COUNT);
+		criteria.setSort(ContentSortEnum.RATING);
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
 		Calendar end = Calendar.getInstance();
 		end.set(2013, 11, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		tripCriteria.setPeriod(period);
-		tripCriteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { tripCriteria } };
+		criteria.setPeriod(period);
+		criteria.setLocale(Locale.ENGLISH);
+		criteria.setRelation(RelationEnum.MEMBER);
+		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "favoritesCriteria")
-	public static Object[][] getFavoritesCriteria() {
-		TripCriteria tripCriteria = new TripCriteria();
-		tripCriteria.setFavoriteUserId(InitTripTest.USER_ID);
-		tripCriteria.setSkip(0L);
-		tripCriteria.setLimit(InitTripTest.TRIPS_COUNT);
-		tripCriteria.setSort(ContentSortEnum.RATING);
-		tripCriteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { tripCriteria } };
+	@DataProvider(name = "myAccountFavoritesTripCriteria")
+	public static Object[][] gettMyAccountFavoritesTripCriteria() {
+		MyAccountTripCriteria criteria = new MyAccountTripCriteria();
+		criteria.setUserId(InitTripTest.USER_ID);
+		criteria.setSkip(0L);
+		criteria.setLimit(InitTripTest.TRIPS_COUNT);
+		criteria.setSort(ContentSortEnum.RATING);
+		criteria.setLocale(Locale.ENGLISH);
+		criteria.setRelation(RelationEnum.FAVORITES);
+		return new Object[][] { new Object[] { criteria } };
 	}
 
 	@DataProvider(name = "tripWithTable")

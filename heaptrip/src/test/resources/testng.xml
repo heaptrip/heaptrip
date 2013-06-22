@@ -22,6 +22,7 @@
 
 	<test name="ContentTest">
 		<classes>
+			<class name="com.heaptrip.service.content.InitContentTest" />
 			<class name="com.heaptrip.service.content.ContentServiceTest" />
 		</classes>
 	</test>
@@ -33,6 +34,7 @@
 			<class name="com.heaptrip.service.trip.TripUserServiceTest" />
 		</classes>
 	</test>
+
 
 	<test name="CommentTest">
 		<classes>

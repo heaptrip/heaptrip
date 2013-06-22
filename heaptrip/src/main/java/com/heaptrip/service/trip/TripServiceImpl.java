@@ -33,8 +33,10 @@ import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.trip.FeedTripCriteria;
+import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
+import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 import com.heaptrip.domain.service.trip.SearchPeriod;
-import com.heaptrip.domain.service.trip.TripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.util.LanguageUtils;
 
@@ -135,55 +137,53 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<Trip> getTripsByCriteria(TripCriteria tripCriteria) {
-		Assert.notNull(tripCriteria, "tripCriteria must not be null");
-		List<Trip> result = null;
-		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
-			// member
-			result = tripRepository.findByMemberCriteria(tripCriteria);
-		} else if (StringUtils.isNotBlank(tripCriteria.getFavoriteUserId())) {
-			// favorites
-			result = tripRepository.findByFavoritesCriteria(tripCriteria);
-		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
-			if (StringUtils.isNotBlank(tripCriteria.getUserId())
-					&& tripCriteria.getOwnerId().equals(tripCriteria.getUserId())) {
-				// my account
-				result = tripRepository.findByMyAccountCriteria(tripCriteria);
-			} else {
-				// not my account
-				result = tripRepository.findByNotMyAccountCriteria(tripCriteria);
-			}
-		} else {
-			// feed
-			result = tripRepository.findByFeedCriteria(tripCriteria);
-		}
-		return result;
+	public List<Trip> getTripsByFeedTripCriteria(FeedTripCriteria feedTripCriteria) {
+		Assert.notNull(feedTripCriteria, "feedTripCriteria must not be null");
+		Assert.notNull(feedTripCriteria.getContentType(), "contentType must not be null");
+		return tripRepository.findByFeedTripCriteria(feedTripCriteria);
 	}
 
 	@Override
-	public long getTripsCountByCriteria(TripCriteria tripCriteria) {
-		Assert.notNull(tripCriteria, "tripCriteria must not be null");
-		long result = 0;
-		if (StringUtils.isNotBlank(tripCriteria.getMemberId())) {
-			// member
-			result = tripRepository.getCountByMemberCriteria(tripCriteria);
-		} else if (StringUtils.isNotBlank(tripCriteria.getFavoriteUserId())) {
-			// favorites
-			result = tripRepository.getCountByFavoritesCriteria(tripCriteria);
-		} else if (StringUtils.isNotBlank(tripCriteria.getOwnerId())) {
-			if (StringUtils.isNotBlank(tripCriteria.getUserId())
-					&& tripCriteria.getOwnerId().equals(tripCriteria.getUserId())) {
-				// my account
-				result = tripRepository.getCountByMyAccountCriteria(tripCriteria);
-			} else {
-				// not my account
-				result = tripRepository.getCountByNotMyAccountCriteria(tripCriteria);
-			}
-		} else {
-			// feed
-			result = tripRepository.getCountByFeedCriteria(tripCriteria);
-		}
-		return result;
+	public List<Trip> getTripsByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+		Assert.notNull(myAccountTripCriteria, "myAccountTripCriteria must not be null");
+		Assert.notNull(myAccountTripCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(myAccountTripCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(StringUtils.isNotBlank(myAccountTripCriteria.getUserId()), "userId must not be null");
+		return tripRepository.findByMyAccountTripCriteria(myAccountTripCriteria);
+	}
+
+	@Override
+	public List<Trip> getTripsByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria) {
+		Assert.notNull(foreignAccountTripCriteria, "foreignAccountTripCriteria must not be null");
+		Assert.notNull(foreignAccountTripCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(foreignAccountTripCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(StringUtils.isNotBlank(foreignAccountTripCriteria.getOwnerId()), "ownerId must not be null");
+		return tripRepository.findByForeignAccountTripCriteria(foreignAccountTripCriteria);
+	}
+
+	@Override
+	public long getTripsCountByFeedTripCriteria(FeedTripCriteria feedTripCriteria) {
+		Assert.notNull(feedTripCriteria, "feedTripCriteria must not be null");
+		Assert.notNull(feedTripCriteria.getContentType(), "contentType must not be null");
+		return tripRepository.getCountByFeedTripCriteria(feedTripCriteria);
+	}
+
+	@Override
+	public long getTripsCountByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+		Assert.notNull(myAccountTripCriteria, "myAccountTripCriteria must not be null");
+		Assert.notNull(myAccountTripCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(myAccountTripCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(StringUtils.isNotBlank(myAccountTripCriteria.getUserId()), "userId must not be null");
+		return tripRepository.getCountByMyAccountTripCriteria(myAccountTripCriteria);
+	}
+
+	@Override
+	public long getTripsCountByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria) {
+		Assert.notNull(foreignAccountTripCriteria, "foreignAccountTripCriteria must not be null");
+		Assert.notNull(foreignAccountTripCriteria.getContentType(), "contentType must not be null");
+		Assert.notNull(foreignAccountTripCriteria.getRelation(), "relation must not be null");
+		Assert.isTrue(StringUtils.isNotBlank(foreignAccountTripCriteria.getOwnerId()), "ownerId must not be null");
+		return tripRepository.getCountByForeignAccountTripCriteria(foreignAccountTripCriteria);
 	}
 
 	@Override

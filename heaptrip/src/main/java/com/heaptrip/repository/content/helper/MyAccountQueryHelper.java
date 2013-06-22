@@ -1,4 +1,4 @@
-package com.heaptrip.repository.trip.helper;
+package com.heaptrip.repository.content.helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,13 +6,13 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.service.content.MyAccountCriteria;
 import com.heaptrip.domain.service.content.RelationEnum;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 
-public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCriteria> {
+public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria> {
 
 	@Override
-	public String getQuery(MyAccountTripCriteria criteria) {
+	public String getQuery(MyAccountCriteria criteria) {
 		String query = "{";
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
@@ -21,7 +21,7 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 				query += ", 'status.value': {$in: #}";
 			}
 		} else {
-			// FAVORITES || MEMBER
+			// FAVORITES
 			query += "_id: {$in: #}, _class: #, allowed: {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
@@ -30,21 +30,12 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			query += ", 'regions._id': {$in: #}";
 		}
-		if (criteria.getPeriod() != null) {
-			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
-				query += ", 'table.begin': {$gte: #, $lte: #}";
-			} else if (criteria.getPeriod().getDateBegin() != null) {
-				query += ", 'table.begin': {$gte: #}";
-			} else if (criteria.getPeriod().getDateEnd() != null) {
-				query += ", 'table.begin': {$lte: #}";
-			}
-		}
 		query += "}";
 		return query;
 	}
 
 	@Override
-	public Object[] getParameters(MyAccountTripCriteria criteria, Object... objects) {
+	public Object[] getParameters(MyAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
@@ -76,20 +67,11 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			parameters.add(criteria.getRegionIds());
 		}
-		// period
-		if (criteria.getPeriod() != null) {
-			if (criteria.getPeriod().getDateBegin() != null) {
-				parameters.add(criteria.getPeriod().getDateBegin());
-			}
-			if (criteria.getPeriod().getDateEnd() != null) {
-				parameters.add(criteria.getPeriod().getDateEnd());
-			}
-		}
 		return parameters.toArray();
 	}
 
 	@Override
-	public String getHint(MyAccountTripCriteria criteria) {
+	public String getHint(MyAccountCriteria criteria) {
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			if (criteria.getSort() != null) {
@@ -103,7 +85,7 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 				return "{_class: 1, 'owner._id': 1, created: 1}";
 			}
 		} else {
-			// FAVORITES || MEMBER
+			// FAVORITES
 			return "{_id: 1}";
 		}
 	}

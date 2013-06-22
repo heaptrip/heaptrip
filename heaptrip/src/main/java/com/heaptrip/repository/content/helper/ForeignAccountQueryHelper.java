@@ -1,59 +1,46 @@
-package com.heaptrip.repository.trip.helper;
+package com.heaptrip.repository.content.helper;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.service.content.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.RelationEnum;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 
-public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCriteria> {
+public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccountCriteria> {
 
 	@Override
-	public String getQuery(MyAccountTripCriteria criteria) {
+	public String getQuery(ForeignAccountCriteria criteria) {
 		String query = "{";
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			query += "_class: #, 'owner._id': #";
-			if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
-				query += ", 'status.value': {$in: #}";
-			}
 		} else {
-			// FAVORITES || MEMBER
-			query += "_id: {$in: #}, _class: #, allowed: {$in: #}";
+			// FAVORITES
+			query += "_id: {$in: #}, _class: #";
 		}
+		query += ", allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ", 'categories._id': {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			query += ", 'regions._id': {$in: #}";
 		}
-		if (criteria.getPeriod() != null) {
-			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {
-				query += ", 'table.begin': {$gte: #, $lte: #}";
-			} else if (criteria.getPeriod().getDateBegin() != null) {
-				query += ", 'table.begin': {$gte: #}";
-			} else if (criteria.getPeriod().getDateEnd() != null) {
-				query += ", 'table.begin': {$lte: #}";
-			}
-		}
 		query += "}";
 		return query;
 	}
 
 	@Override
-	public Object[] getParameters(MyAccountTripCriteria criteria, Object... objects) {
+	public Object[] getParameters(ForeignAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
-			// OWNER
+			// clazz
 			parameters.add(criteria.getContentType().getClazz());
-			parameters.add(criteria.getUserId());
-			// status
-			if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
-				parameters.add(criteria.getStatus());
-			}
+			// owner
+			parameters.add(criteria.getOwnerId());
 		} else {
 			// FAVORITES || MEMBER
 			// id list
@@ -62,12 +49,14 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 			parameters.add(objects[0]);
 			// class
 			parameters.add(criteria.getContentType().getClazz());
-			// allowed
-			List<String> allowed = new ArrayList<>();
-			allowed.add(ALL_USERS);
-			allowed.add(criteria.getUserId());
-			parameters.add(allowed);
 		}
+		// allowed
+		List<String> allowed = new ArrayList<>();
+		allowed.add(ALL_USERS);
+		if (StringUtils.isNotBlank(criteria.getUserId())) {
+			allowed.add(criteria.getUserId());
+		}
+		parameters.add(allowed);
 		// categories
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			parameters.add(criteria.getCategoryIds());
@@ -76,20 +65,11 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
 			parameters.add(criteria.getRegionIds());
 		}
-		// period
-		if (criteria.getPeriod() != null) {
-			if (criteria.getPeriod().getDateBegin() != null) {
-				parameters.add(criteria.getPeriod().getDateBegin());
-			}
-			if (criteria.getPeriod().getDateEnd() != null) {
-				parameters.add(criteria.getPeriod().getDateEnd());
-			}
-		}
 		return parameters.toArray();
 	}
 
 	@Override
-	public String getHint(MyAccountTripCriteria criteria) {
+	public String getHint(ForeignAccountCriteria criteria) {
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			if (criteria.getSort() != null) {
@@ -103,9 +83,8 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 				return "{_class: 1, 'owner._id': 1, created: 1}";
 			}
 		} else {
-			// FAVORITES || MEMBER
+			// FAVORITES
 			return "{_id: 1}";
 		}
 	}
-
 }
