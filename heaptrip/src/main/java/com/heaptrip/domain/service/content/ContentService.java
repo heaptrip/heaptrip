@@ -1,11 +1,14 @@
 package com.heaptrip.domain.service.content;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
+import com.heaptrip.domain.entity.image.Image;
 
 /**
  * 
@@ -120,4 +123,16 @@ public interface ContentService {
 	 * @param userId
 	 */
 	public void removeFavoriteContent(String contentId, String userId);
+
+	/**
+	 * Save the title image of content to GridFS
+	 * 
+	 * @param fileName
+	 *            file name
+	 * @param is
+	 *            input stream
+	 * @return image
+	 * @throws IOException
+	 */
+	public Image saveTitleImage(String fileName, InputStream is) throws IOException;
 }

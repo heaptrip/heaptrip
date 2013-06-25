@@ -28,6 +28,7 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.domain.service.trip.TripService;
@@ -67,7 +68,10 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	private ResourceLoader loader;
 
 	@Autowired
-	private ImageService imageStorageService;
+	private ImageService imageService;
+	
+	@Autowired
+	private ContentService contentService;
 
 	@Autowired
 	private RegionService regionService;
@@ -143,7 +147,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(resource);
 		File file = resource.getFile();
 		InputStream is = new FileInputStream(file);
-		return tripService.saveImage(IMAGE_NAME, is);
+		return contentService.saveTitleImage(IMAGE_NAME, is);
 	}
 
 	@BeforeTest()

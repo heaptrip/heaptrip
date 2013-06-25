@@ -1,7 +1,5 @@
 package com.heaptrip.service.trip;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,8 +17,6 @@ import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.image.Image;
-import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
@@ -32,7 +28,6 @@ import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.adm.ErrorService;
-import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
 import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
@@ -54,9 +49,6 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private MemberRepository memberRepository;
-
-	@Autowired
-	private ImageService imageStorageService;
 
 	@Autowired
 	private ErrorService errorService;
@@ -284,13 +276,4 @@ public class TripServiceImpl implements TripService {
 		tripRepository.setTableStatus(tripId, tableId, status);
 	}
 
-	@Override
-	public Image saveImage(String fileName, InputStream is) throws IOException {
-		Image image = new Image();
-		String imageId = imageStorageService.saveImage(fileName, ImageEnum.CONTENT_TITLE_IMAGE, is);
-		image.setId(imageId);
-		image.setName(fileName);
-		image.setUploaded(new Date());
-		return image;
-	}
 }

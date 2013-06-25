@@ -142,16 +142,4 @@ public interface TripService {
 	 * @param cause
 	 */
 	public void cancelTableItem(String tripId, String tableId, String cause);
-
-	/**
-	 * Save image to GridFS
-	 * 
-	 * @param fileName
-	 *            file name
-	 * @param is
-	 *            input stream
-	 * @return image
-	 * @throws IOException
-	 */
-	public Image saveImage(String fileName, InputStream is) throws IOException;
 }

@@ -1,5 +1,8 @@
 package com.heaptrip.service.content;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -11,6 +14,8 @@ import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
+import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
@@ -18,6 +23,7 @@ import com.heaptrip.domain.service.content.FeedCriteria;
 import com.heaptrip.domain.service.content.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.MyAccountCriteria;
 import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.image.ImageService;
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -27,6 +33,9 @@ public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private FavoriteContentRepository favoriteContentRepository;
+
+	@Autowired
+	private ImageService imageService;
 
 	@Override
 	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria) {
@@ -150,5 +159,15 @@ public class ContentServiceImpl implements ContentService {
 		Assert.notNull(userId, "userId must not be null");
 		favoriteContentRepository.removeByContentIdAndUserId(contentId, userId);
 
+	}
+
+	@Override
+	public Image saveTitleImage(String fileName, InputStream is) throws IOException {
+		Image image = new Image();
+		String imageId = imageService.saveImage(fileName, ImageEnum.CONTENT_TITLE_IMAGE, is);
+		image.setId(imageId);
+		image.setName(fileName);
+		image.setUploaded(new Date());
+		return image;
 	}
 }
