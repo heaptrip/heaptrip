@@ -1,5 +1,6 @@
 package com.heaptrip.web.converter;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,6 @@ import com.heaptrip.web.model.content.RegionModel;
 
 @Service
 public class ContentModelServiceImpl extends RequestScopeServiceImpl implements ContentModelService {
-
 
 	@Override
 	public CategoryModel convertCategoryToModel(ContentCategory category) {
@@ -88,8 +88,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 		DateModel result = new DateModel();
 		if (result != null) {
 			result.setValue(date);
-			result.setText(date.toString());
-
+			result.setText(DateFormat.getDateInstance(DateFormat.SHORT, getCurrentLocale()).format(date));
 		}
 		return result;
 	}
