@@ -1,10 +1,13 @@
 package com.heaptrip.web.converter;
 
+import java.util.Date;
+
 import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
+import com.heaptrip.web.model.content.DateModel;
 import com.heaptrip.web.model.content.RegionModel;
 
 public interface ContentModelService {
@@ -18,5 +21,7 @@ public interface ContentModelService {
 	RegionModel[] convertRegionsToModel(ContentRegion[] regions);
 
 	ContentOwnerModel convertContentOwnerToModel(ContentOwner owner);
+
+	DateModel convertDate(Date date);
 
 }

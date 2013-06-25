@@ -5,9 +5,6 @@
 <c:set var="tripId"
 	value='${param.id}' />
 
-<h1>Travel <b>(id=${tripId})</b> </h1>
-
-
 <c:url var="infoUrl" value="travel_info.html">
 	<c:param name='id' value="${tripId}" />
 </c:url>
@@ -24,17 +21,16 @@
 	<c:param name='id' value="${tripId}" />
 </c:url>
 
-
 <div id="container">
 			<div id="contents">
 
 				<article id="article" class="deteil">
-					<div class="date">15.01.13<span>Путешествие</span><span class="for_frends">Для друзей</span></div>
+					<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span><span class="for_frends">Для друзей</span></div>
 					<div class="inf">
 						<div class="left">
-							<h2><a href="/">Из Рима в Барселону</a></h2>
+							<h2><a href="/">${trip.name}</a></h2>
 							<h2 class="chernovik"><a href="/">Черновик Из Рима в Барселону</a></h2>
-							<div>Автор:<span>ST. Peters Line (4,7)</span></div>
+							<div>Автор:<span>${trip.owner.name} (${trip.owner.rating})</span></div>
 							<div>Категория:<span>Морская прогулка</span></div>
 							<div>Регион:<span>Италия</span></div>						
 						</div>

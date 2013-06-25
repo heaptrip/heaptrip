@@ -13,7 +13,7 @@ import com.heaptrip.domain.service.adm.LocaleService;
 import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.domain.service.adm.UserService;
 
-@Service
+@Service("requestScopeService")
 public class RequestScopeServiceImpl implements RequestScopeService {
 
 	@Autowired(required = false)

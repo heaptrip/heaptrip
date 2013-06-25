@@ -3,6 +3,7 @@ package com.heaptrip.web.controller.socnet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,7 @@ public class SocNetController extends ExceptionHandlerControler {
 	private static final Logger LOG = LoggerFactory.getLogger(SocNetController.class);
 
 	@Autowired
+	@Qualifier("requestScopeService")
 	private RequestScopeService requestScopeService;
 
 	@Autowired
@@ -64,8 +66,6 @@ public class SocNetController extends ExceptionHandlerControler {
 	@RequestMapping(value = "registration", params = ("vk=true"), method = RequestMethod.GET)
 	public ModelAndView registrationVKontakte(@RequestParam("access_token") String accessToken,
 			@RequestParam("user_id") String userId) {
-
-		// if (1==1)throw new RuntimeException("FFFFОшшшшибкааааааа.....");
 
 		ModelAndView mv = new ModelAndView();
 

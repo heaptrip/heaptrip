@@ -8,71 +8,72 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 
 @Service
-public class TripModelServiceImpl implements TripModelService {
+public class TripModelServiceImpl extends ContentModelServiceImpl implements TripModelService {
 
 	@Autowired
 	private TripService tripService;
 
-	@Autowired
-	private RequestScopeService scopeService;
-
-	// @Autowired
-	// private FilterModelService filterModelService;
-
-	@Autowired
-	private ContentModelService contentModelService;
-
 	@Override
 	public List<TripModel> getTripsModelByCriteria(FeedTripCriteria feedTripCriteria) {
-		feedTripCriteria.setLocale(scopeService.getCurrentLocale());
-		// tripCriteria.setCategoryIds(filterModelService.getCategoriesForCurrentUser());
-
+		feedTripCriteria.setLocale(getCurrentLocale());
 		List<Trip> trips = tripService.getTripsByFeedTripCriteria(feedTripCriteria);
-		return convertTripToModel(trips);
+		return convertTripToTripModel(trips);
 	}
 
-	private TripModel convertTripToModel(Trip trip) {
-		TripModel tripModel = null;
+	@Override
+	public TripInfoModel getTripInfoById(String tripId) {
+		return convertTripToTripInfoModel(tripService.getTripInfo(tripId, getCurrentLocale()));
+	}
+
+	private void setTripToTripModel(TripModel tripModel, Trip trip) {
+
 		if (trip != null) {
-			tripModel = new TripModel();
-			tripModel.setId(trip.getId());
-			tripModel.setCreated(trip.getCreated());
+
+			setContentToContentModel(tripModel, trip);
+
 			tripModel.setRating(trip.getRating());
 			tripModel.setComments(trip.getComments());
-			tripModel.setImage(trip.getImage().getId());
-			tripModel.setViews(trip.getViews());
 
 			TableItem tableItem = tripService.getNearTableItem(trip);
 			if (tableItem != null) {
-				tripModel.setBegin(tableItem.getBegin());
-				tripModel.setEnd(tableItem.getEnd());
+				tripModel.setBegin(convertDate(tableItem.getBegin()));
+				tripModel.setEnd(convertDate(tableItem.getEnd()));
 			}
 
 			if (trip.getSummary() != null)
-				tripModel.setSummary(trip.getSummary().getValue(scopeService.getCurrentLocale()));
-			if (trip.getName() != null)
-				tripModel.setName(trip.getName().getValue(scopeService.getCurrentLocale()));
-			if (trip.getDescription() != null)
-				tripModel.setDescription(trip.getDescription().getValue(scopeService.getCurrentLocale()));
+				tripModel.setSummary(trip.getSummary().getValue(getCurrentLocale()));
 
-			tripModel.setOwner(contentModelService.convertContentOwnerToModel(trip.getOwner()));
-			tripModel.setCategories(contentModelService.convertCategoriesToModel(trip.getCategories()));
-			tripModel.setRegions(contentModelService.convertRegionsToModel(trip.getRegions()));
 		}
-		return tripModel;
+
 	}
 
-	private List<TripModel> convertTripToModel(List<Trip> trips) {
+	private TripInfoModel convertTripToTripInfoModel(Trip trip) {
+		TripInfoModel tripInfoModel = new TripInfoModel();
+		setTripToTripModel(tripInfoModel, trip);
+		if (trip.getDescription() != null)
+			tripInfoModel.setDescription(trip.getDescription().getValue(getCurrentLocale()));
+		return tripInfoModel;
+
+	}
+
+	private TripModel convertTripToTripModel(Trip trip) {
+		TripModel result = new TripModel();
+		setTripToTripModel(result, trip);
+		return result;
+
+	}
+
+	private List<TripModel> convertTripToTripModel(List<Trip> trips) {
 		List<TripModel> tripModels = new ArrayList<TripModel>();
 		if (trips != null && !trips.isEmpty()) {
 			for (Trip trip : trips) {
-				tripModels.add(convertTripToModel(trip));
+				tripModels.add(convertTripToTripModel(trip));
 			}
 		}
 		return tripModels;

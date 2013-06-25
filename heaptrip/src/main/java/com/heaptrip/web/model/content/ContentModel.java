@@ -1,14 +1,11 @@
 package com.heaptrip.web.model.content;
 
-import java.util.Date;
-
 public class ContentModel {
 
 	private String id;
 	private String name;
-	private String description;
 	private String image;
-	private Date created;
+	private DateModel created;
 	private ContentOwnerModel owner;
 	private Long comments;
 	private Long views;
@@ -25,11 +22,11 @@ public class ContentModel {
 		this.name = name;
 	}
 
-	public Date getCreated() {
+	public DateModel getCreated() {
 		return created;
 	}
 
-	public void setCreated(Date created) {
+	public void setCreated(DateModel created) {
 		this.created = created;
 	}
 
@@ -55,14 +52,6 @@ public class ContentModel {
 
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public Long getComments() {

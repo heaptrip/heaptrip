@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
@@ -20,6 +22,7 @@ import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.converter.TripModelService;
+import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 
 /**
@@ -55,5 +58,16 @@ public class TripController extends ExceptionHandlerControler {
 		result.put("count", tripService.getTripsCountByFeedTripCriteria(feedTripCriteria));
 		LOG.trace("END getTripsByCriteria");
 		return Ajax.successResponse(result);
+	}
+
+	@RequestMapping(value = "travel_info", method = RequestMethod.GET)
+	public ModelAndView getTripInfo(@RequestParam("id") String tripId) {
+
+		ModelAndView mv = new ModelAndView();
+
+		TripInfoModel tripModel = tripModelService.getTripInfoById(tripId);
+
+		return mv.addObject("trip", tripModel);
+
 	}
 }

@@ -1,15 +1,14 @@
 package com.heaptrip.web.model.travel;
 
-import java.util.Date;
-
 import com.heaptrip.web.model.content.ContentModel;
+import com.heaptrip.web.model.content.DateModel;
 
 public class TripModel extends ContentModel {
 
 	private Double price;
 	private Double rating;
-	private Date begin;
-	private Date end;
+	private DateModel begin;
+	private DateModel end;
 
 	public Double getRating() {
 		return rating;
@@ -27,19 +26,19 @@ public class TripModel extends ContentModel {
 		this.price = price;
 	}
 
-	public Date getBegin() {
+	public DateModel getBegin() {
 		return begin;
 	}
 
-	public void setBegin(Date begin) {
+	public void setBegin(DateModel begin) {
 		this.begin = begin;
 	}
 
-	public Date getEnd() {
+	public DateModel getEnd() {
 		return end;
 	}
 
-	public void setEnd(Date end) {
+	public void setEnd(DateModel end) {
 		this.end = end;
 	}
 

@@ -3,31 +3,34 @@
 
 <script type="text/javascript">
 
-var  getAllRegionsIds = function(){
-	
-	 var idArr = [];
-	
-	$('#region .tree').each(function(){
-	   
-	    $(this).find('li').each(function(){
-	        var current = $(this);
-	        idArr.push(current[0].id);
-	    });
+	function getAllRegionsIds(){
+		var idArr = [];
+		$('#region .tree').each(function(){
+	   		$(this).find('li').each(function(){
+	        	var current = $(this);
+	        	idArr.push(current[0].id);
+	    	});
 	    
-		
-	});
-	return (idArr.length > 0 ? idArr : null);
+		});
+		return (idArr.length > 0 ? idArr : null);
 	};
 
-	// TODO: УБРАТЬ
+	function create_tree(n){
+		var i=0;
+		while(n[i]){
+			if(!$("#region .tree #"+n[i].id).length){
+				$("#region .tree").jstree("create", "#"+(n[i-1] ? n[i-1].id:n[i].id), "last", {attr:{id:n[i].id},data: n[i].data},false,true)
+				.delete_node;
+			}
+			i++;
+		}
+		return false;
+	}
 	
-	
-	
-$(document).ready(function() {
-	
-	
-	$.handInitParamToURL({rg:null})
-	
+	$(document).ready(function() {
+		
+		// TODO: УБРАТЬ
+		$.handInitParamToURL({rg:null})
 	
 		$("#region input[type=text]")
 			.bind("keydown", function( event ) {
@@ -106,44 +109,21 @@ $(document).ready(function() {
 		if($('#region .tree').length){
 			$('#region .tree').jstree({
 				'plugins' : [ 'themes', 'ui','add_del','crrm',"html_data" ]
-			}).bind("delete_node.jstree", function() {		
+			})
+			.bind("delete_node.jstree", function() {		
 				$.handParamToURL({rg : getAllRegionsIds() ? getAllRegionsIds().join(): null});
-    	});
+    		});
 		}
 
 		$(".ui-autocomplete .ui-menu-item").unbind();
 		$(".ui-autocomplete a.ui-corner-all").unbind();
+		
 		$(".ui-autocomplete a.ui-corner-all").click(function (e) {
-	
-		$("#region .search input[type=text]").val('');
+			$("#region .search input[type=text]").val('');
 			return false;
 		});
-
-
 	
-});
-
-
-
-function fnShowProps(obj, objName){
-	var result = "";
-	for (var i in obj) // Ð¾Ð±ÑÐ°ÑÐµÐ½Ð¸Ðµ Ðº ÑÐ²Ð¾Ð¹ÑÑÐ²Ð°Ð¼ Ð¾Ð±ÑÐµÐºÑÐ° Ð¿Ð¾ Ð¸Ð½Ð´ÐµÐºÑÑ
-  	result += objName + "." + i + " = " + obj[i] + "<br />\n";
-	console.log(result);
-}
-
-function create_tree(n){
-	var i=0;
-	while(n[i]){
-		if(!$("#region .tree #"+n[i].id).length){
-			$("#region .tree").jstree("create", "#"+(n[i-1] ? n[i-1].id:n[i].id), "last", {attr:{id:n[i].id},data: n[i].data},false,true)
-			.delete_node;
-			
-		}
-		i++;
-	}
-	return false;
-}
+	});
 
 </script>
 

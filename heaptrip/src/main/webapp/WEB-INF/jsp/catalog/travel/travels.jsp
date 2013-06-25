@@ -2,29 +2,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
-
-<script type="text/javascript">
-	$.dateFormat = function(dateObject) {
-		var d = new Date(dateObject);
-		var day = d.getDate();
-		var month = d.getMonth();
-		var year = d.getFullYear();
-		var date = day + "." + month + "." + year;
-
-		return date;
-	};
-
-	$.views.helpers({
-		toDate : function(msDat) {
-			return $.dateFormat(new Date(msDat));
-		}	
-	});
-</script>
-
 <script id="tripTemplate" type="text/x-jsrender">
 
 	<article id="article">
-		<div class="date">{{>~toDate(created)}}
+		<div class="date">{{>created.text}}
 			<span><fmt:message key="trip.list.title" /></span>
 		</div>
 		<div class="inf">
@@ -35,7 +16,7 @@
 				<div>
 					<fmt:message key="page.date.period" />:
 					<span class="date">
-						<fmt:message key="page.date.from" /> {{>~toDate(begin)}} <fmt:message key="page.date.to" /> {{>~toDate(end)}}
+						<fmt:message key="page.date.from" /> {{>begin.text}} <fmt:message key="page.date.to" /> {{>end.text)}}
 					</span>
 				</div>
 				<div>
@@ -87,6 +68,7 @@
 </aside><!-- #sideRight -->
 
 <script type="text/javascript">
+
 	$(window).bind("onPageReady", function(e, paramsJson) {
 		getTripsList(paramsJson);
 	});
@@ -126,4 +108,5 @@
 		$.postJSON(url, tripCriteria, callbackSuccess, callbackError);
 
 	};
+	
 </script>
