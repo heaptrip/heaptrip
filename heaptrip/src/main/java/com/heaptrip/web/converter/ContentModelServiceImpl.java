@@ -86,7 +86,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 	@Override
 	public DateModel convertDate(Date date) {
 		DateModel result = new DateModel();
-		if (result != null) {
+		if (date != null) {
 			result.setValue(date);
 			result.setText(DateFormat.getDateInstance(DateFormat.SHORT, getCurrentLocale()).format(date));
 		}
