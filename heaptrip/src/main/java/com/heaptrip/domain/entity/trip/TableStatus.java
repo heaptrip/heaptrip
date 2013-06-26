@@ -15,7 +15,11 @@ public class TableStatus {
 
 	public TableStatus() {
 		super();
-		value = TableStatusEnum.OK;
+	}
+
+	public TableStatus(TableStatusEnum value) {
+		super();
+		this.value = value;
 	}
 
 	public TableStatusEnum getValue() {

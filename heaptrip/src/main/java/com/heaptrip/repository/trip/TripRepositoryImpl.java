@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
@@ -179,55 +178,57 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 
 	@Override
 	public void update(Trip trip, Locale locale) {
-		MongoCollection coll = getCollection();
-		// update common data
 		String query = "{_id: #}";
-		String lang = LanguageUtils.getLanguageByLocale(locale);
-		String updateQuery = String
-				.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, image: #}}",
-						lang, lang, lang);
+
+		String updateQuery = null;
 		List<Object> parameters = new ArrayList<>();
-		parameters.add(lang);
-		parameters.add(trip.getCategories());
-		parameters.add(trip.getRegions());
-		parameters.add(trip.getName().getValue(locale));
-		parameters.add(trip.getSummary().getValue(locale));
-		parameters.add(trip.getDescription().getValue(locale));
-		parameters.add(trip.getImage());
+
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		String mainLang = trip.getMainLang();
+
+		if (mainLang.equals(lang)) {
+			// update main language
+			updateQuery = String
+					.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.main': #, 'name.%s': #, "
+							+ "'summary.main': #, 'summary.%s': #, 'description.main': #, 'description.%s': #, image: #, table: #}}",
+							lang, lang, lang);
+
+			parameters.add(lang);
+			parameters.add(trip.getCategories());
+			parameters.add(trip.getRegions());
+			parameters.add(trip.getName().getValue(locale));
+			parameters.add(trip.getName().getValue(locale));
+			parameters.add(trip.getSummary().getValue(locale));
+			parameters.add(trip.getSummary().getValue(locale));
+			parameters.add(trip.getDescription().getValue(locale));
+			parameters.add(trip.getDescription().getValue(locale));
+			parameters.add(trip.getImage());
+			parameters.add(trip.getTable());
+		} else {
+			updateQuery = String
+					.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, image: #, table: #}}",
+							lang, lang, lang);
+
+			parameters.add(lang);
+			parameters.add(trip.getCategories());
+			parameters.add(trip.getRegions());
+			parameters.add(trip.getName().getValue(locale));
+			parameters.add(trip.getSummary().getValue(locale));
+			parameters.add(trip.getDescription().getValue(locale));
+			parameters.add(trip.getImage());
+			parameters.add(trip.getTable());
+		}
+
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"update trip info\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
 					query, trip.getId(), updateQuery, ArrayUtils.toString(parameters));
 			logger.debug(msg);
 		}
+
+		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update(query, trip.getId()).with(updateQuery, parameters.toArray());
 		logger.debug("WriteResult for update trip info: {}", wr);
-		// update table items
-		if (trip.getTable() != null) {
-			for (TableItem item : trip.getTable()) {
-				query = "{_id: #, 'table:_id': #}";
-				parameters = new ArrayList<>();
-				parameters.add(trip.getId());
-				parameters.add(item.getId());
-				updateQuery = "{$set: {'table.$.begin': #, 'table.$.end': #, 'table.$.min': #, 'table.$.max': #, 'table.$.price': #, 'table.$.status': #}}";
-				List<Object> updateParameters = new ArrayList<>();
-				updateParameters.add(item.getBegin());
-				updateParameters.add(item.getEnd());
-				updateParameters.add(item.getMin());
-				updateParameters.add(item.getMax());
-				updateParameters.add(item.getPrice());
-				updateParameters.add(item.getStatus());
-				if (logger.isDebugEnabled()) {
-					String msg = String
-							.format("update table item\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
-									query, ArrayUtils.toString(parameters), updateQuery,
-									ArrayUtils.toString(updateParameters));
-					logger.debug(msg);
-				}
-				wr = coll.update(query, parameters.toArray()).with(updateQuery, updateParameters.toArray());
-				logger.debug("WriteResult for update table item: {}", wr);
-			}
-		}
 	}
 
 	@Override

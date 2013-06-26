@@ -79,6 +79,7 @@ public class TripServiceImpl implements TripService {
 				contentCategory.setName(category.getName());
 			}
 		}
+
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
 				Assert.notNull(contentRegion.getId(), "region.id must not be null");
@@ -87,14 +88,16 @@ public class TripServiceImpl implements TripService {
 				contentRegion.setName(region.getName());
 			}
 		}
+
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
 				if (item.getId() == null) {
 					item.setId(UUID.randomUUID().toString());
 				}
-				item.setStatus(new TableStatus());
+				item.setStatus(new TableStatus(TableStatusEnum.OK));
 			}
 		}
+
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		trip.setLangs(new String[] { lang });
@@ -109,6 +112,7 @@ public class TripServiceImpl implements TripService {
 		trip.setViews(0L);
 		trip.setRating(0d);
 		trip.setComments(0L);
+
 		return tripRepository.save(trip);
 	}
 
@@ -217,8 +221,8 @@ public class TripServiceImpl implements TripService {
 		Assert.notEmpty(trip.getName(), "name must not be empty");
 		Assert.notEmpty(trip.getSummary(), "summary must not be empty");
 		Assert.notEmpty(trip.getDescription(), "description must not be empty");
-
 		Assert.notEmpty(trip.getLangs(), "langs must not be empty");
+
 		if (trip.getCategories() != null) {
 			for (ContentCategory contentCategory : trip.getCategories()) {
 				Assert.notNull(contentCategory.getId(), "category.id must not be null");
@@ -227,6 +231,7 @@ public class TripServiceImpl implements TripService {
 				contentCategory.setName(category.getName());
 			}
 		}
+
 		if (trip.getRegions() != null) {
 			for (ContentRegion contentRegion : trip.getRegions()) {
 				Assert.notNull(contentRegion.getId(), "region.id must not be null");
@@ -235,16 +240,18 @@ public class TripServiceImpl implements TripService {
 				contentRegion.setName(region.getName());
 			}
 		}
+
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
 				if (item.getId() == null) {
 					item.setId(UUID.randomUUID().toString());
 				}
 				if (item.getStatus() == null) {
-					item.setStatus(new TableStatus());
+					item.setStatus(new TableStatus(TableStatusEnum.OK));
 				}
 			}
 		}
+
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String mainLang = trip.getMainLang();
@@ -253,6 +260,7 @@ public class TripServiceImpl implements TripService {
 			trip.getSummary().setMainLanguage(mainLang);
 			trip.getDescription().setMainLanguage(mainLang);
 		}
+
 		tripRepository.update(trip, locale);
 	}
 
