@@ -1,11 +1,8 @@
 package com.heaptrip.domain.service.trip;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 

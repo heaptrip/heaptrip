@@ -98,7 +98,7 @@ public class TripServiceImpl implements TripService {
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		trip.setLangs(new String[] { lang });
-		trip.setMainlang(lang);
+		trip.setMainLang(lang);
 		trip.getName().setMainLanguage(lang);
 		trip.getSummary().setMainLanguage(lang);
 		trip.getDescription().setMainLanguage(lang);
@@ -213,7 +213,7 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(trip, "trip must not be null");
 		Assert.notNull(locale, "locale must not be null");
 		Assert.notNull(trip.getId(), "trip.id must not be null");
-		Assert.notNull(trip.getMainlang(), "mainlang must not be empty");
+		Assert.notNull(trip.getMainLang(), "mainLang must not be empty");
 		Assert.notEmpty(trip.getName(), "name must not be empty");
 		Assert.notEmpty(trip.getSummary(), "summary must not be empty");
 		Assert.notEmpty(trip.getDescription(), "description must not be empty");
@@ -247,7 +247,7 @@ public class TripServiceImpl implements TripService {
 		}
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		String mainLang = trip.getMainlang();
+		String mainLang = trip.getMainLang();
 		if (mainLang.equals(lang)) {
 			trip.getName().setMainLanguage(mainLang);
 			trip.getSummary().setMainLanguage(mainLang);

@@ -55,7 +55,7 @@ public class Content extends BaseObject {
 	private Long views;
 
 	// language in which the trip was created
-	private String mainlang;
+	private String mainLang;
 
 	// set of languages ​​that are available for this content
 	private String[] langs;
@@ -164,11 +164,11 @@ public class Content extends BaseObject {
 		this.owners = owners;
 	}
 
-	public String getMainlang() {
-		return mainlang;
+	public String getMainLang() {
+		return mainLang;
 	}
 
-	public void setMainlang(String mainlang) {
-		this.mainlang = mainlang;
+	public void setMainLang(String mainLang) {
+		this.mainLang = mainLang;
 	}
 }
