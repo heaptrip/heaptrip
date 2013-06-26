@@ -33,4 +33,8 @@ public interface TripRepository extends CrudRepository<Trip> {
 	public void incTableMembers(String tripId, String tableId, int value);
 
 	public void setTableStatus(String tripId, String tableId, TableStatus status);
+
+	public String getMainLanguage(String tripId);
+
+	public void removeLanguage(String tripId, Locale locale);
 }

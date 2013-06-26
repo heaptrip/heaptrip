@@ -165,6 +165,22 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(enabled = true, priority = 12)
+	public void removeTripLocale() {
+		// call
+		Locale locale = new Locale("ru");
+		Trip trip = tripRepository.findOne(TRIP_ID);
+		Assert.assertNotNull(trip);
+		Assert.assertNotNull(trip.getLangs());
+		Assert.assertEquals(trip.getLangs().length, 2);
+		tripService.removeTripLocale(trip.getId(), locale);
+		// check
+		trip = tripRepository.findOne(TRIP_ID);
+		Assert.assertNotNull(trip);
+		Assert.assertNotNull(trip.getLangs());
+		Assert.assertEquals(trip.getLangs().length, 1);
+	}
+
+	@Test(enabled = true, priority = 13)
 	public void abortTableItem() {
 		// call
 		String cause = "cause interruption of travel";
@@ -182,7 +198,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(item.getStatus().getText(), cause);
 	}
 
-	@Test(enabled = true, priority = 13)
+	@Test(enabled = true, priority = 14)
 	public void cancelTableItem() {
 		// call
 		String cause = "cause interruption of travel";

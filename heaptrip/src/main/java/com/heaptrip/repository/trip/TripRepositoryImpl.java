@@ -266,4 +266,30 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		WriteResult wr = coll.update(query, parameters.toArray()).with(updateQuery, status);
 		logger.debug("WriteResult for set table status: {}", wr);
 	}
+
+	@Override
+	public String getMainLanguage(String tripId) {
+		MongoCollection coll = getCollection();
+		Trip trip = coll.findOne("{_id: #}", tripId).projection("{_class: 1, mainLang: 1}").as(getCollectionClass());
+		return trip.getMainLang();
+	}
+
+	@Override
+	public void removeLanguage(String tripId, Locale locale) {
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+
+		MongoCollection coll = getCollection();
+		String query = "{_id: #}";
+		String updateQuery = String.format(
+				"{$pull: {langs: #}, $unset: {'name.%s': 1, 'summary.%s': 1, 'description.%s': 1}}", lang, lang, lang);
+
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"remove language\n->query: %s\n->parameters: [%s]\n->updateQuery: %s\n->updateParameters: [%s]",
+					query, tripId, updateQuery, lang);
+			logger.debug(msg);
+		}
+		WriteResult wr = coll.update(query, tripId).with(updateQuery, lang);
+		logger.debug("WriteResult for set table status: {}", wr);
+	}
 }

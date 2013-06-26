@@ -265,6 +265,18 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
+	public void removeTripLocale(String tripId, Locale locale) {
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(locale, "locale must not be null");
+		String removeLang = LanguageUtils.getLanguageByLocale(locale);
+		String mainLang = tripRepository.getMainLanguage(tripId);
+		if (mainLang != null && mainLang.equals(removeLang)) {
+			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_LANGUAGE_FAILURE);
+		}
+		tripRepository.removeLanguage(tripId, locale);
+	}
+
+	@Override
 	public void abortTableItem(String tripId, String tableId, String cause) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(tableId, "tableId must not be null");
@@ -283,5 +295,4 @@ public class TripServiceImpl implements TripService {
 		status.setText(cause);
 		tripRepository.setTableStatus(tripId, tableId, status);
 	}
-
 }

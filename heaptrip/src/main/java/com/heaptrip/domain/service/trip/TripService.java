@@ -122,6 +122,14 @@ public interface TripService {
 	public void updateTripInfo(Trip trip, Locale locale);
 
 	/**
+	 * Remove trip locale
+	 * 
+	 * @param tripId
+	 * @param locale
+	 */
+	public void removeTripLocale(String tripId, Locale locale);
+
+	/**
 	 * Abort table item
 	 * 
 	 * @param tripId
