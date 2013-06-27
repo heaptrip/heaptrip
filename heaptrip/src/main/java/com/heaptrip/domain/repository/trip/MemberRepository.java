@@ -3,6 +3,7 @@ package com.heaptrip.domain.repository.trip;
 import java.util.List;
 
 import com.heaptrip.domain.entity.trip.TableMember;
+import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.repository.CrudRepository;
 
@@ -11,6 +12,8 @@ public interface MemberRepository extends CrudRepository<TableMember> {
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId);
 
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit);
+
+	public List<TableUser> findTableUsersByUserId(String tripId, String userId);
 
 	public long getCountByTripId(String tripId);
 

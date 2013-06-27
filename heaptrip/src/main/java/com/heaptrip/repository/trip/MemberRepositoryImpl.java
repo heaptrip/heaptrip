@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.trip.TableMember;
+import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
@@ -77,6 +78,20 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	}
 
 	@Override
+	public List<TableUser> findTableUsersByUserId(String tripId, String userId) {
+		MongoCollection coll = getCollection();
+		String query = "{userId: #, tripId: #}";
+		String hint = "{userId: 1, tripId: 1}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format("find table users\n->query: %s\n->parameters: [%s,%s]\n->hint: %s", query,
+					userId, tripId, hint);
+			logger.debug(msg);
+		}
+		Iterator<TableUser> iter = coll.find(query, userId, tripId).hint(hint).as(TableUser.class).iterator();
+		return IteratorConverter.copyIterator(iter);
+	}
+
+	@Override
 	public long getCountByTripId(String tripId) {
 		MongoCollection coll = getCollection();
 		return coll.count("{tripId: #}", tripId);
@@ -92,9 +107,9 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	@Override
 	public List<String> findTripIdsByUserId(String userId) {
 		MongoCollection coll = getCollection();
-		String query = "{_class: 'com.heaptrip.domain.entity.trip.TableUser', userId: #}";
+		String query = "{userId: #}";
 		String projection = "{_class: 1, tripId: 1}";
-		String hint = "{_class: 1, userId: 1}";
+		String hint = "{userId: 1, tripId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"find table members\n->query: %s\n->parameters: %s\n->projection: %s\n->hint: %s", query, userId,
@@ -144,5 +159,4 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 		WriteResult wr = coll.update(query, ownerId).multi().with(updateQuery, userId);
 		logger.debug("WriteResult for remove allowed: {}", wr);
 	}
-
 }

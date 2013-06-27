@@ -80,6 +80,16 @@ public interface TripUserService {
 	public List<TableMember> getTableMembers(String tripId, String tableId, int limit);
 
 	/**
+	 * Get list of TableUser by tripId and userId. Must be called to determine
+	 * the list of possible actions in the schedule of trip.
+	 * 
+	 * @param tripId
+	 * @param userId
+	 * @return list of TableUser
+	 */
+	public List<TableUser> getTableUsersByUserId(String tripId, String userId);
+
+	/**
 	 * Remove the user or invite from the travel. Needs to be called when the
 	 * user reject the invitation to participate, as well as the when owner
 	 * rejects the request from the user to participate in travel, as well as
