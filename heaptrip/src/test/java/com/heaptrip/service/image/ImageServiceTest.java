@@ -34,7 +34,6 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
 		// call
 		Resource resource = loader.getResource(IMAGE_NAME);
 		Assert.assertNotNull(resource);
-		Assert.assertNotNull(resource);
 		File file = resource.getFile();
 		InputStream is = new FileInputStream(file);
 		imageId = imageService.saveImage(file.getName(), ImageEnum.CONTENT_TITLE_IMAGE, is);

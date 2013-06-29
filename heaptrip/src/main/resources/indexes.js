@@ -10,4 +10,5 @@ db.members.ensureIndex({userId: 1, tripId: 1})
 db.favorites.ensureIndex({userId: 1, type: 1})
 db.favorites.ensureIndex({userId: 1, contentId: 1})
 db.comments.ensureIndex({target: 1, fullSlug: 1})
+db.images.ensureIndex({target: 1, uploaded: 1})
 

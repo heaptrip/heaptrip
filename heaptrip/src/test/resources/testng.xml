@@ -42,4 +42,10 @@
 		</classes>
 	</test>
 
+	<test name="AlbumTest">
+		<classes>
+			<class name="com.heaptrip.service.album.AlbumServiceTest" />
+		</classes>
+	</test>
+
 </suite>

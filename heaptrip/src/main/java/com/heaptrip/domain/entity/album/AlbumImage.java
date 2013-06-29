@@ -2,17 +2,48 @@ package com.heaptrip.domain.entity.album;
 
 import com.heaptrip.domain.entity.image.Image;
 
+/**
+ * 
+ * Album image stores images for albums and trip routes
+ * 
+ */
 public class AlbumImage extends Image {
 
-	private AlbumImageOwner owner;
+	public static final String COLLECTION_NAME = "images";
 
+	// _id of associated object (table item id or trip id, trip route id, etc.)
+	private String target;
+
+	// references to images in GridFS
+	private ImageReferences refs;
+
+	// owner of the image
+	private ImageOwner owner;
+
+	// the number of likes
 	private Long likes;
 
-	public AlbumImageOwner getOwner() {
+	public String getTarget() {
+		return target;
+	}
+
+	public void setTarget(String target) {
+		this.target = target;
+	}
+
+	public ImageReferences getRefs() {
+		return refs;
+	}
+
+	public void setRefs(ImageReferences refs) {
+		this.refs = refs;
+	}
+
+	public ImageOwner getOwner() {
 		return owner;
 	}
 
-	public void setOwner(AlbumImageOwner owner) {
+	public void setOwner(ImageOwner owner) {
 		this.owner = owner;
 	}
 
@@ -23,4 +54,5 @@ public class AlbumImage extends Image {
 	public void setLikes(Long likes) {
 		this.likes = likes;
 	}
+
 }

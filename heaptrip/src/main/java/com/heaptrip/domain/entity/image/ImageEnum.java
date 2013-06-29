@@ -7,7 +7,13 @@ package com.heaptrip.domain.entity.image;
  */
 public enum ImageEnum {
 
-	CONTENT_TITLE_IMAGE(300, 208);
+	CONTENT_TITLE_IMAGE(300, 208),
+	TRIP_ALBUM_SMALL_IMAGE(150, 150),
+	TRIP_ALBUM_MEDIUM_IMAGE(611, 375),
+	TRIP_ALBUM_FULL_IMAGE(1920, 1080),
+	TRIP_ROUTE_SMALL_IMAGE(199, 184),
+	TRIP_ROUTE_MEDIUM_IMAGE(597, 552),
+	TRIP_ROUTE_FULL_IMAGE(1920, 1080);
 
 	// image width
 	private int width;

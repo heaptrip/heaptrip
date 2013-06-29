@@ -1,23 +1,23 @@
 package com.heaptrip.domain.service.trip;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.album.AlbumImage;
+import com.heaptrip.domain.entity.trip.Route;
+import com.heaptrip.domain.service.album.AlbumService;
 
-public interface TripRouteService {
+public interface TripRouteService extends AlbumService {
 
-	public void saveRouteDescription(String tripId, String description, Locale locale);
+	public Route updateRoute(String tripId, Route route, Locale locale);
 
-	public String getRouteDescription(String tripId, Locale locale);
+	public Route getRoute(String tripId, Locale locale);
 
-	public List<Image> getRouteImages(String tripId);
+	public AlbumImage addRouteImage(String routeId, String ownerId, String fileName, InputStream is);
 
-	public void addTripRouteImage(String tripId, Image routeImage);
+	public List<AlbumImage> getRouteImages(String routeId);
 
-	// what is?
-	public void updateTripRouteImage(String tripId, Image routeImage);
-
-	public void removeTripRouteImage(String tripId, Image routeImage);
+	public List<AlbumImage> getRouteImages(String routeId, int limit);
 
 }
