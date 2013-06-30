@@ -3,18 +3,25 @@ package com.heaptrip.domain.entity.trip;
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.content.MultiLangText;
 
+/**
+ * 
+ * Route of trip
+ * 
+ */
 public class Route extends BaseObject {
 
-	private MultiLangText description;
+	// route description
+	private MultiLangText text;
 
+	// route map
 	private String map;
 
-	public MultiLangText getDescription() {
-		return description;
+	public MultiLangText getText() {
+		return text;
 	}
 
-	public void setDescription(MultiLangText description) {
-		this.description = description;
+	public void setText(MultiLangText text) {
+		this.text = text;
 	}
 
 	public String getMap() {

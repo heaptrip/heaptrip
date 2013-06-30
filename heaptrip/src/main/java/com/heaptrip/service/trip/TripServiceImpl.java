@@ -17,7 +17,9 @@ import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.entity.trip.Route;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
@@ -97,6 +99,12 @@ public class TripServiceImpl implements TripService {
 				item.setStatus(new TableStatus(TableStatusEnum.OK));
 			}
 		}
+
+		// set route
+		Route route = new Route();
+		route.setId(UUID.randomUUID().toString());
+		route.setText(new MultiLangText());
+		trip.setRoute(route);
 
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
@@ -261,7 +269,7 @@ public class TripServiceImpl implements TripService {
 			trip.getDescription().setMainLanguage(mainLang);
 		}
 
-		tripRepository.update(trip, locale);
+		tripRepository.updateInfo(trip, locale);
 	}
 
 	@Override
@@ -269,8 +277,15 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(locale, "locale must not be null");
 		String removeLang = LanguageUtils.getLanguageByLocale(locale);
-		String mainLang = tripRepository.getMainLanguage(tripId);
-		if (mainLang != null && mainLang.equals(removeLang)) {
+		Trip trip = tripRepository.getMainLanguage(tripId);
+		if (trip == null) {
+			throw new IllegalArgumentException(String.format("trip with id=%s is not found", tripId));
+		}
+		String mainLang = trip.getMainLang();
+		if (mainLang == null) {
+			throw new IllegalStateException(String.format("trip with id=%s does not have a main language", tripId));
+		}
+		if (mainLang.equals(removeLang)) {
 			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_LANGUAGE_FAILURE);
 		}
 		tripRepository.removeLanguage(tripId, locale);

@@ -32,9 +32,9 @@
 			<class name="com.heaptrip.service.trip.InitTripTest" />
 			<class name="com.heaptrip.service.trip.TripServiceTest" />
 			<class name="com.heaptrip.service.trip.TripUserServiceTest" />
+			<class name="com.heaptrip.service.trip.TripRouteServiceTest" />
 		</classes>
 	</test>
-
 
 	<test name="CommentTest">
 		<classes>
