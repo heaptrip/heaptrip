@@ -48,4 +48,10 @@
 		</classes>
 	</test>
 
+	<test name="MailTest">
+		<classes>
+			<class name="com.heaptrip.service.mail.MailServiceTest" />
+		</classes>
+	</test>
+
 </suite>

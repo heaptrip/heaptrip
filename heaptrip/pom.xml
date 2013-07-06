@@ -235,8 +235,7 @@
 			</exclusions>
 		</dependency>
 
-		<!-- jrobin (included in javamelody-core) & xstream for the remoting with 
-			the collector serve -->
+		<!-- jrobin (included in javamelody-core) & xstream for the remoting with the collector serve -->
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>
 			<artifactId>xstream</artifactId>
@@ -261,6 +260,13 @@
 			<groupId>org.jongo</groupId>
 			<artifactId>jongo</artifactId>
 			<version>0.4</version>
+		</dependency>
+
+		<!-- Java mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
 		</dependency>
 
 	</dependencies>
