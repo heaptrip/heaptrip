@@ -20,6 +20,7 @@ import com.heaptrip.domain.repository.album.AlbumRepository;
 import com.heaptrip.domain.service.album.AlbumImageEnum;
 import com.heaptrip.domain.service.album.AlbumService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.util.StreamUtils;
 
 @Service(AlbumService.SERVICE_NAME)
 public class AlbumServiceImpl implements AlbumService {
@@ -58,10 +59,8 @@ public class AlbumServiceImpl implements AlbumService {
 
 	private ImageReferences saveImage(String fileName, AlbumImageEnum type, InputStream is) throws IOException {
 		ImageReferences result = new ImageReferences();
-
-		if (!is.markSupported()) {
-			is = getResetableInputStream(is);
-		}
+		
+		is = StreamUtils.getResetableInputStream(is);
 
 		switch (type) {
 		case TRIP_ALBUM_IMAGE:

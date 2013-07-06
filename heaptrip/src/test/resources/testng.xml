@@ -2,6 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HeapTrip" parallel="false">
 
+	<test name="InitUserTest">
+		<classes>
+			<class name="com.heaptrip.service.user.InitUserTest" />
+		</classes>
+	</test>
+
 	<test name="ImageTest">
 		<classes>
 			<class name="com.heaptrip.service.image.ImageServiceTest" />
@@ -47,5 +53,4 @@
 			<class name="com.heaptrip.service.album.AlbumServiceTest" />
 		</classes>
 	</test>
-
 </suite>
