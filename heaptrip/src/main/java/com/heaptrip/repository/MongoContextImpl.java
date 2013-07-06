@@ -75,7 +75,7 @@ public class MongoContextImpl implements MongoContext {
 					}
 				}
 
-				//jongo = new Jongo(mongoClient.getDB(dbName));
+				jongo = new Jongo(mongoClient.getDB(dbName));
 
 				logger.info("MongoClient successfully initialized");
 			} else {
