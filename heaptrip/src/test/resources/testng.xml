@@ -53,4 +53,11 @@
 			<class name="com.heaptrip.service.album.AlbumServiceTest" />
 		</classes>
 	</test>
+	
+	<test name="MailTest">
+		<classes>
+			<class name="com.heaptrip.service.mail.MailServiceTest" />
+		</classes>
+	</test>
+  
 </suite>
