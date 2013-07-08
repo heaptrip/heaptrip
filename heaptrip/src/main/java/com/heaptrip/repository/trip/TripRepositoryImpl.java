@@ -279,8 +279,9 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
-		String updateQuery = String.format(
-				"{$pull: {langs: #}, $unset: {'name.%s': 1, 'summary.%s': 1, 'description.%s': 1}}", lang, lang, lang);
+		String updateQuery = String
+				.format("{$pull: {langs: #}, $unset: {'name.%s': 1, 'summary.%s': 1, 'description.%s': 1, 'route.text.%s': 1}}",
+						lang, lang, lang, lang);
 
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
