@@ -10,4 +10,5 @@ public interface CategoryRepository extends CrudRepository<Category> {
 
 	public List<Category> findAll(Locale locale);
 
+	public Category getParentId(String categoryId);
 }

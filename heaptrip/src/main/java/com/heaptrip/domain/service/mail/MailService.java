@@ -2,7 +2,23 @@ package com.heaptrip.domain.service.mail;
 
 import javax.mail.MessagingException;
 
+/**
+ * 
+ * Service for send email
+ * 
+ */
 public interface MailService {
-	public void sendNoreplyMessage(String to, String subject, String text)
-			throws MessagingException;
+
+	/**
+	 * Send a message from address noreply@heaptrip.com
+	 * 
+	 * @param to
+	 *            address of the recipient
+	 * @param subject
+	 *            message subject
+	 * @param text
+	 *            message text
+	 * @throws MessagingException
+	 */
+	public void sendNoreplyMessage(String to, String subject, String text) throws MessagingException;
 }

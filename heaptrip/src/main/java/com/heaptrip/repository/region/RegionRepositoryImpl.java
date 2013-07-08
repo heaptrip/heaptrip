@@ -22,6 +22,12 @@ public class RegionRepositoryImpl extends CrudRepositoryImpl<Region> implements 
 	}
 
 	@Override
+	public Region getParentId(String regionId) {
+		MongoCollection coll = getCollection();
+		return coll.findOne("{_id: #}", regionId).projection("{parent: 1}").as(getCollectionClass());
+	}
+
+	@Override
 	protected String getCollectionName() {
 		return Region.COLLECTION_NAME;
 	}

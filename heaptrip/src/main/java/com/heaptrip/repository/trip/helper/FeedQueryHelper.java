@@ -14,10 +14,10 @@ class FeedQueryHelper extends AbstractQueryHelper<FeedTripCriteria> {
 	public String getQuery(FeedTripCriteria criteria) {
 		String query = "{_class: #, allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			query += ", 'categories._id': {$in: #}";
+			query += ", allCategories: {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			query += ", 'regions._id': {$in: #}";
+			query += ", allRegions: {$in: #}";
 		}
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {

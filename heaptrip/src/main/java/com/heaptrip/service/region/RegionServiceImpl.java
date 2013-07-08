@@ -46,4 +46,16 @@ public class RegionServiceImpl implements RegionService {
 		return regionRepository.findById(regionId, locale);
 	}
 
+	@Override
+	public List<String> getParentsByRegionId(String regionId) {
+		Assert.notNull(regionId, "categoryId must not be null");
+		List<String> ids = new ArrayList<>();
+		Region region = regionRepository.getParentId(regionId);
+		while (region != null && region.getParent() != null) {
+			ids.add(region.getParent());
+			region = regionRepository.getParentId(region.getParent());
+		}
+		return ids;
+	}
+
 }

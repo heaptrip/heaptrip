@@ -9,4 +9,5 @@ public interface RegionRepository extends CrudRepository<Region> {
 
 	public Region findById(String Id, Locale locale);
 
+	public Region getParentId(String regionId);
 }

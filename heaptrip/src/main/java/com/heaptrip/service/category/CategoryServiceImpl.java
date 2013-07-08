@@ -1,5 +1,6 @@
 package com.heaptrip.service.category;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,5 +30,17 @@ public class CategoryServiceImpl implements CategoryService {
 		Assert.notNull(locale, "locale must not be null");
 		// TODO get categories by userId
 		return categoryRepository.findAll(locale);
+	}
+
+	@Override
+	public List<String> getParentsByCategoryId(String categoryId) {
+		Assert.notNull(categoryId, "categoryId must not be null");
+		List<String> ids = new ArrayList<>();
+		Category category = categoryRepository.getParentId(categoryId);
+		while (category != null && category.getParent() != null) {
+			ids.add(category.getParent());
+			category = categoryRepository.getParentId(category.getParent());
+		}
+		return ids;
 	}
 }

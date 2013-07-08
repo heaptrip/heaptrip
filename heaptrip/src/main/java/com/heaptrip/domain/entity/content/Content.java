@@ -23,11 +23,17 @@ public class Content extends BaseObject {
 	// content owner
 	private ContentOwner owner;
 
-	// content categories
+	// contain a content categories set by the owner
 	private ContentCategory[] categories;
 
-	// content regions
+	// contain a categories set by the owner, and parent for them
+	private String[] allCategories;
+
+	// contain a content regions set by the owner
 	private ContentRegion[] regions;
+
+	// contain a regions set by the owner, and parent for them
+	private String[] allRegions;
 
 	// content status
 	private ContentStatus status;
@@ -84,6 +90,14 @@ public class Content extends BaseObject {
 		this.categories = categories;
 	}
 
+	public String[] getAllCategories() {
+		return allCategories;
+	}
+
+	public void setAllCategories(String[] allCategories) {
+		this.allCategories = allCategories;
+	}
+
 	public ContentRegion[] getRegions() {
 		return regions;
 	}
@@ -92,12 +106,36 @@ public class Content extends BaseObject {
 		this.regions = regions;
 	}
 
+	public String[] getAllRegions() {
+		return allRegions;
+	}
+
+	public void setAllRegions(String[] allRegions) {
+		this.allRegions = allRegions;
+	}
+
 	public ContentStatus getStatus() {
 		return status;
 	}
 
 	public void setStatus(ContentStatus status) {
 		this.status = status;
+	}
+
+	public MultiLangText getName() {
+		return name;
+	}
+
+	public void setName(MultiLangText name) {
+		this.name = name;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 	public Date getCreated() {
@@ -116,38 +154,6 @@ public class Content extends BaseObject {
 		this.deleted = deleted;
 	}
 
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
-	}
-
-	public MultiLangText getName() {
-		return name;
-	}
-
-	public void setName(MultiLangText name) {
-		this.name = name;
-	}
-
-	public String[] getLangs() {
-		return langs;
-	}
-
-	public void setLangs(String[] langs) {
-		this.langs = langs;
-	}
-
-	public Long getViews() {
-		return views;
-	}
-
-	public void setViews(Long views) {
-		this.views = views;
-	}
-
 	public String[] getAllowed() {
 		return allowed;
 	}
@@ -164,6 +170,14 @@ public class Content extends BaseObject {
 		this.owners = owners;
 	}
 
+	public Long getViews() {
+		return views;
+	}
+
+	public void setViews(Long views) {
+		this.views = views;
+	}
+
 	public String getMainLang() {
 		return mainLang;
 	}
@@ -171,4 +185,13 @@ public class Content extends BaseObject {
 	public void setMainLang(String mainLang) {
 		this.mainLang = mainLang;
 	}
+
+	public String[] getLangs() {
+		return langs;
+	}
+
+	public void setLangs(String[] langs) {
+		this.langs = langs;
+	}
+
 }

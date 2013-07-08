@@ -189,13 +189,15 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		if (mainLang.equals(lang)) {
 			// update main language
 			updateQuery = String
-					.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.main': #, 'name.%s': #, "
+					.format("{$addToSet: {langs: #}, $set: {categories: #, allCategories: #, regions: #, allRegions: #, 'name.main': #, 'name.%s': #, "
 							+ "'summary.main': #, 'summary.%s': #, 'description.main': #, 'description.%s': #, image: #, table: #}}",
 							lang, lang, lang);
 
 			parameters.add(lang);
 			parameters.add(trip.getCategories());
+			parameters.add(trip.getAllCategories());
 			parameters.add(trip.getRegions());
+			parameters.add(trip.getAllRegions());
 			parameters.add(trip.getName().getValue(locale));
 			parameters.add(trip.getName().getValue(locale));
 			parameters.add(trip.getSummary().getValue(locale));
@@ -206,12 +208,14 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			parameters.add(trip.getTable());
 		} else {
 			updateQuery = String
-					.format("{$addToSet: {langs: #}, $set: {categories: #, regions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, image: #, table: #}}",
+					.format("{$addToSet: {langs: #}, $set: {categories: #, allCategories: #, regions: #, allRegions: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, image: #, table: #}}",
 							lang, lang, lang);
 
 			parameters.add(lang);
 			parameters.add(trip.getCategories());
+			parameters.add(trip.getAllCategories());
 			parameters.add(trip.getRegions());
+			parameters.add(trip.getAllRegions());
 			parameters.add(trip.getName().getValue(locale));
 			parameters.add(trip.getSummary().getValue(locale));
 			parameters.add(trip.getDescription().getValue(locale));

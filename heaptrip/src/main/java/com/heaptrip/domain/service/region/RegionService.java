@@ -38,4 +38,13 @@ public interface RegionService {
 	 */
 	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale) throws SolrServerException;
 
+	/**
+	 * Get list of identifiers of parent regions by regionId
+	 * 
+	 * @param regionId
+	 * @return list of identifiers
+	 */
+	// TODO konovalov add test
+	public List<String> getParentsByRegionId(String regionId);
+
 }

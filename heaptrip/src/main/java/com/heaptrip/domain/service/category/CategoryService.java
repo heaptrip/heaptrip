@@ -28,4 +28,13 @@ public interface CategoryService {
 	 */
 	public List<Category> getCategoriesByUserId(String userId, Locale locale);
 
+	/**
+	 * Get list of identifiers of parent categories by categoryId
+	 * 
+	 * @param categoryId
+	 * @return list of identifiers
+	 */
+	// TODO konovalov add test
+	public List<String> getParentsByCategoryId(String categoryId);
+
 }

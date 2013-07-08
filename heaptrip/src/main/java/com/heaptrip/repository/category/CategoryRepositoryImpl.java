@@ -25,6 +25,12 @@ public class CategoryRepositoryImpl extends CrudRepositoryImpl<Category> impleme
 	}
 
 	@Override
+	public Category getParentId(String categoryId) {
+		MongoCollection coll = getCollection();
+		return coll.findOne("{_id: #}", categoryId).projection("{parent: 1}").as(getCollectionClass());
+	}
+
+	@Override
 	protected String getCollectionName() {
 		return Category.COLLECTION_NAME;
 	}
@@ -33,5 +39,4 @@ public class CategoryRepositoryImpl extends CrudRepositoryImpl<Category> impleme
 	protected Class<Category> getCollectionClass() {
 		return Category.class;
 	}
-
 }
