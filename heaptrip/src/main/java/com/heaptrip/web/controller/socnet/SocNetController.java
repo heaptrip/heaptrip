@@ -20,7 +20,7 @@ import com.heaptrip.domain.service.socnet.SocnetAuthorizeException;
 import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
-import com.heaptrip.web.model.adm.RegistrationInfo;
+import com.heaptrip.web.model.user.RegistrationInfoModel;
 
 @Controller
 public class SocNetController extends ExceptionHandlerControler {
@@ -69,7 +69,7 @@ public class SocNetController extends ExceptionHandlerControler {
 
 		ModelAndView mv = new ModelAndView();
 
-		RegistrationInfo registrationInfo = new RegistrationInfo();
+		RegistrationInfoModel registrationInfo = new RegistrationInfoModel();
 
 		VKAccessToken vkAccessToken = new VKAccessToken();
 		vkAccessToken.setAccess_token(accessToken);
@@ -129,7 +129,7 @@ public class SocNetController extends ExceptionHandlerControler {
 
 		ModelAndView mv = new ModelAndView();
 
-		RegistrationInfo registrationInfo = new RegistrationInfo();
+		RegistrationInfoModel registrationInfo = new RegistrationInfoModel();
 
 		FBAccessToken fbAccessToken = new FBAccessToken();
 
@@ -169,7 +169,7 @@ public class SocNetController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "registration", method = RequestMethod.GET)
 	public ModelAndView emptyRegistration() {
-		RegistrationInfo info = new RegistrationInfo();
+		RegistrationInfoModel info = new RegistrationInfoModel();
 		return new ModelAndView().addObject("registrationInfo", info);
 	}
 

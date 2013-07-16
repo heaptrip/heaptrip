@@ -9,6 +9,8 @@ public abstract class User extends BaseObject {
 
 	public static final String COLLECTION_NAME = "users";
 
+	private String[] roles;
+	
 	// entity class name
 	private String _class;
 	
@@ -52,4 +54,14 @@ public abstract class User extends BaseObject {
 	public void setStatus(UserStatusEnum status) {
 		this.status = status;
 	}
+
+	public String[] getRoles() {
+		return roles;
+	}
+
+	public void setRoles(String[] roles) {
+		this.roles = roles;
+	}
+	
+
 }

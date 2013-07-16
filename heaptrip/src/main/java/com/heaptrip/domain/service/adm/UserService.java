@@ -4,8 +4,6 @@ import com.heaptrip.domain.entity.adm.User;
 
 public interface UserService {
 
-	User getUserByAuthenticationInfo(String username, String password);
-
 	User getCurrentUser();
 
 }

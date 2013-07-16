@@ -1,4 +1,4 @@
-package com.heaptrip.web.model.adm;
+package com.heaptrip.web.model.user;
 
 public class User {
 	private String firstName;

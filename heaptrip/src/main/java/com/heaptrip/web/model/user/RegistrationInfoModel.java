@@ -1,6 +1,6 @@
-package com.heaptrip.web.model.adm;
+package com.heaptrip.web.model.user;
 
-public class RegistrationInfo {
+public class RegistrationInfoModel {
 
 	private String firstName;
 	private String secondName;
