@@ -9,14 +9,17 @@
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
-	<mvc:view-controller path="/login.html" />
+	<!-- <mvc:view-controller path="/login.html" />
 	<mvc:view-controller path="/notfound.html" />
+	<mvc:view-controller path="/confirmation.html" />
 	<mvc:view-controller path="/travels.html" />
 	<mvc:view-controller path="/travel_maps.html" />
 	<mvc:view-controller path="/travel_photos.html" />
 	<mvc:view-controller path="/travel_participants.html" />
-	<mvc:view-controller path="/travel_posts.html" /> 
-
+	<mvc:view-controller path="/travel_posts.html" /> -->
+	<mvc:view-controller path="/*.html" /> 
+	 
+	
 	<mvc:annotation-driven />
 
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer"

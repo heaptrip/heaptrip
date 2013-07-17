@@ -50,7 +50,8 @@
 		};
 
 		var callbackSuccess = function(data) {
-			window.location = 'tidings.html';
+			var domain =  $("#email").val().replace(/.*@/, ""); 
+			window.location = 'confirmation.html?domain=' + domain;
 		};
 
 		var callbackError = function(error) {

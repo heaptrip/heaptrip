@@ -39,9 +39,12 @@ public class UserModelServiceImpl implements UserModelService {
 		userReg.setRoles(roles);
 
 		if (regInfo.getSocNetName() != null
-				&& regInfo.getSocNetUserUID() != null) {
+				&& !regInfo.getSocNetName().isEmpty()
+				&& regInfo.getSocNetUserUID() != null
+				&& !regInfo.getSocNetUserUID().isEmpty()) {
 
-			if (regInfo.getPhotoUrl() != null) {
+			if (regInfo.getPhotoUrl() != null
+					&& !regInfo.getPhotoUrl().isEmpty()) {
 				byte[] photoByUrl = new HttpClient().doByteGet(regInfo
 						.getPhotoUrl());
 				if (photoByUrl != null)
