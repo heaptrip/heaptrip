@@ -7,7 +7,7 @@
 <section id="middle">
 	<div id="container">
 		<div id="contents">
-			<img src="<c:url value="/resources/images/prof.jpg"/>"><br />
+			<img src="<c:url value="/resources/images/user_mail.png"/>"><br />
 			<a href="http://www.${param.domain}">TODO : REGISTRATION END TO
 				MAIL ${param.domain}</a><br />
 		</div>
