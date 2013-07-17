@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heaptrip.domain.entity.user.User;
@@ -60,6 +61,8 @@ public class UserController extends ExceptionHandlerControler {
 				throw scopeService.getErrorServise().createBusinessExeption(
 						ErrorEnum.REGISTRATION_FAILURE);
 
+			// TODO: redirect на ссылку в почте.
+
 			authenticationProvider.authenticateInternal(user);
 
 		} catch (Throwable e) {
@@ -67,6 +70,15 @@ public class UserController extends ExceptionHandlerControler {
 		}
 
 		return Ajax.emptyResponse();
+	}
+
+	@RequestMapping(value = "registration/confirm", method = RequestMethod.GET)
+	public String confirmRegistration(@RequestParam String uid) {
+
+		LOG.info("Call MAIL LINK user/confirm?uid=" + uid);
+
+		return "redirect:" + scopeService.getCurrentContextPath()
+				+ "/travels.html";
 	}
 
 }
