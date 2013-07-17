@@ -27,6 +27,22 @@ public class HttpClient {
 		return response;
 	}
 
+	public byte[] doByteGet(String url) {
+
+		byte[] response = null;
+
+		try {
+			response = EntityUtils.toByteArray(doRequestGet(url));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return response;
+	}
+
 	private HttpEntity doRequestGet(String url) {
 		HttpEntity entity = null;
 
