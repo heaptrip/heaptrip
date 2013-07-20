@@ -3,6 +3,9 @@ package com.heaptrip.domain.service.user;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
+
+import javax.mail.MessagingException;
 
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserRegistration;
@@ -30,7 +33,7 @@ public interface AuthenticationService {
 	 * @param uid
 	 * @return user
 	 */
-	User getUserBySocNetUID(String socNetName, String uid);
+	User getUserBySocNetUID(String socNetName, String uid, InputStream isImage) throws IOException, NoSuchAlgorithmException;
 	
 	/**
 	 * User registration
@@ -60,7 +63,7 @@ public interface AuthenticationService {
 	 * 
 	 * @param email
 	 */
-	void resetPassword(String email);
+	void resetPassword(String email, Locale locale) throws MessagingException;
 	
 	/**
 	 * Send new password
@@ -68,5 +71,25 @@ public interface AuthenticationService {
 	 * @param email
 	 * @param value = sended hash value
 	 */
-	void sendNewPassword(String email, String value);
+	void sendNewPassword(String email, String value, Locale locale) throws MessagingException;
+	
+	/**
+	 * Change password
+	 * 
+	 * @param userId
+	 * @param oldPassword
+	 * @param newPassword
+	 * @return boolean - true if password was changed
+	 */
+	Boolean changePassword(String userId, String oldPassword, String newPassword);
+	
+	/**
+	 * Change email
+	 * 
+	 * @param userId
+	 * @param oldEmail
+	 * @param newEmail
+	 * @return boolean - true if email was changed
+	 */
+	Boolean changeEmail(String userId, String oldEmail, String newEmail);
 }
