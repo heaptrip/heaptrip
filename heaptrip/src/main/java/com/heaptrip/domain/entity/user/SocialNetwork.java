@@ -6,9 +6,9 @@ public class SocialNetwork extends BaseObject {
 
 	private String uid;
 
-	public SocialNetwork(SocialNetworkEnum name, String uid) {
+	public SocialNetwork(SocialNetworkEnum socialNetworkName, String uid) {
 		super();
-		this.id = name.toString();
+		this.id = socialNetworkName.toString();
 		this.uid = uid;
 	}
 
