@@ -2,12 +2,14 @@ package com.heaptrip.repository.user;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.repository.user.UserSettingRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 
+@Service
 public class UserSettingRepositoryImpl extends CrudRepositoryImpl<UserSetting> implements UserSettingRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingRepositoryImpl.class);
