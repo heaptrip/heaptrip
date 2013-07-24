@@ -33,8 +33,8 @@ public class UserModelServiceImpl implements UserModelService {
 		InputStream photo = null;
 
 		userReg.setEmail(regInfo.getEmail());
-		userReg.setFirstName(regInfo.getFirstName());
-		userReg.setSecondName(regInfo.getSecondName());
+		// TODO Дима теперь у пользователя просто имя ;)
+		userReg.setName(regInfo.getFirstName() + " " + regInfo.getSecondName());
 		userReg.setPassword(regInfo.getPassword());
 		userReg.setRoles(roles);
 
@@ -53,7 +53,7 @@ public class UserModelServiceImpl implements UserModelService {
 
 			userReg.setNet(new SocialNetwork[] { new SocialNetwork(
 					procsessSocNetName(regInfo.getSocNetName()), regInfo
-							.getSocNetUserUID(), photo != null) });
+							.getSocNetUserUID()) });
 
 		}
 

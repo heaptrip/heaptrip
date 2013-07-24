@@ -7,6 +7,8 @@ public interface AuthenticationRepository extends CrudRepository<User> {
 	
 	User findByEmailAndPassword(String email, String password);
 	
+	User findByEmail(String email);
+	
 	User findUserBySocNetUID(String socNetName, String uid);
 	
 	Boolean confirmRegistration(String email);
@@ -14,4 +16,8 @@ public interface AuthenticationRepository extends CrudRepository<User> {
 	void resetPassword(String email);
 	
 	void sendNewPassword(String email, String value);
+	
+	Boolean changePassword(String userId, String oldPassword, String newPassword);
+	
+	Boolean changeEmail(String userId, String oldEmail, String newEmail);
 }

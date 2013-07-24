@@ -3,8 +3,6 @@ package com.heaptrip.service.user;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,24 +12,17 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
-import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserRegistration;
 import com.heaptrip.domain.service.user.AuthenticationService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitUserTest extends AbstractTestNGSpringContextTests {
 
-	private static final String IMAGE_NAME = "penguins.jpg";
-	
-	private List<UserRegistration> users;
-	
-	private UserRegistration emailUser;
-	private UserRegistration socialUser;	
-	private UserRegistration fakeUser;
+	public static final String IMAGE_1 = "penguins.jpg";
+	public static final String IMAGE_2 = "tulips.jpg";
 	
 	@Autowired
 	private ResourceLoader loader;
@@ -39,90 +30,60 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private AuthenticationService authenticationService;
 	
-	private SocialNetwork[] getNet() {
-		return new SocialNetwork[] {new SocialNetwork(SocialNetworkEnum.VK, "123", true)};
+	public static String EMAIL_USER_ID = "email";
+	public static String EMAIL_USER_EMAIL = "ivan@example.com";
+	public static String EMAIL_USER_EMAIL_NEW = "new_ivan@example.com";
+	public static String EMAIL_USER_PSWD = "Qwerty2013";
+	public static String EMAIL_USER_PSWD_NEW = "new_Qwerty2013";
+	
+	public static String NET_USER_ID = "net";
+	public static String NET_USER_EMAIL = "petr@example.com";
+	public static String NET_USER_PSWD = "qwerty2014";
+	
+	public static String FAKE_USER_ID = "fake";
+	public static String FAKE_USER_EMAIL = "somebody@example.com";
+	public static String FAKE_USER_PSWD = "nopassword";
+	
+	public static SocialNetwork[] getNet() {
+		return new SocialNetwork[] {new SocialNetwork(SocialNetworkEnum.VK, "123")};
 	}
 	
-	private SocialNetwork[] getFakeNet()  {
-		return new SocialNetwork[] {new SocialNetwork(SocialNetworkEnum.VK, "somebody", true)};
+	public static SocialNetwork[] getFakeNet()  {
+		return new SocialNetwork[] {new SocialNetwork(SocialNetworkEnum.VK, "somebody")};
 	}
 	
 	@BeforeTest()
 	public void init() throws Exception {
+		
 		this.springTestContextPrepareTestInstance();
-		User user;
-		users = new ArrayList<UserRegistration>(2);
 		
-		emailUser = new UserRegistration();
-		emailUser.setFirstName("Ivan");
-		emailUser.setSecondName("Ivanov");
-		emailUser.setPassword("Qwerty2013");
-		emailUser.setEmail("ivan@example.com");
+		UserRegistration emailUser = new UserRegistration();
+		emailUser.setId(EMAIL_USER_ID);
+		emailUser.setName("Ivan Ivanov");
+		emailUser.setPassword(EMAIL_USER_PSWD);
+		emailUser.setEmail(EMAIL_USER_EMAIL);
 		
-		user = authenticationService.registration(emailUser, null);
+		authenticationService.registration(emailUser, null);
 		
-		if (user != null) {
-			emailUser.setId(user.getId());
-			users.add(emailUser);
-		}
+		UserRegistration netUser = new UserRegistration();
+		netUser.setId(NET_USER_ID);
+		netUser.setName("Petr Petrov");
+		netUser.setPassword(NET_USER_PSWD);
+		netUser.setEmail(NET_USER_EMAIL);
+		netUser.setNet(getNet());
 		
-		socialUser = new UserRegistration();
-		socialUser.setFirstName("Petr");
-		socialUser.setSecondName("Petrov");
-		socialUser.setPassword("qwerty2014");
-		socialUser.setEmail("petr@example.com");
-		socialUser.setNet(getNet());
-		
-		Resource resource = loader.getResource(IMAGE_NAME);
+		Resource resource = loader.getResource(IMAGE_1);
 		Assert.assertNotNull(resource);
 		File file = resource.getFile();
 		InputStream is = new FileInputStream(file);
 		
-		user = authenticationService.registration(socialUser, is);
-		
-		if (user != null) {
-			socialUser.setId(user.getId());
-			users.add(socialUser);
-		}
-		
-		fakeUser = new UserRegistration();
-		fakeUser.setFirstName("Somebody");
-		fakeUser.setSecondName("Somebody");
-		fakeUser.setPassword("nopassword");
-		fakeUser.setEmail("somebody@example.com");
-		fakeUser.setNet(getFakeNet());
-	}
-	
-	@Test(enabled = true, priority = 1)
-	public void confirmUserRegistration() {
-		if (users != null && !users.isEmpty()) {
-			for (UserRegistration user : users) {
-				authenticationService.confirmRegistration(user.getEmail());
-			}
-		}
-	}
-	
-	@Test(enabled = true, priority = 2)
-	public void getUserByEmail() {
-		Assert.assertNotNull(authenticationService.getUserByEmail(emailUser.getEmail(), emailUser.getPassword()));
-		Assert.assertNotNull(authenticationService.getUserByEmail(socialUser.getEmail(), socialUser.getPassword()));
-		Assert.assertNull(authenticationService.getUserByEmail(fakeUser.getEmail(), fakeUser.getPassword()));
-	}
-	
-	@Test(enabled = true, priority = 3)
-	public void getUserBySocNetUID() {
-		SocialNetwork[] nets = socialUser.getNet();
-		Assert.assertNotNull(authenticationService.getUserBySocNetUID(nets[0].getId(), nets[0].getUid()));
-		nets = fakeUser.getNet();
-		Assert.assertNull(authenticationService.getUserBySocNetUID(nets[0].getId(), nets[0].getUid()));
-	}
+		authenticationService.registration(netUser, is);
+	}	
 	
 	@AfterTest
 	public void afterTest() {
-		if (users != null && !users.isEmpty()) {
-			for (User user : users) {
-				authenticationService.hardRemoveUser(user.getId());
-			}
-		}
+		
+		authenticationService.hardRemoveUser(EMAIL_USER_ID);
+		authenticationService.hardRemoveUser(NET_USER_ID);
 	}
 }

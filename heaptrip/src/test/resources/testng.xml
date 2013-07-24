@@ -2,9 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HeapTrip" parallel="false">
 
-	<test name="InitUserTest">
+	<test name="UserTest">
 		<classes>
 			<class name="com.heaptrip.service.user.InitUserTest" />
+			<class name="com.heaptrip.service.user.AuthenticationServiceTest" />
 		</classes>
 	</test>
 
@@ -59,5 +60,4 @@
 			<class name="com.heaptrip.service.mail.MailServiceTest" />
 		</classes>
 	</test>
-  
 </suite>

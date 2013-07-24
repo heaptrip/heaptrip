@@ -7,7 +7,7 @@ package com.heaptrip.domain.entity.image;
  */
 public enum ImageEnum {
 
-	USER_PHOTO(55, 55),
+	USER_CONTENT_PHOTO(55, 55),
 	USER_PHOTO_PROFILE(300, 200),
 	CONTENT_TITLE_IMAGE(300, 208),
 	TRIP_ALBUM_SMALL_IMAGE(150, 150),

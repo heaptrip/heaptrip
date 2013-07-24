@@ -1,5 +1,6 @@
 package com.heaptrip.domain.entity.user;
 
+
 import java.util.Date;
 
 import com.heaptrip.domain.entity.content.ContentCategory;
