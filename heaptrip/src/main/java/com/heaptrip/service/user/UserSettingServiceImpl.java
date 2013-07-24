@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.user.SocialNetwork;
+import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.repository.user.UserSettingRepository;
 import com.heaptrip.domain.service.user.UserSettingService;
@@ -17,6 +18,8 @@ public class UserSettingServiceImpl implements UserSettingService {
 	
 	@Override
 	public void saveSetting(UserSetting userSetting) {
+		Assert.notNull(userSetting, "userSetting must not be null");
+		Assert.notNull(userSetting.getId(), "user id must not be null");
 		userSettingRepository.saveSetting(userSetting);
 	}
 
@@ -38,10 +41,14 @@ public class UserSettingServiceImpl implements UserSettingService {
 			
 			boolean findNet = false;
 			
-			for (SocialNetwork net : user.getNet()) {
-				net.getId().equals(socialNetworkName);
+			if (socialNetworkName.equals(SocialNetworkEnum.NONE.toString())) {
 				findNet = true;
-				break;
+			} else {
+				for (SocialNetwork net : user.getNet()) {
+					net.getId().equals(socialNetworkName);
+					findNet = true;
+					break;
+				}
 			}
 			
 			if (findNet) {
@@ -64,18 +71,19 @@ public class UserSettingServiceImpl implements UserSettingService {
 				throw new IllegalArgumentException(String.format("user id=%s have one social network and empty password", userId));
 			}
 			
-			boolean findNet = false;
+			SocialNetwork unlinkNet = null;
 			
 			for (SocialNetwork net : user.getNet()) {
-				net.getId().equals(socialNetworkName);
-				findNet = true;
-				break;
+				if (net.getId().equals(socialNetworkName)) {
+					unlinkNet = net;
+					break;
+				}
 			}
 			
-			if (findNet) {
-				userSettingRepository.unlinkSocialNetwork(userId, socialNetworkName);
-			} else {
+			if (unlinkNet == null) {
 				throw new IllegalArgumentException(String.format("user id=%s don`t have social net ", userId, socialNetworkName));
+			} else {
+				userSettingRepository.unlinkSocialNetwork(userId, unlinkNet);
 			}
 		}
 			
