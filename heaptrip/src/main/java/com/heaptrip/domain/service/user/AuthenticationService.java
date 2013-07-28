@@ -54,9 +54,8 @@ public interface AuthenticationService {
 	 * Confirmation of registration
 	 * 
 	 * @param email
-	 * @return boolean - true if the user was found and confirmed
 	 */
-	Boolean confirmRegistration(String email);
+	void confirmRegistration(String email);
 	
 	/**
 	 * Reset password
@@ -79,9 +78,8 @@ public interface AuthenticationService {
 	 * @param userId
 	 * @param oldPassword
 	 * @param newPassword
-	 * @return boolean - true if password was changed
 	 */
-	Boolean changePassword(String userId, String oldPassword, String newPassword);
+	void changePassword(String userId, String oldPassword, String newPassword);
 	
 	/**
 	 * Change email
@@ -89,7 +87,6 @@ public interface AuthenticationService {
 	 * @param userId
 	 * @param oldEmail
 	 * @param newEmail
-	 * @return boolean - true if email was changed
 	 */
-	Boolean changeEmail(String userId, String oldEmail, String newEmail);
+	void changeEmail(String userId, String oldEmail, String newEmail);
 }

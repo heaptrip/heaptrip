@@ -12,6 +12,8 @@ public class User extends Account {
 	
 	private Byte[] imageCRC;
 	
+	private Setting setting;
+	
 	public String[] getRoles() {
 		return roles;
 	}
@@ -42,5 +44,13 @@ public class User extends Account {
 
 	public void setExtImageStore(String extImageStore) {
 		this.extImageStore = extImageStore;
+	}
+
+	public Setting getSetting() {
+		return setting;
+	}
+
+	public void setSetting(Setting setting) {
+		this.setting = setting;
 	}
 }

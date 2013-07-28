@@ -1,6 +1,8 @@
 package com.heaptrip.domain.entity.user;
 
-public class UserSetting extends User {
+import com.heaptrip.domain.entity.BaseObject;
+
+public class Setting extends BaseObject {
 	
 	private Boolean adsFromClub;
 	

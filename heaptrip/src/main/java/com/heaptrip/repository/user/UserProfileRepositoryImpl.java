@@ -1,9 +1,12 @@
 package com.heaptrip.repository.user;
 
+import org.springframework.stereotype.Service;
+
 import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.repository.user.UserProfileRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 
+@Service
 public class UserProfileRepositoryImpl extends CrudRepositoryImpl<UserProfile> implements UserProfileRepository {
 
 	@Override

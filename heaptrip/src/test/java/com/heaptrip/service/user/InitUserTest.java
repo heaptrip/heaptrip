@@ -40,16 +40,30 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 	public static String NET_USER_EMAIL = "petr@example.com";
 	public static String NET_USER_PSWD = "qwerty2014";
 	
+	public static String NOTCONFIRMED_USER_ID = "notConfirmed";
+	public static String NOTCONFIRMED_USER_EMAIL = "notConfirmed@example.com";
+	public static String NOTCONFIRMED_USER_PSWD = "notConfirmed";
+	
 	public static String FAKE_USER_ID = "fake";
 	public static String FAKE_USER_EMAIL = "somebody@example.com";
 	public static String FAKE_USER_PSWD = "nopassword";
 	
-	public static SocialNetwork[] getNet() {
-		return new SocialNetwork[] {new SocialNetwork(SocialNetworkEnum.VK, "123")};
+	public static String INCORRECT_EMAIL = "!@#$%";
+	
+	public static SocialNetwork[] getNets() {
+		return new SocialNetwork[]{getVK()};
 	}
 	
-	public static SocialNetwork[] getFakeNet()  {
-		return new SocialNetwork[] {new SocialNetwork(SocialNetworkEnum.VK, "somebody")};
+	public static SocialNetwork getVK() {
+		return new SocialNetwork(SocialNetworkEnum.VK, "123");
+	}
+	
+	public static SocialNetwork getFB() {
+		return new SocialNetwork(SocialNetworkEnum.FB, "345");
+	}
+	
+	public static SocialNetwork getFakeNet() {
+		return new SocialNetwork(SocialNetworkEnum.VK, "fake");
 	}
 	
 	@BeforeTest()
@@ -65,12 +79,19 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 		
 		authenticationService.registration(emailUser, null);
 		
+		UserRegistration notConfirmedUser = new UserRegistration();
+		notConfirmedUser.setId(NOTCONFIRMED_USER_ID);
+		notConfirmedUser.setName("Igor Igorev");
+		notConfirmedUser.setPassword(NOTCONFIRMED_USER_PSWD);
+		notConfirmedUser.setEmail(NOTCONFIRMED_USER_EMAIL);
+		
+		authenticationService.registration(notConfirmedUser, null);
+		
 		UserRegistration netUser = new UserRegistration();
 		netUser.setId(NET_USER_ID);
 		netUser.setName("Petr Petrov");
-		netUser.setPassword(NET_USER_PSWD);
 		netUser.setEmail(NET_USER_EMAIL);
-		netUser.setNet(getNet());
+		netUser.setNet(getNets());
 		
 		Resource resource = loader.getResource(IMAGE_1);
 		Assert.assertNotNull(resource);
@@ -82,7 +103,7 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 	
 	@AfterTest
 	public void afterTest() {
-		
+		authenticationService.hardRemoveUser(NOTCONFIRMED_USER_ID);
 		authenticationService.hardRemoveUser(EMAIL_USER_ID);
 		authenticationService.hardRemoveUser(NET_USER_ID);
 	}

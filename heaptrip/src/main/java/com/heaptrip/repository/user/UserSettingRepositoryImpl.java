@@ -1,5 +1,6 @@
 package com.heaptrip.repository.user;
 
+import org.apache.commons.lang.StringUtils;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,16 +8,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.user.Setting;
 import com.heaptrip.domain.entity.user.SocialNetwork;
+import com.heaptrip.domain.entity.user.SocialNetworkEnum;
+import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserRegistration;
-import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.repository.user.AuthenticationRepository;
 import com.heaptrip.domain.repository.user.UserSettingRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.mongodb.WriteResult;
 
 @Service
-public class UserSettingRepositoryImpl extends CrudRepositoryImpl<UserSetting> implements UserSettingRepository {
+public class UserSettingRepositoryImpl extends CrudRepositoryImpl<User> implements UserSettingRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserSettingRepositoryImpl.class);
 	
@@ -25,49 +28,45 @@ public class UserSettingRepositoryImpl extends CrudRepositoryImpl<UserSetting> i
 	
 	@Override
 	protected String getCollectionName() {
-		return UserSetting.COLLECTION_NAME;
+		return User.COLLECTION_NAME;
 	}
 
 	@Override
-	protected Class<UserSetting> getCollectionClass() {
-		return UserSetting.class;
+	protected Class<User> getCollectionClass() {
+		return User.class;
 	}
 
 	@Override
-	public void saveSetting(UserSetting userSetting) {
-		
+	public void saveSetting(String userId, Setting setting) {
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
-		String updateQuery = "{$set: {'adsFromClub': #, 'adsFromCompany': #, 'adsFromAgency': #}}";
+		String updateQuery = "{$set: {'setting._id': #, 'setting.adsFromClub': #, 'setting.adsFromCompany': #, 'setting.adsFromAgency': #}}";
 		
-		WriteResult wr = coll.update(query, userSetting.getId()).
-							with(updateQuery, userSetting.getAdsFromClub(), userSetting.getAdsFromCompany(), userSetting.getAdsFromAgency());
+		WriteResult wr = coll.update(query, userId).
+							with(updateQuery, setting.getId(), setting.getAdsFromClub(), setting.getAdsFromCompany(), setting.getAdsFromAgency());
 		logger.debug("WriteResult for update user: {}", wr);
 	}
 
 	@Override
-	public void deleteUserProfile(String userId) {
+	public void deleteUser(String userId) {
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
 		String updateQuery = "{$set: {'status': #}}";
-		
 		WriteResult wr = coll.update(query, userId).with(updateQuery, AccountStatusEnum.DELETED);
 		logger.debug("WriteResult for update user: {}", wr);
 	}
 
 	@Override
-	public void profileImageFrom(String userId, String socialNetworkName) {
+	public void profileImageFrom(String userId, SocialNetworkEnum socialNetwork) {
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";		
 		String updateQuery = "{$set: {'extImageStore': #}}";
-		
-		WriteResult wr = coll.update(query, userId).with(updateQuery, socialNetworkName);
+		WriteResult wr = coll.update(query, userId).with(updateQuery, socialNetwork);
 		logger.debug("WriteResult for update user: {}", wr);
 	}
 
 	@Override
 	public Boolean isEmptyPassword(String userId) {
-		
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
 		
@@ -76,17 +75,29 @@ public class UserSettingRepositoryImpl extends CrudRepositoryImpl<UserSetting> i
 		if (user == null) {
 			throw new IllegalArgumentException(String.format("user with id=%s is not found", userId));
 		} else {
-			return (user.getPassword().isEmpty());
+			return (StringUtils.isBlank(user.getPassword()));
 		}
 	}
 
 	@Override
-	public void unlinkSocialNetwork(String userId, SocialNetwork unlinkNet) {
+	public void unlinkSocialNetwork(String userId, SocialNetworkEnum socialNetwork) {
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
-		String updateQuery = "{$pull :{net: #}}";
-
-		WriteResult wr = coll.update(query, userId).with(updateQuery, unlinkNet);
+		String updateQuery = "{$pull :{net: {'_id':#}}}";
+		WriteResult wr = coll.update(query, userId).with(updateQuery, socialNetwork.toString());
 		logger.debug("WriteResult for unlink SocialNetwork: {}", wr);
+	}
+
+	@Override
+	public void linkSocialNetwork(String userId, SocialNetwork socialNetwork) {
+		MongoCollection coll = getCollection();
+		String query = "{_id: #}";
+//		String updateQuery = "{$addToSet: {net: #}, $set: {'_id': #, 'uid': #}}}";
+		String updateQuery = "{$addToSet: {'net': #}}";
+		
+		WriteResult wr = coll.update(query, userId).
+							with(updateQuery, socialNetwork);
+		logger.debug("WriteResult for update user: {}", wr);
+		
 	}
 }
