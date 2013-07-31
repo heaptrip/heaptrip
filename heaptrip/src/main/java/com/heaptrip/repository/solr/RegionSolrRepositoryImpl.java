@@ -44,7 +44,7 @@ public class RegionSolrRepositoryImpl implements RegionSolrRepository {
 		query.set("defType", "dismax");
 		query.set("qf", "name_ru name_en");
 		query.set("fl", fields);
-		query.set("sort", "population desc");
+		query.set("bf", "product(population)");
 
 		if (logger.isDebugEnabled()) {
 			logger.debug("query: {}", query);
