@@ -1,13 +1,10 @@
 package com.heaptrip.service.album;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -59,7 +56,7 @@ public class AlbumServiceImpl implements AlbumService {
 
 	private ImageReferences saveImage(String fileName, AlbumImageEnum type, InputStream is) throws IOException {
 		ImageReferences result = new ImageReferences();
-		
+
 		is = StreamUtils.getResetableInputStream(is);
 
 		switch (type) {
@@ -80,14 +77,6 @@ public class AlbumServiceImpl implements AlbumService {
 		}
 
 		return result;
-	}
-
-	private InputStream getResetableInputStream(InputStream is) throws IOException {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		IOUtils.copy(is, baos);
-		byte[] bytes = baos.toByteArray();
-		ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-		return bais;
 	}
 
 	@Override
