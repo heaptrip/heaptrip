@@ -6,8 +6,8 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.MyAccountCriteria;
-import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
 
 public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria> {
 

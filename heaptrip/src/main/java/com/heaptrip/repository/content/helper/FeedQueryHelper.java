@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.heaptrip.domain.service.content.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 
 class FeedQueryHelper extends AbstractQueryHelper<FeedCriteria> {
 

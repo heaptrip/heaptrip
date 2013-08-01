@@ -1,11 +1,11 @@
-package com.heaptrip.domain.service.content;
+package com.heaptrip.domain.service.content.criteria;
 
 /**
  * 
  * This criterion is used to find content for foreign account.
  * 
  */
-public class ForeignAccountCriteria extends ContentCriteria {
+public class ForeignAccountCriteria extends DBContentCriteria {
 
 	// id of the content owner
 	protected String ownerId;

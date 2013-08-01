@@ -6,13 +6,13 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.RelationEnum;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 
-public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCriteria> {
+public class MyAccountQueryHelper extends AbstractQueryHelper<TripMyAccountCriteria> {
 
 	@Override
-	public String getQuery(MyAccountTripCriteria criteria) {
+	public String getQuery(TripMyAccountCriteria criteria) {
 		String query = "{";
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
@@ -44,7 +44,7 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 	}
 
 	@Override
-	public Object[] getParameters(MyAccountTripCriteria criteria, Object... objects) {
+	public Object[] getParameters(TripMyAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
@@ -89,7 +89,7 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountTripCrite
 	}
 
 	@Override
-	public String getHint(MyAccountTripCriteria criteria) {
+	public String getHint(TripMyAccountCriteria criteria) {
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			if (criteria.getSort() != null) {

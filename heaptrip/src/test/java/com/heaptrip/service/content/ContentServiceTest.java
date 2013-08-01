@@ -14,9 +14,9 @@ import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.content.FeedCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.service.trip.TripDataProvider;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
@@ -70,7 +70,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 1, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void addFavoriteContent(MyAccountTripCriteria myAccountTripCriteria) {
+	public void addFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
 		// check
@@ -102,7 +102,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 4, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void removeFavoriteContent(MyAccountTripCriteria myAccountTripCriteria) {
+	public void removeFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
 		// check

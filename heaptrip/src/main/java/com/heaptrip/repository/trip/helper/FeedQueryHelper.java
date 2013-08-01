@@ -6,12 +6,12 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 
-class FeedQueryHelper extends AbstractQueryHelper<FeedTripCriteria> {
+class FeedQueryHelper extends AbstractQueryHelper<TripFeedCriteria> {
 
 	@Override
-	public String getQuery(FeedTripCriteria criteria) {
+	public String getQuery(TripFeedCriteria criteria) {
 		String query = "{_class: #, allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
 			query += ", allCategories: {$in: #}";
@@ -33,7 +33,7 @@ class FeedQueryHelper extends AbstractQueryHelper<FeedTripCriteria> {
 	}
 
 	@Override
-	public Object[] getParameters(FeedTripCriteria criteria, Object... objects) {
+	public Object[] getParameters(TripFeedCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		// _class
 		parameters.add(criteria.getContentType().getClazz());
@@ -65,7 +65,7 @@ class FeedQueryHelper extends AbstractQueryHelper<FeedTripCriteria> {
 	}
 
 	@Override
-	public String getHint(FeedTripCriteria criteria) {
+	public String getHint(TripFeedCriteria criteria) {
 		if (criteria.getSort() != null) {
 			switch (criteria.getSort()) {
 			case RATING:

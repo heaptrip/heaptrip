@@ -15,15 +15,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.repository.solr.RegionSolrRepository;
+import com.heaptrip.domain.repository.solr.SolrRegionRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
 import com.heaptrip.domain.repository.solr.SolrRegion;
 import com.heaptrip.util.LanguageUtils;
 
 @Service
-public class RegionSolrRepositoryImpl implements RegionSolrRepository {
+public class SolrRegionRepositoryImpl implements SolrRegionRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(RegionSolrRepositoryImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(SolrRegionRepositoryImpl.class);
 
 	@Autowired
 	private SolrContext solrContext;

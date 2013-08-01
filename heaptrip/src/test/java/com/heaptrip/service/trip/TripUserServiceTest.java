@@ -14,10 +14,10 @@ import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.TripUserService;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
@@ -208,7 +208,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 8, enabled = true, dataProvider = "myAccountMemberTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void getTripsByMemberCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+	public void getTripsByMemberCriteria(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByMyAccountTripCriteria(myAccountTripCriteria);
 		// check
@@ -217,7 +217,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 9, enabled = true, dataProvider = "myAccountMemberTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void getCountByMemberCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+	public void getCountByMemberCriteria(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
 		// check
@@ -226,7 +226,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 10, enabled = true, dataProvider = "feedTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void addAllowed(FeedTripCriteria feedTripCriteria) {
+	public void addAllowed(TripFeedCriteria feedTripCriteria) {
 		// call
 		tripUserService.addAllowed(InitTripTest.OWNER_ID, ALLOWED_USER_ID);
 		// check
@@ -236,7 +236,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 11, enabled = true, dataProvider = "feedTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void removeAllowed(FeedTripCriteria feedTripCriteria) {
+	public void removeAllowed(TripFeedCriteria feedTripCriteria) {
 		// call
 		tripUserService.removeAllowed(InitTripTest.OWNER_ID, ALLOWED_USER_ID);
 		// check

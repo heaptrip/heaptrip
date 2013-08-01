@@ -9,6 +9,9 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.FavoriteContent;
 import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 /**
  * 

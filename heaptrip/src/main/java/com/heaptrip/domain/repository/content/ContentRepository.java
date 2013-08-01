@@ -5,9 +5,9 @@ import java.util.List;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.repository.CrudRepository;
-import com.heaptrip.domain.service.content.FeedCriteria;
-import com.heaptrip.domain.service.content.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.MyAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 public interface ContentRepository extends CrudRepository<Content> {
 

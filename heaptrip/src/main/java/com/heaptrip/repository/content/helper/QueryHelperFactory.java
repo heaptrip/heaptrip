@@ -1,9 +1,9 @@
 package com.heaptrip.repository.content.helper;
 
-import com.heaptrip.domain.service.content.ContentCriteria;
-import com.heaptrip.domain.service.content.FeedCriteria;
-import com.heaptrip.domain.service.content.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.MyAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentCriteria;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 public class QueryHelperFactory {
 

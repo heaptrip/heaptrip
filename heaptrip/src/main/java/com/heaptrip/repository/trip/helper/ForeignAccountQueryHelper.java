@@ -7,13 +7,13 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.RelationEnum;
-import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
 
-public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccountTripCriteria> {
+public class ForeignAccountQueryHelper extends AbstractQueryHelper<TripForeignAccountCriteria> {
 
 	@Override
-	public String getQuery(ForeignAccountTripCriteria criteria) {
+	public String getQuery(TripForeignAccountCriteria criteria) {
 		String query = "{";
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
@@ -43,7 +43,7 @@ public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccoun
 	}
 
 	@Override
-	public Object[] getParameters(ForeignAccountTripCriteria criteria, Object... objects) {
+	public Object[] getParameters(TripForeignAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// clazz
@@ -87,7 +87,7 @@ public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccoun
 	}
 
 	@Override
-	public String getHint(ForeignAccountTripCriteria criteria) {
+	public String getHint(TripForeignAccountCriteria criteria) {
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			if (criteria.getSort() != null) {

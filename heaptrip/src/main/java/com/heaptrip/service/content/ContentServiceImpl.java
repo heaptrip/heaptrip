@@ -19,10 +19,10 @@ import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.content.FeedCriteria;
-import com.heaptrip.domain.service.content.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.MyAccountCriteria;
-import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.image.ImageService;
 
 @Service

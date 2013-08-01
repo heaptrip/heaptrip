@@ -4,8 +4,8 @@ import java.util.Locale;
 
 import org.testng.annotations.DataProvider;
 
-import com.heaptrip.domain.service.content.ContentSortEnum;
-import com.heaptrip.domain.service.content.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 
 public class ContentDataProvider {
 

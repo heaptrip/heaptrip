@@ -1,7 +1,6 @@
 package com.heaptrip.domain.entity.trip;
 
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.MultiLangText;
 
 /**
  * 
@@ -9,12 +8,6 @@ import com.heaptrip.domain.entity.content.MultiLangText;
  * 
  */
 public class Trip extends Content {
-
-	// multilingual short description
-	private MultiLangText summary;
-
-	// multilingual description
-	private MultiLangText description;
 
 	// travel schedule
 	private TableItem[] table;
@@ -28,28 +21,20 @@ public class Trip extends Content {
 	// number of comments
 	private Long comments;
 
-	public MultiLangText getSummary() {
-		return summary;
-	}
-
-	public void setSummary(MultiLangText summary) {
-		this.summary = summary;
-	}
-
-	public MultiLangText getDescription() {
-		return description;
-	}
-
-	public void setDescription(MultiLangText description) {
-		this.description = description;
-	}
-
 	public TableItem[] getTable() {
 		return table;
 	}
 
 	public void setTable(TableItem[] table) {
 		this.table = table;
+	}
+
+	public Route getRoute() {
+		return route;
+	}
+
+	public void setRoute(Route route) {
+		this.route = route;
 	}
 
 	public Double getRating() {
@@ -66,14 +51,6 @@ public class Trip extends Content {
 
 	public void setComments(Long comments) {
 		this.comments = comments;
-	}
-
-	public Route getRoute() {
-		return route;
-	}
-
-	public void setRoute(Route route) {
-		this.route = route;
 	}
 
 }

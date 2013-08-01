@@ -33,12 +33,13 @@ import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.service.content.SolrContentService;
 import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
-import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
-import com.heaptrip.domain.service.trip.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.domain.service.trip.criteria.SearchPeriod;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.util.LanguageUtils;
 
 @Service
@@ -64,6 +65,9 @@ public class TripServiceImpl implements TripService {
 
 	@Autowired
 	private ErrorService errorService;
+	
+	@Autowired
+	private SolrContentService solrContentService;
 
 	@Override
 	public Trip saveTrip(Trip trip, Locale locale) {
@@ -143,7 +147,13 @@ public class TripServiceImpl implements TripService {
 		trip.setRating(0d);
 		trip.setComments(0L);
 
-		return tripRepository.save(trip);
+		// save to db
+		tripRepository.save(trip);
+		
+		// save to solr
+		solrContentService.saveContent(trip.getId());
+
+		return trip;
 	}
 
 	@Override
@@ -154,23 +164,27 @@ public class TripServiceImpl implements TripService {
 			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_FAILURE);
 		}
 		tripRepository.setDeleted(tripId);
+		// remove from solr
+		solrContentService.removeContent(tripId);
 	}
 
 	@Override
 	public void hardRemoveTrip(String tripId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		tripRepository.remove(tripId);
+		// remove from solr
+		solrContentService.removeContent(tripId);
 	}
 
 	@Override
-	public List<Trip> getTripsByFeedTripCriteria(FeedTripCriteria feedTripCriteria) {
+	public List<Trip> getTripsByFeedTripCriteria(TripFeedCriteria feedTripCriteria) {
 		Assert.notNull(feedTripCriteria, "feedTripCriteria must not be null");
 		Assert.notNull(feedTripCriteria.getContentType(), "contentType must not be null");
 		return tripRepository.findByFeedTripCriteria(feedTripCriteria);
 	}
 
 	@Override
-	public List<Trip> getTripsByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+	public List<Trip> getTripsByMyAccountTripCriteria(TripMyAccountCriteria myAccountTripCriteria) {
 		Assert.notNull(myAccountTripCriteria, "myAccountTripCriteria must not be null");
 		Assert.notNull(myAccountTripCriteria.getContentType(), "contentType must not be null");
 		Assert.notNull(myAccountTripCriteria.getRelation(), "relation must not be null");
@@ -179,7 +193,7 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public List<Trip> getTripsByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria) {
+	public List<Trip> getTripsByForeignAccountTripCriteria(TripForeignAccountCriteria foreignAccountTripCriteria) {
 		Assert.notNull(foreignAccountTripCriteria, "foreignAccountTripCriteria must not be null");
 		Assert.notNull(foreignAccountTripCriteria.getContentType(), "contentType must not be null");
 		Assert.notNull(foreignAccountTripCriteria.getRelation(), "relation must not be null");
@@ -188,14 +202,14 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public long getTripsCountByFeedTripCriteria(FeedTripCriteria feedTripCriteria) {
+	public long getTripsCountByFeedTripCriteria(TripFeedCriteria feedTripCriteria) {
 		Assert.notNull(feedTripCriteria, "feedTripCriteria must not be null");
 		Assert.notNull(feedTripCriteria.getContentType(), "contentType must not be null");
 		return tripRepository.getCountByFeedTripCriteria(feedTripCriteria);
 	}
 
 	@Override
-	public long getTripsCountByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+	public long getTripsCountByMyAccountTripCriteria(TripMyAccountCriteria myAccountTripCriteria) {
 		Assert.notNull(myAccountTripCriteria, "myAccountTripCriteria must not be null");
 		Assert.notNull(myAccountTripCriteria.getContentType(), "contentType must not be null");
 		Assert.notNull(myAccountTripCriteria.getRelation(), "relation must not be null");
@@ -204,7 +218,7 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public long getTripsCountByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria) {
+	public long getTripsCountByForeignAccountTripCriteria(TripForeignAccountCriteria foreignAccountTripCriteria) {
 		Assert.notNull(foreignAccountTripCriteria, "foreignAccountTripCriteria must not be null");
 		Assert.notNull(foreignAccountTripCriteria.getContentType(), "contentType must not be null");
 		Assert.notNull(foreignAccountTripCriteria.getRelation(), "relation must not be null");
@@ -303,7 +317,11 @@ public class TripServiceImpl implements TripService {
 			trip.getDescription().setMainLanguage(mainLang);
 		}
 
+		// update to db
 		tripRepository.updateInfo(trip, locale);
+
+		// save to solr
+		solrContentService.saveContent(trip.getId());
 	}
 
 	@Override
@@ -323,6 +341,9 @@ public class TripServiceImpl implements TripService {
 			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_LANGUAGE_FAILURE);
 		}
 		tripRepository.removeLanguage(tripId, locale);
+
+		// save to solr
+		solrContentService.saveContent(tripId);
 	}
 
 	@Override

@@ -41,6 +41,12 @@ public class Content extends BaseObject {
 	// multilingual name of the content
 	private MultiLangText name;
 
+	// multilingual short description
+	private MultiLangText summary;
+
+	// multilingual description
+	private MultiLangText description;
+
 	// image
 	private Image image;
 
@@ -128,6 +134,22 @@ public class Content extends BaseObject {
 
 	public void setName(MultiLangText name) {
 		this.name = name;
+	}
+
+	public MultiLangText getSummary() {
+		return summary;
+	}
+
+	public void setSummary(MultiLangText summary) {
+		this.summary = summary;
+	}
+
+	public MultiLangText getDescription() {
+		return description;
+	}
+
+	public void setDescription(MultiLangText description) {
+		this.description = description;
 	}
 
 	public Image getImage() {

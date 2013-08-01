@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.trip;
+package com.heaptrip.domain.service.trip.criteria;
 
 import java.util.Date;
 

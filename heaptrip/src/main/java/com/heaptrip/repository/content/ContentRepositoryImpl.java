@@ -14,11 +14,12 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
-import com.heaptrip.domain.service.content.ContentCriteria;
-import com.heaptrip.domain.service.content.FeedCriteria;
-import com.heaptrip.domain.service.content.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.MyAccountCriteria;
-import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.content.criteria.ContentCriteria;
+import com.heaptrip.domain.service.content.criteria.DBContentCriteria;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.content.helper.QueryHelper;
 import com.heaptrip.repository.content.helper.QueryHelperFactory;
@@ -85,7 +86,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Content> findByCriteria(ContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private List<Content> findByCriteria(DBContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);

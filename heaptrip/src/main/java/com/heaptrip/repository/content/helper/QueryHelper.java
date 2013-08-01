@@ -2,8 +2,8 @@ package com.heaptrip.repository.content.helper;
 
 import java.util.Locale;
 
-import com.heaptrip.domain.service.content.ContentCriteria;
-import com.heaptrip.domain.service.content.ContentSortEnum;
+import com.heaptrip.domain.service.content.criteria.ContentCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 
 public interface QueryHelper<T extends ContentCriteria> {
 

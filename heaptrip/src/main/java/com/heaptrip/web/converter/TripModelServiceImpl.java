@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 
@@ -20,7 +20,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private TripService tripService;
 
 	@Override
-	public List<TripModel> getTripsModelByCriteria(FeedTripCriteria feedTripCriteria) {
+	public List<TripModel> getTripsModelByCriteria(TripFeedCriteria feedTripCriteria) {
 		feedTripCriteria.setLocale(getCurrentLocale());
 		List<Trip> trips = tripService.getTripsByFeedTripCriteria(feedTripCriteria);
 		return convertTripToTripModel(trips);

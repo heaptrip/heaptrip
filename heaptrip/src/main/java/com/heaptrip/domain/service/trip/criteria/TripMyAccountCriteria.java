@@ -1,19 +1,19 @@
-package com.heaptrip.domain.service.trip;
+package com.heaptrip.domain.service.trip.criteria;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.service.content.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 /**
  * 
- * This criterion is used to find trip for foreign account.
+ * This criterion is used to find trip for a current user account.
  * 
  */
-public class ForeignAccountTripCriteria extends ForeignAccountCriteria {
+public class TripMyAccountCriteria extends MyAccountCriteria {
 
 	// search period
 	protected SearchPeriod period;
 
-	public ForeignAccountTripCriteria() {
+	public TripMyAccountCriteria() {
 		super();
 		contentType = ContentEnum.TRIP;
 	}

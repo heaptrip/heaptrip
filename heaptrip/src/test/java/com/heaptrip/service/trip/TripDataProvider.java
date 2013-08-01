@@ -9,19 +9,19 @@ import org.testng.annotations.DataProvider;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.content.ContentSortEnum;
-import com.heaptrip.domain.service.content.RelationEnum;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
-import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
-import com.heaptrip.domain.service.trip.SearchPeriod;
+import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.SearchPeriod;
 import com.heaptrip.util.RandomUtils;
 
 public class TripDataProvider {
 
 	@DataProvider(name = "feedTripCriteria")
 	public static Object[][] getFeedCriteria() {
-		FeedTripCriteria criteria = new FeedTripCriteria();
+		TripFeedCriteria criteria = new TripFeedCriteria();
 		criteria.setUserId(InitTripTest.USER_ID);
 		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
 		criteria.setSkip(0L);
@@ -39,7 +39,7 @@ public class TripDataProvider {
 
 	@DataProvider(name = "myAccountTripCriteria")
 	public static Object[][] getMyAccountTripCriteria() {
-		MyAccountTripCriteria criteria = new MyAccountTripCriteria();
+		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
 		criteria.setUserId(InitTripTest.OWNER_ID);
 		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[1] });
 		criteria.setSkip(0L);
@@ -59,7 +59,7 @@ public class TripDataProvider {
 
 	@DataProvider(name = "foreignAccountTripCriteria")
 	public static Object[][] getForeignAccountTripCriteria() {
-		ForeignAccountTripCriteria criteria = new ForeignAccountTripCriteria();
+		TripForeignAccountCriteria criteria = new TripForeignAccountCriteria();
 		criteria.setOwnerId(InitTripTest.OWNER_ID);
 		criteria.setUserId(InitTripTest.USER_ID);
 		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
@@ -79,7 +79,7 @@ public class TripDataProvider {
 
 	@DataProvider(name = "myAccountMemberTripCriteria")
 	public static Object[][] getMyAccountMemberTripCriteria() {
-		MyAccountTripCriteria criteria = new MyAccountTripCriteria();
+		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
 		criteria.setUserId(InitTripTest.USER_ID);
 		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
 		criteria.setSkip(0L);
@@ -98,7 +98,7 @@ public class TripDataProvider {
 
 	@DataProvider(name = "myAccountFavoritesTripCriteria")
 	public static Object[][] gettMyAccountFavoritesTripCriteria() {
-		MyAccountTripCriteria criteria = new MyAccountTripCriteria();
+		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
 		criteria.setUserId(InitTripTest.USER_ID);
 		criteria.setSkip(0L);
 		criteria.setLimit(InitTripTest.TRIPS_COUNT);

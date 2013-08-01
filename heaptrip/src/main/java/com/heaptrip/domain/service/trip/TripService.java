@@ -5,6 +5,10 @@ import java.util.Locale;
 
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.SearchPeriod;
 
 /**
  * Basic service to work with trips
@@ -42,7 +46,7 @@ public interface TripService {
 	 * @param feedTripCriteria
 	 * @return trips list
 	 */
-	public List<Trip> getTripsByFeedTripCriteria(FeedTripCriteria feedTripCriteria);
+	public List<Trip> getTripsByFeedTripCriteria(TripFeedCriteria feedTripCriteria);
 
 	/**
 	 * Get trips list which suitable for search criteria
@@ -50,7 +54,7 @@ public interface TripService {
 	 * @param myAccountTripCriteria
 	 * @return trips list
 	 */
-	public List<Trip> getTripsByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria);
+	public List<Trip> getTripsByMyAccountTripCriteria(TripMyAccountCriteria myAccountTripCriteria);
 
 	/**
 	 * Get trips list which suitable for search criteria
@@ -58,7 +62,7 @@ public interface TripService {
 	 * @param foreignAccountTripCriteria
 	 * @return trips list
 	 */
-	public List<Trip> getTripsByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria);
+	public List<Trip> getTripsByForeignAccountTripCriteria(TripForeignAccountCriteria foreignAccountTripCriteria);
 
 	/**
 	 * Get number of trips which suitable for search criteria
@@ -66,7 +70,7 @@ public interface TripService {
 	 * @param feedTripCriteria
 	 * @return number of trips
 	 */
-	public long getTripsCountByFeedTripCriteria(FeedTripCriteria feedTripCriteria);
+	public long getTripsCountByFeedTripCriteria(TripFeedCriteria feedTripCriteria);
 
 	/**
 	 * Get number of trips which suitable for search criteria
@@ -74,7 +78,7 @@ public interface TripService {
 	 * @param myAccountTripCriteria
 	 * @return number of trips
 	 */
-	public long getTripsCountByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria);
+	public long getTripsCountByMyAccountTripCriteria(TripMyAccountCriteria myAccountTripCriteria);
 
 	/**
 	 * Get number of trips which suitable for search criteria
@@ -82,7 +86,7 @@ public interface TripService {
 	 * @param foreignAccountTripCriteria
 	 * @return number of trips
 	 */
-	public long getTripsCountByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria);
+	public long getTripsCountByForeignAccountTripCriteria(TripForeignAccountCriteria foreignAccountTripCriteria);
 
 	/**
 	 * Get nearest trip from the timetable. It is recommended to use to display

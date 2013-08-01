@@ -7,8 +7,8 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.RelationEnum;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
 
 public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccountCriteria> {
 

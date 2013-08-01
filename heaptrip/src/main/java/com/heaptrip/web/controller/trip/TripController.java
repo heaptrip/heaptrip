@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
@@ -45,7 +45,7 @@ public class TripController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "trips", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ? extends Object> getTripsByCriteria(@RequestBody FeedTripCriteria feedTripCriteria) {
+	Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripFeedCriteria feedTripCriteria) {
 		LOG.trace("CALL getTripsByCriteria ", feedTripCriteria);
 		List<TripModel> tripModels = new ArrayList<TripModel>();
 		try {

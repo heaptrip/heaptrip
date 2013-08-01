@@ -19,11 +19,12 @@ import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.content.ContentCriteria;
-import com.heaptrip.domain.service.content.RelationEnum;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
-import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentCriteria;
+import com.heaptrip.domain.service.content.criteria.DBContentCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.trip.helper.QueryHelper;
 import com.heaptrip.repository.trip.helper.QueryHelperFactory;
@@ -61,13 +62,13 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public List<Trip> findByFeedTripCriteria(FeedTripCriteria criteria) {
+	public List<Trip> findByFeedTripCriteria(TripFeedCriteria criteria) {
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public List<Trip> findByMyAccountTripCriteria(MyAccountTripCriteria criteria) {
+	public List<Trip> findByMyAccountTripCriteria(TripMyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
@@ -79,7 +80,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public List<Trip> findByForeignAccountTripCriteria(ForeignAccountTripCriteria criteria) {
+	public List<Trip> findByForeignAccountTripCriteria(TripForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());
@@ -91,7 +92,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Trip> findByCriteria(ContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private List<Trip> findByCriteria(DBContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
@@ -114,13 +115,13 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public long getCountByFeedTripCriteria(FeedTripCriteria criteria) {
+	public long getCountByFeedTripCriteria(TripFeedCriteria criteria) {
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountByMyAccountTripCriteria(MyAccountTripCriteria criteria) {
+	public long getCountByMyAccountTripCriteria(TripMyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
@@ -132,7 +133,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public long getCountByForeignAccountTripCriteria(ForeignAccountTripCriteria criteria) {
+	public long getCountByForeignAccountTripCriteria(TripForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());

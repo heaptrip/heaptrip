@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.content;
+package com.heaptrip.domain.service.content.criteria;
 
 /**
  * 

@@ -16,11 +16,11 @@ import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.trip.TripRepository;
-import com.heaptrip.domain.service.trip.FeedTripCriteria;
-import com.heaptrip.domain.service.trip.ForeignAccountTripCriteria;
-import com.heaptrip.domain.service.trip.MyAccountTripCriteria;
-import com.heaptrip.domain.service.trip.SearchPeriod;
 import com.heaptrip.domain.service.trip.TripService;
+import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.trip.criteria.SearchPeriod;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripServiceTest extends AbstractTestNGSpringContextTests {
@@ -38,7 +38,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	private TripRepository tripRepository;
 
 	@Test(dataProvider = "feedTripCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 1)
-	public void getTripsByFeedTripCriteria(FeedTripCriteria feedTripCriteria) {
+	public void getTripsByFeedTripCriteria(TripFeedCriteria feedTripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByFeedTripCriteria(feedTripCriteria);
 		// check
@@ -47,7 +47,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(dataProvider = "myAccountTripCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 2)
-	public void getTripsByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+	public void getTripsByMyAccountTripCriteria(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByMyAccountTripCriteria(myAccountTripCriteria);
 		// check
@@ -56,7 +56,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(dataProvider = "foreignAccountTripCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 3)
-	public void getTripsByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria) {
+	public void getTripsByForeignAccountTripCriteria(TripForeignAccountCriteria foreignAccountTripCriteria) {
 		// call
 		List<Trip> trips = tripService.getTripsByForeignAccountTripCriteria(foreignAccountTripCriteria);
 		// check
@@ -65,7 +65,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(dataProvider = "feedTripCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 4)
-	public void getTripsCountByFeedTripCriteria(FeedTripCriteria feedTripCriteria) {
+	public void getTripsCountByFeedTripCriteria(TripFeedCriteria feedTripCriteria) {
 		// call
 		long count = tripService.getTripsCountByFeedTripCriteria(feedTripCriteria);
 		// check
@@ -73,7 +73,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(dataProvider = "myAccountTripCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 5)
-	public void getTripsCountByMyAccountTripCriteria(MyAccountTripCriteria myAccountTripCriteria) {
+	public void getTripsCountByMyAccountTripCriteria(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
 		// check
@@ -81,7 +81,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(dataProvider = "foreignAccountTripCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 6)
-	public void getTripsCountByForeignAccountTripCriteria(ForeignAccountTripCriteria foreignAccountTripCriteria) {
+	public void getTripsCountByForeignAccountTripCriteria(TripForeignAccountCriteria foreignAccountTripCriteria) {
 		// call
 		long count = tripService.getTripsCountByForeignAccountTripCriteria(foreignAccountTripCriteria);
 		// check

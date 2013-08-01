@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.content;
+package com.heaptrip.domain.service.content.criteria;
 
 import java.util.Locale;
 
@@ -28,9 +28,6 @@ public abstract class ContentCriteria {
 
 	// the maximum number of records
 	protected Long limit;
-
-	// how to sort
-	protected ContentSortEnum sort;
 
 	// locale
 	protected Locale locale;
@@ -81,14 +78,6 @@ public abstract class ContentCriteria {
 
 	public void setLimit(Long limit) {
 		this.limit = limit;
-	}
-
-	public ContentSortEnum getSort() {
-		return sort;
-	}
-
-	public void setSort(ContentSortEnum sort) {
-		this.sort = sort;
 	}
 
 	public Locale getLocale() {
