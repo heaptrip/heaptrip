@@ -17,8 +17,7 @@ public class Content extends BaseObject {
 
 	public static final String COLLECTION_NAME = "contents";
 
-	// entity class name
-	private String _class;
+	public static final String ALLOWED_ALL_USERS = "0";
 
 	// content owner
 	private ContentOwner owner;
@@ -71,14 +70,6 @@ public class Content extends BaseObject {
 
 	// set of languages ​​that are available for this content
 	private String[] langs;
-
-	public String get_class() {
-		return _class;
-	}
-
-	public void set_class(String _class) {
-		this._class = _class;
-	}
 
 	public ContentOwner getOwner() {
 		return owner;

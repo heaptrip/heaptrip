@@ -16,7 +16,7 @@ public class SolrContentCriteria extends ContentCriteria {
 
 	// Specifies the text that should appear before and after a highlighted
 	// term.
-	private Highlighting highlighting;
+	private Highlight highlight;
 
 	public String getQuery() {
 		return query;
@@ -34,12 +34,12 @@ public class SolrContentCriteria extends ContentCriteria {
 		this.textLength = textLength;
 	}
 
-	public Highlighting getHighlighting() {
-		return highlighting;
+	public Highlight getHighlight() {
+		return highlight;
 	}
 
-	public void setHighlighting(Highlighting highlighting) {
-		this.highlighting = highlighting;
+	public void setHighlight(Highlight highlight) {
+		this.highlight = highlight;
 	}
 
 }

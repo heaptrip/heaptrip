@@ -37,8 +37,8 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private TripService tripService;
 
-	@Test(enabled = true)
-	public void setTripStatus() {
+	@Test(priority = 1, enabled = true)
+	public void setContentStatus() {
 		// call
 		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
@@ -54,8 +54,8 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.PUBLISHED_ALL);
 	}
 
-	@Test(enabled = true)
-	public void incTripViews() {
+	@Test(priority = 2, enabled = true)
+	public void incContentViews() {
 		// call
 		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
@@ -69,7 +69,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(content.getViews().longValue(), ++views);
 	}
 
-	@Test(priority = 1, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
+	@Test(priority = 3, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
 	public void addFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
@@ -79,7 +79,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, 1);
 	}
 
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 4, enabled = true)
 	public void isFavoriteContent() {
 		// call
 		boolean isFavorite = contentService.isFavoriteContent(TRIP_ID, USER_ID);
@@ -87,7 +87,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(isFavorite);
 	}
 
-	@Test(priority = 3, enabled = true)
+	@Test(priority = 5, enabled = true)
 	public void getFavoriteContents() {
 		// call
 		List<FavoriteContent> list = contentService.getFavoriteContents(ContentEnum.TRIP, USER_ID);
@@ -101,7 +101,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(list.size() > 0);
 	}
 
-	@Test(priority = 4, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
+	@Test(priority = 6, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
 	public void removeFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
@@ -111,7 +111,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, 0);
 	}
 
-	@Test(priority = 5, enabled = true, dataProvider = "feedCriteria", dataProviderClass = ContentDataProvider.class)
+	@Test(priority = 7, enabled = true, dataProvider = "feedCriteria", dataProviderClass = ContentDataProvider.class)
 	public void getContentsByCriteria(FeedCriteria feedCriteria) {
 		// call
 		List<Content> content = contentService.getContentsByFeedCriteria(feedCriteria);
@@ -120,7 +120,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(content.size() > 0);
 	}
 
-	@Test(priority = 6, enabled = true, dataProvider = "feedCriteria", dataProviderClass = ContentDataProvider.class)
+	@Test(priority = 8, enabled = true, dataProvider = "feedCriteria", dataProviderClass = ContentDataProvider.class)
 	public void getCountByFeedCriteria(FeedCriteria feedCriteria) {
 		// call
 		long count = contentService.getContentsCountByFeedCriteria(feedCriteria);

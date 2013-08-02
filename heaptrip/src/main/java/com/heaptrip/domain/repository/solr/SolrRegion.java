@@ -8,23 +8,14 @@ import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
 import com.heaptrip.util.LanguageUtils;
 
-public class SolrRegion {
+public class SolrRegion extends SolrDocument {
 
-	private String id;
 	private String parent;
 	private String type;
 	private String nameEn;
 	private String nameRu;
 	private String pathEn;
 	private String pathRu;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	public String getParent() {
 		return parent;

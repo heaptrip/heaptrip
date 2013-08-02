@@ -37,6 +37,9 @@ public class ContentServiceImpl implements ContentService {
 	@Autowired
 	private ImageService imageService;
 
+	@Autowired
+	private SolrContentServiceImpl solrContentService;
+
 	@Override
 	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria) {
 		Assert.notNull(feedCriteria, "feedCriteria must not be null");
@@ -104,7 +107,7 @@ public class ContentServiceImpl implements ContentService {
 			allowed = new String[] { "0" };
 			break;
 		case PUBLISHED_FRIENDS:
-			// TODO add owner freinds
+			// TODO konovalov: add owner freinds
 			allowed = new String[] { "0" };
 			break;
 		default:
@@ -112,6 +115,8 @@ public class ContentServiceImpl implements ContentService {
 			break;
 		}
 		contentRepository.setStatus(contentId, status, allowed);
+		// update wjole content (include allowed field) to solr
+		solrContentService.saveContent(contentId);
 	}
 
 	@Override

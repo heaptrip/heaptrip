@@ -6,7 +6,7 @@ package com.heaptrip.domain.service.content.criteria;
  * The default values are "<em>" and "</em>".
  * 
  */
-public class Highlighting {
+public class Highlight {
 
 	private String pre;
 

@@ -24,9 +24,11 @@ public class InitContentTest extends AbstractTestNGSpringContextTests {
 
 	static String[] CATEGORY_IDS = new String[] { "2.4.7", "3.2" };
 
+	static String[] REGION_IDS = null;
+
 	static String REGION_NAME = "Izhevsk";
 
-	static String TRIP_ID = "11";
+	static String TRIP_ID = "101";
 
 	static String OWNER_ID = "1";
 
@@ -50,9 +52,11 @@ public class InitContentTest extends AbstractTestNGSpringContextTests {
 		ContentRegion[] contentRegions = null;
 		List<Region> regions = regionService.getRegionsByName(REGION_NAME, 0L, 10L, locale);
 		if (regions != null) {
+			REGION_IDS = new String[regions.size()];
 			contentRegions = new ContentRegion[regions.size()];
 			for (int i = 0; i < regions.size(); i++) {
 				Region region = regions.get(i);
+				REGION_IDS[i] = region.getId();
 				ContentRegion contentRegion = new ContentRegion();
 				contentRegion.setId(region.getId());
 				contentRegion.setName(region.getName());

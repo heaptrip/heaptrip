@@ -1,6 +1,7 @@
 package com.heaptrip.domain.repository.content;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
@@ -11,9 +12,11 @@ import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 public interface ContentRepository extends CrudRepository<Content> {
 
-	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed);
+	public void setStatus(String contentId, ContentStatusEnum status, String[] allowed);
 
-	public void incViews(String tripId);
+	public void incViews(String contentId);
+
+	public List<Content> findByIds(List<String> ids, Locale locale);
 
 	public List<Content> findByFeedCriteria(FeedCriteria criteria);
 

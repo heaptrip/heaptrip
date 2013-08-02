@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
 
 public interface SolrContentRepository {
 
@@ -12,6 +13,5 @@ public interface SolrContentRepository {
 
 	public void removeById(String contentId) throws SolrServerException, IOException;
 
-	// public List<SolrRegion> findByNameOrText(String text, Long skip, Long
-	// limit, Locale locale) throws SolrServerException;
+	public SearchSolrContentResponse findBySolrContentCriteria(SolrContentCriteria criteria) throws SolrServerException;
 }

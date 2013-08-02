@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content;
 
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.jongo.MongoCollection;
@@ -35,6 +36,16 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	private FavoriteContentRepository favoriteContentRepository;
 
 	@Override
+	protected String getCollectionName() {
+		return Content.COLLECTION_NAME;
+	}
+
+	@Override
+	protected Class<Content> getCollectionClass() {
+		return Content.class;
+	}
+	
+	@Override
 	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed) {
 		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {'status.value': #, allowed: #}}", status,
@@ -50,13 +61,9 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	}
 
 	@Override
-	protected String getCollectionName() {
-		return Content.COLLECTION_NAME;
-	}
-
-	@Override
-	protected Class<Content> getCollectionClass() {
-		return Content.class;
+	public List<Content> findByIds(List<String> ids, Locale locale) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -147,5 +154,4 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		}
 		return coll.count(query, parameters);
 	}
-
 }

@@ -6,7 +6,7 @@
 		<classes>
 			<class name="com.heaptrip.service.user.InitUserTest" />
 			<class name="com.heaptrip.service.user.AuthenticationServiceTest" />
-			<class name="com.heaptrip.service.user.UserSettingServiceTest" />			
+			<class name="com.heaptrip.service.user.UserSettingServiceTest" />
 		</classes>
 	</test>
 
@@ -32,6 +32,7 @@
 		<classes>
 			<class name="com.heaptrip.service.content.InitContentTest" />
 			<class name="com.heaptrip.service.content.ContentServiceTest" />
+			<class name="com.heaptrip.service.content.SolrContentServiceTest" />
 		</classes>
 	</test>
 
@@ -55,10 +56,11 @@
 			<class name="com.heaptrip.service.album.AlbumServiceTest" />
 		</classes>
 	</test>
-	
+
 	<test name="MailTest">
 		<classes>
 			<class name="com.heaptrip.service.mail.MailServiceTest" />
 		</classes>
-	</test>	
+	</test>
+
 </suite>

@@ -1,8 +1,6 @@
 package com.heaptrip.domain.service.content;
 
-import java.util.List;
-
-import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
 import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
 
 /**
@@ -27,12 +25,12 @@ public interface SolrContentService {
 	public void removeContent(String contentId);
 
 	/**
-	 * Search contents by <link> SolrContentCriteria
+	 * Search contents by SolrContentCriteria
 	 * 
 	 * @param SolrContentCriteria
 	 *            criteria
 	 * 
-	 * @return list of contents
+	 * @return search content response
 	 */
-	public List<Content> findContentsBySolrContentCriteria(SolrContentCriteria criteria);
+	public SearchContentResponse findContentsBySolrContentCriteria(SolrContentCriteria criteria);
 }
