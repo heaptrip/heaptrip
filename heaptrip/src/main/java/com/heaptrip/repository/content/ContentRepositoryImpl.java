@@ -1,5 +1,6 @@
 package com.heaptrip.repository.content;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -24,6 +25,7 @@ import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.content.helper.QueryHelper;
 import com.heaptrip.repository.content.helper.QueryHelperFactory;
+import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
@@ -44,7 +46,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	protected Class<Content> getCollectionClass() {
 		return Content.class;
 	}
-	
+
 	@Override
 	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed) {
 		MongoCollection coll = getCollection();
@@ -61,9 +63,15 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	}
 
 	@Override
-	public List<Content> findByIds(List<String> ids, Locale locale) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Content> findByIds(Collection<String> ids, Locale locale) {
+		MongoCollection coll = getCollection();
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		String fields = String
+				.format("{_class: 1, owner: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1, status: 1,"
+						+ " 'name.%s': 1, 'name.main': 1, 'summary.%s': 1, 'summary.main': 1, created: 1, owners: 1, views: 1,"
+						+ " mainLang: 1, rating: 1, comments: 1}", lang, lang, lang, lang);
+		Iterable<Content> iter = coll.find("{_id: {$in: #}}", ids).projection(fields).as(Content.class);
+		return IteratorConverter.copyIterator(iter.iterator());
 	}
 
 	@Override

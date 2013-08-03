@@ -4,6 +4,10 @@ import java.util.Locale;
 
 public class LanguageUtils {
 
+	private static final Locale ENGLISH = Locale.ENGLISH;
+
+	private static final Locale RUSSIAN = new Locale("ru");
+
 	public static String getLanguageByLocale(Locale locale) {
 		if (locale != null && locale.getLanguage() != null) {
 			switch (locale.getLanguage()) {
@@ -36,6 +40,14 @@ public class LanguageUtils {
 		} else {
 			return "ru";
 		}
+	}
+
+	public static Locale getEnglishLocale() {
+		return ENGLISH;
+	}
+
+	public static Locale getRussianLocale() {
+		return RUSSIAN;
 	}
 
 }

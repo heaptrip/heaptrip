@@ -1,5 +1,6 @@
 package com.heaptrip.domain.repository.content;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,7 +17,7 @@ public interface ContentRepository extends CrudRepository<Content> {
 
 	public void incViews(String contentId);
 
-	public List<Content> findByIds(List<String> ids, Locale locale);
+	public List<Content> findByIds(Collection<String> ids, Locale locale);
 
 	public List<Content> findByFeedCriteria(FeedCriteria criteria);
 
