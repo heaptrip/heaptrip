@@ -8,7 +8,9 @@ import org.testng.annotations.DataProvider;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
-import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
+import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 
 public class ContentDataProvider {
 
@@ -28,9 +30,21 @@ public class ContentDataProvider {
 		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "solrContentCriteria")
-	public static Object[][] getSolrContentCriteria() {
-		SolrContentCriteria criteria = new SolrContentCriteria();
+	@DataProvider(name = "favoritesTripMyAccountCriteria")
+	public static Object[][] getFavoritesTripMyAccountCriteria() {
+		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
+		criteria.setUserId(USER_ID);
+		criteria.setSkip(0L);
+		criteria.setLimit(10L);
+		criteria.setSort(ContentSortEnum.RATING);
+		criteria.setLocale(Locale.ENGLISH);
+		criteria.setRelation(RelationEnum.FAVORITES);
+		return new Object[][] { new Object[] { criteria } };
+	}
+
+	@DataProvider(name = "contextSearchCriteria")
+	public static Object[][] getСontextSearchCriteria() {
+		СontextSearchCriteria criteria = new СontextSearchCriteria();
 		criteria.setContentType(ContentEnum.TRIP);
 		criteria.setUserId(USER_ID);
 		criteria.setCategoryIds(new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] });

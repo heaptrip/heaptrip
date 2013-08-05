@@ -38,7 +38,7 @@ public class ContentServiceImpl implements ContentService {
 	private ImageService imageService;
 
 	@Autowired
-	private SolrContentServiceImpl solrContentService;
+	private ContentSearchServiceImpl solrContentService;
 
 	@Override
 	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria) {
@@ -115,7 +115,7 @@ public class ContentServiceImpl implements ContentService {
 			break;
 		}
 		contentRepository.setStatus(contentId, status, allowed);
-		// update wjole content (include allowed field) to solr
+		// update whole content (include allowed field) to Apache Solr
 		solrContentService.saveContent(contentId);
 	}
 

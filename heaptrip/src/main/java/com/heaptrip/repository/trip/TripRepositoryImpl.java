@@ -20,7 +20,7 @@ import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.content.criteria.ContentCriteria;
-import com.heaptrip.domain.service.content.criteria.DBContentCriteria;
+import com.heaptrip.domain.service.content.criteria.DatabaseCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
@@ -62,13 +62,13 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public List<Trip> findByFeedTripCriteria(TripFeedCriteria criteria) {
+	public List<Trip> findByTripFeedCriteria(TripFeedCriteria criteria) {
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return findByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public List<Trip> findByMyAccountTripCriteria(TripMyAccountCriteria criteria) {
+	public List<Trip> findByTripMyAccountCriteria(TripMyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
@@ -80,7 +80,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public List<Trip> findByForeignAccountTripCriteria(TripForeignAccountCriteria criteria) {
+	public List<Trip> findByTripForeignAccountCriteria(TripForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());
@@ -92,7 +92,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Trip> findByCriteria(DBContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private List<Trip> findByCriteria(DatabaseCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
@@ -115,13 +115,13 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public long getCountByFeedTripCriteria(TripFeedCriteria criteria) {
+	public long getCountByTripFeedCriteria(TripFeedCriteria criteria) {
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
 	@Override
-	public long getCountByMyAccountTripCriteria(TripMyAccountCriteria criteria) {
+	public long getCountByTripMyAccountCriteria(TripMyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
@@ -133,7 +133,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public long getCountByForeignAccountTripCriteria(TripForeignAccountCriteria criteria) {
+	public long getCountByTripForeignAccountCriteria(TripForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());

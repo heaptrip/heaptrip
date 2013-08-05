@@ -20,9 +20,9 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private TripService tripService;
 
 	@Override
-	public List<TripModel> getTripsModelByCriteria(TripFeedCriteria feedTripCriteria) {
-		feedTripCriteria.setLocale(getCurrentLocale());
-		List<Trip> trips = tripService.getTripsByFeedTripCriteria(feedTripCriteria);
+	public List<TripModel> getTripsModelByCriteria(TripFeedCriteria tripFeedCriteria) {
+		tripFeedCriteria.setLocale(getCurrentLocale());
+		List<Trip> trips = tripService.getTripsByTripFeedCriteria(tripFeedCriteria);
 		return convertTripToTripModel(trips);
 	}
 

@@ -61,7 +61,7 @@ public class SolrContextImpl implements SolrContext {
 		case CONTENTS_CORE:
 			return contentsCore;
 		default:
-			return null;
+			throw new IllegalArgumentException("Unsupported core name: " + coreName);
 		}
 	}
 

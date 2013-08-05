@@ -207,41 +207,41 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(list.size(), 1);
 	}
 
-	@Test(priority = 8, enabled = true, dataProvider = "myAccountMemberTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void getTripsByMemberCriteria(TripMyAccountCriteria myAccountTripCriteria) {
+	@Test(priority = 8, enabled = true, dataProvider = "memberTripMyAccountCriteria", dataProviderClass = TripDataProvider.class)
+	public void getTripsByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
 		// call
-		List<Trip> trips = tripService.getTripsByMyAccountTripCriteria(myAccountTripCriteria);
+		List<Trip> trips = tripService.getTripsByTripMyAccountCriteria(tripMyAccountCriteria);
 		// check
 		Assert.assertNotNull(trips);
 		Assert.assertEquals(trips.size(), 1);
 	}
 
-	@Test(priority = 9, enabled = true, dataProvider = "myAccountMemberTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void getCountByMemberCriteria(TripMyAccountCriteria myAccountTripCriteria) {
+	@Test(priority = 9, enabled = true, dataProvider = "memberTripMyAccountCriteria", dataProviderClass = TripDataProvider.class)
+	public void getCountByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
 		// call
-		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
+		long count = tripService.getTripsCountByTripMyAccountCriteria(tripMyAccountCriteria);
 		// check
 		Assert.assertNotNull(count);
 		Assert.assertEquals(count, 1);
 	}
 
-	@Test(priority = 10, enabled = true, dataProvider = "feedTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void addAllowed(TripFeedCriteria feedTripCriteria) {
+	@Test(priority = 10, enabled = true, dataProvider = "tripFeedCriteria", dataProviderClass = TripDataProvider.class)
+	public void addAllowed(TripFeedCriteria tripFeedCriteria) {
 		// call
 		tripUserService.addAllowed(InitTripTest.OWNER_ID, ALLOWED_USER_ID);
 		// check
-		feedTripCriteria.setUserId(ALLOWED_USER_ID);
-		long count = tripService.getTripsCountByFeedTripCriteria(feedTripCriteria);
+		tripFeedCriteria.setUserId(ALLOWED_USER_ID);
+		long count = tripService.getTripsCountByTripFeedCriteria(tripFeedCriteria);
 		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
 	}
 
-	@Test(priority = 11, enabled = true, dataProvider = "feedTripCriteria", dataProviderClass = TripDataProvider.class)
-	public void removeAllowed(TripFeedCriteria feedTripCriteria) {
+	@Test(priority = 11, enabled = true, dataProvider = "tripFeedCriteria", dataProviderClass = TripDataProvider.class)
+	public void removeAllowed(TripFeedCriteria tripFeedCriteria) {
 		// call
 		tripUserService.removeAllowed(InitTripTest.OWNER_ID, ALLOWED_USER_ID);
 		// check
-		feedTripCriteria.setUserId(ALLOWED_USER_ID);
-		long count = tripService.getTripsCountByFeedTripCriteria(feedTripCriteria);
+		tripFeedCriteria.setUserId(ALLOWED_USER_ID);
+		long count = tripService.getTripsCountByTripFeedCriteria(tripFeedCriteria);
 		Assert.assertNotEquals(count, InitTripTest.TRIPS_COUNT);
 	}
 

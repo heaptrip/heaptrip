@@ -28,8 +28,8 @@ public class MultiLangText extends HashMap<String, String> {
 
 	public MultiLangText(String textRu, String textEn) {
 		super();
-		put(LangEnum.ru.toString(), textRu);
-		put(LangEnum.en.toString(), textEn);
+		put(LangEnum.RU.getValue(), textRu);
+		put(LangEnum.EN.getValue(), textEn);
 	}
 
 	public String getValue(Locale locale) {

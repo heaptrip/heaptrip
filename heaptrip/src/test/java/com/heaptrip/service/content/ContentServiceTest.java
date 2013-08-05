@@ -17,7 +17,6 @@ import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
-import com.heaptrip.service.trip.TripDataProvider;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentServiceTest extends AbstractTestNGSpringContextTests {
@@ -69,13 +68,13 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(content.getViews().longValue(), ++views);
 	}
 
-	@Test(priority = 3, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
+	@Test(priority = 3, enabled = true, dataProvider = "favoritesTripMyAccountCriteria", dataProviderClass = ContentDataProvider.class)
 	public void addFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
 		// check
 		myAccountTripCriteria.setUserId(USER_ID);
-		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
+		long count = tripService.getTripsCountByTripMyAccountCriteria(myAccountTripCriteria);
 		Assert.assertEquals(count, 1);
 	}
 
@@ -101,13 +100,13 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertTrue(list.size() > 0);
 	}
 
-	@Test(priority = 6, enabled = true, dataProvider = "myAccountFavoritesTripCriteria", dataProviderClass = TripDataProvider.class)
+	@Test(priority = 6, enabled = true, dataProvider = "favoritesTripMyAccountCriteria", dataProviderClass = ContentDataProvider.class)
 	public void removeFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
 		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
 		// check
 		myAccountTripCriteria.setUserId(USER_ID);
-		long count = tripService.getTripsCountByMyAccountTripCriteria(myAccountTripCriteria);
+		long count = tripService.getTripsCountByTripMyAccountCriteria(myAccountTripCriteria);
 		Assert.assertEquals(count, 0);
 	}
 

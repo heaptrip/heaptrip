@@ -22,11 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.repository.solr.SearchSolrContentResponse;
-import com.heaptrip.domain.repository.solr.SolrContent;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
-import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
+import com.heaptrip.domain.repository.solr.entity.SolrContent;
+import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
+import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
 
 @Service
 public class SolrContentRepositoryImpl implements SolrContentRepository {
@@ -71,7 +71,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 			doc.addField("published", content.getCreated());
 		}
 
-		// set text fields
+		// set multi languages text fields
 		if (ArrayUtils.isNotEmpty(content.getLangs())) {
 			for (String lang : content.getLangs()) {
 				Locale locale = new Locale(lang);
@@ -108,7 +108,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 	}
 
 	@Override
-	public void removeById(String contentId) throws SolrServerException, IOException {
+	public void remove(String contentId) throws SolrServerException, IOException {
 		SolrServer core = solrContext.getCore(SolrContext.CONTENTS_CORE);
 
 		UpdateResponse response = core.deleteById(contentId);
@@ -116,7 +116,9 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 	}
 
 	@Override
-	public SearchSolrContentResponse findBySolrContentCriteria(SolrContentCriteria criteria) throws SolrServerException {
+	public SolrSearchContentResponse findByСontextSearchCriteria(СontextSearchCriteria criteria)
+			throws SolrServerException {
+
 		SolrQuery query = new SolrQuery();
 		// set q
 		query.set("q", criteria.getQuery());
@@ -174,7 +176,8 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 		query.set("defType", "dismax");
 		// set qf
 		query.set("qf", "name_ru text_ru name_en text_en");
-		// set pf
+		// set pf for relevant search by name and text: boost name higher text
+		// field
 		query.set("pf", "name_ru^10 name_en^10 text_ru^5 text_en^5");
 		// set bf for sorting by published date
 		query.set("bf", "recip(ms(NOW/HOUR,published),3.16e-11,1,1)");
@@ -193,7 +196,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 		}
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("query: {}", query);
+			logger.debug("find contents query: {}", query);
 		}
 
 		SolrServer core = solrContext.getCore(SolrContext.CONTENTS_CORE);
@@ -208,56 +211,65 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 
 		Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
 
-		SearchSolrContentResponse result = new SearchSolrContentResponse();
-		result.setNumFound(results.getNumFound());
 		List<SolrContent> solrContents = new ArrayList<>();
 
 		for (int i = 0; i < results.size(); ++i) {
 			// read doc
 			SolrDocument doc = results.get(i);
-			String id = (String) doc.getFieldValue("id");
-			// create content
-			SolrContent content = new SolrContent();
-			// set id
-			content.setId(id);
-			// set clazz
-			content.setClazz((String) doc.getFieldValue("class"));
-			// set text field
-			if (highlighting != null) {
-				Map<String, List<String>> fields = highlighting.get(id);
-				if (fields != null) {
-					// set nameRu
-					List<String> coll = fields.get("name_ru");
-					if (coll != null && !coll.isEmpty()) {
-						String nameRu = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
-						content.setNameRu(nameRu);
-					}
-					// set nameEn
-					coll = fields.get("name_en");
-					if (coll != null && !coll.isEmpty()) {
-						String nameEn = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
-						content.setNameEn(nameEn);
-					}
-					// set textRu
-					coll = fields.get("text_ru");
-					if (coll != null && !coll.isEmpty()) {
-						String textRu = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
-						content.setTextRu(textRu);
-					}
-					// set textEn
-					coll = fields.get("text_en");
-					if (coll != null && !coll.isEmpty()) {
-						String textEn = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
-						content.setTextEn(textEn);
-					}
-				}
-			}
+
+			// convert to solrt content docu,ent
+			SolrContent content = toSolrContent(doc, highlighting);
 
 			logger.debug("find document: {}", content);
+
 			solrContents.add(content);
 		}
 
+		SolrSearchContentResponse result = new SolrSearchContentResponse();
+		result.setNumFound(results.getNumFound());
 		result.setContents(solrContents);
+
 		return result;
+	}
+
+	private SolrContent toSolrContent(SolrDocument doc, Map<String, Map<String, List<String>>> highlighting) {
+		// create content
+		SolrContent content = new SolrContent();
+		// set id
+		String id = (String) doc.getFieldValue("id");
+		content.setId(id);
+		// set clazz
+		content.setClazz((String) doc.getFieldValue("class"));
+		// set multi langiages text fields
+		if (highlighting != null) {
+			Map<String, List<String>> fields = highlighting.get(id);
+			if (fields != null) {
+				// set nameRu
+				List<String> coll = fields.get("name_ru");
+				if (coll != null && !coll.isEmpty()) {
+					String nameRu = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
+					content.setNameRu(nameRu);
+				}
+				// set nameEn
+				coll = fields.get("name_en");
+				if (coll != null && !coll.isEmpty()) {
+					String nameEn = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
+					content.setNameEn(nameEn);
+				}
+				// set textRu
+				coll = fields.get("text_ru");
+				if (coll != null && !coll.isEmpty()) {
+					String textRu = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
+					content.setTextRu(textRu);
+				}
+				// set textEn
+				coll = fields.get("text_en");
+				if (coll != null && !coll.isEmpty()) {
+					String textEn = org.springframework.util.StringUtils.collectionToCommaDelimitedString(coll);
+					content.setTextEn(textEn);
+				}
+			}
+		}
+		return content;
 	}
 }

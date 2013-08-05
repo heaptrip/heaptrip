@@ -1,6 +1,6 @@
-package com.heaptrip.domain.repository.solr;
+package com.heaptrip.domain.repository.solr.entity;
 
-public class SolrDocument {
+public abstract class SolrDocument {
 
 	protected String id;
 

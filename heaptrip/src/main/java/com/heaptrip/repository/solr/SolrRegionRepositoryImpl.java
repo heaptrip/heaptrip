@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.repository.solr.SolrRegionRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
-import com.heaptrip.domain.repository.solr.SolrRegion;
+import com.heaptrip.domain.repository.solr.SolrRegionRepository;
+import com.heaptrip.domain.repository.solr.entity.SolrRegion;
 import com.heaptrip.util.LanguageUtils;
 
 @Service
@@ -30,9 +30,9 @@ public class SolrRegionRepositoryImpl implements SolrRegionRepository {
 
 	@Override
 	public List<SolrRegion> findByName(String name, Long skip, Long limit, Locale locale) throws SolrServerException {
-		SolrServer core = solrContext.getCore(SolrContext.REGIONS_CORE);
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String fields = String.format("id name_%s parent type path_%s", lang, lang);
+
 		SolrQuery query = new SolrQuery();
 		query.set("q", name);
 		if (skip != null) {
@@ -47,9 +47,10 @@ public class SolrRegionRepositoryImpl implements SolrRegionRepository {
 		query.set("bf", "product(population)");
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("query: {}", query);
+			logger.debug("find regions query: {}", query);
 		}
 
+		SolrServer core = solrContext.getCore(SolrContext.REGIONS_CORE);
 		QueryResponse response = core.query(query);
 		SolrDocumentList results = response.getResults();
 
@@ -71,6 +72,7 @@ public class SolrRegionRepositoryImpl implements SolrRegionRepository {
 
 	private SolrRegion toSolrRegion(SolrDocument doc) {
 		SolrRegion solrRegion = new SolrRegion();
+
 		if (doc.getFieldValue("id") != null) {
 			solrRegion.setId((String) doc.getFieldValue("id"));
 		}
@@ -92,6 +94,7 @@ public class SolrRegionRepositoryImpl implements SolrRegionRepository {
 		if (doc.getFieldValue("path_ru") != null) {
 			solrRegion.setPathRu((String) doc.getFieldValue("path_ru"));
 		}
+
 		return solrRegion;
 	}
 

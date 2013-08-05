@@ -32,7 +32,7 @@
 		<classes>
 			<class name="com.heaptrip.service.content.InitContentTest" />
 			<class name="com.heaptrip.service.content.ContentServiceTest" />
-			<class name="com.heaptrip.service.content.SolrContentServiceTest" />
+			<class name="com.heaptrip.service.content.ContentSearchServiceTest" />
 		</classes>
 	</test>
 

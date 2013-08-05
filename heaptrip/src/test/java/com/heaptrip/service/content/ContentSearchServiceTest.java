@@ -7,20 +7,20 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.service.content.SolrContentService;
+import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
-import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
+import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
-public class SolrContentServiceTest extends AbstractTestNGSpringContextTests {
+public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
-	private SolrContentService solrContentService;
+	private ContentSearchService contentSearchService;
 
-	@Test(priority = 1, enabled = true, dataProvider = "solrContentCriteria", dataProviderClass = ContentDataProvider.class)
-	public void findContentsBySolrContentCriteria(SolrContentCriteria criteria) {
+	@Test(priority = 1, enabled = true, dataProvider = "contextSearchCriteria", dataProviderClass = ContentDataProvider.class)
+	public void findContentsByСontextSearchCriteria(СontextSearchCriteria criteria) {
 		// call
-		SearchContentResponse response = solrContentService.findContentsBySolrContentCriteria(criteria);
+		SearchContentResponse response = contentSearchService.findContentsByСontextSearchCriteria(criteria);
 		// check
 		Assert.assertNotNull(response);
 		Assert.assertTrue(response.getNumFound() > 0);

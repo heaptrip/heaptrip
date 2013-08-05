@@ -1,14 +1,14 @@
 package com.heaptrip.domain.service.content;
 
 import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
-import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
+import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
 
 /**
  * 
  * Service for indexing and search documents in Apache Solr
  * 
  */
-public interface SolrContentService {
+public interface ContentSearchService {
 
 	/**
 	 * Add content to Apache Solr by contentId
@@ -25,12 +25,12 @@ public interface SolrContentService {
 	public void removeContent(String contentId);
 
 	/**
-	 * Search contents by SolrContentCriteria
+	 * Search contents by СontextSearchCriteria
 	 * 
-	 * @param SolrContentCriteria
+	 * @param СontextSearchCriteria
 	 *            criteria
 	 * 
 	 * @return search content response
 	 */
-	public SearchContentResponse findContentsBySolrContentCriteria(SolrContentCriteria criteria);
+	public SearchContentResponse findContentsByСontextSearchCriteria(СontextSearchCriteria criteria);
 }

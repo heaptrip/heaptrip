@@ -5,7 +5,7 @@ package com.heaptrip.domain.service.content.criteria;
  * Base class for all of the criteria for reading from the database
  * 
  */
-public abstract class DBContentCriteria extends ContentCriteria {
+public abstract class DatabaseCriteria extends ContentCriteria {
 
 	// how to sort
 	protected ContentSortEnum sort;

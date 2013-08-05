@@ -14,16 +14,16 @@ import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.repository.content.ContentRepository;
-import com.heaptrip.domain.repository.solr.SearchSolrContentResponse;
-import com.heaptrip.domain.repository.solr.SolrContent;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
-import com.heaptrip.domain.service.content.SolrContentService;
+import com.heaptrip.domain.repository.solr.entity.SolrContent;
+import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
+import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
-import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
+import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
 import com.heaptrip.util.LanguageUtils;
 
 @Service
-public class SolrContentServiceImpl implements SolrContentService {
+public class ContentSearchServiceImpl implements ContentSearchService {
 
 	@Autowired
 	private ContentRepository contentRepository;
@@ -50,21 +50,22 @@ public class SolrContentServiceImpl implements SolrContentService {
 		Assert.notNull(contentId, "contentId must not be null");
 		try {
 			// TODO konovalov: fix exception
-			solrContentRepository.removeById(contentId);
+			solrContentRepository.remove(contentId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public SearchContentResponse findContentsBySolrContentCriteria(SolrContentCriteria criteria) {
+	public SearchContentResponse findContentsByСontextSearchCriteria(СontextSearchCriteria criteria) {
 		Assert.notNull(criteria, "criteria must not be null");
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");
 
-		SearchSolrContentResponse response = null;
+		SolrSearchContentResponse response = null;
 		try {
-			response = solrContentRepository.findBySolrContentCriteria(criteria);
+			// TODO konovalov: fix exception
+			response = solrContentRepository.findByСontextSearchCriteria(criteria);
 		} catch (SolrServerException e) {
 			e.printStackTrace();
 		}
@@ -81,7 +82,7 @@ public class SolrContentServiceImpl implements SolrContentService {
 				for (SolrContent solrContent : response.getContents()) {
 					ids.add(solrContent.getId());
 				}
-				// read content
+				// read content from database
 				Map<String, Content> contentMap = new HashMap<>();
 				List<Content> contents = contentRepository.findByIds(ids, criteria.getLocale());
 				if (contents != null && !contents.isEmpty()) {
@@ -93,18 +94,22 @@ public class SolrContentServiceImpl implements SolrContentService {
 				for (SolrContent solrContent : response.getContents()) {
 					Content content = contentMap.get(solrContent.getId());
 					if (content != null) {
+						// set the found value for the nameEn
 						if (StringUtils.isNotBlank(solrContent.getNameEn())) {
 							content.getName().setValue(solrContent.getNameEn(), LanguageUtils.getEnglishLocale());
 							content.getName().setMainLanguage(LanguageUtils.getEnglishLocale().getLanguage());
 						}
+						// set the found value for the nameRu
 						if (StringUtils.isNotBlank(solrContent.getNameRu())) {
 							content.getName().setValue(solrContent.getNameRu(), LanguageUtils.getRussianLocale());
 							content.getName().setMainLanguage(LanguageUtils.getRussianLocale().getLanguage());
 						}
+						// set the found value for the textEn
 						if (StringUtils.isNotBlank(solrContent.getTextEn())) {
 							content.getSummary().setValue(solrContent.getTextEn(), LanguageUtils.getEnglishLocale());
 							content.getSummary().setMainLanguage(LanguageUtils.getEnglishLocale().getLanguage());
 						}
+						// set the found value for the textRu
 						if (StringUtils.isNotBlank(solrContent.getTextRu())) {
 							content.getSummary().setValue(solrContent.getTextRu(), LanguageUtils.getRussianLocale());
 							content.getSummary().setMainLanguage(LanguageUtils.getRussianLocale().getLanguage());

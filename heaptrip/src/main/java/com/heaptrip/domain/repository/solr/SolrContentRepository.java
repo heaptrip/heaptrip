@@ -5,13 +5,14 @@ import java.io.IOException;
 import org.apache.solr.client.solrj.SolrServerException;
 
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.service.content.criteria.SolrContentCriteria;
+import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
+import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
 
 public interface SolrContentRepository {
 
 	public void save(Content content) throws SolrServerException, IOException;
 
-	public void removeById(String contentId) throws SolrServerException, IOException;
+	public void remove(String contentId) throws SolrServerException, IOException;
 
-	public SearchSolrContentResponse findBySolrContentCriteria(SolrContentCriteria criteria) throws SolrServerException;
+	public SolrSearchContentResponse findByСontextSearchCriteria(СontextSearchCriteria criteria) throws SolrServerException;
 }

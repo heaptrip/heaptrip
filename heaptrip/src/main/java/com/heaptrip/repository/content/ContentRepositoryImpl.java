@@ -17,7 +17,7 @@ import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.criteria.ContentCriteria;
-import com.heaptrip.domain.service.content.criteria.DBContentCriteria;
+import com.heaptrip.domain.service.content.criteria.DatabaseCriteria;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
@@ -101,7 +101,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Content> findByCriteria(DBContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private List<Content> findByCriteria(DatabaseCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);

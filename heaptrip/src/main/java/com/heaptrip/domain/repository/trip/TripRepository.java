@@ -14,17 +14,17 @@ public interface TripRepository extends CrudRepository<Trip> {
 
 	public void setDeleted(String tripId);
 
-	public List<Trip> findByFeedTripCriteria(TripFeedCriteria criteria);
+	public List<Trip> findByTripFeedCriteria(TripFeedCriteria criteria);
 
-	public List<Trip> findByMyAccountTripCriteria(TripMyAccountCriteria criteria);
+	public List<Trip> findByTripMyAccountCriteria(TripMyAccountCriteria criteria);
 
-	public List<Trip> findByForeignAccountTripCriteria(TripForeignAccountCriteria criteria);
+	public List<Trip> findByTripForeignAccountCriteria(TripForeignAccountCriteria criteria);
 
-	public long getCountByFeedTripCriteria(TripFeedCriteria criteria);
+	public long getCountByTripFeedCriteria(TripFeedCriteria criteria);
 
-	public long getCountByMyAccountTripCriteria(TripMyAccountCriteria criteria);
+	public long getCountByTripMyAccountCriteria(TripMyAccountCriteria criteria);
 
-	public long getCountByForeignAccountTripCriteria(TripForeignAccountCriteria criteria);
+	public long getCountByTripForeignAccountCriteria(TripForeignAccountCriteria criteria);
 
 	public Trip getInfo(String tripId, Locale locale);
 

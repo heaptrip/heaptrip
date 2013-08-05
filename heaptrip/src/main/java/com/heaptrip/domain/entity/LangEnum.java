@@ -6,5 +6,15 @@ package com.heaptrip.domain.entity;
  * 
  */
 public enum LangEnum {
-	ru, en
+	RU("ru"), EN("en");
+
+	private String value;
+
+	private LangEnum(String language) {
+		this.value = language;
+	}
+
+	public String getValue() {
+		return value;
+	}
 }

@@ -7,7 +7,7 @@ import com.heaptrip.domain.entity.content.ContentStatusEnum;
  * This criterion is used to find content for a current user account.
  * 
  */
-public class MyAccountCriteria extends DBContentCriteria {
+public class MyAccountCriteria extends DatabaseCriteria {
 
 	// content statuses
 	protected ContentStatusEnum[] status;

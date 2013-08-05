@@ -1,4 +1,4 @@
-package com.heaptrip.domain.repository.solr;
+package com.heaptrip.domain.repository.solr.entity;
 
 import java.util.Locale;
 
@@ -67,7 +67,7 @@ public class SolrRegion extends SolrDocument {
 
 	public String getName(Locale locale) {
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		if (lang.equals(LangEnum.en.toString())) {
+		if (lang.equals(LangEnum.EN.getValue())) {
 			return nameEn;
 		} else {
 			return nameRu;
@@ -76,7 +76,7 @@ public class SolrRegion extends SolrDocument {
 
 	public String getPath(Locale locale) {
 		String lang = LanguageUtils.getLanguageByLocale(locale);
-		if (lang.equals(LangEnum.en.toString())) {
+		if (lang.equals(LangEnum.EN.getValue())) {
 			return pathEn;
 		} else {
 			return pathRu;
@@ -85,14 +85,19 @@ public class SolrRegion extends SolrDocument {
 
 	public Region toRegion(Locale locale) {
 		Region result = new Region();
+		// set id
 		result.setId(id);
+		// set name
 		MultiLangText name = new MultiLangText();
 		name.setValue(getName(locale), locale);
 		result.setName(name);
+		// set path
 		MultiLangText path = new MultiLangText();
 		path.setValue(getPath(locale), locale);
 		result.setPath(path);
+		// set parent
 		result.setParent(parent);
+		// set type
 		if (type != null) {
 			result.setType(RegionEnum.valueOf(type));
 		}

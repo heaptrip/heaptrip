@@ -11,8 +11,8 @@ import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.repository.region.RegionRepository;
-import com.heaptrip.domain.repository.solr.SolrRegion;
 import com.heaptrip.domain.repository.solr.SolrRegionRepository;
+import com.heaptrip.domain.repository.solr.entity.SolrRegion;
 import com.heaptrip.domain.service.region.RegionService;
 
 @Service

@@ -45,17 +45,17 @@ public class TripController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "trips", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripFeedCriteria feedTripCriteria) {
-		LOG.trace("CALL getTripsByCriteria ", feedTripCriteria);
+	Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripFeedCriteria tripFeedCriteria) {
+		LOG.trace("CALL getTripsByCriteria ", tripFeedCriteria);
 		List<TripModel> tripModels = new ArrayList<TripModel>();
 		try {
-			tripModels = tripModelService.getTripsModelByCriteria(feedTripCriteria);
+			tripModels = tripModelService.getTripsModelByCriteria(tripFeedCriteria);
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("trips", tripModels);
-		result.put("count", tripService.getTripsCountByFeedTripCriteria(feedTripCriteria));
+		result.put("count", tripService.getTripsCountByTripFeedCriteria(tripFeedCriteria));
 		LOG.trace("END getTripsByCriteria");
 		return Ajax.successResponse(result);
 	}

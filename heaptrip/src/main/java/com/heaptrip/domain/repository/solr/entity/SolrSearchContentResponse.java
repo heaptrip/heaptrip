@@ -1,8 +1,8 @@
-package com.heaptrip.domain.repository.solr;
+package com.heaptrip.domain.repository.solr.entity;
 
 import java.util.List;
 
-public class SearchSolrContentResponse {
+public class SolrSearchContentResponse {
 
 	private Long numFound;
 

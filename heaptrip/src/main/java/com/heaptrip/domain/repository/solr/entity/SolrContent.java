@@ -1,4 +1,4 @@
-package com.heaptrip.domain.repository.solr;
+package com.heaptrip.domain.repository.solr.entity;
 
 public class SolrContent extends SolrDocument {
 
