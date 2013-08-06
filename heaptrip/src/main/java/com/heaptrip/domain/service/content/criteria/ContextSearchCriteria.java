@@ -5,7 +5,7 @@ package com.heaptrip.domain.service.content.criteria;
  * Criteria for context searching data in Apache Solr
  * 
  */
-public class СontextSearchCriteria extends ContentCriteria {
+public class ContextSearchCriteria extends ContentCriteria {
 
 	// text to search
 	private String query;

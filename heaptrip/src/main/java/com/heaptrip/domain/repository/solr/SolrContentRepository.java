@@ -6,7 +6,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
-import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 
 public interface SolrContentRepository {
 
@@ -14,5 +14,5 @@ public interface SolrContentRepository {
 
 	public void remove(String contentId) throws SolrServerException, IOException;
 
-	public SolrSearchContentResponse findByСontextSearchCriteria(СontextSearchCriteria criteria) throws SolrServerException;
+	public SolrSearchContentResponse findByСontextSearchCriteria(ContextSearchCriteria criteria) throws SolrServerException;
 }

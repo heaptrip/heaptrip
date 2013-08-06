@@ -9,7 +9,7 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
-import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 
 public class ContentDataProvider {
@@ -44,7 +44,7 @@ public class ContentDataProvider {
 
 	@DataProvider(name = "contextSearchCriteria")
 	public static Object[][] getСontextSearchCriteria() {
-		СontextSearchCriteria criteria = new СontextSearchCriteria();
+		ContextSearchCriteria criteria = new ContextSearchCriteria();
 		criteria.setContentType(ContentEnum.TRIP);
 		criteria.setUserId(USER_ID);
 		criteria.setCategoryIds(new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] });

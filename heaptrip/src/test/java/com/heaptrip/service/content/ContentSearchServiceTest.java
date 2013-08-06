@@ -9,7 +9,7 @@ import org.testng.annotations.Test;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
-import com.heaptrip.domain.service.content.criteria.СontextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
@@ -18,7 +18,7 @@ public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 	private ContentSearchService contentSearchService;
 
 	@Test(priority = 1, enabled = true, dataProvider = "contextSearchCriteria", dataProviderClass = ContentDataProvider.class)
-	public void findContentsByСontextSearchCriteria(СontextSearchCriteria criteria) {
+	public void findContentsByСontextSearchCriteria(ContextSearchCriteria criteria) {
 		// call
 		SearchContentResponse response = contentSearchService.findContentsByСontextSearchCriteria(criteria);
 		// check
