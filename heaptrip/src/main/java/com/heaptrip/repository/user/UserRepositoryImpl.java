@@ -12,16 +12,17 @@ import com.heaptrip.domain.entity.user.Setting;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
+import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.entity.user.UserRegistration;
 import com.heaptrip.domain.repository.user.AuthenticationRepository;
-import com.heaptrip.domain.repository.user.UserSettingRepository;
+import com.heaptrip.domain.repository.user.UserRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.mongodb.WriteResult;
 
 @Service
-public class UserSettingRepositoryImpl extends CrudRepositoryImpl<User> implements UserSettingRepository {
+public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements UserRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserSettingRepositoryImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
 	
 	@Autowired
 	private AuthenticationRepository authenticationRepository;
@@ -94,10 +95,17 @@ public class UserSettingRepositoryImpl extends CrudRepositoryImpl<User> implemen
 		String query = "{_id: #}";
 //		String updateQuery = "{$addToSet: {net: #}, $set: {'_id': #, 'uid': #}}}";
 		String updateQuery = "{$addToSet: {'net': #}}";
-		
-		WriteResult wr = coll.update(query, userId).
-							with(updateQuery, socialNetwork);
+		WriteResult wr = coll.update(query, userId).with(updateQuery, socialNetwork);
 		logger.debug("WriteResult for update user: {}", wr);
 		
+	}
+
+	@Override
+	public void saveProfile(String userId, UserProfile profile) {
+		MongoCollection coll = getCollection();
+		String query = "{_id: #}";
+		String updateQuery = "{$set: {'profile': #}}";
+		WriteResult wr = coll.update(query, userId).with(updateQuery, profile);
+		logger.debug("WriteResult for update user: {}", wr);
 	}
 }

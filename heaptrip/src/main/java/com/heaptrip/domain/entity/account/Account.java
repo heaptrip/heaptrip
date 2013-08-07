@@ -20,6 +20,8 @@ public abstract class Account extends BaseObject {
 	private String imageProfileId;
 	
 	private String imageContentId;
+	
+	private Profile profile;
 
 	// account status
 	private AccountStatusEnum status;
@@ -81,5 +83,13 @@ public abstract class Account extends BaseObject {
 
 	public void setImageContentId(String imageContentId) {
 		this.imageContentId = imageContentId;
+	}
+
+	public Profile getProfile() {
+		return profile;
+	}
+
+	public void setProfile(Profile profile) {
+		this.profile = profile;
 	}
 }

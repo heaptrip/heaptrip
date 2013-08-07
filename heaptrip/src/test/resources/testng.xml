@@ -6,7 +6,7 @@
 		<classes>
 			<class name="com.heaptrip.service.user.InitUserTest" />
 			<class name="com.heaptrip.service.user.AuthenticationServiceTest" />
-			<class name="com.heaptrip.service.user.UserSettingServiceTest" />
+			<class name="com.heaptrip.service.user.UserServiceTest" />
 		</classes>
 	</test>
 
@@ -62,5 +62,4 @@
 			<class name="com.heaptrip.service.mail.MailServiceTest" />
 		</classes>
 	</test>
-
 </suite>

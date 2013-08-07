@@ -1,5 +1,7 @@
 package com.heaptrip.service.user;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -11,22 +13,23 @@ import com.heaptrip.domain.entity.user.Setting;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
+import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.repository.user.AuthenticationRepository;
-import com.heaptrip.domain.repository.user.UserSettingRepository;
+import com.heaptrip.domain.repository.user.UserRepository;
 import com.heaptrip.domain.service.user.AuthenticationService;
-import com.heaptrip.domain.service.user.UserSettingService;
+import com.heaptrip.domain.service.user.UserService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
-public class UserSettingServiceTest extends AbstractTestNGSpringContextTests {
+public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
-	private UserSettingService userSettingService;
+	private UserService userSettingService;
 	
 	@Autowired
 	private AuthenticationRepository authenticationRepository;
 	
 	@Autowired
-	private UserSettingRepository userSettingRepository;
+	private UserRepository userSettingRepository;
 
 	@Autowired
 	private AuthenticationService authenticationService;
@@ -105,7 +108,7 @@ public class UserSettingServiceTest extends AbstractTestNGSpringContextTests {
 	}
 	
 	@Test(enabled = true, priority = 9, expectedExceptions = IllegalArgumentException.class)
-	public void unlinkSocialNetworkNotFake() {
+	public void unlinkSocialNetworkFakeUser() {
 		userSettingService.unlinkSocialNetwork(InitUserTest.FAKE_USER_ID, SocialNetworkEnum.FB);
 	}
 	
@@ -144,7 +147,7 @@ public class UserSettingServiceTest extends AbstractTestNGSpringContextTests {
 	}
 	
 	@Test(enabled = true, priority = 16, expectedExceptions = IllegalArgumentException.class)
-	public void linkSocialNetworkNotFake() {
+	public void linkSocialNetworkFakeUser() {
 		userSettingService.linkSocialNetwork(InitUserTest.FAKE_USER_ID, InitUserTest.getFB());
 	}
 	
@@ -171,17 +174,60 @@ public class UserSettingServiceTest extends AbstractTestNGSpringContextTests {
 		userSettingService.linkSocialNetwork(InitUserTest.NET_USER_ID, InitUserTest.getFB());
 	}
 	
-	@Test(enabled = true, priority = 20, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 70, expectedExceptions = IllegalArgumentException.class)
+	public void saveProfileFakeUser() {
+		UserProfile profile = new UserProfile();
+		profile.setDesc("description");
+		
+		userSettingService.saveProfile(InitUserTest.FAKE_USER_ID, profile);
+	}
+	
+	@Test(enabled = true, priority = 71, expectedExceptions = IllegalArgumentException.class)
+	public void saveProfileNotConfirmedUser() {
+		UserProfile profile = new UserProfile();
+		profile.setDesc("description");
+		
+		userSettingService.saveProfile(InitUserTest.NOTCONFIRMED_USER_ID, profile);
+	}
+	
+	@Test(enabled = true, priority = 72)
+	public void saveProfile() {
+		User user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
+		((UserProfile) user.getProfile()).setDesc("description");
+		
+		userSettingService.saveProfile(InitUserTest.NET_USER_ID, (UserProfile) user.getProfile());
+		user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
+
+		Assert.assertNotNull(user);
+		Assert.assertNotNull(user.getProfile());
+		Assert.assertNotNull(user.getProfile().getDesc());
+	}
+	
+	@Test(enabled = true, priority = 73)
+	public void updateProfile() {
+		User user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
+		((UserProfile) user.getProfile()).setBirthday(new Date());
+		
+		userSettingService.saveProfile(InitUserTest.NET_USER_ID, (UserProfile) user.getProfile());
+		user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
+
+		Assert.assertNotNull(user);
+		Assert.assertNotNull(user.getProfile());
+		Assert.assertNotNull(user.getProfile().getDesc());
+		Assert.assertNotNull(((UserProfile) user.getProfile()).getBirthday());
+	}
+	
+	@Test(enabled = true, priority = 90, expectedExceptions = IllegalArgumentException.class)
 	public void deleteUserFakeUser() {
 		userSettingService.deleteUser(InitUserTest.FAKE_USER_ID);
 	}
 	
-	@Test(enabled = true, priority = 21, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 91, expectedExceptions = IllegalArgumentException.class)
 	public void deleteUserNotConfirmedUser() {
 		userSettingService.deleteUser(InitUserTest.NOTCONFIRMED_USER_ID);
 	}
 	
-	@Test(enabled = true, priority = 22)
+	@Test(enabled = true, priority = 92)
 	public void deleteUser() {
 		userSettingService.deleteUser(InitUserTest.NET_USER_ID);
 		User user = authenticationRepository.findOne(InitUserTest.NET_USER_ID);
