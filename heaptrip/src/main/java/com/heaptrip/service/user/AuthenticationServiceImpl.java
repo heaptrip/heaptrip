@@ -26,6 +26,7 @@ import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.entity.user.UserRegistration;
+import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.repository.user.AuthenticationRepository;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.mail.MailService;
@@ -104,6 +105,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		Assert.isTrue(userRegistration.getEmail().matches(EMAIL_REGEX), "email is not correct");
 		
 		userRegistration.setProfile(new UserProfile());
+		userRegistration.setSetting(new UserSetting());
 		
 		if (userRegistration.getNet() == null) {
 			Assert.notNull(userRegistration.getPassword(), "password must not be null");

@@ -10,7 +10,7 @@ import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
-import com.heaptrip.domain.entity.user.Setting;
+import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.repository.user.UserRepository;
 import com.heaptrip.domain.service.user.UserService;
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 	
 	@Override
-	public void saveSetting(String userId, Setting userSetting) {
+	public void saveSetting(String userId, UserSetting userSetting) {
 		Assert.notNull(userId, "user id must not be null");
 		Assert.notNull(userSetting, "userSetting must not be null");
 		

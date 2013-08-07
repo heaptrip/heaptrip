@@ -3,6 +3,7 @@ package com.heaptrip.domain.entity.account;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.user.UserSetting;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Account extends BaseObject {
@@ -22,6 +23,8 @@ public abstract class Account extends BaseObject {
 	private String imageContentId;
 	
 	private Profile profile;
+	
+	private Setting setting;
 
 	// account status
 	private AccountStatusEnum status;
@@ -91,5 +94,13 @@ public abstract class Account extends BaseObject {
 
 	public void setProfile(Profile profile) {
 		this.profile = profile;
+	}
+
+	public Setting getSetting() {
+		return setting;
+	}
+
+	public void setSetting(Setting setting) {
+		this.setting = setting;
 	}
 }

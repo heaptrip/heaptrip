@@ -9,7 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.user.Setting;
+import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
@@ -36,7 +36,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 	
 	@Test(enabled = true, priority = 1, expectedExceptions = IllegalArgumentException.class)
 	public void saveSettingFakeUser() {
-		Setting setting = new Setting();
+		UserSetting setting = new UserSetting();
 		setting.setAdsFromClub(true);
 		setting.setAdsFromAgency(false);
 		setting.setAdsFromCompany(false);
@@ -45,7 +45,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 	
 	@Test(enabled = true, priority = 2, expectedExceptions = IllegalArgumentException.class)
 	public void saveSettingNotConfirmedUser() {
-		Setting setting = new Setting();
+		UserSetting setting = new UserSetting();
 		setting.setAdsFromClub(true);
 		setting.setAdsFromAgency(false);
 		setting.setAdsFromCompany(false);
@@ -54,36 +54,22 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 	
 	@Test(enabled = true, priority = 3)
 	public void saveSetting() {
-		Setting setting = new Setting();
-		setting.setId("1");
-		setting.setAdsFromClub(true);
-		setting.setAdsFromAgency(false);
-		setting.setAdsFromCompany(false);
-		
-		userSettingService.saveSetting(InitUserTest.NET_USER_ID, setting);
 		User user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
-
+		Assert.assertNotNull(user);
 		Assert.assertNotNull(user.getSetting());
-		Assert.assertFalse(user.getSetting().getAdsFromAgency());
-		Assert.assertTrue(user.getSetting().getAdsFromClub());
-		Assert.assertFalse(user.getSetting().getAdsFromCompany());
-	}
-	
-	@Test(enabled = true, priority = 4)
-	public void changeSetting() {
-		User user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
+		((UserSetting) user.getSetting()).setAdsFromClub(true);
+		((UserSetting) user.getSetting()).setAdsFromAgency(false);
+		((UserSetting) user.getSetting()).setAdsFromCompany(false);
 		
-		user.getSetting().setAdsFromClub(false);
-		user.getSetting().setAdsFromAgency(true);
-		user.getSetting().setAdsFromCompany(false);
-		
-		userSettingService.saveSetting(InitUserTest.NET_USER_ID, user.getSetting());
+		userSettingService.saveSetting(InitUserTest.NET_USER_ID, (UserSetting) user.getSetting());
+		user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
 
+		Assert.assertNotNull(user);
 		Assert.assertNotNull(user.getSetting());
-		Assert.assertTrue(user.getSetting().getAdsFromAgency());
-		Assert.assertFalse(user.getSetting().getAdsFromClub());
-		Assert.assertFalse(user.getSetting().getAdsFromCompany());
-	}
+		Assert.assertFalse(((UserSetting) user.getSetting()).getAdsFromAgency());
+		Assert.assertTrue(((UserSetting) user.getSetting()).getAdsFromClub());
+		Assert.assertFalse(((UserSetting) user.getSetting()).getAdsFromCompany());
+	}	
 	
 	@Test(enabled = true, priority = 5, expectedExceptions = IllegalArgumentException.class)
 	public void profileImageFromFakeUser() {

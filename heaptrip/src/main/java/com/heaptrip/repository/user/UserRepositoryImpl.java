@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.user.Setting;
+import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
@@ -38,7 +38,7 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 	}
 
 	@Override
-	public void saveSetting(String userId, Setting setting) {
+	public void saveSetting(String userId, UserSetting setting) {
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
 		String updateQuery = "{$set: {'setting._id': #, 'setting.adsFromClub': #, 'setting.adsFromCompany': #, 'setting.adsFromAgency': #}}";
