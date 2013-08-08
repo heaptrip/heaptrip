@@ -7,33 +7,17 @@ $(document).ready(function() {
   	// выбор валюты
 
 	$(document).on('click','.currency span',function(e){
-		if($(this).next().is(':hidden')){
+	  if($(this).next().is(':hidden')){
   			$(this).next().slideDown(200);
   		}else{
   			$(this).next().slideUp(200);
   		}
-  	});
+  });
 
-  	$(document).on('click','.currency li',function(e){
-  		$(this).parents('.currency').find('span').html($(this).html());
-  		$(this).parent().slideUp(200);
-  	});
-
-	$(document).on('click','.del_per',function(e){
-		$(this).parents('tr').remove();
-	});
-
-  	if($('.add_table_zap').length){
-  		$('.add_table_zap').click(function(e){
-  			var new_zap='<tr><td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td><td class="price_td"><input type="text"><div class="currency"><span>РУБ</span><ul><li>РУБ</li><li>US</li><li>EURO</li><ul></div></td><td><input type="text"></td><td><input type="text"></td><td><a class="button del_per">Удалить</a></td></tr>';
-  			$('article.edit .table_inf tbody').append(new_zap);
-  			$(".datepicker" ).datepicker();
-  		});
-  	}
-
-  	if($('#contents').length){
-  		alt_input('#contents');
-  	}
+  $(document).on('click','.currency li',function(e){
+  	$(this).parents('.currency').find('span').html($(this).html());
+  	$(this).parent().slideUp(200);
+  });
 
 	if($('div.albom .edit').length){
 		edit_img_albom($('div.albom .edit'));
@@ -74,6 +58,37 @@ $(document).ready(function() {
       participants_menu('.participants_is',commands);
     }
 
+    if($('.people_func').length){
+      var commands=Array('Переписка','Удалить');
+      participants_menu('.people_func',commands);
+    }
+
+    if($('.people_func_otpis').length){
+      var commands=Array('Отписаться');
+      participants_menu('.people_func_otpis',commands);
+    }
+
+    if($('.options_fb').length){
+      var commands=Array('Отвязать','<nobr>Использовать аватарку</nobr>');
+      participants_menu('.options_fb',commands,'fb');
+    }
+
+    if($('.options_tv').length){
+      var commands=Array('Отвязать','<nobr>Использовать аватарку</nobr>');
+      participants_menu('.options_tv',commands,'tv');
+    }
+
+    if($('.options_vk').length){
+      var commands=Array('Отвязать','<nobr>Использовать аватарку</nobr>');
+      participants_menu('.options_vk',commands,'vk');
+    }
+
+    if($('.options_od').length){
+      var commands=Array('Отвязать','<nobr>Использовать аватарку</nobr>');
+      participants_menu('.options_od',commands,'od');
+    }
+
+
     if($('.participants_invite').length){
       participants_invite('.participants_invite');
     }
@@ -87,6 +102,105 @@ $(document).ready(function() {
     if($('.posts_find').length){
       posts_add();
     }
+
+    if($('.price a.button').length){
+      $(document).on('click','.price a.button',function(e){
+        $(this).parents('article').remove();
+      });
+    }
+
+    if($('.add_list_lang').length){
+      $('.add_lang').click(function(e){
+        if($(this).next().is(':hidden')){
+          $(this).next().slideDown(100);
+        }else{
+          $(this).next().slideUp(100);
+        }
+        return false;
+      });
+
+      //$(document).on('click','.inf .right ul li:not(.add_list_lang,.add_list_lang li)',function(e){
+      //});
+
+
+      $(document).on('click','.add_list_lang li',function(e){
+        $('.inf .right ul li').removeClass('activ_lang')
+        $('.inf .right ul li.add_list_lang').before('<li class="activ_lang">'+$(this).html()+'</li>');
+        $(this).remove();
+        $('.add_lang').next().slideUp(100);
+        return false;
+      });      
+
+      $('.del_lang').click(function(e){
+        if (confirm("Вы действительно хотите удалить этот язык?")) {
+          var activ_lang=$(this).parents('ul').find('li.activ_lang');
+          $('.inf .right ul li').removeClass('activ_lang')
+          $('.add_list_lang ul').append('<li>'+activ_lang.html()+'</li>');
+          activ_lang.remove();
+          $(this).parent().next().addClass('activ_lang');
+        }        
+        return false;
+      });
+    }
+
+
+
+
+    $( ".my_location input[type=text]" )
+      // don't navigate away from the field on tab when selecting an item
+      .bind( "keydown", function( event ) {
+        if ( event.keyCode === $.ui.keyCode.TAB &&
+            $( this ).data( "ui-autocomplete" ).menu.active ) {
+          event.preventDefault();
+        }
+      })
+      .autocomplete({
+        source: function( request, response ) {
+          $.getJSON( "/list.json", {
+            term: extractLast( request.term )
+          }, response );
+        },
+        search: function() {
+          // custom minLength
+          var term = extractLast( this.value );
+          if ( term.length < 2 ) {
+            return false;
+          }
+        },
+        focus: function() {
+          // prevent value inserted on focus
+          return false;
+        },
+        select: function( event, ui ) {
+          $(this).val(ui.item.value);
+          return false;
+        }
+      });
+
+      if($('.my_lang_edit').length){
+        $(document).on('click','.my_inf .my_lang_edit ul li span',function(e){
+          $(this).parent().remove();
+        });
+
+        $('.my_lang_edit .add_lang').click(function(e){
+          if($(this).next().is(':hidden')){
+            $(this).next().slideDown(100);
+          }else{
+            $(this).next().slideUp(100);
+          }
+          return false;
+        });
+
+        $('.my_lang_edit .my_add_lang li').click(function(e){
+          var cl=$(this).find('a').attr('class');
+          var lang=$(this).find('a').text();
+          $('.my_add_lang').before('<li class="'+cl+'">'+lang+'<span></span></li>');
+          $(this).remove();
+          if(!$('.my_lang_edit .my_add_lang li').length){
+            $('.my_lang_edit .my_add_lang').css('display','none');
+          }
+        });
+      }
 
 
 });
@@ -177,35 +291,23 @@ function create_list_user_serch(data,block_select){
   });
 }
 
-function alt_input(name){
-    var input=$(name+' input[type=text], '+name+' textarea');
-    $.each(input, function(index, value) {
-        var alt=$(value).attr('alt');
-        if(alt){
-            $(value).val(alt);
-            $(value).bind('focus',function(e){
-                if($(this).val()==alt){
-                    $(this).val('');
-                }
-            });
-            $(value).bind('blur',function(e){
-                var v=$(this).val();
-                if((v=='')||(v=='alt')){
-                    $(value).val(alt);
-                }
-            });
-        }
-    });    
-}  	
-
 // анимация контекстного меню в участниках
-function participants_menu(name,commands){
+function participants_menu(name,commands,clas){
   var commands_l=commands.length;
   var commands_str='';
   for (var i = 0; i < commands_l; i++) {
-    commands_str+='<li><a>'+commands[i]+'</a></li>';
+    if(typeof(commands[i])==='object'){
+      commands_str+='<li><a class="punkt" func="'+commands[i][1]+'">'+commands[i][0]+'</a></li>';
+    }else{
+      commands_str+='<li><a>'+commands[i]+'</a></li>';
+    }
+      
   }
-  $(name).append('<div class="participants_menu"><span class="participants_menu_show"></span><div><ul>'+commands_str+'</ul></div></div>');
+  var dop_pic='';
+  if(clas){
+    dop_pic='<span class="dop_pic '+clas+'"></span>';
+  }
+  $(name).append('<div class="participants_menu"><span class="participants_menu_show"></span>'+dop_pic+'<div class="participants_list_menu"><ul>'+commands_str+'</ul></div></div>');
   $(name+' .participants_menu a').click(function(e){
     var user=$(this).parents('.participants_li');
     console.log($(this).text());
@@ -217,7 +319,7 @@ function participants_menu(name,commands){
         
         break;
       case 'Переписка':
-        
+           window.location = "/profile/chat.html"
         break;
       case 'Удалить':
           participants_del_user(user);
@@ -228,6 +330,12 @@ function participants_menu(name,commands){
       case 'Отказать':
         
         break;
+      case 'Отвязать':
+          $(user).remove();
+        break;
+      case 'Отписаться':
+          participants_otpis_user(user);
+        break;        
       default:
           //
         break;
@@ -235,22 +343,28 @@ function participants_menu(name,commands){
 
 
   });
+
+  if(clas){
+    $(name).find('.participants_menu').css('display','block');
+  }
   $(name).hover(function(e){
         $(this).find('.participants_menu').css('display','block');
       },function(e){
-        $(this).find('.participants_menu').css('display','none');
+        if(!clas){        
+          $(this).find('.participants_menu').css('display','none');
+        }
         $(this).find('.participants_menu div').css('display','none');
-        $(this).find('.participants_menu span').css("background","url('/images/participants_func.jpg') right top no-repeat");
+        $(this).find('.participants_menu .participants_menu_show').css("background","url('/images/participants_func.jpg') right top no-repeat");
       }
     );
-    $(name+' .participants_menu_show').click(function(e){
-      var menu=$(this).next();
+    $(name+' .participants_menu_show, '+name+' .dop_pic').click(function(e){
+      var menu=$(name+' .participants_list_menu');
       if(menu.is(':hidden')){
         menu.css('display','block');
-        $(this).css("background","url('/images/participants_func_a.jpg') right top no-repeat");
+        $(this).parent().find('.participants_menu_show').css("background","url('/images/participants_func_a.jpg') right top no-repeat");
       }else{
         menu.css('display','none');
-        $(this).css("background","url('/images/participants_func.jpg') right top no-repeat");
+        $(this).parent().find('.participants_menu_show').css("background","url('/images/participants_func.jpg') right top no-repeat");
       }
     });
 }
@@ -279,8 +393,21 @@ function participants_del_user(user){
   }else{
     user.remove();
   }
-  
 }
+
+function participants_otpis_user(user){
+  if($('.list_user.search ul').length){
+    $('.list_user.search ul').append(user); 
+    user.find('.participants_menu').remove();
+    user.removeClass('participants_func');
+    user.append('<a class="add_is">&#43;</a>');
+  }else{
+    user.remove();
+  }
+}
+
+
+
 
 function posts_add(button){
 
@@ -325,12 +452,30 @@ function create_list_posts_serch(data,block_select){
     str+='<li id="'+data[i].id+'"><div class="list_posts_img"><img src="/'+data[i].img+'"></div><div class="list_posts_inf"><span>'+data[i].date+'</span>'+data[i].autor+' ('+data[i].rating+')<div class="list_posts_name"><a href="/">'+data[i].name+'</a></div></div><a class="add_is">&#43;</a></li>';
   }
   $('.list_posts_add ul').html(str);
-  /*$(document).on('click','.list_user .add_is',function(e){
-    var li=$(this).parents('li');
-    li.addClass("participants_func");
-    $(this).remove();
-    $(block_select).find('ul').not('.participants_menu ul').append(li);
-    var commands=Array('Сообщение','Организатор','Переписка','Удалить');
-    participants_menu('.participants_func',commands);
-  });*/
+  $(document).on('click','.add_is',function(e){
+      var id=$(this).parents('li').attr('id');
+      for (var i = 0; i < l; i++) {
+        if(id==data[i].id){
+          //console.log(data[i]);
+          str='';
+          str='<article id="article"><div class="date">'+data[i].date+'<span>Событие</span></div><div class="inf"><div class="left"><h2><a href="/">'+data[i].name+'</a></h2>'+data[i].autor+'<span>('+data[i].rating+')</span></div><div class="right"><div>Период:<span class="date">с '+data[i].date1+' по '+data[i].date2+'</span></div><div>Место:<span class="location">'+data[i].loc+'</span></div></div></div><div class="description"><img src="'+data[i].img_post+'" width="300" align="left">Описание: '+data[i].descr+'</div><div>';
+          str+='<div class="tags">';
+          var tags_l=data[i].tags.length;
+          for (var j = 0; j < tags_l; j++) {
+            str+='<a href="#">'+data[i].tags[j]+'</a>';  
+          }
+          str+='</div>';
+          str+='<div class="price"><a class="button">Удалить пост</a></div></div><div><div class="views">Просмотров:<span>'+data[i].count_view+'</span></div><div class="comments">Коментариев:<span>'+data[i].comments+'</span></div><div class="wertung">Рейтинг:<div class="stars '+data[i].stars+'"></div><span>('+data[i].rating_post+')</span></div></div></article>';
+          $('.list_posts_button').before('<article id="article">'+str+'</article>');
+          $(this).parents('li').remove();
+        }
+      }
+  });
+
+
 }
+
+
+
+
+        
