@@ -13,16 +13,6 @@ $(document).ready(function() {
 		});		
 	}
 	
-
-
-	if(!isRunTime){
-		if($('#category .tree').length){
-			$('#category .tree').jstree({ 
-				'plugins' : [ 'themes', 'html_data', 'checkbox' ]
-			});
-		}
-	}
-
 });
 	
     

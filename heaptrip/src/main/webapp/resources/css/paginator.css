@@ -1,17 +1,17 @@
-.pager
+.pagination
 {
-    width: 550px;
+/* width: 550px; */
 }
-.pager div.short
+.pagination div.short
 {
-    float: right;
-    margin: 0;
-    padding: 0;
-    margin-right: 10px;
-    width: 100px;
+float: right;
+margin: 0;
+padding: 0;
+margin-right: 10px;
 }
 
-.pager ul
+
+.pagination ul
 {
     padding: 0;
     margin: 0;
@@ -20,12 +20,12 @@
     margin-left: 2px;
 }
 
-.pager span
+.pagination span
 {
     margin-left: 4px;
     float: left;
 }
-.pager .btn
+.pagination .btn
 {
     display: block;
     width: 40px;

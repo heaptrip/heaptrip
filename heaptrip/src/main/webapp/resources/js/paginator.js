@@ -31,7 +31,7 @@
 										% settings.recordsperpage > 0)
 									totalpages++;
 								var initialized = false;
-								var container = $(this).addClass('pager');
+								var container = $(this).addClass('pagination');
 								container.find('a').remove();
 								container.find('input').remove();
 								container.find('ul').remove();

@@ -1,18 +1,11 @@
 package com.heaptrip.web.controller.adm;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.service.adm.RequestScopeService;
+import com.heaptrip.domain.service.user.AuthenticationService;
 import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -44,6 +38,9 @@ public class UserController extends ExceptionHandlerControler {
 	private UserModelService userModelService;
 
 	@Autowired
+	private AuthenticationService authenticationService;
+
+	@Autowired
 	private AuthenticationProvider authenticationProvider;
 
 	@RequestMapping(value = "registration", method = RequestMethod.POST)
@@ -61,10 +58,6 @@ public class UserController extends ExceptionHandlerControler {
 				throw scopeService.getErrorServise().createBusinessExeption(
 						ErrorEnum.REGISTRATION_FAILURE);
 
-			// TODO: redirect на ссылку в почте.
-
-			authenticationProvider.authenticateInternal(user);
-
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
@@ -75,7 +68,11 @@ public class UserController extends ExceptionHandlerControler {
 	@RequestMapping(value = "registration/confirm", method = RequestMethod.GET)
 	public String confirmRegistration(@RequestParam String uid) {
 
-		LOG.info("Call MAIL LINK user/confirm?uid=" + uid);
+		// TODO : authenticationService.confirmRegistration(uid);
+
+		// TODO : authenticationProvider.authenticateInternal(user);
+
+		LOG.info("Call MAIL LINK registration/confirm?uid=" + uid);
 
 		return "redirect:" + scopeService.getCurrentContextPath()
 				+ "/travels.html";
