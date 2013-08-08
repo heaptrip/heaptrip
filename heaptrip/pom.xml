@@ -292,7 +292,7 @@
 					</packagingExcludes>
 					<webResources>
 						<resource>
-							<directory>src/main/resources</directory>
+							<directory>src/main</directory>
 							<includes>
 								<include>META-INF/context.xml</include>
 							</includes>

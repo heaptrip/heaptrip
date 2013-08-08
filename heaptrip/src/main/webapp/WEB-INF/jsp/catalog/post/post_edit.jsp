@@ -10,9 +10,9 @@
 <c:url value="/post/edit.html" var="saveUrl" />
 
 
-<script type='text/javascript' src='<c:url value="/resources/js/lib/jquery-fileupload/vendor/jquery.ui.widget.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/lib/jquery-fileupload/jquery.iframe-transport.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/resources/js/lib/jquery-fileupload/jquery.fileupload.js"/>'></script>
+<script type='text/javascript' src='<c:url value="/js/lib/jquery-fileupload/vendor/jquery.ui.widget.js"/>'></script>
+<script type='text/javascript' src='<c:url value="/js/lib/jquery-fileupload/jquery.iframe-transport.js"/>'></script>
+<script type='text/javascript' src='<c:url value="/js/lib/jquery-fileupload/jquery.fileupload.js"/>'></script>
 
 <script type='text/javascript'>
 	$(function() {

@@ -151,10 +151,10 @@ function participants_menu(name,commands){
   		var menu=$(this).next();
   		if(menu.is(':hidden')){
   			menu.css('display','block');
-  			$(this).css("background","url('./resources/images/participants_func_a.jpg') right top no-repeat");
+  			$(this).css("background","url('./images/participants_func_a.jpg') right top no-repeat");
   		}else{
   			menu.css('display','none');
-  			$(this).css("background","url('./resources/images/participants_func.jpg') right top no-repeat");
+  			$(this).css("background","url('./images/participants_func.jpg') right top no-repeat");
   		}
   	});
 }

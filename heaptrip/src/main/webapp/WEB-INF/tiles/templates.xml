@@ -7,17 +7,17 @@
 
 	<definition name="mainScriptsTemplate" template="/WEB-INF/jsp/scripts.jsp">
 		<put-list-attribute name="scripts">
-			<add-attribute value="/resources/js/jquery.js?ver=1.9.1-min" />
-			<add-attribute value="/resources/js/lib/jquery.ba-bbq.min.js" />
-			<add-attribute value="/resources/js/script.js" />
-			<add-attribute value="/resources/js/util.js" />
+			<add-attribute value="/js/jquery.js?ver=1.9.1-min" />
+			<add-attribute value="/js/lib/jquery.ba-bbq.min.js" />
+			<add-attribute value="/js/script.js" />
+			<add-attribute value="/js/util.js" />
 		</put-list-attribute>
 	</definition>
 
 	<definition name="mainStylesTemplate" template="/WEB-INF/jsp/styles.jsp">
 		<put-list-attribute name="styles">
-			<add-attribute value="/resources/css/header.css" />
-			<add-attribute value="/resources/css/footer.css" />
+			<add-attribute value="/css/header.css" />
+			<add-attribute value="/css/footer.css" />
 		</put-list-attribute>
 	</definition>
 
@@ -63,7 +63,7 @@
 
 	<definition name="registrationStylesTemplate" extends="mainStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/css/reg.css" />
+			<add-attribute value="/css/reg.css" />
 		</put-list-attribute>
 	</definition>
 
@@ -88,7 +88,7 @@
 
 	<definition name="errorStylesTemplate" extends="mainStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/css/error.css" />
+			<add-attribute value="/css/error.css" />
 		</put-list-attribute>
 	</definition>
 
@@ -104,15 +104,15 @@
 
 	<definition name="catalogScriptsTemplate" extends="jqueryuiScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/resources/js/jquery.jstree.js" />
-			<add-attribute value="/resources/js/filtr.js" />
-			<add-attribute value="/resources/js/lib/jsrender.js" />
+			<add-attribute value="/js/jquery.jstree.js" />
+			<add-attribute value="/js/filtr.js" />
+			<add-attribute value="/js/lib/jsrender.js" />
 		</put-list-attribute>
 	</definition>
 
 	<definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/resources/css/style.css" />
+			<add-attribute value="/css/style.css" />
 		</put-list-attribute>
 	</definition>
 
@@ -241,7 +241,7 @@
 
 	<definition name="postEditScriptsTemplate" extends="catalogScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/resources/js/lib/ckeditor/ckeditor.js" />
+			<add-attribute value="/js/lib/ckeditor/ckeditor.js" />
 		</put-list-attribute>
 	</definition>
 

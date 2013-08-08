@@ -145,7 +145,7 @@
 								<label><fmt:message key="user.action.enterCode" /></label>
 							</dt>
 							<dd>
-								<input type="text" name="capcha" value=""><img src="<c:url value="/resources/images/capcha.jpg"/>" />
+								<input type="text" name="capcha" value=""><img src="<c:url value="/images/capcha.jpg"/>" />
 							</dd>
 						</dl>
 

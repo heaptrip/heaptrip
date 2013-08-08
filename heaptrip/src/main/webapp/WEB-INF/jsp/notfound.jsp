@@ -7,7 +7,7 @@
 	<section id="middle">
 		<div id="container">
 			<div id="contents">
-				<img src="<c:url value="/resources/images/404.jpg"/>"><br />  
+				<img src="<c:url value="/images/404.jpg"/>"><br />  
 				<a href="<c:url value="/"/>"><fmt:message key="page.action.home" /></a><br /> 
 				<a href="/"><fmt:message key="page.action.support" /></a><br />
 			</div><!-- #content-->
