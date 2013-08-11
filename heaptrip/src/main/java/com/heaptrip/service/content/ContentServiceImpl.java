@@ -18,6 +18,7 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
+import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
@@ -38,7 +39,7 @@ public class ContentServiceImpl implements ContentService {
 	private ImageService imageService;
 
 	@Autowired
-	private ContentSearchServiceImpl solrContentService;
+	private ContentSearchService contentSearchService;
 
 	@Override
 	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria) {
@@ -116,7 +117,7 @@ public class ContentServiceImpl implements ContentService {
 		}
 		contentRepository.setStatus(contentId, status, allowed);
 		// update whole content (include allowed field) to Apache Solr
-		solrContentService.saveContent(contentId);
+		contentSearchService.saveContent(contentId);
 	}
 
 	@Override
