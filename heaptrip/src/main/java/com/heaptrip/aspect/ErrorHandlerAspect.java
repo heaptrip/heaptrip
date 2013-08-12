@@ -16,7 +16,7 @@ public class ErrorHandlerAspect {
 	@Autowired
 	private CategoryService categoryService;
 
-	@Pointcut("execution(* com.heaptrip.domain.service..*(..))")
+	@Pointcut("execution(* com.heaptrip.service..*(..))")
 	public void inServiceLayer() {
 	}
 
