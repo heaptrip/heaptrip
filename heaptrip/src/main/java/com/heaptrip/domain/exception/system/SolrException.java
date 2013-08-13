@@ -5,7 +5,7 @@ import com.heaptrip.domain.exception.Journalable;
 import com.heaptrip.domain.exception.Mailable;
 import com.heaptrip.domain.exception.SystemException;
 
-public class SolrExeption extends SystemException implements Journalable, Mailable {
+public class SolrException extends SystemException implements Journalable, Mailable {
 
 	private static final long serialVersionUID = 7944284831373380151L;
 
