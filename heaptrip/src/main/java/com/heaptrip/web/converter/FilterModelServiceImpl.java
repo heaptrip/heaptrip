@@ -13,6 +13,7 @@ import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.SystemException;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.adm.RequestScopeServiceImpl;
@@ -59,7 +60,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 			}
 
 		} catch (SolrServerException e) {
-			throw getErrorServise().createSystemException(ErrorEnum.ERR_SYSTEM_SOLR);
+			throw getErrorServise().createException(SystemException.class, ErrorEnum.ERR_SYSTEM_SOLR);
 		}
 
 		return regionModels;

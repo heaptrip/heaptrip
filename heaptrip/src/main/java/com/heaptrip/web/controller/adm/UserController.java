@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.domain.service.user.AuthenticationService;
 import com.heaptrip.security.AuthenticationProvider;
@@ -55,7 +56,7 @@ public class UserController extends ExceptionHandlerControler {
 			User user = userModelService.registration(registrationInfo);
 
 			if (user == null)
-				throw scopeService.getErrorServise().createBusinessExeption(
+				throw scopeService.getErrorServise().createException(AccountException.class,
 						ErrorEnum.REGISTRATION_FAILURE);
 
 		} catch (Throwable e) {

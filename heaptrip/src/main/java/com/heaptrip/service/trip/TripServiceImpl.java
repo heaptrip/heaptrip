@@ -27,6 +27,7 @@ import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.trip.TripException;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.repository.trip.MemberRepository;
@@ -161,7 +162,7 @@ public class TripServiceImpl implements TripService {
 		Assert.notNull(tripId, "tripId must not be null");
 		long members = memberRepository.getCountByTripId(tripId);
 		if (members > 0) {
-			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_FAILURE);
+			throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_FAILURE);
 		}
 		tripRepository.setDeleted(tripId);
 		// remove from solr
@@ -338,7 +339,7 @@ public class TripServiceImpl implements TripService {
 			throw new IllegalStateException(String.format("trip with id=%s does not have a main language", tripId));
 		}
 		if (mainLang.equals(removeLang)) {
-			throw errorService.createBusinessExeption(ErrorEnum.REMOVE_TRIP_LANGUAGE_FAILURE);
+			throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_LANGUAGE_FAILURE);
 		}
 		tripRepository.removeLanguage(tripId, locale);
 
