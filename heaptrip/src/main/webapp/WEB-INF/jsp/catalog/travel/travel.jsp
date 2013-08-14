@@ -25,17 +25,17 @@
 			<div id="contents">
 
 				<article id="article" class="deteil">
-					<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span><span class="for_frends">Для друзей</span></div>
+					<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span><span class="for_frends"><fmt:message key="content.forFrends" /></span></div>
 					<div class="inf">
 						<div class="left">
 							<h2><a href="/">${trip.name}</a></h2>
-							<h2 class="chernovik"><a href="/">Черновик Из Рима в Барселону</a></h2>
-							<div>Автор:<span>${trip.owner.name} (${trip.owner.rating})</span></div>
-							<div>Категория:<span>Морская прогулка</span></div>
-							<div>Регион:<span>Италия</span></div>						
+							<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
+							<div><fmt:message key="content.author" />:<span>${trip.owner.name} (${trip.owner.rating})</span></div>
+							<div><fmt:message key="content.category" />:<span>TODO:category</span></div>
+							<div><fmt:message key="content.region" />:<span>TODO:region</span></div>						
 						</div>
 						<div class="right">
-							<div>Доступно для:</div>
+							<div><fmt:message key="content.available" />:</div>
 							<ul>
 								<li class="ru"></li>
 								<li class="yk"></li>
@@ -45,13 +45,13 @@
 						</div>
 					</div>
 					<nav id="travel_nav">
-						<input type="button" value="Редактировать" class="button">
+						<input type="button" value="<fmt:message key="page.action.edit" />" class="button">
     					<ul><!--
-    					    --><li><a href="${infoUrl}" class="active">Информация<span></span></a></li><!--
-    					    --><li><a href="${mapsUrl}">Маршрут<span></span></a></li><!--
-    					    --><li><a href="${photosUrl}">Фото<span></span></a></li><!--
-    					    --><li><a href="${participantsUrl}">Участники<span></span></a></li><!--
-    					    --><li><a href="${postsUrl}">Посты<span></span></a></li><!--
+    					    --><li><a href="${infoUrl}" class="active"><fmt:message key="content.information" /><span></span></a></li><!--
+    					    --><li><a href="${mapsUrl}"><fmt:message key="trip.route" /><span></span></a></li><!--
+    					    --><li><a href="${photosUrl}"><fmt:message key="content.photo" /><span></span></a></li><!--
+    					    --><li><a href="${participantsUrl}"><fmt:message key="content.participants" /><span></span></a></li><!--
+    					    --><li><a href="${postsUrl}"><fmt:message key="post.list.title" /><span></span></a></li><!--
     					--></ul>
 					</nav>
 					
