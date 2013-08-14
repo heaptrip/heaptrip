@@ -6,5 +6,5 @@ package com.heaptrip.domain.entity.journal;
  * 
  */
 public enum RecordLevelEnum {
-	HIGH, MEDIUM, LOW
+	ERROR, HIGH, MEDIUM, LOW
 }

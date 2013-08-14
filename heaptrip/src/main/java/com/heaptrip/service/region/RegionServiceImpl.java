@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.system.SolrException;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.repository.solr.SolrRegionRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrRegion;
+import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.region.RegionService;
 
 @Service
@@ -24,11 +27,19 @@ public class RegionServiceImpl implements RegionService {
 	@Autowired
 	private RegionRepository regionRepository;
 
+	@Autowired
+	private ErrorService errorService;
+
 	@Override
-	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale) throws SolrServerException {
+	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale) {
 		Assert.notNull(name, "name must not be null");
 		Assert.notNull(locale, "locale must not be null");
-		List<SolrRegion> solrRegions = solrRegionRepository.findByName(name, skip, limit, locale);
+		List<SolrRegion> solrRegions = null;
+		try {
+			solrRegions = solrRegionRepository.findByName(name, skip, limit, locale);
+		} catch (SolrServerException e) {
+			throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
+		}
 		List<Region> result = new ArrayList<>();
 		if (solrRegions != null) {
 			for (SolrRegion solrRegion : solrRegions) {
