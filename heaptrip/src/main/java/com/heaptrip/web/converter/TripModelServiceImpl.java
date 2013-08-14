@@ -10,25 +10,32 @@ import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.web.model.content.CategoryModel;
+import com.heaptrip.web.model.content.PriceModel;
+import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 
 @Service
-public class TripModelServiceImpl extends ContentModelServiceImpl implements TripModelService {
+public class TripModelServiceImpl extends ContentModelServiceImpl implements
+		TripModelService {
 
 	@Autowired
 	private TripService tripService;
 
 	@Override
-	public List<TripModel> getTripsModelByCriteria(TripFeedCriteria tripFeedCriteria) {
+	public List<TripModel> getTripsModelByCriteria(
+			TripFeedCriteria tripFeedCriteria) {
 		tripFeedCriteria.setLocale(getCurrentLocale());
-		List<Trip> trips = tripService.getTripsByTripFeedCriteria(tripFeedCriteria);
+		List<Trip> trips = tripService
+				.getTripsByTripFeedCriteria(tripFeedCriteria);
 		return convertTripToTripModel(trips);
 	}
 
 	@Override
 	public TripInfoModel getTripInfoById(String tripId) {
-		return convertTripToTripInfoModel(tripService.getTripInfo(tripId, getCurrentLocale()));
+		return convertTripToTripInfoModel(tripService.getTripInfo(tripId,
+				getCurrentLocale()));
 	}
 
 	private void setTripToTripModel(TripModel tripModel, Trip trip) {
@@ -47,7 +54,8 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 			}
 
 			if (trip.getSummary() != null)
-				tripModel.setSummary(trip.getSummary().getValue(getCurrentLocale()));
+				tripModel.setSummary(trip.getSummary().getValue(
+						getCurrentLocale()));
 
 		}
 
@@ -57,8 +65,36 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		TripInfoModel tripInfoModel = new TripInfoModel();
 		setTripToTripModel(tripInfoModel, trip);
 		if (trip.getDescription() != null)
-			tripInfoModel.setDescription(trip.getDescription().getValue(getCurrentLocale()));
+			tripInfoModel.setDescription(trip.getDescription().getValue(
+					getCurrentLocale()));
+		if (trip.getTable() != null) {
+			List<ScheduleModel> scheduleList = new ArrayList<ScheduleModel>();
+			for (TableItem item : trip.getTable()) {
+				scheduleList.add(convertTableItemToScheduleModel(item));
+			}
+			tripInfoModel.setSchedule(scheduleList
+					.toArray(new ScheduleModel[scheduleList.size()]));
+		}
 		return tripInfoModel;
+
+	}
+
+	private ScheduleModel convertTableItemToScheduleModel(TableItem item) {
+		ScheduleModel schedule = new ScheduleModel();
+		schedule.setBegin(convertDate(item.getBegin()));
+		schedule.setEnd(convertDate(item.getEnd()));
+		schedule.setMin(item.getMin());
+		schedule.setMax(item.getMax());
+		schedule.setStatus(item.getStatus().getValue().name());
+		// TODO: перенести пониже
+		if (item.getPrice() != null) {
+			PriceModel priceModel = new PriceModel();
+			priceModel.setValue(item.getPrice().getValue());
+			priceModel.setCurrency(item.getPrice().getCurrency().name());
+			schedule.setPrice(priceModel);
+		}
+
+		return schedule;
 
 	}
 

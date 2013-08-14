@@ -105,6 +105,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
 			contentModel.setCategories(convertCategoriesToModel(contetnt.getCategories()));
 			contentModel.setRegions(convertRegionsToModel(contetnt.getRegions()));
+			contentModel.setLangs(contetnt.getLangs());
 		}
 
 	}

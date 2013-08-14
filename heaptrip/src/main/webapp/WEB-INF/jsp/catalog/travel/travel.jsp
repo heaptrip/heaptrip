@@ -31,16 +31,23 @@
 							<h2><a href="/">${trip.name}</a></h2>
 							<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
 							<div><fmt:message key="content.author" />:<span>${trip.owner.name} (${trip.owner.rating})</span></div>
-							<div><fmt:message key="content.category" />:<span>TODO:category</span></div>
-							<div><fmt:message key="content.region" />:<span>TODO:region</span></div>						
+							<div><fmt:message key="content.category" />:
+								<c:forEach items="${trip.categories}" var="category">
+									<span>${category.data}</span>
+								</c:forEach>
+							</div>
+							<div><fmt:message key="content.region" />:
+								<c:forEach items="${trip.regions}" var="region">
+									<span>${region.data}</span>
+								</c:forEach>
+							</div>						
 						</div>
 						<div class="right">
 							<div><fmt:message key="content.available" />:</div>
 							<ul>
-								<li class="ru"></li>
-								<li class="yk"></li>
-								<li class="fr"></li>
-								<li class="du"></li>
+								<c:forEach items="${trip.langs}" var="lang">
+									<li class="${lang}"></li>
+								</c:forEach>
 							</ul>
 						</div>
 					</div>

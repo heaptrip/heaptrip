@@ -11,6 +11,8 @@ public class ContentModel {
 	private Long views;
 	private CategoryModel[] categories;
 	private RegionModel[] regions;
+	private String[] langs;
+	
 
 	private String summary;
 
@@ -94,4 +96,12 @@ public class ContentModel {
 		this.regions = regions;
 	}
 
+	public String[] getLangs() {
+		return langs;
+	}
+
+	public void setLangs(String[] langs) {
+		this.langs = langs;
+	}
+	
 }

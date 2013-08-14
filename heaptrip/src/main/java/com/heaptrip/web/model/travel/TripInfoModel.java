@@ -4,7 +4,8 @@ public class TripInfoModel extends TripModel {
 
 	private String description;
 
-
+	// travel schedule
+	private ScheduleModel[] schedule;
 
 	public String getDescription() {
 		return description;
@@ -13,5 +14,13 @@ public class TripInfoModel extends TripModel {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+
+	public ScheduleModel[] getSchedule() {
+		return schedule;
+	}
+
+	public void setSchedule(ScheduleModel[] schedule) {
+		this.schedule = schedule;
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.heaptrip.web.model.travel;
 
+import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.DateModel;
 
@@ -9,6 +10,7 @@ public class TripModel extends ContentModel {
 	private Double rating;
 	private DateModel begin;
 	private DateModel end;
+	
 
 	public Double getRating() {
 		return rating;
@@ -41,5 +43,7 @@ public class TripModel extends ContentModel {
 	public void setEnd(DateModel end) {
 		this.end = end;
 	}
+
+	
 
 }
