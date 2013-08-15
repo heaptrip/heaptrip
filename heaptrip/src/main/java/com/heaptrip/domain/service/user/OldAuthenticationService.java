@@ -15,7 +15,7 @@ import com.heaptrip.domain.entity.user.UserRegistration;
  * Service registration and authentication
  * 
  */
-public interface AuthenticationService {
+public interface OldAuthenticationService {
 
 	/**
 	 * Get user by email

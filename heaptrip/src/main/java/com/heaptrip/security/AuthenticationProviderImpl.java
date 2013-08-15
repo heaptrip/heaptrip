@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
 
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.service.adm.LocaleService;
-import com.heaptrip.domain.service.user.AuthenticationService;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
 
 @Component("userAuthenticationProvider")
 public class AuthenticationProviderImpl implements
@@ -30,7 +30,7 @@ public class AuthenticationProviderImpl implements
 			.getLogger(AuthenticationProvider.class);
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private OldAuthenticationService authenticationService;
 
 	@Autowired
 	private LocaleService localeService;

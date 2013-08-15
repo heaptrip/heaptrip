@@ -14,18 +14,18 @@ import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.entity.user.UserRegistration;
-import com.heaptrip.domain.repository.user.AuthenticationRepository;
-import com.heaptrip.domain.repository.user.UserRepository;
+import com.heaptrip.domain.repository.user.OldAuthenticationRepository;
+import com.heaptrip.domain.repository.user.OldUserRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.mongodb.WriteResult;
 
 @Service
-public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements UserRepository {
+public class OldUserRepositoryImpl extends CrudRepositoryImpl<User> implements OldUserRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(OldUserRepositoryImpl.class);
 	
 	@Autowired
-	private AuthenticationRepository authenticationRepository;
+	private OldAuthenticationRepository authenticationRepository;
 	
 	@Override
 	protected String getCollectionName() {

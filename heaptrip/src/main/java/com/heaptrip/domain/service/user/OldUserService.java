@@ -1,14 +1,12 @@
-package com.heaptrip.domain.repository.user;
+package com.heaptrip.domain.service.user;
 
 import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
-import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserProfile;
-import com.heaptrip.domain.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User> {
-	
+public interface OldUserService {
+
 	void saveSetting(String userId, UserSetting setting);
 	
 	void saveProfile(String userId, UserProfile profile);
@@ -20,6 +18,4 @@ public interface UserRepository extends CrudRepository<User> {
 	void unlinkSocialNetwork(String userId, SocialNetworkEnum socialNetwork);
 	
 	void linkSocialNetwork(String userId, SocialNetwork socialNetwork);
-	
-	Boolean isEmptyPassword(String userId);
 }

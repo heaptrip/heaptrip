@@ -27,22 +27,22 @@ import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserProfile;
 import com.heaptrip.domain.entity.user.UserRegistration;
 import com.heaptrip.domain.entity.user.UserSetting;
-import com.heaptrip.domain.repository.user.AuthenticationRepository;
+import com.heaptrip.domain.repository.user.OldAuthenticationRepository;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.mail.MailService;
-import com.heaptrip.domain.service.user.AuthenticationService;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
 import com.heaptrip.util.StreamUtils;
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
+public class OldAuthenticationServiceImpl implements OldAuthenticationService {
 
 	static String EMAIL_REGEX = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
 	static String PASSWORD_REGEX = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]))";
 	
-	private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(OldAuthenticationServiceImpl.class);
 	
 	@Autowired
-	private AuthenticationRepository authenticationRepository;
+	private OldAuthenticationRepository authenticationRepository;
 	
 	@Autowired
 	private ImageService imageService;

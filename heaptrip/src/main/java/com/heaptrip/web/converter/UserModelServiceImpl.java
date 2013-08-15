@@ -14,7 +14,7 @@ import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserRegistration;
 import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
-import com.heaptrip.domain.service.user.AuthenticationService;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
 import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.web.model.user.RegistrationInfoModel;
 
@@ -22,7 +22,7 @@ import com.heaptrip.web.model.user.RegistrationInfoModel;
 public class UserModelServiceImpl implements UserModelService {
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private OldAuthenticationService authenticationService;
 
 	@Override
 	public User registration(RegistrationInfoModel regInfo) {

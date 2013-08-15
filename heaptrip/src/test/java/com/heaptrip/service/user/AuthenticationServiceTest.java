@@ -20,7 +20,7 @@ import org.testng.annotations.Test;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.User;
-import com.heaptrip.domain.service.user.AuthenticationService;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests {
@@ -29,7 +29,7 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 	private ResourceLoader loader;
 	
 	@Autowired
-	private AuthenticationService authenticationService;
+	private OldAuthenticationService authenticationService;
 
 	@Test(enabled = true, priority = 1)
 	public void confirmRegistrationEmailUser() {

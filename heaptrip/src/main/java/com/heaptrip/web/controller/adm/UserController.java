@@ -17,7 +17,7 @@ import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.service.adm.RequestScopeService;
-import com.heaptrip.domain.service.user.AuthenticationService;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
 import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -39,7 +39,7 @@ public class UserController extends ExceptionHandlerControler {
 	private UserModelService userModelService;
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private OldAuthenticationService authenticationService;
 
 	@Autowired
 	private AuthenticationProvider authenticationProvider;

@@ -12,16 +12,16 @@ import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserSetting;
 import com.heaptrip.domain.entity.user.UserProfile;
-import com.heaptrip.domain.repository.user.UserRepository;
-import com.heaptrip.domain.service.user.UserService;
+import com.heaptrip.domain.repository.user.OldUserRepository;
+import com.heaptrip.domain.service.user.OldUserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class OldUserServiceImpl implements OldUserService {
 
 	@Autowired
-	private UserRepository userRepository;
+	private OldUserRepository userRepository;
 	
-	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(OldUserServiceImpl.class);
 	
 	@Override
 	public void saveSetting(String userId, UserSetting userSetting) {

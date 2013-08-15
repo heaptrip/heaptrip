@@ -20,6 +20,8 @@ import org.testng.annotations.Test;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.account.user.UserRegistration;
+import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.account.user.UserService;
 
@@ -31,6 +33,9 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 	
 	@Autowired
 	private AuthenticationService authenticationService;
+	
+	@Autowired
+	private UserRepository userRepository;
 	
 	@Autowired
 	private UserService userService;
@@ -185,9 +190,11 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 	
 	@Test(enabled = true, priority = 17)
 	public void changePassword() {
+		UserRegistration user = (UserRegistration) userRepository.findOne(InitUserTest.EMAIL_USER_ID);
+		
 		userService.changePassword(InitUserTest.EMAIL_USER_ID, 
-																InitUserTest.EMAIL_USER_PSWD, 
-																InitUserTest.EMAIL_USER_PSWD_NEW);
+									user.getPassword(), 
+									InitUserTest.EMAIL_USER_PSWD_NEW);
 	}
 	
 	@Test(enabled = true, priority = 18, expectedExceptions = RuntimeException.class)

@@ -16,7 +16,7 @@ import org.testng.annotations.BeforeTest;
 import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.UserRegistration;
-import com.heaptrip.domain.service.user.AuthenticationService;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitUserTest extends AbstractTestNGSpringContextTests {
@@ -28,7 +28,7 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 	private ResourceLoader loader;
 	
 	@Autowired
-	private AuthenticationService authenticationService;
+	private OldAuthenticationService authenticationService;
 	
 	public static String EMAIL_USER_ID = "email";
 	public static String EMAIL_USER_EMAIL = "ivan@example.com";

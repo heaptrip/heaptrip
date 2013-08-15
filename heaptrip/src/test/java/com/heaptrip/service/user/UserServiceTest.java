@@ -14,25 +14,25 @@ import com.heaptrip.domain.entity.user.SocialNetwork;
 import com.heaptrip.domain.entity.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.entity.user.UserProfile;
-import com.heaptrip.domain.repository.user.AuthenticationRepository;
-import com.heaptrip.domain.repository.user.UserRepository;
-import com.heaptrip.domain.service.user.AuthenticationService;
-import com.heaptrip.domain.service.user.UserService;
+import com.heaptrip.domain.repository.user.OldAuthenticationRepository;
+import com.heaptrip.domain.repository.user.OldUserRepository;
+import com.heaptrip.domain.service.user.OldAuthenticationService;
+import com.heaptrip.domain.service.user.OldUserService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
-	private UserService userSettingService;
+	private OldUserService userSettingService;
 	
 	@Autowired
-	private AuthenticationRepository authenticationRepository;
+	private OldAuthenticationRepository authenticationRepository;
 	
 	@Autowired
-	private UserRepository userSettingRepository;
+	private OldUserRepository userSettingRepository;
 
 	@Autowired
-	private AuthenticationService authenticationService;
+	private OldAuthenticationService authenticationService;
 	
 	@Test(enabled = true, priority = 1, expectedExceptions = IllegalArgumentException.class)
 	public void saveSettingFakeUser() {

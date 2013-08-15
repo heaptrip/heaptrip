@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.user.User;
-import com.heaptrip.domain.repository.user.AuthenticationRepository;
+import com.heaptrip.domain.repository.user.OldAuthenticationRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.mongodb.WriteResult;
 
 @Service
-public class AuthenticationRepositoryImpl extends CrudRepositoryImpl<User> implements AuthenticationRepository {
+public class OldAuthenticationRepositoryImpl extends CrudRepositoryImpl<User> implements OldAuthenticationRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthenticationRepositoryImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(OldAuthenticationRepositoryImpl.class);
 	
 	@Override
 	protected String getCollectionName() {
