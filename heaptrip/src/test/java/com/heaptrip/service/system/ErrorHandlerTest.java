@@ -21,7 +21,7 @@ public class ErrorHandlerTest extends AbstractTestNGSpringContextTests {
 
 	@Test(enabled = false, priority = 1)
 	public void solrDisconnect() throws SolrServerException {
-		// call
+		// call when Apache Solr is shutdown
 		String name = "Russia Ukraine Belarus";
 		List<Region> regions = regionService.getRegionsByName(name, 0L, 10L, Locale.ENGLISH);
 		// check

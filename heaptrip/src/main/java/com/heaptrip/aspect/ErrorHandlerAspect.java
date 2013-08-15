@@ -42,6 +42,7 @@ public class ErrorHandlerAspect {
 		if (e instanceof Journalable) {
 			JournalRecord record = toJournalRecord(e);
 			journalService.addRecord(record);
+			logger.debug("Add exception to journal", e);
 		}
 	}
 
