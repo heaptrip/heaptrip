@@ -69,4 +69,11 @@
 			<class name="com.heaptrip.service.mail.MailServiceTest" />
 		</classes>
 	</test>
+
+	<test name="SystemTest">
+		<classes>
+			<class name="com.heaptrip.service.system.ErrorHandlerTest" />
+		</classes>
+	</test>
+
 </suite>

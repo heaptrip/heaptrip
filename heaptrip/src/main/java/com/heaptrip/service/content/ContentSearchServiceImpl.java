@@ -1,5 +1,6 @@
 package com.heaptrip.service.content;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,13 +14,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.system.SolrException;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
 import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
+import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.content.ContentSearchService;
-import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
 import com.heaptrip.util.LanguageUtils;
 
 @Service
@@ -31,16 +35,18 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	@Autowired
 	private SolrContentRepository solrContentRepository;
 
+	@Autowired
+	private ErrorService errorService;
+
 	@Async
 	@Override
 	public void saveContent(String contentId) {
 		Assert.notNull(contentId, "contentId must not be null");
 		try {
-			// TODO konovalov: fix exception
 			Content content = contentRepository.findOne(contentId);
 			solrContentRepository.save(content);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SolrServerException | IOException e) {
+			throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
 		}
 	}
 
@@ -49,10 +55,9 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	public void removeContent(String contentId) {
 		Assert.notNull(contentId, "contentId must not be null");
 		try {
-			// TODO konovalov: fix exception
 			solrContentRepository.remove(contentId);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (SolrServerException | IOException e) {
+			throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
 		}
 	}
 
@@ -64,10 +69,9 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 
 		SolrSearchContentResponse response = null;
 		try {
-			// TODO konovalov: fix exception
 			response = solrContentRepository.findByСontextSearchCriteria(criteria);
 		} catch (SolrServerException e) {
-			e.printStackTrace();
+			throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
 		}
 
 		SearchContentResponse result = new SearchContentResponse();

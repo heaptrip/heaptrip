@@ -1,5 +1,7 @@
 package com.heaptrip.domain.service.content;
 
+import org.springframework.scheduling.annotation.Async;
+
 import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 
@@ -15,6 +17,7 @@ public interface ContentSearchService {
 	 * 
 	 * @param contentId
 	 */
+	@Async
 	public void saveContent(String contentId);
 
 	/**

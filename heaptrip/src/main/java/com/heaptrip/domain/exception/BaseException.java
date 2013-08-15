@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.heaptrip.domain.entity.journal.ModuleEnum;
@@ -12,6 +13,8 @@ import com.heaptrip.util.encoding.BundleUTF8Control;
 public class BaseException extends RuntimeException {
 
 	private static final long serialVersionUID = 7613126628186143461L;
+
+	private String detailMessage;
 
 	private ErrorEnum error;
 
@@ -27,14 +30,17 @@ public class BaseException extends RuntimeException {
 
 	public BaseException(String message, Throwable cause) {
 		super(message, cause);
+		detailMessage = message;
 	}
 
 	public BaseException(String message) {
 		super(message);
+		detailMessage = message;
 	}
 
 	public BaseException(Throwable cause) {
 		super(cause);
+		detailMessage = cause.toString();
 	}
 
 	@Override
@@ -49,7 +55,7 @@ public class BaseException extends RuntimeException {
 
 	protected String getLocalizedMessage(ErrorEnum error, Locale locale, Object... arguments) {
 
-		String result = super.getLocalizedMessage();
+		String result = detailMessage;
 
 		if (error != null && StringUtils.isNotBlank(error.KEY)) {
 			ResourceBundle messages = ResourceBundle.getBundle("locale/errors", locale, new BundleUTF8Control());
@@ -58,7 +64,7 @@ public class BaseException extends RuntimeException {
 
 				result = messages.getString(error.KEY);
 
-				if (arguments != null && arguments.length > 0) {
+				if (ArrayUtils.isNotEmpty(arguments)) {
 					result = MessageFormat.format(result, arguments);
 				}
 			} else {

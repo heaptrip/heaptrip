@@ -5,15 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
-import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.exception.SystemException;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.adm.RequestScopeServiceImpl;
@@ -51,16 +48,11 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 
 		List<RegionModel> regionModels = new ArrayList<RegionModel>();
 
-		try {
-			List<Region> regions = regionService.getRegionsByName(text, 0L, 20L, getCurrentLocale());
-			if (regions != null) {
-				for (Region region : regions) {
-					regionModels.add(convertRegionToModel(region));
-				}
+		List<Region> regions = regionService.getRegionsByName(text, 0L, 20L, getCurrentLocale());
+		if (regions != null) {
+			for (Region region : regions) {
+				regionModels.add(convertRegionToModel(region));
 			}
-
-		} catch (SolrServerException e) {
-			throw getErrorServise().createException(SystemException.class, ErrorEnum.ERR_SYSTEM_SOLR);
 		}
 
 		return regionModels;

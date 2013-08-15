@@ -1,5 +1,6 @@
 package com.heaptrip.service.adm;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,38 +16,63 @@ public class ErrorServiceImpl implements ErrorService {
 	@Autowired
 	private LocaleService localeService;
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public <T extends BaseException> T createException(Class<? extends BaseException> clazz, ErrorEnum error) {
-		BaseException exeption = null;
-		try {
-			exeption = clazz.newInstance();
-			exeption.setError(error);
-			exeption.setLocale(localeService.getCurrentLocale());
-		} catch (InstantiationException | IllegalAccessException e) {
-			exeption = new SystemException(e);
-			exeption.setError(ErrorEnum.ERR_SYSTEM_CREATE);
-			exeption.setLocale(localeService.getCurrentLocale());
-		}
-		return (T) exeption;
+	public <T extends BaseException> T createException(Class<? extends BaseException> clazz) {
+		return getException(clazz, null, null, null);
 	}
 
-	@SuppressWarnings("unchecked")
+	@Override
+	public <T extends BaseException> T createException(Class<? extends BaseException> clazz, ErrorEnum error) {
+		return getException(clazz, null, error, null);
+	}
+
 	@Override
 	public <T extends BaseException> T createException(Class<? extends BaseException> clazz, ErrorEnum error,
 			Object... arguments) {
+		return getException(clazz, null, error, arguments);
+	}
+
+	@Override
+	public <T extends BaseException> T createException(Class<? extends BaseException> clazz, Exception cause) {
+		return getException(clazz, cause, null, null);
+	}
+
+	@Override
+	public <T extends BaseException> T createException(Class<? extends BaseException> clazz, Exception cause,
+			ErrorEnum error) {
+		return getException(clazz, cause, error, null);
+	}
+
+	@Override
+	public <T extends BaseException> T createException(Class<? extends BaseException> clazz, Exception cause,
+			ErrorEnum error, Object... arguments) {
+		return getException(clazz, cause, error, arguments);
+	}
+
+	@SuppressWarnings("unchecked")
+	private <T extends BaseException> T getException(Class<? extends BaseException> clazz, Exception cause,
+			ErrorEnum error, Object[] arguments) {
+
 		BaseException exeption = null;
+
 		try {
 			exeption = clazz.newInstance();
-			exeption.setError(error);
 			exeption.setLocale(localeService.getCurrentLocale());
-			exeption.setArguments(arguments);
+			if (cause != null) {
+				ExceptionUtils.setCause(exeption, cause);
+			}
+			if (error != null) {
+				exeption.setError(error);
+			}
+			if (arguments != null) {
+				exeption.setArguments(arguments);
+			}
 		} catch (InstantiationException | IllegalAccessException e) {
 			exeption = new SystemException(e);
 			exeption.setError(ErrorEnum.ERR_SYSTEM_CREATE);
 			exeption.setLocale(localeService.getCurrentLocale());
 		}
+
 		return (T) exeption;
 	}
-
 }

@@ -9,7 +9,9 @@ import com.heaptrip.domain.entity.BaseObject;
  * Journal to record errors
  * 
  */
-public class Journal extends BaseObject {
+public class JournalRecord extends BaseObject {
+
+	public static final String COLLECTION_NAME = "journal";
 
 	// module
 	private ModuleEnum module;
@@ -24,7 +26,7 @@ public class Journal extends BaseObject {
 	private Date created;
 
 	// stack trace
-	private String trace;
+	private String[] trace;
 
 	public ModuleEnum getModule() {
 		return module;
@@ -58,11 +60,11 @@ public class Journal extends BaseObject {
 		this.created = created;
 	}
 
-	public String getTrace() {
+	public String[] getTrace() {
 		return trace;
 	}
 
-	public void setTrace(String trace) {
+	public void setTrace(String[] trace) {
 		this.trace = trace;
 	}
 

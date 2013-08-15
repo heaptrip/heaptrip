@@ -3,8 +3,6 @@ package com.heaptrip.domain.service.region;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.solr.client.solrj.SolrServerException;
-
 import com.heaptrip.domain.entity.region.Region;
 
 /**
@@ -36,7 +34,7 @@ public interface RegionService {
 	 *            users locale
 	 * @return list of regions
 	 */
-	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale) throws SolrServerException;
+	public List<Region> getRegionsByName(String name, Long skip, Long limit, Locale locale);
 
 	/**
 	 * Get list of identifiers of parent regions by regionId
