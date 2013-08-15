@@ -4,9 +4,16 @@
 
 	<test name="UserTest">
 		<classes>
-			<class name="com.heaptrip.service.user.InitUserTest" />
-			<class name="com.heaptrip.service.user.AuthenticationServiceTest" />
-			<class name="com.heaptrip.service.user.UserServiceTest" />
+			<class name="com.heaptrip.service.account.user.InitUserTest" />
+			<class name="com.heaptrip.service.account.user.AuthenticationServiceTest" />
+			<class name="com.heaptrip.service.account.user.UserServiceTest" />
+		</classes>
+	</test>
+	
+	<test name="CommunityTest">
+		<classes>
+			<class name="com.heaptrip.service.account.community.InitCommunityTest" />
+			<class name="com.heaptrip.service.account.community.CommunityServiceTest" />
 		</classes>
 	</test>
 

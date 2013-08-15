@@ -6,5 +6,5 @@ package com.heaptrip.domain.entity.account;
  * 
  */
 public enum AccountEnum {
-	USER, CLUB, COMPANY
+	USER, CLUB, COMPANY, AGENCY
 }
