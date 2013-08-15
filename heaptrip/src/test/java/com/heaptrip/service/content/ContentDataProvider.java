@@ -7,9 +7,9 @@ import org.testng.annotations.DataProvider;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
+import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
-import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 
 public class ContentDataProvider {
@@ -48,8 +48,8 @@ public class ContentDataProvider {
 		criteria.setContentType(ContentEnum.TRIP);
 		criteria.setUserId(USER_ID);
 		criteria.setCategoryIds(new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] });
-		if (!ArrayUtils.isEmpty(InitContentTest.REGION_IDS)) {
-			criteria.setRegionIds(new String[] { InitContentTest.REGION_IDS[0] });
+		if (!ArrayUtils.isEmpty(ContentSearchServiceTest.REGION_IDS)) {
+			criteria.setRegionIds(new String[] { ContentSearchServiceTest.REGION_IDS[0] });
 		}
 		criteria.setSkip(0L);
 		criteria.setLimit(10L);
