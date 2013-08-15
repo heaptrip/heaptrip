@@ -12,7 +12,7 @@ public class ContentModel {
 	private CategoryModel[] categories;
 	private RegionModel[] regions;
 	private String[] langs;
-	
+	private StatusModel status;
 
 	private String summary;
 
@@ -103,5 +103,13 @@ public class ContentModel {
 	public void setLangs(String[] langs) {
 		this.langs = langs;
 	}
-	
+
+	public StatusModel getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusModel status) {
+		this.status = status;
+	}
+
 }

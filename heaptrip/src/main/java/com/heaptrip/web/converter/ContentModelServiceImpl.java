@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
@@ -16,10 +17,13 @@ import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
 import com.heaptrip.web.model.content.DateModel;
+import com.heaptrip.web.model.content.PriceModel;
 import com.heaptrip.web.model.content.RegionModel;
+import com.heaptrip.web.model.content.StatusModel;
 
 @Service
-public class ContentModelServiceImpl extends RequestScopeServiceImpl implements ContentModelService {
+public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
+		ContentModelService {
 
 	@Override
 	public CategoryModel convertCategoryToModel(ContentCategory category) {
@@ -40,7 +44,8 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			for (ContentCategory category : categories) {
 				categoryModels.add(convertCategoryToModel(category));
 			}
-			result = categoryModels.toArray(new CategoryModel[categoryModels.size()]);
+			result = categoryModels.toArray(new CategoryModel[categoryModels
+					.size()]);
 		}
 		return result;
 	}
@@ -88,23 +93,43 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 		DateModel result = new DateModel();
 		if (date != null) {
 			result.setValue(date);
-			result.setText(DateFormat.getDateInstance(DateFormat.SHORT, getCurrentLocale()).format(date));
+			result.setText(DateFormat.getDateInstance(DateFormat.SHORT,
+					getCurrentLocale()).format(date));
 		}
 		return result;
 	}
 
-	protected void setContentToContentModel(ContentModel contentModel, Content contetnt) {
+	@Override
+	public PriceModel convertPrice(Price price) {
+		PriceModel priceModel = new PriceModel();
+		if (price != null) {
+			priceModel.setValue(price.getValue());
+			priceModel.setCurrency(price.getCurrency().name());
+		}
+		return priceModel;
+	}
+
+	protected void setContentToContentModel(ContentModel contentModel,
+			Content contetnt) {
 
 		if (contetnt != null) {
 			contentModel.setId(contetnt.getId());
 			contentModel.setCreated(convertDate(contetnt.getCreated()));
 			contentModel.setImage(contetnt.getImage().getId());
 			contentModel.setViews(contetnt.getViews());
+			StatusModel status = new StatusModel();
+			status.setValue(contetnt.getStatus().getValue().name());
+			status.setText(contetnt.getStatus().getText());
+			contentModel.setStatus(status);
 			if (contetnt.getName() != null)
-				contentModel.setName(contetnt.getName().getValue(getCurrentLocale()));
-			contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
-			contentModel.setCategories(convertCategoriesToModel(contetnt.getCategories()));
-			contentModel.setRegions(convertRegionsToModel(contetnt.getRegions()));
+				contentModel.setName(contetnt.getName().getValue(
+						getCurrentLocale()));
+			contentModel.setOwner(convertContentOwnerToModel(contetnt
+					.getOwner()));
+			contentModel.setCategories(convertCategoriesToModel(contetnt
+					.getCategories()));
+			contentModel
+					.setRegions(convertRegionsToModel(contetnt.getRegions()));
 			contentModel.setLangs(contetnt.getLangs());
 		}
 

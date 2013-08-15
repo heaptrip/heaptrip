@@ -20,9 +20,9 @@
 		<tbody>
 			<c:forEach items="${trip.schedule}" var="scheduleItem">
 				<tr>
-				<td><fmt:message key="trip.status.${scheduleItem.status}" /></td>
+				<td><fmt:message key="trip.status.${scheduleItem.status.value}"  /> ${scheduleItem.status.text}</td>
 				<td><fmt:message key="page.date.from" /> ${scheduleItem.begin.text}<br /><fmt:message key="page.date.to" /> ${scheduleItem.end.text}</td>
-				<td>${scheduleItem.price.value} ${scheduleItem.price.value}</td>
+				<td>${scheduleItem.price.value} ${scheduleItem.price.currency}</td>
 				<td>${scheduleItem.min} / ${scheduleItem.max}</td>
 				<td>${scheduleItem.members}</td>
 				<td><a class="button">todo</a></td>

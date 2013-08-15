@@ -2,6 +2,7 @@ package com.heaptrip.web.model.travel;
 
 import com.heaptrip.web.model.content.DateModel;
 import com.heaptrip.web.model.content.PriceModel;
+import com.heaptrip.web.model.content.StatusModel;
 
 public class ScheduleModel {
 
@@ -21,7 +22,7 @@ public class ScheduleModel {
 	private PriceModel price;
 
 	// trip status
-	private String status;
+	private StatusModel status;
 
 	// The number of members
 	private Long members;
@@ -50,11 +51,11 @@ public class ScheduleModel {
 		this.price = price;
 	}
 
-	public String getStatus() {
+	public StatusModel getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(StatusModel status) {
 		this.status = status;
 	}
 

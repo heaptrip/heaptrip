@@ -10,8 +10,8 @@ import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
-import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.PriceModel;
+import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
@@ -83,17 +83,14 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements
 		ScheduleModel schedule = new ScheduleModel();
 		schedule.setBegin(convertDate(item.getBegin()));
 		schedule.setEnd(convertDate(item.getEnd()));
+		schedule.setMembers(item.getMembers() != null ? item.getMembers() : 0L);
 		schedule.setMin(item.getMin());
 		schedule.setMax(item.getMax());
-		schedule.setStatus(item.getStatus().getValue().name());
-		// TODO: перенести пониже
-		if (item.getPrice() != null) {
-			PriceModel priceModel = new PriceModel();
-			priceModel.setValue(item.getPrice().getValue());
-			priceModel.setCurrency(item.getPrice().getCurrency().name());
-			schedule.setPrice(priceModel);
-		}
-
+		StatusModel status = new StatusModel();
+		status.setValue(item.getStatus().getValue().name());
+		status.setText(item.getStatus().getText());
+		schedule.setStatus(status);
+		schedule.setPrice(convertPrice(item.getPrice()));
 		return schedule;
 
 	}

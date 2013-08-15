@@ -23,13 +23,23 @@
 
 <div id="container">
 			<div id="contents">
-
 				<article id="article" class="deteil">
-					<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span><span class="for_frends"><fmt:message key="content.forFrends" /></span></div>
+					<div class="date">${trip.created.text}
+						<span><fmt:message key="trip.title" /></span>
+						<c:if test = "${trip.status.value == 'PUBLISHED_FRIENDS'}">
+							<span class="for_frends"><fmt:message key="content.forFrends" /></span>
+						</c:if>
+					</div>
 					<div class="inf">
 						<div class="left">
-							<h2><a href="/">${trip.name}</a></h2>
-							<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
+							
+							<c:if test = "${trip.status.value != 'DRAFT'}">
+								<h2><a href="/">${trip.name}</a></h2>
+							</c:if>
+							<c:if test = "${trip.status.value == 'DRAFT'}">
+								<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
+							</c:if>
+
 							<div><fmt:message key="content.author" />:<span>${trip.owner.name} (${trip.owner.rating})</span></div>
 							<div><fmt:message key="content.category" />:
 								<c:forEach items="${trip.categories}" var="category">
