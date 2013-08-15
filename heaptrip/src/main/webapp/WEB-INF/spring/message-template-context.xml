@@ -8,7 +8,7 @@
 	<bean id="resetPasswordMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
 		<property name="subject">
 			<map>
-				<entry key="ru" value="наша тема" />
+				<entry key="ru" value="восстановление пароля" />
 				<entry key="en" value="same subject" />
 			</map>
 		</property>
@@ -20,14 +20,19 @@
 	<p>
 		<strong>Дорогой друг,</strong>
 	</p>
-	<p>
-		Есть супер сайт, на нем нет поэтесс и шахмат, но там круто!
+	<p>		
 		Восстанови пароль кликнув по <a href="%s">этой</a> ссылке.
 	</p>
 ]]>
 					</value>
 				</entry>
-				<entry key="en" value="same text" />
+				<entry key="en">
+					<value> 
+<![CDATA[ 
+	<a href="%s">link</a>
+]]>
+					</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
@@ -35,7 +40,7 @@
 	<bean id="sendNewPasswordMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
 		<property name="subject">
 			<map>
-				<entry key="ru" value="наша тема" />
+				<entry key="ru" value="новый пароль" />
 				<entry key="en" value="same subject" />
 			</map>
 		</property>
@@ -48,8 +53,7 @@
 		<strong>Дорогой друг,</strong>
 	</p>
 	<p>
-		Есть супер сайт, на нем нет поэтесс и шахмат, но там круто!
-		Пароль выслан.
+		Новый пароль %s
 	</p>
 ]]>
 					</value>
@@ -62,14 +66,31 @@
 	<bean id="confirmRegistrationMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
 		<property name="subject">
 			<map>
-				<entry key="ru" value="наша тема" />
+				<entry key="ru" value="подтверждение регистрации" />
 				<entry key="en" value="same subject" />
 			</map>
 		</property>
 		<property name="text">
 			<map>
-				<entry key="ru" value="наш текст" />
-				<entry key="en" value="same text" />
+				<entry key="ru">
+					<value> 
+<![CDATA[ 
+	<p>
+		<strong>Дорогой друг,</strong>
+	</p>
+	<p>		
+		Для подтверждения регистрации кликни по <a href="%s">этой</a> ссылке.
+	</p>
+]]>
+					</value>
+				</entry>
+				<entry key="en">
+					<value> 
+<![CDATA[ 
+	<a href="%s">link</a>
+]]>
+					</value>
+				</entry>
 			</map>
 		</property>
 	</bean>
