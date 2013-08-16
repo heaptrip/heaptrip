@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
 
 //test last
-
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Account extends BaseObject {
 
