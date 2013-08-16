@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.adm;
+package com.heaptrip.domain.service.system;
 
 import com.heaptrip.domain.entity.journal.JournalRecord;
 
@@ -16,5 +16,14 @@ public interface JournalService {
 	 * @return journal record
 	 */
 	public JournalRecord addRecord(JournalRecord record);
+
+	/**
+	 * Add exception to journal
+	 * 
+	 * @param e
+	 *            exception
+	 * @return journal record
+	 */
+	public JournalRecord addError(Throwable e);
 
 }

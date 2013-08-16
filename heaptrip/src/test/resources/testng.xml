@@ -9,7 +9,7 @@
 			<class name="com.heaptrip.service.account.user.UserServiceTest" />
 		</classes>
 	</test>
-	
+
 	<test name="CommunityTest">
 		<classes>
 			<class name="com.heaptrip.service.account.community.InitCommunityTest" />

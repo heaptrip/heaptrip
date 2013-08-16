@@ -15,8 +15,8 @@ import com.heaptrip.domain.exception.system.SolrException;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.repository.solr.SolrRegionRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrRegion;
-import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.region.RegionService;
+import com.heaptrip.domain.service.system.ErrorService;
 
 @Service
 public class RegionServiceImpl implements RegionService {

@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.adm;
+package com.heaptrip.domain.service.system;
 
 import com.heaptrip.domain.exception.BaseException;
 import com.heaptrip.domain.exception.ErrorEnum;

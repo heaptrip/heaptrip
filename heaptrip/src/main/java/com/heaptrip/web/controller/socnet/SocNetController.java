@@ -15,10 +15,10 @@ import com.heaptrip.domain.entity.socnet.fb.FBAccessToken;
 import com.heaptrip.domain.entity.socnet.fb.FBUser;
 import com.heaptrip.domain.entity.socnet.vk.VKAccessToken;
 import com.heaptrip.domain.entity.socnet.vk.VKUser;
-import com.heaptrip.domain.service.adm.RequestScopeService;
 import com.heaptrip.domain.service.socnet.SocnetAuthorizeException;
 import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.model.user.RegistrationInfoModel;
 

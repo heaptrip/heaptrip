@@ -6,5 +6,5 @@ package com.heaptrip.domain.entity.journal;
  * 
  */
 public enum ModuleEnum {
-	SYSTEM, UNKNOWN, ACCOUNT, TRIP, SOLR
+	SYSTEM, UNKNOWN, ACCOUNT, TRIP, SOLR, MAIL
 }

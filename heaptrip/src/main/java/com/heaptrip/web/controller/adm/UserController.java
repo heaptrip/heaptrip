@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.heaptrip.domain.entity.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
-import com.heaptrip.domain.service.adm.RequestScopeService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.domain.service.user.OldAuthenticationService;
 import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;

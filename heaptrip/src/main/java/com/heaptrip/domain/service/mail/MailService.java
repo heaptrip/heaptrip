@@ -10,7 +10,7 @@ import javax.mail.MessagingException;
 public interface MailService {
 
 	/**
-	 * Send a message from address noreply@heaptrip.com
+	 * Send a message from address noreply@heaptrip.com to single address
 	 * 
 	 * @param to
 	 *            address of the recipient
@@ -20,5 +20,18 @@ public interface MailService {
 	 *            message text
 	 * @throws MessagingException
 	 */
-	public void sendNoreplyMessage(String to, String subject, String text) throws MessagingException;
+	public void sendNoreplyMessage(String to, String subject, String text);
+
+	/**
+	 * Send a message from address noreply@heaptrip.com to multiply addresses
+	 * 
+	 * @param to
+	 *            addresses of the recipient
+	 * @param subject
+	 *            message subject
+	 * @param text
+	 *            message text
+	 * @throws MessagingException
+	 */
+	public void sendNoreplyMessage(String[] to, String subject, String text);
 }

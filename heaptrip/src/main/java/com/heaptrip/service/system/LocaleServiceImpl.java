@@ -1,4 +1,4 @@
-package com.heaptrip.service.adm;
+package com.heaptrip.service.system;
 
 import java.util.Locale;
 
@@ -11,7 +11,7 @@ import org.springframework.context.NoSuchMessageException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.LocaleResolver;
 
-import com.heaptrip.domain.service.adm.LocaleService;
+import com.heaptrip.domain.service.system.LocaleService;
 
 @Service
 public class LocaleServiceImpl implements LocaleService {

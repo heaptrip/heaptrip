@@ -16,7 +16,8 @@ public enum ErrorEnum {
 	
 	ERR_SYSTEM_CREATE("err.system.create.exception"),
 	ERR_SYSTEM_DB("err.system.bd"), 
-	ERR_SYSTEM_SOLR("err.system.solr");
+	ERR_SYSTEM_SOLR("err.system.solr"),
+	ERR_SYSTEM_SEND_MAIL("err.system.send.mail");
 	
 	public String KEY;
 

@@ -1,4 +1,4 @@
-package com.heaptrip.service.adm;
+package com.heaptrip.service.system;
 
 import java.util.Locale;
 
@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.adm.User;
-import com.heaptrip.domain.service.adm.ErrorService;
-import com.heaptrip.domain.service.adm.LocaleService;
-import com.heaptrip.domain.service.adm.RequestScopeService;
-import com.heaptrip.domain.service.adm.UserService;
+import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.domain.service.system.LocaleService;
+import com.heaptrip.domain.service.system.RequestScopeService;
+import com.heaptrip.domain.service.system.UserService;
 
 @Service("requestScopeService")
 public class RequestScopeServiceImpl implements RequestScopeService {

@@ -20,10 +20,10 @@ import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
 import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
-import com.heaptrip.domain.service.adm.ErrorService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
+import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.util.LanguageUtils;
 
 @Service

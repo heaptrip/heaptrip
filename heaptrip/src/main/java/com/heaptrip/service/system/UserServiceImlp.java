@@ -1,10 +1,10 @@
-package com.heaptrip.service.adm;
+package com.heaptrip.service.system;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.adm.User;
-import com.heaptrip.domain.service.adm.UserService;
+import com.heaptrip.domain.service.system.UserService;
 
 @Service
 public class UserServiceImlp implements UserService {
@@ -13,8 +13,7 @@ public class UserServiceImlp implements UserService {
 	public User getCurrentUser() {
 		User result = null;
 		try {
-			result = (User) SecurityContextHolder.getContext()
-					.getAuthentication().getPrincipal();
+			result = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		} catch (Throwable e) {
 		}
 		return result;

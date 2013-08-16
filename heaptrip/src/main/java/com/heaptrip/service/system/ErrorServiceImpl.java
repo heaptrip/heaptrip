@@ -1,4 +1,4 @@
-package com.heaptrip.service.adm;
+package com.heaptrip.service.system;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.exception.BaseException;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.SystemException;
-import com.heaptrip.domain.service.adm.ErrorService;
-import com.heaptrip.domain.service.adm.LocaleService;
+import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.domain.service.system.LocaleService;
 
 @Service
 public class ErrorServiceImpl implements ErrorService {

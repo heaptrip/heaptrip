@@ -13,7 +13,7 @@ import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.service.adm.RequestScopeServiceImpl;
+import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.filter.CategoryTreeModel;

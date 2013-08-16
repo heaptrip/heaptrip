@@ -12,7 +12,7 @@ import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentRegion;
-import com.heaptrip.service.adm.RequestScopeServiceImpl;
+import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
