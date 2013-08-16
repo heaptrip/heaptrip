@@ -6,31 +6,32 @@ import com.heaptrip.domain.entity.BaseObject;
 
 // test
 // test2
+// test3
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Account extends BaseObject {
 
 	public static final String COLLECTION_NAME = "accounts";
-	
+
 	// entity class name
 	private String _class;
-	
+
 	// name
 	private String name;
-	
+
 	private String email;
-	
+
 	private String imageProfileId;
-	
+
 	private String imageContentId;
-	
+
 	private Profile profile;
-	
+
 	private Setting setting;
 
 	// account status
 	private AccountStatusEnum status;
-	
-	// type account 
+
+	// type account
 	private AccountEnum typeAccount;
 
 	public String get_class() {
@@ -48,7 +49,7 @@ public abstract class Account extends BaseObject {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
@@ -56,7 +57,7 @@ public abstract class Account extends BaseObject {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public AccountStatusEnum getStatus() {
 		return status;
 	}
