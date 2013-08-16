@@ -7,6 +7,7 @@ import com.heaptrip.domain.entity.BaseObject;
 // test
 // test2
 // test3
+// test4
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Account extends BaseObject {
 
