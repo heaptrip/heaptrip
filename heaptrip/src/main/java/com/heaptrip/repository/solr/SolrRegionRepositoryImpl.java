@@ -60,7 +60,7 @@ public class SolrRegionRepositoryImpl implements SolrRegionRepository {
 			logger.debug(msg);
 		}
 
-		List<SolrRegion> solrRegions = new ArrayList<>();
+		List<SolrRegion> solrRegions = new ArrayList<>(results.size());
 		for (int i = 0; i < results.size(); ++i) {
 			SolrDocument doc = results.get(i);
 			SolrRegion solrRegion = toSolrRegion(doc);

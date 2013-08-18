@@ -7,5 +7,7 @@ public interface SolrContext {
 
 	public static final String CONTENTS_CORE = "contents";
 
+	public static final String ACCOUNTS_CORE = "accounts";
+
 	public SolrServer getCore(String coreName);
 }

@@ -26,6 +26,8 @@ public class SolrContextImpl implements SolrContext {
 
 	private SolrServer contentsCore = null;
 
+	private SolrServer accountsCore = null;
+
 	@PostConstruct
 	public void init() throws MalformedURLException {
 		logger.info("Solr cores initialization ...");
@@ -39,6 +41,7 @@ public class SolrContextImpl implements SolrContext {
 			// urls store solr url
 			regionsCore = new HttpSolrServer(urls + "/" + REGIONS_CORE);
 			contentsCore = new HttpSolrServer(urls + "/" + CONTENTS_CORE);
+			accountsCore = new HttpSolrServer(urls + "/" + ACCOUNTS_CORE);
 		} else {
 			// urls store zookeeper endpoints
 			regionsCore = new CloudSolrServer(urls);
@@ -48,6 +51,10 @@ public class SolrContextImpl implements SolrContext {
 			contentsCore = new CloudSolrServer(urls);
 			((CloudSolrServer) contentsCore).setDefaultCollection(CONTENTS_CORE);
 			((CloudSolrServer) contentsCore).connect();
+
+			accountsCore = new CloudSolrServer(urls);
+			((CloudSolrServer) accountsCore).setDefaultCollection(ACCOUNTS_CORE);
+			((CloudSolrServer) accountsCore).connect();
 		}
 
 		logger.info("Solr cores successfully initialized");
@@ -60,6 +67,8 @@ public class SolrContextImpl implements SolrContext {
 			return regionsCore;
 		case CONTENTS_CORE:
 			return contentsCore;
+		case ACCOUNTS_CORE:
+			return accountsCore;
 		default:
 			throw new IllegalArgumentException("Unsupported core name: " + coreName);
 		}

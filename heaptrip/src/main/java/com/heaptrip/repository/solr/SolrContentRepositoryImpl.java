@@ -113,6 +113,9 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 
 		UpdateResponse response = core.deleteById(contentId);
 		logger.debug("Response to removing a document with id={}: {}", contentId, response);
+
+		response = core.commit();
+		logger.debug("Response to committing a remove: {}", response);
 	}
 
 	@Override
@@ -211,13 +214,13 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 
 		Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
 
-		List<SolrContent> solrContents = new ArrayList<>();
+		List<SolrContent> solrContents = new ArrayList<>(results.size());
 
 		for (int i = 0; i < results.size(); ++i) {
 			// read doc
 			SolrDocument doc = results.get(i);
 
-			// convert to solrt content docu,ent
+			// convert to solrt content document
 			SolrContent content = toSolrContent(doc, highlighting);
 
 			logger.debug("find document: {}", content);

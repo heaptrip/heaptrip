@@ -2,19 +2,9 @@ package com.heaptrip.domain.repository.solr.entity;
 
 import java.util.List;
 
-public class SolrSearchContentResponse {
-
-	private Long numFound;
+public class SolrSearchContentResponse extends SolrSearchReponse {
 
 	private List<SolrContent> contents;
-
-	public Long getNumFound() {
-		return numFound;
-	}
-
-	public void setNumFound(Long numFound) {
-		this.numFound = numFound;
-	}
 
 	public List<SolrContent> getContents() {
 		return contents;
