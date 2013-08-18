@@ -103,12 +103,12 @@ public class ErrorHandlerAspect {
 
 	@AfterThrowing(pointcut = "inServiceLayer()", throwing = "e")
 	public void doAfterThrowing(JoinPoint joinPoint, Throwable e) {
-		logger.error("An exception " + e + " has been thrown in " + joinPoint.getSignature().getName() + "()");
+		logger.error("An exception " + e + " has been thrown in " + joinPoint.getSignature().getName() + "()", e);
 
 		if (e instanceof Journalable || (journalables != null && journalables.contains(e.getClass().getName()))) {
 			try {
 				journalService.addError(e);
-				logger.debug("Add exception to journal", e);
+				logger.debug("Add exception " + e + " to journal");
 			} catch (Exception e1) {
 				logger.error("Could not write exception to journal", e1);
 			}
@@ -121,6 +121,7 @@ public class ErrorHandlerAspect {
 				String subject = String.format(message.getSubject(LanguageUtils.getEnglishLocale()), nodeName);
 				String text = String.format(message.getText(LanguageUtils.getEnglishLocale()), nodeName, stackTrace);
 				mailService.sendNoreplyMessage(emails, subject, text);
+				logger.debug("Send exception " + e + " by email");
 			} catch (Exception e1) {
 				logger.debug("Could not send exception message by e-mail", e1);
 			}
