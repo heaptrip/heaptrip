@@ -74,9 +74,9 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
 			doc.addField("friends", account.getFriends());
 		}
 
-		// set subscribers
-		if (ArrayUtils.isNotEmpty(account.getSubscribers())) {
-			doc.addField("subscribers", account.getSubscribers());
+		// set publishers
+		if (ArrayUtils.isNotEmpty(account.getPublishers())) {
+			doc.addField("publishers", account.getPublishers());
 		}
 
 		// set owners
@@ -179,7 +179,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
 		}
 
 		// set fq for subscribers
-		fq = getFilterQuery("subscribers", criteria.getSubscribers());
+		fq = getFilterQuery("publishers", criteria.getPublishers());
 		if (StringUtils.isNotEmpty(fq)) {
 			query.add("fq", fq);
 		}

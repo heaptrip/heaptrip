@@ -26,8 +26,8 @@ public class AccountSearchCriteria {
 	// criteria for friends
 	private IDListCriteria friends;
 
-	// criteria for subscribers
-	private IDListCriteria subscribers;
+	// criteria for publishers
+	private IDListCriteria publishers;
 
 	// criteria for owners
 	private IDListCriteria owners;
@@ -87,12 +87,12 @@ public class AccountSearchCriteria {
 		this.friends = friends;
 	}
 
-	public IDListCriteria getSubscribers() {
-		return subscribers;
+	public IDListCriteria getPublishers() {
+		return publishers;
 	}
 
-	public void setSubscribers(IDListCriteria subscribers) {
-		this.subscribers = subscribers;
+	public void setPublishers(IDListCriteria publishers) {
+		this.publishers = publishers;
 	}
 
 	public IDListCriteria getOwners() {

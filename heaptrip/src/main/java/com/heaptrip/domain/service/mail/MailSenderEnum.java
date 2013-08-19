@@ -3,14 +3,14 @@ package com.heaptrip.domain.service.mail;
 public enum MailSenderEnum {
 	NOREPLY("noreply@heaptrip.com");
 
-	private String adress;
+	private String address;
 
-	private MailSenderEnum(String adress) {
-		this.adress = adress;
+	private MailSenderEnum(String address) {
+		this.address = address;
 	}
 
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
 
 }

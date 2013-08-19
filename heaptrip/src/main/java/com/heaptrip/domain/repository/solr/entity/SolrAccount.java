@@ -7,7 +7,7 @@ public class SolrAccount extends SolrDocument {
 	private String[] categories;
 	private String[] regions;
 	private String[] friends;
-	private String[] subscribers;
+	private String[] publishers;
 	private String[] owners;
 	private String[] staff;
 	private String[] members;
@@ -52,12 +52,12 @@ public class SolrAccount extends SolrDocument {
 		this.friends = friends;
 	}
 
-	public String[] getSubscribers() {
-		return subscribers;
+	public String[] getPublishers() {
+		return publishers;
 	}
 
-	public void setSubscribers(String[] subscribers) {
-		this.subscribers = subscribers;
+	public void setPublishers(String[] publishers) {
+		this.publishers = publishers;
 	}
 
 	public String[] getOwners() {
