@@ -48,7 +48,11 @@ public class Ajax {
 	}
 
 	public static Map<String, ? extends Object> errorResponse(String message, Map<String, ? extends Object> objects) {
-		return errorResponse(message, objects);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put(KEY_STATUS, STATUS_ERROR);
+		map.put(KEY_MESSAGE, message);
+		map.put(KEY_DATA, objects);
+		return map;
 	}
 
 	public static Map<String, ? extends Object> errorResponse(String message, Object object) {

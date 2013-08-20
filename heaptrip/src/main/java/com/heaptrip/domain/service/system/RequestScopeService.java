@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.heaptrip.domain.entity.adm.User;
+import com.heaptrip.domain.entity.account.user.User;
 
 public interface RequestScopeService {
 

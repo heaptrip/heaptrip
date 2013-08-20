@@ -1,31 +1,12 @@
 package com.heaptrip.service.user;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-
-import javax.mail.MessagingException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.user.SocialNetwork;
-import com.heaptrip.domain.entity.user.User;
-import com.heaptrip.domain.service.user.OldAuthenticationService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests {
 	
-	@Autowired
+	/*@Autowired
 	private ResourceLoader loader;
 	
 	@Autowired
@@ -219,5 +200,5 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 		authenticationService.changeEmail(InitUserTest.EMAIL_USER_ID, 
 																InitUserTest.EMAIL_USER_EMAIL, 
 																InitUserTest.EMAIL_USER_EMAIL_NEW);
-	}
+	}*/
 }

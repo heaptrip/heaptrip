@@ -18,9 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
-import com.heaptrip.domain.entity.user.User;
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.system.LocaleService;
-import com.heaptrip.domain.service.user.OldAuthenticationService;
 
 @Component("userAuthenticationProvider")
 public class AuthenticationProviderImpl implements
@@ -30,7 +30,7 @@ public class AuthenticationProviderImpl implements
 			.getLogger(AuthenticationProvider.class);
 
 	@Autowired
-	private OldAuthenticationService authenticationService;
+	private  AuthenticationService authenticationService;
 
 	@Autowired
 	private LocaleService localeService;
@@ -50,7 +50,7 @@ public class AuthenticationProviderImpl implements
 		LOG.info("user " + email + " trying authenticate");
 
 		// Check user authentication info
-		User user = authenticationService.getUserByEmail(email, password);
+		User user = authenticationService.getUserByEmailAndPassword(email, password);
 
 		if (user == null) {
 			LOG.error("user " + email + " authenticate failure");

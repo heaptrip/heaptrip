@@ -1,27 +1,12 @@
 package com.heaptrip.service.user;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-
-import com.heaptrip.domain.entity.user.SocialNetwork;
-import com.heaptrip.domain.entity.user.SocialNetworkEnum;
-import com.heaptrip.domain.entity.user.UserRegistration;
-import com.heaptrip.domain.service.user.OldAuthenticationService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitUserTest extends AbstractTestNGSpringContextTests {
 
-	public static final String IMAGE_1 = "penguins.jpg";
+	/*public static final String IMAGE_1 = "penguins.jpg";
 	public static final String IMAGE_2 = "tulips.jpg";
 	
 	@Autowired
@@ -106,5 +91,5 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 		authenticationService.hardRemoveUser(NOTCONFIRMED_USER_ID);
 		authenticationService.hardRemoveUser(EMAIL_USER_ID);
 		authenticationService.hardRemoveUser(NET_USER_ID);
-	}
+	}*/
 }

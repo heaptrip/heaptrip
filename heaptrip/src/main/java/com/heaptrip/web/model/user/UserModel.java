@@ -1,10 +1,10 @@
 package com.heaptrip.web.model.user;
 
-public class User {
+public class UserModel {
 	private String firstName;
 	private String secondName;
 
-	public User(String firstName, String secondName) {
+	public UserModel(String firstName, String secondName) {
 		this.firstName = firstName;
 		this.secondName = secondName;
 	}

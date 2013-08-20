@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.adm.User;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.LocaleService;
 import com.heaptrip.domain.service.system.RequestScopeService;

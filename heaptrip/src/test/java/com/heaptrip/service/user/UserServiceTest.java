@@ -1,28 +1,12 @@
 package com.heaptrip.service.user;
 
-import java.util.Date;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
-import org.testng.annotations.Test;
-
-import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.user.UserSetting;
-import com.heaptrip.domain.entity.user.SocialNetwork;
-import com.heaptrip.domain.entity.user.SocialNetworkEnum;
-import com.heaptrip.domain.entity.user.User;
-import com.heaptrip.domain.entity.user.UserProfile;
-import com.heaptrip.domain.repository.user.OldAuthenticationRepository;
-import com.heaptrip.domain.repository.user.OldUserRepository;
-import com.heaptrip.domain.service.user.OldAuthenticationService;
-import com.heaptrip.domain.service.user.OldUserService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class UserServiceTest extends AbstractTestNGSpringContextTests {
 
-	@Autowired
+	/*@Autowired
 	private OldUserService userSettingService;
 	
 	@Autowired
@@ -218,5 +202,5 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		userSettingService.deleteUser(InitUserTest.NET_USER_ID);
 		User user = authenticationRepository.findOne(InitUserTest.NET_USER_ID);
 		Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.DELETED));
-	}
+	}*/
 }

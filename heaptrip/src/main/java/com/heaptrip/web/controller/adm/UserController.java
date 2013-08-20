@@ -13,17 +13,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.heaptrip.domain.entity.user.User;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.system.RequestScopeService;
-import com.heaptrip.domain.service.user.OldAuthenticationService;
 import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.converter.UserModelService;
 import com.heaptrip.web.model.user.RegistrationInfoModel;
+
 
 @Controller
 public class UserController extends ExceptionHandlerControler {
@@ -39,7 +40,7 @@ public class UserController extends ExceptionHandlerControler {
 	private UserModelService userModelService;
 
 	@Autowired
-	private OldAuthenticationService authenticationService;
+	private AuthenticationService authenticationService;
 
 	@Autowired
 	private AuthenticationProvider authenticationProvider;
