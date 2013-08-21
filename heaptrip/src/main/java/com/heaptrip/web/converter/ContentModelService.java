@@ -3,9 +3,9 @@ package com.heaptrip.web.converter;
 import java.util.Date;
 
 import com.heaptrip.domain.entity.Price;
-import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.ContentRegion;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
 import com.heaptrip.web.model.content.DateModel;
@@ -14,13 +14,13 @@ import com.heaptrip.web.model.content.RegionModel;
 
 public interface ContentModelService {
 
-	CategoryModel convertCategoryToModel(ContentCategory category);
+	CategoryModel convertCategoryToModel(SimpleCategory category);
 
-	CategoryModel[] convertCategoriesToModel(ContentCategory[] categories);
+	CategoryModel[] convertCategoriesToModel(SimpleCategory[] categories);
 
-	RegionModel convertRegionToModel(ContentRegion region);
+	RegionModel convertRegionToModel(SimpleRegion region);
 
-	RegionModel[] convertRegionsToModel(ContentRegion[] regions);
+	RegionModel[] convertRegionsToModel(SimpleRegion[] regions);
 
 	ContentOwnerModel convertContentOwnerToModel(ContentOwner owner);
 

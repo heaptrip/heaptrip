@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.heaptrip.domain.entity.content.Content;
 
-public class SearchContentResponse {
+public class ContentSearchResponse {
 
 	private long numFound;
 

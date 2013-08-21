@@ -4,21 +4,21 @@ package com.heaptrip.domain.entity.account;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
-import com.heaptrip.domain.entity.content.ContentCategory;
-import com.heaptrip.domain.entity.content.ContentRegion;
+import com.heaptrip.domain.entity.category.SimpleCategory;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public class Profile extends BaseObject {
 	
-	private ContentRegion location;
+	private SimpleRegion location;
 	
 	private String[] langs;
 	
 	private String desc;
 
-	private ContentCategory[] categories;
+	private SimpleCategory[] categories;
 	
-	private ContentRegion[] regions;
+	private SimpleRegion[] regions;
 	
 	public Profile() {
 		super();
@@ -29,11 +29,11 @@ public class Profile extends BaseObject {
 		this.id = id;
 	}
 
-	public ContentRegion getLocation() {
+	public SimpleRegion getLocation() {
 		return location;
 	}
 
-	public void setLocation(ContentRegion location) {
+	public void setLocation(SimpleRegion location) {
 		this.location = location;
 	}
 
@@ -53,19 +53,19 @@ public class Profile extends BaseObject {
 		this.desc = desc;
 	}
 
-	public ContentCategory[] getCategories() {
+	public SimpleCategory[] getCategories() {
 		return categories;
 	}
 
-	public void setCategories(ContentCategory[] categories) {
+	public void setCategories(SimpleCategory[] categories) {
 		this.categories = categories;
 	}
 
-	public ContentRegion[] getRegions() {
+	public SimpleRegion[] getRegions() {
 		return regions;
 	}
 
-	public void setRegions(ContentRegion[] regions) {
+	public void setRegions(SimpleRegion[] regions) {
 		this.regions = regions;
 	}
 }

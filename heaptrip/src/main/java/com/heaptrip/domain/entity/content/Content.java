@@ -5,7 +5,9 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 
 /**
  * 
@@ -23,13 +25,13 @@ public class Content extends BaseObject {
 	private ContentOwner owner;
 
 	// contain a content categories set by the owner
-	private ContentCategory[] categories;
+	private SimpleCategory[] categories;
 
 	// contain a categories set by the owner, and parent for them
 	private String[] allCategories;
 
 	// contain a content regions set by the owner
-	private ContentRegion[] regions;
+	private SimpleRegion[] regions;
 
 	// contain a regions set by the owner, and parent for them
 	private String[] allRegions;
@@ -79,11 +81,11 @@ public class Content extends BaseObject {
 		this.owner = owner;
 	}
 
-	public ContentCategory[] getCategories() {
+	public SimpleCategory[] getCategories() {
 		return categories;
 	}
 
-	public void setCategories(ContentCategory[] categories) {
+	public void setCategories(SimpleCategory[] categories) {
 		this.categories = categories;
 	}
 
@@ -95,11 +97,11 @@ public class Content extends BaseObject {
 		this.allCategories = allCategories;
 	}
 
-	public ContentRegion[] getRegions() {
+	public SimpleRegion[] getRegions() {
 		return regions;
 	}
 
-	public void setRegions(ContentRegion[] regions) {
+	public void setRegions(SimpleRegion[] regions) {
 		this.regions = regions;
 	}
 

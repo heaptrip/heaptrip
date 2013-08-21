@@ -2,7 +2,7 @@ package com.heaptrip.domain.repository.solr.entity;
 
 import java.util.List;
 
-public class SolrSearchContentResponse extends SolrSearchReponse {
+public class SolrContentSearchResponse extends SolrSearchReponse {
 
 	private List<SolrContent> contents;
 

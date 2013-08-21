@@ -1,7 +1,7 @@
 package com.heaptrip.domain.service.content;
 
+import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
-import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
 
 /**
  * 
@@ -30,7 +30,7 @@ public interface ContentSearchService {
 	 * @param ContextSearchCriteria
 	 *            criteria
 	 * 
-	 * @return search content response
+	 * @return content search response
 	 */
-	public SearchContentResponse findContentsByСontextSearchCriteria(ContextSearchCriteria criteria);
+	public ContentSearchResponse findContentsByСontextSearchCriteria(ContextSearchCriteria criteria);
 }

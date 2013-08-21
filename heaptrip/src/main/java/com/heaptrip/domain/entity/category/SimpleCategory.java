@@ -1,22 +1,23 @@
-package com.heaptrip.domain.entity.content;
+package com.heaptrip.domain.entity.category;
 
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.content.MultiLangText;
 
 /**
  * 
  * Content category
  * 
  */
-public class ContentCategory extends BaseObject {
+public class SimpleCategory extends BaseObject {
 
 	// multilingual name of the category
 	protected MultiLangText name;
 
-	protected ContentCategory() {
+	protected SimpleCategory() {
 		super();
 	}
 
-	public ContentCategory(String id) {
+	public SimpleCategory(String id) {
 		super();
 		this.id = id;
 	}

@@ -1,6 +1,5 @@
 package com.heaptrip.domain.entity.category;
 
-import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.MultiLangText;
 
 
@@ -9,7 +8,7 @@ import com.heaptrip.domain.entity.content.MultiLangText;
  * Category
  * 
  */
-public class Category extends ContentCategory {
+public class Category extends SimpleCategory {
 
 	public static final String COLLECTION_NAME = "categories";
 

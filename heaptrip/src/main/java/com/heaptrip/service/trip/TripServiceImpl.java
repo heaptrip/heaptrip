@@ -15,11 +15,11 @@ import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.category.Category;
-import com.heaptrip.domain.entity.content.ContentCategory;
-import com.heaptrip.domain.entity.content.ContentRegion;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.Route;
 import com.heaptrip.domain.entity.trip.TableItem;
@@ -90,30 +90,30 @@ public class TripServiceImpl implements TripService {
 
 		Set<String> allCategories = new HashSet<>();
 		if (trip.getCategories() != null) {
-			for (ContentCategory contentCategory : trip.getCategories()) {
+			for (SimpleCategory simpleCategory : trip.getCategories()) {
 				// set content categories
-				Assert.notNull(contentCategory.getId(), "category.id must not be null");
-				Category category = categoryRepository.findOne(contentCategory.getId());
-				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
-				contentCategory.setName(category.getName());
+				Assert.notNull(simpleCategory.getId(), "category.id must not be null");
+				Category category = categoryRepository.findOne(simpleCategory.getId());
+				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
+				simpleCategory.setName(category.getName());
 				// set all categories
-				allCategories.add(contentCategory.getId());
-				allCategories.addAll(categoryService.getParentsByCategoryId(contentCategory.getId()));
+				allCategories.add(simpleCategory.getId());
+				allCategories.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
 			}
 		}
 		trip.setAllCategories(allCategories.toArray(new String[0]));
 
 		Set<String> allRegions = new HashSet<>();
 		if (trip.getRegions() != null) {
-			for (ContentRegion contentRegion : trip.getRegions()) {
+			for (SimpleRegion simpleRegion : trip.getRegions()) {
 				// set content regions
-				Assert.notNull(contentRegion.getId(), "region.id must not be null");
-				Region region = regionRepository.findOne(contentRegion.getId());
-				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
-				contentRegion.setName(region.getName());
+				Assert.notNull(simpleRegion.getId(), "region.id must not be null");
+				Region region = regionRepository.findOne(simpleRegion.getId());
+				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
+				simpleRegion.setName(region.getName());
 				// set all regions
-				allRegions.add(contentRegion.getId());
-				allRegions.addAll(regionService.getParentsByRegionId(contentRegion.getId()));
+				allRegions.add(simpleRegion.getId());
+				allRegions.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
 			}
 		}
 		trip.setAllRegions(allRegions.toArray(new String[0]));
@@ -270,30 +270,30 @@ public class TripServiceImpl implements TripService {
 
 		Set<String> allCategories = new HashSet<>();
 		if (trip.getCategories() != null) {
-			for (ContentCategory contentCategory : trip.getCategories()) {
+			for (SimpleCategory simpleCategory : trip.getCategories()) {
 				// set content categories
-				Assert.notNull(contentCategory.getId(), "category.id must not be null");
-				Category category = categoryRepository.findOne(contentCategory.getId());
-				Assert.notNull(category, String.format("error category.id: %s", contentCategory.getId()));
-				contentCategory.setName(category.getName());
+				Assert.notNull(simpleCategory.getId(), "category.id must not be null");
+				Category category = categoryRepository.findOne(simpleCategory.getId());
+				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
+				simpleCategory.setName(category.getName());
 				// set all categories
-				allCategories.add(contentCategory.getId());
-				allCategories.addAll(categoryService.getParentsByCategoryId(contentCategory.getId()));
+				allCategories.add(simpleCategory.getId());
+				allCategories.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
 			}
 		}
 		trip.setAllCategories(allCategories.toArray(new String[0]));
 
 		Set<String> allRegions = new HashSet<>();
 		if (trip.getRegions() != null) {
-			for (ContentRegion contentRegion : trip.getRegions()) {
+			for (SimpleRegion simpleRegion : trip.getRegions()) {
 				// set content regions
-				Assert.notNull(contentRegion.getId(), "region.id must not be null");
-				Region region = regionRepository.findOne(contentRegion.getId());
-				Assert.notNull(region, String.format("error region.id: %s", contentRegion.getId()));
-				contentRegion.setName(region.getName());
+				Assert.notNull(simpleRegion.getId(), "region.id must not be null");
+				Region region = regionRepository.findOne(simpleRegion.getId());
+				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
+				simpleRegion.setName(region.getName());
 				// set all regions
-				allRegions.add(contentRegion.getId());
-				allRegions.addAll(regionService.getParentsByRegionId(contentRegion.getId()));
+				allRegions.add(simpleRegion.getId());
+				allRegions.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
 			}
 		}
 		trip.setAllRegions(allRegions.toArray(new String[0]));

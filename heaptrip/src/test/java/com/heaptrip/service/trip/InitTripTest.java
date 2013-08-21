@@ -20,11 +20,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -76,24 +76,24 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private RegionService regionService;
 
-	private ContentCategory[] getCategories() {
-		return new ContentCategory[] { new ContentCategory(CATEGORY_IDS[0]), new ContentCategory(CATEGORY_IDS[1]) };
+	private SimpleCategory[] getCategories() {
+		return new SimpleCategory[] { new SimpleCategory(CATEGORY_IDS[0]), new SimpleCategory(CATEGORY_IDS[1]) };
 	}
 
-	private ContentRegion[] getRegions() throws SolrServerException {
-		ContentRegion[] contentRegions = null;
+	private SimpleRegion[] getRegions() throws SolrServerException {
+		SimpleRegion[] simpleRegions = null;
 		List<Region> regions = regionService.getRegionsByName(REGION_NAME, 0L, 10L, locale);
 		if (regions != null) {
-			contentRegions = new ContentRegion[regions.size()];
+			simpleRegions = new SimpleRegion[regions.size()];
 			for (int i = 0; i < regions.size(); i++) {
 				Region region = regions.get(i);
-				ContentRegion contentRegion = new ContentRegion();
-				contentRegion.setId(region.getId());
-				contentRegion.setName(region.getName());
-				contentRegions[i] = contentRegion;
+				SimpleRegion simpleRegion = new SimpleRegion();
+				simpleRegion.setId(region.getId());
+				simpleRegion.setName(region.getName());
+				simpleRegions[i] = simpleRegion;
 			}
 		}
-		return contentRegions;
+		return simpleRegions;
 	}
 
 	private TableItem[] getRandomTable() {
@@ -118,8 +118,8 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	}
 
 	private List<Trip> getTrips() throws SolrServerException {
-		ContentCategory[] categories = getCategories();
-		ContentRegion[] regions = getRegions();
+		SimpleCategory[] categories = getCategories();
+		SimpleRegion[] regions = getRegions();
 		List<Trip> trips = new ArrayList<>();
 		for (int i = 0; i < TRIPS_COUNT; i++) {
 			Trip trip = new Trip();
