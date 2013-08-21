@@ -5,7 +5,7 @@ import com.heaptrip.domain.entity.content.MultiLangText;
 
 /**
  * 
- * Content regions
+ * Simple region
  * 
  */
 public class SimpleRegion extends BaseObject {

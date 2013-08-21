@@ -5,7 +5,7 @@ import com.heaptrip.domain.entity.content.MultiLangText;
 
 /**
  * 
- * Content category
+ * Simple category
  * 
  */
 public class SimpleCategory extends BaseObject {
