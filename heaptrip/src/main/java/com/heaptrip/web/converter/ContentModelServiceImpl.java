@@ -8,10 +8,10 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Price;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.ContentRegion;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
@@ -26,7 +26,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 		ContentModelService {
 
 	@Override
-	public CategoryModel convertCategoryToModel(ContentCategory category) {
+	public CategoryModel convertCategoryToModel(SimpleCategory category) {
 		CategoryModel result = null;
 		if (category != null) {
 			result = new CategoryModel();
@@ -37,11 +37,11 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 	}
 
 	@Override
-	public CategoryModel[] convertCategoriesToModel(ContentCategory[] categories) {
+	public CategoryModel[] convertCategoriesToModel(SimpleCategory[] categories) {
 		CategoryModel[] result = null;
 		if (categories != null) {
 			List<CategoryModel> categoryModels = new ArrayList<CategoryModel>();
-			for (ContentCategory category : categories) {
+			for (SimpleCategory category : categories) {
 				categoryModels.add(convertCategoryToModel(category));
 			}
 			result = categoryModels.toArray(new CategoryModel[categoryModels
@@ -51,7 +51,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 	}
 
 	@Override
-	public RegionModel convertRegionToModel(ContentRegion region) {
+	public RegionModel convertRegionToModel(SimpleRegion region) {
 		RegionModel result = null;
 		if (region != null) {
 			result = new RegionModel();
@@ -64,11 +64,11 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 	}
 
 	@Override
-	public RegionModel[] convertRegionsToModel(ContentRegion[] regions) {
+	public RegionModel[] convertRegionsToModel(SimpleRegion[] regions) {
 		RegionModel[] result = null;
 		if (regions != null) {
 			List<RegionModel> regionModels = new ArrayList<RegionModel>();
-			for (ContentRegion region : regions) {
+			for (SimpleRegion region : regions) {
 				regionModels.add(convertRegionToModel(region));
 			}
 			result = regionModels.toArray(new RegionModel[regionModels.size()]);

@@ -25,7 +25,7 @@ import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
-import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
+import com.heaptrip.domain.repository.solr.entity.SolrContentSearchResponse;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 
 @Service
@@ -119,7 +119,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 	}
 
 	@Override
-	public SolrSearchContentResponse findByСontextSearchCriteria(ContextSearchCriteria criteria)
+	public SolrContentSearchResponse findByСontextSearchCriteria(ContextSearchCriteria criteria)
 			throws SolrServerException {
 
 		SolrQuery query = new SolrQuery();
@@ -228,7 +228,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 			solrContents.add(content);
 		}
 
-		SolrSearchContentResponse result = new SolrSearchContentResponse();
+		SolrContentSearchResponse result = new SolrContentSearchResponse();
 		result.setNumFound(results.getNumFound());
 		result.setContents(solrContents);
 

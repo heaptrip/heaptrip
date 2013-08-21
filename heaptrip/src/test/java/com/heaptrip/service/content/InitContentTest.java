@@ -8,7 +8,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
-import com.heaptrip.domain.entity.content.ContentCategory;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.trip.Trip;
@@ -36,8 +36,8 @@ public class InitContentTest extends AbstractTestNGSpringContextTests {
 
 	Locale locale = Locale.ENGLISH;
 
-	private ContentCategory[] getCategories() {
-		return new ContentCategory[] { new ContentCategory(CATEGORY_IDS[0]), new ContentCategory(CATEGORY_IDS[1]) };
+	private SimpleCategory[] getCategories() {
+		return new SimpleCategory[] { new SimpleCategory(CATEGORY_IDS[0]), new SimpleCategory(CATEGORY_IDS[1]) };
 	}
 
 	@BeforeTest()

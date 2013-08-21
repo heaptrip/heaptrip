@@ -12,18 +12,18 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.ContentCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
-import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
+import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.LanguageUtils;
 
@@ -56,26 +56,26 @@ public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 
 	private Content trip = null;
 
-	private ContentCategory[] getCategories() {
-		return new ContentCategory[] { new ContentCategory(CATEGORY_IDS[0]), new ContentCategory(CATEGORY_IDS[1]) };
+	private SimpleCategory[] getCategories() {
+		return new SimpleCategory[] { new SimpleCategory(CATEGORY_IDS[0]), new SimpleCategory(CATEGORY_IDS[1]) };
 	}
 
-	private ContentRegion[] getRegions() throws SolrServerException {
-		ContentRegion[] contentRegions = null;
+	private SimpleRegion[] getRegions() throws SolrServerException {
+		SimpleRegion[] simpleRegions = null;
 		List<Region> regions = regionService.getRegionsByName(REGION_NAME, 0L, 10L, LanguageUtils.getEnglishLocale());
 		if (regions != null) {
 			REGION_IDS = new String[regions.size()];
-			contentRegions = new ContentRegion[regions.size()];
+			simpleRegions = new SimpleRegion[regions.size()];
 			for (int i = 0; i < regions.size(); i++) {
 				Region region = regions.get(i);
 				REGION_IDS[i] = region.getId();
-				ContentRegion contentRegion = new ContentRegion();
-				contentRegion.setId(region.getId());
-				contentRegion.setName(region.getName());
-				contentRegions[i] = contentRegion;
+				SimpleRegion simpleRegion = new SimpleRegion();
+				simpleRegion.setId(region.getId());
+				simpleRegion.setName(region.getName());
+				simpleRegions[i] = simpleRegion;
 			}
 		}
-		return contentRegions;
+		return simpleRegions;
 	}
 
 	@BeforeClass
@@ -112,7 +112,7 @@ public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(priority = 1, enabled = true, dataProvider = "contextSearchCriteria", dataProviderClass = ContentDataProvider.class)
 	public void findContentsByСontextSearchCriteria(ContextSearchCriteria criteria) {
 		// call
-		SearchContentResponse response = contentSearchService.findContentsByСontextSearchCriteria(criteria);
+		ContentSearchResponse response = contentSearchService.findContentsByСontextSearchCriteria(criteria);
 		// check
 		Assert.assertNotNull(response);
 		Assert.assertTrue(response.getNumFound() > 0);

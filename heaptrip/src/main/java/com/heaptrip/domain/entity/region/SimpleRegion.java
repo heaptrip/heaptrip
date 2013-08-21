@@ -1,22 +1,23 @@
-package com.heaptrip.domain.entity.content;
+package com.heaptrip.domain.entity.region;
 
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.content.MultiLangText;
 
 /**
  * 
  * Content regions
  * 
  */
-public class ContentRegion extends BaseObject {
+public class SimpleRegion extends BaseObject {
 
 	// multilingual name of the region
 	protected MultiLangText name;
 
-	public ContentRegion() {
+	public SimpleRegion() {
 		super();
 	}
 
-	public ContentRegion(String id) {
+	public SimpleRegion(String id) {
 		super();
 		this.id = id;
 	}

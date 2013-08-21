@@ -1,6 +1,5 @@
 package com.heaptrip.domain.entity.region;
 
-import com.heaptrip.domain.entity.content.ContentRegion;
 import com.heaptrip.domain.entity.content.MultiLangText;
 
 
@@ -9,7 +8,7 @@ import com.heaptrip.domain.entity.content.MultiLangText;
  * Region
  * 
  */
-public class Region extends ContentRegion {
+public class Region extends SimpleRegion {
 
 	public static final String COLLECTION_NAME = "regions";
 

@@ -19,10 +19,10 @@ import com.heaptrip.domain.exception.system.SolrException;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
-import com.heaptrip.domain.repository.solr.entity.SolrSearchContentResponse;
+import com.heaptrip.domain.repository.solr.entity.SolrContentSearchResponse;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
-import com.heaptrip.domain.service.content.criteria.SearchContentResponse;
+import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.util.LanguageUtils;
 
@@ -62,19 +62,19 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	}
 
 	@Override
-	public SearchContentResponse findContentsByСontextSearchCriteria(ContextSearchCriteria criteria) {
+	public ContentSearchResponse findContentsByСontextSearchCriteria(ContextSearchCriteria criteria) {
 		Assert.notNull(criteria, "criteria must not be null");
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");
 
-		SolrSearchContentResponse response = null;
+		SolrContentSearchResponse response = null;
 		try {
 			response = solrContentRepository.findByСontextSearchCriteria(criteria);
 		} catch (SolrServerException e) {
 			throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
 		}
 
-		SearchContentResponse result = new SearchContentResponse();
+		ContentSearchResponse result = new ContentSearchResponse();
 		if (response == null) {
 			result.setNumFound(0);
 		} else {
