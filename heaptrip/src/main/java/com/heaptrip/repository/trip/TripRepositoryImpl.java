@@ -28,8 +28,8 @@ import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.trip.helper.QueryHelper;
 import com.heaptrip.repository.trip.helper.QueryHelperFactory;
-import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
+import com.heaptrip.util.language.LanguageUtils;
 import com.mongodb.WriteResult;
 
 @Service

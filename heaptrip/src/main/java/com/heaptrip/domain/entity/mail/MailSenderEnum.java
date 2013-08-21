@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.mail;
+package com.heaptrip.domain.entity.mail;
 
 public enum MailSenderEnum {
 	NOREPLY("noreply@heaptrip.com");

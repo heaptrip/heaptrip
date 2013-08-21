@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.LangEnum;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 /**
  * 

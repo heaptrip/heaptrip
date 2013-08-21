@@ -17,7 +17,7 @@ import com.heaptrip.domain.repository.album.AlbumRepository;
 import com.heaptrip.domain.service.album.AlbumImageEnum;
 import com.heaptrip.domain.service.album.AlbumService;
 import com.heaptrip.domain.service.image.ImageService;
-import com.heaptrip.util.StreamUtils;
+import com.heaptrip.util.stream.StreamUtils;
 
 @Service(AlbumService.SERVICE_NAME)
 public class AlbumServiceImpl implements AlbumService {

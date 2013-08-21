@@ -1,4 +1,4 @@
-package com.heaptrip.domain.service.mail;
+package com.heaptrip.domain.service.system;
 
 import javax.mail.MessagingException;
 

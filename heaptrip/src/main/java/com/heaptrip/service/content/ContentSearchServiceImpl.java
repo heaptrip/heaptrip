@@ -24,7 +24,7 @@ import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.system.ErrorService;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Service
 public class ContentSearchServiceImpl implements ContentSearchService {

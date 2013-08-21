@@ -1,4 +1,4 @@
-package com.heaptrip.util;
+package com.heaptrip.util.language;
 
 import java.util.Locale;
 

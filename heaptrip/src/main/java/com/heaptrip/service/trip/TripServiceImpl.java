@@ -41,7 +41,7 @@ import com.heaptrip.domain.service.trip.criteria.SearchPeriod;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Service
 public class TripServiceImpl implements TripService {

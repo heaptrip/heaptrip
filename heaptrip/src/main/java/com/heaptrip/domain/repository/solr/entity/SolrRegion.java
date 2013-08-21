@@ -6,7 +6,7 @@ import com.heaptrip.domain.entity.LangEnum;
 import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 public class SolrRegion extends SolrDocument {
 

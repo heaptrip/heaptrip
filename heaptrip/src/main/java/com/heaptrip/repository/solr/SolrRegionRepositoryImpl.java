@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.repository.solr.SolrContext;
 import com.heaptrip.domain.repository.solr.SolrRegionRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrRegion;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Service
 public class SolrRegionRepositoryImpl implements SolrRegionRepository {

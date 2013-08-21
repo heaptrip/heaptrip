@@ -65,15 +65,10 @@
 		</classes>
 	</test>
 
-	<test name="MailTest">
-		<classes>
-			<class name="com.heaptrip.service.mail.MailServiceTest" />
-		</classes>
-	</test>
-
 	<test name="SystemTest">
 		<classes>
 			<class name="com.heaptrip.service.system.ErrorHandlerTest" />
+			<class name="com.heaptrip.service.system.MailServiceTest" />
 		</classes>
 	</test>
 

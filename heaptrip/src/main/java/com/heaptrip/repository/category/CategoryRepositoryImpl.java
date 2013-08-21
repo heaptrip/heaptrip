@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
-import com.heaptrip.util.LanguageUtils;
 import com.heaptrip.util.collection.IteratorConverter;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Service
 public class CategoryRepositoryImpl extends CrudRepositoryImpl<Category> implements CategoryRepository {

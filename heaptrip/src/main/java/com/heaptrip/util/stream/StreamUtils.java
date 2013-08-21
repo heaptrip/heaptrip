@@ -1,4 +1,4 @@
-package com.heaptrip.util;
+package com.heaptrip.util.stream;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

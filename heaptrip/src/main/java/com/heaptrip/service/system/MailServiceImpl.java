@@ -1,4 +1,4 @@
-package com.heaptrip.service.mail;
+package com.heaptrip.service.system;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -9,11 +9,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.mail.MailSenderEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.system.MailException;
-import com.heaptrip.domain.service.mail.MailSenderEnum;
-import com.heaptrip.domain.service.mail.MailService;
 import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.domain.service.system.MailService;
 
 @Service
 public class MailServiceImpl implements MailService {

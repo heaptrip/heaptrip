@@ -16,7 +16,7 @@ import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.album.AlbumImageEnum;
 import com.heaptrip.domain.service.trip.TripRouteService;
 import com.heaptrip.service.album.AlbumServiceImpl;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Service
 public class TripRouteServiceImpl extends AlbumServiceImpl implements TripRouteService {

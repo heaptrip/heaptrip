@@ -28,8 +28,8 @@ import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.image.ImageService;
-import com.heaptrip.domain.service.mail.MailService;
-import com.heaptrip.util.StreamUtils;
+import com.heaptrip.domain.service.system.MailService;
+import com.heaptrip.util.stream.StreamUtils;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {

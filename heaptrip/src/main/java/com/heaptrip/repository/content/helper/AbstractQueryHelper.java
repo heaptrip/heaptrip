@@ -4,7 +4,7 @@ import java.util.Locale;
 
 import com.heaptrip.domain.service.content.criteria.ContentCriteria;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 public abstract class AbstractQueryHelper<T extends ContentCriteria> implements QueryHelper<T> {
 

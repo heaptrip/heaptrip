@@ -29,9 +29,9 @@ import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.image.ImageService;
-import com.heaptrip.domain.service.mail.MailService;
+import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.service.account.AccountServiceImpl;
-import com.heaptrip.util.StreamUtils;
+import com.heaptrip.util.stream.StreamUtils;
 
 @Service
 public class UserServiceImpl extends AccountServiceImpl implements UserService {

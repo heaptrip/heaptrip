@@ -3,7 +3,7 @@ package com.heaptrip.domain.entity.mail;
 import java.util.Locale;
 import java.util.Map;
 
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 public class MessageTemplate {
 

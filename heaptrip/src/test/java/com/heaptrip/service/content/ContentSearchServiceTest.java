@@ -25,7 +25,7 @@ import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {

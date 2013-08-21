@@ -23,9 +23,9 @@ import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
 import com.heaptrip.domain.exception.Journalable;
 import com.heaptrip.domain.exception.Mailable;
-import com.heaptrip.domain.service.mail.MailService;
 import com.heaptrip.domain.service.system.JournalService;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.domain.service.system.MailService;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Aspect
 @Service

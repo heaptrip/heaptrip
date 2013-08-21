@@ -1,4 +1,4 @@
-package com.heaptrip.service.mail;
+package com.heaptrip.service.system;
 
 import java.util.Locale;
 
@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
-import com.heaptrip.domain.service.mail.MailService;
+import com.heaptrip.domain.service.system.MailService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class MailServiceTest extends AbstractTestNGSpringContextTests {

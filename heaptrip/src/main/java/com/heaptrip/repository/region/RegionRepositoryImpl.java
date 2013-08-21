@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
-import com.heaptrip.util.LanguageUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @Service
 public class RegionRepositoryImpl extends CrudRepositoryImpl<Region> implements RegionRepository {
