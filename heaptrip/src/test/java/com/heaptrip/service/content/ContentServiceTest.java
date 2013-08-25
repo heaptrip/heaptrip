@@ -55,17 +55,22 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Test(priority = 2, enabled = true)
 	public void incContentViews() {
+		String userId = "123";
+		String ip = "127.0.0.1";
 		// call
 		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
-		Assert.assertNotNull(content.getViews());
-		long views = content.getViews().longValue();
-		contentService.incContentViews(TRIP_ID);
+		Assert.assertTrue(content.getViews() == null || content.getViews().getCount() == 0);
+		contentService.incContentViews(TRIP_ID, userId);
+		contentService.incContentViews(TRIP_ID, userId);
+		contentService.incContentViews(TRIP_ID, ip);
+		contentService.incContentViews(TRIP_ID, ip);
 		// check
 		content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getViews());
-		Assert.assertEquals(content.getViews().longValue(), ++views);
+		Assert.assertNotNull(content.getViews().getCount());
+		Assert.assertEquals(content.getViews().getCount(), 2);
 	}
 
 	@Test(priority = 3, enabled = true, dataProvider = "favoritesTripMyAccountCriteria", dataProviderClass = ContentDataProvider.class)

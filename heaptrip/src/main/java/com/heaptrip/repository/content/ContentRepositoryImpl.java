@@ -1,5 +1,6 @@
 package com.heaptrip.repository.content;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -56,9 +57,11 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	}
 
 	@Override
-	public void incViews(String tripId) {
+	public void incViews(String contentId, String userIdOrRemoteIp) {
 		MongoCollection coll = getCollection();
-		WriteResult wr = coll.update("{_id: #}", tripId).with("{$inc: {views: 1}}");
+		WriteResult wr = coll.update("{_id: #, 'views.ids': {$not: {$in: #}}}", contentId,
+				Arrays.asList(userIdOrRemoteIp)).with("{$push:{'views.ids': #}, $inc: {'views.count': 1}}",
+				userIdOrRemoteIp);
 		logger.debug("WriteResult for inc views: {}", wr);
 	}
 

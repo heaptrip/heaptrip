@@ -64,8 +64,8 @@ public class Content extends BaseObject {
 	// owners
 	private String[] owners;
 
-	// number of views
-	private Long views;
+	// viewing information
+	private ContentViews views;
 
 	// language in which the trip was created
 	private String mainLang;
@@ -185,11 +185,11 @@ public class Content extends BaseObject {
 		this.owners = owners;
 	}
 
-	public Long getViews() {
+	public ContentViews getViews() {
 		return views;
 	}
 
-	public void setViews(Long views) {
+	public void setViews(ContentViews views) {
 		this.views = views;
 	}
 

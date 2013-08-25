@@ -19,8 +19,8 @@ import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.MultiLangText;
-import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.trip.Route;
 import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
@@ -144,7 +144,6 @@ public class TripServiceImpl implements TripService {
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
 		trip.setDeleted(null);
-		trip.setViews(0L);
 		trip.setRating(0d);
 		trip.setComments(0L);
 

@@ -116,7 +116,11 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 			contentModel.setId(contetnt.getId());
 			contentModel.setCreated(convertDate(contetnt.getCreated()));
 			contentModel.setImage(contetnt.getImage().getId());
-			contentModel.setViews(contetnt.getViews());
+			if (contetnt.getViews() == null) {
+				contentModel.setViews(0L);
+			} else {
+				contentModel.setViews(contetnt.getViews().getCount());
+			}
 			StatusModel status = new StatusModel();
 			status.setValue(contetnt.getStatus().getValue().name());
 			status.setText(contetnt.getStatus().getText());

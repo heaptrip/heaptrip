@@ -121,9 +121,10 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
-	public void incContentViews(String contentId) {
+	public void incContentViews(String contentId, String userIdOrRemoteIp) {
 		Assert.notNull(contentId, "contentId must not be null");
-		contentRepository.incViews(contentId);
+		Assert.notNull(contentId, "userIdOrRemoteIp must not be null");
+		contentRepository.incViews(contentId, userIdOrRemoteIp);
 	}
 
 	@Override

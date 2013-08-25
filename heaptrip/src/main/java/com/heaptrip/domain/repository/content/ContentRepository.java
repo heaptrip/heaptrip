@@ -15,7 +15,7 @@ public interface ContentRepository extends CrudRepository<Content> {
 
 	public void setStatus(String contentId, ContentStatusEnum status, String[] allowed);
 
-	public void incViews(String contentId);
+	public void incViews(String contentId, String userIdOrRemoteIp);
 
 	public List<Content> findByIds(Collection<String> ids, Locale locale);
 

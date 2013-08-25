@@ -69,11 +69,15 @@ public interface ContentService {
 	public long getContentsCountByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria);
 
 	/**
-	 * Increase the content views
+	 * Increase the content views: for registered users passed a user Id, for
+	 * non-registered users passed ip address of the remote host
 	 * 
 	 * @param contentId
+	 *            content id
+	 * @param userIdOrRemoteIp
+	 *            user id or remote host ip
 	 */
-	public void incContentViews(String contentId);
+	public void incContentViews(String contentId, String userIdOrRemoteIp);
 
 	/**
 	 * Set content status
