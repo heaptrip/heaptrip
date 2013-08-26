@@ -17,6 +17,8 @@ public interface ContentRepository extends CrudRepository<Content> {
 
 	public void incViews(String contentId, String userIdOrRemoteIp);
 
+	public long getCountViews(String contentId);
+
 	public List<Content> findByIds(Collection<String> ids, Locale locale);
 
 	public List<Content> findByFeedCriteria(FeedCriteria criteria);

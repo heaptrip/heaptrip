@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -120,11 +123,14 @@ public class ContentServiceImpl implements ContentService {
 		contentSearchService.saveContent(contentId);
 	}
 
+	@Async
 	@Override
-	public void incContentViews(String contentId, String userIdOrRemoteIp) {
+	public Future<Long> incContentViews(String contentId, String userIdOrRemoteIp) {
 		Assert.notNull(contentId, "contentId must not be null");
 		Assert.notNull(contentId, "userIdOrRemoteIp must not be null");
 		contentRepository.incViews(contentId, userIdOrRemoteIp);
+		long views = contentRepository.getCountViews(contentId);
+		return new AsyncResult<Long>(views);
 	}
 
 	@Override

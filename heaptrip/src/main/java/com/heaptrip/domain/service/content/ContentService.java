@@ -3,6 +3,7 @@ package com.heaptrip.domain.service.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
@@ -76,8 +77,9 @@ public interface ContentService {
 	 *            content id
 	 * @param userIdOrRemoteIp
 	 *            user id or remote host ip
+	 * @return number of views
 	 */
-	public void incContentViews(String contentId, String userIdOrRemoteIp);
+	public Future<Long> incContentViews(String contentId, String userIdOrRemoteIp);
 
 	/**
 	 * Set content status

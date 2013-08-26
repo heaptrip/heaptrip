@@ -1,6 +1,8 @@
 package com.heaptrip.service.content;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,18 +56,32 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void incContentViews() {
+	public void incContentViews() throws InterruptedException, ExecutionException {
 		String userId = "123";
 		String ip = "127.0.0.1";
-		// call
 		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertTrue(content.getViews() == null || content.getViews().getCount() == 0);
-		contentService.incContentViews(TRIP_ID, userId);
-		contentService.incContentViews(TRIP_ID, userId);
-		contentService.incContentViews(TRIP_ID, ip);
-		contentService.incContentViews(TRIP_ID, ip);
+		// call
+		Future<Long> views = contentService.incContentViews(TRIP_ID, userId);
 		// check
+		Assert.assertNotNull(views);
+		Assert.assertEquals(views.get().longValue(), 1);
+		// call
+		views = contentService.incContentViews(TRIP_ID, userId);
+		// check
+		Assert.assertNotNull(views);
+		Assert.assertEquals(views.get().longValue(), 1);
+		// call
+		views = contentService.incContentViews(TRIP_ID, ip);
+		// check
+		Assert.assertNotNull(views);
+		Assert.assertEquals(views.get().longValue(), 2);
+		// call
+		views = contentService.incContentViews(TRIP_ID, ip);
+		// check
+		Assert.assertNotNull(views);
+		Assert.assertEquals(views.get().longValue(), 2);
 		content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getViews());

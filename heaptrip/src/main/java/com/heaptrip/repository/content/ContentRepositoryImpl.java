@@ -66,6 +66,18 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	}
 
 	@Override
+	public long getCountViews(String contentId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, 'views.count': 1}")
+				.as(getCollectionClass());
+		if (content == null || content.getViews() == null) {
+			return 0;
+		} else {
+			return content.getViews().getCount();
+		}
+	}
+
+	@Override
 	public List<Content> findByIds(Collection<String> ids, Locale locale) {
 		MongoCollection coll = getCollection();
 		String lang = LanguageUtils.getLanguageByLocale(locale);
