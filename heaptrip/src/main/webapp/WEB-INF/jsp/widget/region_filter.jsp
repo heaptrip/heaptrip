@@ -15,6 +15,28 @@
 		});
 		return (idArr.length > 0 ? idArr : null);
 	};
+	
+	function stringMarker(term,path){
+		var newPath = '';
+		var upperPath =  path.toUpperCase().split('');
+		var pathArr =  path.split('');
+		var upperTerm = term.toUpperCase();
+		var tmpTerm = ''; 
+		for(var i=0;i<upperPath.length;i++){
+			tmpTerm = tmpTerm + upperPath[i];
+			if(tmpTerm==upperTerm){
+				newPath = newPath.substring(0,newPath.length - upperTerm.length) + 
+				'<span style="font-weight:bold">' + path.substring(i-upperTerm.length,i+1) + '</span>';
+				tmpTerm = '';
+			}else{
+				newPath = newPath + pathArr[i];
+				if(tmpTerm.length == upperTerm.length)
+					tmpTerm = tmpTerm.substring(1,tmpTerm.length);
+			}
+		}
+		return newPath;
+	}
+	
 
 	function create_tree(n){
 		var i=0;
@@ -31,9 +53,10 @@
 	$(document).ready(function() {
 		
 		// TODO: УБРАТЬ
-		$.handInitParamToURL({rg:null})
+		$.handInitParamToURL({rg:null});
 	
 		$("#region input[type=text]")
+		
 			.bind("keydown", function( event ) {
   				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {
     				event.preventDefault();
@@ -47,8 +70,15 @@
         			var callbackSuccess = function(data) {
         				response(
         					$.map( data, function( item ) {
+        						
+        						var newPath =stringMarker(request.term,item.path);
+								
+        						if(newPath==item.path){
+        							newPath =stringMarker(item.data,item.path);
+        						}
+
                         		return {
-                            		label:  item.data + " " + "(" + item.path + ")",
+                            		label: newPath,
                             		value: item.id
                         		};
                     		}));
@@ -72,6 +102,15 @@
     				// prevent value inserted on focus
     				return false;
   				},
+  				
+  				open: function(event, ui){
+  			       $("ul.ui-autocomplete li a").each(function(){
+  			        var htmlString = $(this).html().replace(/&lt;/g, '<');
+  			        htmlString = htmlString.replace(/&gt;/g, '>');
+  			        $(this).html(htmlString);
+  			        });
+  			     },
+  				
 				select: function( event, ui ) {
     		
     				var regId = ui.item.value;
@@ -101,7 +140,7 @@
 
         			$.postJSON(url, regId, callbackSuccess, callbackError);	
 			
-    				$("#region form input[type=text]").val('');
+        			$("#region input[type=text]").val('');
 
     				return false;
   				}
@@ -120,7 +159,7 @@
 		$(".ui-autocomplete a.ui-corner-all").unbind();
 		
 		$(".ui-autocomplete a.ui-corner-all").click(function (e) {
-			$("#region .search input[type=text]").val('');
+			$("#region input[type=text]").val('');
 			return false;
 		});
 	

@@ -5,15 +5,15 @@
     <script type="text/javascript">
 
     
-    var getSelectedCategories = function (){
-    	var checked_ids = [];
-		$("#category .tree").jstree("get_checked", null, true)
-			.each(function () {
-    			if(this.parentElement.parentElement.className.indexOf('jstree-checked') == -1)
-                	checked_ids.push(this.id);
-		});
-		return checked_ids;
-    };
+    	var getSelectedCategories = function (){
+    		var checked_ids = [];
+			$("#category .tree").jstree("get_checked", null, true)
+				.each(function () {
+    				if(this.parentElement.parentElement.className.indexOf('jstree-checked') == -1)
+    	            	checked_ids.push(this.id);
+			});
+			return checked_ids;
+    	};
     
     	var selectCategories = function(categoryIdArr){
      		if(!$("#category .tree").jstree.isLoad)
