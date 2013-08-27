@@ -73,7 +73,8 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getUserId());
+			tripIds = favoriteContentRepository
+					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return findByCriteria(criteria, queryHelper, tripIds);
@@ -85,7 +86,8 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getOwnerId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
+					criteria.getOwnerId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
 				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);
@@ -126,7 +128,8 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getUserId());
+			tripIds = favoriteContentRepository
+					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
@@ -138,7 +141,8 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
 			tripIds = memberRepository.findTripIdsByUserId(criteria.getOwnerId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getOwnerId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
+					criteria.getOwnerId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
 				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);

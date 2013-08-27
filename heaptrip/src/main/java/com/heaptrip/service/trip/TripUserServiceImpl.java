@@ -67,15 +67,15 @@ public class TripUserServiceImpl implements TripUserService {
 	}
 
 	@Override
-	public void acceptTableUser(String tableUserId) {
-		Assert.notNull(tableUserId, "tableUserId must not be null");
-		memberRepository.setStatus(tableUserId, TableUserStatusEnum.OK);
+	public void acceptTableUser(String memberId) {
+		Assert.notNull(memberId, "memberId must not be null");
+		memberRepository.setStatus(memberId, TableUserStatusEnum.OK);
 	}
 
 	@Override
-	public void setTableUserOrganizer(String tableUserId, Boolean isOrganizer) {
-		Assert.notNull(tableUserId, "tableUserId must not be null");
-		memberRepository.setOrganizer(tableUserId, isOrganizer);
+	public void setTableUserOrganizer(String memberId, Boolean isOrganizer) {
+		Assert.notNull(memberId, "memberId must not be null");
+		memberRepository.setOrganizer(memberId, isOrganizer);
 	}
 
 	@Override
@@ -104,10 +104,10 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(memberId, "memberId must not be null");
 		TableMember member = memberRepository.findOne(memberId);
 		Assert.notNull(member, "error memberId: " + memberId);
-		memberRepository.remove(memberId);
 		if (member.getTripId() != null && member.getTableId() != null) {
 			tripRepository.incTableMembers(member.getTripId(), member.getTableId(), -1);
 		}
+		memberRepository.remove(memberId);
 	}
 
 	@Override

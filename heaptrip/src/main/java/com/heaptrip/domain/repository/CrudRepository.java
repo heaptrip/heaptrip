@@ -10,7 +10,7 @@ import com.heaptrip.domain.entity.BaseObject;
  * @param <T>
  *            domain type
  */
-public interface CrudRepository<T extends BaseObject> {
+public interface CrudRepository<T extends BaseObject> extends Repository {
 
 	/**
 	 * Saves a given entity.

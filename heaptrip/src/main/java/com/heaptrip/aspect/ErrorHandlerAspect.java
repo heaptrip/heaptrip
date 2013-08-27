@@ -74,7 +74,11 @@ public class ErrorHandlerAspect {
 				}
 			}
 		}
-		logger.info("journalable exceptions: {}", ArrayUtils.toString(journalables.toArray()));
+		if (journalables == null) {
+			logger.info("journalable exceptions is not defined");
+		} else {
+			logger.info("journalable exceptions: {}", ArrayUtils.toString(journalables.toArray()));
+		}
 
 		// set mailables
 		if (StringUtils.isNotBlank(errMailables)) {
@@ -86,13 +90,21 @@ public class ErrorHandlerAspect {
 				}
 			}
 		}
-		logger.info("mailable exceptions: {}", ArrayUtils.toString(mailables.toArray()));
+		if (mailables == null) {
+			logger.info("mailable exceptions is not defined");
+		} else {
+			logger.info("mailable exceptions: {}", ArrayUtils.toString(mailables.toArray()));
+		}
 
 		// set emails
 		if (StringUtils.isNotBlank(errEmails)) {
 			emails = StringUtils.split(errEmails, ",");
 		}
-		logger.info("email addresses for send exceptions: {}", ArrayUtils.toString(emails));
+		if (ArrayUtils.isEmpty(emails)) {
+			logger.info("email addresses for send exceptions is not defined");
+		} else {
+			logger.info("email addresses for send exceptions: {}", ArrayUtils.toString(emails));
+		}
 
 		logger.info("ErrorHandlerAspect successfully initialized");
 	}

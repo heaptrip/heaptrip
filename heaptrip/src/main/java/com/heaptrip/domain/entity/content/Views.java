@@ -2,10 +2,10 @@ package com.heaptrip.domain.entity.content;
 
 /**
  * 
- * Class stores information about viewing the content
+ * Stores information about viewing the content
  * 
  */
-public class ContentViews {
+public class Views {
 
 	// number of views
 	private long count;
