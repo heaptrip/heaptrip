@@ -7,10 +7,11 @@
 		var idArr = [];
 		$('#region .tree').each(function(){
 	   		$(this).find('li').each(function(){
-	        	var current = $(this);
-	        	idArr.push(current[0].id);
+	        	var current = $(this);	        	
+	        	if(current[0].className === 'jstree-leaf jstree-last' ||
+	        			current[0].className === 'jstree-last jstree-leaf'	)
+	        		idArr.push(current[0].id);
 	    	});
-	    
 		});
 		return (idArr.length > 0 ? idArr : null);
 	};

@@ -4,17 +4,25 @@
 
     <script type="text/javascript">
 
+    
+    var getSelectedCategories = function (){
+    	var checked_ids = [];
+		$("#category .tree").jstree("get_checked", null, true)
+			.each(function () {
+    			if(this.parentElement.parentElement.className.indexOf('jstree-checked') == -1)
+                	checked_ids.push(this.id);
+		});
+		return checked_ids;
+    };
+    
     	var selectCategories = function(categoryIdArr){
      		if(!$("#category .tree").jstree.isLoad)
     			return;	
     		$('#category .tree').jstree("uncheck_all"); 
     		$.each(categoryIdArr , function(index, val){
 				$('#category .tree').jstree("check_node", "#" + val.replace(/\./g, "\\."));
-				var checked_ids = [];
-        		$("#category .tree").jstree("get_checked", null, true)
-        			.each(function () {
-            			checked_ids.push(this.id);
-        		});
+				var checked_ids = getSelectedCategories();
+        
         		if(checked_ids.length > 0)
         		$.handInitParamToURL({ct : checked_ids.join()});
 			});
@@ -65,10 +73,7 @@
    
     	$(function(){
         	$("#categoryFilterSubmit").click(function(){
-            	var checked_ids = [];
-            	$("#category .tree").jstree("get_checked", null, true).each(function () {
-                    checked_ids.push(this.id);
-                });
+            	var checked_ids = getSelectedCategories();
             	$.handParamToURL({ct : checked_ids.join()});
         	});
     	});
