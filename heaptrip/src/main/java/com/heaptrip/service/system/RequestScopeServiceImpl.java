@@ -51,7 +51,7 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 	@Override
 	public String getCurrentContextPath() {
 		return (request != null) ? request.getScheme() + "://" + request.getServerName() + ":"
-				+ request.getServerPort() + request.getContextPath() : null;
+				+ request.getServerPort() + request.getContextPath() : "http://apptest.heaptrip.com";
 	}
 
 	@Override

@@ -5,7 +5,7 @@
 	<script type="text/javascript">
 		<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
 			window.user = {}; 
-			window.user.name =	'<sec:authentication property="principal.firstName" />' + '<sec:authentication property="principal.secondName" />'
+			window.user.name =	'<sec:authentication property="principal.name" />'
 		</sec:authorize>
 	</script>
 
@@ -13,8 +13,8 @@
 <div id="account">
 	<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
 		<div id="account_name">
-			<sec:authentication property="principal.firstName" />
-			<sec:authentication property="principal.secondName" />
+			<sec:authentication property="principal.name" />
+
 		</div>
 		<ul>
 			<li><a href="<c:url value="/tidings.html"/>"><fmt:message key="tiding.list.title" /></a></li>

@@ -3,17 +3,19 @@
 
 <script type="text/javascript">
 
-	function getAllRegionsIds(){
+	function getSelectedRegionsIds(){
 		var idArr = [];
 		$('#region .tree').each(function(){
 	   		$(this).find('li').each(function(){
 	        	var current = $(this);	        	
 	        	if(current[0].className === 'jstree-leaf jstree-last' ||
-	        			current[0].className === 'jstree-last jstree-leaf'	)
+	        	   current[0].className === 'jstree-last jstree-leaf' ||
+	        	   current[0].className === 'jstree-leaf'){
 	        		idArr.push(current[0].id);
+	        	}	  
 	    	});
 		});
-		return (idArr.length > 0 ? idArr : null);
+		return (idArr.length > 0 ? idArr : []);
 	};
 	
 	function stringMarker(term,path){
@@ -25,8 +27,10 @@
 		for(var i=0;i<upperPath.length;i++){
 			tmpTerm = tmpTerm + upperPath[i];
 			if(tmpTerm==upperTerm){
-				newPath = newPath.substring(0,newPath.length - upperTerm.length) + 
-				'<span style="font-weight:bold">' + path.substring(i-upperTerm.length,i+1) + '</span>';
+				newPath = newPath.substring(0,newPath.length - upperTerm.length) 
+				+ '<span style="font-weight:bold">' 
+				+ path.substring(i-upperTerm.length,i+1) 
+				+ '</span>';
 				tmpTerm = '';
 			}else{
 				newPath = newPath + pathArr[i];
@@ -37,7 +41,6 @@
 		return newPath;
 	}
 	
-
 	function create_tree(n){
 		var i=0;
 		while(n[i]){
@@ -50,11 +53,43 @@
 		return false;
 	}
 	
+	$(window).bind("onPageReady", function(e, paramsJson) {
+		if(paramsJson.rg){
+			var regIds = paramsJson.rg.split(',');
+			for(var index in regIds){
+				var url = 'rest/get_region_hierarchy';
+ 
+    			var callbackSuccess = function(data) {
+    				
+    				var arr = [];
+    				var country = data.country;
+    				var area = data.area;
+    				var city = data.city;
+				
+    				if(country)	arr.push({id:country.id,data:country.data});
+    				if(area) arr.push({id:area.id,data:area.data});
+    				if(city) arr.push( {id:city.id,data:city.data});
+
+    				create_tree(arr);
+
+        		};
+    
+    			var callbackError = function(error) {
+        			alert(error);
+    			};
+
+    			$.postJSON(url, regIds[index], callbackSuccess, callbackError);
+
+			}
+			
+			$.handParamToURL({rg : paramsJson.rg});
+			$("#region input[type=text]").val('');
+		}
+	});
+	
+	
 	$(document).ready(function() {
 		
-		// TODO: УБРАТЬ
-		$.handInitParamToURL({rg:null});
-	
 		$("#region input[type=text]")
 		
 			.bind("keydown", function( event ) {
@@ -112,36 +147,10 @@
   			     },
   				
 				select: function( event, ui ) {
-    		
     				var regId = ui.item.value;
-    				
-				var url = 'rest/get_region_hierarchy';
-        			
-        			var callbackSuccess = function(data) {
-        				
-        				var arr = [];
-        				
-        				var country = data.country;
-        				var area = data.area;
-        				var city = data.city;
-   				
-        				if(country)	arr.push({id:country.id,data:country.data});
-        				if(area) arr.push({id:area.id,data:area.data});
-        				if(city) arr.push( {id:city.id,data:city.data});
-   
-        				create_tree(arr);
-        				
-        				$.handParamToURL({rg : getAllRegionsIds().join()});
-            		};
-        
-        			var callbackError = function(error) {
-            			alert(error);
-        			};
-
-        			$.postJSON(url, regId, callbackSuccess, callbackError);	
-			
-        			$("#region input[type=text]").val('');
-
+    				var regIds = getSelectedRegionsIds();
+    				regIds.push(regId);
+    				$.handParamToURL({rg : regIds.join()});
     				return false;
   				}
 			});
@@ -151,7 +160,7 @@
 				'plugins' : [ 'themes', 'ui','add_del','crrm',"html_data" ]
 			})
 			.bind("delete_node.jstree", function() {		
-				$.handParamToURL({rg : getAllRegionsIds() ? getAllRegionsIds().join(): null});
+				$.handParamToURL({rg : getSelectedRegionsIds().length > 0 ? getSelectedRegionsIds().join(): null});
     		});
 		}
 

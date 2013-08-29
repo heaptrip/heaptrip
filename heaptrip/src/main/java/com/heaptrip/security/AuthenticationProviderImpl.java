@@ -18,19 +18,18 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
+import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.system.LocaleService;
 
 @Component("userAuthenticationProvider")
-public class AuthenticationProviderImpl implements
-		AuthenticationProvider {
+public class AuthenticationProviderImpl implements AuthenticationProvider {
 
-	private static final Logger LOG = LoggerFactory
-			.getLogger(AuthenticationProvider.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationProvider.class);
 
 	@Autowired
-	private  AuthenticationService authenticationService;
+	private AuthenticationService authenticationService;
 
 	@Autowired
 	private LocaleService localeService;
@@ -39,8 +38,7 @@ public class AuthenticationProviderImpl implements
 	private HttpServletRequest request;
 
 	@Override
-	public Authentication authenticate(Authentication authentication)
-			throws AuthenticationException {
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
 		UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
 
@@ -52,10 +50,9 @@ public class AuthenticationProviderImpl implements
 		// Check user authentication info
 		User user = authenticationService.getUserByEmailAndPassword(email, password);
 
-		if (user == null) {
+		if (user == null || !user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			LOG.error("user " + email + " authenticate failure");
-			throw new BadCredentialsException(
-					localeService.getMessage("err.login.failure"));
+			throw new BadCredentialsException(localeService.getMessage("err.login.failure"));
 		}
 
 		// Return an authenticated token, containing user data and
@@ -82,8 +79,7 @@ public class AuthenticationProviderImpl implements
 			}
 		}
 
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-				user, null, authorities);
+		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
 		auth.setDetails(new WebAuthenticationDetails(request));
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
