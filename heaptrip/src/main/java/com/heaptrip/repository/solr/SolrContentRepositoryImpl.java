@@ -52,13 +52,13 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 		doc.addField("class", content.getClass().getName());
 
 		// set categories
-		if (ArrayUtils.isNotEmpty(content.getAllCategories())) {
-			doc.addField("categories", content.getAllCategories());
+		if (ArrayUtils.isNotEmpty(content.getCategoryIds())) {
+			doc.addField("categories", content.getCategoryIds());
 		}
 
 		// set regions
-		if (ArrayUtils.isNotEmpty(content.getAllRegions())) {
-			doc.addField("regions", content.getAllRegions());
+		if (ArrayUtils.isNotEmpty(content.getRegionIds())) {
+			doc.addField("regions", content.getRegionIds());
 		}
 
 		// set allowed

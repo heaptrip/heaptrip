@@ -24,10 +24,10 @@ public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccoun
 		}
 		query += ", allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			query += ", allCategories: {$in: #}";
+			query += ", categoryIds: {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			query += ", allRegions: {$in: #}";
+			query += ", regionIds: {$in: #}";
 		}
 		query += "}";
 		return query;
