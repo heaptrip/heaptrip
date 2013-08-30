@@ -7,10 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.comment.Comment;
 import com.heaptrip.domain.entity.comment.CommentAuthor;
+import com.heaptrip.domain.entity.comment.Commentsable;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.SystemException;
 import com.heaptrip.domain.repository.comment.CommentRepository;
 import com.heaptrip.domain.service.comment.CommentService;
+import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.util.SlugUtils;
 
 @Service
@@ -18,6 +24,51 @@ public class CommentServiceImpl implements CommentService {
 
 	@Autowired
 	private CommentRepository commentRepository;
+
+	@Autowired
+	private ErrorService errorService;
+
+	private <T extends BaseObject & Collectionable & Commentsable> void incCommentsNumber(Class<T> targetClass,
+			String targetId) {
+		String collectionName = null;
+		String numberFieldName = null;
+
+		try {
+			BaseObject collection = targetClass.newInstance();
+			collectionName = ((Collectionable) collection).getCollectionName();
+			numberFieldName = ((Commentsable) collection).getCommentsNumberFieldName();
+
+			Assert.notNull(collectionName, "collection name for target must not be null");
+			Assert.notNull(numberFieldName, "number field name for target must not be null");
+		} catch (InstantiationException | IllegalAccessException e) {
+			errorService.createException(SystemException.class, e, ErrorEnum.ERROR_ADD_COMMENT);
+		}
+
+		commentRepository.incCommentsNumber(collectionName, numberFieldName, targetId, 1);
+	}
+
+	@Override
+	public <T extends BaseObject & Collectionable & Commentsable> Comment addComment(Class<T> targetClass,
+			String targetId, String userId, String text) {
+		Assert.notNull(targetClass, "targetClass must not be null");
+		Assert.notNull(targetId, "targetId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(text, "text must not be null");
+		incCommentsNumber(targetClass, targetId);
+		return addComment(targetId, userId, text);
+	}
+
+	@Override
+	public <T extends BaseObject & Collectionable & Commentsable> Comment addChildComment(Class<T> targetClass,
+			String targetId, String parentId, String userId, String text) {
+		Assert.notNull(targetClass, "targetClass must not be null");
+		Assert.notNull(targetId, "targetId must not be null");
+		Assert.notNull(parentId, "parentId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(text, "text must not be null");
+		incCommentsNumber(targetClass, targetId);
+		return addChildComment(parentId, userId, text);
+	}
 
 	@Override
 	public Comment addComment(String targetId, String userId, String text) {
@@ -83,5 +134,4 @@ public class CommentServiceImpl implements CommentService {
 		Assert.notNull(targetId, "targetId must not be null");
 		commentRepository.removeByTargetId(targetId);
 	}
-
 }

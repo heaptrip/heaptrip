@@ -13,19 +13,17 @@ import org.testng.annotations.Test;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.content.FavoriteContent;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.util.language.LanguageUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
 	private static final String TRIP_ID = InitContentTest.TRIP_ID;
-
-	private static final String OWNER_ID = InitContentTest.OWNER_ID;
 
 	private static final String USER_ID = InitContentTest.USER_ID;
 
@@ -39,14 +37,14 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	private TripService tripService;
 
 	@Test(priority = 1, enabled = true)
-	public void setContentStatus() {
+	public void setStatus() {
 		// call
 		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getStatus());
 		Assert.assertNotNull(content.getStatus().getValue());
 		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.DRAFT);
-		contentService.setContentStatus(TRIP_ID, OWNER_ID, ContentStatusEnum.PUBLISHED_ALL);
+		contentService.setStatus(TRIP_ID, ContentStatusEnum.PUBLISHED_ALL);
 		// check
 		content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
@@ -56,32 +54,22 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void incContentViews() throws InterruptedException, ExecutionException {
+	public void incViews() throws InterruptedException, ExecutionException {
 		String userId = "123";
 		String ip = "127.0.0.1";
 		Content content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertTrue(content.getViews() == null || content.getViews().getCount() == 0);
 		// call
-		Future<Long> views = contentService.incContentViews(TRIP_ID, userId);
+		Future<Void> views = contentService.incViews(TRIP_ID, userId);
+		views.get();
+		views = contentService.incViews(TRIP_ID, userId);
+		views.get();
+		views = contentService.incViews(TRIP_ID, ip);
+		views.get();
+		views = contentService.incViews(TRIP_ID, ip);
+		views.get();
 		// check
-		Assert.assertNotNull(views);
-		Assert.assertEquals(views.get().longValue(), 1);
-		// call
-		views = contentService.incContentViews(TRIP_ID, userId);
-		// check
-		Assert.assertNotNull(views);
-		Assert.assertEquals(views.get().longValue(), 1);
-		// call
-		views = contentService.incContentViews(TRIP_ID, ip);
-		// check
-		Assert.assertNotNull(views);
-		Assert.assertEquals(views.get().longValue(), 2);
-		// call
-		views = contentService.incContentViews(TRIP_ID, ip);
-		// check
-		Assert.assertNotNull(views);
-		Assert.assertEquals(views.get().longValue(), 2);
 		content = contentRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(content);
 		Assert.assertNotNull(content.getViews());
@@ -90,9 +78,11 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 3, enabled = true, dataProvider = "favoritesTripMyAccountCriteria", dataProviderClass = ContentDataProvider.class)
-	public void addFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
+	public void addFavorites(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
-		contentService.addFavoriteContent(TRIP_ID, ContentEnum.TRIP, USER_ID);
+		contentService.addFavorites(TRIP_ID, USER_ID);
+		// check that twice can not be added
+		contentService.addFavorites(TRIP_ID, USER_ID);
 		// check
 		myAccountTripCriteria.setUserId(USER_ID);
 		long count = tripService.getTripsCountByTripMyAccountCriteria(myAccountTripCriteria);
@@ -100,31 +90,32 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 4, enabled = true)
-	public void isFavoriteContent() {
+	public void isFavorites() {
 		// call
-		boolean isFavorite = contentService.isFavoriteContent(TRIP_ID, USER_ID);
+		boolean isFavorite = contentService.isFavorites(TRIP_ID, USER_ID);
 		// check
 		Assert.assertTrue(isFavorite);
 	}
 
 	@Test(priority = 5, enabled = true)
-	public void getFavoriteContents() {
+	public void getFavoritesContents() {
 		// call
-		List<FavoriteContent> list = contentService.getFavoriteContents(ContentEnum.TRIP, USER_ID);
+		List<Content> list = contentService.getFavoritesContents(ContentEnum.TRIP, USER_ID,
+				LanguageUtils.getEnglishLocale());
 		// check
 		Assert.assertNotNull(list);
 		Assert.assertTrue(list.size() > 0);
 		// call
-		list = contentService.getFavoriteContents(USER_ID);
+		list = contentService.getFavoritesContents(USER_ID, LanguageUtils.getEnglishLocale());
 		// check
 		Assert.assertNotNull(list);
 		Assert.assertTrue(list.size() > 0);
 	}
 
 	@Test(priority = 6, enabled = true, dataProvider = "favoritesTripMyAccountCriteria", dataProviderClass = ContentDataProvider.class)
-	public void removeFavoriteContent(TripMyAccountCriteria myAccountTripCriteria) {
+	public void removeFavorites(TripMyAccountCriteria myAccountTripCriteria) {
 		// call
-		contentService.removeFavoriteContent(TRIP_ID, USER_ID);
+		contentService.removeFavorites(TRIP_ID, USER_ID);
 		// check
 		myAccountTripCriteria.setUserId(USER_ID);
 		long count = tripService.getTripsCountByTripMyAccountCriteria(myAccountTripCriteria);

@@ -19,7 +19,7 @@ public interface TripUserService {
 	 * @param tripId
 	 * @param tableId
 	 * @param userId
-	 * @return table user
+	 * @return table user with status INVITE
 	 */
 	public TableUser addTableUser(String tripId, String tableId, String userId);
 
@@ -39,7 +39,7 @@ public interface TripUserService {
 	 * @param tripId
 	 * @param tableId
 	 * @param userId
-	 * @return table user
+	 * @return table user with status REQUEST
 	 */
 	public TableUser addTableRequest(String tripId, String tableId, String userId);
 
@@ -48,24 +48,24 @@ public interface TripUserService {
 	 * the invitation to participate, or when the owner accepts the request from
 	 * a user to participate in travel
 	 * 
-	 * @param tableUserId
+	 * @param memberId
 	 */
-	public void acceptTableUser(String tableUserId);
+	public void acceptTableUser(String memberId);
 
 	/**
-	 * Set the trip organizer
+	 * Set trip organizer
 	 * 
-	 * @param tableUserId
+	 * @param memberId
 	 * @param isOrganizer
 	 */
-	public void setTableUserOrganizer(String tableUserId, Boolean isOrganizer);
+	public void setTableUserOrganizer(String memberId, Boolean isOrganizer);
 
 	/**
 	 * Get all members for table item
 	 * 
 	 * @param tripId
 	 * @param tableId
-	 * @return list of members
+	 * @return member list
 	 */
 	public List<TableMember> getTableMembers(String tripId, String tableId);
 
@@ -75,7 +75,7 @@ public interface TripUserService {
 	 * @param tripId
 	 * @param tableId
 	 * @param limit
-	 * @return list of members
+	 * @return members list
 	 */
 	public List<TableMember> getTableMembers(String tripId, String tableId, int limit);
 

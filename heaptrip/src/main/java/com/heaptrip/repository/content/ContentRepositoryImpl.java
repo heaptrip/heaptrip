@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
@@ -40,12 +41,24 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 
 	@Override
 	protected String getCollectionName() {
-		return Content.COLLECTION_NAME;
+		return CollectionEnum.CONTENTS.getName();
 	}
 
 	@Override
 	protected Class<Content> getCollectionClass() {
 		return Content.class;
+	}
+
+	@Override
+	public String getOwnerId(String contentId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, 'owner._id': 1}")
+				.as(getCollectionClass());
+		if (content == null || content.getOwner() == null) {
+			return null;
+		} else {
+			return content.getOwner().getId();
+		}
 	}
 
 	@Override
@@ -63,18 +76,6 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 				Arrays.asList(userIdOrRemoteIp)).with("{$push:{'views.ids': #}, $inc: {'views.count': 1}}",
 				userIdOrRemoteIp);
 		logger.debug("WriteResult for inc views: {}", wr);
-	}
-
-	@Override
-	public long getCountViews(String contentId) {
-		MongoCollection coll = getCollection();
-		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, 'views.count': 1}")
-				.as(getCollectionClass());
-		if (content == null || content.getViews() == null) {
-			return 0;
-		} else {
-			return content.getViews().getCount();
-		}
 	}
 
 	@Override
@@ -99,7 +100,8 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public List<Content> findByMyAccountCriteria(MyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getUserId());
+			tripIds = favoriteContentRepository
+					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return findByCriteria(criteria, queryHelper, tripIds);
@@ -109,7 +111,8 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public List<Content> findByForeignAccountCriteria(ForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getOwnerId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
+					criteria.getOwnerId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
 				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);
@@ -148,7 +151,8 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public long getCountByMyAccountCriteria(MyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getUserId());
+			tripIds = favoriteContentRepository
+					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
@@ -158,7 +162,8 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public long getCountByForeignAccountCriteria(ForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findContentIdsByTypeAndUserId(ContentEnum.TRIP, criteria.getOwnerId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
+					criteria.getOwnerId());
 		}
 		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
 				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);

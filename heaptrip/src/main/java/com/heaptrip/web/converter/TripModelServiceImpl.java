@@ -10,7 +10,6 @@ import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
-import com.heaptrip.web.model.content.PriceModel;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
@@ -83,7 +82,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements
 		ScheduleModel schedule = new ScheduleModel();
 		schedule.setBegin(convertDate(item.getBegin()));
 		schedule.setEnd(convertDate(item.getEnd()));
-		schedule.setMembers(item.getMembers() != null ? item.getMembers() : 0L);
+		schedule.setMembers(item.getMembers());
 		schedule.setMin(item.getMin());
 		schedule.setMax(item.getMax());
 		StatusModel status = new StatusModel();

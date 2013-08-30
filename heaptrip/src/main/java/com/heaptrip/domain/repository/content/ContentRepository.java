@@ -13,11 +13,11 @@ import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 public interface ContentRepository extends CrudRepository<Content> {
 
+	public String getOwnerId(String contentId);
+
 	public void setStatus(String contentId, ContentStatusEnum status, String[] allowed);
 
 	public void incViews(String contentId, String userIdOrRemoteIp);
-
-	public long getCountViews(String contentId);
 
 	public List<Content> findByIds(Collection<String> ids, Locale locale);
 

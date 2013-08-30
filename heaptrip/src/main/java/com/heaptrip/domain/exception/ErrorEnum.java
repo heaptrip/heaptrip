@@ -14,6 +14,8 @@ public enum ErrorEnum {
 	REMOVE_TRIP_FAILURE("err.remove.trip.failure"),
 	REMOVE_TRIP_LANGUAGE_FAILURE("err.remove.trip.language.failure"),
 	
+	ERROR_ADD_COMMENT("error.add.comment"),
+		
 	ERR_SYSTEM_CREATE("err.system.create.exception"),
 	ERR_SYSTEM_DB("err.system.bd"), 
 	ERR_SYSTEM_SOLR("err.system.solr"),

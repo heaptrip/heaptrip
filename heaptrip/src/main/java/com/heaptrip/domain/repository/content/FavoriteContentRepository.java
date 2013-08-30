@@ -1,20 +1,23 @@
 package com.heaptrip.domain.repository.content;
 
 import java.util.List;
+import java.util.Locale;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.entity.content.FavoriteContent;
-import com.heaptrip.domain.repository.CrudRepository;
+import com.heaptrip.domain.repository.Repository;
 
-public interface FavoriteContentRepository extends CrudRepository<FavoriteContent> {
+public interface FavoriteContentRepository extends Repository {
 
-	public List<FavoriteContent> findByTypeAndUserId(ContentEnum contentType, String userId);
+	public void addFavorite(String contentId, String accountId);
 
-	public List<FavoriteContent> findByUserId(String userId);
+	public void removeFavorite(String contentId, String accountId);
 
-	public FavoriteContent findOneByContentIdAndUserId(String contentId, String userId);
+	public List<Content> findByAccountId(String accountId, Locale locale);
 
-	public void removeByContentIdAndUserId(String contentId, String userId);
+	public List<Content> findByContentTypeAndAccountId(ContentEnum contentType, String accountId, Locale locale);
 
-	public List<String> findContentIdsByTypeAndUserId(ContentEnum contentType, String userId);
+	public boolean exists(String contentId, String accountId);
+
+	public List<String> findIdsByContentTypeAndAccountId(ContentEnum contentType, String accountId);
 }
