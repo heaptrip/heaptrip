@@ -22,7 +22,7 @@ public class Trip extends Content implements Commentsable {
 	private Double rating;
 
 	// number of comments
-	private Long comments;
+	private long comments;
 
 	@Override
 	public String getCommentsNumberFieldName() {
@@ -53,11 +53,11 @@ public class Trip extends Content implements Commentsable {
 		this.rating = rating;
 	}
 
-	public Long getComments() {
+	public long getComments() {
 		return comments;
 	}
 
-	public void setComments(Long comments) {
+	public void setComments(long comments) {
 		this.comments = comments;
 	}
 

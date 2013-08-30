@@ -74,8 +74,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
 		// check number of comments
 		Trip content = tripRepository.findOne(TARGET_ID);
 		Assert.assertNotNull(content);
-		Assert.assertNotNull(content.getComments());
-		Assert.assertEquals(content.getComments().longValue(), 2L);
+		Assert.assertEquals(content.getComments(), 2L);
 	}
 
 	@Test(enabled = true, priority = 1)
