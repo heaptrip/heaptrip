@@ -28,7 +28,6 @@ import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.content.helper.QueryHelper;
 import com.heaptrip.repository.content.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
-import com.heaptrip.util.language.LanguageUtils;
 import com.mongodb.WriteResult;
 
 @Service
@@ -81,11 +80,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	@Override
 	public List<Content> findByIds(Collection<String> ids, Locale locale) {
 		MongoCollection coll = getCollection();
-		String lang = LanguageUtils.getLanguageByLocale(locale);
-		String fields = String
-				.format("{_class: 1, owner: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1, status: 1,"
-						+ " 'name.%s': 1, 'name.main': 1, 'summary.%s': 1, 'summary.main': 1, created: 1, owners: 1, views: 1,"
-						+ " mainLang: 1, rating: 1, comments: 1}", lang, lang, lang, lang);
+		String fields = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER).getProjection(locale);
 		Iterable<Content> iter = coll.find("{_id: {$in: #}}", ids).projection(fields).as(Content.class);
 		return IteratorConverter.copyIterator(iter.iterator());
 	}
