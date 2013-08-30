@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
+import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;
@@ -35,6 +37,9 @@ public class UserController extends ExceptionHandlerControler {
 	@Autowired
 	@Qualifier("requestScopeService")
 	private RequestScopeService scopeService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private UserModelService userModelService;
@@ -68,16 +73,16 @@ public class UserController extends ExceptionHandlerControler {
 	}
 
 	@RequestMapping(value = "registration/confirm", method = RequestMethod.GET)
-	public String confirmRegistration(@RequestParam String uid) {
+	public String confirmRegistration(@RequestParam String uid,@RequestParam String value) {
 
-		// TODO : authenticationService.confirmRegistration(uid);
+		userService.confirmRegistration(uid, value);
 
-		// TODO : authenticationProvider.authenticateInternal(user);
+		// authenticationProvider.authenticateInternal(user);
 
 		LOG.info("Call MAIL LINK registration/confirm?uid=" + uid);
 
 		return "redirect:" + scopeService.getCurrentContextPath()
-				+ "/travels.html";
+				+ "/login.html";
 	}
 
 }
