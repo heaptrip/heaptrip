@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
@@ -40,7 +41,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 
 	@Override
 	protected String getCollectionName() {
-		return Content.COLLECTION_NAME;
+		return CollectionEnum.CONTENTS.getName();
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.trip.TableMember;
 import com.heaptrip.domain.entity.trip.TableUser;
 import com.heaptrip.domain.entity.trip.TableUserStatusEnum;
@@ -130,7 +130,7 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 
 	@Override
 	public void addAllowed(String ownerId, String userId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = mongoContext.getCollection(CollectionEnum.CONTENTS.getName());
 		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', 'owner._id': #}";
 		String updateQuery = "{$addToSet :{allowed: #}}";
 		if (logger.isDebugEnabled()) {
@@ -146,7 +146,7 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 
 	@Override
 	public void removeAllowed(String ownerId, String userId) {
-		MongoCollection coll = mongoContext.getCollection(Content.COLLECTION_NAME);
+		MongoCollection coll = mongoContext.getCollection(CollectionEnum.CONTENTS.getName());
 		String query = "{_class: 'com.heaptrip.domain.entity.trip.Trip', 'owner._id': #}";
 		String updateQuery = "{$pull :{allowed: #}}";
 		if (logger.isDebugEnabled()) {

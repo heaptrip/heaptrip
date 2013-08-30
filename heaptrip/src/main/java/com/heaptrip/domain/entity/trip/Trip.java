@@ -1,5 +1,6 @@
 package com.heaptrip.domain.entity.trip;
 
+import com.heaptrip.domain.entity.comment.Commentsable;
 import com.heaptrip.domain.entity.content.Content;
 
 /**
@@ -7,7 +8,9 @@ import com.heaptrip.domain.entity.content.Content;
  * Trip
  * 
  */
-public class Trip extends Content {
+public class Trip extends Content implements Commentsable {
+
+	private static final String COMMENTS_NUMBER_FIELD_NAME = "comments";
 
 	// travel schedule
 	private TableItem[] table;
@@ -20,6 +23,11 @@ public class Trip extends Content {
 
 	// number of comments
 	private Long comments;
+
+	@Override
+	public String getCommentsNumberFieldName() {
+		return COMMENTS_NUMBER_FIELD_NAME;
+	}
 
 	public TableItem[] getTable() {
 		return table;

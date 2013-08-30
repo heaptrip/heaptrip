@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
@@ -26,7 +27,7 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
 
 	@Override
 	protected String getCollectionName() {
-		return Content.COLLECTION_NAME;
+		return CollectionEnum.CONTENTS.getName();
 	}
 
 	@Override

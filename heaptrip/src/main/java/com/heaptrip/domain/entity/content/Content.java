@@ -5,6 +5,8 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.region.SimpleRegion;
@@ -15,9 +17,7 @@ import com.heaptrip.domain.entity.region.SimpleRegion;
  * 
  */
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Content extends BaseObject {
-
-	public static final String COLLECTION_NAME = "contents";
+public class Content extends BaseObject implements Collectionable {
 
 	public static final String ALLOWED_ALL_USERS = "0";
 
@@ -77,6 +77,11 @@ public class Content extends BaseObject {
 
 	// image
 	private Image image;
+
+	@Override
+	public String getCollectionName() {
+		return CollectionEnum.CONTENTS.getName();
+	}
 
 	public ContentOwner getOwner() {
 		return owner;
@@ -221,5 +226,4 @@ public class Content extends BaseObject {
 	public void setFavorites(Favorites favorites) {
 		this.favorites = favorites;
 	}
-
 }
