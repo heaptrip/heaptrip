@@ -21,7 +21,7 @@ import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
 import com.heaptrip.domain.repository.solr.entity.SolrContentSearchResponse;
 import com.heaptrip.domain.service.content.ContentSearchService;
-import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.util.language.LanguageUtils;
@@ -62,7 +62,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	}
 
 	@Override
-	public ContentSearchResponse findContentsByСontextSearchCriteria(ContextSearchCriteria criteria) {
+	public ContentSearchResponse findContentsByTextSearchCriteria(TextSearchCriteria criteria) {
 		Assert.notNull(criteria, "criteria must not be null");
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");

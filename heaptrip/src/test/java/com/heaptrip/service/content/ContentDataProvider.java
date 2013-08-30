@@ -7,9 +7,9 @@ import org.testng.annotations.DataProvider;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
-import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
 import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
 
 public class ContentDataProvider {
@@ -42,9 +42,9 @@ public class ContentDataProvider {
 		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "contextSearchCriteria")
-	public static Object[][] getСontextSearchCriteria() {
-		ContextSearchCriteria criteria = new ContextSearchCriteria();
+	@DataProvider(name = "textSearchCriteria")
+	public static Object[][] getTextSearchCriteria() {
+		TextSearchCriteria criteria = new TextSearchCriteria();
 		criteria.setContentType(ContentEnum.TRIP);
 		criteria.setUserId(USER_ID);
 		criteria.setCategoryIds(new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] });
