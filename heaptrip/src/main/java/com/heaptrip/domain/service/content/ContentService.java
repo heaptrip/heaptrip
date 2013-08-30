@@ -3,12 +3,12 @@ package com.heaptrip.domain.service.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Future;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.content.FavoriteContent;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
@@ -77,61 +77,61 @@ public interface ContentService {
 	 *            content id
 	 * @param userIdOrRemoteIp
 	 *            user id or remote host ip
-	 * @return number of views
+	 * @return void
 	 */
-	public Future<Long> incContentViews(String contentId, String userIdOrRemoteIp);
+	public Future<Void> incViews(String contentId, String userIdOrRemoteIp);
 
 	/**
 	 * Set content status
 	 * 
 	 * @param contentId
-	 * @param ownerId
 	 * @param status
 	 */
-	public void setContentStatus(String contentId, String ownerId, ContentStatusEnum status);
+	public void setStatus(String contentId, ContentStatusEnum status);
 
 	/**
 	 * Add content to favorites
 	 * 
 	 * @param contentId
-	 * @param contentType
-	 * @param userId
+	 * @param accountId
 	 */
-	public void addFavoriteContent(String contentId, ContentEnum contentType, String userId);
+	public void addFavorites(String contentId, String accountId);
 
 	/**
-	 * Get favorite contents by contentType and userId
+	 * Get favorites contents by accountId
 	 * 
-	 * @param contentType
-	 * @param userId
-	 * @return
+	 * @param accountId
+	 * @param locale
+	 * @return content list
 	 */
-	public List<FavoriteContent> getFavoriteContents(ContentEnum contentType, String userId);
+	public List<Content> getFavoritesContents(String accountId, Locale locale);
 
 	/**
-	 * Get favorite contents by userId
+	 * Get favorites contents by contentType and accountId
 	 * 
-	 * @param userId
-	 * @return
+	 * @param contentType
+	 * @param accountId
+	 * @param locale
+	 * @return content list
 	 */
-	public List<FavoriteContent> getFavoriteContents(String userId);
+	public List<Content> getFavoritesContents(ContentEnum contentType, String accountId, Locale locale);
 
 	/**
 	 * Checking that the content is a favorite
 	 * 
 	 * @param contentId
-	 * @param userId
-	 * @return isFavorite
+	 * @param accountId
+	 * @return true or false
 	 */
-	public boolean isFavoriteContent(String contentId, String userId);
+	public boolean isFavorites(String contentId, String accountId);
 
 	/**
 	 * Remove content from favorites
 	 * 
 	 * @param contentId
-	 * @param userId
+	 * @param accountId
 	 */
-	public void removeFavoriteContent(String contentId, String userId);
+	public void removeFavorites(String contentId, String accountId);
 
 	/**
 	 * Save the title image of content to GridFS

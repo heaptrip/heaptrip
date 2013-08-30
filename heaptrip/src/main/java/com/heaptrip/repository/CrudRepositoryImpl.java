@@ -1,24 +1,13 @@
 package com.heaptrip.repository;
 
 import org.jongo.MongoCollection;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.repository.CrudRepository;
-import com.heaptrip.domain.repository.MongoContext;
 
-public abstract class CrudRepositoryImpl<T extends BaseObject> implements CrudRepository<T> {
-
-	@Autowired
-	protected MongoContext mongoContext;
-
-	protected abstract String getCollectionName();
+public abstract class CrudRepositoryImpl<T extends BaseObject> extends BaseRepositoryImpl implements CrudRepository<T> {
 
 	protected abstract Class<T> getCollectionClass();
-
-	protected MongoCollection getCollection() {
-		return mongoContext.getCollection(getCollectionName());
-	}
 
 	@Override
 	public <S extends T> S save(S entity) {

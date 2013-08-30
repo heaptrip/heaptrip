@@ -1,108 +1,90 @@
 package com.heaptrip.repository.content;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.entity.content.FavoriteContent;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
-import com.heaptrip.repository.CrudRepositoryImpl;
+import com.heaptrip.repository.BaseRepositoryImpl;
+import com.heaptrip.repository.content.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class FavoriteContentRepositoryImpl extends CrudRepositoryImpl<FavoriteContent> implements
-		FavoriteContentRepository {
+public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements FavoriteContentRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(FavoriteContentRepositoryImpl.class);
 
 	@Override
 	protected String getCollectionName() {
-		return FavoriteContent.COLLECTION_NAME;
+		return CollectionEnum.CONTENTS.getName();
 	}
 
 	@Override
-	protected Class<FavoriteContent> getCollectionClass() {
-		return FavoriteContent.class;
-	}
-
-	@Override
-	public List<FavoriteContent> findByTypeAndUserId(ContentEnum contentType, String userId) {
+	public void addFavorite(String contentId, String accountId) {
 		MongoCollection coll = getCollection();
-		String query = "{userId: #, type: #}";
-		String hint = "{userId: 1, type: 1}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("find favorites\n->query: %s\n->parameters: [%s,%s]\n->hint: %s", query, userId,
-					contentType, hint);
-			logger.debug(msg);
-		}
-		Iterator<FavoriteContent> iter = coll.find(query, userId, contentType).hint(hint).as(FavoriteContent.class)
-				.iterator();
-		return IteratorConverter.copyIterator(iter);
+		WriteResult wr = coll
+				.update("{_id: #, 'favorites.ids': {$not: {$in: #}}}", contentId, Arrays.asList(accountId)).with(
+						"{$push: {'favorites.ids': #}, $inc: {'favorites.count': 1}}", accountId);
+		logger.debug("WriteResult for add favorite: {}", wr);
 	}
 
 	@Override
-	public List<FavoriteContent> findByUserId(String userId) {
+	public void removeFavorite(String contentId, String accountId) {
 		MongoCollection coll = getCollection();
-		String query = "{userId: #}";
-		String hint = "{userId: 1, type: 1}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("find favorites\n->query: %s\n->parameters: [%s]\n->hint: %s", query, userId,
-					hint);
-			logger.debug(msg);
-		}
-		Iterator<FavoriteContent> iter = coll.find(query, userId).hint(hint).as(FavoriteContent.class).iterator();
-		return IteratorConverter.copyIterator(iter);
-	}
-
-	@Override
-	public FavoriteContent findOneByContentIdAndUserId(String contentId, String userId) {
-		MongoCollection coll = getCollection();
-		String query = "{userId: #, contentId: #}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("find favorite\n->query: %s\n->parameters: [%s,%s]", query, userId, contentId);
-			logger.debug(msg);
-		}
-		// XXX check index
-		return coll.findOne(query, userId, contentId).as(FavoriteContent.class);
-	}
-
-	@Override
-	public void removeByContentIdAndUserId(String contentId, String userId) {
-		MongoCollection coll = getCollection();
-		// XXX check index
-		WriteResult wr = coll.remove("{userId: #, contentId: #}", userId, contentId);
+		WriteResult wr = coll.update("{_id: #, 'favorites.ids': #}", contentId, Arrays.asList(accountId)).with(
+				"{$pull: {'favorites.ids': #}, $inc: {'favorites.count': -1}}", accountId);
 		logger.debug("WriteResult for remove favorite: {}", wr);
 	}
 
 	@Override
-	public List<String> findContentIdsByTypeAndUserId(ContentEnum contentType, String userId) {
+	public List<Content> findByAccountId(String accountId, Locale locale) {
+		String fields = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER).getProjection(locale);
 		MongoCollection coll = getCollection();
-		String query = "{userId: #, type: #}";
-		String hint = "{userId: 1, type: 1}";
-		String fields = "{contentId: 1}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"find favorites\n->query: %s\n->parameters: [%s,%s]\n->projection: %s\n->hint: %s", query, userId,
-					contentType, fields, hint);
-			logger.debug(msg);
-		}
-		Iterator<FavoriteContent> iter = coll.find(query, userId, contentType).projection(fields).hint(hint)
-				.as(FavoriteContent.class).iterator();
+		Iterable<Content> iter = coll.find("{'favorites.ids': #}", accountId).projection(fields)
+				.hint("{'favorites.ids': 1}").as(Content.class);
+		return IteratorConverter.copyIterator(iter.iterator());
+	}
+
+	@Override
+	public List<Content> findByContentTypeAndAccountId(ContentEnum contentType, String accountId, Locale locale) {
+		String fields = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER).getProjection(locale);
+		MongoCollection coll = getCollection();
+		Iterable<Content> iter = coll.find("{_class: #, 'favorites.ids': #}", contentType.getClazz(), accountId)
+				.projection(fields).hint("{_class: 1, 'favorites.ids': 1}").as(Content.class);
+		return IteratorConverter.copyIterator(iter.iterator());
+	}
+
+	@Override
+	public boolean exists(String contentId, String accountId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #, 'favorites.ids': #}", contentId, accountId).as(Content.class);
+		return (content == null) ? false : true;
+	}
+
+	@Override
+	public List<String> findIdsByContentTypeAndAccountId(ContentEnum contentType, String accountId) {
+		MongoCollection coll = getCollection();
+		Iterator<Content> iter = coll.find("{_class: #, 'favorites.ids': #}", contentType.getClazz(), accountId)
+				.projection("{_class: 1}").hint("{_class: 1, 'favorites.ids': 1}").as(Content.class).iterator();
+
 		List<String> result = new ArrayList<>();
 		if (iter != null) {
 			while (iter.hasNext()) {
-				FavoriteContent fc = iter.next();
-				result.add(fc.getContentId());
+				Content content = iter.next();
+				result.add(content.getId());
 			}
 		}
 		return result;
 	}
-
 }

@@ -10,4 +10,6 @@ public interface CommentRepository extends CrudRepository<Comment> {
 	public List<Comment> findByTargetIdOrderByFullSlugAsc(String targetId);
 
 	public void removeByTargetId(String targetId);
+
+	public void incCommentsNumber(String collectionName, String numberFieldName, String id, int value);
 }

@@ -5,6 +5,8 @@ import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.region.SimpleRegion;
@@ -15,9 +17,7 @@ import com.heaptrip.domain.entity.region.SimpleRegion;
  * 
  */
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Content extends BaseObject {
-
-	public static final String COLLECTION_NAME = "contents";
+public class Content extends BaseObject implements Collectionable {
 
 	public static final String ALLOWED_ALL_USERS = "0";
 
@@ -27,12 +27,14 @@ public class Content extends BaseObject {
 	// contain a content categories set by the owner
 	private SimpleCategory[] categories;
 
+	// TODO konovalov: rename to categoryIds
 	// contain a categories set by the owner, and parent for them
 	private String[] allCategories;
 
 	// contain a content regions set by the owner
 	private SimpleRegion[] regions;
 
+	// TODO konovalov: rename to regionIds
 	// contain a regions set by the owner, and parent for them
 	private String[] allRegions;
 
@@ -48,9 +50,6 @@ public class Content extends BaseObject {
 	// multilingual description
 	private MultiLangText description;
 
-	// image
-	private Image image;
-
 	// date created
 	private Date created;
 
@@ -64,14 +63,25 @@ public class Content extends BaseObject {
 	// owners
 	private String[] owners;
 
-	// viewing information
-	private ContentViews views;
-
 	// language in which the trip was created
 	private String mainLang;
 
 	// set of languages ​​that are available for this content
 	private String[] langs;
+
+	// viewing information
+	private Views views;
+
+	// Information about adding to favorites
+	private Favorites favorites;
+
+	// image
+	private Image image;
+
+	@Override
+	public String getCollectionName() {
+		return CollectionEnum.CONTENTS.getName();
+	}
 
 	public ContentOwner getOwner() {
 		return owner;
@@ -185,11 +195,11 @@ public class Content extends BaseObject {
 		this.owners = owners;
 	}
 
-	public ContentViews getViews() {
+	public Views getViews() {
 		return views;
 	}
 
-	public void setViews(ContentViews views) {
+	public void setViews(Views views) {
 		this.views = views;
 	}
 
@@ -209,4 +219,11 @@ public class Content extends BaseObject {
 		this.langs = langs;
 	}
 
+	public Favorites getFavorites() {
+		return favorites;
+	}
+
+	public void setFavorites(Favorites favorites) {
+		this.favorites = favorites;
+	}
 }
