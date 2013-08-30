@@ -11,9 +11,10 @@
 
 <c:if test="${not empty param.login_error}">
 	<div id="error_message">
-		<fmt:message key="err.login.failure" />
+		${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
 	</div>
 </c:if>
+
 
 <section id="middle">
 	<div id="container">

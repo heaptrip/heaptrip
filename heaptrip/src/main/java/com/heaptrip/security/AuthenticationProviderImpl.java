@@ -50,9 +50,13 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 		// Check user authentication info
 		User user = authenticationService.getUserByEmailAndPassword(email, password);
 
-		if (user == null || !user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+		if (user == null || user.getStatus().equals(AccountStatusEnum.DELETED)) {
 			LOG.error("user " + email + " authenticate failure");
 			throw new BadCredentialsException(localeService.getMessage("err.login.failure"));
+		}
+
+		if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
+			throw new BadCredentialsException(localeService.getMessage("err.login.notconfirmed"));
 		}
 
 		// Return an authenticated token, containing user data and
