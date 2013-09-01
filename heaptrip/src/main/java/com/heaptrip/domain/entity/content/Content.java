@@ -27,16 +27,14 @@ public class Content extends BaseObject implements Collectionable {
 	// contain a content categories set by the owner
 	private SimpleCategory[] categories;
 
-	// TODO konovalov: rename to categoryIds
-	// contain a categories set by the owner, and parent for them
-	private String[] allCategories;
+	// contain a categories IDs set by the owner, and parent for them
+	private String[] categoryIds;
 
 	// contain a content regions set by the owner
 	private SimpleRegion[] regions;
 
-	// TODO konovalov: rename to regionIds
-	// contain a regions set by the owner, and parent for them
-	private String[] allRegions;
+	// contain a regions IDs set by the owner, and parent for them
+	private String[] regionIds;
 
 	// content status
 	private ContentStatus status;
@@ -99,28 +97,12 @@ public class Content extends BaseObject implements Collectionable {
 		this.categories = categories;
 	}
 
-	public String[] getAllCategories() {
-		return allCategories;
-	}
-
-	public void setAllCategories(String[] allCategories) {
-		this.allCategories = allCategories;
-	}
-
 	public SimpleRegion[] getRegions() {
 		return regions;
 	}
 
 	public void setRegions(SimpleRegion[] regions) {
 		this.regions = regions;
-	}
-
-	public String[] getAllRegions() {
-		return allRegions;
-	}
-
-	public void setAllRegions(String[] allRegions) {
-		this.allRegions = allRegions;
 	}
 
 	public ContentStatus getStatus() {
@@ -226,4 +208,21 @@ public class Content extends BaseObject implements Collectionable {
 	public void setFavorites(Favorites favorites) {
 		this.favorites = favorites;
 	}
+
+	public String[] getCategoryIds() {
+		return categoryIds;
+	}
+
+	public void setCategoryIds(String[] categoryIds) {
+		this.categoryIds = categoryIds;
+	}
+
+	public String[] getRegionIds() {
+		return regionIds;
+	}
+
+	public void setRegionIds(String[] regionIds) {
+		this.regionIds = regionIds;
+	}
+
 }

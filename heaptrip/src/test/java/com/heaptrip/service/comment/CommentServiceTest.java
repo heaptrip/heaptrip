@@ -74,11 +74,10 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
 		// check number of comments
 		Trip content = tripRepository.findOne(TARGET_ID);
 		Assert.assertNotNull(content);
-		Assert.assertNotNull(content.getComments());
-		Assert.assertEquals(content.getComments().longValue(), 2L);
+		Assert.assertEquals(content.getComments(), 2L);
 	}
 
-	@Test(enabled = true, priority = 0)
+	@Test(enabled = true, priority = 1)
 	public void addComment() throws IOException {
 		Comment rootComment = commentService.addComment(TARGET_ID, USER_ID, "some root comment");
 		// check
@@ -98,7 +97,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(childComment.getAuthor().getId(), USER_ID);
 	}
 
-	@Test(enabled = true, priority = 1)
+	@Test(enabled = true, priority = 2)
 	public void getComments() {
 		// call
 		List<Comment> comments = commentService.getComments(TARGET_ID);
@@ -119,7 +118,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(childComment.getParent(), rootComment.getId());
 	}
 
-	@Test(enabled = true, priority = 2)
+	@Test(enabled = true, priority = 3)
 	public void removeComments() {
 		// call
 		commentService.removeComments(TARGET_ID);

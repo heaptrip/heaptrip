@@ -24,10 +24,10 @@ public class ForeignAccountQueryHelper extends AbstractQueryHelper<TripForeignAc
 		}
 		query += ", allowed: {$in: #}";
 		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			query += ", allCategories: {$in: #}";
+			query += ", categoryIds: {$in: #}";
 		}
 		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			query += ", allRegions: {$in: #}";
+			query += ", regionIds: {$in: #}";
 		}
 		if (criteria.getPeriod() != null) {
 			if (criteria.getPeriod().getDateBegin() != null && criteria.getPeriod().getDateEnd() != null) {

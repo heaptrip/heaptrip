@@ -26,7 +26,7 @@ import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
 import com.heaptrip.domain.repository.solr.entity.SolrContentSearchResponse;
-import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
 
 @Service
 public class SolrContentRepositoryImpl implements SolrContentRepository {
@@ -52,13 +52,13 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 		doc.addField("class", content.getClass().getName());
 
 		// set categories
-		if (ArrayUtils.isNotEmpty(content.getAllCategories())) {
-			doc.addField("categories", content.getAllCategories());
+		if (ArrayUtils.isNotEmpty(content.getCategoryIds())) {
+			doc.addField("categories", content.getCategoryIds());
 		}
 
 		// set regions
-		if (ArrayUtils.isNotEmpty(content.getAllRegions())) {
-			doc.addField("regions", content.getAllRegions());
+		if (ArrayUtils.isNotEmpty(content.getRegionIds())) {
+			doc.addField("regions", content.getRegionIds());
 		}
 
 		// set allowed
@@ -119,7 +119,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 	}
 
 	@Override
-	public SolrContentSearchResponse findByСontextSearchCriteria(ContextSearchCriteria criteria)
+	public SolrContentSearchResponse findByСontextSearchCriteria(TextSearchCriteria criteria)
 			throws SolrServerException {
 
 		SolrQuery query = new SolrQuery();

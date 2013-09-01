@@ -88,7 +88,7 @@ public class TripServiceImpl implements TripService {
 		// TODO if owner account type == (CLUB or COMPANY) then set owners
 		trip.setOwners(new String[] { trip.getOwner().getId() });
 
-		Set<String> allCategories = new HashSet<>();
+		Set<String> categoryIds = new HashSet<>();
 		if (trip.getCategories() != null) {
 			for (SimpleCategory simpleCategory : trip.getCategories()) {
 				// set content categories
@@ -97,13 +97,13 @@ public class TripServiceImpl implements TripService {
 				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
 				simpleCategory.setName(category.getName());
 				// set all categories
-				allCategories.add(simpleCategory.getId());
-				allCategories.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
+				categoryIds.add(simpleCategory.getId());
+				categoryIds.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
 			}
 		}
-		trip.setAllCategories(allCategories.toArray(new String[0]));
+		trip.setCategoryIds(categoryIds.toArray(new String[0]));
 
-		Set<String> allRegions = new HashSet<>();
+		Set<String> regionIds = new HashSet<>();
 		if (trip.getRegions() != null) {
 			for (SimpleRegion simpleRegion : trip.getRegions()) {
 				// set content regions
@@ -112,11 +112,11 @@ public class TripServiceImpl implements TripService {
 				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
 				simpleRegion.setName(region.getName());
 				// set all regions
-				allRegions.add(simpleRegion.getId());
-				allRegions.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
+				regionIds.add(simpleRegion.getId());
+				regionIds.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
 			}
 		}
-		trip.setAllRegions(allRegions.toArray(new String[0]));
+		trip.setRegionIds(regionIds.toArray(new String[0]));
 
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {
@@ -267,7 +267,7 @@ public class TripServiceImpl implements TripService {
 		Assert.notEmpty(trip.getDescription(), "description must not be empty");
 		Assert.notEmpty(trip.getLangs(), "langs must not be empty");
 
-		Set<String> allCategories = new HashSet<>();
+		Set<String> categoryIds = new HashSet<>();
 		if (trip.getCategories() != null) {
 			for (SimpleCategory simpleCategory : trip.getCategories()) {
 				// set content categories
@@ -276,13 +276,13 @@ public class TripServiceImpl implements TripService {
 				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
 				simpleCategory.setName(category.getName());
 				// set all categories
-				allCategories.add(simpleCategory.getId());
-				allCategories.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
+				categoryIds.add(simpleCategory.getId());
+				categoryIds.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
 			}
 		}
-		trip.setAllCategories(allCategories.toArray(new String[0]));
+		trip.setCategoryIds(categoryIds.toArray(new String[0]));
 
-		Set<String> allRegions = new HashSet<>();
+		Set<String> regionIds = new HashSet<>();
 		if (trip.getRegions() != null) {
 			for (SimpleRegion simpleRegion : trip.getRegions()) {
 				// set content regions
@@ -291,11 +291,11 @@ public class TripServiceImpl implements TripService {
 				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
 				simpleRegion.setName(region.getName());
 				// set all regions
-				allRegions.add(simpleRegion.getId());
-				allRegions.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
+				regionIds.add(simpleRegion.getId());
+				regionIds.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
 			}
 		}
-		trip.setAllRegions(allRegions.toArray(new String[0]));
+		trip.setRegionIds(regionIds.toArray(new String[0]));
 
 		if (trip.getTable() != null) {
 			for (TableItem item : trip.getTable()) {

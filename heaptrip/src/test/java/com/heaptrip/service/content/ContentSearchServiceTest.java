@@ -16,14 +16,14 @@ import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.MultiLangText;
-import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
-import com.heaptrip.domain.service.content.criteria.ContextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
+import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.language.LanguageUtils;
 
@@ -88,9 +88,9 @@ public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 		trip.setSummary(new MultiLangText("test summary", LanguageUtils.getEnglishLocale()));
 		trip.setDescription(new MultiLangText("test description", LanguageUtils.getEnglishLocale()));
 		trip.setCategories(getCategories());
-		trip.setAllCategories(CATEGORY_IDS);
+		trip.setCategoryIds(CATEGORY_IDS);
 		trip.setRegions(getRegions());
-		trip.setAllRegions(REGION_IDS);
+		trip.setRegionIds(REGION_IDS);
 		trip.setAllowed(new String[] { USER_ID });
 		trip.setLangs(new String[] { LanguageUtils.getEnglishLocale().getLanguage() });
 		// save to db
@@ -109,10 +109,10 @@ public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(priority = 1, enabled = true, dataProvider = "contextSearchCriteria", dataProviderClass = ContentDataProvider.class)
-	public void findContentsByСontextSearchCriteria(ContextSearchCriteria criteria) {
+	@Test(priority = 1, enabled = true, dataProvider = "textSearchCriteria", dataProviderClass = ContentDataProvider.class)
+	public void findContentsByTextSearchCriteria(TextSearchCriteria criteria) {
 		// call
-		ContentSearchResponse response = contentSearchService.findContentsByСontextSearchCriteria(criteria);
+		ContentSearchResponse response = contentSearchService.findContentsByTextSearchCriteria(criteria);
 		// check
 		Assert.assertNotNull(response);
 		Assert.assertTrue(response.getNumFound() > 0);
