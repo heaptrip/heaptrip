@@ -17,7 +17,14 @@
 			<class name="com.heaptrip.service.account.community.CommunityServiceTest" />
 		</classes>
 	</test>
-
+	
+	<test name="AccountRelationsTest">
+		<classes>
+			<class name="com.heaptrip.service.account.relations.InitAccountRelationsTest" />
+			<class name="com.heaptrip.service.account.relations.UserRelationsServiceTest" />
+		</classes>
+	</test>
+	
 	<test name="ImageTest">
 		<classes>
 			<class name="com.heaptrip.service.image.ImageServiceTest" />
@@ -71,5 +78,4 @@
 			<class name="com.heaptrip.service.system.MailServiceTest" />
 		</classes>
 	</test>
-
 </suite>
