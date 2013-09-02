@@ -224,14 +224,49 @@
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelPostsCatalogTemplate"  />
 		</definition>
+		
+		
+
+		<definition name="travelInfoEditCatalogTemplate" extends="catalogTemplate">
+			<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travel_edit_info.jsp" />
+		</definition>
+		
+		<definition name="travel_edit_info" extends="mainContentTemplate">
+			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+			<put-attribute name="main_content" value="travelInfoEditCatalogTemplate"  />
+		</definition>
+		
+		
 	
-	<!-- end Trip page -->
+		<!-- Trip edit page -->
 		
 	<definition name="posts" extends="mainContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postsTemplate" />
 	</definition>
+
+
+	<definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp" >
+		<put-attribute name="category_tree_btn" value="" />
+	</definition>
+	<definition name="categoryTreeWithBtn" extends="categoryTree" >
+		<put-attribute name="category_tree_btn" value="/WEB-INF/jsp/widget/category_tree_btn.jsp" />
+	</definition>
+	
+	<definition name="regionFilter" template="/WEB-INF/jsp/widget/region_filter.jsp" >
+		<put-attribute name="region_filter_btn" value="" />
+	</definition>
+	<definition name="regionFilterWithBtn" extends="regionFilter" >
+		<put-attribute name="region_filter_btn" value="/WEB-INF/jsp/widget/region_filter_btn.jsp" />
+	</definition>
+
+	<definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp" />
+	
+
+
+
 
 	<definition name="post" extends="mainContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
@@ -255,10 +290,7 @@
 		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp" />
 	</definition>
 
-	<definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp" />
-	<definition name="regionFilter" template="/WEB-INF/jsp/widget/region_filter.jsp" />
-	<definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp" />
-	
+
 	
 	
 

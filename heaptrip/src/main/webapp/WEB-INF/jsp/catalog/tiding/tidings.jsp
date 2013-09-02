@@ -146,9 +146,9 @@
 		
 		<aside id="sideRight">
 
-<tiles:insertDefinition name="categoryTree" />
+<tiles:insertDefinition name="categoryTreeWithBtn" />
 
-<tiles:insertDefinition name="regionFilter" />
+<tiles:insertDefinition name="regionFilterWithBtn" />
 
 	
 			<div id="widget1" class="widget">

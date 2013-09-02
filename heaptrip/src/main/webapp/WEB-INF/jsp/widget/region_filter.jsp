@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
 <script type="text/javascript">
 
@@ -185,8 +186,6 @@
 			<input type="text" name="text_search"> <input type="button" name="go_region_search" value="">
 		</div>
 		<div class="tree"></div>
-		<div class="for_button">
-			<input type="button" class="button" value="<fmt:message key="page.action.save" />">
-		</div>
+		<tiles:insertAttribute name="region_filter_btn" />
 	</div>
 </div>

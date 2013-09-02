@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
     <script type="text/javascript">
 
@@ -54,14 +55,13 @@
                     		}else{
                     			selectCategories(data.userCategories);
                     		}
-                	});
-                	/*.bind("change_state.jstree", function(node, uncheck) {
-                    	var checked_ids = [];
-                    	$("#category .tree").jstree("get_checked", null, true).each(function () {
-                            checked_ids.push(this.id);
-                        });
-                    	$.handInitParamToURL({ct : checked_ids.join()});
-                	});*/   	               	
+                	})
+                	.bind("change_state.jstree", function(node, uncheck) {
+                		if($("#categoryFilterSubmit").length == 0){
+                			var checked_ids = getSelectedCategories();
+                    		$.handInitParamToURL({ct : checked_ids.join()});
+                    	}
+                	});              	
             	};
         
         	var callbackError = function(error) {
@@ -70,22 +70,7 @@
 
         	$.postJSON(url, null , callbackSuccess, callbackError);
     	});
-   
-    	$(function(){
-        	$("#categoryFilterSubmit").click(function(){
-            	var checked_ids = getSelectedCategories();
-            	$.handParamToURL({ct : checked_ids.join()});
-        	});
-    	});
-   
-    	$(function(){
-        	$("#categoryFilterSave").click(function(){
-            	if(window.user)
-                	alert('Category filter save for ' + window.user.name + ' clicked!');
-            	else
-                	alert( 'You mast authorize for save!');
-        	});
-    	});
+  
   
     </script>
 
@@ -93,9 +78,6 @@
         <div class="zag"><fmt:message key="wgt.category.select" /></div>
         <div class="content">
         <div class="tree"></div>
-            <div class="for_button">
-                <input type="button" id="categoryFilterSubmit" class="button" value="<fmt:message key="page.action.search" />">
-                <input type="button" id="categoryFilterSave" class="button" value="<fmt:message key="page.action.save" />">               
-            </div>
+            <tiles:insertAttribute name="category_tree_btn" />
         </div>
     </div>
