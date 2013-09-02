@@ -118,10 +118,10 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		userRegistration.setRoles(roles);
 		userRegistration.setStatus(AccountStatusEnum.NOTCONFIRMED);
 		userRegistration.setTypeAccount(AccountEnum.USER);
-		String[] frends = new String[0];
-		userRegistration.setFrends(frends);
-		String[] signed = new String[0];
-		userRegistration.setSigned(signed);
+		String[] friends = new String[0];
+		userRegistration.setFriends(friends);
+		String[] publishers = new String[0];
+		userRegistration.setPublishers(publishers);
 		
 		UserRegistration user = userRepository.save(userRegistration);
 

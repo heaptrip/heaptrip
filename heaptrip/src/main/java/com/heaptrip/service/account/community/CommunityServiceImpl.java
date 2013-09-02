@@ -7,6 +7,7 @@ import org.springframework.util.Assert;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
 import com.heaptrip.domain.entity.account.community.CommunitySetting;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
@@ -42,18 +43,18 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
 	}
 
 	@Override
-	public Account registration(Account account) {
-		Assert.notNull(account, "account must not be null");
-		Assert.notNull(account.getEmail(), "email must not be null");
-		Assert.notNull(account.getTypeAccount(), "type account must not be null");
-		Assert.isTrue(!account.getTypeAccount().equals(AccountEnum.USER), "account must not be type account is user");
-		Assert.isTrue(account.getEmail().matches(EMAIL_REGEX), "email is not correct");
+	public Community registration(Community community) {
+		Assert.notNull(community, "account must not be null");
+		Assert.notNull(community.getEmail(), "email must not be null");
+		Assert.notNull(community.getTypeAccount(), "type account must not be null");
+		Assert.isTrue(!community.getTypeAccount().equals(AccountEnum.USER), "account must not be type account is user");
+		Assert.isTrue(community.getEmail().matches(EMAIL_REGEX), "email is not correct");
 		
-		account.setProfile(new CommunityProfile());
-		account.setSetting(new CommunitySetting());
-		account.setStatus(AccountStatusEnum.NOTCONFIRMED);
+		community.setProfile(new CommunityProfile());
+		community.setSetting(new CommunitySetting());
+		community.setStatus(AccountStatusEnum.NOTCONFIRMED);
 		
-		return communityRepository.save(account);
+		return communityRepository.save(community);
 	}
 
 }
