@@ -2,21 +2,29 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
+
+<c:set var="isForFrends"
+	value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
+	
+<c:set var="isDraft"
+	value="${trip.status.value eq 'DRAFT'}" />	
+
 <div id="container">
 			<div id="contents">
 
 				<article id="article" class="deteil edit">
-					<div class="date">15.01.13<span>Путешествие</span></div>
+					<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span></div>
 					<div class="inf">
 						<div class="left">
 							<ul>
-								<li><input type="checkbox"><label>Черновик</label></li>
-								<li><input type="checkbox"><label>Для всех</label></li>
-								<li><input type="checkbox"><label>Для друзей</label></li>
+								<li><input type="checkbox" checked= "${isDraft}"><label><fmt:message key="content.draft" /></label></li>
+								<li><input type="checkbox" checked = "${isForFrends}"><label><fmt:message key="content.forFrends" /></label></li>
 							</ul>					
 						</div>
 						<div class="right">
-							<div>Доступно для:</div>
+						
+							<div><fmt:message key="content.available" />:</div>
+							
 							<ul><!--
 								--><li class="del_list_lang"><a class="del_lang lang" href="/"></a></li><!--
 								--><li class="activ_lang"><a class="ru lang" href="/"></a></li><!--
@@ -30,36 +38,38 @@
 									</ul>
 								</li><!--
 							--></ul>
+							
 						</div>
 					</div>
-					<input type="text" id="name_post" alt="Название:">
+					<input type="text" id="name_post" value="${trip.name}" alt="<fmt:message key="content.name" />:">
 					<nav id="travel_nav">
-						<a href="/travel.html" class="button">Сохранить</a>
+						<a href="/travel.html" class="button"><fmt:message key="page.action.save" /></a>
     					<ul><!--
-    					    --><li><a href="/travel.html" class="active">Информация<span></span></a></li><!--
-    					    --><li><a href="/route.html">Маршрут<span></span></a></li><!--
-    					    --><li><a href="/photo.html">Фото<span></span></a></li><!--
-    					    --><li><a href="/participants.html">Участники<span></span></a></li><!--
-    					    --><li><a href="/posts_user.html">Посты<span></span></a></li><!--
+    					    --><li><a href="/travel_edit_info.html" class="active"><fmt:message key="content.information" /><span></span></a></li><!--
+    					    --><li><a href="/travel_edit_maps.html"><fmt:message key="trip.route" /><span></span></a></li><!--
+    					    --><li><a href="/travel_edit_photo.html"><fmt:message key="content.photo" /><span></span></a></li><!--
+    					    --><li><a href="/travel_edit_participants.html"><fmt:message key="content.participants" /><span></span></a></li><!--
+    					    --><li><a href="/travel_edit_posts.html"><fmt:message key="post.list.title" /><span></span></a></li><!--
     					--></ul>
 					</nav>					
 					<div class="description">
-						<div id="img_load"><img src="1.jpg" width="300"></div>
+						<div id="img_load"><img src="<c:url value="/rest/image?imageId=${trip.image}"/>" width="300"></div>
 						<div id="img_load_button">
-							<a href="/" class="button">Загрузить фото</a>
-							<a href="/" class="button">Выбрать из альбома</a>
+							<a href="/" class="button"><fmt:message key="page.action.uploadPhoto" /></a>
+							<a href="/" class="button"><fmt:message key="page.action.albumSelect" /></a>
 						</div>
 					</div>
-					<textarea id="desc_post" alt="Короткое описание:"></textarea>
-					<textarea id="desc_full_post" alt="Полное описание:"></textarea>
+					
+					<textarea id="desc_post"  alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
+					<textarea id="desc_full_post" alt="<fmt:message key="content.fullDescription" />:">${trip.description}</textarea>
 					<div class="table_inf">
 						<table>
 							<thead><tr>
-								<th>Период проведения</th>
-								<th class="price_th">Стоимость участия</th>
-								<th>Минимум участников</th>
-								<th>Максимум участников</th>
-								<th>Действие</th>
+								<th><fmt:message key="trip.period" /></th>
+								<th class="price_th"><fmt:message key="trip.cost" /></th>
+								<th><fmt:message key="content.participants.min" /></th>
+								<th><fmt:message key="content.participants.max" /></th>
+								<th><fmt:message key="trip.action" /></th>
 							</tr></thead>
 							<tbody>
 								<tr>
