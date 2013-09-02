@@ -6,10 +6,10 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.service.account.community.CommunityService;
@@ -47,11 +47,11 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 	
 	@Test(enabled = true, priority = 13)
 	public void saveSetting() {
-		Account account = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
-		Assert.assertNotNull(account);
-		Assert.assertNotNull(account.getSetting());
+		Community community = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
+		Assert.assertNotNull(community);
+		Assert.assertNotNull(community.getSetting());
 		
-		communityService.saveSetting(InitCommunityTest.COMMUNITY_ID, account.getSetting());
+		communityService.saveSetting(InitCommunityTest.COMMUNITY_ID, community.getSetting());
 	}
 	
 	@Test(enabled = true, priority = 21, expectedExceptions = IllegalArgumentException.class)
@@ -72,34 +72,34 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 	
 	@Test(enabled = true, priority = 23)
 	public void saveProfile() {
-		Account account = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
-		Assert.assertNotNull(account);
-		Assert.assertNotNull(account.getProfile());
-		account.getProfile().setDesc("description");
+		Community community = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
+		Assert.assertNotNull(community);
+		Assert.assertNotNull(community.getProfile());
+		community.getProfile().setDesc("description");
 		
-		communityService.saveProfile(InitCommunityTest.COMMUNITY_ID, account.getProfile());
+		communityService.saveProfile(InitCommunityTest.COMMUNITY_ID, community.getProfile());
 		
-		account = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
-		Assert.assertNotNull(account);
-		Assert.assertNotNull(account.getProfile());
-		Assert.assertNotNull(account.getProfile().getDesc());
+		community = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
+		Assert.assertNotNull(community);
+		Assert.assertNotNull(community.getProfile());
+		Assert.assertNotNull(community.getProfile().getDesc());
 	}
 	
 	@Test(enabled = true, priority = 24)
 	public void updateProfile() {
-		Account account = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
-		Assert.assertNotNull(account);
-		Assert.assertNotNull(account.getProfile());
-		CommunityProfile profile = (CommunityProfile) account.getProfile();
+		Community community = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
+		Assert.assertNotNull(community);
+		Assert.assertNotNull(community.getProfile());
+		CommunityProfile profile = (CommunityProfile) community.getProfile();
 		profile.setSkype("unknown");
 		
 		communityService.saveProfile(InitCommunityTest.COMMUNITY_ID, profile);
 		
-		account = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
-		Assert.assertNotNull(account);
-		Assert.assertNotNull(account.getProfile());
-		Assert.assertNotNull(account.getProfile().getDesc());
-		Assert.assertNotNull(((CommunityProfile) account.getProfile()).getSkype());
+		community = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
+		Assert.assertNotNull(community);
+		Assert.assertNotNull(community.getProfile());
+		Assert.assertNotNull(community.getProfile().getDesc());
+		Assert.assertNotNull(((CommunityProfile) community.getProfile()).getSkype());
 	}
 	
 	@Test(enabled = true, priority = 91, expectedExceptions = IllegalArgumentException.class)
@@ -115,7 +115,7 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true, priority = 93)
 	public void deleteCommunity() {
 		communityService.delete(InitCommunityTest.COMMUNITY_ID);
-		Account account = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
-		Assert.assertTrue(account.getStatus().equals(AccountStatusEnum.DELETED));
+		Community community = communityRepository.findOne(InitCommunityTest.COMMUNITY_ID);
+		Assert.assertTrue(community.getStatus().equals(AccountStatusEnum.DELETED));
 	}
 }

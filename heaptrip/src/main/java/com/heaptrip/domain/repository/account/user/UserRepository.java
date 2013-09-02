@@ -5,7 +5,6 @@ import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.repository.CrudRepository;
 
-//public interface UserRepository extends AccountRepository {
 public interface UserRepository extends CrudRepository<User> {
 	
 	User findByEmailAndPassword(String email, String password);
@@ -21,4 +20,12 @@ public interface UserRepository extends CrudRepository<User> {
 	void unlinkSocialNetwork(String userId, SocialNetworkEnum socialNetwork);
 	
 	void linkSocialNetwork(String userId, SocialNetwork socialNetwork);
+	
+	void addFriend(String userId, String friendId);
+	
+	void deleteFriend(String userId, String friendId);
+	
+	void addPublisher(String userId, String publisherId);
+
+	void deletePublisher(String userId, String publisherId);
 }

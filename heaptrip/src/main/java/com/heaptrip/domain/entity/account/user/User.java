@@ -13,13 +13,17 @@ public class User extends Account {
 	
 	private Byte[] imageCRC;
 	
-	private String[] frends;
+	private String[] friends;
 	
-	private String[] signed;
+	private String[] publishers;
 	
 	public User() {
 		super();
 		setTypeAccount(AccountEnum.USER);
+		setFriends(new String[0]);
+		setPublishers(new String[0]);
+		setProfile(new UserProfile());
+		setSetting(new UserSetting());
 	}
 	
 	public String[] getRoles() {
@@ -54,19 +58,19 @@ public class User extends Account {
 		this.extImageStore = extImageStore;
 	}
 
-	public String[] getFrends() {
-		return frends;
+	public String[] getPublishers() {
+		return publishers;
 	}
 
-	public void setFrends(String[] frends) {
-		this.frends = frends;
+	public void setPublishers(String[] publishers) {
+		this.publishers = publishers;
 	}
 
-	public String[] getSigned() {
-		return signed;
+	public String[] getFriends() {
+		return friends;
 	}
 
-	public void setSigned(String[] signed) {
-		this.signed = signed;
+	public void setFriends(String[] friends) {
+		this.friends = friends;
 	}
 }

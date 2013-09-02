@@ -8,29 +8,29 @@ public interface UserRelationsService {
 	 * @param userId
 	 * @param frendId
 	 */
-	void sendFriendshipRequest(String userId, String frendId);
+	void sendFriendshipRequest(String userId, String friendId);
 	
 	/**
-	 * delete frend
+	 * delete friend
 	 * 
 	 * @param userId
-	 * @param frendId
+	 * @param friendId
 	 */
-	void deleteFrend(String userId, String frendId);
+	void deleteFriend(String userId, String friendId);
 	
 	/**
-	 * add signed
+	 * add publisher
 	 * 
 	 * @param userId
-	 * @param signedId
+	 * @param publisherId
 	 */
-	void addSigned(String userId, String signedId);
+	void addPublisher(String userId, String publisherId);
 	
 	/**
-	 * delete signed
+	 * delete publisher
 	 * 
 	 * @param userId
-	 * @param signedId
+	 * @param publisherId
 	 */
-	void deleteSigned(String userId, String signedId);
+	void deletePublisher(String userId, String publisherId);
 }

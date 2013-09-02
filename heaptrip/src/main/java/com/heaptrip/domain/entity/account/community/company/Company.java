@@ -1,9 +1,9 @@
 package com.heaptrip.domain.entity.account.community.company;
 
-import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
+import com.heaptrip.domain.entity.account.community.Community;
 
-public class Company extends Account {
+public class Company extends Community {
 
 	public Company() {
 		super();
