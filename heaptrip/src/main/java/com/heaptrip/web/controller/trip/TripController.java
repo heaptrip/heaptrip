@@ -62,12 +62,20 @@ public class TripController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "travel_info", method = RequestMethod.GET)
 	public ModelAndView getTripInfo(@RequestParam("id") String tripId) {
-
 		ModelAndView mv = new ModelAndView();
-
 		TripInfoModel tripModel = tripModelService.getTripInfoById(tripId);
-
 		return mv.addObject("trip", tripModel);
 
 	}
+
+	@RequestMapping(value = "travel_edit_info", method = RequestMethod.GET)
+	public ModelAndView getEditTripInfo(@RequestParam(value = "id", required = false) String tripId) {
+		ModelAndView mv = new ModelAndView();
+		TripInfoModel tripModel = null;
+		if (tripId != null) {
+			tripModel = tripModelService.getTripInfoById(tripId);
+		}
+		return mv.addObject("trip", tripModel);
+	}
+
 }

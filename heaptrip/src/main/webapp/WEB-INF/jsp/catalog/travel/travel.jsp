@@ -21,6 +21,10 @@
 	<c:param name='id' value="${tripId}" />
 </c:url>
 
+<c:url var="tripEditUrl" value="travel_edit_info.html">
+	<c:param name='id' value="${tripId}" />
+</c:url>
+
 <div id="container">
 			<div id="contents">
 				<article id="article" class="deteil">
@@ -62,7 +66,8 @@
 						</div>
 					</div>
 					<nav id="travel_nav">
-						<input type="button" value="<fmt:message key="page.action.edit" />" class="button">
+						<input type="button" onClick="window.location = '${tripEditUrl}'" value="<fmt:message key="page.action.edit" />" class="button">
+						
     					<ul><!--
     					    --><li><a href="${infoUrl}" class="active"><fmt:message key="content.information" /><span></span></a></li><!--
     					    --><li><a href="${mapsUrl}"><fmt:message key="trip.route" /><span></span></a></li><!--
