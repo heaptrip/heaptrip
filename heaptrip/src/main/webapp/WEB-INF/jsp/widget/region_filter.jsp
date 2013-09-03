@@ -55,6 +55,7 @@
 	}
 	
 	$(window).bind("onPageReady", function(e, paramsJson) {
+		
 		if(paramsJson.rg){
 			var regIds = paramsJson.rg.split(',');
 			for(var index in regIds){
@@ -83,7 +84,7 @@
 
 			}
 			
-			$.handParamToURL({rg : paramsJson.rg});
+			$.handInitParamToURL({rg : paramsJson.rg});
 			$("#region input[type=text]").val('');
 		}
 	});

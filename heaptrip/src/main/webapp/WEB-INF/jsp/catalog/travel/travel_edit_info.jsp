@@ -1,32 +1,47 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:forEach items="${trip.categories}" var="category" varStatus="stat">
+  <c:set var="categoryIds" value="${categoriesIds },${category.id}" />
+</c:forEach>
+
+<c:forEach items="${trip.regions}" var="region" varStatus="stat">
+  <c:set var="regionIds" value="${regionIds },${region.id}" />
+</c:forEach>
 
 <c:set var="isForFrends"
 	value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
 	
 <c:set var="isDraft"
-	value="${trip.status.value eq 'DRAFT'}" />	
+	value="${trip.status.value eq 'DRAFT'}" />
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		var ct = "${fn:substring(categoryIds,1,1000)}";
+		var rg = "${fn:substring(regionIds,1,1000)}";
+		$.handParamToURL({ct:ct,rg:rg});
+	});
+	
+</script>
 
 <div id="container">
-			<div id="contents">
-
-				<article id="article" class="deteil edit">
-					<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span></div>
-					<div class="inf">
-						<div class="left">
-							<ul>
-								<li><input type="checkbox" checked= "${isDraft}"><label><fmt:message key="content.draft" /></label></li>
-								<li><input type="checkbox" checked = "${isForFrends}"><label><fmt:message key="content.forFrends" /></label></li>
-							</ul>					
-						</div>
-						<div class="right">
-						
-							<div><fmt:message key="content.available" />:</div>
-							
+	<div id="contents">
+		<article id="article" class="deteil edit">
+			<div class="date">${trip.created.text}<span><fmt:message key="trip.title" /></span></div>
+				<div class="inf">
+					<div class="left">
+						<ul>
+							<li><input type="checkbox" checked= "${isDraft}"><label><fmt:message key="content.draft" /></label></li>
+							<li><input type="checkbox" checked = "${isForFrends}"><label><fmt:message key="content.forFrends" /></label></li>
+						</ul>					
+					</div>
+					<div class="right">
+						<div><fmt:message key="content.available" />:</div>
 							<ul><!--
-								--><li class="del_list_lang"><a class="del_lang lang" href="/"></a></li><!--
+			 					--><li class="del_list_lang"><a class="del_lang lang" href="/"></a></li><!--
 								--><li class="activ_lang"><a class="ru lang" href="/"></a></li><!--
 								--><li><a class="yk lang" href="/"></a></li><!--
 								--><li><a class="fr lang" href="/"></a></li><!--

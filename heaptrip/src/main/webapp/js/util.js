@@ -125,7 +125,7 @@
 }); */
 
 $(function(){
-	$(window).bind( "hashchange", function(event) {
+	$(window).bind("hashchange", function(event) {
 		var localUrlParams = $.deparam.fragment(window.location.href);
 		if(!window.isInit){
 			window.isInit = false;
