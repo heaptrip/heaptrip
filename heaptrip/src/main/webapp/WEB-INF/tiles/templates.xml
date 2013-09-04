@@ -102,13 +102,27 @@
 		<put-attribute name="main_content" value="/WEB-INF/jsp/notfound.jsp" />
 	</definition>
 
-	<definition name="catalogScriptsTemplate" extends="jqueryuiScriptsTemplate">
+
+	<definition name="contentScriptsTemplate" extends="jqueryuiScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
 			<add-attribute value="/js/jquery.jstree.js" />
 			<add-attribute value="/js/filtr.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="contentEditScriptsTemplate" extends="contentScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/js/edit.js" />
+		</put-list-attribute>
+	</definition>
+
+	<definition name="catalogScriptsTemplate" extends="contentScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
 			<add-attribute value="/js/lib/jsrender.js" />
 		</put-list-attribute>
 	</definition>
+	
+	
 
 	<definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
@@ -196,31 +210,31 @@
 		</definition>
 	
 		<definition name="travel_info" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelInfoCatalogTemplate"  />
 		</definition>
 	
 		<definition name="travel_maps" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelMapsCatalogTemplate"  />
 		</definition>
 	
 		<definition name="travel_photos" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelPhorosCatalogTemplate"  />
 		</definition>
 	
 		<definition name="travel_participants" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelParticipantsCatalogTemplate"  />
 		</definition>
 	
 		<definition name="travel_posts" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelPostsCatalogTemplate"  />
 		</definition>
@@ -232,7 +246,7 @@
 		</definition>
 		
 		<definition name="travel_edit_info" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelInfoEditCatalogTemplate"  />
 		</definition>

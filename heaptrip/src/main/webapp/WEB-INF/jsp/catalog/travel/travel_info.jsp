@@ -14,7 +14,7 @@
 				<th><fmt:message key="trip.cost" /></th>
 				<th><fmt:message key="trip.minmax" /></th>
 				<th><fmt:message key="trip.enrolled" /></th>
-				<th><fmt:message key="trip.action" /></th>
+				<th><fmt:message key="page.action" /></th>
 			</tr>
 		</thead>
 		<tbody>

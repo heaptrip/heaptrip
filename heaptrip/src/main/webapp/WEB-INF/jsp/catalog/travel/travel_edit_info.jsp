@@ -84,11 +84,11 @@
 								<th class="price_th"><fmt:message key="trip.cost" /></th>
 								<th><fmt:message key="content.participants.min" /></th>
 								<th><fmt:message key="content.participants.max" /></th>
-								<th><fmt:message key="trip.action" /></th>
+								<th><fmt:message key="page.action" /></th>
 							</tr></thead>
 							<tbody>
 								<tr>
-									<td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td>
+									<td><fmt:message key="page.date.from" /> <input type="text" class="datepicker"><br/><fmt:message key="page.date.to" /> <input type="text" class="datepicker"></td>
 									<td class="price_td">
 										<input type="text"><div class="currency"><span>РУБ</span>
 											<ul>
@@ -100,28 +100,13 @@
 									</td>
 									<td><input type="text"></td>
 									<td><input type="text"></td>
-									<td><a class="button" func="4">Удалить</a></td>
-								</tr>
-								<tr>
-									<td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td>
-									<td class="price_td">
-										<input type="text"><div class="currency"><span>РУБ</span>
-											<ul>
-												<li>РУБ</li>
-												<li>US</li>
-												<li>EURO</li>
-											</ul>
-										</div>
-									</td>
-									<td><input type="text"></td>
-									<td><input type="text"></td>
-									<td><a class="button" func="4">Удалить</a></td>
+									<td><a class="button" func="4"><fmt:message key="page.action.delete" /></a></td>
 								</tr>
 							</tbody>
 						</table>
-						<a class="button" func="5">Добавить</a>
+						<a class="button" func="5"><fmt:message key="page.action.add" /></a>
 					</div>
-					<div class="del_article"><a class="button">Удалить путешествие</a></div>
+					<div class="del_article"><a class="button"><fmt:message key="trip.action.delete" /></a></div>
 				</article>
 			</div><!-- #content-->
 		</div><!-- #container-->
