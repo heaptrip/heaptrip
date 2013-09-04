@@ -1,10 +1,15 @@
+<%@ page import="com.heaptrip.domain.entity.LangEnum"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:set var="tripId"
-	value='${param.id}' />
+
+<c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
+<c:set var="currLocale"><fmt:message key="locale.name"/></c:set> 
+
+
+<c:set var="tripId"	value='${param.id}' />
 
 <c:forEach items="${trip.categories}" var="category" varStatus="stat">
   <c:set var="categoryIds" value="${categoriesIds },${category.id}" />
@@ -14,11 +19,9 @@
   <c:set var="regionIds" value="${regionIds },${region.id}" />
 </c:forEach>
 
-<c:set var="isForFrends"
-	value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
+<c:set var="isForFrends" value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
 	
-<c:set var="isDraft"
-	value="${trip.status.value eq 'DRAFT'}" />
+<c:set var="isDraft" value="${trip.status.value eq 'DRAFT'}" />
 
 <script type="text/javascript">
 
@@ -27,6 +30,34 @@
 		var rg = "${fn:substring(regionIds,1,1000)}";
 		$.handParamToURL({ct:ct,rg:rg});
 	});
+	
+	var onTripSubmit = function() {
+
+		var url = 'rest/tripSubmit';
+
+		// registrationInfo
+		var jsonData = {
+			email : $("#email").val(),
+			password : $("#password").val(),
+			firstName : $("#firstName").val(),
+			secondName : $("#secondName").val(),
+			socNetName : $("#socNetName").val(),
+			socNetUserUID : $("#socNetUserUID").val(),
+			photoUrl : $("#photoUrl").val()
+		};
+
+		var callbackSuccess = function(data) {
+			var domain =  $("#email").val().replace(/.*@/, ""); 
+			window.location = 'confirmation.html?domain=' + domain;
+		};
+
+		var callbackError = function(error) {
+			$("#error_message #msg").text(error);
+		};
+
+		$.postJSON(url, jsonData, callbackSuccess, callbackError);
+
+	};
 	
 </script>
 
@@ -41,26 +72,54 @@
 							<li><input type="checkbox" checked="${isForFrends}"><label><fmt:message key="content.forFrends" /></label></li>
 						</ul>					
 					</div>
+	
 					<div class="right">
 						<div><fmt:message key="content.available" />:</div>
-							<ul><!--
-			 					--><li class="del_list_lang"><a class="del_lang lang" href="/"></a></li><!--
-								--><li class="activ_lang"><a class="ru lang" href="/"></a></li><!--
-								--><li><a class="yk lang" href="/"></a></li><!--
-								--><li><a class="fr lang" href="/"></a></li><!--
-								--><li class="add_list_lang"><a class="add_lang lang" href="/"></a>
+							<c:choose>
+								<c:when test="${empty tripId}">
 									<ul>
-										<li><a class="en lang" href="/"></a></li>
-										<li><a class="du lang" href="/"></a></li>
-										<li><a class="sw lang" href="/"></a></li>
+			 							<li class="del_list_lang"><a class="del_lang lang" href="/"></a></li>
+			 					   		<li><a class="${currLocale} lang" href="/"></a></li>
+										<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
+											<ul>	
+												<c:forEach items="${langValues}" var="langValue">
+													<c:if test="${currLocale ne langValue}">
+   														<li><a class="${langValue} lang" href="/"></a></li>
+   													</c:if>	
+												</c:forEach>
+											</ul>
+										</li>
 									</ul>
-								</li><!--
-							--></ul>
+								</c:when>
+								<c:otherwise>
+							
+								<!-- <li class="activ_lang"><a class="ru lang" href="/"></a></li> -->
+							
+									<ul>
+			 							<li class="del_list_lang"><a class="del_lang lang" href="/"></a></li>
+			 					   		<li><a class="${currLocale} lang" href="/"></a></li>
+										<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
+											<ul>	
+												<c:forEach items="${langValues}" var="langValue">
+													<c:if test="${currLocale ne langValue}">
+   														<li><a class="${langValue} lang" href="/"></a></li>
+   													</c:if>	
+												</c:forEach>
+											</ul>
+										</li>
+									</ul>
+      					
+      					</c:otherwise>
+    				</c:choose>
+
+							
 					</div>
+					
+					
 				</div>
 				<input type="text" id="name_post" value="${trip.name}" alt="<fmt:message key="content.name" />:">
 				<nav id="travel_nav">
-					<a href="/travel.html" class="button"><fmt:message key="page.action.save" /></a>
+					<a onClick="onTripSubmit()" class="button"><fmt:message key="page.action.save" /></a>
     				<ul><!--
     				    --><li><a href="/travel_edit_info.html" class="active"><fmt:message key="content.information" /><span></span></a></li><!--
     				    --><li><a href="/travel_edit_maps.html"><fmt:message key="trip.route" /><span></span></a></li><!--

@@ -1,12 +1,15 @@
 package com.heaptrip.domain.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * Enumeration of supported languages
  * 
  */
 public enum LangEnum {
-	RU("ru"), EN("en");
+	RU("ru"), EN("en"), DU("du"), FR("fr"), SW("sw");
 
 	private String value;
 
@@ -16,5 +19,14 @@ public enum LangEnum {
 
 	public String getValue() {
 		return value;
+	}
+
+	public static String[] getValues() {
+		List<String> result = new ArrayList<String>();
+		for (LangEnum value : values()) {
+			result.add(value.getValue());
+
+		}
+		return result.toArray(new String[result.size()]);
 	}
 }
