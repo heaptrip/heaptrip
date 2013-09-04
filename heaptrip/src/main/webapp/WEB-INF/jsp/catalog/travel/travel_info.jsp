@@ -28,7 +28,6 @@
 				<td><a class="button">todo</a></td>
 			</tr>
 			</c:forEach>
-			
 		</tbody>
 	</table>
 </div>
