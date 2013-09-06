@@ -21,7 +21,6 @@
 </c:forEach>
 
 <c:set var="isForFrends" value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
-	
 <c:set var="isDraft" value="${trip.status.value eq 'DRAFT'}" />
 
 <script type="text/javascript">
@@ -34,18 +33,20 @@
 	
 	var onTripSubmit = function() {
 
-		
-		alert('onTripSubmit');return;
-		
-		
-		
+		// tripInfo
+		var jsonData = {
+			description : $("#desc_full_post").val(),
+			summary : $("#desc_post").val()
+		};
+
 		var schedule = []; 
 
 		$('#schedule_table > tbody  > tr').each(function(iTR,tr) {  
 		    var item = {}; 
 		    $(this).children('td').each(function(iTD,td) {
 		        var cellInps =  $(this).children('input');
-		        	switch (iTD) {
+		        
+		        switch (iTD) {
 		  		case 0:
 		    		item.begin = {};
 		            item.begin.value =  $("#"+ cellInps[0].id).datepicker('getDate').getTime();
@@ -57,41 +58,39 @@
 		  		    item.price.currency = cellInps[0].getAttribute('key');
 		  		    item.price.value = cellInps[0].value;
 		  		break;
+		  		case 2:
+		  		    item.min = cellInps[0].value;
+		  		break;
+		  		case 3:
+		  		    item.max = cellInps[0].value;
+		  		break;
 		  		default:break;
 		        }
-		        console.log( $(this).children('input') );
+		        
+		       
 		    });
 		    
 		    schedule.push(item);
 		    
 		});
 
-		schedule
-		
-		
-		
-		
-		
-		
-		
+		jsonData.schedule = schedule;
+				
+		 console.log( jsonData );
 		
 		
 		
 		var url = 'rest/tripSubmit';
 
-		// tripInfo
-		var jsonData = {
-			description : $("#desc_full_post").val(),
-			
-		};
+	
 
 		var callbackSuccess = function(data) {
-			var domain =  $("#email").val().replace(/.*@/, ""); 
-			window.location = 'confirmation.html?domain=' + domain;
+			//var domain =  $("#email").val().replace(/.*@/, ""); 
+			//window.location = 'confirmation.html?domain=' + domain;
 		};
 
 		var callbackError = function(error) {
-			$("#error_message #msg").text(error);
+			//$("#error_message #msg").text(error);
 		};
 
 		$.postJSON(url, jsonData, callbackSuccess, callbackError);
