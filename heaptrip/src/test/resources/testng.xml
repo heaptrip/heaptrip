@@ -24,7 +24,7 @@
 			<class name="com.heaptrip.service.account.relations.UserRelationsServiceTest" />
 		</classes>
 	</test>
-	
+
 	<test name="ImageTest">
 		<classes>
 			<class name="com.heaptrip.service.image.ImageServiceTest" />

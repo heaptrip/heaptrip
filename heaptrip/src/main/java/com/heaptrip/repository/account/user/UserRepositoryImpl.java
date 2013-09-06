@@ -93,40 +93,4 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 	protected Class<User> getCollectionClass() {
 		return User.class;
 	}
-
-	@Override
-	public void addFriend(String userId, String friendId) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		String updateQuery = "{$addToSet :{'friends' : #}}";
-		WriteResult wr = coll.update(query, userId).with(updateQuery, friendId);
-		logger.debug("WriteResult for add friend: {}", wr);
-	}
-	
-	@Override
-	public void deleteFriend(String userId, String friendId) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		String updateQuery = "{$pull :{'friends' : #}}";
-		WriteResult wr = coll.update(query, userId).with(updateQuery, friendId);
-		logger.debug("WriteResult for delete friend: {}", wr);
-	}
-
-	@Override
-	public void addPublisher(String userId, String publisherId) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		String updateQuery = "{$addToSet :{'publishers' : #}}";
-		WriteResult wr = coll.update(query, userId).with(updateQuery, publisherId);
-		logger.debug("WriteResult for add publisher: {}", wr);		
-	}
-
-	@Override
-	public void deletePublisher(String userId, String publisherId) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		String updateQuery = "{$pull :{'publishers' : #}}";
-		WriteResult wr = coll.update(query, userId).with(updateQuery, publisherId);
-		logger.debug("WriteResult for delete publisher: {}", wr);
-	}
 }

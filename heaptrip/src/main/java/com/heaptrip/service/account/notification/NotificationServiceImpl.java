@@ -12,7 +12,7 @@ import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
-import com.heaptrip.domain.repository.account.user.UserRepository;
+import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 
@@ -25,7 +25,7 @@ public class NotificationServiceImpl implements NotificationService {
 	private NotificationRepository notificationRepository;
 	
 	@Autowired
-	private UserRepository userRepository;
+	private UserRelationsRepository userRelationsRepository;
 	
 	@Override
 	public void addNotification(Notification notification) {
@@ -60,8 +60,14 @@ public class NotificationServiceImpl implements NotificationService {
 			
 			if (status.equals(NotificationStatusEnum.ACCEPTED)) {
 				if (notification.getType().equals(NotificationTypeEnum.FRIEND)) {
-					userRepository.addFriend(notification.getToId(), notification.getFromId());
-				}
+					userRelationsRepository.addFriend(notification.getFromId(), notification.getToId());
+				} else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE)) {
+					userRelationsRepository.addEmployee(notification.getFromId(), notification.getToId());
+				} else if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
+					userRelationsRepository.addMember(notification.getFromId(), notification.getToId());
+				} else if (notification.getType().equals(NotificationTypeEnum.OWNER)) {
+					userRelationsRepository.addOwner(notification.getFromId(), notification.getToId());
+				} 
 			}
 		}
 	}

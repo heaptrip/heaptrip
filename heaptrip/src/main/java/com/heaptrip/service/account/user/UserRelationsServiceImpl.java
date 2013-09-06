@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.repository.account.community.CommunityRepository;
+import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.account.user.UserRelationsService;
@@ -19,6 +22,12 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private CommunityRepository communityRepository;
+	
+	@Autowired
+	private UserRelationsRepository userRelationsRepository;
 	
 	@Autowired
 	private NotificationService notificationService;
@@ -55,8 +64,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			throw new IllegalArgumentException(msg);
 		} else {
 			Notification notification = new Notification();
-			notification.setFromId(friendId);
-			notification.setToId(userId);
+			notification.setFromId(userId);
+			notification.setToId(friendId);
 			notification.setType(NotificationTypeEnum.FRIEND);
 			notificationService.addNotification(notification);
 		}
@@ -85,7 +94,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		} else if (!friend.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			return;
 		} else {
-			userRepository.deleteFriend(userId, friendId);
+			userRelationsRepository.deleteFriend(userId, friendId);
 		}
 	}
 
@@ -118,7 +127,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			// TODO dikma: заменить бизнес исключение
 			throw new IllegalArgumentException(msg);
 		} else {
-			userRepository.addPublisher(userId, publisherId);
+			userRelationsRepository.addPublisher(userId, publisherId);
 		}
 	}
 
@@ -145,7 +154,201 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		} else if (!publisher.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			return;
 		} else {
-			userRepository.deletePublisher(userId, publisherId);
+			userRelationsRepository.deletePublisher(userId, publisherId);
+		}
+	}
+
+	@Override
+	public void sendOwnerRequest(String userId, String communityId) {
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(communityId, "communityId must not be null");
+		
+		User user = (User) userRepository.findOne(userId);
+		Community community = (Community) communityRepository.findOne(communityId);
+		
+		if (user == null) {
+			String msg = String.format("user not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (community == null) {
+			String msg = String.format("community not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!community.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			String msg = String.format("community status must be: %s", AccountStatusEnum.ACTIVE);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else {
+			Notification notification = new Notification();
+			notification.setFromId(userId);
+			notification.setToId(communityId);
+			notification.setType(NotificationTypeEnum.OWNER);
+			notificationService.addNotification(notification);
+		}
+	}
+
+	@Override
+	public void deleteOwner(String userId, String communityId) {
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(communityId, "communityId must not be null");
+		
+		User user = (User) userRepository.findOne(userId);
+		Community community = (Community) communityRepository.findOne(communityId);
+		
+		if (user == null) {
+			String msg = String.format("user not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			return;
+		} else if (community == null) {
+			String msg = String.format("community not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!community.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			return;
+		} else {
+			// TODO dikma: надо проверить, есть он не единственный сотрудник, если сообщество активно, иначе 
+			userRelationsRepository.deleteFriend(userId, communityId);
+		}		
+	}
+
+	@Override
+	public void sendEmployeeRequest(String userId, String communityId) {
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(communityId, "communityId must not be null");
+		
+		User user = (User) userRepository.findOne(userId);
+		Community community = (Community) communityRepository.findOne(communityId);
+		
+		if (user == null) {
+			String msg = String.format("user not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (community == null) {
+			String msg = String.format("community not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!community.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			String msg = String.format("community status must be: %s", AccountStatusEnum.ACTIVE);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else {
+			Notification notification = new Notification();
+			notification.setFromId(userId);
+			notification.setToId(communityId);
+			notification.setType(NotificationTypeEnum.EMPLOYEE);
+			notificationService.addNotification(notification);
+		}
+	}
+
+	@Override
+	public void deleteEmployee(String userId, String communityId) {
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(communityId, "communityId must not be null");
+		
+		User user = (User) userRepository.findOne(userId);
+		Community community = (Community) communityRepository.findOne(communityId);
+		
+		if (user == null) {
+			String msg = String.format("user not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			return;
+		} else if (community == null) {
+			String msg = String.format("community not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!community.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			return;
+		} else {
+			// TODO dikma: надо проверить, есть ли у него активное путешествие или событие!
+			userRelationsRepository.deleteEmployee(userId, communityId);
+		}
+	}
+
+	@Override
+	public void sendMemberRequest(String userId, String clubId) {
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(clubId, "clubId must not be null");
+		
+		User user = (User) userRepository.findOne(userId);
+		Community club = (Community) communityRepository.findOne(clubId);
+		
+		if (user == null) {
+			String msg = String.format("user not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (club == null) {
+			String msg = String.format("club not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!club.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			String msg = String.format("club status must be: %s", AccountStatusEnum.ACTIVE);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else {
+			Notification notification = new Notification();
+			notification.setFromId(userId);
+			notification.setToId(clubId);
+			notification.setType(NotificationTypeEnum.MEMBER);
+			notificationService.addNotification(notification);
+		}
+	}
+
+	@Override
+	public void deleteMember(String userId, String clubId) {
+		Assert.notNull(userId, "userId must not be null");
+		Assert.notNull(clubId, "clubId must not be null");
+		
+		User user = (User) userRepository.findOne(userId);
+		Community club = (Community) communityRepository.findOne(clubId);
+		
+		if (user == null) {
+			String msg = String.format("user not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			return;
+		} else if (club == null) {
+			String msg = String.format("club not find by id %s", userId);
+			logger.debug(msg);
+			// TODO dikma: заменить бизнес исключение
+			throw new IllegalArgumentException(msg);
+		} else if (!club.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+			return;
+		} else {
+			userRelationsRepository.deleteMember(userId, clubId);
 		}
 	}
 }
