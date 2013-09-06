@@ -2,6 +2,7 @@ package com.heaptrip.domain.entity.account.user;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
+import com.heaptrip.domain.entity.account.AccountStatusEnum;
 
 public class User extends Account {
 
@@ -13,15 +14,27 @@ public class User extends Account {
 	
 	private Byte[] imageCRC;
 	
-	private String[] friends;
+	private String[] friend;
 	
-	private String[] publishers;
+	private String[] publisher;
+	
+	private String[] owner;
+	
+	private String[] employee;
+	
+	private String[] member;
 	
 	public User() {
 		super();
 		setTypeAccount(AccountEnum.USER);
-		setFriends(new String[0]);
-		setPublishers(new String[0]);
+		setStatus(AccountStatusEnum.NOTCONFIRMED);
+		
+		setFriend(new String[0]);
+		setPublisher(new String[0]);
+		setOwner(new String[0]);
+		setEmployee(new String[0]);
+		setMember(new String[0]);
+		
 		setProfile(new UserProfile());
 		setSetting(new UserSetting());
 	}
@@ -58,19 +71,43 @@ public class User extends Account {
 		this.extImageStore = extImageStore;
 	}
 
-	public String[] getPublishers() {
-		return publishers;
+	public String[] getFriend() {
+		return friend;
 	}
 
-	public void setPublishers(String[] publishers) {
-		this.publishers = publishers;
+	public void setFriend(String[] friend) {
+		this.friend = friend;
 	}
 
-	public String[] getFriends() {
-		return friends;
+	public String[] getPublisher() {
+		return publisher;
 	}
 
-	public void setFriends(String[] friends) {
-		this.friends = friends;
+	public void setPublisher(String[] publisher) {
+		this.publisher = publisher;
+	}
+
+	public String[] getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String[] owner) {
+		this.owner = owner;
+	}
+
+	public String[] getMember() {
+		return member;
+	}
+
+	public void setMember(String[] member) {
+		this.member = member;
+	}
+
+	public String[] getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(String[] employee) {
+		this.employee = employee;
 	}
 }
