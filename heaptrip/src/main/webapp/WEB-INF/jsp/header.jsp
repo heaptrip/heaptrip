@@ -3,21 +3,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
+
+<c:set var="curr_locale"><fmt:message key="locale.name"/></c:set>
+
 <a id="logo"></a>
 
 <tiles:insertAttribute name="account" />
 
 
-<script type="text/javascript">
- 
-	var onLocaleChange = function(locale) {
-		var newUrl = $.param.querystring( window.location.href, 'locale='+ locale );
-		window.location = newUrl;
-	};
-	
-</script>
 
-<c:set var="curr_locale"><fmt:message key="locale.name"/></c:set> 
+
+
+ 
 
 <c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
 

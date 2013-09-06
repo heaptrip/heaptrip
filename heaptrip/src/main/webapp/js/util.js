@@ -135,6 +135,11 @@ $(function(){
 	$(window).trigger("hashchange");
 });
 
+var onLocaleChange = function(locale) {
+	var newUrl = $.param.querystring( window.location.href, 'locale='+ locale );
+	window.location = newUrl;
+};
+
 
 
 

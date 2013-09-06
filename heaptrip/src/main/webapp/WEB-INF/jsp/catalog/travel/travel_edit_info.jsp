@@ -6,6 +6,7 @@
 
 
 <c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
+
 <c:set var="currLocale"><fmt:message key="locale.name"/></c:set> 
 
 
@@ -33,17 +34,59 @@
 	
 	var onTripSubmit = function() {
 
+		
+		alert('onTripSubmit');return;
+		
+		
+		
+		
+
+
+		var schedule = []; 
+
+		$('#schedule_table > tbody  > tr').each(function(iTR,tr) {
+		    //console.log(iTR,tr);
+		    
+		    var item = {};
+		    
+		    $(this).children('td').each(function(iTD,td) {
+		    
+		        var cellInps =  $(this).children('input');
+		        if(iTD==0){
+		            item.begin = {};
+		            item.begin.value =  $("#"+ cellInps[0].id).datepicker("getDate");
+		            item.end = {};
+		            item.end.value =  $("#"+ cellInps[1].id).datepicker("getDate");
+		        }
+		    
+		        console.log( $(this).children('input') );
+		        
+		    });
+		    
+		    schedule.push(item)
+		    
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		var url = 'rest/tripSubmit';
 
-		// registrationInfo
+		// tripInfo
 		var jsonData = {
-			email : $("#email").val(),
-			password : $("#password").val(),
-			firstName : $("#firstName").val(),
-			secondName : $("#secondName").val(),
-			socNetName : $("#socNetName").val(),
-			socNetUserUID : $("#socNetUserUID").val(),
-			photoUrl : $("#photoUrl").val()
+			description : $("#desc_full_post").val(),
+			
 		};
 
 		var callbackSuccess = function(data) {
@@ -79,7 +122,7 @@
 								<c:when test="${empty tripId}">
 									<ul>
 			 							<li class="del_list_lang"><a class="del_lang lang" href="/"></a></li>
-			 					   		<li><a class="${currLocale} lang" href="/"></a></li>
+			 					   			<li><a class="${currLocale} lang" href="/"></a></li>
 										<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
 											<ul>	
 												<c:forEach items="${langValues}" var="langValue">
@@ -92,30 +135,34 @@
 									</ul>
 								</c:when>
 								<c:otherwise>
-							
-								<!-- <li class="activ_lang"><a class="ru lang" href="/"></a></li> -->
-							
 									<ul>
 			 							<li class="del_list_lang"><a class="del_lang lang" href="/"></a></li>
-			 					   		<li><a class="${currLocale} lang" href="/"></a></li>
-										<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
-											<ul>	
+			 						   		<c:forEach items="${trip.langs}" var="lang">
+												<c:choose>
+													<c:when test="${currLocale eq lang}">
+														<li class="activ_lang">
+													</c:when>
+													<c:otherwise>
+														<li>
+													</c:otherwise>
+    												</c:choose>
+    														<a class="${lang} lang" href="/"></a>
+    													</li>											
+											</c:forEach>
+			 					   		<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
+											<ul>
+												<c:set var="joinLangValues" value="${fn:join(trip.langs, ',')}"/>
 												<c:forEach items="${langValues}" var="langValue">
-													<c:if test="${currLocale ne langValue}">
+													<c:if test="${fn:contains(joinLangValues, langValue) ne true}">
    														<li><a class="${langValue} lang" href="/"></a></li>
-   													</c:if>	
+   													</c:if>
 												</c:forEach>
 											</ul>
 										</li>
 									</ul>
-      					
-      					</c:otherwise>
-    				</c:choose>
-
-							
+      							</c:otherwise>
+    					</c:choose>	
 					</div>
-					
-					
 				</div>
 				<input type="text" id="name_post" value="${trip.name}" alt="<fmt:message key="content.name" />:">
 				<nav id="travel_nav">
@@ -138,7 +185,7 @@
 					<textarea id="desc_post"  alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
 					<textarea id="desc_full_post" alt="<fmt:message key="content.fullDescription" />:">${trip.description}</textarea>
 				<div class="table_inf">
-					<table>
+					<table id=schedule_table>
 						<thead><tr>
 							<th><fmt:message key="trip.period" /></th>
 							<th class="price_th"><fmt:message key="trip.cost" /></th>
