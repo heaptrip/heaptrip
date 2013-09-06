@@ -39,38 +39,34 @@
 		
 		
 		
-		
-
-
 		var schedule = []; 
 
-		$('#schedule_table > tbody  > tr').each(function(iTR,tr) {
-		    //console.log(iTR,tr);
-		    
-		    var item = {};
-		    
+		$('#schedule_table > tbody  > tr').each(function(iTR,tr) {  
+		    var item = {}; 
 		    $(this).children('td').each(function(iTD,td) {
-		    
 		        var cellInps =  $(this).children('input');
-		        if(iTD==0){
-		            item.begin = {};
-		            item.begin.value =  $("#"+ cellInps[0].id).datepicker("getDate");
+		        	switch (iTD) {
+		  		case 0:
+		    		item.begin = {};
+		            item.begin.value =  $("#"+ cellInps[0].id).datepicker('getDate').getTime();
 		            item.end = {};
-		            item.end.value =  $("#"+ cellInps[1].id).datepicker("getDate");
+		            item.end.value =  $("#"+ cellInps[1].id).datepicker('getDate').getTime();
+		    	break;
+		  		case 1:
+		  		    item.price = {};
+		  		    item.price.currency = cellInps[0].getAttribute('key');
+		  		    item.price.value = cellInps[0].value;
+		  		break;
+		  		default:break;
 		        }
-		    
 		        console.log( $(this).children('input') );
-		        
 		    });
 		    
-		    schedule.push(item)
+		    schedule.push(item);
 		    
 		});
-		
-		
-		
-		
-		
+
+		schedule
 		
 		
 		
