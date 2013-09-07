@@ -13,4 +13,5 @@ db.members.ensureIndex({tripId: 1, tableId: 1})
 db.members.ensureIndex({userId: 1, tripId: 1})
 db.comments.ensureIndex({target: 1, fullSlug: 1})
 db.images.ensureIndex({target: 1, uploaded: 1})
+db.notifications.ensureIndex({toId: 1, created: -1})
 
