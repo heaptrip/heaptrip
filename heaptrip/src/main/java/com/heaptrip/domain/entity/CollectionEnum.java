@@ -13,7 +13,8 @@ public enum CollectionEnum {
 	REGIONS("regions"), 
 	JOURNAL("journal"), 
 	MEMBERS("members"), 
-	IMAGES("images");
+	IMAGES("images"),
+	RATINGS("ratings");
 
 	private String name;
 
