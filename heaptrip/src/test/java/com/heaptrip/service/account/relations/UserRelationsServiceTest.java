@@ -12,6 +12,7 @@ import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
@@ -33,22 +34,22 @@ public class UserRelationsServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private NotificationRepository notificationRepository;
 	
-	@Test(enabled = true, priority = 1, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 1, expectedExceptions = AccountException.class)
 	public void addPublisherFakeUser() {
 		userRelationsService.addPublisher(InitAccountRelationsTest.FAKE_USER_ID, InitAccountRelationsTest.USER_PETROV_ID);
 	}
 	
-	@Test(enabled = true, priority = 2, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 2, expectedExceptions = AccountException.class)
 	public void addPublisherFakeFriend() {
 		userRelationsService.addPublisher(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.FAKE_USER_ID);
 	}
 	
-	@Test(enabled = true, priority = 3, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 3, expectedExceptions = AccountException.class)
 	public void addPublisherNotConfirmedUser() {
 		userRelationsService.addPublisher(InitAccountRelationsTest.NOTCONFIRMED_USER_ID, InitAccountRelationsTest.USER_PETROV_ID);
 	}
 	
-	@Test(enabled = true, priority = 4, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 4, expectedExceptions = AccountException.class)
 	public void addPublisherNotConfirmedFriend() {
 		userRelationsService.addPublisher(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.NOTCONFIRMED_USER_ID);
 	}
@@ -138,22 +139,22 @@ public class UserRelationsServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 	
-	@Test(enabled = true, priority = 11, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 11, expectedExceptions = AccountException.class)
 	public void sendFriendshipRequestFakeUser() {
 		userRelationsService.sendFriendshipRequest(InitAccountRelationsTest.FAKE_USER_ID, InitAccountRelationsTest.USER_PETROV_ID);
 	}
 	
-	@Test(enabled = true, priority = 12, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 12, expectedExceptions = AccountException.class)
 	public void sendFriendshipRequestFakeFriend() {
 		userRelationsService.sendFriendshipRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.FAKE_USER_ID);
 	}
 	
-	@Test(enabled = true, priority = 13, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 13, expectedExceptions = AccountException.class)
 	public void sendFriendshipRequestNotConfirmedUser() {
 		userRelationsService.sendFriendshipRequest(InitAccountRelationsTest.NOTCONFIRMED_USER_ID, InitAccountRelationsTest.USER_PETROV_ID);
 	}
 	
-	@Test(enabled = true, priority = 14, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 14, expectedExceptions = AccountException.class)
 	public void sendFriendshipRequestNotConfirmedFriend() {
 		userRelationsService.sendFriendshipRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.NOTCONFIRMED_USER_ID);
 	}
@@ -252,22 +253,22 @@ public class UserRelationsServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertFalse(find);
 	}
 	
-	@Test(enabled = true, priority = 21, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 21, expectedExceptions = AccountException.class)
 	public void sendMemberRequestFakeUser() {
 		userRelationsService.sendMemberRequest(InitAccountRelationsTest.FAKE_USER_ID, InitAccountRelationsTest.COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 22, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 22, expectedExceptions = AccountException.class)
 	public void sendMemberRequestFakeCommunity() {
 		userRelationsService.sendMemberRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.FAKE_COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 23, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 23, expectedExceptions = AccountException.class)
 	public void sendMemberRequestNotConfirmedUser() {
 		userRelationsService.sendMemberRequest(InitAccountRelationsTest.NOTCONFIRMED_USER_ID, InitAccountRelationsTest.COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 24, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 24, expectedExceptions = AccountException.class)
 	public void sendMemberRequestNotConfirmedCommunity() {
 		userRelationsService.sendMemberRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.NOTCONFIRMED_COMMUNITY_ID);
 	}
@@ -366,22 +367,22 @@ public class UserRelationsServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertFalse(find);
 	}
 	
-	@Test(enabled = true, priority = 31, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 31, expectedExceptions = AccountException.class)
 	public void sendEmployeeRequestFakeUser() {
 		userRelationsService.sendEmployeeRequest(InitAccountRelationsTest.FAKE_USER_ID, InitAccountRelationsTest.COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 32, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 32, expectedExceptions = AccountException.class)
 	public void sendEmployeeRequestFakeCommunity() {
 		userRelationsService.sendEmployeeRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.FAKE_COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 33, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 33, expectedExceptions = AccountException.class)
 	public void sendEmployeeRequestNotConfirmedUser() {
 		userRelationsService.sendEmployeeRequest(InitAccountRelationsTest.NOTCONFIRMED_USER_ID, InitAccountRelationsTest.COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 34, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 34, expectedExceptions = AccountException.class)
 	public void sendEmployeeRequestNotConfirmedCommunity() {
 		userRelationsService.sendEmployeeRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.NOTCONFIRMED_COMMUNITY_ID);
 	}
@@ -480,22 +481,22 @@ public class UserRelationsServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertFalse(find);
 	}
 	
-	@Test(enabled = true, priority = 41, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 41, expectedExceptions = AccountException.class)
 	public void sendOwnerRequestFakeUser() {
 		userRelationsService.sendOwnerRequest(InitAccountRelationsTest.FAKE_USER_ID, InitAccountRelationsTest.COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 42, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 42, expectedExceptions = AccountException.class)
 	public void sendOwnerRequestFakeCommunity() {
 		userRelationsService.sendOwnerRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.FAKE_COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 43, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 43, expectedExceptions = AccountException.class)
 	public void sendOwnerRequestNotConfirmedUser() {
 		userRelationsService.sendOwnerRequest(InitAccountRelationsTest.NOTCONFIRMED_USER_ID, InitAccountRelationsTest.COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 44, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 44, expectedExceptions = AccountException.class)
 	public void sendOwnerRequestNotConfirmedCommunity() {
 		userRelationsService.sendOwnerRequest(InitAccountRelationsTest.USER_IVANOV_ID, InitAccountRelationsTest.NOTCONFIRMED_COMMUNITY_ID);
 	}

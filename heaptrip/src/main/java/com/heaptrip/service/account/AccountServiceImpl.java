@@ -1,18 +1,19 @@
 package com.heaptrip.service.account;
 
 import org.slf4j.Logger;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.service.account.AccountService;
+import com.heaptrip.domain.service.system.ErrorService;
 
 public abstract class AccountServiceImpl implements AccountService {
 
@@ -22,6 +23,9 @@ public abstract class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	protected AccountRepository accountRepository;
+	
+	@Autowired
+	private ErrorService errorService;
 
 	@Override
 	public void hardRemove(String accountId) {
@@ -39,20 +43,17 @@ public abstract class AccountServiceImpl implements AccountService {
 		if (account == null) {
 			String msg = String.format("account not find by id %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: заменить на бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
 			String msg = String.format("account status must be: %s", AccountStatusEnum.NOTCONFIRMED);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_ALREADY_CONFIRM);
 		} else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
 			accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
 		} else {
 			String msg = String.format("value not correct, account not been confirmed id: %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WRONG_CONFIRM_VALUE);
 		}
 	}
 
@@ -60,25 +61,28 @@ public abstract class AccountServiceImpl implements AccountService {
 	public void changeEmail(String accountId, String currentEmail, String newEmail) {
 		Assert.notNull(accountId, "accountId must not be null");
 		Assert.notNull(newEmail, "email must not be null");
-		Assert.isTrue(newEmail.matches(EMAIL_REGEX), "email is not correct");
+//		Assert.isTrue(newEmail.matches(EMAIL_REGEX), "email is not correct");
 
+		if (!newEmail.matches(EMAIL_REGEX)) {
+			String msg = String.format("email is not correct");
+			logger.debug(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_EMAIL_IS_NOT_CORRECT);
+		}
+		
 		Account account = accountRepository.findOne(accountId);
 
 		if (account == null) {
 			String msg = String.format("account not find by id %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
 		} else if (!account.getEmail().equals(currentEmail)) {
 			String msg = String.format("current email not equals");
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_CURRENT_EMAIL_NOT_EQUALS);
 		} else {
 			accountRepository.changeEmail(accountId, newEmail);
 		}
@@ -94,13 +98,11 @@ public abstract class AccountServiceImpl implements AccountService {
 		if (account == null) {
 			String msg = String.format("account not find by id: %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
 		} else {
 			accountRepository.saveSetting(accountId, setting);
 		}
@@ -116,13 +118,11 @@ public abstract class AccountServiceImpl implements AccountService {
 		if (account == null) {
 			String msg = String.format("account not find by id: %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
 		} else {
 			accountRepository.saveProfile(accountId, profile);
 		}

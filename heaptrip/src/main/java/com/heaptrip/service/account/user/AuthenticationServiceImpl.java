@@ -10,6 +10,7 @@ import java.util.Locale;
 import javax.mail.MessagingException;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,13 @@ import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.util.stream.StreamUtils;
 
@@ -50,6 +54,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private ErrorService errorService;
 	
 	@Override
 	public User getUserByEmailAndPassword(String email, String password) {
@@ -105,13 +112,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (account == null) {
 			String msg = String.format("user not find by email: %s", email);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND_BY_EMAIL);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {	
 			MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.RESET_PASSWORD);
 			
@@ -137,16 +142,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		if (account == null) {
 			String msg = String.format("user not find by id %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
-			// TODO dikma: прикрутить генерилку паролей
-			String newPassword = "12345678";
+			String newPassword = RandomStringUtils.randomAlphanumeric(8);
 			userRepository.changePassword(accountId, newPassword);
 			
 			MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.SEND_NEW_PASSWORD);
@@ -155,8 +157,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		} else {
 			String msg = String.format("value not correct, no password has been sent to id: %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_PSWD_VALUE_IS_WRONG);
 		}
 	}
 }
