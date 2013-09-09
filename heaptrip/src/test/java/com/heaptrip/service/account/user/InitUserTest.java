@@ -88,7 +88,7 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 		notConfirmedUser.setEmail(NOTCONFIRMED_USER_EMAIL);
 		
 		userService.registration(notConfirmedUser, null, locale);
-		
+				
 		UserRegistration netUser = new UserRegistration();
 		netUser.setId(NET_USER_ID);
 		netUser.setName("Petr Petrov");

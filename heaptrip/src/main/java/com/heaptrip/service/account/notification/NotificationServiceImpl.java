@@ -11,10 +11,13 @@ import org.springframework.util.Assert;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
+import com.heaptrip.domain.service.system.ErrorService;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -26,6 +29,9 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	@Autowired
 	private UserRelationsRepository userRelationsRepository;
+	
+	@Autowired
+	private ErrorService errorService;
 	
 	@Override
 	public void addNotification(Notification notification) {
@@ -48,13 +54,11 @@ public class NotificationServiceImpl implements NotificationService {
 		if (notification == null) {
 			String msg = String.format("notification not find by id %s", notificationId);
 			logger.debug(msg);			
-			// TODO dikma: заменить на бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_NOTIFICATION_NOT_FOUND);
 		} else if (!notification.getStatus().equals(NotificationStatusEnum.NEW)) {
 			String msg = String.format("notification status must be: %s", NotificationStatusEnum.NEW);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_NOTIFICATION_NOT_NEW);
 		} else {
 			notificationRepository.changeStatus(notificationId, status);
 			

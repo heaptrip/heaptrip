@@ -14,6 +14,7 @@ import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.account.user.UserSetting;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.UserService;
 
@@ -26,7 +27,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Test(enabled = true, priority = 1, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 1, expectedExceptions = AccountException.class)
 	public void saveSettingFakeUser() {
 		UserSetting setting = new UserSetting();
 		setting.setAdsFromClub(true);
@@ -35,7 +36,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		userService.saveSetting(InitUserTest.FAKE_USER_ID, setting);
 	}
 	
-	@Test(enabled = true, priority = 2, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 2, expectedExceptions = AccountException.class)
 	public void saveSettingNotConfirmedUser() {
 		UserSetting setting = new UserSetting();
 		setting.setAdsFromClub(true);
@@ -63,17 +64,17 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertFalse(((UserSetting) user.getSetting()).getAdsFromCompany());
 	}	
 	
-	@Test(enabled = true, priority = 5, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 5, expectedExceptions = AccountException.class)
 	public void profileImageFromFakeUser() {
 		userService.profileImageFrom(InitUserTest.FAKE_USER_ID, SocialNetworkEnum.VK);
 	}
 	
-	@Test(enabled = true, priority = 6, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 6, expectedExceptions = AccountException.class)
 	public void profileImageFromNotConfirmedUser() {
 		userService.profileImageFrom(InitUserTest.NOTCONFIRMED_USER_ID, SocialNetworkEnum.VK);
 	}
 	
-	@Test(enabled = true, priority = 7, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 7, expectedExceptions = AccountException.class)
 	public void profileImageFromEmailUser() {
 		userService.profileImageFrom(InitUserTest.EMAIL_USER_ID, SocialNetworkEnum.VK);
 	}
@@ -85,27 +86,27 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertFalse(user.getExternalImageStore().equals(SocialNetworkEnum.NONE));
 	}
 	
-	@Test(enabled = true, priority = 9, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 9, expectedExceptions = AccountException.class)
 	public void unlinkSocialNetworkFakeUser() {
 		userService.unlinkSocialNetwork(InitUserTest.FAKE_USER_ID, SocialNetworkEnum.FB);
 	}
 	
-	@Test(enabled = true, priority = 10, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 10, expectedExceptions = AccountException.class)
 	public void unlinkSocialNetworkNotConfirmedUser() {
 		userService.unlinkSocialNetwork(InitUserTest.NOTCONFIRMED_USER_ID, SocialNetworkEnum.FB);
 	}
 	
-	@Test(enabled = true, priority = 11, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 11, expectedExceptions = AccountException.class)
 	public void unlinkSocialNetworkEmailUser() {
 		userService.unlinkSocialNetwork(InitUserTest.EMAIL_USER_ID, SocialNetworkEnum.FB);
 	}
 	
-	@Test(enabled = true, priority = 12, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 12, expectedExceptions = AccountException.class)
 	public void unlinkSocialNetworkWrongSocialNetwork() {
 		userService.unlinkSocialNetwork(InitUserTest.NET_USER_ID, SocialNetworkEnum.FB);
 	}
 	
-	@Test(enabled = true, priority = 13, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 13, expectedExceptions = AccountException.class)
 	public void unlinkSocialNetworkEmptyPassword() {
 		userService.unlinkSocialNetwork(InitUserTest.NET_USER_ID, SocialNetworkEnum.FB);
 	}
@@ -124,12 +125,12 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 	
-	@Test(enabled = true, priority = 16, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 16, expectedExceptions = AccountException.class)
 	public void linkSocialNetworkFakeUser() {
 		userService.linkSocialNetwork(InitUserTest.FAKE_USER_ID, InitUserTest.getFB());
 	}
 	
-	@Test(enabled = true, priority = 17, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 17, expectedExceptions = AccountException.class)
 	public void linkSocialNotConfirmedUser() {
 		userService.linkSocialNetwork(InitUserTest.NOTCONFIRMED_USER_ID, InitUserTest.getFB());
 	}
@@ -147,12 +148,12 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 	
-	@Test(enabled = true, priority = 19, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 19, expectedExceptions = AccountException.class)
 	public void linkSocialNetworkExists() {
 		userService.linkSocialNetwork(InitUserTest.NET_USER_ID, InitUserTest.getFB());
 	}
 	
-	@Test(enabled = true, priority = 70, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 70, expectedExceptions = AccountException.class)
 	public void saveProfileFakeUser() {
 		UserProfile profile = new UserProfile();
 		profile.setDesc("description");
@@ -160,7 +161,7 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		userService.saveProfile(InitUserTest.FAKE_USER_ID, profile);
 	}
 	
-	@Test(enabled = true, priority = 71, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 71, expectedExceptions = AccountException.class)
 	public void saveProfileNotConfirmedUser() {
 		UserProfile profile = new UserProfile();
 		profile.setDesc("description");
@@ -195,12 +196,12 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(((UserProfile) user.getProfile()).getBirthday());
 	}
 	
-	@Test(enabled = true, priority = 90, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 90, expectedExceptions = AccountException.class)
 	public void deleteUserFakeUser() {
 		userService.delete(InitUserTest.FAKE_USER_ID);
 	}
 	
-	@Test(enabled = true, priority = 91, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 91, expectedExceptions = AccountException.class)
 	public void deleteUserNotConfirmedUser() {
 		userService.delete(InitUserTest.NOTCONFIRMED_USER_ID);
 	}

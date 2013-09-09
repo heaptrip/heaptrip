@@ -10,8 +10,11 @@ import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
 import com.heaptrip.domain.entity.account.community.CommunitySetting;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.service.account.community.CommunityService;
+import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.service.account.AccountServiceImpl;
 
 @Service
@@ -19,6 +22,9 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
 
 	@Autowired
 	private CommunityRepository communityRepository;
+	
+	@Autowired
+	private ErrorService errorService;
 	
 	@Override
 	public void delete(String accountId) {
@@ -30,13 +36,11 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
 		if (account == null) {
 			String msg = String.format("account not find by id: %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
 		} else {
 			accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
 		}

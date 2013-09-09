@@ -21,6 +21,7 @@ import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserRegistration;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.account.user.UserService;
@@ -50,7 +51,7 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 		userService.confirmRegistration(InitUserTest.NET_USER_ID, String.valueOf(InitUserTest.NET_USER_ID.hashCode()));
 }
 	
-	@Test(enabled = true, priority = 3, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 3, expectedExceptions = AccountException.class)
 	public void confirmRegistrationFakeUser() {
 		userService.confirmRegistration(InitUserTest.FAKE_USER_ID, String.valueOf(InitUserTest.FAKE_USER_ID.hashCode()));
 	}
@@ -118,13 +119,13 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 		Assert.assertFalse(user.getImageCRC().equals(imageCRC));
 	}
 	
-	@Test(enabled = true, priority = 6, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 6, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void resetPasswordFakeUser() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.resetPassword(InitUserTest.FAKE_USER_EMAIL, locale);
 	}
 	
-	@Test(enabled = true, priority = 7, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 7, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void resetPasswordNotConfirmed() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.resetPassword(InitUserTest.NOTCONFIRMED_USER_EMAIL, locale);
@@ -136,19 +137,19 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 		authenticationService.resetPassword(InitUserTest.EMAIL_USER_EMAIL, locale);
 	}
 	
-	@Test(enabled = true, priority = 9, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 9, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordFakeUser() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.sendNewPassword(InitUserTest.FAKE_USER_ID, String.valueOf(InitUserTest.FAKE_USER_ID.hashCode()), locale);
 	}
 	
-	@Test(enabled = true, priority = 10, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 10, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordNotConfirmed() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.sendNewPassword(InitUserTest.NOTCONFIRMED_USER_ID, String.valueOf(InitUserTest.NOTCONFIRMED_USER_ID.hashCode()), locale);
 	}
 	
-	@Test(enabled = true, priority = 11, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 11, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordWrongValue() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.sendNewPassword(InitUserTest.NOTCONFIRMED_USER_ID, "1234567890", locale);
@@ -160,35 +161,40 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 		authenticationService.sendNewPassword(InitUserTest.EMAIL_USER_ID, String.valueOf(InitUserTest.EMAIL_USER_ID.hashCode()), locale);
 	}
 	
-	@Test(enabled = true, priority = 13, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 13, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordFakeUser() {
 		userService.changePassword(InitUserTest.FAKE_USER_ID, 
 																InitUserTest.FAKE_USER_PSWD, 
 																InitUserTest.FAKE_USER_PSWD);
 	}
 	
-	@Test(enabled = true, priority = 14, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 14, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordNotConfirmedUser() {
 		userService.changePassword(InitUserTest.NOTCONFIRMED_USER_ID, 
 																InitUserTest.NOTCONFIRMED_USER_PSWD, 
 																InitUserTest.NOTCONFIRMED_USER_PSWD);
 	}
 	
-	@Test(enabled = true, priority = 15, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 15, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordEmptyNewPassword() {
-		userService.changePassword(InitUserTest.EMAIL_USER_ID, 
-																InitUserTest.EMAIL_USER_PSWD, 
-																"");
+		userService.changePassword(InitUserTest.EMAIL_USER_ID, InitUserTest.EMAIL_USER_PSWD, "");
 	}
 	
-	@Test(enabled = true, priority = 16, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 16, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordWorngCurrentPassword() {
-		userService.changePassword(InitUserTest.EMAIL_USER_ID, 
-																"", 
-																InitUserTest.EMAIL_USER_PSWD_NEW);
+		userService.changePassword(InitUserTest.EMAIL_USER_ID, "", InitUserTest.EMAIL_USER_PSWD_NEW);
 	}
 	
-	@Test(enabled = true, priority = 17)
+	@Test(enabled = true, priority = 17, expectedExceptions = {AccountException.class})
+	public void changePasswordIncorrectNewPassword() {
+		UserRegistration user = (UserRegistration) userRepository.findOne(InitUserTest.EMAIL_USER_ID);
+		
+		userService.changePassword(InitUserTest.EMAIL_USER_ID, 
+									user.getPassword(), 
+									InitUserTest.INCORRECT_EMAIL);
+	}
+	
+	@Test(enabled = true, priority = 18)
 	public void changePassword() {
 		UserRegistration user = (UserRegistration) userRepository.findOne(InitUserTest.EMAIL_USER_ID);
 		
@@ -197,35 +203,35 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 									InitUserTest.EMAIL_USER_PSWD_NEW);
 	}
 	
-	@Test(enabled = true, priority = 18, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 19, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changeEmailFakeUser() {
 		userService.changeEmail(InitUserTest.FAKE_USER_ID, 
 																InitUserTest.FAKE_USER_EMAIL, 
 																InitUserTest.FAKE_USER_EMAIL);
 	}
 	
-	@Test(enabled = true, priority = 19, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 20, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changeEmailNotConfirmed() {
 		userService.changeEmail(InitUserTest.NOTCONFIRMED_USER_ID, 
 																InitUserTest.NOTCONFIRMED_USER_EMAIL, 
 																InitUserTest.NOTCONFIRMED_USER_EMAIL);
 	}
 	
-	@Test(enabled = true, priority = 20, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 21, expectedExceptions = {AccountException.class})
 	public void changeEmailIncorrectEmail() {
 		userService.changeEmail(InitUserTest.EMAIL_USER_ID, 
 								InitUserTest.EMAIL_USER_EMAIL, 
 								InitUserTest.INCORRECT_EMAIL);
 	}
 	
-	@Test(enabled = true, priority = 21, expectedExceptions = RuntimeException.class)
+	@Test(enabled = true, priority = 22, expectedExceptions = {AccountException.class})
 	public void changeEmailWrongEmail() {
 		userService.changeEmail(InitUserTest.EMAIL_USER_ID, 
 								InitUserTest.EMAIL_USER_EMAIL_NEW, 
 								InitUserTest.EMAIL_USER_EMAIL_NEW);
 	}
 	
-	@Test(enabled = true, priority = 22)
+	@Test(enabled = true, priority = 23)
 	public void changeEmail() {
 		userService.changeEmail(InitUserTest.EMAIL_USER_ID, 
 								InitUserTest.EMAIL_USER_EMAIL, 

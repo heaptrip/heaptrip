@@ -11,6 +11,7 @@ import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.service.account.community.CommunityService;
 
@@ -28,18 +29,18 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 		communityService.confirmRegistration(InitCommunityTest.COMMUNITY_ID, String.valueOf(InitCommunityTest.COMMUNITY_ID.hashCode()));
 	}
 
-	@Test(enabled = true, priority = 2, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 2, expectedExceptions = AccountException.class)
 	public void confirmRegistrationFakeCommunity() {
 		communityService.confirmRegistration(InitCommunityTest.FAKE_COMMUNITY_ID, String.valueOf(InitCommunityTest.FAKE_COMMUNITY_ID.hashCode()));
 	}	
 	
-	@Test(enabled = true, priority = 11, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 11, expectedExceptions = AccountException.class)
 	public void saveSettingFakeCommunity() {
 		Setting setting = new Setting();
 		communityService.saveSetting(InitCommunityTest.FAKE_COMMUNITY_ID, setting);
 	}
 	
-	@Test(enabled = true, priority = 12, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 12, expectedExceptions = AccountException.class)
 	public void saveSettingNotConfirmedCommunity() {
 		Setting setting = new Setting();
 		communityService.saveSetting(InitCommunityTest.NOTCONFIRMED_COMMUNITY_ID, setting);
@@ -54,7 +55,7 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 		communityService.saveSetting(InitCommunityTest.COMMUNITY_ID, community.getSetting());
 	}
 	
-	@Test(enabled = true, priority = 21, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 21, expectedExceptions = AccountException.class)
 	public void saveProfileFakeCommunity() {
 		Profile profile = new Profile();
 		profile.setDesc("description");
@@ -62,7 +63,7 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 		communityService.saveProfile(InitCommunityTest.FAKE_COMMUNITY_ID, profile);
 	}
 	
-	@Test(enabled = true, priority = 22, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 22, expectedExceptions = AccountException.class)
 	public void saveProfileNotConfirmedCommunity() {
 		Profile profile = new Profile();
 		profile.setDesc("description");
@@ -102,12 +103,12 @@ public class CommunityServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(((CommunityProfile) community.getProfile()).getSkype());
 	}
 	
-	@Test(enabled = true, priority = 91, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 91, expectedExceptions = AccountException.class)
 	public void deleteFakeCommunity() {
 		communityService.delete(InitCommunityTest.FAKE_COMMUNITY_ID);
 	}
 	
-	@Test(enabled = true, priority = 92, expectedExceptions = IllegalArgumentException.class)
+	@Test(enabled = true, priority = 92, expectedExceptions = AccountException.class)
 	public void deleteUserNotConfirmedCommunity() {
 		communityService.delete(InitCommunityTest.NOTCONFIRMED_COMMUNITY_ID);
 	}

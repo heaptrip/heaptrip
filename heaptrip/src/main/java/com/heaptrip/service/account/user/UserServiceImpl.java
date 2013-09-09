@@ -14,21 +14,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.account.Account;
-import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.account.user.UserRegistration;
-import com.heaptrip.domain.entity.account.user.UserSetting;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.service.account.AccountServiceImpl;
@@ -53,6 +53,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
 	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	private ErrorService errorService;
 
 	@Override
 	public void delete(String accountId) {
@@ -66,13 +69,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		if (account == null) {
 			String msg = String.format("account not find by id: %s", accountId);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
 			accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
 		}
@@ -87,9 +88,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
 		if (userRegistration.getNet() == null) {
 			Assert.notNull(userRegistration.getPassword(), "password must not be null");
-			Assert.isTrue(userRegistration.getPassword().length() > 8,
+			Assert.isTrue(userRegistration.getPassword().length() >= 8,
 					"length password must be at least 8 characters and maximum length of 32");
-			Assert.isTrue(userRegistration.getPassword().length() < 32,
+			Assert.isTrue(userRegistration.getPassword().length() <= 32,
 					"length password must be at least 8 characters and maximum length of 32");
 			Assert.isTrue(!userRegistration.getPassword().matches(PASSWORD_REGEX),
 					"password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
@@ -147,30 +148,34 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 	public void changePassword(String userId, String currentPassword, String newPassword) {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(newPassword, "password must not be null");
-		Assert.isTrue(newPassword.length() > 8,
-				"length password must be at least 8 characters and maximum length of 32");
-		Assert.isTrue(newPassword.length() < 32,
-				"length password must be at least 8 characters and maximum length of 32");
-		Assert.isTrue(!newPassword.matches(PASSWORD_REGEX),
-				"password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
+		
+		if (newPassword.length() < 8 || newPassword.length() > 32 || newPassword.matches(PASSWORD_REGEX)) {
+			String msg = String.format("email is not correct");
+			logger.debug(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_PSWD_IS_NOT_CORRECT);
+		}
+		
+//		Assert.isTrue(newPassword.length() > 8,
+//				"length password must be at least 8 characters and maximum length of 32");
+//		Assert.isTrue(newPassword.length() < 32,
+//				"length password must be at least 8 characters and maximum length of 32");
+//		Assert.isTrue(!newPassword.matches(PASSWORD_REGEX),
+//				"password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
 
 		UserRegistration user = (UserRegistration) accountRepository.findOne(userId);
 
 		if (user == null) {
 			String msg = String.format("user not find by id %s", userId);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (user.getPassword() != null && !user.getPassword().equals(currentPassword)) {
 			String msg = String.format("wrong current password");
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_CURRENT_PSWD_WRONG);
 		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: заменить бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
 			userRepository.changePassword(userId, newPassword);
 		}
@@ -184,13 +189,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		if (user == null) {
 			String msg = String.format("user not find by userId: %s", userId);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
 			boolean findNet = false;
 
@@ -207,8 +210,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 			if (findNet) {
 				userRepository.profileImageFrom(userId, socialNetwork);
 			} else {
-				throw new IllegalArgumentException(String.format("user id=%s don`t have social net ", userId,
-						socialNetwork));
+				String msg = String.format("user id=%s don`t have social net %s", userId, socialNetwork);
+				logger.debug(msg);
+				throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_DONT_HAVE_SOCIAL_NET);
 			}
 		}
 	}
@@ -220,15 +224,13 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		User user = (User) userRepository.findOne(userId);
 
 		if (user == null) {
-			String msg = String.format("user with id=%s is not found", userId);
+			String msg = String.format("user not find by id %s", userId);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
 			SocialNetwork unlinkNet = null;
 
@@ -236,8 +238,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 				if (user.getNet().length == 1 && userRepository.isEmptyPassword(userId)) {
 					String msg = String.format("user id=%s have one social network and empty password", userId);
 					logger.debug(msg);
-					// TODO dikma: создать бизнес исключение
-					throw new IllegalArgumentException(msg);
+					throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_HAVE_ONE_SOCIAL_NET_AND_EMPTY_PSWD);
 				}
 
 				for (SocialNetwork net : user.getNet()) {
@@ -251,8 +252,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 			if (unlinkNet == null) {
 				String msg = String.format("user id=%s don`t have social net %s", userId, socialNetwork.toString());
 				logger.debug(msg);
-				// TODO dikma: создать бизнес исключение
-				throw new IllegalArgumentException(msg);
+				throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_DONT_HAVE_SOCIAL_NET);
 			} else {
 				userRepository.unlinkSocialNetwork(userId, socialNetwork);
 			}
@@ -269,15 +269,13 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		User user = (User) userRepository.findOne(userId);
 
 		if (user == null) {
-			String msg = String.format("user with id=%s is not found", userId);
+			String msg = String.format("user not find by id %s", userId);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
 			logger.debug(msg);
-			// TODO dikma: создать бизнес исключение
-			throw new IllegalArgumentException(msg);
+			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
 			boolean existsNet = false;
 
@@ -293,8 +291,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 			if (existsNet) {
 				String msg = String.format("user id=%s have social net %s", userId, socialNetwork.toString());
 				logger.debug(msg);
-				// TODO dikma: создать бизнес исключение
-				throw new IllegalArgumentException(msg);
+				throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_ALREADY_HAS_SOCIAL_NET);
 			} else {
 				userRepository.linkSocialNetwork(userId, socialNetwork);
 			}
