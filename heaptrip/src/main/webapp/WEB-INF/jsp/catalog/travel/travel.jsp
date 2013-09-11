@@ -21,7 +21,7 @@
 	<c:param name='id' value="${tripId}" />
 </c:url>
 
-<c:url var="tripEditUrl" value="travel_edit_info.html">
+<c:url var="tripEditUrl" value="travel_modify_info.html">
 	<c:param name='id' value="${tripId}" />
 </c:url>
 

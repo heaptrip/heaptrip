@@ -16,6 +16,15 @@ import com.heaptrip.util.language.LanguageUtils;
 public class CategoryRepositoryImpl extends CrudRepositoryImpl<Category> implements CategoryRepository {
 
 	@Override
+	public Category findById(String id, Locale locale) {
+		MongoCollection coll = getCollection();
+		String lang = LanguageUtils.getLanguageByLocale(locale);
+		String fields = String.format("{'name.%s': 1, parent: 1, ancestors: 1}", lang);
+		return coll.findOne("{ _id: #}", id).projection(fields).as(Category.class);
+
+	}
+
+	@Override
 	public List<Category> findAll(Locale locale) {
 		MongoCollection coll = getCollection();
 		String lang = LanguageUtils.getLanguageByLocale(locale);
@@ -39,4 +48,5 @@ public class CategoryRepositoryImpl extends CrudRepositoryImpl<Category> impleme
 	protected Class<Category> getCollectionClass() {
 		return Category.class;
 	}
+
 }

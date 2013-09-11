@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 import com.heaptrip.util.http.Ajax;
@@ -24,6 +29,7 @@ import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.converter.TripModelService;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
+import com.heaptrip.web.model.user.RegistrationInfoModel;
 
 /**
  * 
@@ -34,6 +40,10 @@ import com.heaptrip.web.model.travel.TripModel;
  */
 @Controller
 public class TripController extends ExceptionHandlerControler {
+
+	@Autowired
+	@Qualifier("requestScopeService")
+	private RequestScopeService scopeService;
 
 	@Autowired
 	private TripService tripService;
@@ -68,7 +78,7 @@ public class TripController extends ExceptionHandlerControler {
 
 	}
 
-	@RequestMapping(value = "travel_edit_info", method = RequestMethod.GET)
+	@RequestMapping(value = "travel_modify_info", method = RequestMethod.GET)
 	public ModelAndView getEditTripInfo(@RequestParam(value = "id", required = false) String tripId) {
 		ModelAndView mv = new ModelAndView();
 		TripInfoModel tripModel = null;
@@ -76,6 +86,28 @@ public class TripController extends ExceptionHandlerControler {
 			tripModel = tripModelService.getTripInfoById(tripId);
 		}
 		return mv.addObject("trip", tripModel);
+	}
+
+	@RequestMapping(value = "travel_modify_save", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, ? extends Object> saveTripInfo(@RequestBody TripInfoModel tripInfoModel) {
+		try {
+			tripModelService.saveTripInfo(tripInfoModel, scopeService.getCurrentLocale());
+		} catch (Throwable e) {
+			throw new RestException(e);
+		}
+		return Ajax.emptyResponse();
+	}
+
+	@RequestMapping(value = "travel_modify_update", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, ? extends Object> updateTripInfo(@RequestBody TripInfoModel tripInfoModel) {
+		try {
+			tripModelService.updateTripInfo(tripInfoModel, scopeService.getCurrentLocale());
+		} catch (Throwable e) {
+			throw new RestException(e);
+		}
+		return Ajax.emptyResponse();
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.heaptrip.web.converter;
 
 import java.util.Date;
+import java.util.Locale;
 
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.category.SimpleCategory;
@@ -16,16 +17,30 @@ public interface ContentModelService {
 
 	CategoryModel convertCategoryToModel(SimpleCategory category);
 
+	SimpleCategory convertCategoryModelToCategory(CategoryModel categoryModel, Locale locale);
+
+	SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels, Locale locale);
+
+	String[] convertCategoriesModelsToIdsArray(CategoryModel[] categoryModels, Locale locale);
+
 	CategoryModel[] convertCategoriesToModel(SimpleCategory[] categories);
 
 	RegionModel convertRegionToModel(SimpleRegion region);
 
 	RegionModel[] convertRegionsToModel(SimpleRegion[] regions);
 
+	SimpleRegion convertRegionModelToRegion(RegionModel regionModel, Locale locale);
+
+	SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels, Locale locale);
+
+	String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale);
+
 	ContentOwnerModel convertContentOwnerToModel(ContentOwner owner);
 
 	DateModel convertDate(Date date);
-	
+
 	PriceModel convertPrice(Price price);
+
+	ContentOwner getContentOwner();
 
 }

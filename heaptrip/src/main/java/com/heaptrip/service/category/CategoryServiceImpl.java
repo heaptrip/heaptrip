@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.category.Category;
+import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.service.category.CategoryService;
 
@@ -43,4 +44,12 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 		return ids;
 	}
+	
+	@Override
+	public Category getCategoryById(String categoryId, Locale locale) {
+		Assert.notNull(categoryId, "categoryId must not be null");
+		Assert.notNull(locale, "locale must not be null");
+		return categoryRepository.findById(categoryId, locale);
+	}
+	
 }

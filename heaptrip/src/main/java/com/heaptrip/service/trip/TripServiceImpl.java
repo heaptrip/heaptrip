@@ -81,9 +81,12 @@ public class TripServiceImpl implements TripService {
 		Assert.notEmpty(trip.getDescription(), "description must not be empty");
 
 		// TODO read and set owner name, account type and rating
-		trip.getOwner().setName("Ivan Petrov");
-		trip.getOwner().setRating(0D);
-		trip.getOwner().setType(AccountEnum.USER);
+		// trip.getOwner().setName("Ivan Petrov");
+		// trip.getOwner().setRating(0D);
+		// trip.getOwner().setType(AccountEnum.USER);
+
+		if (trip.getAllowed() == null)
+			trip.setAllowed(new String[] { "0" });
 
 		// TODO if owner account type == (CLUB or COMPANY) then set owners
 		trip.setOwners(new String[] { trip.getOwner().getId() });

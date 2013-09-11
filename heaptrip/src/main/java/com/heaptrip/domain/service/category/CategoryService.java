@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.category.Category;
+import com.heaptrip.domain.entity.region.Region;
 
 /**
  * 
@@ -12,6 +13,15 @@ import com.heaptrip.domain.entity.category.Category;
  */
 public interface CategoryService {
 
+	/**
+	 * Get category by id
+	 * 
+	 * @param categoryId
+	 * @param locale
+	 * @return category
+	 */
+	public Category getCategoryById(String categoryId, Locale locale);
+	
 	/**
 	 * Get all categories
 	 * 

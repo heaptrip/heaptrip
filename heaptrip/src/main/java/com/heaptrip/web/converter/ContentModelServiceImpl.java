@@ -4,14 +4,19 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.Price;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.region.SimpleRegion;
+import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
@@ -22,8 +27,13 @@ import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.content.StatusModel;
 
 @Service
-public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
-		ContentModelService {
+public class ContentModelServiceImpl extends RequestScopeServiceImpl implements ContentModelService {
+
+	@Autowired
+	CategoryService categoryService;
+
+	@Autowired
+	RegionService regionService;
 
 	@Override
 	public CategoryModel convertCategoryToModel(SimpleCategory category) {
@@ -44,8 +54,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 			for (SimpleCategory category : categories) {
 				categoryModels.add(convertCategoryToModel(category));
 			}
-			result = categoryModels.toArray(new CategoryModel[categoryModels
-					.size()]);
+			result = categoryModels.toArray(new CategoryModel[categoryModels.size()]);
 		}
 		return result;
 	}
@@ -93,8 +102,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 		DateModel result = new DateModel();
 		if (date != null) {
 			result.setValue(date);
-			result.setText(DateFormat.getDateInstance(DateFormat.SHORT,
-					getCurrentLocale()).format(date));
+			result.setText(DateFormat.getDateInstance(DateFormat.SHORT, getCurrentLocale()).format(date));
 		}
 		return result;
 	}
@@ -109,13 +117,14 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 		return priceModel;
 	}
 
-	protected void setContentToContentModel(ContentModel contentModel,
-			Content contetnt) {
+	protected void setContentToContentModel(ContentModel contentModel, Content contetnt) {
 
 		if (contetnt != null) {
 			contentModel.setId(contetnt.getId());
 			contentModel.setCreated(convertDate(contetnt.getCreated()));
-			contentModel.setImage(contetnt.getImage().getId());
+
+			if (contetnt.getImage() != null)
+				contentModel.setImage(contetnt.getImage().getId());
 			if (contetnt.getViews() == null) {
 				contentModel.setViews(0L);
 			} else {
@@ -126,16 +135,83 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements
 			status.setText(contetnt.getStatus().getText());
 			contentModel.setStatus(status);
 			if (contetnt.getName() != null)
-				contentModel.setName(contetnt.getName().getValue(
-						getCurrentLocale()));
-			contentModel.setOwner(convertContentOwnerToModel(contetnt
-					.getOwner()));
-			contentModel.setCategories(convertCategoriesToModel(contetnt
-					.getCategories()));
-			contentModel
-					.setRegions(convertRegionsToModel(contetnt.getRegions()));
+				contentModel.setName(contetnt.getName().getValue(getCurrentLocale()));
+			contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
+			contentModel.setCategories(convertCategoriesToModel(contetnt.getCategories()));
+			contentModel.setRegions(convertRegionsToModel(contetnt.getRegions()));
 			contentModel.setLangs(contetnt.getLangs());
 		}
 
+	}
+
+	@Override
+	public ContentOwner getContentOwner() {
+		ContentOwner contentOwner = null;
+		User user = getCurrentUser();
+		if (user != null) {
+			contentOwner = new ContentOwner();
+			contentOwner.setId(user.getId());
+			contentOwner.setName(user.getName());
+			// TODO: getRating() from user
+			contentOwner.setRating(0D);
+			contentOwner.setType(user.getTypeAccount());
+		}
+		return contentOwner;
+	}
+
+	@Override
+	public SimpleCategory convertCategoryModelToCategory(CategoryModel categoryModel, Locale locale) {
+		return categoryService.getCategoryById(categoryModel.getId(), locale);
+	}
+
+	@Override
+	public SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels, Locale locale) {
+		SimpleCategory[] result = null;
+		if (categoryModels != null) {
+			List<SimpleCategory> categories = new ArrayList<SimpleCategory>();
+			for (CategoryModel categoryModel : categoryModels) {
+				categories.add(convertCategoryModelToCategory(categoryModel, locale));
+			}
+			result = categories.toArray(new SimpleCategory[categories.size()]);
+		}
+		return result;
+	}
+
+	@Override
+	public SimpleRegion convertRegionModelToRegion(RegionModel regionModel, Locale locale) {
+		return regionService.getRegionById(regionModel.getId(), locale);
+	}
+
+	@Override
+	public SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels, Locale locale) {
+		SimpleRegion[] result = null;
+		if (regionModels != null) {
+			List<SimpleRegion> regions = new ArrayList<SimpleRegion>();
+			for (RegionModel regionModel : regionModels) {
+				regions.add(convertRegionModelToRegion(regionModel, locale));
+			}
+			result = regions.toArray(new SimpleRegion[regions.size()]);
+		}
+		return result;
+	}
+
+	@Override
+	public String[] convertCategoriesModelsToIdsArray(CategoryModel[] categoryModels, Locale locale) {
+		SimpleCategory[] categories = convertCategoriesModelsToCategories(categoryModels, locale);
+		List<String> ids = new ArrayList<String>();
+		for (SimpleCategory category : categories) {
+			ids.add(category.getId());
+		}
+		return ids.toArray(new String[ids.size()]);
+	}
+
+	@Override
+	public String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale) {
+		SimpleRegion[] regions = convertRegionModelsToRegions(regionModels, locale);
+		List<String> ids = new ArrayList<String>();
+		for (SimpleRegion region : regions) {
+			ids.add(region.getId());
+		}
+		return ids.toArray(new String[ids.size()]);
 	}
 }

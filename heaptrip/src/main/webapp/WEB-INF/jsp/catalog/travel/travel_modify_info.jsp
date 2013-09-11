@@ -35,10 +35,30 @@
 
 		// tripInfo
 		var jsonData = {
-			description : $("#desc_full_post").val(),
-			summary : $("#desc_post").val()
+			name : $("#name_post").val(),			
+			summary : $("#desc_post").val(),
+			description : $("#desc_full_post").val()			
 		};
+		
+		var paramsJson = $.getParamFromURL();
+		
+		if(paramsJson.ct){
+			jsonData.categories = [];
+			var categoryIds = paramsJson.ct.split(',');
+			$.each(categoryIds,function(index,id) {
+				jsonData.categories.push({id:id});
+			});
+		}
+		
+		if(paramsJson.rg){
+			jsonData.regions = [];
+			var regionIds = paramsJson.rg.split(',');
+			$.each(regionIds,function(index,id) {
+				jsonData.regions.push({id:id});  
+			});
+		}	
 
+		
 		var schedule = []; 
 
 		$('#schedule_table > tbody  > tr').each(function(iTR,tr) {  
@@ -76,20 +96,19 @@
 
 		jsonData.schedule = schedule;
 				
-		 console.log( jsonData );
-		
-		
-		
-		var url = 'rest/tripSubmit';
+		var url = 'rest/travel_modify_save';
 
 	
 
 		var callbackSuccess = function(data) {
 			//var domain =  $("#email").val().replace(/.*@/, ""); 
 			//window.location = 'confirmation.html?domain=' + domain;
+			alert("Success");
 		};
 
 		var callbackError = function(error) {
+			alert(error);
+			
 			//$("#error_message #msg").text(error);
 		};
 
