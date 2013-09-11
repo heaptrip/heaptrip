@@ -6,17 +6,14 @@ import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.MultiLangText;
-import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.trip.TableItem;
+import com.heaptrip.domain.entity.trip.TableStatus;
+import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
-import com.heaptrip.web.model.content.CategoryModel;
-import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
@@ -40,26 +37,29 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		return convertTripToTripInfoModel(tripService.getTripInfo(tripId, getCurrentLocale()));
 	}
 
+	@Override
+	public Trip saveTripInfo(TripInfoModel tripInfoModel, Locale locale) {
+		return tripService.saveTrip(convertTripInfoModelToTrip(tripInfoModel, locale), locale);
+	}
+
+	@Override
+	public void updateTripInfo(TripInfoModel tripInfoModel, Locale locale) {
+		tripService.updateTripInfo(convertTripInfoModelToTrip(tripInfoModel, locale), locale);
+	}
+
 	private void setTripToTripModel(TripModel tripModel, Trip trip) {
-
 		if (trip != null) {
-
 			setContentToContentModel(tripModel, trip);
-
 			tripModel.setRating(trip.getRating());
 			tripModel.setComments(trip.getComments());
-
 			TableItem tableItem = tripService.getNearTableItem(trip);
 			if (tableItem != null) {
 				tripModel.setBegin(convertDate(tableItem.getBegin()));
 				tripModel.setEnd(convertDate(tableItem.getEnd()));
 			}
-
 			if (trip.getSummary() != null)
 				tripModel.setSummary(trip.getSummary().getValue(getCurrentLocale()));
-
 		}
-
 	}
 
 	private TripInfoModel convertTripToTripInfoModel(Trip trip) {
@@ -80,18 +80,15 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
 	private ScheduleModel convertTableItemToScheduleModel(TableItem item) {
 		ScheduleModel schedule = new ScheduleModel();
+		schedule.setId(item.getId());
 		schedule.setBegin(convertDate(item.getBegin()));
 		schedule.setEnd(convertDate(item.getEnd()));
 		schedule.setMembers(item.getMembers());
 		schedule.setMin(item.getMin());
 		schedule.setMax(item.getMax());
-		StatusModel status = new StatusModel();
-		status.setValue(item.getStatus().getValue().name());
-		status.setText(item.getStatus().getText());
-		schedule.setStatus(status);
+		schedule.setStatus(convertStatus(item.getStatus()));
 		schedule.setPrice(convertPrice(item.getPrice()));
 		return schedule;
-
 	}
 
 	private TripModel convertTripToTripModel(Trip trip) {
@@ -103,16 +100,17 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
 	private List<TripModel> convertTripToTripModel(List<Trip> trips) {
 		List<TripModel> tripModels = new ArrayList<TripModel>();
-		if (trips != null && !trips.isEmpty()) {
+		if (trips != null && !trips.isEmpty())
 			for (Trip trip : trips) {
 				tripModels.add(convertTripToTripModel(trip));
 			}
-		}
 		return tripModels;
 	}
 
-	private Trip convertTripModelToTrip(TripInfoModel tripInfoModel, Locale locale) {
+	private Trip convertTripInfoModelToTrip(TripInfoModel tripInfoModel, Locale locale) {
 		Trip trip = new Trip();
+		trip.setLangs(new String[] { locale.getLanguage() });
+		trip.setId(tripInfoModel.getId());
 		trip.setOwner(getContentOwner());
 		trip.setMainLang(locale.getDisplayLanguage());
 		trip.setName(new MultiLangText(tripInfoModel.getName(), locale));
@@ -126,6 +124,44 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		return trip;
 	}
 
+	private TableItem convertScheduleModelToTableItem(ScheduleModel model) {
+		TableItem tableItem = new TableItem();
+		tableItem.setBegin(model.getBegin().getValue());
+		tableItem.setEnd(model.getEnd().getValue());
+		tableItem.setId(model.getId());
+		tableItem.setMax(model.getMax());
+		tableItem.setMin(model.getMin());
+		tableItem.setMembers(model.getMembers());
+		tableItem.setPrice(convertPriceModel(model.getPrice()));
+		tableItem.setStatus(convertStatusModel(model.getStatus()));
+		return tableItem;
+	}
+
+	private TableStatus convertStatusModel(StatusModel statusModel) {
+		TableStatus status = null;
+		if (statusModel != null) {
+			status = new TableStatus();
+			status.setText(status.getText());
+			TableStatusEnum statusEnum = null;
+			for (TableStatusEnum tableStatusEnum : TableStatusEnum.values()) {
+				if (tableStatusEnum.name().equals(statusModel.getValue()))
+					statusEnum = tableStatusEnum;
+			}
+			status.setValue(statusEnum);
+		}
+		return status;
+	}
+
+	private StatusModel convertStatus(TableStatus status) {
+		StatusModel statusModel = null;
+		if (status != null) {
+			statusModel = new StatusModel();
+			statusModel.setValue(status.getValue().name());
+			statusModel.setText(status.getText());
+		}
+		return statusModel;
+	}
+
 	private TableItem[] convertScheduleModelsToTableItems(ScheduleModel[] models) {
 		TableItem[] result = null;
 		if (models != null) {
@@ -136,33 +172,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 			result = tableItem.toArray(new TableItem[tableItem.size()]);
 		}
 		return result;
-	}
-
-	private TableItem convertScheduleModelToTableItem(ScheduleModel model) {
-		TableItem tableItem = new TableItem();
-
-		tableItem.setBegin(model.getBegin().getValue());
-		tableItem.setEnd(model.getEnd().getValue());
-		// TODO: add ID to ScheduleModel
-		// tableItem.setId();
-		tableItem.setMax(model.getMax());
-		tableItem.setMin(model.getMin());
-		tableItem.setMembers(model.getMembers());
-		// TODO: add ID to ScheduleModel
-		// tableItem.setPrice();
-		tableItem.setPrice(null);
-
-		return tableItem;
-	}
-
-	@Override
-	public Trip saveTripInfo(TripInfoModel tripInfoModel, Locale locale) {
-		return tripService.saveTrip(convertTripModelToTrip(tripInfoModel, locale), locale);
-	}
-
-	@Override
-	public void updateTripInfo(TripInfoModel tripInfoModel, Locale locale) {
-		tripService.updateTripInfo(convertTripModelToTrip(tripInfoModel, locale), locale);
 	}
 
 }

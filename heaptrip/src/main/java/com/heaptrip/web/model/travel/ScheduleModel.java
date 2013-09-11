@@ -6,6 +6,8 @@ import com.heaptrip.web.model.content.StatusModel;
 
 public class ScheduleModel {
 
+	private String id;
+
 	// begin date
 	private DateModel begin;
 
@@ -81,5 +83,13 @@ public class ScheduleModel {
 
 	public void setMembers(Long members) {
 		this.members = members;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

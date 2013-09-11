@@ -25,6 +25,8 @@
 
 <script type="text/javascript">
 
+	var tripId = "${tripId}";
+
 	$(document).ready(function() {
 		var ct = "${fn:substring(categoryIds,1,1000)}";
 		var rg = "${fn:substring(regionIds,1,1000)}";
@@ -33,12 +35,11 @@
 	
 	var onTripSubmit = function() {
 
-		// tripInfo
-		var jsonData = {
-			name : $("#name_post").val(),			
-			summary : $("#desc_post").val(),
-			description : $("#desc_full_post").val()			
-		};
+		var jsonData = (tripId ? {id:tripId}:{});
+		
+		jsonData.name = $("#name_post").val();		
+		jsonData.summary = $("#desc_post").val();
+		jsonData.description = $("#desc_full_post").val();
 		
 		var paramsJson = $.getParamFromURL();
 		
@@ -59,18 +60,20 @@
 		}	
 
 		
-		var schedule = []; 
+		var schedule = [];
 
 		$('#schedule_table > tbody  > tr').each(function(iTR,tr) {  
-		    var item = {}; 
+		    var item = (tr.id ? {id:tr.id} : {}); 
 		    $(this).children('td').each(function(iTD,td) {
 		        var cellInps =  $(this).children('input');
 		        
 		        switch (iTD) {
 		  		case 0:
 		    		item.begin = {};
+		    		if($("#"+ cellInps[0].id).datepicker('getDate'))
 		            item.begin.value =  $("#"+ cellInps[0].id).datepicker('getDate').getTime();
 		            item.end = {};
+		            if($("#"+ cellInps[1].id).datepicker('getDate'))
 		            item.end.value =  $("#"+ cellInps[1].id).datepicker('getDate').getTime();
 		    	break;
 		  		case 1:
@@ -86,8 +89,6 @@
 		  		break;
 		  		default:break;
 		        }
-		        
-		       
 		    });
 		    
 		    schedule.push(item);
@@ -96,9 +97,7 @@
 
 		jsonData.schedule = schedule;
 				
-		var url = 'rest/travel_modify_save';
-
-	
+		var url = (tripId?'rest/travel_modify_update':'rest/travel_modify_save');
 
 		var callbackSuccess = function(data) {
 			//var domain =  $("#email").val().replace(/.*@/, ""); 
@@ -107,9 +106,7 @@
 		};
 
 		var callbackError = function(error) {
-			alert(error);
-			
-			//$("#error_message #msg").text(error);
+			$("#error_message #msg").text(error);
 		};
 
 		$.postJSON(url, jsonData, callbackSuccess, callbackError);
@@ -125,8 +122,8 @@
 				<div class="inf">
 					<div class="left">
 						<ul>
-							<li><input type="checkbox" checked="${isDraft}"><label><fmt:message key="content.draft" /></label></li>
-							<li><input type="checkbox" checked="${isForFrends}"><label><fmt:message key="content.forFrends" /></label></li>
+							<li><input id="is_draft" type="checkbox" checked="${isDraft}"><label><fmt:message key="content.draft" /></label></li>
+							<li><input id="is_for_frends" type="checkbox" checked="${isForFrends}"><label><fmt:message key="content.forFrends" /></label></li>
 						</ul>					
 					</div>
 	
@@ -179,6 +176,11 @@
 					</div>
 				</div>
 				<input type="text" id="name_post" value="${trip.name}" alt="<fmt:message key="content.name" />:">
+				
+				<div id="error_message">
+					<span id="msg" class="error"></span>
+				</div>
+				
 				<nav id="travel_nav">
 					<a onClick="onTripSubmit()" class="button"><fmt:message key="page.action.save" /></a>
     				<ul><!--
@@ -196,7 +198,7 @@
 						<a href="/" class="button"><fmt:message key="page.action.albumSelect" /></a>
 					</div>
 				</div>	
-					<textarea id="desc_post"  alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
+					<textarea id="desc_post" alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
 					<textarea id="desc_full_post" alt="<fmt:message key="content.fullDescription" />:">${trip.description}</textarea>
 				<div class="table_inf">
 					<table id=schedule_table>
@@ -238,7 +240,7 @@
 								</c:when>
       							<c:otherwise>
       								<c:forEach items="${trip.schedule}" var="scheduleItem">
-      						      		<tr>
+      						      		<tr id="${scheduleItem.id}">
 											<td>
 												<fmt:message key="page.date.from" />
 											 	<input value="${scheduleItem.begin.text}" type="text" class="datepicker">

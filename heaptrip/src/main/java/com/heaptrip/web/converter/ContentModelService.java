@@ -40,6 +40,8 @@ public interface ContentModelService {
 	DateModel convertDate(Date date);
 
 	PriceModel convertPrice(Price price);
+	
+	Price convertPriceModel(PriceModel priceModel);
 
 	ContentOwner getContentOwner();
 

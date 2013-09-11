@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.CurrencyEnum;
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.SimpleCategory;
@@ -112,7 +113,8 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 		PriceModel priceModel = new PriceModel();
 		if (price != null) {
 			priceModel.setValue(price.getValue());
-			priceModel.setCurrency(price.getCurrency().name());
+			if (price.getCurrency() != null)
+				priceModel.setCurrency(price.getCurrency().name());
 		}
 		return priceModel;
 	}
@@ -213,5 +215,21 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			ids.add(region.getId());
 		}
 		return ids.toArray(new String[ids.size()]);
+	}
+
+	@Override
+	public Price convertPriceModel(PriceModel priceModel) {
+		Price price = null;
+		if (priceModel != null) {
+			price = new Price();
+			price.setValue(priceModel.getValue());
+			CurrencyEnum currency = null;
+			for (CurrencyEnum currencyEnum : CurrencyEnum.values()) {
+				if (currencyEnum.name().equals(priceModel.getValue()))
+					currency = currencyEnum;
+			}
+			price.setCurrency(currency);
+		}
+		return price;
 	}
 }
