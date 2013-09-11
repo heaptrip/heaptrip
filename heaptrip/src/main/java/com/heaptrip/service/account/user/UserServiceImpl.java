@@ -26,6 +26,7 @@ import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.user.UserRepository;
+import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -56,6 +57,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 	
 	@Autowired
 	private ErrorService errorService;
+	
+	@Autowired
+	private AccountSearchService accountSearchService;
 
 	@Override
 	public void delete(String accountId) {
@@ -141,6 +145,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		String msg = String.format(mt.getText(locale), str.toString());
 		mailService.sendNoreplyMessage(user.getEmail(), mt.getSubject(locale), msg);
 
+		// TODO dikma: подключить поиск когда...
+//		accountSearchService.saveAccount(user);
+		
 		return user;
 	}
 

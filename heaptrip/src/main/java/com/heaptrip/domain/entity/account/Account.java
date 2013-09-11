@@ -3,6 +3,7 @@ package com.heaptrip.domain.entity.account;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.rating.AccountRating;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Account extends BaseObject {
@@ -30,6 +31,8 @@ public abstract class Account extends BaseObject {
 
 	// type account
 	private AccountEnum typeAccount;
+	
+	private AccountRating rating; 
 
 	public String get_class() {
 		return _class;
@@ -101,5 +104,13 @@ public abstract class Account extends BaseObject {
 
 	public void setSetting(Setting setting) {
 		this.setting = setting;
+	}
+
+	public AccountRating getRating() {
+		return rating;
+	}
+
+	public void setRating(AccountRating rating) {
+		this.rating = rating;
 	}
 }

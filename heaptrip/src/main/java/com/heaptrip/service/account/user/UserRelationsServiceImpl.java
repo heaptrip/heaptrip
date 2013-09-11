@@ -16,6 +16,7 @@ import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
+import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.account.user.UserRelationsService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -37,6 +38,9 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 	
 	@Autowired
 	private ErrorService errorService;
+	
+	@Autowired
+	private AccountSearchService accountSearchService;
 	
 	protected static final Logger logger = LoggerFactory.getLogger(UserRelationsServiceImpl.class);
 	
@@ -95,6 +99,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			return;
 		} else {
 			userRelationsRepository.deleteFriend(userId, friendId);
+			// TODO dikma: подключить поиск когда...
+//			accountSearchService.updateUser(userId);
 		}
 	}
 
@@ -124,6 +130,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
 			userRelationsRepository.addPublisher(userId, publisherId);
+			// TODO dikma: подключить поиск когда...
+//			accountSearchService.updateUser(userId);
 		}
 	}
 
@@ -149,6 +157,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			return;
 		} else {
 			userRelationsRepository.deletePublisher(userId, publisherId);
+			// TODO dikma: подключить поиск когда...
+//			accountSearchService.updateUser(userId);
 		}
 	}
 
@@ -208,6 +218,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		} else {
 			// TODO dikma: надо проверить, есть он не единственный сотрудник, если сообщество активно, иначе 
 			userRelationsRepository.deleteOwner(userId, communityId);
+			// TODO dikma: подключить поиск когда...
+//			accountSearchService.updateUser(userId);
 		}		
 	}
 
@@ -267,6 +279,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		} else {
 			// TODO dikma: надо проверить, есть ли у него активное путешествие или событие!
 			userRelationsRepository.deleteEmployee(userId, communityId);
+			// TODO dikma: подключить поиск когда...
+//			accountSearchService.updateUser(userId);
 		}
 	}
 
@@ -325,6 +339,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			return;
 		} else {
 			userRelationsRepository.deleteMember(userId, clubId);
+			// TODO dikma: подключить поиск когда...
+//			accountSearchService.updateUser(userId);
 		}
 	}
 }

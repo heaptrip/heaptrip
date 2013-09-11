@@ -12,6 +12,7 @@ import com.heaptrip.domain.entity.account.Setting;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.system.ErrorService;
 
@@ -26,6 +27,9 @@ public abstract class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private ErrorService errorService;
+	
+	@Autowired
+	private AccountSearchService accountSearchService;
 
 	@Override
 	public void hardRemove(String accountId) {
@@ -125,6 +129,9 @@ public abstract class AccountServiceImpl implements AccountService {
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
 		} else {
 			accountRepository.saveProfile(accountId, profile);
+			// TODO dikma: подключить поиск когда...
+//			account = accountRepository.findOne(accountId);
+//			accountSearchService.saveAccount(account);
 		}
 	}
 }

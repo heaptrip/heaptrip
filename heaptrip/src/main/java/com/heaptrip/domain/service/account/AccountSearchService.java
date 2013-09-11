@@ -16,6 +16,13 @@ public interface AccountSearchService {
 	 * @param accountId
 	 */
 	public void saveAccount(String accountId);
+	
+	/**
+	 * update user to Apache Solr by accountId
+	 * 
+	 * @param accountId
+	 */
+	public void updateUser(String userId);
 
 	/**
 	 * Remove account from Apache Solr by accountId

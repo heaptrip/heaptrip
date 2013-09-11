@@ -15,6 +15,7 @@ import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
+import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -32,6 +33,9 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	@Autowired
 	private ErrorService errorService;
+	
+	@Autowired
+	private AccountSearchService accountSearchService;	
 	
 	@Override
 	public void addNotification(Notification notification) {
@@ -63,15 +67,30 @@ public class NotificationServiceImpl implements NotificationService {
 			notificationRepository.changeStatus(notificationId, status);
 			
 			if (status.equals(NotificationStatusEnum.ACCEPTED)) {
+				
+				String userId = null; 
+				
 				if (notification.getType().equals(NotificationTypeEnum.FRIEND)) {
 					userRelationsRepository.addFriend(notification.getFromId(), notification.getToId());
+					// TODO dikma: подключить поиск когда...
+//					userId = notification.getToId();
 				} else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE)) {
 					userRelationsRepository.addEmployee(notification.getFromId(), notification.getToId());
+					// TODO dikma: подключить поиск когда...
+//					userId = notification.getFromId();
 				} else if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
 					userRelationsRepository.addMember(notification.getFromId(), notification.getToId());
+					// TODO dikma: подключить поиск когда...
+//					userId = notification.getFromId();
 				} else if (notification.getType().equals(NotificationTypeEnum.OWNER)) {
 					userRelationsRepository.addOwner(notification.getFromId(), notification.getToId());
+					// TODO dikma: подключить поиск когда...
+//					userId = notification.getFromId();
 				} 
+				
+				if (userId != null) {
+					accountSearchService.updateUser(userId);
+				}
 			}
 		}
 	}
