@@ -24,7 +24,7 @@ public interface RatingService {
 	 *            user ID
 	 * @return can or can not
 	 */
-	public boolean canPutRating(ContentEnum contentType, String contentId, String userId);
+	public boolean canSetRating(ContentEnum contentType, String contentId, String userId);
 
 	/**
 	 * Add rating to content
