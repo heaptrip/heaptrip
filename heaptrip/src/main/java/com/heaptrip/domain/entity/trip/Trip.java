@@ -18,9 +18,6 @@ public class Trip extends Content implements Commentsable {
 	// route
 	private Route route;
 
-	// rating
-	private Double rating;
-
 	// number of comments
 	private long comments;
 
@@ -43,14 +40,6 @@ public class Trip extends Content implements Commentsable {
 
 	public void setRoute(Route route) {
 		this.route = route;
-	}
-
-	public Double getRating() {
-		return rating;
-	}
-
-	public void setRating(Double rating) {
-		this.rating = rating;
 	}
 
 	public long getComments() {

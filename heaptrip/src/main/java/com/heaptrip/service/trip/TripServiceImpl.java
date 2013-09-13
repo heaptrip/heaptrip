@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatus;
@@ -147,7 +146,8 @@ public class TripServiceImpl implements TripService {
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
 		trip.setDeleted(null);
-		trip.setRating(0d);
+		// TODO konovalov: fix rating
+		// trip.setRating(0d);
 		trip.setComments(0L);
 
 		// save to db

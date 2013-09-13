@@ -50,7 +50,9 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private void setTripToTripModel(TripModel tripModel, Trip trip) {
 		if (trip != null) {
 			setContentToContentModel(tripModel, trip);
-			tripModel.setRating(trip.getRating());
+			if(trip.getRating() != null) {
+				tripModel.setRating(trip.getRating().getValue());	
+			}
 			tripModel.setComments(trip.getComments());
 			TableItem tableItem = tripService.getNearTableItem(trip);
 			if (tableItem != null) {
