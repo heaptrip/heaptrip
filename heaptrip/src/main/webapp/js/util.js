@@ -136,9 +136,17 @@ $(function(){
 });
 
 var onLocaleChange = function(locale) {
-	var newUrl = $.param.querystring( window.location.href, 'locale='+ locale );
-	window.location = newUrl;
+	$.handGETParamToURL('locale',locale);
 };
+
+(function($) {
+	$.extend({
+		handGETParamToURL : function(name,value){
+			var newUrl = $.param.querystring( window.location.href, name + '=' + value );
+			window.location = newUrl;
+		}
+	});
+})(jQuery);
 
 
 

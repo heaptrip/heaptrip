@@ -13,6 +13,7 @@ public class ContentModel {
 	private RegionModel[] regions;
 	private String[] langs;
 	private StatusModel status;
+	private String locale;
 
 	private String summary;
 
@@ -111,5 +112,14 @@ public class ContentModel {
 	public void setStatus(StatusModel status) {
 		this.status = status;
 	}
+
+	public String getLocale() {
+		return locale;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
 
 }

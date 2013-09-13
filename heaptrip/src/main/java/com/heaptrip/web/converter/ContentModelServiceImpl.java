@@ -15,10 +15,12 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentOwner;
+import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
+import com.heaptrip.util.language.LanguageUtils;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
@@ -119,7 +121,8 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 		return priceModel;
 	}
 
-	protected void setContentToContentModel(ContentModel contentModel, Content contetnt) {
+	protected void setContentToContentModel(ContentModel contentModel, Content contetnt, Locale locale,
+			boolean isOnlyThisLocale) {
 
 		if (contetnt != null) {
 			contentModel.setId(contetnt.getId());
@@ -137,10 +140,14 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			status.setText(contetnt.getStatus().getText());
 			contentModel.setStatus(status);
 			if (contetnt.getName() != null)
-				contentModel.setName(contetnt.getName().getValue(getCurrentLocale()));
+				contentModel.setName(getMultiLangTextValue(contetnt.getName(), locale, isOnlyThisLocale));
 			contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
+
+			// TODO : locale add to method call
 			contentModel.setCategories(convertCategoriesToModel(contetnt.getCategories()));
+			// TODO : locale add to method call
 			contentModel.setRegions(convertRegionsToModel(contetnt.getRegions()));
+
 			contentModel.setLangs(contetnt.getLangs());
 		}
 
@@ -159,6 +166,20 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			contentOwner.setType(user.getTypeAccount());
 		}
 		return contentOwner;
+	}
+
+	@Override
+	public String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale) {
+
+		String result = null;
+		if (isOnlyThisLocale) {
+			text.setMainLanguage(LanguageUtils.getLanguageByLocale(locale));
+			result = text.getValue(locale);
+		} else {
+			result = text.getValue(getCurrentLocale());
+		}
+		return result;
+
 	}
 
 	@Override

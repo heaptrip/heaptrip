@@ -11,11 +11,6 @@
 <tiles:insertAttribute name="account" />
 
 
-
-
-
- 
-
 <c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
 
 <div id="language">
