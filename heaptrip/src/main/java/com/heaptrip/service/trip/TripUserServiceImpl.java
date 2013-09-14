@@ -100,6 +100,13 @@ public class TripUserServiceImpl implements TripUserService {
 	}
 
 	@Override
+	public boolean isTableUser(String tripId, String userId) {
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		return memberRepository.existsByTripIdAndUserId(tripId, userId);
+	}
+
+	@Override
 	public void removeTripMember(String memberId) {
 		Assert.notNull(memberId, "memberId must not be null");
 		TableMember member = memberRepository.findOne(memberId);
@@ -129,4 +136,5 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(userId, "userId must not be null");
 		memberRepository.removeAllowed(ownerId, userId);
 	}
+
 }

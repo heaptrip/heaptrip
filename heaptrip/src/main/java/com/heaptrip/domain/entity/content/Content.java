@@ -9,6 +9,7 @@ import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 
 /**
@@ -70,8 +71,11 @@ public class Content extends BaseObject implements Collectionable {
 	// viewing information
 	private Views views;
 
-	// Information about adding to favorites
+	// information about adding to favorites
 	private Favorites favorites;
+
+	// content rating
+	private ContentRating rating;
 
 	// image
 	private Image image;
@@ -225,4 +229,11 @@ public class Content extends BaseObject implements Collectionable {
 		this.regionIds = regionIds;
 	}
 
+	public ContentRating getRating() {
+		return rating;
+	}
+
+	public void setRating(ContentRating rating) {
+		this.rating = rating;
+	}
 }

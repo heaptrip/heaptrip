@@ -10,6 +10,7 @@ import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
@@ -144,4 +145,24 @@ public interface ContentService {
 	 * @throws IOException
 	 */
 	public Image saveTitleImage(String fileName, InputStream is) throws IOException;
+
+	/**
+	 * Get content rating by content id
+	 * 
+	 * @param contentId
+	 *            content id
+	 * @return content rating
+	 */
+	public ContentRating getContentRating(String contentId);
+
+	/**
+	 * Update content rating value by content id
+	 * 
+	 * @param contentId
+	 *            content id
+	 * @param ratingValue
+	 *            new value for content rating
+	 * 
+	 */
+	public void updateContentRatingValue(String contentId, double ratingValue);
 }

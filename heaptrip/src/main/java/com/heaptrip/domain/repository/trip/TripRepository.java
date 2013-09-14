@@ -3,6 +3,7 @@ package com.heaptrip.domain.repository.trip;
 import java.util.List;
 import java.util.Locale;
 
+import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.CrudRepository;
@@ -41,4 +42,6 @@ public interface TripRepository extends CrudRepository<Trip> {
 	public Trip getRoute(String tripId, Locale locale);
 
 	public void updateRoute(Trip trip, Locale locale);
+
+	public TableItem[] getTableItemsWithDateBeginAndDateEnd(String tripId);
 }

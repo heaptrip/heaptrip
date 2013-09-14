@@ -9,6 +9,7 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
@@ -133,5 +134,18 @@ public abstract class AccountServiceImpl implements AccountService {
 //			account = accountRepository.findOne(accountId);
 //			accountSearchService.saveAccount(account);
 		}
+	}
+	
+	@Override
+	public AccountRating getAccountRating(String accountId) {
+		Assert.notNull(accountId, "accountId must not be null");
+		return accountRepository.getRating(accountId);
+	}
+
+	@Override
+	public void updateAccountRatingValue(String accountId, double ratingValue) {
+		Assert.notNull(accountId, "accountId must not be null");
+		Assert.notNull(ratingValue, "ratingValue must not be null");
+		accountRepository.updateRating(accountId, ratingValue);
 	}
 }

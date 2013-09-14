@@ -17,7 +17,7 @@ public class Rating extends BaseObject implements Collectionable {
 	private String userId;
 
 	// when rated
-	private Date date;
+	private Date created;
 
 	// rating value from 0 to 1:
 	// from 0 to 0.19 - one star
@@ -38,12 +38,12 @@ public class Rating extends BaseObject implements Collectionable {
 		this.userId = userId;
 	}
 
-	public Date getDate() {
-		return date;
+	public Date getCreated() {
+		return created;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setCreated(Date created) {
+		this.created = created;
 	}
 
 	public double getValue() {

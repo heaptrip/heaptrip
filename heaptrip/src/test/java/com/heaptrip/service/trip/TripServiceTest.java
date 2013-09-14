@@ -99,6 +99,19 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
+	@Test(enabled = true, priority = 7)
+	public void getLatestTableItem() {
+		// call
+		TableItem item = tripService.getLatestTableItem(TRIP_ID);
+		// check
+		Assert.assertNotNull(item);
+		Trip trip = tripRepository.findOne(TRIP_ID);
+		for (TableItem ti : trip.getTable()) {
+			Assert.assertTrue(item.equals(ti)
+					|| (item.getEnd() != null && ti.getEnd() != null && item.getEnd().after(ti.getEnd())));
+		}
+	}
+
 	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = true, priority = 8)
 	public void getNearTableItemByPeriod(Trip trip) {
 		// call

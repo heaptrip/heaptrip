@@ -23,6 +23,7 @@ import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.user.UserRepository;

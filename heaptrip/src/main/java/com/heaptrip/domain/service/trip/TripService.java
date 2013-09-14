@@ -98,6 +98,17 @@ public interface TripService {
 	public TableItem getNearTableItem(Trip trip);
 
 	/**
+	 * Get latest trip from the timetable by trip id. Should be used to
+	 * determine the possibility of rating. Trip can be rated in six months with
+	 * the launch of the last otem of timetable
+	 * 
+	 * @param tripId
+	 *            trip id
+	 * @return item of timetable
+	 */
+	public TableItem getLatestTableItem(String tripId);
+
+	/**
 	 * Get nearest trip from the timetable which suitable for search period. It
 	 * is recommended to use to display the time in the trip card
 	 * 

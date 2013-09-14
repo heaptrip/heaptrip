@@ -90,6 +90,17 @@ public interface TripUserService {
 	public List<TableUser> getTableUsersByUserId(String tripId, String userId);
 
 	/**
+	 * Check that the user is a the trip member
+	 * 
+	 * @param tripId
+	 *            trip id
+	 * @param userId
+	 *            user id
+	 * @return true or false
+	 */
+	public boolean isTableUser(String tripId, String userId);
+
+	/**
 	 * Remove the user or invite from the travel. Needs to be called when the
 	 * user reject the invitation to participate, as well as the when owner
 	 * rejects the request from the user to participate in travel, as well as

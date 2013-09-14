@@ -78,4 +78,10 @@
 			<class name="com.heaptrip.service.system.MailServiceTest" />
 		</classes>
 	</test>
+
+	<test name="RatingTest">
+		<classes>
+			<class name="com.heaptrip.service.rating.RatingServiceTest" />
+		</classes>
+	</test>
 </suite>
