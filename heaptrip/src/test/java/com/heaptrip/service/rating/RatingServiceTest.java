@@ -66,6 +66,8 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 	public void init() throws Exception {
 		this.springTestContextPrepareTestInstance();
 
+		clearDB();
+
 		Account account = new User();
 		account.setId(OWNER_ID);
 		account.setRating(ratingService.getDefaultAccountRating());
@@ -92,8 +94,12 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		tripRepository.save(trip);
 	}
 
-	@AfterClass(alwaysRun = true)
+	@AfterClass
 	public void afterTest() {
+		clearDB();
+	}
+
+	private void clearDB() {
 		accountRepository.remove(OWNER_ID);
 		contentRepository.remove(POST_ID);
 		tripRepository.remove(TRIP_ID);
