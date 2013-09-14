@@ -3,6 +3,7 @@ package com.heaptrip.web.controller.trip;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -17,9 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
@@ -29,7 +27,6 @@ import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.converter.TripModelService;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
-import com.heaptrip.web.model.user.RegistrationInfoModel;
 
 /**
  * 
@@ -71,28 +68,42 @@ public class TripController extends ExceptionHandlerControler {
 	}
 
 	@RequestMapping(value = "travel_info", method = RequestMethod.GET)
-	public ModelAndView getTripInfo(@RequestParam("id") String tripId) {
-		ModelAndView mv = new ModelAndView();
-		TripInfoModel tripModel = tripModelService.getTripInfoById(tripId);
-		return mv.addObject("trip", tripModel);
-
-	}
-
-	@RequestMapping(value = "travel_modify_info", method = RequestMethod.GET)
-	public ModelAndView getEditTripInfo(@RequestParam(value = "id", required = false) String tripId) {
+	public ModelAndView getTripInfo(@RequestParam(value = "id", required = false) String tripId,
+			@RequestParam(value = "ul", required = false) String userLocale) {
 		ModelAndView mv = new ModelAndView();
 		TripInfoModel tripModel = null;
 		if (tripId != null) {
-			tripModel = tripModelService.getTripInfoById(tripId);
+			if (userLocale == null) {
+				tripModel = tripModelService.getTripInfoById(tripId, scopeService.getCurrentLocale(), false);
+			} else {
+				tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), false);
+			}
 		}
 		return mv.addObject("trip", tripModel);
 	}
+
+	@RequestMapping(value = "travel_modify_info", method = RequestMethod.GET)
+	public ModelAndView getEditTripInfo(@RequestParam(value = "id", required = false) String tripId,
+			@RequestParam(value = "ul", required = false) String userLocale) {
+		ModelAndView mv = new ModelAndView();
+		TripInfoModel tripModel = null;
+		if (tripId != null) {
+			if (userLocale == null) {
+				tripModel = tripModelService.getTripInfoById(tripId, scopeService.getCurrentLocale(), false);
+			} else {
+				tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), true);
+			}
+		}
+		return mv.addObject("trip", tripModel);
+	}
+
+
 
 	@RequestMapping(value = "travel_modify_save", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, ? extends Object> saveTripInfo(@RequestBody TripInfoModel tripInfoModel) {
 		try {
-			tripModelService.saveTripInfo(tripInfoModel, scopeService.getCurrentLocale());
+			tripModelService.saveTripInfo(tripInfoModel);
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}
@@ -103,7 +114,7 @@ public class TripController extends ExceptionHandlerControler {
 	public @ResponseBody
 	Map<String, ? extends Object> updateTripInfo(@RequestBody TripInfoModel tripInfoModel) {
 		try {
-			tripModelService.updateTripInfo(tripInfoModel, scopeService.getCurrentLocale());
+			tripModelService.updateTripInfo(tripInfoModel);
 		} catch (Throwable e) {
 			throw new RestException(e);
 		}

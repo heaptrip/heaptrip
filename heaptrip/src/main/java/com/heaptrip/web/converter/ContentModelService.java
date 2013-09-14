@@ -6,6 +6,7 @@ import java.util.Locale;
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
+import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
@@ -44,5 +45,7 @@ public interface ContentModelService {
 	Price convertPriceModel(PriceModel priceModel);
 
 	ContentOwner getContentOwner();
+
+	String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale);
 
 }

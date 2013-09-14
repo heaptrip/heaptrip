@@ -60,7 +60,9 @@
 							<div><fmt:message key="content.available" />:</div>
 							<ul>
 								<c:forEach items="${trip.langs}" var="lang">
-									<li class="${lang}"></li>
+									<li class="${lang}">
+									<a onClick="$.handGETParamToURL('ul','${lang}')" class="${lang} lang" ></a>
+									</li>
 								</c:forEach>
 							</ul>
 						</div>

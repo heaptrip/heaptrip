@@ -12,10 +12,10 @@ public interface TripModelService {
 
 	List<TripModel> getTripsModelByCriteria(TripFeedCriteria feedTripCriteria);
 
-	TripInfoModel getTripInfoById(String tripId);
+	TripInfoModel getTripInfoById(String tripId, Locale locale, boolean isOnlyThisLocale);
 
-	Trip saveTripInfo(TripInfoModel tripInfoModel, Locale locale);
+	Trip saveTripInfo(TripInfoModel tripInfoModel);
 
-	void updateTripInfo(TripInfoModel tripInfoModel, Locale locale);
+	void updateTripInfo(TripInfoModel tripInfoModel);
 
 }

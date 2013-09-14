@@ -1,6 +1,5 @@
 package com.heaptrip.web.model.travel;
 
-import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.DateModel;
 

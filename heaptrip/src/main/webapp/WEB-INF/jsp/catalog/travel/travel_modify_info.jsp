@@ -7,7 +7,15 @@
 
 <c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
 
-<c:set var="currLocale"><fmt:message key="locale.name"/></c:set> 
+<c:choose>
+	<c:when test="${empty param.ul}">
+		<c:set var="currLocale"><fmt:message key="locale.name"/></c:set> 
+     </c:when>
+     <c:otherwise>
+	 <c:set var="currLocale">${param.ul}</c:set>
+    </c:otherwise>
+</c:choose>
+
 
 
 <c:set var="tripId"	value='${param.id}' />
@@ -25,8 +33,13 @@
 
 <script type="text/javascript">
 
-	var tripId = "${tripId}";
+	var tripId = '${tripId}';
+	var locale = '${currLocale}';
 
+	
+	//$("#is_draft")
+	
+	
 	$(document).ready(function() {
 		var ct = "${fn:substring(categoryIds,1,1000)}";
 		var rg = "${fn:substring(regionIds,1,1000)}";
@@ -37,6 +50,7 @@
 
 		var jsonData = (tripId ? {id:tripId}:{});
 		
+		jsonData.locale = locale;
 		jsonData.name = $("#name_post").val();		
 		jsonData.summary = $("#desc_post").val();
 		jsonData.description = $("#desc_full_post").val();
@@ -132,13 +146,12 @@
 							<c:choose>
 								<c:when test="${empty tripId}">
 									<ul>
-			 							<li class="del_list_lang"><a class="del_lang lang" href="/"></a></li>
-			 					   			<li><a class="${currLocale} lang" href="/"></a></li>
+			 					   		<li><a onClick="$.handGETParamToURL('ul','${currLocale}')" class="${currLocale} lang" ></a></li>
 										<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
 											<ul>	
 												<c:forEach items="${langValues}" var="langValue">
 													<c:if test="${currLocale ne langValue}">
-   														<li><a class="${langValue} lang" href="/"></a></li>
+   														<li><a onClick="$.handGETParamToURL('ul','${langValue}')" class="${langValue} lang" ></a></li>
    													</c:if>	
 												</c:forEach>
 											</ul>
@@ -148,6 +161,8 @@
 								<c:otherwise>
 									<ul>
 			 							<li class="del_list_lang"><a class="del_lang lang" href="/"></a></li>
+			 							<!-- add trip.langs + ul -->
+			 							
 			 						   		<c:forEach items="${trip.langs}" var="lang">
 												<c:choose>
 													<c:when test="${currLocale eq lang}">
@@ -157,19 +172,44 @@
 														<li>
 													</c:otherwise>
     												</c:choose>
-    														<a class="${lang} lang" href="/"></a>
+    														<a onClick="$.handGETParamToURL('ul','${lang}')" class="${lang} lang" ></a>
     													</li>											
 											</c:forEach>
-			 					   		<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
+											
+											<c:set var="joinLangValues" value="${fn:join(trip.langs, ',')}"/>
+											
+												<c:choose>
+													<c:when test="${fn:contains(joinLangValues, param.ul) ne true}">
+														<li class="activ_lang">	<a onClick="$.handGETParamToURL('ul','${param.ul}')" class="${param.ul} lang" ></a>
+													</c:when>
+													<c:otherwise>
+														 		<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
 											<ul>
-												<c:set var="joinLangValues" value="${fn:join(trip.langs, ',')}"/>
+												
 												<c:forEach items="${langValues}" var="langValue">
 													<c:if test="${fn:contains(joinLangValues, langValue) ne true}">
-   														<li><a class="${langValue} lang" href="/"></a></li>
+   														<li><a onClick="$.handGETParamToURL('ul','${langValue}')" class="${langValue} lang" ></a></li>
    													</c:if>
 												</c:forEach>
 											</ul>
 										</li>
+													</c:otherwise>
+    												</c:choose>
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+											
+									
+										
+										
+										
 									</ul>
       							</c:otherwise>
     					</c:choose>	
@@ -192,7 +232,18 @@
     				--></ul>
 				</nav>					
 				<div class="description">
-					<div id="img_load"><img src="<c:url value="/rest/image?imageId=${trip.image}"/>" width="300"></div>
+					<div id="img_load">
+					
+					<c:choose>
+						<c:when test="${empty trip.image}">
+							<img src="<c:url value="/images/empty.jpg"/>" width="300">
+      					</c:when>
+      					<c:otherwise>
+							<img src="<c:url value="/rest/image?imageId=${trip.image}"/>" width="300">
+      					</c:otherwise>
+    				</c:choose>
+					
+					</div>
 					<div id="img_load_button">
 						<a href="/" class="button"><fmt:message key="page.action.uploadPhoto" /></a>
 						<a href="/" class="button"><fmt:message key="page.action.albumSelect" /></a>
