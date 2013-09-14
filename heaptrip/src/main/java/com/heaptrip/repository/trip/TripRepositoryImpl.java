@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.entity.trip.TableStatus;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
@@ -353,5 +354,13 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		MongoCollection coll = getCollection();
 		WriteResult wr = coll.update(query, trip.getId()).with(updateQuery, parameters.toArray());
 		logger.debug("WriteResult for update trip route: {}", wr);
+	}
+
+	@Override
+	public TableItem[] getTableItemsWithDateBeginAndDateEnd(String tripId) {
+		MongoCollection coll = getCollection();
+		Trip trip = coll.findOne("{_id: #}", tripId)
+				.projection("{_class: 1, 'table._id': 1, 'table.begin': 1, 'table.end': 1}").as(getCollectionClass());
+		return (trip == null) ? null : trip.getTable();
 	}
 }

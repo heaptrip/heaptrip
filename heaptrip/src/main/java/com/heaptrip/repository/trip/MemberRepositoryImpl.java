@@ -92,6 +92,13 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	}
 
 	@Override
+	public boolean existsByTripIdAndUserId(String tripId, String userId) {
+		MongoCollection coll = getCollection();
+		long count = coll.count("{userId: #, tripId: #, status: #}", userId, tripId, TableUserStatusEnum.OK);
+		return (count > 0) ? true : false;
+	}
+
+	@Override
 	public long getCountByTripId(String tripId) {
 		MongoCollection coll = getCollection();
 		return coll.count("{tripId: #}", tripId);

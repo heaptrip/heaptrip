@@ -15,6 +15,8 @@ public interface MemberRepository extends CrudRepository<TableMember> {
 
 	public List<TableUser> findTableUsersByUserId(String tripId, String userId);
 
+	public boolean existsByTripIdAndUserId(String tripId, String userId);
+
 	public long getCountByTripId(String tripId);
 
 	public List<String> findTripIdsByUserId(String userId);

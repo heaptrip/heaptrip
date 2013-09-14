@@ -207,6 +207,14 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(list.size(), 1);
 	}
 
+	@Test(priority = 7, enabled = true)
+	public void isTableUser() {
+		// call
+		boolean result = tripUserService.isTableUser(TRIP_ID, USER_ID);
+		// check
+		Assert.assertTrue(result);
+	}
+
 	@Test(priority = 8, enabled = true, dataProvider = "memberTripMyAccountCriteria", dataProviderClass = TripDataProvider.class)
 	public void getTripsByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
 		// call

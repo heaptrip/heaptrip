@@ -233,7 +233,7 @@ public class TripServiceImpl implements TripService {
 	public TableItem getNearTableItem(Trip trip) {
 		Assert.notNull(trip, "trip must not be null");
 		Assert.notEmpty(trip.getTable(), "trip.table must not be empty");
-		Arrays.sort(trip.getTable(), new TableItemComparator());
+		Arrays.sort(trip.getTable(), new TableItemDateBeginComparator());
 		return trip.getTable()[0];
 	}
 
@@ -241,13 +241,24 @@ public class TripServiceImpl implements TripService {
 	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
 		Assert.notNull(trip, "trip must not be null");
 		Assert.notEmpty(trip.getTable(), "trip.table must not be empty");
-		Arrays.sort(trip.getTable(), new TableItemComparator());
+		Arrays.sort(trip.getTable(), new TableItemDateBeginComparator());
 		for (TableItem item : trip.getTable()) {
 			if (period.getDateBegin() != null && item.getBegin() != null
 					&& item.getBegin().before(period.getDateBegin())) {
 				continue;
 			}
 			return item;
+		}
+		return null;
+	}
+
+	@Override
+	public TableItem getLatestTableItem(String tripId) {
+		Assert.notNull(tripId, "tripId must not be null");
+		TableItem[] items = tripRepository.getTableItemsWithDateBeginAndDateEnd(tripId);
+		if (items != null) {
+			Arrays.sort(items, new TableItemDateEndComparator());
+			return items[items.length - 1];
 		}
 		return null;
 	}

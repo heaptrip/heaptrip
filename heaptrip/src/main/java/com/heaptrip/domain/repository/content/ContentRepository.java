@@ -1,6 +1,7 @@
 package com.heaptrip.domain.repository.content;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,4 +33,6 @@ public interface ContentRepository extends CrudRepository<Content> {
 	public long getCountByMyAccountCriteria(MyAccountCriteria criteria);
 
 	public long getCountByForeignAccountCriteria(ForeignAccountCriteria criteria);
+
+	public Date getDateCreated(String contentId);
 }

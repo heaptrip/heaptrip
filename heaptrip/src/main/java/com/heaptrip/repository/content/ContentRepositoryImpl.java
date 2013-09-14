@@ -2,6 +2,7 @@ package com.heaptrip.repository.content;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -176,5 +177,13 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 			logger.debug(msg);
 		}
 		return coll.count(query, parameters);
+	}
+
+	@Override
+	public Date getDateCreated(String contentId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, created: 1}")
+				.as(getCollectionClass());
+		return (content == null) ? null : content.getCreated();
 	}
 }

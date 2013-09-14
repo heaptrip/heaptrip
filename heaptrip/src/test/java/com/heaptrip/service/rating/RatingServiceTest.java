@@ -20,17 +20,26 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
+import com.heaptrip.domain.entity.trip.TableItem;
+import com.heaptrip.domain.entity.trip.TableUser;
+import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.rating.RatingRepository;
+import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.rating.RatingService;
+import com.heaptrip.domain.service.trip.TripUserService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
 	private static final String OWNER_ID = "ACCOUNT_FOR_" + RatingServiceTest.class.getName();
 
-	private static final String CONTENT_ID = "CONTENT_FOR_" + RatingServiceTest.class.getName();
+	private static final String CONTENT_ID = "POST_FOR_" + RatingServiceTest.class.getName();
+
+	private static final String TRIP_ID = "TRIP_FOR_" + RatingServiceTest.class.getName();
+
+	private static final String TRIP_TABLE_ID = "1";
 
 	private static final String USER_ID = "1";
 
@@ -44,7 +53,13 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 	private RatingRepository ratingRepository;
 
 	@Autowired
+	private TripRepository tripRepository;
+
+	@Autowired
 	private RatingService ratingService;
+
+	@Autowired
+	private TripUserService tripUserService;
 
 	@BeforeClass
 	public void init() throws Exception {
@@ -52,7 +67,6 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
 		Account account = new User();
 		account.setId(OWNER_ID);
-		account.setRating(ratingService.getDefaultAccountRating());
 		accountRepository.save(account);
 
 		Content content = new Content();
@@ -63,20 +77,62 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		content.setOwner(owner);
 		content.setRating(ratingService.getDefaultContentRating());
 		contentRepository.save(content);
+
+		Trip trip = new Trip();
+		trip.setId(TRIP_ID);
+		trip.setCreated(new Date());
+		TableItem[] table = new TableItem[1];
+		TableItem item = new TableItem();
+		item.setId(TRIP_TABLE_ID);
+		item.setEnd(new Date());
+		table[0] = item;
+		trip.setTable(table);
+		tripRepository.save(trip);
 	}
 
-	@AfterClass
+	@AfterClass(alwaysRun = true)
 	public void afterTest() {
 		accountRepository.remove(OWNER_ID);
 		contentRepository.remove(CONTENT_ID);
+		tripRepository.remove(TRIP_ID);
+		tripUserService.removeTripMembers(TRIP_ID);
 		ratingRepository.removeByTargetId(OWNER_ID);
 		ratingRepository.removeByTargetId(CONTENT_ID);
 	}
 
-	@Test(enabled = false, priority = 0)
+	@Test(enabled = true, priority = 0)
 	public void canSetRating() {
 		boolean can = ratingService.canSetRating(ContentEnum.POST, CONTENT_ID, USER_ID);
 		Assert.assertEquals(can, true);
+	}
+
+	@Test(enabled = true, priority = 0)
+	public void canNotSetRatingForPost() {
+		boolean can = ratingService.canSetRating(ContentEnum.QA, CONTENT_ID, USER_ID);
+		Assert.assertEquals(can, false);
+	}
+
+	@Test(enabled = true, priority = 0)
+	public void canSetRatingForTrip() {
+		// if user is not accepted trip member then he can not set rating
+		boolean can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
+		Assert.assertEquals(can, false);
+		TableUser tableUser = tripUserService.addTableUser(TRIP_ID, TRIP_TABLE_ID, USER_ID);
+		can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
+		Assert.assertEquals(can, false);
+		tripUserService.acceptTableUser(tableUser.getId());
+		can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
+		Assert.assertEquals(can, true);
+		// trip can be rated in six months with the launch of the last schedule
+		Trip trip = tripRepository.findOne(TRIP_ID);
+		TableItem item = trip.getTable()[0];
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(item.getEnd());
+		calendar.add(Calendar.MONTH, -7);
+		item.setEnd(calendar.getTime());
+		tripRepository.save(trip);
+		can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
+		Assert.assertEquals(can, false);
 	}
 
 	@Test(enabled = false, priority = 1)

@@ -112,6 +112,7 @@ public class TripDataProvider {
 			Date end = RandomUtils.getRandomDate(begin, dateEnd.getTime());
 			item.setBegin(begin);
 			item.setEnd(end);
+			item.setId(Integer.toString(j));
 			table[j] = item;
 		}
 		Trip trip = new Trip();

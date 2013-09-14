@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 import com.heaptrip.domain.entity.trip.TableItem;
 
-public class TableItemComparator implements Comparator<TableItem> {
+public class TableItemDateBeginComparator implements Comparator<TableItem> {
 	@Override
 	public int compare(TableItem o1, TableItem o2) {
 		if (o2.getBegin() == null) {
