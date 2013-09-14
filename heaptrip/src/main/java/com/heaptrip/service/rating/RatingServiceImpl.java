@@ -7,6 +7,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -104,6 +105,7 @@ public class RatingServiceImpl implements RatingService {
 		return true;
 	}
 
+	@Async
 	@Override
 	public Future<ContentRating> addContentRating(String contentId, String userId, double value) {
 		Assert.notNull(contentId, "contentId must not be null");
@@ -146,6 +148,7 @@ public class RatingServiceImpl implements RatingService {
 		return new AsyncResult<ContentRating>(contentRating);
 	}
 
+	@Async
 	@Override
 	public Future<AccountRating> addAccountRating(String accountId, String userId, double value) {
 		Assert.notNull(accountId, "accountId must not be null");
