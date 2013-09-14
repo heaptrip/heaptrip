@@ -15,4 +15,5 @@ db.comments.ensureIndex({target: 1, fullSlug: 1})
 db.images.ensureIndex({target: 1, uploaded: 1})
 db.notifications.ensureIndex({toId: 1, created: -1})
 db.ratings.ensureIndex({targetId: 1, userId: 1})
+db.ratings.ensureIndex({targetId: 1, created: 1})
 

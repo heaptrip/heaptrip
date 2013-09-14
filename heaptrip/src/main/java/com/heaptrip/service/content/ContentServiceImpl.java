@@ -19,6 +19,7 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
+import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
@@ -174,5 +175,18 @@ public class ContentServiceImpl implements ContentService {
 		image.setName(fileName);
 		image.setUploaded(new Date());
 		return image;
+	}
+
+	@Override
+	public ContentRating getContentRating(String contentId) {
+		Assert.notNull(contentId, "contentId must not be null");
+		return contentRepository.getRating(contentId);
+	}
+
+	@Override
+	public void updateContentRatingValue(String contentId, double ratingValue) {
+		Assert.notNull(contentId, "contentId must not be null");
+		Assert.notNull(ratingValue, "ratingValue must not be null");
+		contentRepository.updateRating(contentId, ratingValue);
 	}
 }

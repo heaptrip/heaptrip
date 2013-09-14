@@ -2,16 +2,18 @@ package com.heaptrip.domain.service.account;
 
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.rating.AccountRating;
 
 public interface AccountService {
 
 	/**
-	 * Hard remove account. It is recommended to use the after tests to clear data
+	 * Hard remove account. It is recommended to use the after tests to clear
+	 * data
 	 * 
 	 * @param userId
 	 */
 	void hardRemove(String accountId);
-	
+
 	/**
 	 * Confirmation of registration
 	 * 
@@ -19,7 +21,7 @@ public interface AccountService {
 	 * @param value
 	 */
 	void confirmRegistration(String accountId, String value);
-	
+
 	/**
 	 * Change email
 	 * 
@@ -28,7 +30,7 @@ public interface AccountService {
 	 * @param newEmail
 	 */
 	void changeEmail(String accountId, String currentEmail, String newEmail);
-	
+
 	/**
 	 * Save setting
 	 * 
@@ -36,7 +38,7 @@ public interface AccountService {
 	 * @param setting
 	 */
 	void saveSetting(String accountId, Setting setting);
-	
+
 	/**
 	 * Save profile
 	 * 
@@ -44,11 +46,31 @@ public interface AccountService {
 	 * @param profile
 	 */
 	void saveProfile(String accountId, Profile profile);
-	
+
 	/**
 	 * Soft delete account
 	 * 
 	 * @param accountId
 	 */
 	void delete(String accountId);
+
+	/**
+	 * Get account rating by account id
+	 * 
+	 * @param accountId
+	 *            account id
+	 * @return account rating
+	 */
+	public AccountRating getAccountRating(String accountId);
+
+	/**
+	 * Update account rating value by account id
+	 * 
+	 * @param accountId
+	 *            account id
+	 * @param ratingValue
+	 *            new value for account rating
+	 * 
+	 */
+	public void updateAccountRatingValue(String accountId, double ratingValue);
 }

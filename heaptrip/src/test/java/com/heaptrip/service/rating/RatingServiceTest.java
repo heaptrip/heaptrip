@@ -18,6 +18,7 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentOwner;
+import com.heaptrip.domain.entity.post.Post;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.trip.TableItem;
@@ -35,7 +36,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
 	private static final String OWNER_ID = "ACCOUNT_FOR_" + RatingServiceTest.class.getName();
 
-	private static final String CONTENT_ID = "POST_FOR_" + RatingServiceTest.class.getName();
+	private static final String POST_ID = "POST_FOR_" + RatingServiceTest.class.getName();
 
 	private static final String TRIP_ID = "TRIP_FOR_" + RatingServiceTest.class.getName();
 
@@ -67,16 +68,17 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
 		Account account = new User();
 		account.setId(OWNER_ID);
+		account.setRating(ratingService.getDefaultAccountRating());
 		accountRepository.save(account);
 
-		Content content = new Content();
-		content.setId(CONTENT_ID);
-		content.setCreated(new Date());
+		Content post = new Post();
+		post.setId(POST_ID);
+		post.setCreated(new Date());
 		ContentOwner owner = new ContentOwner();
 		owner.setId(OWNER_ID);
-		content.setOwner(owner);
-		content.setRating(ratingService.getDefaultContentRating());
-		contentRepository.save(content);
+		post.setOwner(owner);
+		post.setRating(ratingService.getDefaultContentRating());
+		contentRepository.save(post);
 
 		Trip trip = new Trip();
 		trip.setId(TRIP_ID);
@@ -93,22 +95,22 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 	@AfterClass(alwaysRun = true)
 	public void afterTest() {
 		accountRepository.remove(OWNER_ID);
-		contentRepository.remove(CONTENT_ID);
+		contentRepository.remove(POST_ID);
 		tripRepository.remove(TRIP_ID);
 		tripUserService.removeTripMembers(TRIP_ID);
 		ratingRepository.removeByTargetId(OWNER_ID);
-		ratingRepository.removeByTargetId(CONTENT_ID);
+		ratingRepository.removeByTargetId(POST_ID);
 	}
 
 	@Test(enabled = true, priority = 0)
-	public void canSetRating() {
-		boolean can = ratingService.canSetRating(ContentEnum.POST, CONTENT_ID, USER_ID);
+	public void canSetRatingForPost() {
+		boolean can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
 		Assert.assertEquals(can, true);
 	}
 
 	@Test(enabled = true, priority = 0)
-	public void canNotSetRatingForPost() {
-		boolean can = ratingService.canSetRating(ContentEnum.QA, CONTENT_ID, USER_ID);
+	public void canNotSetRatingForQA() {
+		boolean can = ratingService.canSetRating(ContentEnum.QA, POST_ID, USER_ID);
 		Assert.assertEquals(can, false);
 	}
 
@@ -135,28 +137,29 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(can, false);
 	}
 
-	@Test(enabled = false, priority = 1)
-	public void addContentRating() throws InterruptedException, ExecutionException {
+	@Test(enabled = true, priority = 1)
+	public void addContentRatingForPost() throws InterruptedException, ExecutionException {
 		for (int i = 1; i <= 50; i++) {
 			String userId = Integer.toString(i);
 			// call
-			Future<ContentRating> res = ratingService.addContentRating(CONTENT_ID, userId,
-					ratingService.starsToRating(5));
+			Future<ContentRating> res = ratingService.addContentRating(POST_ID, userId, ratingService.starsToRating(5));
 			ContentRating contentRating = res.get();
 			// check count of ratings
 			int count = contentRating.getCount();
 			Assert.assertEquals(count, i);
 			// check content rating value
 			double stars = ratingService.ratingToStars(contentRating.getValue());
+			stars = Math.round(stars);
 			if (i < 6) {
 				Assert.assertTrue(stars >= 2 && stars < 3);
-			} else if (i < 13) {
+			} else if (i < 15) {
 				Assert.assertTrue(stars >= 3 && stars < 4);
-			} else if (i < 23) {
+			} else if (i < 29) {
 				Assert.assertTrue(stars >= 4 && stars < 5);
 			} else {
 				Assert.assertTrue(stars >= 5);
 			}
+
 			// check account rating value
 			Account account = accountRepository.findOne(OWNER_ID);
 			AccountRating accountRating = account.getRating();
@@ -166,11 +169,12 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 			Assert.assertEquals(count, i);
 
 			stars = ratingService.ratingToStars(accountRating.getValue());
-			if (i < 12) {
+			stars = Math.round(stars);
+			if (i < 11) {
 				Assert.assertTrue(stars >= 2 && stars < 3);
-			} else if (i < 26) {
+			} else if (i < 29) {
 				Assert.assertTrue(stars >= 3 && stars < 4);
-			} else if (i < 46) {
+			} else if (i < 60) {
 				Assert.assertTrue(stars >= 4 && stars < 5);
 			} else {
 				Assert.assertTrue(stars >= 5);
@@ -178,20 +182,21 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(enabled = false, priority = 2)
-	public void canNotSetRating() {
-		boolean can = ratingService.canSetRating(ContentEnum.POST, CONTENT_ID, USER_ID);
+	@Test(enabled = true, priority = 2)
+	public void canNotSetRatingForPost() {
+		boolean can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
 		Assert.assertEquals(can, false);
 	}
 
-	@Test(enabled = false, priority = 3)
+	@Test(enabled = true, priority = 3)
 	public void addAccountRating() throws InterruptedException, ExecutionException {
 		// reset account rating value
 		Account account = accountRepository.findOne(OWNER_ID);
 		account.setRating(ratingService.getDefaultAccountRating());
 		accountRepository.save(account);
-		// ad ratings
-		for (int i = 1; i <= 50; i++) {
+		ratingRepository.removeByTargetId(OWNER_ID);
+		// add ratings
+		for (int i = 1; i <= 70; i++) {
 			String userId = Integer.toString(i);
 			// call
 			Future<AccountRating> res = ratingService
@@ -202,11 +207,12 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 			Assert.assertEquals(count, i);
 			// check account rating value
 			double stars = ratingService.ratingToStars(accountRating.getValue());
-			if (i < 12) {
+			stars = Math.round(stars);
+			if (i < 11) {
 				Assert.assertTrue(stars >= 2 && stars < 3);
-			} else if (i < 26) {
+			} else if (i < 29) {
 				Assert.assertTrue(stars >= 3 && stars < 4);
-			} else if (i < 46) {
+			} else if (i < 60) {
 				Assert.assertTrue(stars >= 4 && stars < 5);
 			} else {
 				Assert.assertTrue(stars >= 5);
@@ -214,12 +220,12 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(enabled = false, priority = 4)
+	@Test(enabled = true, priority = 4)
 	public void addManyAccountRating() {
 		// read current count of rating objects
 		long count = ratingRepository.getCountByTargetId(OWNER_ID);
 		// set max count of stored ratings
-		Account account = accountRepository.findOne(CONTENT_ID);
+		Account account = accountRepository.findOne(OWNER_ID);
 		account.getRating().setCount(1000);
 		accountRepository.save(account);
 		// add rating value
@@ -228,15 +234,15 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(ratingRepository.getCountByTargetId(OWNER_ID), count);
 	}
 
-	@Test(enabled = false, priority = 5)
+	@Test(enabled = true, priority = 5)
 	public void canSetRatingForOldContent() {
 		// set old date for content
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.YEAR, 2010);
-		Content content = contentRepository.findOne(CONTENT_ID);
+		Content content = contentRepository.findOne(POST_ID);
 		content.setCreated(calendar.getTime());
 		// check
-		boolean can = ratingService.canSetRating(ContentEnum.POST, CONTENT_ID, USER_ID);
+		boolean can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
 		Assert.assertEquals(can, false);
 	}
 }

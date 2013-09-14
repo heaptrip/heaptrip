@@ -17,6 +17,7 @@ import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.criteria.ContentCriteria;
@@ -185,5 +186,31 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, created: 1}")
 				.as(getCollectionClass());
 		return (content == null) ? null : content.getCreated();
+	}
+
+	@Override
+	public ContentEnum getContentTypeByContentId(String contentId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1}").as(getCollectionClass());
+		for (ContentEnum contentType : ContentEnum.values()) {
+			if (contentType.getClazz().equals(content.getClass().getName())) {
+				return contentType;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public ContentRating getRating(String contentId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, rating: 1}")
+				.as(getCollectionClass());
+		return (content == null) ? null : content.getRating();
+	}
+
+	@Override
+	public void updateRating(String contentId, double ratingValue) {
+		MongoCollection coll = getCollection();
+		coll.update("{_id: #}", contentId).with("{$set: {rating.value: #}, $inc: {'rating.count': 1}}", ratingValue);
 	}
 }

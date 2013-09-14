@@ -9,6 +9,7 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.mongodb.WriteResult;
@@ -69,5 +70,19 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
 	@Override
 	protected Class<Account> getCollectionClass() {
 		return Account.class;
+	}
+
+	@Override
+	public AccountRating getRating(String accountId) {
+		MongoCollection coll = getCollection();
+		Account account = coll.findOne("{_id: #}", accountId).projection("{_class: 1, rating: 1}")
+				.as(getCollectionClass());
+		return (account == null) ? null : account.getRating();
+	}
+
+	@Override
+	public void updateRating(String accountId, double ratingValue) {
+		MongoCollection coll = getCollection();
+		coll.update("{_id: #}", accountId).with("{$set: {rating.value: #}, $inc: {'rating.count': 1}}", ratingValue);
 	}
 }
