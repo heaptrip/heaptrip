@@ -21,20 +21,20 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 
 	@Autowired
 	private LocaleService localeService;
-	
+
 	@Autowired
 	private ErrorService errorService;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Override
 	public User getCurrentUser() {
-		return userService.getCurrentUser(); 
+		return userService.getCurrentUser();
 	}
 
 	@Override
-	public String getCurrentUrl(boolean isWithParameters) {
+	public String getCurrentRequestUrl(boolean isWithParameters) {
 
 		String url = null;
 
@@ -63,7 +63,7 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 	public HttpServletRequest getCurrentRequest() {
 		return request;
 	}
-	
+
 	@Override
 	public Locale getCurrentLocale() {
 		return localeService.getCurrentLocale();
@@ -72,5 +72,10 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 	@Override
 	public String getMessage(String key) {
 		return localeService.getMessage(key);
+	}
+
+	@Override
+	public String getCurrentRequestIP() {
+		return getCurrentRequest().getRemoteAddr();
 	}
 }

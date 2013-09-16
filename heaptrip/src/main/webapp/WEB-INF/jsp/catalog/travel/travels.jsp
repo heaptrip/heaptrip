@@ -47,7 +47,7 @@
 		<div>
 			<div class="views"><fmt:message key="content.views" />:<span>{{>views}}</span></div>
 			<div class="comments"><fmt:message key="content.comments" />:<span>{{>comments}}</span></div>
-			<div class="wertung"><fmt:message key="content.wertung" />:<div class="stars star2"></div><span>({{>rating}})</span></div>
+			<div class="wertung"><fmt:message key="content.wertung" />:<div class="stars star2"><input type="hidden" value="${rating.stars}"></div><span>({{>rating.value}})</span></div>
 		</div>
 	</article>
 

@@ -142,12 +142,8 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			if (contetnt.getName() != null)
 				contentModel.setName(getMultiLangTextValue(contetnt.getName(), locale, isOnlyThisLocale));
 			contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
-
-			// TODO : locale add to method call
 			contentModel.setCategories(convertCategoriesToModel(contetnt.getCategories()));
-			// TODO : locale add to method call
 			contentModel.setRegions(convertRegionsToModel(contetnt.getRegions()));
-
 			contentModel.setLangs(contetnt.getLangs());
 		}
 
@@ -251,4 +247,6 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 		}
 		return price;
 	}
+
+	
 }

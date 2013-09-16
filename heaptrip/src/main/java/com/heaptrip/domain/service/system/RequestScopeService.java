@@ -16,7 +16,9 @@ public interface RequestScopeService {
 
 	String getCurrentContextPath();
 
-	String getCurrentUrl(boolean isWithParameters);
+	String getCurrentRequestUrl(boolean isWithParameters);
+
+	String getCurrentRequestIP();
 
 	Locale getCurrentLocale();
 

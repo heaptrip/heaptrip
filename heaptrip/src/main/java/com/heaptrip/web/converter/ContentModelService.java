@@ -41,11 +41,13 @@ public interface ContentModelService {
 	DateModel convertDate(Date date);
 
 	PriceModel convertPrice(Price price);
-	
+
 	Price convertPriceModel(PriceModel priceModel);
 
 	ContentOwner getContentOwner();
 
 	String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale);
+
+	
 
 }

@@ -31,22 +31,26 @@
 		</tbody>
 	</table>
 </div>
+
+
+
+
 <div class="dop_inf">
 	<div class="views">
 		<fmt:message key="content.views" />
-		:<span>234</span>
+		:<span>${trip.views}</span>
 	</div>
 	<div class="comments">
 		<fmt:message key="content.comments" />
-		:<span>24</span>
+		:<span>${trip.views}</span>
 	</div>
 	<div class="wertung">
 		<fmt:message key="content.wertung" />
 		:
 		<div class="stars star0 activ">
-			<input type="hidden" value="0">
+			<input type="hidden" value="${trip.rating.stars}">
 		</div>
-		<span>(196)</span>
+		<span>(${trip.rating.value})</span>
 	</div><a class="button"><fmt:message key="content.toFavorit" /></a></div>
 </article>
 <div class="comments_post">

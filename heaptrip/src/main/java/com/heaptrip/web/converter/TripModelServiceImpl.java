@@ -14,6 +14,7 @@ import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
@@ -52,14 +53,15 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale) {
 		if (trip != null) {
 			setContentToContentModel(tripModel, trip, locale, isOnlyThisLocale);
-			if(trip.getRating() != null) {
-				tripModel.setRating(trip.getRating().getValue());	
-			}			
+			if (trip.getRating() != null) {
+				tripModel.setRating(new RatingModel(trip.getRating().getValue()));
+			}
 			tripModel.setComments(trip.getComments());
 
-			// TODO: пообщаться с Женей убрать костыль. Полей с датой может не быть, а
+			// TODO: пообщаться с Женей убрать костыль. Полей с датой может не
+			// быть, а
 			// таблица быть должна ???
-			if (trip.getTable() == null || trip.getTable().length == 0 ) {
+			if (trip.getTable() == null || trip.getTable().length == 0) {
 				trip.setTable(new TableItem[] { new TableItem() });
 			}
 

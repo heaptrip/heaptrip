@@ -2,20 +2,22 @@ package com.heaptrip.web.model.travel;
 
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.DateModel;
+import com.heaptrip.web.model.content.RatingModel;
 
 public class TripModel extends ContentModel {
 
 	private Double price;
-	private Double rating;
+	private RatingModel rating;
+	
 	private DateModel begin;
 	private DateModel end;
 	
 
-	public Double getRating() {
+	public RatingModel getRating() {
 		return rating;
 	}
 
-	public void setRating(Double rating) {
+	public void setRating(RatingModel rating) {
 		this.rating = rating;
 	}
 
