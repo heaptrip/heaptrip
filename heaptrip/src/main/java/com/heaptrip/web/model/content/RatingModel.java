@@ -12,11 +12,24 @@ public class RatingModel {
 	public Double getValue() {
 		return value;
 	}
-
+	
+	// TODO: обсудить и подумать
 	public void setValue(Double value) {
+		
 		this.value = value;
-		// TODO: подсчитать
-		this.stars = 2;
+		
+		if (value < 0.2)
+			stars = 0;
+		else if (value < 0.4)
+			stars = 1;
+		else if (value < 0.6)
+			stars = 2;
+		else if (value < 0.8)
+			stars = 3;
+		else if (value < 1)
+			stars = 4;
+		else
+			stars = 5;
 	}
 
 	public Integer getStars() {

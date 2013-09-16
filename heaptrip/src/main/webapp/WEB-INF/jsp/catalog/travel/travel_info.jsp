@@ -47,7 +47,7 @@
 	<div class="wertung">
 		<fmt:message key="content.wertung" />
 		:
-		<div class="stars star0 activ">
+		<div class="stars star${trip.rating.stars} activ">
 			<input type="hidden" value="${trip.rating.stars}">
 		</div>
 		<span>(${trip.rating.value})</span>
