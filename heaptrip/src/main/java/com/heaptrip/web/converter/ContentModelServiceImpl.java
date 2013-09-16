@@ -170,16 +170,14 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 
 	@Override
 	public String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale) {
-
 		String result = null;
 		if (isOnlyThisLocale) {
 			text.setMainLanguage(LanguageUtils.getLanguageByLocale(locale));
 			result = text.getValue(locale);
 		} else {
-			result = text.getValue(getCurrentLocale());
+			result = text.getValue((locale != null ? locale : getCurrentLocale()));
 		}
 		return result;
-
 	}
 
 	@Override
