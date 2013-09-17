@@ -1,12 +1,18 @@
 
-window.locale = {};
-window.locale.name = 'en';
+var locale = {};
+
+locale.name = 'en';
+
+locale.pagingText = 'page';
+locale.pagingGo = 'go';
+locale.pagingOf = 'of';
+locale.pagingEmpty = 'there are no records that meet your criteria';
 
 
 /* English/UK initialisation for the jQuery UI date picker plugin. */
 /* Written by Stuart. */
 jQuery(function($){
-        $.datepicker.regional[window.locale.name] = {
+        $.datepicker.regional[locale.name] = {
                 closeText: 'Done',
                 prevText: 'Prev',
                 nextText: 'Next',
@@ -24,5 +30,5 @@ jQuery(function($){
                 isRTL: false,
                 showMonthAfterYear: false,
                 yearSuffix: ''};
-        $.datepicker.setDefaults($.datepicker.regional[window.locale.name]);
+        $.datepicker.setDefaults($.datepicker.regional[locale.name]);
 });

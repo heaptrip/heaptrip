@@ -9,6 +9,7 @@ public class ContentModel {
 	private ContentOwnerModel owner;
 	private Long comments;
 	private Long views;
+	private RatingModel rating;
 
 	private CategoryModel[] categories;
 	private RegionModel[] regions;
@@ -120,6 +121,14 @@ public class ContentModel {
 
 	public void setLocale(String locale) {
 		this.locale = locale;
+	}
+
+	public RatingModel getRating() {
+		return rating;
+	}
+
+	public void setRating(RatingModel rating) {
+		this.rating = rating;
 	}
 
 }

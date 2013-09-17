@@ -7,19 +7,12 @@ import com.heaptrip.web.model.content.RatingModel;
 public class TripModel extends ContentModel {
 
 	private Double price;
-	private RatingModel rating;
+
 	
 	private DateModel begin;
 	private DateModel end;
 	
 
-	public RatingModel getRating() {
-		return rating;
-	}
-
-	public void setRating(RatingModel rating) {
-		this.rating = rating;
-	}
 
 	public Double getPrice() {
 		return price;

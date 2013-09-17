@@ -351,7 +351,7 @@ input[type=checkbox]{
 /* Пагинация ----------------------------------------------------*/
 #pagination{
 height: 21px; border-top: 1px solid #DEE5EB;
-border-bottom: 1px solid #DEE5EB;
+/*border-bottom: 1px solid #DEE5EB;*/
 text-align: center;
 margin: 60px 0 -1px 0;
 padding: 4px 0;

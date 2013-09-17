@@ -1,9 +1,16 @@
-window.locale = {};
-window.locale.name = 'ru';
+var locale = {};
+
+locale.name = 'ru';
+
+locale.pagingText = 'cтраница';
+locale.pagingGo = 'выб.';
+locale.pagingOf = 'из';
+locale.pagingEmpty = 'нет записей, удовлетворяющих вашим условиям';
+
 
 
 jQuery(function($){
-        $.datepicker.regional[window.locale.name] = {
+        $.datepicker.regional[locale.name] = {
                 closeText: 'Закрыть',
                 prevText: '&#x3c;Пред',
                 nextText: 'След&#x3e;',
@@ -20,5 +27,5 @@ jQuery(function($){
                 isRTL: false,
                 showMonthAfterYear: false,
                 yearSuffix: ''};
-        $.datepicker.setDefaults($.datepicker.regional[window.locale.name]);
+        $.datepicker.setDefaults($.datepicker.regional[locale.name]);
 });
