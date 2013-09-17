@@ -2,7 +2,6 @@ package com.heaptrip.service.rating;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -21,6 +20,7 @@ import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.rating.RatingException;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.rating.RatingRepository;
+import com.heaptrip.domain.repository.rating.RatingSum;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.rating.RatingService;
@@ -127,10 +127,8 @@ public class RatingServiceImpl implements RatingService {
 			rating.setValue(value);
 			ratingRepository.save(rating);
 
-			// TODO konovalov: do not load all ratings and calc ratings sum by
-			// mongodb
-			List<Rating> ratings = ratingRepository.findByTargetId(contentId);
-			calcContentRating(ratings, contentRating);
+			RatingSum ratingSum = ratingRepository.getRatingSumByTargetId(contentId);
+			calcContentRating(ratingSum, contentRating);
 
 			String ownerId = contentRepository.getOwnerId(contentId);
 			if (ownerId != null) {
@@ -176,10 +174,8 @@ public class RatingServiceImpl implements RatingService {
 		}
 		ratingRepository.save(rating);
 
-		// TODO konovalov: do not load all ratings and calc ratings sum by
-		// mongodb
-		List<Rating> ratings = ratingRepository.findByTargetIdAndCreatedLessThenHalfYear(accountId);
-		calcAccountRating(ratings, accountRating);
+		RatingSum ratingSum = ratingRepository.getRatingSumByTargetIdAndCreatedLessThenHalfYear(accountId);
+		calcAccountRating(ratingSum, accountRating);
 
 		accountService.updateAccountRatingValue(accountId, accountRating.getValue());
 
@@ -213,16 +209,12 @@ public class RatingServiceImpl implements RatingService {
 		return (stars - 1) / 4;
 	}
 
-	private void calcContentRating(List<Rating> ratings, ContentRating contentRating) {
-		int count = ratings.size();
+	private void calcContentRating(RatingSum ratingSum, ContentRating contentRating) {
+		int count = ratingSum.getCount();
 
 		double Rq = 0.25;
 
-		double Ru = 0;
-		for (Rating rating : ratings) {
-			Ru += rating.getValue();
-		}
-		Ru /= count;
+		double Ru = ratingSum.getSum() / count;
 
 		double denominator = Math.pow(count + 1, (count * 0.02) / (Ru + 0.1));
 
@@ -232,16 +224,12 @@ public class RatingServiceImpl implements RatingService {
 		contentRating.setValue(R);
 	}
 
-	private void calcAccountRating(List<Rating> ratings, AccountRating accountRating) {
-		int count = ratings.size();
+	private void calcAccountRating(RatingSum ratingSum, AccountRating accountRating) {
+		int count = ratingSum.getCount();
 
 		double Rq = 0.25;
 
-		double Ru = 0;
-		for (Rating rating : ratings) {
-			Ru += rating.getValue();
-		}
-		Ru /= count;
+		double Ru = ratingSum.getSum() / count;
 
 		double denominator = Math.pow(count + 1, (count * 0.02) / (Ru + 1.75));
 

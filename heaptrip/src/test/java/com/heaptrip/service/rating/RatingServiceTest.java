@@ -251,4 +251,5 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		boolean can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
 		Assert.assertEquals(can, false);
 	}
+
 }

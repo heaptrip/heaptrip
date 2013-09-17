@@ -1,15 +1,13 @@
 package com.heaptrip.domain.repository.rating;
 
-import java.util.List;
-
 import com.heaptrip.domain.entity.rating.Rating;
 import com.heaptrip.domain.repository.CrudRepository;
 
 public interface RatingRepository extends CrudRepository<Rating> {
 
-	public List<Rating> findByTargetId(String targetId);
+	public RatingSum getRatingSumByTargetId(String targetId);
 
-	public List<Rating> findByTargetIdAndCreatedLessThenHalfYear(String targetId);
+	public RatingSum getRatingSumByTargetIdAndCreatedLessThenHalfYear(String targetId);
 
 	public Rating findByTargetIdAndUserId(String targetId, String userId);
 
