@@ -16,8 +16,10 @@ import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
@@ -26,6 +28,7 @@ import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.ContentOwnerModel;
 import com.heaptrip.web.model.content.DateModel;
 import com.heaptrip.web.model.content.PriceModel;
+import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.content.StatusModel;
 
@@ -37,6 +40,9 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 
 	@Autowired
 	RegionService regionService;
+
+	@Autowired
+	RatingService ratingService;
 
 	@Override
 	public CategoryModel convertCategoryToModel(SimpleCategory category) {
@@ -135,6 +141,9 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			} else {
 				contentModel.setViews(contetnt.getViews().getCount());
 			}
+
+			contentModel.setRating(convertRatingToModel(contetnt.getRating()));
+
 			StatusModel status = new StatusModel();
 			status.setValue(contetnt.getStatus().getValue().name());
 			status.setText(contetnt.getStatus().getText());
@@ -248,5 +257,19 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 		return price;
 	}
 
-	
+	@Override
+	public RatingModel convertRatingToModel(TotalRating rating) {
+		RatingModel result = new RatingModel();
+		result.setValue(0D);
+		result.setCount(0);
+		result.setStars(0D);
+		if (rating != null ) {
+			result.setValue(rating.getValue());
+			// TODO: переделать, когда появятся звезды 0,5
+			result.setStars(new Double(Math.round(ratingService.ratingToStars(rating.getValue()))));
+			result.setCount(rating.getCount());
+		}
+		return result;
+	}
+
 }

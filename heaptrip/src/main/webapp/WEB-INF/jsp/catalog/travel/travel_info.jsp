@@ -50,7 +50,7 @@
 		<div class="stars star${trip.rating.stars} activ">
 			<input type="hidden" value="${trip.rating.stars}">
 		</div>
-		<span>(${trip.rating.value})</span>
+		<span>(${trip.rating.count})</span>
 	</div><a class="button"><fmt:message key="content.toFavorit" /></a></div>
 </article>
 <div class="comments_post">

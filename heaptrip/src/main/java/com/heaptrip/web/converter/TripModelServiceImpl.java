@@ -53,9 +53,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale) {
 		if (trip != null) {
 			setContentToContentModel(tripModel, trip, locale, isOnlyThisLocale);
-			if (trip.getRating() != null) {
-				tripModel.setRating(new RatingModel(trip.getRating().getValue()));
-			}
+			
 			tripModel.setComments(trip.getComments());
 
 			// TODO: пообщаться с Женей убрать костыль. Полей с датой может не
