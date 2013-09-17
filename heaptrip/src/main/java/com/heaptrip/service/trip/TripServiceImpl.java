@@ -33,7 +33,6 @@ import com.heaptrip.domain.repository.trip.MemberRepository;
 import com.heaptrip.domain.repository.trip.TripRepository;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
-import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.trip.TripService;
@@ -70,8 +69,8 @@ public class TripServiceImpl implements TripService {
 	@Autowired
 	private ContentSearchService solrContentService;
 
-	@Autowired
-	private RatingService ratingService;
+	//@Autowired
+	//private RatingService ratingService;
 
 	@Override
 	public Trip saveTrip(Trip trip, Locale locale) {
@@ -150,7 +149,8 @@ public class TripServiceImpl implements TripService {
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
 		trip.setDeleted(null);
-		trip.setRating(ratingService.getDefaultContentRating());
+		// TODO konovalov: remove circular reference
+		//trip.setRating(ratingService.getDefaultContentRating());
 		trip.setComments(0L);
 
 		// save to db
