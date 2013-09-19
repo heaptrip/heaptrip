@@ -1,10 +1,12 @@
 package com.heaptrip.web.model.content;
 
-public class ContentOwnerModel {
+public class ImageModel {
 
 	private String id;
+	// image name
 	private String name;
-	private Double rating;
+	// image text (description)
+	private String text;
 
 	public String getId() {
 		return id;
@@ -22,12 +24,12 @@ public class ContentOwnerModel {
 		this.name = name;
 	}
 
-	public Double getRating() {
-		return rating;
+	public String getText() {
+		return text;
 	}
 
-	public void setRating(Double rating) {
-		this.rating = rating;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.heaptrip.web.converter;
+package com.heaptrip.web.modelservice;
 
 import java.util.List;
 import java.util.Locale;

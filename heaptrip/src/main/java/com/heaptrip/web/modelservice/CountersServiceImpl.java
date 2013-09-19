@@ -1,4 +1,4 @@
-package com.heaptrip.web.converter;
+package com.heaptrip.web.modelservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

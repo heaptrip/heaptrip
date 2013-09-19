@@ -18,18 +18,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
-import com.heaptrip.web.converter.ContentModelService;
-import com.heaptrip.web.converter.CountersService;
-import com.heaptrip.web.converter.TripModelService;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
+import com.heaptrip.web.modelservice.CommentModelService;
+import com.heaptrip.web.modelservice.CountersService;
+import com.heaptrip.web.modelservice.TripModelService;
 
 /**
  * 
@@ -49,10 +48,13 @@ public class TripController extends ExceptionHandlerControler {
 	private TripService tripService;
 
 	@Autowired
-	private CountersService countersService;
+	private TripModelService tripModelService;
 
 	@Autowired
-	private TripModelService tripModelService;
+	private CommentModelService commentModelService;
+
+	@Autowired
+	private CountersService countersService;
 
 	private static final Logger LOG = LoggerFactory.getLogger(TripController.class);
 
@@ -85,6 +87,7 @@ public class TripController extends ExceptionHandlerControler {
 			} else {
 				tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), false);
 			}
+			mv.addObject("comments", commentModelService.getComments(tripId));
 		}
 		return mv.addObject("trip", tripModel);
 	}
@@ -100,6 +103,7 @@ public class TripController extends ExceptionHandlerControler {
 			} else {
 				tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), true);
 			}
+
 		}
 		return mv.addObject("trip", tripModel);
 	}

@@ -148,6 +148,21 @@ var onLocaleChange = function(locale) {
 	});
 })(jQuery);
 
+(function($) {
+	$.extend({
+		alertNoAuthenticationUser: function(){
+			$('<div>Вы не залогинены.' +
+					' Пожалуйста ' +
+					'<a onClick="$.handGETParamToURL(\'need_login\',\'true\')">войдите</a>' +
+					' для завершения действия.'
+			 +'</div>'
+			).dialog();
+		}
+	});
+})(jQuery);
+
+
+
 
 
 

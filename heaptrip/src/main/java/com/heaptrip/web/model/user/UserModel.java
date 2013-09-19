@@ -1,27 +1,44 @@
 package com.heaptrip.web.model.user;
 
+import com.heaptrip.web.model.content.ImageModel;
+
 public class UserModel {
-	private String firstName;
-	private String secondName;
 
-	public UserModel(String firstName, String secondName) {
-		this.firstName = firstName;
-		this.secondName = secondName;
+	private String id;
+	private String name;
+	private Double rating;
+	private ImageModel image;
+
+	public String getId() {
+		return id;
 	}
 
-	public String getFirstName() {
-		return this.firstName;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public String getName() {
+		return name;
 	}
 
-	public String getSecondName() {
-		return this.secondName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public void setSecondName(String secondName) {
-		this.secondName = secondName;
+	public Double getRating() {
+		return rating;
 	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
+
+	public ImageModel getImage() {
+		return image;
+	}
+
+	public void setImage(ImageModel image) {
+		this.image = image;
+	}
+
 }

@@ -1,12 +1,14 @@
 package com.heaptrip.web.model.content;
 
+import com.heaptrip.web.model.user.UserModel;
+
 public class ContentModel {
 
 	private String id;
 	private String name;
-	private String image;
+	private ImageModel image;
 	private DateModel created;
-	private ContentOwnerModel owner;
+	private UserModel owner;
 	private Long comments;
 	private Long views;
 	private RatingModel rating;
@@ -35,11 +37,11 @@ public class ContentModel {
 		this.created = created;
 	}
 
-	public String getImage() {
+	public ImageModel getImage() {
 		return image;
 	}
 
-	public void setImage(String image) {
+	public void setImage(ImageModel image) {
 		this.image = image;
 	}
 
@@ -83,11 +85,11 @@ public class ContentModel {
 		this.views = views;
 	}
 
-	public ContentOwnerModel getOwner() {
+	public UserModel getOwner() {
 		return owner;
 	}
 
-	public void setOwner(ContentOwnerModel owner) {
+	public void setOwner(UserModel owner) {
 		this.owner = owner;
 	}
 

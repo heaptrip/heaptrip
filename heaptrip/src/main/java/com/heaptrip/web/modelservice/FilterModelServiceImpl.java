@@ -1,4 +1,4 @@
-package com.heaptrip.web.converter;
+package com.heaptrip.web.modelservice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,7 +29,6 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 
 	@Override
 	public List<CategoryTreeModel> getCategories() {
-
 		List<Category> categories = categoryService.getCategories(getCurrentLocale());
 		Map<String, CategoryTreeModel> map = new HashMap<String, CategoryTreeModel>();
 		map.put(null, new CategoryTreeModel());
@@ -45,16 +44,13 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 
 	@Override
 	public List<RegionModel> searchRegionsByText(String text) {
-
 		List<RegionModel> regionModels = new ArrayList<RegionModel>();
-
 		List<Region> regions = regionService.getRegionsByName(text, 0L, 20L, getCurrentLocale());
 		if (regions != null) {
 			for (Region region : regions) {
 				regionModels.add(convertRegionToModel(region));
 			}
 		}
-
 		return regionModels;
 	}
 
@@ -92,7 +88,6 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 	}
 
 	private RegionModel convertRegionToModel(Region region) {
-
 		RegionModel regionModel = null;
 		if (region != null) {
 			regionModel = new RegionModel();

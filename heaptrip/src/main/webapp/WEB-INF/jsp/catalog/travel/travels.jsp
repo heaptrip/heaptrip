@@ -29,7 +29,7 @@
 		</div>
 		<div class="description">
 			{{if image}}
-				<img src="<c:url value="/rest/image?imageId={{>image}}"/>" width="300" align="left">
+				<img src="<c:url value="/rest/image?imageId={{>image.id}}"/>" width="300" align="left">
 			{{/if}}
 				{{>summary}}
 		</div>
@@ -95,7 +95,7 @@
 				onchange : function onChange(pageIndex, skip, limit) {
 					$.handParamToURL({
 						skip : skip,
-						limit : limit
+						limit : limit-skip
 					});
 				}
 			});

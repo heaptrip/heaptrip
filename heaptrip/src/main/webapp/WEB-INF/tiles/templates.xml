@@ -278,6 +278,8 @@
 
 	<definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp" />
 	
+	<definition name="comments" template="/WEB-INF/jsp/widget/comments_tree.jsp" />
+	
 
 
 

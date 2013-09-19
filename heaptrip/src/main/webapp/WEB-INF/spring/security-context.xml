@@ -6,9 +6,10 @@
                            http://www.springframework.org/schema/security
                            http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<security:http auto-config="true">
-		<security:intercept-url pattern="/**modify**" access="ROLE_USER" />
-		<security:intercept-url pattern="/**" access="ROLE_ANONYMOUS,ROLE_USER" />
+	<security:http auto-config="true" path-type="regex">
+		<security:intercept-url pattern="/.*need_login.*" access="ROLE_USER" />
+		<security:intercept-url pattern="/.*modify.*" access="ROLE_USER" />
+		<security:intercept-url pattern="/.*" access="ROLE_ANONYMOUS,ROLE_USER" />
 		<!-- Override default login and logout pages -->
 		<security:form-login login-page="/login.html" login-processing-url="/loginProcess"
 			default-target-url="/tidings.html" authentication-failure-url="/login.html?login_error=true" />

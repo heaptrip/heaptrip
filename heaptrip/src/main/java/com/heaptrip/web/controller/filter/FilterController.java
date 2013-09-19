@@ -18,9 +18,9 @@ import com.heaptrip.util.http.Ajax;
 import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
-import com.heaptrip.web.converter.FilterModelService;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.filter.CategoryTreeModel;
+import com.heaptrip.web.modelservice.FilterModelService;
 
 /**
  * 

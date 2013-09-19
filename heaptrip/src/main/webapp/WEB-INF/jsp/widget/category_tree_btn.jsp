@@ -16,7 +16,7 @@
             	if(window.user)
                 	alert('Category filter save for ' + window.user.name + ' clicked!');
             	else
-                	alert( 'You mast authorize for save!');
+            		$.alertNoAuthenticationUser();
         	});
     	});
   

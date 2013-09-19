@@ -1,8 +1,6 @@
-package com.heaptrip.web.converter;
+package com.heaptrip.web.modelservice;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,19 +19,17 @@ import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
-import com.heaptrip.web.model.content.ContentOwnerModel;
-import com.heaptrip.web.model.content.DateModel;
 import com.heaptrip.web.model.content.PriceModel;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.content.StatusModel;
+import com.heaptrip.web.model.user.UserModel;
 
 @Service
-public class ContentModelServiceImpl extends RequestScopeServiceImpl implements ContentModelService {
+public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ContentModelService {
 
 	@Autowired
 	CategoryService categoryService;
@@ -95,36 +91,15 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 	}
 
 	@Override
-	public ContentOwnerModel convertContentOwnerToModel(ContentOwner owner) {
-		ContentOwnerModel result = null;
+	public UserModel convertContentOwnerToModel(ContentOwner owner) {
+		UserModel result = null;
 		if (owner != null) {
-			result = new ContentOwnerModel();
+			result = new UserModel();
 			result.setId(owner.getId());
 			result.setName(owner.getName());
 			result.setRating(owner.getRating());
 		}
 		return result;
-	}
-
-	@Override
-	public DateModel convertDate(Date date) {
-		DateModel result = new DateModel();
-		if (date != null) {
-			result.setValue(date);
-			result.setText(DateFormat.getDateInstance(DateFormat.SHORT, getCurrentLocale()).format(date));
-		}
-		return result;
-	}
-
-	@Override
-	public PriceModel convertPrice(Price price) {
-		PriceModel priceModel = new PriceModel();
-		if (price != null) {
-			priceModel.setValue(price.getValue());
-			if (price.getCurrency() != null)
-				priceModel.setCurrency(price.getCurrency().name());
-		}
-		return priceModel;
 	}
 
 	protected void setContentToContentModel(ContentModel contentModel, Content contetnt, Locale locale,
@@ -135,7 +110,7 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			contentModel.setCreated(convertDate(contetnt.getCreated()));
 
 			if (contetnt.getImage() != null)
-				contentModel.setImage(contetnt.getImage().getId());
+				contentModel.setImage(convertImage(contetnt.getImage()));
 			if (contetnt.getViews() == null) {
 				contentModel.setViews(0L);
 			} else {
@@ -242,6 +217,32 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 	}
 
 	@Override
+	public RatingModel convertRatingToModel(TotalRating rating) {
+		RatingModel result = new RatingModel();
+		result.setValue(0D);
+		result.setCount(0);
+		result.setStars(0D);
+		if (rating != null) {
+			result.setValue(rating.getValue());
+			// TODO: переделать, когда появятся звезды 0,5
+			result.setStars(new Double(Math.round(ratingService.ratingToStars(rating.getValue()))));
+			result.setCount(rating.getCount());
+		}
+		return result;
+	}
+
+	@Override
+	public PriceModel convertPrice(Price price) {
+		PriceModel priceModel = new PriceModel();
+		if (price != null) {
+			priceModel.setValue(price.getValue());
+			if (price.getCurrency() != null)
+				priceModel.setCurrency(price.getCurrency().name());
+		}
+		return priceModel;
+	}
+
+	@Override
 	public Price convertPriceModel(PriceModel priceModel) {
 		Price price = null;
 		if (priceModel != null) {
@@ -255,21 +256,6 @@ public class ContentModelServiceImpl extends RequestScopeServiceImpl implements 
 			price.setCurrency(currency);
 		}
 		return price;
-	}
-
-	@Override
-	public RatingModel convertRatingToModel(TotalRating rating) {
-		RatingModel result = new RatingModel();
-		result.setValue(0D);
-		result.setCount(0);
-		result.setStars(0D);
-		if (rating != null ) {
-			result.setValue(rating.getValue());
-			// TODO: переделать, когда появятся звезды 0,5
-			result.setStars(new Double(Math.round(ratingService.ratingToStars(rating.getValue()))));
-			result.setCount(rating.getCount());
-		}
-		return result;
 	}
 
 }
