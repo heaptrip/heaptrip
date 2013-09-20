@@ -111,7 +111,7 @@
 
 		jsonData.schedule = schedule;
 				
-		var url = (tripId?'rest/travel_modify_update':'rest/travel_modify_save');
+		var url = (tripId?'rest/security/travel_update':'rest/security/travel_save');
 
 		var callbackSuccess = function(data) {
 			//var domain =  $("#email").val().replace(/.*@/, ""); 

@@ -113,7 +113,7 @@
 	$.extend({
 		getParamFromURL : function(){
 			var url = window.location.href;
-			return $.deparam.fragment( url );
+			return $.extend({}, $.deparam.fragment( url ),$.deparam.querystring( url ));
 		}
 	});
 })(jQuery);
@@ -157,6 +157,17 @@ var onLocaleChange = function(locale) {
 					' для завершения действия.'
 			 +'</div>'
 			).dialog();
+		}
+	});
+})(jQuery);
+
+(function($) {
+	$.extend({
+		doAuthenticationUserAction: function(callBackFunction){
+			if(window.user)
+				callBackFunction();
+        	else
+        		$.alertNoAuthenticationUser();
 		}
 	});
 })(jQuery);

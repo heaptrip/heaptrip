@@ -14,7 +14,7 @@
 
 	<c:forEach var="comment" items="${comments}">
 	    <c:set var="comments" value="${comment.children}" scope="request"/>
-	    <li>
+	    <li id="${comment.id}">
  	    	<div class="comment_content">
 				<div class="comment_info">
 					<span class="connemt_name">${comment.author.name}</span><span

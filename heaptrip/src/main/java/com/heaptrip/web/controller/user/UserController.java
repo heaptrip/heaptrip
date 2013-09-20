@@ -1,4 +1,4 @@
-package com.heaptrip.web.controller.adm;
+package com.heaptrip.web.controller.user;
 
 import java.util.Map;
 

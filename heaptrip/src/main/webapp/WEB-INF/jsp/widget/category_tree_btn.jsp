@@ -13,10 +13,9 @@
    
     	$(function(){
         	$("#categoryFilterSave").click(function(){
-            	if(window.user)
-                	alert('Category filter save for ' + window.user.name + ' clicked!');
-            	else
-            		$.alertNoAuthenticationUser();
+        		$.doAuthenticationUserAction(function(){
+        			alert('Category filter save for ' + window.user.name + ' clicked!');
+            	});
         	});
     	});
   

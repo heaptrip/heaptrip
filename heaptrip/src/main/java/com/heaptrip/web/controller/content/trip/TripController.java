@@ -1,4 +1,4 @@
-package com.heaptrip.web.controller.trip;
+package com.heaptrip.web.controller.content.trip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,7 +108,7 @@ public class TripController extends ExceptionHandlerControler {
 		return mv.addObject("trip", tripModel);
 	}
 
-	@RequestMapping(value = "travel_modify_save", method = RequestMethod.POST)
+	@RequestMapping(value = "security/travel_save", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, ? extends Object> saveTripInfo(@RequestBody TripInfoModel tripInfoModel) {
 		try {
@@ -119,7 +119,7 @@ public class TripController extends ExceptionHandlerControler {
 		return Ajax.emptyResponse();
 	}
 
-	@RequestMapping(value = "travel_modify_update", method = RequestMethod.POST)
+	@RequestMapping(value = "security/travel_update", method = RequestMethod.POST)
 	public @ResponseBody
 	Map<String, ? extends Object> updateTripInfo(@RequestBody TripInfoModel tripInfoModel) {
 		try {

@@ -42,7 +42,7 @@
 	</div>
 	<div class="comments">
 		<fmt:message key="content.comments" />
-		:<span>${trip.views}</span>
+		:<span>${trip.comments}</span>
 	</div>
 	<div class="wertung">
 		<fmt:message key="content.wertung" />

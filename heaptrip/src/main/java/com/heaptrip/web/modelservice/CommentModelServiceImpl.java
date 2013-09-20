@@ -1,19 +1,15 @@
 package com.heaptrip.web.modelservice;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.comment.Comment;
 import com.heaptrip.domain.entity.comment.CommentAuthor;
-import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.comment.CommentService;
 import com.heaptrip.web.model.content.CommentModel;
 import com.heaptrip.web.model.user.UserModel;
@@ -24,16 +20,10 @@ public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 	@Autowired
 	private CommentService commentService;
 
-	// TODO:удрать после тестирования
-	@Autowired
-	private CategoryService categoryService;
-
 	@Override
 	public List<CommentModel> getComments(String targetId) {
 
-		// TODO : удрать после тестирования
-		// List<Comment> comments = commentService.getComments(targetId);
-		List<Comment> comments = getTESTComments();
+		List<Comment> comments = commentService.getComments(targetId);
 
 		Map<String, CommentModel> map = new HashMap<String, CommentModel>();
 		map.put(null, new CommentModel());
@@ -62,23 +52,20 @@ public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 		return userModel;
 	}
 
-	@Deprecated
-	// TODO:удрать после тестирования
-	private List<Comment> getTESTComments() {
-		List<Comment> comments = new ArrayList<>();
-		List<Category> categories = categoryService.getCategories(new Locale("ru"));
-		for (Category category : categories) {
-			Comment comment = new Comment();
-			comment.setId(category.getId());
-			comment.setParent(category.getParent());
-			comment.setText(category.getName().getValue(new Locale("ru")));
-			comment.setCreated(new Date());
-			CommentAuthor author = new CommentAuthor();
-			author.setName(getCurrentUser() != null ? getCurrentUser().getName() : "Todo User");
-			comment.setAuthor(author);
-			comments.add(comment);
-		}
-		return comments;
+	@Override
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public CommentModel saveComment(CommentModel commentModel) {
+		Comment comment = null;
+		Class clazz = null;
+		if (commentModel.getTargetClass().equals("TRIP"))
+			clazz = Trip.class;
+		if (commentModel.getParent() == null)
+			comment = commentService.addComment(clazz, commentModel.getTarget(), getCurrentUser().getId(),
+					commentModel.getText());
+		else
+			comment = commentService.addChildComment(clazz, commentModel.getTarget(), commentModel.getParent(),
+					getCurrentUser().getId(), commentModel.getText());
+		return convertCommentToCommentModel(comment);
 	}
 
 }

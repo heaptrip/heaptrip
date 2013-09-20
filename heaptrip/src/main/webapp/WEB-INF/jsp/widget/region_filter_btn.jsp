@@ -5,10 +5,9 @@
 
 	$(function(){
     	$("#regionFilterSave").click(function(){
-        	if(window.user)
-            	alert('Region filter save for ' + window.user.name + ' clicked!');
-        	else
-        		$.alertNoAuthenticationUser();
+        	$.doAuthenticationUserAction(function(){
+        		alert('Region filter save for ' + window.user.name + ' clicked!');
+        	});
     	});
 	});
 

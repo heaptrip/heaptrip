@@ -13,7 +13,7 @@ import com.heaptrip.web.model.post.PostView;
 import com.heaptrip.web.model.tiding.TidingView;
 
 @Controller
-public class TidingController extends ExceptionHandlerControler {
+public class DellTidingController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "tidings", method = RequestMethod.GET)
 	public @ModelAttribute("tidings")

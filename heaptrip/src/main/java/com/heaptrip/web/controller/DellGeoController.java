@@ -19,8 +19,8 @@ import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 @Controller
 @RequestMapping({ "/geo" })
 @Deprecated
-public class GeoController extends ExceptionHandlerControler{ 
-	final Logger logger = LoggerFactory.getLogger(GeoController.class);
+public class DellGeoController extends ExceptionHandlerControler{ 
+	final Logger logger = LoggerFactory.getLogger(DellGeoController.class);
 
 	/*@RequestMapping(value = { "{name}" }, method = { org.springframework.web.bind.annotation.RequestMethod.GET })
 	@ResponseBody

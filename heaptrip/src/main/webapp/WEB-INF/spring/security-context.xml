@@ -8,6 +8,7 @@
 
 	<security:http auto-config="true" path-type="regex">
 		<security:intercept-url pattern="/.*need_login.*" access="ROLE_USER" />
+		<security:intercept-url pattern="/.*security.*" access="ROLE_USER" />
 		<security:intercept-url pattern="/.*modify.*" access="ROLE_USER" />
 		<security:intercept-url pattern="/.*" access="ROLE_ANONYMOUS,ROLE_USER" />
 		<!-- Override default login and logout pages -->

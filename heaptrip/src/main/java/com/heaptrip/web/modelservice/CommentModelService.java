@@ -13,6 +13,8 @@ public interface CommentModelService {
 	 *            id of discussion object
 	 * @return comments list
 	 */
-	public List<CommentModel> getComments(String targetId);
-	
+	List<CommentModel> getComments(String targetId);
+
+	CommentModel saveComment(CommentModel commentModel);
+
 }

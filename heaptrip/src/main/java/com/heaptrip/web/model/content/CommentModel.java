@@ -9,10 +9,14 @@ public class CommentModel {
 
 	private String id;
 	private String target;
+	
+	// TRIP OR POST OR ETC. 
+	private String targetClass;
 	private String parent;
 	private UserModel author;
 	private DateModel created;
 	private String text;
+	
 	private List<CommentModel> children;
 
 	public String getId() {
@@ -75,6 +79,14 @@ public class CommentModel {
 		if (children == null)
 			children = new ArrayList<CommentModel>();
 		children.add(commentModel);
+	}
+
+	public String getTargetClass() {
+		return targetClass;
+	}
+
+	public void setTargetClass(String targetClass) {
+		this.targetClass = targetClass;
 	}
 
 }

@@ -79,7 +79,7 @@ $(document).ready(function() {
 	$('.comment_content').bind('click',function(e){
 		//$(this).unbind('click');
 		$('.comments_mother .comment_new').remove();
-		$(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" value="Ответить" class="button"></div>');
+		$(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" onClick="createNewComment(this)" value="Ответить" class="button"></div>');
 	});
 
 	// раздвижное текстовое поле по клику

@@ -1,4 +1,4 @@
-package com.heaptrip.web.controller.post;
+package com.heaptrip.web.controller.content.post;
 
 import java.util.ArrayList;
 import java.util.List;
