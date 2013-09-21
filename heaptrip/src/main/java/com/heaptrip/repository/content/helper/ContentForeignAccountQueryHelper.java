@@ -4,26 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
+import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 
-public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria> {
+@Service
+public class ContentForeignAccountQueryHelper extends ContentQueryHelper<ForeignAccountCriteria> {
 
 	@Override
-	public String getQuery(MyAccountCriteria criteria) {
+	public String getQuery(ForeignAccountCriteria criteria) {
 		String query = "{";
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			query += "_class: #, 'owner._id': #";
-			if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
-				query += ", 'status.value': {$in: #}";
-			}
 		} else {
 			// FAVORITES
-			query += "_id: {$in: #}, _class: #, allowed: {$in: #}";
+			query += "_id: {$in: #}, _class: #";
 		}
+		query += ", allowed: {$in: #}";
 		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
 			query += ", categoryIds: {$in: #}";
 		}
@@ -35,16 +36,13 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria>
 	}
 
 	@Override
-	public Object[] getParameters(MyAccountCriteria criteria, Object... objects) {
+	public Object[] getParameters(ForeignAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
-			// OWNER
+			// clazz
 			parameters.add(criteria.getContentType().getClazz());
-			parameters.add(criteria.getUserId());
-			// status
-			if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
-				parameters.add(criteria.getStatus());
-			}
+			// owner
+			parameters.add(criteria.getOwnerId());
 		} else {
 			// FAVORITES || MEMBER
 			// id list
@@ -53,12 +51,14 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria>
 			parameters.add(objects[0]);
 			// class
 			parameters.add(criteria.getContentType().getClazz());
-			// allowed
-			List<String> allowed = new ArrayList<>();
-			allowed.add(ALL_USERS);
-			allowed.add(criteria.getUserId());
-			parameters.add(allowed);
 		}
+		// allowed
+		List<String> allowed = new ArrayList<>();
+		allowed.add(ALL_USERS);
+		if (StringUtils.isNotBlank(criteria.getUserId())) {
+			allowed.add(criteria.getUserId());
+		}
+		parameters.add(allowed);
 		// categories
 		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
 			parameters.add(criteria.getCategories().getIds());
@@ -71,13 +71,13 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria>
 	}
 
 	@Override
-	public String getHint(MyAccountCriteria criteria) {
+	public String getHint(ForeignAccountCriteria criteria) {
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
 			if (criteria.getSort() != null) {
 				switch (criteria.getSort()) {
 				case RATING:
-					return "{_class: 1, 'owner._id': 1, rating: 1}";
+					return "{_class: 1, 'owner._id': 1, 'rating.value': 1}";
 				default:
 					return "{_class: 1, 'owner._id': 1, created: 1}";
 				}
@@ -90,4 +90,8 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<MyAccountCriteria>
 		}
 	}
 
+	@Override
+	public Class<ForeignAccountCriteria> getCriteriaClass() {
+		return ForeignAccountCriteria.class;
+	}
 }

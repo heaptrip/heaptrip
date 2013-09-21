@@ -5,14 +5,26 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 
-class FeedQueryHelper extends AbstractQueryHelper<TripFeedCriteria> {
+@Service
+public class TripForeignAccountQueryHelper extends TripQueryHelper<TripForeignAccountCriteria> {
 
 	@Override
-	public String getQuery(TripFeedCriteria criteria) {
-		String query = "{_class: #, allowed: {$in: #}";
+	public String getQuery(TripForeignAccountCriteria criteria) {
+		String query = "{";
+		if (criteria.getRelation().equals(RelationEnum.OWN)) {
+			// OWNER
+			query += "_class: #, 'owner._id': #";
+		} else {
+			// FAVORITES || MEMBER
+			query += "_id: {$in: #}, _class: #";
+		}
+		query += ", allowed: {$in: #}";
 		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
 			query += ", categoryIds: {$in: #}";
 		}
@@ -33,10 +45,22 @@ class FeedQueryHelper extends AbstractQueryHelper<TripFeedCriteria> {
 	}
 
 	@Override
-	public Object[] getParameters(TripFeedCriteria criteria, Object... objects) {
+	public Object[] getParameters(TripForeignAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
-		// _class
-		parameters.add(criteria.getContentType().getClazz());
+		if (criteria.getRelation().equals(RelationEnum.OWN)) {
+			// clazz
+			parameters.add(criteria.getContentType().getClazz());
+			// owner
+			parameters.add(criteria.getOwnerId());
+		} else {
+			// FAVORITES || MEMBER
+			// id list
+			Assert.notNull(objects);
+			Assert.notNull(objects[0]);
+			parameters.add(objects[0]);
+			// class
+			parameters.add(criteria.getContentType().getClazz());
+		}
 		// allowed
 		List<String> allowed = new ArrayList<>();
 		allowed.add(ALL_USERS);
@@ -65,17 +89,27 @@ class FeedQueryHelper extends AbstractQueryHelper<TripFeedCriteria> {
 	}
 
 	@Override
-	public String getHint(TripFeedCriteria criteria) {
-		if (criteria.getSort() != null) {
-			switch (criteria.getSort()) {
-			case RATING:
-				return "{_class: 1, rating: 1, allowed: 1}";
-			default:
-				return "{_class: 1, created: 1, allowed: 1}";
+	public String getHint(TripForeignAccountCriteria criteria) {
+		if (criteria.getRelation().equals(RelationEnum.OWN)) {
+			// OWNER
+			if (criteria.getSort() != null) {
+				switch (criteria.getSort()) {
+				case RATING:
+					return "{_class: 1, 'owner._id': 1, 'rating.value': 1}";
+				default:
+					return "{_class: 1, 'owner._id': 1, created: 1}";
+				}
+			} else {
+				return "{_class: 1, 'owner._id': 1, created: 1}";
 			}
 		} else {
-			return "{_class: 1, created: 1, allowed: 1}";
+			// FAVORITES || MEMBER
+			return "{_id: 1}";
 		}
 	}
 
+	@Override
+	public Class<TripForeignAccountCriteria> getCriteriaClass() {
+		return TripForeignAccountCriteria.class;
+	}
 }

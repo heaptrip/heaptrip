@@ -28,8 +28,8 @@ import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
-import com.heaptrip.repository.content.trip.helper.QueryHelper;
-import com.heaptrip.repository.content.trip.helper.QueryHelperFactory;
+import com.heaptrip.repository.helper.QueryHelper;
+import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.heaptrip.util.language.LanguageUtils;
 import com.mongodb.WriteResult;
@@ -44,6 +44,9 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 
 	@Autowired
 	private FavoriteContentRepository favoriteContentRepository;
+
+	@Autowired
+	private QueryHelperFactory queryHelperFactory;
 
 	@Override
 	protected String getCollectionName() {
@@ -65,7 +68,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 
 	@Override
 	public List<Trip> findByTripFeedCriteria(TripFeedCriteria criteria) {
-		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
+		QueryHelper<TripFeedCriteria> queryHelper = queryHelperFactory.getInstance(TripFeedCriteria.class);
 		return findByCriteria(criteria, queryHelper);
 	}
 
@@ -78,7 +81,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			tripIds = favoriteContentRepository
 					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
 		}
-		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
+		QueryHelper<TripMyAccountCriteria> queryHelper = queryHelperFactory.getInstance(TripMyAccountCriteria.class);
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -91,18 +94,18 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
 					criteria.getOwnerId());
 		}
-		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
-				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);
+		QueryHelper<TripForeignAccountCriteria> queryHelper = queryHelperFactory
+				.getInstance(TripForeignAccountCriteria.class);
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Trip> findByCriteria(ContentSortCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private <T extends ContentSortCriteria> List<Trip> findByCriteria(T criteria, QueryHelper<T> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);
-		String projection = queryHelper.getProjection(criteria.getLocale());
-		String sort = queryHelper.getSort(criteria.getSort());
+		String projection = queryHelper.getProjection(criteria);
+		String sort = queryHelper.getSort(criteria);
 		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
 		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
 		String hint = queryHelper.getHint(criteria);
@@ -120,7 +123,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 
 	@Override
 	public long getCountByTripFeedCriteria(TripFeedCriteria criteria) {
-		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER);
+		QueryHelper<TripFeedCriteria> queryHelper = queryHelperFactory.getInstance(TripFeedCriteria.class);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
@@ -133,7 +136,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			tripIds = favoriteContentRepository
 					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
 		}
-		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory.getInstance(QueryHelperFactory.MY_ACCOUNT_HELPER);
+		QueryHelper<TripMyAccountCriteria> queryHelper = queryHelperFactory.getInstance(TripMyAccountCriteria.class);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -146,12 +149,12 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
 					criteria.getOwnerId());
 		}
-		QueryHelper<ContentCriteria> queryHelper = QueryHelperFactory
-				.getInstance(QueryHelperFactory.FOREIGN_ACCOUNT_HELPER);
+		QueryHelper<TripForeignAccountCriteria> queryHelper = queryHelperFactory
+				.getInstance(TripForeignAccountCriteria.class);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private long getCountByCriteria(ContentCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private <T extends ContentCriteria> long getCountByCriteria(T criteria, QueryHelper<T> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);

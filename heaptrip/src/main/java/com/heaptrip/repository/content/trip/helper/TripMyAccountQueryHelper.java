@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
-public class MyAccountQueryHelper extends AbstractQueryHelper<TripMyAccountCriteria> {
+@Service
+public class TripMyAccountQueryHelper extends TripQueryHelper<TripMyAccountCriteria> {
 
 	@Override
 	public String getQuery(TripMyAccountCriteria criteria) {
@@ -95,7 +97,7 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<TripMyAccountCrite
 			if (criteria.getSort() != null) {
 				switch (criteria.getSort()) {
 				case RATING:
-					return "{_class: 1, 'owner._id': 1, rating: 1}";
+					return "{_class: 1, 'owner._id': 1, 'rating.value': 1}";
 				default:
 					return "{_class: 1, 'owner._id': 1, created: 1}";
 				}
@@ -106,6 +108,11 @@ public class MyAccountQueryHelper extends AbstractQueryHelper<TripMyAccountCrite
 			// FAVORITES || MEMBER
 			return "{_id: 1}";
 		}
+	}
+
+	@Override
+	public Class<TripMyAccountCriteria> getCriteriaClass() {
+		return TripMyAccountCriteria.class;
 	}
 
 }

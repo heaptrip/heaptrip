@@ -9,14 +9,16 @@ import java.util.Locale;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.repository.BaseRepositoryImpl;
-import com.heaptrip.repository.content.helper.QueryHelperFactory;
+import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
@@ -24,6 +26,9 @@ import com.mongodb.WriteResult;
 public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements FavoriteContentRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(FavoriteContentRepositoryImpl.class);
+
+	@Autowired
+	private QueryHelperFactory queryHelperFactory;
 
 	@Override
 	protected String getCollectionName() {
@@ -49,7 +54,9 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
 
 	@Override
 	public List<Content> findByAccountId(String accountId, Locale locale) {
-		String fields = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER).getProjection(locale);
+		FeedCriteria criteria = new FeedCriteria();
+		criteria.setLocale(locale);
+		String fields = queryHelperFactory.getInstance(FeedCriteria.class).getProjection(criteria);
 		MongoCollection coll = getCollection();
 		Iterable<Content> iter = coll.find("{'favorites.ids': #}", accountId).projection(fields)
 				.hint("{'favorites.ids': 1}").as(Content.class);
@@ -58,7 +65,9 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
 
 	@Override
 	public List<Content> findByContentTypeAndAccountId(ContentEnum contentType, String accountId, Locale locale) {
-		String fields = QueryHelperFactory.getInstance(QueryHelperFactory.FEED_HELPER).getProjection(locale);
+		FeedCriteria criteria = new FeedCriteria();
+		criteria.setLocale(locale);
+		String fields = queryHelperFactory.getInstance(FeedCriteria.class).getProjection(criteria);
 		MongoCollection coll = getCollection();
 		Iterable<Content> iter = coll.find("{_class: #, 'favorites.ids': #}", contentType.getClazz(), accountId)
 				.projection(fields).hint("{_class: 1, 'favorites.ids': 1}").as(Content.class);

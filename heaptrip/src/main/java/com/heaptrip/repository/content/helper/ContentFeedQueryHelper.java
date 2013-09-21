@@ -5,10 +5,12 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 
-class FeedQueryHelper extends AbstractQueryHelper<FeedCriteria> {
+@Service
+public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria> {
 
 	@Override
 	public String getQuery(FeedCriteria criteria) {
@@ -59,7 +61,7 @@ class FeedQueryHelper extends AbstractQueryHelper<FeedCriteria> {
 			if (criteria.getSort() != null) {
 				switch (criteria.getSort()) {
 				case RATING:
-					return "{_class: 1, rating: 1, allowed: 1}";
+					return "{_class: 1, 'rating.value': 1, allowed: 1}";
 				default:
 					return "{_class: 1, created: 1, allowed: 1}";
 				}
@@ -70,7 +72,7 @@ class FeedQueryHelper extends AbstractQueryHelper<FeedCriteria> {
 			if (criteria.getSort() != null) {
 				switch (criteria.getSort()) {
 				case RATING:
-					return "{rating: 1, allowed: 1}";
+					return "{'rating.value': 1, allowed: 1}";
 				default:
 					return "{created: 1, allowed: 1}";
 				}
@@ -78,5 +80,10 @@ class FeedQueryHelper extends AbstractQueryHelper<FeedCriteria> {
 				return "{created: 1, allowed: 1}";
 			}
 		}
+	}
+
+	@Override
+	public Class<FeedCriteria> getCriteriaClass() {
+		return FeedCriteria.class;
 	}
 }
