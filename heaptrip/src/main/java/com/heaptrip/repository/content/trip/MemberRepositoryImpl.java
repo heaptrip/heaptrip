@@ -143,8 +143,8 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 		String updateQuery = "{$addToSet :{allowed: #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
-					"add allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
-					Trip.class.getName(), ownerId, updateQuery, userId);
+					"add allowed\n->query: %s\n->parameters: [%s, %s]\n->updateQuery: %s\n->updateParameters: %s",
+					query, Trip.class.getName(), ownerId, updateQuery, userId);
 			logger.debug(msg);
 		}
 		// XXX check index
@@ -159,8 +159,8 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 		String updateQuery = "{$pull :{allowed: #}}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
-					"remove allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
-					Trip.class.getName(), ownerId, updateQuery, userId);
+					"remove allowed\n->query: %s\n->parameters: [%s, %s]\n->updateQuery: %s\n->updateParameters: %s",
+					query, Trip.class.getName(), ownerId, updateQuery, userId);
 			logger.debug(msg);
 		}
 		// XXX check index
