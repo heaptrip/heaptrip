@@ -10,7 +10,7 @@ import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
-import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
 public class ContentDataProvider {
 

@@ -3,7 +3,7 @@ package com.heaptrip.domain.repository.solr.entity;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.LangEnum;
-import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
 import com.heaptrip.util.language.LanguageUtils;

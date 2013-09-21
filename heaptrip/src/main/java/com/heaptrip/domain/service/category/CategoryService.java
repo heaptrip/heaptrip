@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.category.Category;
-import com.heaptrip.domain.entity.region.Region;
 
 /**
  * 

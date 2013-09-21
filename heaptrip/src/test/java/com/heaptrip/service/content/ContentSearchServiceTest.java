@@ -12,13 +12,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
-import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;

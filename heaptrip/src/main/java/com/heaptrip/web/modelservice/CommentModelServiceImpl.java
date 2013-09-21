@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.comment.Comment;
 import com.heaptrip.domain.entity.comment.CommentAuthor;
-import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.comment.CommentService;
 import com.heaptrip.web.model.content.CommentModel;
 import com.heaptrip.web.model.user.UserModel;

@@ -53,10 +53,10 @@
 
 	<test name="TripTest">
 		<classes>
-			<class name="com.heaptrip.service.trip.InitTripTest" />
-			<class name="com.heaptrip.service.trip.TripServiceTest" />
-			<class name="com.heaptrip.service.trip.TripUserServiceTest" />
-			<class name="com.heaptrip.service.trip.TripRouteServiceTest" />
+			<class name="com.heaptrip.service.content.trip.InitTripTest" />
+			<class name="com.heaptrip.service.content.trip.TripServiceTest" />
+			<class name="com.heaptrip.service.content.trip.TripUserServiceTest" />
+			<class name="com.heaptrip.service.content.trip.TripRouteServiceTest" />
 		</classes>
 	</test>
 

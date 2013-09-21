@@ -12,8 +12,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.comment.Comment;
-import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.repository.trip.TripRepository;
+import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.comment.CommentService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")

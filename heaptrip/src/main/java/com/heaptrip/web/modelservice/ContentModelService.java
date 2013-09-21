@@ -2,10 +2,10 @@ package com.heaptrip.web.modelservice;
 
 import java.util.Locale;
 
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.web.model.content.CategoryModel;

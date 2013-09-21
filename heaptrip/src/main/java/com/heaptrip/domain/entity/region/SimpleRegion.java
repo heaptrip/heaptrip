@@ -1,7 +1,7 @@
 package com.heaptrip.domain.entity.region;
 
 import com.heaptrip.domain.entity.BaseObject;
-import com.heaptrip.domain.entity.content.MultiLangText;
+import com.heaptrip.domain.entity.MultiLangText;
 
 /**
  * 

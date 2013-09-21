@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.rating.Rating;
-import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.rating.RatingException;
 import com.heaptrip.domain.repository.content.ContentRepository;
@@ -23,10 +23,10 @@ import com.heaptrip.domain.repository.rating.RatingRepository;
 import com.heaptrip.domain.repository.rating.RatingSum;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.content.ContentService;
+import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.system.ErrorService;
-import com.heaptrip.domain.service.trip.TripService;
-import com.heaptrip.domain.service.trip.TripUserService;
 
 @Service
 public class RatingServiceImpl implements RatingService {

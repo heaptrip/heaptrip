@@ -1,6 +1,6 @@
 package com.heaptrip.repository.converter;
 
-import com.heaptrip.domain.entity.post.BaseEntity;
+import com.heaptrip.domain.entity.content.post.BaseEntity;
 import com.mongodb.DBObject;
 
 @Deprecated

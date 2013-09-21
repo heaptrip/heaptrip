@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.Collectionable;
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.ContentRating;

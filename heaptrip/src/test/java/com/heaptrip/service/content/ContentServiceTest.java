@@ -16,8 +16,8 @@ import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
-import com.heaptrip.domain.service.trip.TripService;
-import com.heaptrip.domain.service.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.util.language.LanguageUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")

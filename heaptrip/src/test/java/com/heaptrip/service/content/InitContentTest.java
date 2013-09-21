@@ -8,12 +8,12 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.MultiLangText;
-import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.domain.service.trip.TripService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitContentTest extends AbstractTestNGSpringContextTests {
