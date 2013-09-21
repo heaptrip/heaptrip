@@ -4,9 +4,9 @@ import org.testng.annotations.DataProvider;
 
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.repository.solr.entity.SolrAccount;
-import com.heaptrip.domain.service.account.criteria.AccountSearchCriteria;
-import com.heaptrip.domain.service.account.criteria.CheckModeEnum;
-import com.heaptrip.domain.service.account.criteria.IDListCriteria;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.criteria.CheckModeEnum;
+import com.heaptrip.domain.service.criteria.IDListCriteria;
 
 public class AccountDataProvider {
 
@@ -30,7 +30,7 @@ public class AccountDataProvider {
 
 	@DataProvider(name = "accountSearchCriteria")
 	public static Object[][] getAccountSearchCriteria() {
-		AccountSearchCriteria criteria = new AccountSearchCriteria();
+		AccountTextCriteria criteria = new AccountTextCriteria();
 		criteria.setAccountType(AccountEnum.USER);
 		criteria.setQuery("иванов");
 		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { "1.1", "1.3" }));

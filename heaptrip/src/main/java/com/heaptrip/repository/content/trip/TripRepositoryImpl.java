@@ -22,7 +22,7 @@ import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.repository.content.trip.MemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.criteria.ContentCriteria;
-import com.heaptrip.domain.service.content.criteria.DatabaseCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentSortCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
@@ -96,7 +96,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private List<Trip> findByCriteria(DatabaseCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
+	private List<Trip> findByCriteria(ContentSortCriteria criteria, QueryHelper<ContentCriteria> queryHelper,
 			Object... objects) {
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);

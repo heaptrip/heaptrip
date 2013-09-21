@@ -1,5 +1,7 @@
 package com.heaptrip.domain.service.account.criteria;
 
+import com.heaptrip.domain.service.criteria.Criteria;
+
 
 public class NotificationCriteria extends Criteria {
 

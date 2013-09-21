@@ -22,9 +22,9 @@ import com.heaptrip.domain.repository.solr.SolrAccountRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
 import com.heaptrip.domain.repository.solr.entity.SolrAccount;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
-import com.heaptrip.domain.service.account.criteria.AccountSearchCriteria;
-import com.heaptrip.domain.service.account.criteria.CheckModeEnum;
-import com.heaptrip.domain.service.account.criteria.IDListCriteria;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.criteria.CheckModeEnum;
+import com.heaptrip.domain.service.criteria.IDListCriteria;
 
 @Service
 public class SolrAccountRepositoryImpl implements SolrAccountRepository {
@@ -144,7 +144,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
 	}
 
 	@Override
-	public SolrAccountSearchReponse findByAccountSearchCriteria(AccountSearchCriteria criteria)
+	public SolrAccountSearchReponse findByAccountSearchCriteria(AccountTextCriteria criteria)
 			throws SolrServerException {
 		SolrQuery query = new SolrQuery();
 

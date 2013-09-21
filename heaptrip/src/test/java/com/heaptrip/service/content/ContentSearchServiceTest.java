@@ -23,7 +23,7 @@ import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
-import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentTextCriteria;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.language.LanguageUtils;
 
@@ -110,15 +110,15 @@ public class ContentSearchServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 1, enabled = true, dataProvider = "textSearchCriteria", dataProviderClass = ContentDataProvider.class)
-	public void findContentsByTextSearchCriteria(TextSearchCriteria criteria) {
+	public void findContentsByTextSearchCriteria(ContentTextCriteria criteria) {
 		// call
 		ContentSearchResponse response = contentSearchService.findContentsByTextSearchCriteria(criteria);
 		// check
 		Assert.assertNotNull(response);
 		Assert.assertTrue(response.getNumFound() > 0);
-		Assert.assertNotNull(response.getContents());
-		Assert.assertTrue(response.getContents().size() > 0);
-		for (Content content : response.getContents()) {
+		Assert.assertNotNull(response.getObjects());
+		Assert.assertTrue(response.getObjects().size() > 0);
+		for (Content content : response.getObjects()) {
 			Assert.assertNotNull(content.getName());
 			Assert.assertNotNull(content.getName().getValue(criteria.getLocale()));
 			Assert.assertNotNull(content.getSummary());

@@ -1,7 +1,7 @@
 package com.heaptrip.repository.account.helper;
 
-import com.heaptrip.domain.service.account.criteria.Criteria;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
+import com.heaptrip.domain.service.criteria.Criteria;
 
 public class QueryHelperFactory {
 	

@@ -26,7 +26,7 @@ import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContext;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
 import com.heaptrip.domain.repository.solr.entity.SolrContentSearchResponse;
-import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
+import com.heaptrip.domain.service.content.criteria.ContentTextCriteria;
 
 @Service
 public class SolrContentRepositoryImpl implements SolrContentRepository {
@@ -119,7 +119,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 	}
 
 	@Override
-	public SolrContentSearchResponse findByСontextSearchCriteria(TextSearchCriteria criteria)
+	public SolrContentSearchResponse findByСontextSearchCriteria(ContentTextCriteria criteria)
 			throws SolrServerException {
 
 		SolrQuery query = new SolrQuery();
@@ -140,9 +140,9 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 		fq += ")";
 		query.add("fq", fq);
 		// set fq for categories
-		if (criteria.getCategoryIds() != null) {
+		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
 			fq = null;
-			for (String id : criteria.getCategoryIds()) {
+			for (String id : criteria.getCategories().getIds()) {
 				if (fq == null) {
 					fq = "categories:(" + id;
 				} else {
@@ -153,9 +153,9 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 			query.add("fq", fq);
 		}
 		// set fq for regions
-		if (criteria.getRegionIds() != null) {
+		if (criteria.getRegions() != null && ArrayUtils.isNotEmpty(criteria.getRegions().getIds())) {
 			fq = null;
-			for (String id : criteria.getRegionIds()) {
+			for (String id : criteria.getRegions().getIds()) {
 				if (fq == null) {
 					fq = "regions:(" + id;
 				} else {

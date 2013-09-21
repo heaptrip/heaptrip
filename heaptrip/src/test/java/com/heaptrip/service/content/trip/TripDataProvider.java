@@ -15,6 +15,8 @@ import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.criteria.CheckModeEnum;
+import com.heaptrip.domain.service.criteria.IDListCriteria;
 import com.heaptrip.util.RandomUtils;
 
 public class TripDataProvider {
@@ -23,7 +25,7 @@ public class TripDataProvider {
 	public static Object[][] getTripFeedCriteria() {
 		TripFeedCriteria criteria = new TripFeedCriteria();
 		criteria.setUserId(InitTripTest.USER_ID);
-		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { InitTripTest.CATEGORY_IDS[0] }));
 		criteria.setSkip(0L);
 		criteria.setLimit(InitTripTest.TRIPS_COUNT);
 		criteria.setSort(ContentSortEnum.CREATED);
@@ -41,7 +43,7 @@ public class TripDataProvider {
 	public static Object[][] getTripMyAccountCriteria() {
 		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
 		criteria.setUserId(InitTripTest.OWNER_ID);
-		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[1] });
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { InitTripTest.CATEGORY_IDS[1] }));
 		criteria.setSkip(0L);
 		criteria.setLimit(InitTripTest.TRIPS_COUNT);
 		criteria.setSort(ContentSortEnum.RATING);
@@ -62,7 +64,7 @@ public class TripDataProvider {
 		TripForeignAccountCriteria criteria = new TripForeignAccountCriteria();
 		criteria.setOwnerId(InitTripTest.OWNER_ID);
 		criteria.setUserId(InitTripTest.USER_ID);
-		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { InitTripTest.CATEGORY_IDS[0] }));
 		criteria.setSkip(0L);
 		criteria.setLimit(InitTripTest.TRIPS_COUNT);
 		criteria.setSort(ContentSortEnum.CREATED);
@@ -81,7 +83,7 @@ public class TripDataProvider {
 	public static Object[][] getMemberTripMyAccountCriteria() {
 		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
 		criteria.setUserId(InitTripTest.USER_ID);
-		criteria.setCategoryIds(new String[] { InitTripTest.CATEGORY_IDS[0] });
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { InitTripTest.CATEGORY_IDS[0] }));
 		criteria.setSkip(0L);
 		criteria.setLimit(InitTripTest.TRIPS_COUNT);
 		criteria.setSort(ContentSortEnum.RATING);

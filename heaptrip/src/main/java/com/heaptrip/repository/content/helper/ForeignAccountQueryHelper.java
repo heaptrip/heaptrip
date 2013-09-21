@@ -23,10 +23,10 @@ public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccoun
 			query += "_id: {$in: #}, _class: #";
 		}
 		query += ", allowed: {$in: #}";
-		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
+		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
 			query += ", categoryIds: {$in: #}";
 		}
-		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
+		if (criteria.getRegions() != null && ArrayUtils.isNotEmpty(criteria.getRegions().getIds())) {
 			query += ", regionIds: {$in: #}";
 		}
 		query += "}";
@@ -58,12 +58,12 @@ public class ForeignAccountQueryHelper extends AbstractQueryHelper<ForeignAccoun
 		}
 		parameters.add(allowed);
 		// categories
-		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			parameters.add(criteria.getCategoryIds());
+		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
+			parameters.add(criteria.getCategories().getIds());
 		}
 		// regions
-		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			parameters.add(criteria.getRegionIds());
+		if (criteria.getRegions() != null && ArrayUtils.isNotEmpty(criteria.getRegions().getIds())) {
+			parameters.add(criteria.getRegions().getIds());
 		}
 		return parameters.toArray();
 	}

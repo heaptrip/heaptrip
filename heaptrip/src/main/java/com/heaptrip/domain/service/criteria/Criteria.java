@@ -1,7 +1,12 @@
-package com.heaptrip.domain.service.account.criteria;
+package com.heaptrip.domain.service.criteria;
 
+/**
+ * 
+ * Base class for all criterias
+ * 
+ */
 public abstract class Criteria {
-	
+
 	// the number of records to skip
 	private Long skip;
 

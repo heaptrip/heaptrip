@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import com.heaptrip.domain.repository.solr.SolrAccountRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrAccount;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
-import com.heaptrip.domain.service.account.criteria.AccountSearchCriteria;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class SolrAccountRepositoryTest extends AbstractTestNGSpringContextTests {
@@ -30,7 +30,7 @@ public class SolrAccountRepositoryTest extends AbstractTestNGSpringContextTests 
 	}
 
 	@Test(priority = 2, enabled = true, dataProvider = "accountSearchCriteria", dataProviderClass = AccountDataProvider.class)
-	public void findByAccountSearchCriteria(AccountSearchCriteria criteria) throws SolrServerException {
+	public void findByAccountSearchCriteria(AccountTextCriteria criteria) throws SolrServerException {
 		// call
 		SolrAccountSearchReponse response = solrAccountRepository.findByAccountSearchCriteria(criteria);
 		// check

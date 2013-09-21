@@ -7,10 +7,12 @@ import org.testng.annotations.DataProvider;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
+import com.heaptrip.domain.service.content.criteria.ContentTextCriteria;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
-import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.criteria.CheckModeEnum;
+import com.heaptrip.domain.service.criteria.IDListCriteria;
 
 public class ContentDataProvider {
 
@@ -22,7 +24,7 @@ public class ContentDataProvider {
 	public static Object[][] getFeedCriteria() {
 		FeedCriteria criteria = new FeedCriteria();
 		criteria.setUserId(USER_ID);
-		criteria.setCategoryIds(new String[] { CATEGORY_IDS[0] });
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { CATEGORY_IDS[0] }));
 		criteria.setSkip(0L);
 		criteria.setLimit(10L);
 		criteria.setSort(ContentSortEnum.CREATED);
@@ -44,12 +46,13 @@ public class ContentDataProvider {
 
 	@DataProvider(name = "textSearchCriteria")
 	public static Object[][] getTextSearchCriteria() {
-		TextSearchCriteria criteria = new TextSearchCriteria();
+		ContentTextCriteria criteria = new ContentTextCriteria();
 		criteria.setContentType(ContentEnum.TRIP);
 		criteria.setUserId(USER_ID);
-		criteria.setCategoryIds(new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] });
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] }));
 		if (!ArrayUtils.isEmpty(ContentSearchServiceTest.REGION_IDS)) {
-			criteria.setRegionIds(new String[] { ContentSearchServiceTest.REGION_IDS[0] });
+			criteria.setRegions(new IDListCriteria(CheckModeEnum.IN,
+					new String[] { ContentSearchServiceTest.REGION_IDS[0] }));
 		}
 		criteria.setSkip(0L);
 		criteria.setLimit(10L);

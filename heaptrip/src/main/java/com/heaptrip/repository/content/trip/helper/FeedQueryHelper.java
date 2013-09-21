@@ -13,10 +13,10 @@ class FeedQueryHelper extends AbstractQueryHelper<TripFeedCriteria> {
 	@Override
 	public String getQuery(TripFeedCriteria criteria) {
 		String query = "{_class: #, allowed: {$in: #}";
-		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
+		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
 			query += ", categoryIds: {$in: #}";
 		}
-		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
+		if (criteria.getRegions() != null && ArrayUtils.isNotEmpty(criteria.getRegions().getIds())) {
 			query += ", regionIds: {$in: #}";
 		}
 		if (criteria.getPeriod() != null) {
@@ -45,12 +45,12 @@ class FeedQueryHelper extends AbstractQueryHelper<TripFeedCriteria> {
 		}
 		parameters.add(allowed);
 		// categories
-		if (ArrayUtils.isNotEmpty(criteria.getCategoryIds())) {
-			parameters.add(criteria.getCategoryIds());
+		if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
+			parameters.add(criteria.getCategories().getIds());
 		}
 		// regions
-		if (ArrayUtils.isNotEmpty(criteria.getRegionIds())) {
-			parameters.add(criteria.getRegionIds());
+		if (criteria.getRegions() != null && ArrayUtils.isNotEmpty(criteria.getRegions().getIds())) {
+			parameters.add(criteria.getRegions().getIds());
 		}
 		// period
 		if (criteria.getPeriod() != null) {

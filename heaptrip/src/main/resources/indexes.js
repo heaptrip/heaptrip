@@ -1,5 +1,6 @@
 use heaptrip
 db.contents.ensureIndex({_class: 1, created: 1, allowed: 1})
+// TODO konovalov: fix rating sorted
 db.contents.ensureIndex({_class: 1, rating: 1, allowed: 1})
 db.contents.ensureIndex({created: 1, allowed: 1})
 db.contents.ensureIndex({rating: 1, allowed: 1})

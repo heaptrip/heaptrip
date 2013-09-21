@@ -1,27 +1,21 @@
 package com.heaptrip.domain.service.account.criteria;
 
-import java.util.Locale;
-
 import com.heaptrip.domain.entity.account.AccountEnum;
+import com.heaptrip.domain.service.criteria.CategoryRegionCriteria;
+import com.heaptrip.domain.service.criteria.IDListCriteria;
 
 /**
  * 
  * Criterion for context search accounts
  * 
  */
-public class AccountSearchCriteria {
+public class AccountTextCriteria extends CategoryRegionCriteria {
 
 	// account type
 	private AccountEnum accountType;
 
 	// text to search
 	private String query;
-
-	// criteria for categories
-	private IDListCriteria categories;
-
-	// criteria for regions
-	private IDListCriteria regions;
 
 	// criteria for friends
 	private IDListCriteria friends;
@@ -38,15 +32,6 @@ public class AccountSearchCriteria {
 	// criteria for members
 	private IDListCriteria members;
 
-	// the number of records to skip
-	private Long skip;
-
-	// the maximum number of records
-	private Long limit;
-
-	// locale
-	private Locale locale;
-
 	public AccountEnum getAccountType() {
 		return accountType;
 	}
@@ -61,22 +46,6 @@ public class AccountSearchCriteria {
 
 	public void setQuery(String query) {
 		this.query = query;
-	}
-
-	public IDListCriteria getCategories() {
-		return categories;
-	}
-
-	public void setCategories(IDListCriteria categories) {
-		this.categories = categories;
-	}
-
-	public IDListCriteria getRegions() {
-		return regions;
-	}
-
-	public void setRegions(IDListCriteria regions) {
-		this.regions = regions;
 	}
 
 	public IDListCriteria getFriends() {
@@ -117,30 +86,6 @@ public class AccountSearchCriteria {
 
 	public void setMembers(IDListCriteria members) {
 		this.members = members;
-	}
-
-	public Long getSkip() {
-		return skip;
-	}
-
-	public void setSkip(Long skip) {
-		this.skip = skip;
-	}
-
-	public Long getLimit() {
-		return limit;
-	}
-
-	public void setLimit(Long limit) {
-		this.limit = limit;
-	}
-
-	public Locale getLocale() {
-		return locale;
-	}
-
-	public void setLocale(Locale locale) {
-		this.locale = locale;
 	}
 
 }
