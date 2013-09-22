@@ -82,8 +82,14 @@
 		var tripCriteria = {
 			skip : paramsJson.skip ? paramsJson.skip : 0,
 			limit : paramsJson.limit ? paramsJson.limit : recordsperpage,
-			categoryIds : paramsJson.ct ? paramsJson.ct.split(',') : null,
-			regionIds : paramsJson.rg ? paramsJson.rg.split(',') : null		
+			categories : {
+				checkMode : "IN",
+				ids : paramsJson.ct ? paramsJson.ct.split(',') : null
+			},
+			regions : {
+				checkMode : "IN",
+				ids : paramsJson.rg ? paramsJson.rg.split(',') : null
+			} 		
 		};
 
 		var callbackSuccess = function(data) {
