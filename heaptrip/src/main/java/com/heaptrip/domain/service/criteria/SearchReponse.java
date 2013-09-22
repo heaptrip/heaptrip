@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * 
- * Common response object
+ * Common response object for text search
  * 
  * @param <T>
  */

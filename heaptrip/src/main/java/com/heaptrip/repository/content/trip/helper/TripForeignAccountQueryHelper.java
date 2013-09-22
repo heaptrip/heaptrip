@@ -8,11 +8,13 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.repository.content.helper.ContentQueryHelper;
 
 @Service
-public class TripForeignAccountQueryHelper extends TripQueryHelper<TripForeignAccountCriteria> {
+public class TripForeignAccountQueryHelper extends ContentQueryHelper<TripForeignAccountCriteria> {
 
 	@Override
 	public String getQuery(TripForeignAccountCriteria criteria) {
@@ -51,7 +53,7 @@ public class TripForeignAccountQueryHelper extends TripQueryHelper<TripForeignAc
 			// clazz
 			parameters.add(criteria.getContentType().getClazz());
 			// owner
-			parameters.add(criteria.getOwnerId());
+			parameters.add(criteria.getAccountId());
 		} else {
 			// FAVORITES || MEMBER
 			// id list
@@ -63,7 +65,7 @@ public class TripForeignAccountQueryHelper extends TripQueryHelper<TripForeignAc
 		}
 		// allowed
 		List<String> allowed = new ArrayList<>();
-		allowed.add(ALL_USERS);
+		allowed.add(Content.ALLOWED_ALL_USERS);
 		if (StringUtils.isNotBlank(criteria.getUserId())) {
 			allowed.add(criteria.getUserId());
 		}

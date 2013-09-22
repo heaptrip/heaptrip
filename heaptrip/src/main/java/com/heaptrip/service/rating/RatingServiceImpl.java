@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,7 @@ public class RatingServiceImpl implements RatingService {
 	private TripService tripService;
 
 	@Autowired
+	@Qualifier(ContentService.SERVICE_NAME)
 	private ContentService contentService;
 
 	@Autowired
@@ -184,19 +186,12 @@ public class RatingServiceImpl implements RatingService {
 
 	@Override
 	public AccountRating getDefaultAccountRating() {
-		AccountRating accountRating = new AccountRating();
-		accountRating.setK(1);
-		accountRating.setCount(0);
-		accountRating.setValue(0.25);
-		return accountRating;
+		return AccountRating.getDefaultValue();
 	}
 
 	@Override
 	public ContentRating getDefaultContentRating() {
-		ContentRating contentRating = new ContentRating();
-		contentRating.setCount(0);
-		contentRating.setValue(0.25);
-		return contentRating;
+		return ContentRating.getDefaultValue();
 	}
 
 	@Override

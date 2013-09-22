@@ -7,6 +7,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 
 @Service
@@ -39,7 +40,7 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria> {
 		}
 		// allowed
 		List<String> allowed = new ArrayList<>();
-		allowed.add(ALL_USERS);
+		allowed.add(Content.ALLOWED_ALL_USERS);
 		if (StringUtils.isNotBlank(criteria.getUserId())) {
 			allowed.add(criteria.getUserId());
 		}

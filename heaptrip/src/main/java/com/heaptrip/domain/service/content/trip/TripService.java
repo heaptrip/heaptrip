@@ -1,122 +1,27 @@
 package com.heaptrip.domain.service.content.trip;
 
-import java.util.List;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
 /**
  * Basic service to work with trips
  * 
  */
-public interface TripService {
+public interface TripService extends ContentService {
 
 	/**
-	 * Save a new trip
+	 * Save a new content
 	 * 
-	 * @param trip
+	 * @param content
 	 * @param locale
-	 *            the locale for which to create the trip
-	 * @return trip
+	 *            the locale for which to create the content
+	 * @return content
 	 */
-	public Trip saveTrip(Trip trip, Locale locale);
-
-	/**
-	 * Soft remove trip
-	 * 
-	 * @param tripId
-	 */
-	public void removeTrip(String tripId);
-
-	/**
-	 * Hard remove trip. It is recommended to use the after tests to clear data
-	 * 
-	 * @param tripId
-	 */
-	public void hardRemoveTrip(String tripId);
-
-	/**
-	 * Get trips list which suitable for search criteria
-	 * 
-	 * @param tripFeedCriteria
-	 * @return trips list
-	 */
-	public List<Trip> getTripsByTripFeedCriteria(TripFeedCriteria tripFeedCriteria);
-
-	/**
-	 * Get trips list which suitable for search criteria
-	 * 
-	 * @param tripMyAccountCriteria
-	 * @return trips list
-	 */
-	public List<Trip> getTripsByTripMyAccountCriteria(TripMyAccountCriteria tripMyAccountCriteria);
-
-	/**
-	 * Get trips list which suitable for search criteria
-	 * 
-	 * @param tripForeignAccountCriteria
-	 * @return trips list
-	 */
-	public List<Trip> getTripsByTripForeignAccountCriteria(TripForeignAccountCriteria tripForeignAccountCriteria);
-
-	/**
-	 * Get number of trips which suitable for search criteria
-	 * 
-	 * @param tripFeedCriteria
-	 * @return number of trips
-	 */
-	public long getTripsCountByTripFeedCriteria(TripFeedCriteria tripFeedCriteria);
-
-	/**
-	 * Get number of trips which suitable for search criteria
-	 * 
-	 * @param tripMyAccountCriteria
-	 * @return number of trips
-	 */
-	public long getTripsCountByTripMyAccountCriteria(TripMyAccountCriteria tripMyAccountCriteria);
-
-	/**
-	 * Get number of trips which suitable for search criteria
-	 * 
-	 * @param tripForeignAccountCriteria
-	 * @return number of trips
-	 */
-	public long getTripsCountByTripForeignAccountCriteria(TripForeignAccountCriteria tripForeignAccountCriteria);
-
-	/**
-	 * Get nearest trip from the timetable. It is recommended to use to display
-	 * the time in the trip card
-	 * 
-	 * @param trip
-	 * @return item of timetable
-	 */
-	public TableItem getNearTableItem(Trip trip);
-
-	/**
-	 * Get latest trip from the timetable by trip id. Should be used to
-	 * determine the possibility of rating. Trip can be rated in six months with
-	 * the launch of the last otem of timetable
-	 * 
-	 * @param tripId
-	 *            trip id
-	 * @return item of timetable
-	 */
-	public TableItem getLatestTableItem(String tripId);
-
-	/**
-	 * Get nearest trip from the timetable which suitable for search period. It
-	 * is recommended to use to display the time in the trip card
-	 * 
-	 * @param trip
-	 * @param period
-	 * @return item of timetable
-	 */
-	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period);
+	public Trip save(Trip content, Locale locale);
 
 	/**
 	 * Get base information of the trip
@@ -143,6 +48,36 @@ public interface TripService {
 	 * @param locale
 	 */
 	public void removeTripLocale(String tripId, Locale locale);
+
+	/**
+	 * Get nearest trip from the timetable. It is recommended to use to display
+	 * the time in the trip card
+	 * 
+	 * @param trip
+	 * @return item of timetable
+	 */
+	public TableItem getNearestTableItem(Trip trip);
+
+	/**
+	 * Get nearest trip from the timetable which suitable for search period. It
+	 * is recommended to use to display the time in the trip card
+	 * 
+	 * @param trip
+	 * @param period
+	 * @return item of timetable
+	 */
+	public TableItem getNearestTableItemByPeriod(Trip trip, SearchPeriod period);
+
+	/**
+	 * Get latest trip from the timetable by trip id. Should be used to
+	 * determine the possibility of rating. Trip can be rated in six months with
+	 * the launch of the last otem of timetable
+	 * 
+	 * @param tripId
+	 *            trip id
+	 * @return item of timetable
+	 */
+	public TableItem getLatestTableItem(String tripId);
 
 	/**
 	 * Abort table item

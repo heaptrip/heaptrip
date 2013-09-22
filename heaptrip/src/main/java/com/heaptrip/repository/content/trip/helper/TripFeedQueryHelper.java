@@ -7,10 +7,12 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
+import com.heaptrip.repository.content.helper.ContentQueryHelper;
 
 @Service
-class TripFeedQueryHelper extends TripQueryHelper<TripFeedCriteria> {
+class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria> {
 
 	@Override
 	public String getQuery(TripFeedCriteria criteria) {
@@ -41,7 +43,7 @@ class TripFeedQueryHelper extends TripQueryHelper<TripFeedCriteria> {
 		parameters.add(criteria.getContentType().getClazz());
 		// allowed
 		List<String> allowed = new ArrayList<>();
-		allowed.add(ALL_USERS);
+		allowed.add(Content.ALLOWED_ALL_USERS);
 		if (StringUtils.isNotBlank(criteria.getUserId())) {
 			allowed.add(criteria.getUserId());
 		}

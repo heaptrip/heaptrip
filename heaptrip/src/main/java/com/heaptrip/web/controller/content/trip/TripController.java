@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
@@ -45,7 +45,7 @@ public class TripController extends ExceptionHandlerControler {
 	private RequestScopeService scopeService;
 
 	@Autowired
-	private TripService tripService;
+	private TripFeedService tripFeedService;
 
 	@Autowired
 	private TripModelService tripModelService;
@@ -70,7 +70,7 @@ public class TripController extends ExceptionHandlerControler {
 		}
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("trips", tripModels);
-		result.put("count", tripService.getTripsCountByTripFeedCriteria(tripFeedCriteria));
+		result.put("count", tripFeedService.getCountByFeedCriteria(tripFeedCriteria));
 		LOG.trace("END getTripsByCriteria");
 		return Ajax.successResponse(result);
 	}

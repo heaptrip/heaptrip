@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 
@@ -42,7 +43,7 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
 			// clazz
 			parameters.add(criteria.getContentType().getClazz());
 			// owner
-			parameters.add(criteria.getOwnerId());
+			parameters.add(criteria.getAccountId());
 		} else {
 			// FAVORITES || MEMBER
 			// id list
@@ -54,7 +55,7 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
 		}
 		// allowed
 		List<String> allowed = new ArrayList<>();
-		allowed.add(ALL_USERS);
+		allowed.add(Content.ALLOWED_ALL_USERS);
 		if (StringUtils.isNotBlank(criteria.getUserId())) {
 			allowed.add(criteria.getUserId());
 		}

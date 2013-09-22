@@ -31,7 +31,7 @@ public class QueryHelperFactory implements ApplicationContextAware {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Criteria> QueryHelper<T> getInstance(Class<T> criteriaClass) {
+	public <T extends Criteria> QueryHelper<T> getHelperByCriteria(Class<T> criteriaClass) {
 		return queryHelpers.get(criteriaClass.getName());
 
 	}

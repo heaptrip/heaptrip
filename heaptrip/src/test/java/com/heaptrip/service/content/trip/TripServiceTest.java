@@ -1,7 +1,6 @@
 package com.heaptrip.service.content.trip;
 
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -18,18 +17,15 @@ import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripServiceTest extends AbstractTestNGSpringContextTests {
 
-	private static String TRIP_ID = "1";
+	private String TRIP_ID = TripDataProvider.CONTENT_IDS[1];
 
-	private static String DELETED_TRIP_ID = "2";
+	private String DELETED_TRIP_ID = TripDataProvider.CONTENT_IDS[2];
 
-	private static String TABLE_ID = "0";
+	private String TABLE_ID = "0";
 
 	@Autowired
 	private TripService tripService;
@@ -37,61 +33,10 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 	@Autowired
 	private TripRepository tripRepository;
 
-	@Test(dataProvider = "tripFeedCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 1)
-	public void getTripsByTripFeedCriteria(TripFeedCriteria tripFeedCriteria) {
+	@Test(priority = 0, enabled = true, dataProviderClass = TripDataProvider.class, dataProvider = "tripWithTable")
+	public void getNearestTableItem(Trip trip) {
 		// call
-		List<Trip> trips = tripService.getTripsByTripFeedCriteria(tripFeedCriteria);
-		// check
-		Assert.assertNotNull(trips);
-		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
-	}
-
-	@Test(dataProvider = "tripMyAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 2)
-	public void getTripsByTripMyAccountCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
-		// call
-		List<Trip> trips = tripService.getTripsByTripMyAccountCriteria(tripMyAccountCriteria);
-		// check
-		Assert.assertNotNull(trips);
-		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
-	}
-
-	@Test(dataProvider = "tripForeignAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 3)
-	public void getTripsByTripForeignAccountCriteria(TripForeignAccountCriteria tripForeignAccountCriteria) {
-		// call
-		List<Trip> trips = tripService.getTripsByTripForeignAccountCriteria(tripForeignAccountCriteria);
-		// check
-		Assert.assertNotNull(trips);
-		Assert.assertEquals(trips.size(), InitTripTest.TRIPS_COUNT);
-	}
-
-	@Test(dataProvider = "tripFeedCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 4)
-	public void getTripsCountByTripFeedCriteria(TripFeedCriteria tripFeedCriteria) {
-		// call
-		long count = tripService.getTripsCountByTripFeedCriteria(tripFeedCriteria);
-		// check
-		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
-	}
-
-	@Test(dataProvider = "tripMyAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 5)
-	public void getTripsCountByTripMyAccountCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
-		// call
-		long count = tripService.getTripsCountByTripMyAccountCriteria(tripMyAccountCriteria);
-		// check
-		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
-	}
-
-	@Test(dataProvider = "tripForeignAccountCriteria", dataProviderClass = TripDataProvider.class, enabled = true, priority = 6)
-	public void getTripsCountByTripForeignAccountCriteria(TripForeignAccountCriteria tripForeignAccountCriteria) {
-		// call
-		long count = tripService.getTripsCountByTripForeignAccountCriteria(tripForeignAccountCriteria);
-		// check
-		Assert.assertEquals(count, InitTripTest.TRIPS_COUNT);
-	}
-
-	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = true, priority = 7)
-	public void getNearTableItem(Trip trip) {
-		// call
-		TableItem item = tripService.getNearTableItem(trip);
+		TableItem item = tripService.getNearestTableItem(trip);
 		// check
 		Assert.assertNotNull(item);
 		for (TableItem ti : trip.getTable()) {
@@ -99,28 +44,15 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(enabled = true, priority = 7)
-	public void getLatestTableItem() {
-		// call
-		TableItem item = tripService.getLatestTableItem(TRIP_ID);
-		// check
-		Assert.assertNotNull(item);
-		Trip trip = tripRepository.findOne(TRIP_ID);
-		for (TableItem ti : trip.getTable()) {
-			Assert.assertTrue(item.equals(ti)
-					|| (item.getEnd() != null && ti.getEnd() != null && item.getEnd().after(ti.getEnd())));
-		}
-	}
-
-	@Test(dataProvider = "tripWithTable", dataProviderClass = TripDataProvider.class, enabled = true, priority = 8)
-	public void getNearTableItemByPeriod(Trip trip) {
+	@Test(priority = 1, enabled = true, dataProviderClass = TripDataProvider.class, dataProvider = "tripWithTable")
+	public void getNearestTableItemByPeriod(Trip trip) {
 		// call
 		Calendar begin = Calendar.getInstance();
 		begin.set(2013, 0, 1);
 		Calendar end = Calendar.getInstance();
 		end.set(2013, 6, 1);
 		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		TableItem item = tripService.getNearTableItemByPeriod(trip, period);
+		TableItem item = tripService.getNearestTableItemByPeriod(trip, period);
 		// check
 		if (item != null && item.getBegin() != null) {
 			Assert.assertTrue(item.getBegin().after(period.getDateBegin()));
@@ -134,14 +66,27 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		}
 	}
 
-	@Test(enabled = true, priority = 9)
-	public void removeTrip() {
+	@Test(priority = 2, enabled = true)
+	public void getLatestTableItem() {
+		// call
+		TableItem item = tripService.getLatestTableItem(TRIP_ID);
+		// check
+		Assert.assertNotNull(item);
+		Trip trip = tripRepository.findOne(TRIP_ID);
+		for (TableItem ti : trip.getTable()) {
+			Assert.assertTrue(item.equals(ti)
+					|| (item.getEnd() != null && ti.getEnd() != null && item.getEnd().after(ti.getEnd())));
+		}
+	}
+
+	@Test(priority = 3, enabled = true)
+	public void remove() {
 		// call
 		Trip trip = tripRepository.findOne(DELETED_TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNull(trip.getDeleted());
 		Assert.assertNotNull(trip.getAllowed());
-		tripService.removeTrip(DELETED_TRIP_ID);
+		tripService.remove(DELETED_TRIP_ID);
 		// check
 		trip = tripRepository.findOne(DELETED_TRIP_ID);
 		Assert.assertNotNull(trip);
@@ -150,7 +95,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trip.getStatus().getValue(), ContentStatusEnum.DELETED);
 	}
 
-	@Test(enabled = true, priority = 10)
+	@Test(priority = 4, enabled = true)
 	public void getTripInfo() {
 		// call
 		Trip trip = tripService.getTripInfo(TRIP_ID, Locale.ENGLISH);
@@ -158,7 +103,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip);
 	}
 
-	@Test(enabled = true, priority = 11)
+	@Test(priority = 5, enabled = true)
 	public void updateTripInfo() {
 		// call
 		Locale locale = new Locale("ru");
@@ -177,7 +122,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trip.getName().getValue(locale), name);
 	}
 
-	@Test(enabled = true, priority = 12)
+	@Test(priority = 6, enabled = true)
 	public void removeTripLocale() {
 		// call
 		Locale locale = new Locale("ru");
@@ -193,7 +138,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(trip.getLangs().length, 1);
 	}
 
-	@Test(enabled = true, priority = 13)
+	@Test(priority = 7, enabled = true)
 	public void abortTableItem() {
 		// call
 		String cause = "cause interruption of travel";
@@ -211,7 +156,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(item.getStatus().getText(), cause);
 	}
 
-	@Test(enabled = true, priority = 14)
+	@Test(priority = 8, enabled = true)
 	public void cancelTableItem() {
 		// call
 		String cause = "cause interruption of travel";

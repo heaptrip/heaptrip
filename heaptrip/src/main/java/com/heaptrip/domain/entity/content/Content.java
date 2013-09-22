@@ -19,12 +19,9 @@ import com.heaptrip.domain.entity.region.SimpleRegion;
  * 
  */
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Content extends BaseObject implements Collectionable {
+public abstract class Content extends BaseObject implements Collectionable {
 
 	public static final String ALLOWED_ALL_USERS = "0";
-
-	// content owner
-	private ContentOwner owner;
 
 	// contain a content categories set by the owner
 	private SimpleCategory[] categories;
@@ -58,6 +55,9 @@ public class Content extends BaseObject implements Collectionable {
 
 	// list of user IDs that are allowed to view content. [0] - allow all
 	private String[] allowed;
+
+	// content owner
+	private ContentOwner owner;
 
 	// list owners. If the trip is owned by the company, then it may be a few
 	// owners

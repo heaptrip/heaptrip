@@ -8,33 +8,27 @@ import org.testng.annotations.DataProvider;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 import com.heaptrip.domain.service.content.criteria.ContentTextCriteria;
-import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
-import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.domain.service.criteria.CheckModeEnum;
 import com.heaptrip.domain.service.criteria.IDListCriteria;
 
 public class ContentDataProvider {
 
-	private static final String USER_ID = InitContentTest.USER_ID;
+	public static String CONTENT_ID = "CONTENT_FOR_CONTENT_SERVICES_TESTS";
 
-	private static String[] CATEGORY_IDS = InitContentTest.CATEGORY_IDS;
+	public static String OWNER_ID = "OWNER_FOR_CONTENT_SERVICES_TESTS";
 
-	@DataProvider(name = "feedCriteria")
-	public static Object[][] getFeedCriteria() {
-		FeedCriteria criteria = new FeedCriteria();
-		criteria.setUserId(USER_ID);
-		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { CATEGORY_IDS[0] }));
-		criteria.setSkip(0L);
-		criteria.setLimit(10L);
-		criteria.setSort(ContentSortEnum.CREATED);
-		criteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { criteria } };
-	}
+	public static String USER_ID = "USER_FOR_CONTENT_SERVICES_TESTS";
 
-	@DataProvider(name = "favoritesTripMyAccountCriteria")
-	public static Object[][] getFavoritesTripMyAccountCriteria() {
-		TripMyAccountCriteria criteria = new TripMyAccountCriteria();
+	public static String[] CATEGORY_IDS = new String[] { "2.4.7", "3.2" };
+
+	public static String[] REGION_IDS = null;
+
+	@DataProvider(name = "favoritesMyAccountCriteria")
+	public static Object[][] getFavoritesMyAccountCriteria() {
+		MyAccountCriteria criteria = new MyAccountCriteria();
+		criteria.setContentType(ContentEnum.POST);
 		criteria.setUserId(USER_ID);
 		criteria.setSkip(0L);
 		criteria.setLimit(10L);
@@ -44,15 +38,14 @@ public class ContentDataProvider {
 		return new Object[][] { new Object[] { criteria } };
 	}
 
-	@DataProvider(name = "textSearchCriteria")
-	public static Object[][] getTextSearchCriteria() {
+	@DataProvider(name = "contentTextCriteria")
+	public static Object[][] getContentTextCriteria() {
 		ContentTextCriteria criteria = new ContentTextCriteria();
-		criteria.setContentType(ContentEnum.TRIP);
+		criteria.setContentType(ContentEnum.POST);
 		criteria.setUserId(USER_ID);
-		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] { CATEGORY_IDS[0], CATEGORY_IDS[1] }));
-		if (!ArrayUtils.isEmpty(ContentSearchServiceTest.REGION_IDS)) {
-			criteria.setRegions(new IDListCriteria(CheckModeEnum.IN,
-					new String[] { ContentSearchServiceTest.REGION_IDS[0] }));
+		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, CATEGORY_IDS));
+		if (!ArrayUtils.isEmpty(REGION_IDS)) {
+			criteria.setRegions(new IDListCriteria(CheckModeEnum.IN, REGION_IDS));
 		}
 		criteria.setSkip(0L);
 		criteria.setLimit(10L);

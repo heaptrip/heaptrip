@@ -14,16 +14,16 @@ import com.heaptrip.domain.service.content.trip.TripRouteService;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripRouteServiceTest extends AbstractTestNGSpringContextTests {
 
-	private static String TRIP_ID = "0";
+	private String TRIP_ID = TripDataProvider.CONTENT_IDS[0];
 
-	private static Locale LOCALE = Locale.ENGLISH;
+	private Locale LOCALE = Locale.ENGLISH;
 
 	@Autowired
 	private TripRouteService tripRouteService;
 
 	private Route route = null;
 
-	@Test(priority = 1, enabled = true)
+	@Test(priority = 0, enabled = true)
 	public void getRoute() {
 		// call
 		route = tripRouteService.getRoute(TRIP_ID, LOCALE);
@@ -33,7 +33,7 @@ public class TripRouteServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(route.getText());
 	}
 
-	@Test(priority = 2, enabled = true)
+	@Test(priority = 0, enabled = true)
 	public void updateRoute() {
 		// call
 		String text = "test route description";

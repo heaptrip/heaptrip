@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -54,6 +55,14 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	}
 
 	@Override
+	public void setDeleted(String tripId) {
+		MongoCollection coll = getCollection();
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {deleted: #, 'status.value': #, allowed : []}}",
+				Calendar.getInstance().getTime(), ContentStatusEnum.DELETED);
+		logger.debug("WriteResult for set content deleted: {}", wr);
+	}
+
+	@Override
 	public String getOwnerId(String contentId) {
 		MongoCollection coll = getCollection();
 		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, 'owner._id': 1}")
@@ -63,6 +72,14 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		} else {
 			return content.getOwner().getId();
 		}
+	}
+
+	@Override
+	public boolean isOwner(String contentId, String userId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #, $or: [{'owner._id': #}, {owners: #}]}", contentId, userId, userId)
+				.projection("{_class: 1}").as(getCollectionClass());
+		return (content == null) ? false : true;
 	}
 
 	@Override
@@ -87,14 +104,14 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		FeedCriteria criteria = new FeedCriteria();
 		criteria.setLocale(locale);
 		MongoCollection coll = getCollection();
-		String fields = queryHelperFactory.getInstance(FeedCriteria.class).getProjection(criteria);
+		String fields = queryHelperFactory.getHelperByCriteria(FeedCriteria.class).getProjection(criteria);
 		Iterable<Content> iter = coll.find("{_id: {$in: #}}", ids).projection(fields).as(Content.class);
 		return IteratorConverter.copyIterator(iter.iterator());
 	}
 
 	@Override
 	public List<Content> findByFeedCriteria(FeedCriteria criteria) {
-		QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getInstance(FeedCriteria.class);
+		QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
 		return findByCriteria(criteria, queryHelper);
 	}
 
@@ -102,10 +119,10 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public List<Content> findByMyAccountCriteria(MyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository
-					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
+					criteria.getUserId());
 		}
-		QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getInstance(MyAccountCriteria.class);
+		QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(MyAccountCriteria.class);
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -113,10 +130,11 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public List<Content> findByForeignAccountCriteria(ForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
-					criteria.getOwnerId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
+					criteria.getAccountId());
 		}
-		QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory.getInstance(ForeignAccountCriteria.class);
+		QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
+				.getHelperByCriteria(ForeignAccountCriteria.class);
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -132,7 +150,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		String hint = queryHelper.getHint(criteria);
 		if (logger.isDebugEnabled()) {
 			String msg = String
-					.format("find trips\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
+					.format("find contents\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
 							queryHelper.getClass(), query, ArrayUtils.toString(parameters), projection, sort, skip,
 							limit, hint);
 			logger.debug(msg);
@@ -144,7 +162,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 
 	@Override
 	public long getCountByFeedCriteria(FeedCriteria criteria) {
-		QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getInstance(FeedCriteria.class);
+		QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
 		return getCountByCriteria(criteria, queryHelper);
 	}
 
@@ -152,10 +170,10 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public long getCountByMyAccountCriteria(MyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository
-					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
+					criteria.getUserId());
 		}
-		QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getInstance(MyAccountCriteria.class);
+		QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(MyAccountCriteria.class);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -163,10 +181,11 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	public long getCountByForeignAccountCriteria(ForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
-			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
-					criteria.getOwnerId());
+			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
+					criteria.getAccountId());
 		}
-		QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory.getInstance(ForeignAccountCriteria.class);
+		QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
+				.getHelperByCriteria(ForeignAccountCriteria.class);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
 	}
 
@@ -176,7 +195,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		String query = queryHelper.getQuery(criteria);
 		Object[] parameters = queryHelper.getParameters(criteria, objects);
 		if (logger.isDebugEnabled()) {
-			String msg = String.format("get trips count\n->queryHelper: %s\n->query: %s\n->parameters: %s",
+			String msg = String.format("get contents count\n->queryHelper: %s\n->query: %s\n->parameters: %s",
 					queryHelper.getClass(), query, ArrayUtils.toString(parameters));
 			logger.debug(msg);
 		}

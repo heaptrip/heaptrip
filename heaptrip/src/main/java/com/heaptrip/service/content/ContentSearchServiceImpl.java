@@ -62,7 +62,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	}
 
 	@Override
-	public ContentSearchResponse findContentsByTextSearchCriteria(ContentTextCriteria criteria) {
+	public ContentSearchResponse findContentsByTextCriteria(ContentTextCriteria criteria) {
 		Assert.notNull(criteria, "criteria must not be null");
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");

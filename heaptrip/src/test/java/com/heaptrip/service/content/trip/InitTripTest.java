@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,33 +25,21 @@ import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.image.Image;
-import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.entity.region.Region;
-import com.heaptrip.domain.service.content.ContentService;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.RandomUtils;
+import com.heaptrip.util.language.LanguageUtils;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	private static final String IMAGE_NAME = "penguins.jpg";
 
-	static long TRIPS_COUNT = 20;
-
-	static String OWNER_ID = "1";
-
-	static String ALL_USERS = "0";
-
-	static String USER_ID = "2";
-
-	static String[] CATEGORY_IDS = new String[] { "1.2", "1.3" };
-
-	static String REGION_NAME = "Russia Ukraine Belarus";
-
-	private Locale locale = Locale.ENGLISH;
+	private static final String REGION_NAME = "Russia Ukraine Belarus";
 
 	private List<Trip> trips = null;
 
@@ -69,24 +56,24 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
 	@Autowired
 	private ImageService imageService;
-	
-	@Autowired
-	private ContentService contentService;
 
 	@Autowired
 	private RegionService regionService;
 
 	private SimpleCategory[] getCategories() {
-		return new SimpleCategory[] { new SimpleCategory(CATEGORY_IDS[0]), new SimpleCategory(CATEGORY_IDS[1]) };
+		return new SimpleCategory[] { new SimpleCategory(TripDataProvider.CATEGORY_IDS[0]),
+				new SimpleCategory(TripDataProvider.CATEGORY_IDS[1]) };
 	}
 
 	private SimpleRegion[] getRegions() throws SolrServerException {
 		SimpleRegion[] simpleRegions = null;
-		List<Region> regions = regionService.getRegionsByName(REGION_NAME, 0L, 10L, locale);
+		List<Region> regions = regionService.getRegionsByName(REGION_NAME, 0L, 10L, LanguageUtils.getEnglishLocale());
 		if (regions != null) {
+			TripDataProvider.REGION_IDS = new String[regions.size()];
 			simpleRegions = new SimpleRegion[regions.size()];
 			for (int i = 0; i < regions.size(); i++) {
 				Region region = regions.get(i);
+				TripDataProvider.REGION_IDS[i] = region.getId();
 				SimpleRegion simpleRegion = new SimpleRegion();
 				simpleRegion.setId(region.getId());
 				simpleRegion.setName(region.getName());
@@ -96,7 +83,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		return simpleRegions;
 	}
 
-	private TableItem[] getRandomTable() {
+	static TableItem[] getRandomTable() {
 		int tableSize = RandomUtils.getRandomInt(1, 10);
 		TableItem[] table = new TableItem[tableSize];
 		for (int j = 0; j < tableSize; j++) {
@@ -121,21 +108,17 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		SimpleCategory[] categories = getCategories();
 		SimpleRegion[] regions = getRegions();
 		List<Trip> trips = new ArrayList<>();
-		for (int i = 0; i < TRIPS_COUNT; i++) {
+		for (String id : TripDataProvider.CONTENT_IDS) {
 			Trip trip = new Trip();
-			trip.setId(Integer.toString(i));
-			trip.setOwner(new ContentOwner(OWNER_ID));
+			trip.setId(id);
+			trip.setOwner(new ContentOwner(TripDataProvider.OWNER_ID));
 			trip.setCategories(categories);
 			trip.setRegions(regions);
-			trip.setName(new MultiLangText("my name No " + Integer.toString(i), locale));
-			trip.setSummary(new MultiLangText("my summary", locale));
-			trip.setDescription(new MultiLangText("my description", locale));
+			trip.setName(new MultiLangText("my name No " + id, LanguageUtils.getEnglishLocale()));
+			trip.setSummary(new MultiLangText("my summary", LanguageUtils.getEnglishLocale()));
+			trip.setDescription(new MultiLangText("my description", LanguageUtils.getEnglishLocale()));
 			trip.setTable(getRandomTable());
-			if (i % 2 == 0) {
-				trip.setAllowed(new String[] { USER_ID });
-			} else {
-				trip.setAllowed(new String[] { ALL_USERS });
-			}
+			trip.setAllowed(new String[] { TripDataProvider.USER_ID });
 			trips.add(trip);
 		}
 		return trips;
@@ -147,7 +130,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(resource);
 		File file = resource.getFile();
 		InputStream is = new FileInputStream(file);
-		return contentService.saveTitleImage(IMAGE_NAME, is);
+		return tripService.saveTitleImage(IMAGE_NAME, is);
 	}
 
 	@BeforeTest()
@@ -157,7 +140,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 		image = getImage();
 		for (Trip trip : trips) {
 			trip.setImage(image);
-			tripService.saveTrip(trip, locale);
+			tripService.save(trip, LanguageUtils.getEnglishLocale());
 			tripUserService.removeTripMembers(trip.getId());
 		}
 	}
@@ -165,7 +148,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	@AfterTest
 	public void afterTest() {
 		for (Trip trip : trips) {
-			//tripService.hardRemoveTrip(trip.getId());
+			// tripService.hardRemoveTrip(trip.getId());
 			tripUserService.removeTripMembers(trip.getId());
 		}
 		if (image != null) {

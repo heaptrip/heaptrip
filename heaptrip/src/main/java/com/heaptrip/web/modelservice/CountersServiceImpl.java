@@ -15,6 +15,7 @@ public class CountersServiceImpl implements CountersService {
 	private RequestScopeService scopeService;
 
 	@Autowired
+	@Qualifier(ContentService.SERVICE_NAME)
 	private ContentService contentService;
 
 	@Override

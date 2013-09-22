@@ -39,7 +39,7 @@ public class NotificationRepositoryImpl extends CrudRepositoryImpl<Notification>
 
 	@Override
 	public List<Notification> getNotificationsByCriteria(NotificationCriteria criteria) {
-		QueryHelper<NotificationCriteria> queryHelper = queryHelperFactory.getInstance(NotificationCriteria.class);
+		QueryHelper<NotificationCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(NotificationCriteria.class);
 
 		MongoCollection coll = getCollection();
 		String query = queryHelper.getQuery(criteria);

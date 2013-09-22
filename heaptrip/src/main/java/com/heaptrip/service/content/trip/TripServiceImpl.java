@@ -3,12 +3,10 @@ package com.heaptrip.service.content.trip;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -23,6 +21,7 @@ import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatus;
 import com.heaptrip.domain.entity.content.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.exception.ErrorEnum;
@@ -35,15 +34,13 @@ import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.service.content.ContentServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
 
 @Service
-public class TripServiceImpl implements TripService {
+public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
 	@Autowired
 	private CategoryService categoryService;
@@ -69,13 +66,10 @@ public class TripServiceImpl implements TripService {
 	@Autowired
 	private ContentSearchService solrContentService;
 
-	//@Autowired
-	//private RatingService ratingService;
-
 	@Override
-	public Trip saveTrip(Trip trip, Locale locale) {
+	public Trip save(Trip trip, Locale locale) {
 		Assert.notNull(trip, "trip must not be null");
-		Assert.notNull(trip, "locale must not be null");
+		Assert.notNull(locale, "locale must not be null");
 		Assert.notNull(trip.getOwner(), "owner must not be null");
 		Assert.notNull(trip.getOwner().getId(), "owner.id must not be null");
 		Assert.notEmpty(trip.getName(), "name must not be empty");
@@ -149,8 +143,7 @@ public class TripServiceImpl implements TripService {
 		trip.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		trip.setCreated(new Date());
 		trip.setDeleted(null);
-		// TODO konovalov: remove circular reference
-		//trip.setRating(ratingService.getDefaultContentRating());
+		trip.setRating(ContentRating.getDefaultValue());
 		trip.setComments(0L);
 
 		// save to db
@@ -163,77 +156,27 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public void removeTrip(String tripId) {
+	public void remove(String tripId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		long members = memberRepository.getCountByTripId(tripId);
 		if (members > 0) {
 			throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_FAILURE);
 		}
-		tripRepository.setDeleted(tripId);
 		// remove from solr
 		solrContentService.removeContent(tripId);
+		super.remove(tripId);
 	}
 
 	@Override
-	public void hardRemoveTrip(String tripId) {
+	public void hardRemove(String tripId) {
 		Assert.notNull(tripId, "tripId must not be null");
-		tripRepository.remove(tripId);
+		super.hardRemove(tripId);
 		// remove from solr
 		solrContentService.removeContent(tripId);
 	}
 
 	@Override
-	public List<Trip> getTripsByTripFeedCriteria(TripFeedCriteria tripFeedCriteria) {
-		Assert.notNull(tripFeedCriteria, "tripFeedCriteria must not be null");
-		Assert.notNull(tripFeedCriteria.getContentType(), "contentType must not be null");
-		return tripRepository.findByTripFeedCriteria(tripFeedCriteria);
-	}
-
-	@Override
-	public List<Trip> getTripsByTripMyAccountCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
-		Assert.notNull(tripMyAccountCriteria, "tripMyAccountCriteria must not be null");
-		Assert.notNull(tripMyAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(tripMyAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(StringUtils.isNotBlank(tripMyAccountCriteria.getUserId()), "userId must not be null");
-		return tripRepository.findByTripMyAccountCriteria(tripMyAccountCriteria);
-	}
-
-	@Override
-	public List<Trip> getTripsByTripForeignAccountCriteria(TripForeignAccountCriteria tripForeignAccountCriteria) {
-		Assert.notNull(tripForeignAccountCriteria, "tripForeignAccountCriteria must not be null");
-		Assert.notNull(tripForeignAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(tripForeignAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(StringUtils.isNotBlank(tripForeignAccountCriteria.getOwnerId()), "ownerId must not be null");
-		return tripRepository.findByTripForeignAccountCriteria(tripForeignAccountCriteria);
-	}
-
-	@Override
-	public long getTripsCountByTripFeedCriteria(TripFeedCriteria tripFeedCriteria) {
-		Assert.notNull(tripFeedCriteria, "tripFeedCriteria must not be null");
-		Assert.notNull(tripFeedCriteria.getContentType(), "contentType must not be null");
-		return tripRepository.getCountByTripFeedCriteria(tripFeedCriteria);
-	}
-
-	@Override
-	public long getTripsCountByTripMyAccountCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
-		Assert.notNull(tripMyAccountCriteria, "tripMyAccountCriteria must not be null");
-		Assert.notNull(tripMyAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(tripMyAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(StringUtils.isNotBlank(tripMyAccountCriteria.getUserId()), "userId must not be null");
-		return tripRepository.getCountByTripMyAccountCriteria(tripMyAccountCriteria);
-	}
-
-	@Override
-	public long getTripsCountByTripForeignAccountCriteria(TripForeignAccountCriteria tripForeignAccountCriteria) {
-		Assert.notNull(tripForeignAccountCriteria, "tripForeignAccountCriteria must not be null");
-		Assert.notNull(tripForeignAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(tripForeignAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(StringUtils.isNotBlank(tripForeignAccountCriteria.getOwnerId()), "ownerId must not be null");
-		return tripRepository.getCountByTripForeignAccountCriteria(tripForeignAccountCriteria);
-	}
-
-	@Override
-	public TableItem getNearTableItem(Trip trip) {
+	public TableItem getNearestTableItem(Trip trip) {
 		Assert.notNull(trip, "trip must not be null");
 		Assert.notEmpty(trip.getTable(), "trip.table must not be empty");
 		Arrays.sort(trip.getTable(), new TableItemDateBeginComparator());
@@ -241,7 +184,7 @@ public class TripServiceImpl implements TripService {
 	}
 
 	@Override
-	public TableItem getNearTableItemByPeriod(Trip trip, SearchPeriod period) {
+	public TableItem getNearestTableItemByPeriod(Trip trip, SearchPeriod period) {
 		Assert.notNull(trip, "trip must not be null");
 		Assert.notEmpty(trip.getTable(), "trip.table must not be empty");
 		Arrays.sort(trip.getTable(), new TableItemDateBeginComparator());

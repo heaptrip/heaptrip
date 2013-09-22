@@ -56,7 +56,7 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
 	public List<Content> findByAccountId(String accountId, Locale locale) {
 		FeedCriteria criteria = new FeedCriteria();
 		criteria.setLocale(locale);
-		String fields = queryHelperFactory.getInstance(FeedCriteria.class).getProjection(criteria);
+		String fields = queryHelperFactory.getHelperByCriteria(FeedCriteria.class).getProjection(criteria);
 		MongoCollection coll = getCollection();
 		Iterable<Content> iter = coll.find("{'favorites.ids': #}", accountId).projection(fields)
 				.hint("{'favorites.ids': 1}").as(Content.class);
@@ -67,7 +67,7 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
 	public List<Content> findByContentTypeAndAccountId(ContentEnum contentType, String accountId, Locale locale) {
 		FeedCriteria criteria = new FeedCriteria();
 		criteria.setLocale(locale);
-		String fields = queryHelperFactory.getInstance(FeedCriteria.class).getProjection(criteria);
+		String fields = queryHelperFactory.getHelperByCriteria(FeedCriteria.class).getProjection(criteria);
 		MongoCollection coll = getCollection();
 		Iterable<Content> iter = coll.find("{_class: #, 'favorites.ids': #}", contentType.getClazz(), accountId)
 				.projection(fields).hint("{_class: 1, 'favorites.ids': 1}").as(Content.class);

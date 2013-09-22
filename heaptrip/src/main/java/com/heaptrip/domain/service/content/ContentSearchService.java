@@ -32,5 +32,5 @@ public interface ContentSearchService {
 	 * 
 	 * @return content search response
 	 */
-	public ContentSearchResponse findContentsByTextSearchCriteria(ContentTextCriteria criteria);
+	public ContentSearchResponse findContentsByTextCriteria(ContentTextCriteria criteria);
 }

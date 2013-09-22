@@ -13,19 +13,17 @@ import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
 public interface TripRepository extends CrudRepository<Trip> {
 
-	public void setDeleted(String tripId);
+	public List<Trip> findByFeedCriteria(TripFeedCriteria criteria);
 
-	public List<Trip> findByTripFeedCriteria(TripFeedCriteria criteria);
+	public List<Trip> findByMyAccountCriteria(TripMyAccountCriteria criteria);
 
-	public List<Trip> findByTripMyAccountCriteria(TripMyAccountCriteria criteria);
+	public List<Trip> findByForeignAccountCriteria(TripForeignAccountCriteria criteria);
 
-	public List<Trip> findByTripForeignAccountCriteria(TripForeignAccountCriteria criteria);
+	public long getCountByFeedCriteria(TripFeedCriteria criteria);
 
-	public long getCountByTripFeedCriteria(TripFeedCriteria criteria);
+	public long getCountByMyAccountCriteria(TripMyAccountCriteria criteria);
 
-	public long getCountByTripMyAccountCriteria(TripMyAccountCriteria criteria);
-
-	public long getCountByTripForeignAccountCriteria(TripForeignAccountCriteria criteria);
+	public long getCountByForeignAccountCriteria(TripForeignAccountCriteria criteria);
 
 	public Trip getInfo(String tripId, Locale locale);
 

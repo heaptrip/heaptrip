@@ -7,11 +7,13 @@ import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.repository.content.helper.ContentQueryHelper;
 
 @Service
-public class TripMyAccountQueryHelper extends TripQueryHelper<TripMyAccountCriteria> {
+public class TripMyAccountQueryHelper extends ContentQueryHelper<TripMyAccountCriteria> {
 
 	@Override
 	public String getQuery(TripMyAccountCriteria criteria) {
@@ -66,7 +68,7 @@ public class TripMyAccountQueryHelper extends TripQueryHelper<TripMyAccountCrite
 			parameters.add(criteria.getContentType().getClazz());
 			// allowed
 			List<String> allowed = new ArrayList<>();
-			allowed.add(ALL_USERS);
+			allowed.add(Content.ALLOWED_ALL_USERS);
 			allowed.add(criteria.getUserId());
 			parameters.add(allowed);
 		}
