@@ -26,8 +26,4 @@ public interface MemberRepository extends CrudRepository<TableMember> {
 	public void setStatus(String memberId, TableUserStatusEnum status);
 
 	public void setOrganizer(String tableUserId, Boolean isOrganizer);
-
-	public void addAllowed(String ownerId, String userId);
-
-	public void removeAllowed(String ownerId, String userId);
 }

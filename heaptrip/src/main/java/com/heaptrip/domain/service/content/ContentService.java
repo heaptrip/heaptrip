@@ -53,6 +53,23 @@ public interface ContentService {
 	public void setStatus(String contentId, ContentStatusEnum status);
 
 	/**
+	 * Add a user to the list of allowed to view all contents this owner. Must
+	 * be called this method when adding friend to owner
+	 * 
+	 * @param ownerId
+	 * @param userId
+	 */
+	public void addAllowed(String ownerId, String userId);
+
+	/**
+	 * Remove the user from the list of allowed to view all contents this owner
+	 * 
+	 * @param ownerId
+	 * @param userId
+	 */
+	public void removeAllowed(String ownerId, String userId);
+
+	/**
 	 * Increase the content views
 	 * 
 	 * @param contentId

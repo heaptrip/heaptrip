@@ -117,22 +117,4 @@ public interface TripUserService {
 	 * @param tripId
 	 */
 	public void removeTripMembers(String tripId);
-
-	/**
-	 * Add a user to the list of allowed to view all trip this owner. Must be
-	 * called this method when adding friend owner
-	 * 
-	 * @param ownerId
-	 * @param userId
-	 */
-	public void addAllowed(String ownerId, String userId);
-
-	/**
-	 * Remove the user from the list of allowed to view all travel this owner
-	 * 
-	 * @param ownerId
-	 * @param userId
-	 */
-	public void removeAllowed(String ownerId, String userId);
-
 }

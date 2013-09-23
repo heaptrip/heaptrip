@@ -74,6 +74,20 @@ public class ContentServiceImpl implements ContentService {
 		contentSearchService.saveContent(contentId);
 	}
 
+	@Override
+	public void addAllowed(String ownerId, String userId) {
+		Assert.notNull(ownerId, "ownerId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		contentRepository.addAllowed(ownerId, userId);
+	}
+
+	@Override
+	public void removeAllowed(String ownerId, String userId) {
+		Assert.notNull(ownerId, "ownerId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		contentRepository.removeAllowed(ownerId, userId);
+	}
+
 	@Async
 	@Override
 	public Future<Void> incViews(String contentId, String userIdOrRemoteIp) {

@@ -11,7 +11,6 @@ import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.domain.service.criteria.CheckModeEnum;
 import com.heaptrip.domain.service.criteria.IDListCriteria;
@@ -28,25 +27,6 @@ public class TripDataProvider {
 	static String[] CATEGORY_IDS = new String[] { "1.2", "1.3" };
 
 	static String[] REGION_IDS = null;
-
-	@DataProvider(name = "feedCriteria")
-	public static Object[][] getTripFeedCriteria() {
-		TripFeedCriteria criteria = new TripFeedCriteria();
-		criteria.setUserId(USER_ID);
-		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, CATEGORY_IDS));
-		criteria.setRegions(new IDListCriteria(CheckModeEnum.IN, REGION_IDS));
-		criteria.setSkip(0L);
-		criteria.setLimit(10L);
-		criteria.setSort(ContentSortEnum.CREATED);
-		Calendar begin = Calendar.getInstance();
-		begin.set(2013, 0, 1);
-		Calendar end = Calendar.getInstance();
-		end.set(2013, 11, 1);
-		SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
-		criteria.setPeriod(period);
-		criteria.setLocale(Locale.ENGLISH);
-		return new Object[][] { new Object[] { criteria } };
-	}
 
 	@DataProvider(name = "memberMyAccountCriteria")
 	public static Object[][] getMemberTripMyAccountCriteria() {

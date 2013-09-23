@@ -9,11 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.trip.TableMember;
 import com.heaptrip.domain.entity.content.trip.TableUser;
 import com.heaptrip.domain.entity.content.trip.TableUserStatusEnum;
-import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.repository.content.trip.MemberRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.util.collection.IteratorConverter;
@@ -134,37 +132,5 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 			}
 		}
 		return result;
-	}
-
-	@Override
-	public void addAllowed(String ownerId, String userId) {
-		MongoCollection coll = mongoContext.getCollection(CollectionEnum.CONTENTS.getName());
-		String query = "{_class: #, 'owner._id': #}";
-		String updateQuery = "{$addToSet :{allowed: #}}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"add allowed\n->query: %s\n->parameters: [%s, %s]\n->updateQuery: %s\n->updateParameters: %s",
-					query, Trip.class.getName(), ownerId, updateQuery, userId);
-			logger.debug(msg);
-		}
-		// XXX check index
-		WriteResult wr = coll.update(query, Trip.class.getName(), ownerId).multi().with(updateQuery, userId);
-		logger.debug("WriteResult for add allowed: {}", wr);
-	}
-
-	@Override
-	public void removeAllowed(String ownerId, String userId) {
-		MongoCollection coll = mongoContext.getCollection(CollectionEnum.CONTENTS.getName());
-		String query = "{_class: #, 'owner._id': #}";
-		String updateQuery = "{$pull :{allowed: #}}";
-		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"remove allowed\n->query: %s\n->parameters: [%s, %s]\n->updateQuery: %s\n->updateParameters: %s",
-					query, Trip.class.getName(), ownerId, updateQuery, userId);
-			logger.debug(msg);
-		}
-		// XXX check index
-		WriteResult wr = coll.update(query, Trip.class.getName(), ownerId).multi().with(updateQuery, userId);
-		logger.debug("WriteResult for remove allowed: {}", wr);
 	}
 }

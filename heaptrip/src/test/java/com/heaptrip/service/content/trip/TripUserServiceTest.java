@@ -17,7 +17,6 @@ import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
@@ -28,8 +27,6 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	private String TABLE_ID = "0";
 
 	private String USER_ID = TripDataProvider.USER_ID;
-
-	private String ALLOWED_USER_ID = "TEST_ALLOWED_USER";
 
 	private String USER_EMAIL = "test@test.test";
 
@@ -236,25 +233,4 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(count);
 		Assert.assertEquals(count, 1);
 	}
-
-	@Test(priority = 9, enabled = true, dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class)
-	public void addAllowed(TripFeedCriteria tripFeedCriteria) {
-		// call
-		tripUserService.addAllowed(TripDataProvider.OWNER_ID, ALLOWED_USER_ID);
-		// check
-		tripFeedCriteria.setUserId(ALLOWED_USER_ID);
-		long count = tripFeedService.getCountByFeedCriteria(tripFeedCriteria);
-		Assert.assertEquals(count, TripDataProvider.CONTENT_IDS.length);
-	}
-
-	@Test(priority = 10, enabled = true, dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class)
-	public void removeAllowed(TripFeedCriteria tripFeedCriteria) {
-		// call
-		tripUserService.removeAllowed(TripDataProvider.OWNER_ID, ALLOWED_USER_ID);
-		// check
-		tripFeedCriteria.setUserId(ALLOWED_USER_ID);
-		long count = tripFeedService.getCountByFeedCriteria(tripFeedCriteria);
-		Assert.assertNotEquals(count, TripDataProvider.CONTENT_IDS.length);
-	}
-
 }

@@ -21,7 +21,7 @@ public class TripForeignAccountQueryHelper extends ContentQueryHelper<TripForeig
 		String query = "{";
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
 			// OWNER
-			query += "_class: #, 'owner._id': #";
+			query += "'owner._id': #, _class: #";
 		} else {
 			// FAVORITES || MEMBER
 			query += "_id: {$in: #}, _class: #";
@@ -50,10 +50,10 @@ public class TripForeignAccountQueryHelper extends ContentQueryHelper<TripForeig
 	public Object[] getParameters(TripForeignAccountCriteria criteria, Object... objects) {
 		List<Object> parameters = new ArrayList<>();
 		if (criteria.getRelation().equals(RelationEnum.OWN)) {
-			// clazz
-			parameters.add(criteria.getContentType().getClazz());
 			// owner
 			parameters.add(criteria.getAccountId());
+			// clazz
+			parameters.add(criteria.getContentType().getClazz());
 		} else {
 			// FAVORITES || MEMBER
 			// id list
@@ -97,12 +97,12 @@ public class TripForeignAccountQueryHelper extends ContentQueryHelper<TripForeig
 			if (criteria.getSort() != null) {
 				switch (criteria.getSort()) {
 				case RATING:
-					return "{_class: 1, 'owner._id': 1, 'rating.value': 1}";
+					return "{'owner._id': 1, _class: 1, 'rating.value': 1}";
 				default:
-					return "{_class: 1, 'owner._id': 1, created: 1}";
+					return "{'owner._id': 1, _class: 1, created: 1}";
 				}
 			} else {
-				return "{_class: 1, 'owner._id': 1, created: 1}";
+				return "{'owner._id': 1, _class: 1, created: 1}";
 			}
 		} else {
 			// FAVORITES || MEMBER

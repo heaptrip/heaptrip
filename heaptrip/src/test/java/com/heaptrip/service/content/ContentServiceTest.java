@@ -18,6 +18,8 @@ import com.heaptrip.domain.service.content.ContentService;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
+	private String ALLOWED_USER_ID = "TEST_ALLOWED_USER";
+
 	@Autowired
 	@Qualifier(ContentService.SERVICE_NAME)
 	private ContentService contentService;
@@ -79,5 +81,23 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		contentRepository.save(post);
 		isOwner = contentService.isOwner(ContentDataProvider.CONTENT_ID, ContentDataProvider.USER_ID);
 		Assert.assertTrue(isOwner);
+	}
+
+	@Test(priority = 3, enabled = true)
+	public void addAllowed() {
+		// call
+		contentService.addAllowed(ContentDataProvider.OWNER_ID, ALLOWED_USER_ID);
+		// check
+		long count = contentRepository.getCountByOwnerIdAndAllowed(ContentDataProvider.OWNER_ID, ALLOWED_USER_ID);
+		Assert.assertEquals(count, 1);
+	}
+
+	@Test(priority = 4, enabled = false)
+	public void removeAllowed() {
+		// call
+		contentService.removeAllowed(ContentDataProvider.OWNER_ID, ALLOWED_USER_ID);
+		// check
+		long count = contentRepository.getCountByOwnerIdAndAllowed(ContentDataProvider.OWNER_ID, ALLOWED_USER_ID);
+		Assert.assertEquals(count, 0);
 	}
 }

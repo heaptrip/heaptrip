@@ -122,19 +122,4 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(tripId, "tripId must not be null");
 		memberRepository.removeByTripId(tripId);
 	}
-
-	@Override
-	public void addAllowed(String ownerId, String userId) {
-		Assert.notNull(ownerId, "ownerId must not be null");
-		Assert.notNull(userId, "userId must not be null");
-		memberRepository.addAllowed(ownerId, userId);
-	}
-
-	@Override
-	public void removeAllowed(String ownerId, String userId) {
-		Assert.notNull(ownerId, "ownerId must not be null");
-		Assert.notNull(userId, "userId must not be null");
-		memberRepository.removeAllowed(ownerId, userId);
-	}
-
 }

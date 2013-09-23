@@ -235,4 +235,42 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		MongoCollection coll = getCollection();
 		coll.update("{_id: #}", contentId).with("{$set: {rating.value: #}, $inc: {'rating.count': 1}}", ratingValue);
 	}
+
+	@Override
+	public void addAllowed(String ownerId, String userId) {
+		MongoCollection coll = mongoContext.getCollection(CollectionEnum.CONTENTS.getName());
+		String query = "{'owner._id': #}";
+		String updateQuery = "{$addToSet :{allowed: #}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"add allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
+					ownerId, updateQuery, userId);
+			logger.debug(msg);
+		}
+		// XXX check index
+		WriteResult wr = coll.update(query, ownerId).multi().with(updateQuery, userId);
+		logger.debug("WriteResult for add allowed: {}", wr);
+	}
+
+	@Override
+	public void removeAllowed(String ownerId, String userId) {
+		MongoCollection coll = getCollection();
+		String query = "{'owner._id': #}";
+		String updateQuery = "{$pull :{allowed: #}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"remove allowed\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s", query,
+					ownerId, updateQuery, userId);
+			logger.debug(msg);
+		}
+		// XXX check index
+		WriteResult wr = coll.update(query, ownerId).multi().with(updateQuery, userId);
+		logger.debug("WriteResult for remove allowed: {}", wr);
+	}
+
+	@Override
+	public long getCountByOwnerIdAndAllowed(String ownerId, String allowedUserId) {
+		MongoCollection coll = getCollection();
+		return coll.count("{'owner._id': #, allowed: #}", ownerId, allowedUserId);
+	}
 }
