@@ -92,7 +92,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, 1);
 	}
 
-	@Test(priority = 4, enabled = false)
+	@Test(priority = 4, enabled = true)
 	public void removeAllowed() {
 		// call
 		contentService.removeAllowed(ContentDataProvider.OWNER_ID, ALLOWED_USER_ID);
