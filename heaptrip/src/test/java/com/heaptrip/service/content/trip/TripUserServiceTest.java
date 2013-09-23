@@ -244,6 +244,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		// check
 		tripFeedCriteria.setUserId(ALLOWED_USER_ID);
 		long count = tripFeedService.getCountByFeedCriteria(tripFeedCriteria);
+		Assert.assertEquals(count, TripDataProvider.CONTENT_IDS.length);
 	}
 
 	@Test(priority = 10, enabled = true, dataProvider = "feedCriteria", dataProviderClass = TripDataProvider.class)
