@@ -48,15 +48,18 @@
 			<class name="com.heaptrip.service.content.InitContentTest" />
 			<class name="com.heaptrip.service.content.ContentServiceTest" />
 			<class name="com.heaptrip.service.content.ContentSearchServiceTest" />
+			<class name="com.heaptrip.service.content.FavoriteContentServiceTest" />
+			<class name="com.heaptrip.service.content.feed.ContentFeedServiceTest" />
 		</classes>
 	</test>
 
 	<test name="TripTest">
 		<classes>
-			<class name="com.heaptrip.service.trip.InitTripTest" />
-			<class name="com.heaptrip.service.trip.TripServiceTest" />
-			<class name="com.heaptrip.service.trip.TripUserServiceTest" />
-			<class name="com.heaptrip.service.trip.TripRouteServiceTest" />
+			<class name="com.heaptrip.service.content.trip.InitTripTest" />
+			<class name="com.heaptrip.service.content.trip.TripFeedServiceTest" />
+			<class name="com.heaptrip.service.content.trip.TripServiceTest" />
+			<class name="com.heaptrip.service.content.trip.TripUserServiceTest" />
+			<class name="com.heaptrip.service.content.trip.TripRouteServiceTest" />
 		</classes>
 	</test>
 
@@ -84,4 +87,5 @@
 			<class name="com.heaptrip.service.rating.RatingServiceTest" />
 		</classes>
 	</test>
+
 </suite>

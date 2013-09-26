@@ -1,6 +1,6 @@
 package com.heaptrip.domain.service.account;
 
-import com.heaptrip.domain.service.account.criteria.AccountSearchCriteria;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.criteria.AccountSearchReponse;
 
 /**
@@ -34,10 +34,10 @@ public interface AccountSearchService {
 	/**
 	 * Search account by AccountSearchCriteria
 	 * 
-	 * @param AccountSearchCriteria
+	 * @param AccountTextCriteria
 	 *            criteria
 	 * 
 	 * @return account search response
 	 */
-	public AccountSearchReponse findAccountsByAccountSearchCriteria(AccountSearchCriteria criteria);
+	public AccountSearchReponse findAccountsByAccountSearchCriteria(AccountTextCriteria criteria);
 }

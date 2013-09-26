@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.category.Category;
-import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.service.category.CategoryService;
 

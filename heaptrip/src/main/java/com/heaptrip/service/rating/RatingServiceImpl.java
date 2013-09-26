@@ -6,16 +6,17 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.rating.Rating;
-import com.heaptrip.domain.entity.trip.TableItem;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.rating.RatingException;
 import com.heaptrip.domain.repository.content.ContentRepository;
@@ -23,10 +24,10 @@ import com.heaptrip.domain.repository.rating.RatingRepository;
 import com.heaptrip.domain.repository.rating.RatingSum;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.content.ContentService;
+import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.system.ErrorService;
-import com.heaptrip.domain.service.trip.TripService;
-import com.heaptrip.domain.service.trip.TripUserService;
 
 @Service
 public class RatingServiceImpl implements RatingService {
@@ -49,6 +50,7 @@ public class RatingServiceImpl implements RatingService {
 	private TripService tripService;
 
 	@Autowired
+	@Qualifier(ContentService.SERVICE_NAME)
 	private ContentService contentService;
 
 	@Autowired
@@ -184,19 +186,12 @@ public class RatingServiceImpl implements RatingService {
 
 	@Override
 	public AccountRating getDefaultAccountRating() {
-		AccountRating accountRating = new AccountRating();
-		accountRating.setK(1);
-		accountRating.setCount(0);
-		accountRating.setValue(0.25);
-		return accountRating;
+		return AccountRating.getDefaultValue();
 	}
 
 	@Override
 	public ContentRating getDefaultContentRating() {
-		ContentRating contentRating = new ContentRating();
-		contentRating.setCount(0);
-		contentRating.setValue(0.25);
-		return contentRating;
+		return ContentRating.getDefaultValue();
 	}
 
 	@Override

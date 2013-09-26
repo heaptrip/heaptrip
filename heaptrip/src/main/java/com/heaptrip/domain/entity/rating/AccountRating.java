@@ -18,4 +18,12 @@ public class AccountRating extends TotalRating {
 		K = k;
 	}
 
+	public static AccountRating getDefaultValue() {
+		AccountRating accountRating = new AccountRating();
+		accountRating.setK(1);
+		accountRating.setCount(0);
+		accountRating.setValue(0.25);
+		return accountRating;
+	}
+
 }

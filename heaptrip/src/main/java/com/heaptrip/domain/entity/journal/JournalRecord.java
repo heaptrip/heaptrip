@@ -3,15 +3,15 @@ package com.heaptrip.domain.entity.journal;
 import java.util.Date;
 
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.Collectionable;
 
 /**
  * 
  * Journal to record errors
  * 
  */
-public class JournalRecord extends BaseObject {
-
-	public static final String COLLECTION_NAME = "journal";
+public class JournalRecord extends BaseObject implements Collectionable {
 
 	// module
 	private ModuleEnum module;
@@ -66,6 +66,11 @@ public class JournalRecord extends BaseObject {
 
 	public void setTrace(String[] trace) {
 		this.trace = trace;
+	}
+
+	@Override
+	public String getCollectionName() {
+		return CollectionEnum.JOURNAL.getName();
 	}
 
 }

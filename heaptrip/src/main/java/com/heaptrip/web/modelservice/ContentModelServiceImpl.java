@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.CurrencyEnum;
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.MultiLangText;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;

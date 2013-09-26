@@ -3,8 +3,8 @@ package com.heaptrip.web.controller.content.post;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.heaptrip.domain.entity.post.ImageEntity;
-import com.heaptrip.domain.entity.post.PostEntity;
+import com.heaptrip.domain.entity.content.post.ImageEntity;
+import com.heaptrip.domain.entity.content.post.PostEntity;
 import com.heaptrip.web.model.post.PostImage;
 import com.heaptrip.web.model.post.PostView;
 

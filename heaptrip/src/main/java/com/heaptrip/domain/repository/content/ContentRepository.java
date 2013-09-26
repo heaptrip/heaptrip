@@ -16,7 +16,11 @@ import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
 public interface ContentRepository extends CrudRepository<Content> {
 
+	public void setDeleted(String tripId);
+
 	public String getOwnerId(String contentId);
+
+	public boolean isOwner(String contentId, String userId);
 
 	public void setStatus(String contentId, ContentStatusEnum status, String[] allowed);
 
@@ -43,4 +47,10 @@ public interface ContentRepository extends CrudRepository<Content> {
 	public ContentRating getRating(String contentId);
 
 	public void updateRating(String contentId, double ratingValue);
+
+	public void addAllowed(String ownerId, String userId);
+
+	public void removeAllowed(String ownerId, String userId);
+
+	public long getCountByOwnerIdAndAllowed(String ownerId, String allowedUserId);
 }

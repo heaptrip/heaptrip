@@ -6,8 +6,8 @@ import java.util.List;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.post.ImageEntity;
-import com.heaptrip.domain.entity.post.PostEntity;
+import com.heaptrip.domain.entity.content.post.ImageEntity;
+import com.heaptrip.domain.entity.content.post.PostEntity;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 

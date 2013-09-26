@@ -19,7 +19,7 @@ import com.heaptrip.domain.repository.solr.SolrAccountRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrAccount;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.AccountSearchService;
-import com.heaptrip.domain.service.account.criteria.AccountSearchCriteria;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.criteria.AccountSearchReponse;
 import com.heaptrip.domain.service.system.ErrorService;
 
@@ -84,7 +84,7 @@ public class AccountSearchServiceImpl implements AccountSearchService {
 	}
 
 	@Override
-	public AccountSearchReponse findAccountsByAccountSearchCriteria(AccountSearchCriteria criteria) {
+	public AccountSearchReponse findAccountsByAccountSearchCriteria(AccountTextCriteria criteria) {
 		Assert.notNull(criteria, "criteria must not be null");
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");

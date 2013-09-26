@@ -21,8 +21,8 @@ import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrContent;
 import com.heaptrip.domain.repository.solr.entity.SolrContentSearchResponse;
 import com.heaptrip.domain.service.content.ContentSearchService;
-import com.heaptrip.domain.service.content.criteria.TextSearchCriteria;
 import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
+import com.heaptrip.domain.service.content.criteria.ContentTextCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.util.language.LanguageUtils;
 
@@ -62,7 +62,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	}
 
 	@Override
-	public ContentSearchResponse findContentsByTextSearchCriteria(TextSearchCriteria criteria) {
+	public ContentSearchResponse findContentsByTextCriteria(ContentTextCriteria criteria) {
 		Assert.notNull(criteria, "criteria must not be null");
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");
@@ -80,7 +80,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 		} else {
 			result.setNumFound(response.getNumFound());
 			if (response.getContents() != null && !response.getContents().isEmpty()) {
-				result.setContents(new ArrayList<Content>());
+				result.setObjects(new ArrayList<Content>());
 				// set list of id
 				List<String> ids = new ArrayList<>();
 				for (SolrContent solrContent : response.getContents()) {
@@ -118,7 +118,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 							content.getSummary().setValue(solrContent.getTextRu(), LanguageUtils.getRussianLocale());
 							content.getSummary().setMainLanguage(LanguageUtils.getRussianLocale().getLanguage());
 						}
-						result.getContents().add(content);
+						result.getObjects().add(content);
 					}
 				}
 			}

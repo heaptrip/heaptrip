@@ -3,41 +3,28 @@ package com.heaptrip.service.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.Future;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.ContentRepository;
-import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.content.criteria.FeedCriteria;
-import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
-import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.image.ImageService;
 
-@Service
+@Service(ContentService.SERVICE_NAME)
 public class ContentServiceImpl implements ContentService {
 
 	@Autowired
 	private ContentRepository contentRepository;
-
-	@Autowired
-	private FavoriteContentRepository favoriteContentRepository;
 
 	@Autowired
 	private ImageService imageService;
@@ -46,59 +33,22 @@ public class ContentServiceImpl implements ContentService {
 	private ContentSearchService contentSearchService;
 
 	@Override
-	public List<Content> getContentsByFeedCriteria(FeedCriteria feedCriteria) {
-		Assert.notNull(feedCriteria, "feedCriteria must not be null");
-		return contentRepository.findByFeedCriteria(feedCriteria);
+	public boolean isOwner(String contentId, String userId) {
+		Assert.notNull(contentId, "contentId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		return contentRepository.isOwner(contentId, userId);
 	}
 
 	@Override
-	// TODO konovalov add test
-	public List<Content> getContentsByMyAccountCriteria(MyAccountCriteria myAccountCriteria) {
-		Assert.notNull(myAccountCriteria, "myAccountCriteria must not be null");
-		Assert.notNull(myAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(myAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(myAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
-		Assert.isTrue(StringUtils.isNotBlank(myAccountCriteria.getUserId()), "userId must not be null");
-		return contentRepository.findByMyAccountCriteria(myAccountCriteria);
+	public void remove(String contentId) {
+		Assert.notNull(contentId, "contentId must not be null");
+		contentRepository.setDeleted(contentId);
 	}
 
 	@Override
-	// TODO konovalov add test
-	public List<Content> getContentsByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
-		Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
-		Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(foreignAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(foreignAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
-		Assert.isTrue(StringUtils.isNotBlank(foreignAccountCriteria.getOwnerId()), "ownerId must not be null");
-		return contentRepository.findByForeignAccountCriteria(foreignAccountCriteria);
-	}
-
-	@Override
-	public long getContentsCountByFeedCriteria(FeedCriteria feedCriteria) {
-		Assert.notNull(feedCriteria, "feedCriteria must not be null");
-		return contentRepository.getCountByFeedCriteria(feedCriteria);
-	}
-
-	@Override
-	// TODO konovalov add test
-	public long getContentsCountByMyAccountCriteria(MyAccountCriteria myAccountCriteria) {
-		Assert.notNull(myAccountCriteria, "myAccountCriteria must not be null");
-		Assert.notNull(myAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(myAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(myAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
-		Assert.isTrue(StringUtils.isNotBlank(myAccountCriteria.getUserId()), "userId must not be null");
-		return contentRepository.getCountByMyAccountCriteria(myAccountCriteria);
-	}
-
-	@Override
-	// TODO konovalov add test
-	public long getContentsCountByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
-		Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
-		Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
-		Assert.notNull(foreignAccountCriteria.getRelation(), "relation must not be null");
-		Assert.isTrue(foreignAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
-		Assert.isTrue(StringUtils.isNotBlank(foreignAccountCriteria.getOwnerId()), "ownerId must not be null");
-		return contentRepository.getCountByForeignAccountCriteria(foreignAccountCriteria);
+	public void hardRemove(String contentId) {
+		Assert.notNull(contentId, "contentId must not be null");
+		contentRepository.remove(contentId);
 	}
 
 	@Override
@@ -111,8 +61,8 @@ public class ContentServiceImpl implements ContentService {
 			allowed = new String[] { "0" };
 			break;
 		case PUBLISHED_FRIENDS:
-			String ownerId = contentRepository.getOwnerId(contentId);
 			// TODO konovalov: add owner friends
+			// String ownerId = contentRepository.getOwnerId(contentId);
 			allowed = new String[] { "0" };
 			break;
 		default:
@@ -124,6 +74,20 @@ public class ContentServiceImpl implements ContentService {
 		contentSearchService.saveContent(contentId);
 	}
 
+	@Override
+	public void addAllowed(String ownerId, String userId) {
+		Assert.notNull(ownerId, "ownerId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		contentRepository.addAllowed(ownerId, userId);
+	}
+
+	@Override
+	public void removeAllowed(String ownerId, String userId) {
+		Assert.notNull(ownerId, "ownerId must not be null");
+		Assert.notNull(userId, "userId must not be null");
+		contentRepository.removeAllowed(ownerId, userId);
+	}
+
 	@Async
 	@Override
 	public Future<Void> incViews(String contentId, String userIdOrRemoteIp) {
@@ -131,50 +95,6 @@ public class ContentServiceImpl implements ContentService {
 		Assert.notNull(contentId, "userIdOrRemoteIp must not be null");
 		contentRepository.incViews(contentId, userIdOrRemoteIp);
 		return new AsyncResult<Void>(null);
-	}
-
-	@Override
-	public void addFavorites(String contentId, String accountId) {
-		Assert.notNull(contentId, "contentId must not be null");
-		Assert.notNull(accountId, "accountId must not be null");
-		favoriteContentRepository.addFavorite(contentId, accountId);
-	}
-
-	@Override
-	public List<Content> getFavoritesContents(String accountId, Locale locale) {
-		Assert.notNull(accountId, "accountId must not be null");
-		return favoriteContentRepository.findByAccountId(accountId, locale);
-	}
-
-	@Override
-	public List<Content> getFavoritesContents(ContentEnum contentType, String accountId, Locale locale) {
-		Assert.notNull(accountId, "accountId must not be null");
-		Assert.notNull(contentType, "contentType must not be null");
-		return favoriteContentRepository.findByContentTypeAndAccountId(contentType, accountId, locale);
-	}
-
-	@Override
-	public boolean isFavorites(String contentId, String accountId) {
-		Assert.notNull(contentId, "contentId must not be null");
-		Assert.notNull(accountId, "accountId must not be null");
-		return favoriteContentRepository.exists(contentId, accountId);
-	}
-
-	@Override
-	public void removeFavorites(String contentId, String accountId) {
-		Assert.notNull(contentId, "contentId must not be null");
-		Assert.notNull(accountId, "accountId must not be null");
-		favoriteContentRepository.removeFavorite(contentId, accountId);
-	}
-
-	@Override
-	public Image saveTitleImage(String fileName, InputStream is) throws IOException {
-		Image image = new Image();
-		String imageId = imageService.saveImage(fileName, ImageEnum.CONTENT_TITLE_IMAGE, is);
-		image.setId(imageId);
-		image.setName(fileName);
-		image.setUploaded(new Date());
-		return image;
 	}
 
 	@Override
@@ -188,5 +108,15 @@ public class ContentServiceImpl implements ContentService {
 		Assert.notNull(contentId, "contentId must not be null");
 		Assert.notNull(ratingValue, "ratingValue must not be null");
 		contentRepository.updateRating(contentId, ratingValue);
+	}
+
+	@Override
+	public Image saveTitleImage(String fileName, InputStream is) throws IOException {
+		Image image = new Image();
+		String imageId = imageService.saveImage(fileName, ImageEnum.CONTENT_TITLE_IMAGE, is);
+		image.setId(imageId);
+		image.setName(fileName);
+		image.setUploaded(new Date());
+		return image;
 	}
 }

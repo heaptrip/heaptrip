@@ -31,9 +31,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.heaptrip.domain.entity.post.ImageEntity;
-import com.heaptrip.domain.entity.post.PostEntity;
-import com.heaptrip.domain.repository.post.PostRepository;
+import com.heaptrip.domain.entity.content.post.ImageEntity;
+import com.heaptrip.domain.entity.content.post.PostEntity;
+import com.heaptrip.domain.repository.content.post.PostRepository;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;

@@ -1,7 +1,7 @@
 package com.heaptrip.domain.entity.content;
 
-import com.heaptrip.domain.entity.post.Post;
-import com.heaptrip.domain.entity.trip.Trip;
+import com.heaptrip.domain.entity.content.post.Post;
+import com.heaptrip.domain.entity.content.trip.Trip;
 
 /**
  * 

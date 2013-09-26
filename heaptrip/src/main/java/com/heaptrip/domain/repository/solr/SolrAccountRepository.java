@@ -6,7 +6,7 @@ import org.apache.solr.client.solrj.SolrServerException;
 
 import com.heaptrip.domain.repository.solr.entity.SolrAccount;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
-import com.heaptrip.domain.service.account.criteria.AccountSearchCriteria;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 
 public interface SolrAccountRepository {
 
@@ -16,7 +16,7 @@ public interface SolrAccountRepository {
 
 	public boolean exists(String accountId) throws SolrServerException;
 
-	public SolrAccountSearchReponse findByAccountSearchCriteria(AccountSearchCriteria criteria)
+	public SolrAccountSearchReponse findByAccountSearchCriteria(AccountTextCriteria criteria)
 			throws SolrServerException;
 
 }

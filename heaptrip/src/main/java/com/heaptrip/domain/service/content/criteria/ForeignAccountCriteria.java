@@ -5,20 +5,20 @@ package com.heaptrip.domain.service.content.criteria;
  * This criterion is used to find content for foreign account.
  * 
  */
-public class ForeignAccountCriteria extends DatabaseCriteria {
+public class ForeignAccountCriteria extends ContentSortCriteria {
 
-	// id of the content owner
-	protected String ownerId;
+	// foreign account id
+	protected String accountId;
 
 	// relation between the foreign account and the requested content
 	protected RelationEnum relation;
 
-	public String getOwnerId() {
-		return ownerId;
+	public String getAccountId() {
+		return accountId;
 	}
 
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
 	}
 
 	public RelationEnum getRelation() {

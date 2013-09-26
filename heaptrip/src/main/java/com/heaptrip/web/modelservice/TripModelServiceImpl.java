@@ -7,13 +7,14 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.content.MultiLangText;
-import com.heaptrip.domain.entity.trip.TableItem;
-import com.heaptrip.domain.entity.trip.TableStatus;
-import com.heaptrip.domain.entity.trip.TableStatusEnum;
-import com.heaptrip.domain.entity.trip.Trip;
-import com.heaptrip.domain.service.trip.TripService;
-import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.content.trip.TableItem;
+import com.heaptrip.domain.entity.content.trip.TableStatus;
+import com.heaptrip.domain.entity.content.trip.TableStatusEnum;
+import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.service.content.trip.TripFeedService;
+import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
@@ -24,11 +25,14 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
 	@Autowired
 	private TripService tripService;
-
+	
+	@Autowired
+	private TripFeedService tripFeedService;
+	
 	@Override
 	public List<TripModel> getTripsModelByCriteria(TripFeedCriteria tripFeedCriteria) {
 		tripFeedCriteria.setLocale(getCurrentLocale());
-		List<Trip> trips = tripService.getTripsByTripFeedCriteria(tripFeedCriteria);
+		List<Trip> trips = tripFeedService.getContentsByFeedCriteria(tripFeedCriteria);
 		return convertTripToTripModel(trips);
 	}
 
@@ -39,7 +43,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
 	@Override
 	public Trip saveTripInfo(TripInfoModel tripInfoModel) {
-		return tripService.saveTrip(convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale())),
+		return tripService.save(convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale())),
 				new Locale(tripInfoModel.getLocale()));
 	}
 
@@ -62,7 +66,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 				trip.setTable(new TableItem[] { new TableItem() });
 			}
 
-			TableItem tableItem = tripService.getNearTableItem(trip);
+			TableItem tableItem = tripService.getNearestTableItem(trip);
 			if (tableItem != null) {
 				tripModel.setBegin(convertDate(tableItem.getBegin()));
 				tripModel.setEnd(convertDate(tableItem.getEnd()));

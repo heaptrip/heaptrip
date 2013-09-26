@@ -18,18 +18,18 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.post.Post;
+import com.heaptrip.domain.entity.content.post.Post;
+import com.heaptrip.domain.entity.content.trip.TableItem;
+import com.heaptrip.domain.entity.content.trip.TableUser;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
-import com.heaptrip.domain.entity.trip.TableItem;
-import com.heaptrip.domain.entity.trip.TableUser;
-import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.repository.rating.RatingRepository;
-import com.heaptrip.domain.repository.trip.TripRepository;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.rating.RatingService;
-import com.heaptrip.domain.service.trip.TripUserService;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class RatingServiceTest extends AbstractTestNGSpringContextTests {
