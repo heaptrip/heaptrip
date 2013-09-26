@@ -14,7 +14,6 @@ import com.heaptrip.domain.entity.trip.TableStatusEnum;
 import com.heaptrip.domain.entity.trip.Trip;
 import com.heaptrip.domain.service.trip.TripService;
 import com.heaptrip.domain.service.trip.criteria.TripFeedCriteria;
-import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
