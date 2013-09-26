@@ -36,7 +36,7 @@ public class JournalServiceImpl implements JournalService {
 		} else {
 			record.setModule(ModuleEnum.UNKNOWN);
 		}
-		return record;
+		return addRecord(record);
 	}
 
 }
