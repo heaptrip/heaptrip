@@ -13,12 +13,14 @@
 				<h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>{{>owner.name}}<span>({{>owner.rating}})</span>
 			</div>
 			<div class="right">
-				<div>
-					<fmt:message key="page.date.period" />:
-					<span class="date">
-						<fmt:message key="page.date.from" /> {{>begin.text}} <fmt:message key="page.date.to" /> {{>end.text)}}
-					</span>
-				</div>
+				{{if begin}}
+					<div>
+						<fmt:message key="page.date.period" />:
+						<span class="date">
+							<fmt:message key="page.date.from" /> {{>begin.text}} <fmt:message key="page.date.to" /> {{>end.text)}}
+						</span>
+					</div>
+				{{/if}}
 				<div>
 					<fmt:message key="content.place" />:
 						{{for regions}}
