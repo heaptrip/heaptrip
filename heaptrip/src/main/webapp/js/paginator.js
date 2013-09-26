@@ -264,6 +264,16 @@
 														recordStartIndex,
 														recordsEndIndex);
 											}
+											
+											else{
+												//onchange : function onChange(pageIndex, skip, limit) {
+													$.handParamToURL({
+														skip : skip,
+														limit : limit-skip
+													});
+												//}
+											}
+											
 										}
 
 										showRequiredButtons();

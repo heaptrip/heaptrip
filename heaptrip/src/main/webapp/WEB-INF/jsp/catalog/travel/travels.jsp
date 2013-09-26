@@ -13,12 +13,14 @@
 				<h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>{{>owner.name}}<span>({{>owner.rating}})</span>
 			</div>
 			<div class="right">
-				<div>
-					<fmt:message key="page.date.period" />:
-					<span class="date">
-						<fmt:message key="page.date.from" /> {{>begin.text}} <fmt:message key="page.date.to" /> {{>end.text)}}
-					</span>
-				</div>
+				{{if begin}}
+					<div>
+						<fmt:message key="page.date.period" />:
+						<span class="date">
+							<fmt:message key="page.date.from" /> {{>begin.text}} <fmt:message key="page.date.to" /> {{>end.text)}}
+						</span>
+					</div>
+				{{/if}}
 				<div>
 					<fmt:message key="content.place" />:
 						{{for regions}}
@@ -55,17 +57,13 @@
 
 <div id="container">
 	<div id="contents"></div>
-	<!-- #content-->
 	<tiles:insertDefinition name="pagination" />
 </div>
-<!-- #container-->
 
 <aside id="sideRight">
-
 	<tiles:insertDefinition name="categoryTreeWithBtn" />
 	<tiles:insertDefinition name="regionFilterWithBtn" />
-
-</aside><!-- #sideRight -->
+</aside>
 
 <script type="text/javascript">
 
@@ -74,8 +72,6 @@
 	});
 
 	var getTripsList = function(paramsJson) {
-
-		var recordsperpage = 4;
 		
 		var url = 'rest/trips';
 
@@ -96,14 +92,7 @@
 			$("#contents").html($("#tripTemplate").render(data.trips));
 			$('#paginator').smartpaginator({
 				totalrecords : data.count,
-				skip : paramsJson.skip,
-				recordsperpage:recordsperpage,
-				onchange : function onChange(pageIndex, skip, limit) {
-					$.handParamToURL({
-						skip : skip,
-						limit : limit-skip
-					});
-				}
+				skip : paramsJson.skip
 			});
 		};
 

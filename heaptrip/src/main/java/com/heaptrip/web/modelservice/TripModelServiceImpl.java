@@ -25,10 +25,10 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
 	@Autowired
 	private TripService tripService;
-	
+
 	@Autowired
 	private TripFeedService tripFeedService;
-	
+
 	@Override
 	public List<TripModel> getTripsModelByCriteria(TripFeedCriteria tripFeedCriteria) {
 		tripFeedCriteria.setLocale(getCurrentLocale());
@@ -56,21 +56,17 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale) {
 		if (trip != null) {
 			setContentToContentModel(tripModel, trip, locale, isOnlyThisLocale);
-			
+
 			tripModel.setComments(trip.getComments());
 
-			// TODO: пообщаться с Женей убрать костыль. Полей с датой может не
-			// быть, а
-			// таблица быть должна ???
-			if (trip.getTable() == null || trip.getTable().length == 0) {
-				trip.setTable(new TableItem[] { new TableItem() });
+			if (trip.getTable() != null && trip.getTable().length > 0) {
+				TableItem tableItem = tripService.getNearestTableItem(trip);
+				if (tableItem != null) {
+					tripModel.setBegin(convertDate(tableItem.getBegin()));
+					tripModel.setEnd(convertDate(tableItem.getEnd()));
+				}
 			}
 
-			TableItem tableItem = tripService.getNearestTableItem(trip);
-			if (tableItem != null) {
-				tripModel.setBegin(convertDate(tableItem.getBegin()));
-				tripModel.setEnd(convertDate(tableItem.getEnd()));
-			}
 			if (trip.getSummary() != null)
 				tripModel.setSummary(getMultiLangTextValue(trip.getSummary(), locale, isOnlyThisLocale));
 		}
@@ -167,7 +163,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 			for (TableItem item : tableItems) {
 				scheduleList.add(convertTableItemToScheduleModel(item));
 			}
-			scheduleList.toArray(new ScheduleModel[scheduleList.size()]);
+			result = scheduleList.toArray(new ScheduleModel[scheduleList.size()]);
 		}
 		return result;
 	}

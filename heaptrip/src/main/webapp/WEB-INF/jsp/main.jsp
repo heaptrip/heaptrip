@@ -13,6 +13,8 @@
 <meta name="keywords" content="" />
 <meta name="description" content="" />
 
+<link rel="shortcut icon" href="<c:url value="/images/ht.png"/>" type="image/x-icon">
+
 
 <!-- title  -->
 <title><fmt:message key="site.title" /></title>

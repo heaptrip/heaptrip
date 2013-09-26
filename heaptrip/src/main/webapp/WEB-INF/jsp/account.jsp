@@ -20,7 +20,7 @@
 		</ul>
 	</sec:authorize>
 	<sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
-		<div id="account_name">
+		<div id="account_name" class="login">
 			<a href="<c:url value="/login.html"/>"><fmt:message key="user.action.login" /></a>
 		</div>
 	</sec:authorize>
