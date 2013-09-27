@@ -77,7 +77,7 @@
 
 		var tripCriteria = {
 			skip : paramsJson.skip ? paramsJson.skip : 0,
-			limit : paramsJson.limit ? paramsJson.limit : recordsperpage,
+			limit : paramsJson.limit,
 			categories : {
 				checkMode : "IN",
 				ids : paramsJson.ct ? paramsJson.ct.split(',') : null
