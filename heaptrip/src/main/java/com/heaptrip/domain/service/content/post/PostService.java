@@ -14,10 +14,18 @@ public interface PostService extends ContentService {
 	/**
 	 * Save a new content
 	 * 
-	 * @param content
+	 * @param post
 	 * @param locale
 	 *            the locale for which to create the content
-	 * @return content
+	 * @return post
 	 */
-	public Post save(Post content, Locale locale);
+	public Post save(Post post, Locale locale);
+
+	/**
+	 * Update post information
+	 * 
+	 * @param post
+	 * 
+	 */
+	public void update(Post post);
 }

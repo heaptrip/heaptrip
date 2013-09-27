@@ -33,7 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.heaptrip.domain.entity.content.post.ImageEntity;
 import com.heaptrip.domain.entity.content.post.PostEntity;
-import com.heaptrip.domain.repository.content.post.PostRepository;
+import com.heaptrip.domain.repository.content.post.OldPostRepository;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
@@ -48,7 +48,7 @@ public class PostController extends ExceptionHandlerControler {
 	private static float IMAGE_OUTPUT_QUALITY = 0.5f;
 
 	@Autowired
-	private PostRepository postRepository;
+	private OldPostRepository postRepository;
 
 	@RequestMapping(value = "posts", method = RequestMethod.GET)
 	public @ModelAttribute("posts")

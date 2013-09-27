@@ -45,11 +45,25 @@ public class PostServiceImpl extends ContentServiceImpl implements PostService {
 	}
 
 	@Override
+	public void remove(String tripId) {
+		Assert.notNull(tripId, "tripId must not be null");
+		super.remove(tripId);
+		// remove from solr
+		contentSearchService.removeContent(tripId);
+	}
+
+	@Override
 	public void hardRemove(String contentId) {
 		Assert.notNull(contentId, "contentId must not be null");
 		super.hardRemove(contentId);
 		// remove from solr
 		contentSearchService.removeContent(contentId);
+	}
+
+	@Override
+	public void update(Post post) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

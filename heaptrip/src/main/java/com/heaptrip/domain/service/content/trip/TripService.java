@@ -1,7 +1,9 @@
 package com.heaptrip.domain.service.content.trip;
 
+import java.util.List;
 import java.util.Locale;
 
+import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.ContentService;
@@ -50,6 +52,14 @@ public interface TripService extends ContentService {
 	public void removeTripLocale(String tripId, Locale locale);
 
 	/**
+	 * Get table items by trip id
+	 * 
+	 * @param tripId
+	 * @return table items
+	 */
+	public List<TableItem> getTableItems(String tripId);
+
+	/**
 	 * Get nearest trip from the timetable. It is recommended to use to display
 	 * the time in the trip card
 	 * 
@@ -71,7 +81,7 @@ public interface TripService extends ContentService {
 	/**
 	 * Get latest trip from the timetable by trip id. Should be used to
 	 * determine the possibility of rating. Trip can be rated in six months with
-	 * the launch of the last otem of timetable
+	 * the launch of the last item of timetable
 	 * 
 	 * @param tripId
 	 *            trip id
@@ -97,4 +107,33 @@ public interface TripService extends ContentService {
 	 * @param cause
 	 */
 	public void cancelTableItem(String tripId, String tableId, String cause);
+
+	/**
+	 * Add post to trip
+	 * 
+	 * @param tripId
+	 *            trip id
+	 * @param postId
+	 *            post id
+	 */
+	public void addPost(String tripId, String postId);
+
+	/**
+	 * Get posts by trip id
+	 * 
+	 * @param tripId
+	 *            trip id
+	 * @return list of posts
+	 */
+	public List<Post> getPosts(String tripId);
+
+	/**
+	 * Remove post from trip
+	 * 
+	 * @param tripId
+	 *            trip id
+	 * @param postId
+	 *            posts id
+	 */
+	public void removePost(String tripId, String postId);
 }

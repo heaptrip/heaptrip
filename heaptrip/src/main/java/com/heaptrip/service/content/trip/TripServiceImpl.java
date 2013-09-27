@@ -3,6 +3,7 @@ package com.heaptrip.service.content.trip;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
@@ -16,6 +17,7 @@ import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.Route;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatus;
@@ -324,5 +326,29 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 		status.setValue(TableStatusEnum.CANCELED);
 		status.setText(cause);
 		tripRepository.setTableStatus(tripId, tableId, status);
+	}
+
+	@Override
+	public List<TableItem> getTableItems(String tripId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addPost(String tripId, String postId) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<Post> getPosts(String tripId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removePost(String tripId, String postId) {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -21,6 +21,9 @@ public class Trip extends Content implements Commentsable {
 	// number of comments
 	private long comments;
 
+	// IDs of trip posts
+	private String[] postIds;
+
 	@Override
 	public String getCommentsNumberFieldName() {
 		return COMMENTS_NUMBER_FIELD_NAME;
@@ -48,6 +51,14 @@ public class Trip extends Content implements Commentsable {
 
 	public void setComments(long comments) {
 		this.comments = comments;
+	}
+
+	public String[] getPostIds() {
+		return postIds;
+	}
+
+	public void setPostIds(String[] postIds) {
+		this.postIds = postIds;
 	}
 
 }

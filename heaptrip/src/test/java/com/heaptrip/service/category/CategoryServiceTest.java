@@ -18,13 +18,13 @@ import com.heaptrip.domain.service.category.CategoryService;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
 
-	private List<Category> categories = new ArrayList<Category>();
-
 	@Autowired
 	private CategoryRepository categoryRepository;
 
 	@Autowired
 	private CategoryService categoryService;
+
+	private List<Category> categories = new ArrayList<Category>();
 
 	@BeforeClass
 	public void init() {

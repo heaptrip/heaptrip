@@ -1,24 +1,8 @@
 package com.heaptrip.domain.repository.content.post;
 
-import java.io.InputStream;
-import java.util.List;
+import com.heaptrip.domain.entity.content.post.Post;
+import com.heaptrip.domain.repository.CrudRepository;
 
-import com.heaptrip.domain.entity.content.post.ImageEntity;
-import com.heaptrip.domain.entity.content.post.PostEntity;
+public interface PostRepository extends CrudRepository<Post> {
 
-@Deprecated
-public interface PostRepository {
-	public static final String SERVICE_NAME = "postRepository";
-
-	public void savePost(PostEntity post);
-
-	public List<PostEntity> findAll();
-
-	public PostEntity findById(String id);
-
-	public void removeById(String id);
-
-	public ImageEntity saveImage(InputStream is, String fileName);
-
-	public InputStream getImage(String fileId);
 }
