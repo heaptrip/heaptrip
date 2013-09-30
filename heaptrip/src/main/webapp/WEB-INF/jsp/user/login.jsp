@@ -2,6 +2,36 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<c:set var="domain_url"
+	value="${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}" />
+
+<fmt:bundle basename="socnet">
+	<!-- VKontakte properties -->
+	<fmt:message key="socnet.vk.client_id" var="vk_client_id" />
+	<fmt:message key="socnet.vk.scope" var="vk_scope" />
+	<fmt:message key="socnet.vk.authorize_url" var="vk_authorize_url" />
+	<!-- FaceBook properties -->
+	<fmt:message key="socnet.fb.client_id" var="fb_client_id" />
+	<fmt:message key="socnet.fb.scope" var="fb_scope" />
+	<fmt:message key="socnet.fb.authorize_url" var="fb_authorize_url" />
+</fmt:bundle>
+
+<c:url var="vkUrl" value="${vk_authorize_url}">
+	<c:param name="client_id" value="${vk_client_id}" />
+	<c:param name="scope" value="${vk_scope}" />
+	<c:param name="redirect_uri" value="http://${domain_url}/rest/registration/socnet/vk" />
+	<c:param name="display" value="page" />
+	<c:param name="response_type" value="code" />
+</c:url>
+
+<c:url var="fbUrl" value="${fb_authorize_url}">
+	<c:param name="client_id" value="${fb_client_id}" />
+	<c:param name="redirect_uri" value="http://${domain_url}/rest/registration/socnet/fb" />
+	<c:param name="display" value="page" />
+	<c:param name="response_type" value="code" />
+</c:url>
+
+
 <nav id="nav">
 	<ul>
 		<li><a href="<c:url value="/login.html"/>" class="active"><fmt:message key="user.action.login" /></a></li>
@@ -48,8 +78,11 @@
 					</dl>
 				</form>
 				<div id="reg_soc">
-					<span><fmt:message key="user.action.socnetLogin" />:</span> <a href="/" class="fb"></a> <a
-						href="" class="od"></a> <a href="" class="tv"></a> <a href="/" class="vk"></a>
+					<span><fmt:message key="user.action.socnetLogin" />:</span> 
+						<a href="${fbUrl}" class="fb"></a> 
+						<a href="" class="od"></a>
+						<a href="" class="tv"></a>
+						<a href="${vkUrl}" class="vk"></a>
 				</div>
 				<div id="link">
 					<a href="<c:url value="/registration.html"/>" id="reg_link"><fmt:message key="user.action.registration" /></a> <a

@@ -1,67 +1,69 @@
 package com.heaptrip.util.http;
 
-import java.io.IOException;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 import org.apache.http.HttpEntity;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 public class HttpClient {
 
 	public String doStringGet(String url) {
-
 		String response = null;
-
 		try {
 			response = EntityUtils.toString(doRequestGet(url));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return response;
 	}
 
-	public byte[] doByteGet(String url) {
-
+	public byte[] doBytePost(String url) {
 		byte[] response = null;
-
 		try {
-			response = EntityUtils.toByteArray(doRequestGet(url));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			response = EntityUtils.toByteArray(doRequestPost(url));
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return response;
+	}
+
+	public InputStream doInputStreamPost(String url) {
+		InputStream result = null;
+		if (url != null && !url.isEmpty()) {
+			byte[] dataByUrl = doBytePost(url);
+			if (dataByUrl != null)
+				result = new ByteArrayInputStream(dataByUrl);
+		}
+		return result;
 	}
 
 	private HttpEntity doRequestGet(String url) {
 		HttpEntity entity = null;
-
 		HttpGet httpGet = new HttpGet(url.toString());
-
 		try {
 			entity = new DefaultHttpClient().execute(httpGet).getEntity();
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (Exception e) {
 		} finally {
 			httpGet.releaseConnection();
 		}
-
 		return entity;
+	}
 
+	private HttpEntity doRequestPost(String url) {
+		HttpEntity entity = null;
+		HttpPost httpPost = new HttpPost(url.toString());
+		try {
+			entity = new DefaultHttpClient().execute(httpPost).getEntity();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			httpPost.releaseConnection();
+		}
+		return entity;
 	}
 
 }

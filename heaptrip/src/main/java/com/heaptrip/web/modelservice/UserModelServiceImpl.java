@@ -39,24 +39,15 @@ public class UserModelServiceImpl implements UserModelService {
 		InputStream photo = null;
 
 		userReg.setEmail(regInfo.getEmail());
-		// TODO: Дима теперь у пользователя просто имя ;).
-		// TODO: А как же форма регистрации, надо дизайн менять :)
 		userReg.setName(regInfo.getFirstName() + " " + regInfo.getSecondName());
 		userReg.setPassword(regInfo.getPassword());
 		userReg.setRoles(roles);
 
 		if (regInfo.getSocNetName() != null && !regInfo.getSocNetName().isEmpty() && regInfo.getSocNetUserUID() != null
 				&& !regInfo.getSocNetUserUID().isEmpty()) {
-
-			if (regInfo.getPhotoUrl() != null && !regInfo.getPhotoUrl().isEmpty()) {
-				byte[] photoByUrl = new HttpClient().doByteGet(regInfo.getPhotoUrl());
-				if (photoByUrl != null)
-					photo = new ByteArrayInputStream(photoByUrl);
-			}
-
+			photo = new HttpClient().doInputStreamPost(regInfo.getPhotoUrl());
 			userReg.setNet(new SocialNetwork[] { new SocialNetwork(procsessSocNetName(regInfo.getSocNetName()), regInfo
 					.getSocNetUserUID()) });
-
 		}
 
 		User user = null;

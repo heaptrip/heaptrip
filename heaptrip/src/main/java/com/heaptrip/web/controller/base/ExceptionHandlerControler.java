@@ -6,17 +6,24 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 
 @Controller
 public class ExceptionHandlerControler {
 
 	private static final Logger LOG = LoggerFactory.getLogger(ExceptionHandlerControler.class);
+
+	@Autowired
+	@Qualifier("requestScopeService")
+	protected RequestScopeService scopeService;
 
 	@ExceptionHandler(RestException.class)
 	public @ResponseBody
@@ -28,7 +35,7 @@ public class ExceptionHandlerControler {
 	@ExceptionHandler(Exception.class)
 	public RedirectView handleException(Exception exception) {
 
-		RedirectView redirectView = new RedirectView("error.html");
+		RedirectView redirectView = new RedirectView(scopeService.getCurrentContextPath() + "/error.html");
 
 		String message = null;
 
