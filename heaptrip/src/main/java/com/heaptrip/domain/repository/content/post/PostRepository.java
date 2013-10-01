@@ -5,4 +5,6 @@ import com.heaptrip.domain.repository.CrudRepository;
 
 public interface PostRepository extends CrudRepository<Post> {
 
+	public void update(Post post);
+	
 }

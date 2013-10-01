@@ -20,6 +20,11 @@ public class MultiLangText extends HashMap<String, String> {
 		super();
 	}
 
+	public MultiLangText(String value) {
+		super();
+		setValue(value);
+	}
+
 	public MultiLangText(String value, Locale locale) {
 		super();
 		setValue(value, locale);
@@ -44,5 +49,13 @@ public class MultiLangText extends HashMap<String, String> {
 
 	public void setMainLanguage(String lang) {
 		put(MAIN_LANG, get(lang));
+	}
+
+	public String getValue() {
+		return get(MAIN_LANG);
+	}
+
+	public void setValue(String value) {
+		put(MAIN_LANG, value);
 	}
 }

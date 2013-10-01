@@ -55,7 +55,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		ContentOwner owner = new ContentOwner();
 		owner.setId(OWNER_ID);
 		post.setOwner(owner);
-		postService.save(post, Locale.ENGLISH);
+		postService.save(post);
 	}
 
 	@AfterClass(alwaysRun = true)

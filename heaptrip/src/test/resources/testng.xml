@@ -63,6 +63,12 @@
 		</classes>
 	</test>
 
+	<test name="PostTest">
+		<classes>
+			<class name="com.heaptrip.service.content.post.PostServiceTest" />
+		</classes>
+	</test>
+
 	<test name="CommentTest">
 		<classes>
 			<class name="com.heaptrip.service.comment.CommentServiceTest" />
