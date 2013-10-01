@@ -3,6 +3,8 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:set var="url" value="${requestScope['javax.servlet.forward.servlet_path']}" />
+
 <c:set var="tripId"
 	value='${param.id}' />
 
@@ -24,9 +26,12 @@
 
 <c:url var="tripEditUrl" value="travel_modify_info.html">
 	<c:param name='id' value="${tripId}" />
+	<c:param name='tb' value='${fn:contains(url,"info") ? "info":"map" }' />
+	
+	
 </c:url>
 
-<c:set var="url" value="${requestScope['javax.servlet.forward.servlet_path']}" />
+
 
 <div id="container">
 			<div id="contents">

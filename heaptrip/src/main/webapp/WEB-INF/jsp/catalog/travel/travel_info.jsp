@@ -34,7 +34,6 @@
 
 
 
-
 <div class="dop_inf">
 	<div class="views">
 		<fmt:message key="content.views" />

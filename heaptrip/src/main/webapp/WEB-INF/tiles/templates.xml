@@ -110,7 +110,20 @@
 		</put-list-attribute>
 	</definition>
 	
+	<definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false" />
+			<add-attribute value="/js/map.js" />
+		</put-list-attribute>
+	</definition>
+	
 	<definition name="contentEditScriptsTemplate" extends="contentScriptsTemplate">
+		<put-list-attribute name="scripts" inherit="true">
+			<add-attribute value="/js/edit.js" />
+		</put-list-attribute>
+	</definition>
+	
+	<definition name="contentEditWithMapScriptsTemplate" extends="contentWithMapScriptsTemplate">
 		<put-list-attribute name="scripts" inherit="true">
 			<add-attribute value="/js/edit.js" />
 		</put-list-attribute>
@@ -123,7 +136,6 @@
 	</definition>
 	
 	
-
 	<definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
 		<put-list-attribute name="styles" inherit="true">
 			<add-attribute value="/css/style.css" />
@@ -216,7 +228,7 @@
 		</definition>
 	
 		<definition name="travel_maps" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentWithMapScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelMapsCatalogTemplate"  />
 		</definition>
@@ -246,7 +258,7 @@
 		</definition>
 		
 		<definition name="travel_modify_info" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
+			<put-attribute name="scripts_ins" value="contentEditWithMapScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="travelInfoEditCatalogTemplate"  />
 		</definition>

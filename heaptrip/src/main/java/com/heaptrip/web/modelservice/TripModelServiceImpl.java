@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.content.trip.Route;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatus;
 import com.heaptrip.domain.entity.content.trip.TableStatusEnum;
@@ -20,7 +21,6 @@ import com.heaptrip.web.model.travel.RouteModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
-import com.heaptrip.web.model.travel.TripRouteModel;
 
 @Service
 public class TripModelServiceImpl extends ContentModelServiceImpl implements TripModelService {
@@ -41,11 +41,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	@Override
 	public TripInfoModel getTripInfoById(String tripId, Locale locale, boolean isOnlyThisLocale) {
 		return convertTripToTripInfoModel(tripService.getTripInfo(tripId, locale), locale, isOnlyThisLocale);
-	}
-
-	@Override
-	public TripRouteModel getTripRouteById(String tripId, Locale locale, boolean isOnlyThisLocale) {
-		return convertTripToTripRouteModel(tripService.getTripInfo(tripId, locale), locale, isOnlyThisLocale);
 	}
 
 	@Override
@@ -87,16 +82,16 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		if (trip.getDescription() != null)
 			tripInfoModel.setDescription(getMultiLangTextValue(trip.getDescription(), locale, isOnlyThisLocale));
 		tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
+		tripInfoModel.setRoute(convertTripRouteToModel(trip.getRoute(), locale, isOnlyThisLocale));
 		return tripInfoModel;
 	}
 
-	private TripRouteModel convertTripToTripRouteModel(Trip trip, Locale locale, boolean isOnlyThisLocale) {
-		TripRouteModel tripRouteModel = new TripRouteModel();
-		appendTripToTripModel(tripRouteModel, trip, locale, isOnlyThisLocale);
+	private RouteModel convertTripRouteToModel(Route route, Locale locale, boolean isOnlyThisLocale) {
 		RouteModel routeModel = new RouteModel();
-		routeModel.setText(getMultiLangTextValue(trip.getDescription(), locale, isOnlyThisLocale));
-		tripRouteModel.setRoute(routeModel);
-		return tripRouteModel;
+		if (route != null) {
+			routeModel.setText(getMultiLangTextValue(route.getText(), locale, isOnlyThisLocale));
+		}
+		return routeModel;
 	}
 
 	private ScheduleModel convertTableItemToScheduleModel(TableItem item) {
@@ -128,10 +123,22 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		trip.setSummary(new MultiLangText(tripInfoModel.getSummary(), locale));
 		trip.setCategoryIds(convertCategoriesModelsToIdsArray(tripInfoModel.getCategories(), locale));
 		trip.setCategories(convertCategoriesModelsToCategories(tripInfoModel.getCategories(), locale));
+		trip.setRoute(convertRouteModelToRoute(tripInfoModel.getRoute(), locale));
 		trip.setRegionIds(convertRegionModelsToIdsArray(tripInfoModel.getRegions(), locale));
 		trip.setRegions(convertRegionModelsToRegions(tripInfoModel.getRegions(), locale));
 		trip.setTable(convertScheduleModelsToTableItems(tripInfoModel.getSchedule()));
 		return trip;
+	}
+
+	private Route convertRouteModelToRoute(RouteModel routeModel, Locale locale) {
+		Route route = null;
+		if (routeModel != null && routeModel.getText() != null) {
+			route = new Route();
+			if (routeModel.getText() != null) {
+				route.setText(new MultiLangText(routeModel.getText(), locale));
+			}
+		}
+		return route;
 	}
 
 	private TableItem convertScheduleModelToTableItem(ScheduleModel model) {
