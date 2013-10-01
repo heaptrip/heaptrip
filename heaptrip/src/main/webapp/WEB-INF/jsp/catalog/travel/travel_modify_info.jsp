@@ -171,7 +171,7 @@
 													<c:otherwise>
 														<li>
 													</c:otherwise>
-    												</c:choose>
+    											</c:choose>
     														<a onClick="$.handGETParamToURL('ul','${lang}')" class="${lang} lang" ></a>
     													</li>											
 											</c:forEach>

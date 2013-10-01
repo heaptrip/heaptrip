@@ -16,9 +16,11 @@ import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.web.model.content.StatusModel;
+import com.heaptrip.web.model.travel.RouteModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
+import com.heaptrip.web.model.travel.TripRouteModel;
 
 @Service
 public class TripModelServiceImpl extends ContentModelServiceImpl implements TripModelService {
@@ -39,6 +41,11 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	@Override
 	public TripInfoModel getTripInfoById(String tripId, Locale locale, boolean isOnlyThisLocale) {
 		return convertTripToTripInfoModel(tripService.getTripInfo(tripId, locale), locale, isOnlyThisLocale);
+	}
+
+	@Override
+	public TripRouteModel getTripRouteById(String tripId, Locale locale, boolean isOnlyThisLocale) {
+		return convertTripToTripRouteModel(tripService.getTripInfo(tripId, locale), locale, isOnlyThisLocale);
 	}
 
 	@Override
@@ -81,6 +88,15 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 			tripInfoModel.setDescription(getMultiLangTextValue(trip.getDescription(), locale, isOnlyThisLocale));
 		tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
 		return tripInfoModel;
+	}
+
+	private TripRouteModel convertTripToTripRouteModel(Trip trip, Locale locale, boolean isOnlyThisLocale) {
+		TripRouteModel tripRouteModel = new TripRouteModel();
+		appendTripToTripModel(tripRouteModel, trip, locale, isOnlyThisLocale);
+		RouteModel routeModel = new RouteModel();
+		routeModel.setText(getMultiLangTextValue(trip.getDescription(), locale, isOnlyThisLocale));
+		tripRouteModel.setRoute(routeModel);
+		return tripRouteModel;
 	}
 
 	private ScheduleModel convertTableItemToScheduleModel(TableItem item) {

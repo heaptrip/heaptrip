@@ -1,9 +1,13 @@
 package com.heaptrip.web.controller.socnet;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,85 +55,74 @@ public class SocNetController extends ExceptionHandlerControler {
 	@RequestMapping(value = "registration/socnet/vk", method = RequestMethod.GET)
 	public String registrationVKontakteRedirect(@RequestParam("code") String code) {
 
-		VKAccessToken vkAccessToken = null;
-
 		try {
-			vkAccessToken = vkontakteAPIService.getAccessTokenByClientCode(code, scopeService.getCurrentContextPath()
-					+ "/rest/registration/socnet/vk");
-		} catch (Exception e) {
-			throw new SocnetAuthorizeException(e.getMessage());
-		}
 
-		VKUser vkUser = null;
+			VKAccessToken vkAccessToken = vkontakteAPIService.getAccessTokenByClientCode(code,
+					scopeService.getCurrentContextPath() + "/rest/registration/socnet/vk");
 
-		try {
-			vkUser = vkontakteAPIService.getUser(vkAccessToken);
-		} catch (Exception e) {
-			throw new SocnetAuthorizeException(e.getMessage());
-		}
+			VKUser vkUser = vkontakteAPIService.getUser(vkAccessToken);
 
-		User user = null;
-		
-		// Проверить есть ли у нас такой пользователь
-		try {
-			user = authenticationService.getUserBySocNetUID(VKontakteAPIService.SOC_NET_NAME, vkUser.getUid(),
+			User user = authenticationService.getUserBySocNetUID(VKontakteAPIService.SOC_NET_NAME, vkUser.getUid(),
 					new HttpClient().doInputStreamPost(vkUser.getPhoto()));
+
+			if (user == null) {
+				// если пользователя нет, на страницу регистрации
+				StringBuilder url = new StringBuilder(scopeService.getCurrentContextPath());
+				url.append("/registration.html");
+				url.append("?");
+				url.append("snn").append("=").append(VKontakteAPIService.SOC_NET_NAME);
+				url.append("&");
+				url.append("access_token").append("=").append(vkAccessToken.getAccess_token());
+				url.append("&");
+				url.append("user_id").append("=").append(vkAccessToken.getUser_id());
+				return "redirect:" + url.toString();
+			} else {
+				if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
+					// если пользователь есть но не подтвердил регистрацию, на
+					// страницу с сылкой на почту
+					return "redirect:" + scopeService.getCurrentContextPath() + "/confirmation.html?domain="
+							+ user.getEmail().substring(user.getEmail().indexOf("@"));
+				} else {
+					// если пользователь есть регистрация подтверждена,
+					// логинемся
+					authenticationProvider.authenticateInternal(user);
+					return "redirect:" + scopeService.getCurrentContextPath() + "/";
+				}
+			}
+
 		} catch (Exception e) {
 			throw new SocnetAuthorizeException(e.getMessage());
-		}
-
-		if (user == null) {
-			// если пользователя нет, на страницу регистрации
-			StringBuilder url = new StringBuilder(scopeService.getCurrentContextPath());
-			url.append("/registration.html");
-			url.append("?");
-			url.append("vk").append("=").append(true);
-			url.append("&");
-			url.append("access_token").append("=").append(vkAccessToken.getAccess_token());
-			url.append("&");
-			url.append("user_id").append("=").append(vkAccessToken.getUser_id());
-			return "redirect:" + url.toString();
-		} else {
-			if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
-			//  если пользователь есть но не подтвердил регистрацию, на страницу с сылкой на  почту
-				return "redirect:" + scopeService.getCurrentContextPath() + "/confirmation.html?domain="
-						+ user.getEmail().substring(user.getEmail().indexOf("@"));
-			} else {
-			//  если пользователь есть регистрация подтверждена, логинемся
-				authenticationProvider.authenticateInternal(user);
-				return "redirect:" + scopeService.getCurrentContextPath() + "/";
-			}
 		}
 
 	}
 
-	@RequestMapping(value = "registration", params = ("vk=true"), method = RequestMethod.GET)
+	@RequestMapping(value = "registration", params = ("snn=" + VKontakteAPIService.SOC_NET_NAME), method = RequestMethod.GET)
 	public ModelAndView registrationVKontakte(@RequestParam("access_token") String accessToken,
 			@RequestParam("user_id") String userId) {
 
-		ModelAndView mv = new ModelAndView();
-
-		RegistrationInfoModel registrationInfo = new RegistrationInfoModel();
-
-		VKAccessToken vkAccessToken = new VKAccessToken();
-		vkAccessToken.setAccess_token(accessToken);
-		vkAccessToken.setUser_id(userId);
-
-		VKUser vkUser = null;
-
 		try {
-			vkUser = vkontakteAPIService.getUser(vkAccessToken);
+
+			ModelAndView mv = new ModelAndView();
+
+			RegistrationInfoModel registrationInfo = new RegistrationInfoModel();
+
+			VKAccessToken vkAccessToken = new VKAccessToken();
+			vkAccessToken.setAccess_token(accessToken);
+			vkAccessToken.setUser_id(userId);
+
+			VKUser vkUser = vkontakteAPIService.getUser(vkAccessToken);
+
+			registrationInfo.setFirstName(vkUser.getFirst_name());
+			registrationInfo.setSecondName(vkUser.getLast_name());
+			registrationInfo.setPhotoUrl(vkUser.getPhoto_big());
+			registrationInfo.setSocNetName(VKontakteAPIService.SOC_NET_NAME);
+			registrationInfo.setSocNetUserUID(vkUser.getUid());
+
+			return mv.addObject("registrationInfo", registrationInfo);
+
 		} catch (Exception e) {
 			throw new SocnetAuthorizeException(e.getMessage());
 		}
-
-		registrationInfo.setFirstName(vkUser.getFirst_name());
-		registrationInfo.setSecondName(vkUser.getLast_name());
-		registrationInfo.setPhotoUrl(vkUser.getPhoto_big());
-		registrationInfo.setSocNetName(VKontakteAPIService.SOC_NET_NAME);
-		registrationInfo.setSocNetUserUID(vkUser.getUid());
-
-		return mv.addObject("registrationInfo", registrationInfo);
 
 	}
 
@@ -142,56 +135,52 @@ public class SocNetController extends ExceptionHandlerControler {
 	@RequestMapping(value = "registration/socnet/fb", method = RequestMethod.GET)
 	public String registrationFaceBookRedirect(@RequestParam("code") String code) {
 
-		FBAccessToken fbAccessToken = new FBAccessToken();
-
 		try {
 
-			fbAccessToken = faceBookAPIService.getAccessTokenByClientCode(code, scopeService.getCurrentContextPath()
-					+ "/rest/registration/socnet/fb");
+			FBAccessToken fbAccessToken = faceBookAPIService.getAccessTokenByClientCode(code,
+					scopeService.getCurrentContextPath() + "/rest/registration/socnet/fb");
+
+			StringBuilder url = new StringBuilder(scopeService.getCurrentContextPath());
+
+			url.append("/registration.html");
+			url.append("?");
+			url.append("snn").append("=").append(FaceBookAPIService.SOC_NET_NAME);
+			url.append("&");
+			url.append("access_token").append("=").append(fbAccessToken.getAccess_token());
+
+			return "redirect:" + url.toString();
+
 		} catch (Exception e) {
 			throw new SocnetAuthorizeException(e.getMessage());
 		}
-
-		StringBuilder url = new StringBuilder(scopeService.getCurrentContextPath());
-
-		url.append("/registration.html");
-		url.append("?");
-		url.append("fb").append("=").append(true);
-		url.append("&");
-		url.append("access_token").append("=").append(fbAccessToken.getAccess_token());
-
-		return "redirect:" + url.toString();
 
 	}
 
-	@RequestMapping(value = "registration", params = ("fb=true"), method = RequestMethod.GET)
+	@RequestMapping(value = "registration", params = ("snn=" + FaceBookAPIService.SOC_NET_NAME), method = RequestMethod.GET)
 	public ModelAndView registrationFaceBook(@RequestParam("access_token") String accessToken) {
-
-		ModelAndView mv = new ModelAndView();
-
-		RegistrationInfoModel registrationInfo = new RegistrationInfoModel();
-
-		FBAccessToken fbAccessToken = new FBAccessToken();
-
-		fbAccessToken.setAccess_token(accessToken);
-
-		FBUser user = null;
-
 		try {
-			user = faceBookAPIService.getUser(fbAccessToken);
+			ModelAndView mv = new ModelAndView();
+
+			RegistrationInfoModel registrationInfo = new RegistrationInfoModel();
+
+			FBAccessToken fbAccessToken = new FBAccessToken();
+			fbAccessToken.setAccess_token(accessToken);
+
+			FBUser user = faceBookAPIService.getUser(fbAccessToken);
+
+			registrationInfo.setFirstName(user.getFirst_name());
+			registrationInfo.setSecondName(user.getLast_name());
+			registrationInfo.setPhotoUrl(user.getPicture_large());
+			registrationInfo.setSocNetName(FaceBookAPIService.SOC_NET_NAME);
+			registrationInfo.setSocNetUserUID(user.getId());
+
+			mv.addObject("registrationInfo", registrationInfo);
+
+			return mv;
+
 		} catch (Exception e) {
 			throw new SocnetAuthorizeException(e.getMessage());
 		}
-
-		registrationInfo.setFirstName(user.getFirst_name());
-		registrationInfo.setSecondName(user.getLast_name());
-		registrationInfo.setPhotoUrl(user.getPicture_large());
-		registrationInfo.setSocNetName(FaceBookAPIService.SOC_NET_NAME);
-		registrationInfo.setSocNetUserUID(user.getId());
-
-		mv.addObject("registrationInfo", registrationInfo);
-
-		return mv;
 
 	}
 
@@ -201,20 +190,15 @@ public class SocNetController extends ExceptionHandlerControler {
 		throw new SocnetAuthorizeException(errorDescription);
 	}
 
-	// TODO : voronenko : выбрасывать на форму логина с выводом ошибки, а
-	// пока перебросить на error.html-
-
-	/*
-	 * @ExceptionHandler(SocnetAuthorizeException.class) public String
-	 * handleSocnetAuthorizeException(SocnetAuthorizeException e) {
-	 * LOG.error("Social network authorize error", e); return "redirect:" +
-	 * scopeService.getCurrentContextPath() + "/login.html  +  todo error"; }
-	 */
-
-	@RequestMapping(value = "registration", method = RequestMethod.GET)
-	public ModelAndView emptyRegistration() {
-		RegistrationInfoModel info = new RegistrationInfoModel();
-		return new ModelAndView().addObject("registrationInfo", info);
+	@ExceptionHandler(SocnetAuthorizeException.class)
+	public String handleSocnetAuthorizeException(SocnetAuthorizeException e) {
+		try {
+			LOG.error("Social network authorize error", e);
+			return "redirect:" + scopeService.getCurrentContextPath() + "/login.html?login_error="
+					+ URLEncoder.encode(e.getLocalizedMessage(), "UTF-8");
+		} catch (UnsupportedEncodingException exp) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }

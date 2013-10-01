@@ -26,6 +26,7 @@ import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
+import com.heaptrip.web.model.travel.TripRouteModel;
 import com.heaptrip.web.modelservice.CommentModelService;
 import com.heaptrip.web.modelservice.CountersService;
 import com.heaptrip.web.modelservice.TripModelService;
@@ -86,6 +87,23 @@ public class TripController extends ExceptionHandlerControler {
 				tripModel = tripModelService.getTripInfoById(tripId, scopeService.getCurrentLocale(), false);
 			} else {
 				tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), false);
+			}
+			mv.addObject("comments", commentModelService.getComments(tripId));
+		}
+		return mv.addObject("trip", tripModel);
+	}
+
+	@RequestMapping(value = "travel_maps", method = RequestMethod.GET)
+	public ModelAndView getTripMaps(@RequestParam(value = "id", required = false) String tripId,
+			@RequestParam(value = "ul", required = false) String userLocale) {
+		ModelAndView mv = new ModelAndView();
+		TripRouteModel tripModel = null;
+		if (tripId != null) {
+			countersService.incViews(tripId);
+			if (userLocale == null) {
+				tripModel = tripModelService.getTripRouteById(tripId, scopeService.getCurrentLocale(), false);
+			} else {
+				tripModel = tripModelService.getTripRouteById(tripId, new Locale(userLocale), false);
 			}
 			mv.addObject("comments", commentModelService.getComments(tripId));
 		}

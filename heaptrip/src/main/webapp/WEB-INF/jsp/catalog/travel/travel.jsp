@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:set var="tripId"
 	value='${param.id}' />
@@ -24,6 +25,8 @@
 <c:url var="tripEditUrl" value="travel_modify_info.html">
 	<c:param name='id' value="${tripId}" />
 </c:url>
+
+<c:set var="url" value="${requestScope['javax.servlet.forward.servlet_path']}" />
 
 <div id="container">
 			<div id="contents">
@@ -71,11 +74,11 @@
 						<input type="button" onClick="window.location = '${tripEditUrl}'" value="<fmt:message key="page.action.edit" />" class="button">
 						
     					<ul><!--
-    					    --><li><a href="${infoUrl}" class="active"><fmt:message key="content.information" /><span></span></a></li><!--
-    					    --><li><a href="${mapsUrl}"><fmt:message key="trip.route" /><span></span></a></li><!--
-    					    --><li><a href="${photosUrl}"><fmt:message key="content.photo" /><span></span></a></li><!--
-    					    --><li><a href="${participantsUrl}"><fmt:message key="content.participants" /><span></span></a></li><!--
-    					    --><li><a href="${postsUrl}"><fmt:message key="post.list.title" /><span></span></a></li><!--
+    					    --><li><a href="${infoUrl}" class='${fn:contains(url, "info") ? "active":"" }'><fmt:message key="content.information" /><span></span></a></li><!--
+    					    --><li><a href="${mapsUrl}" class='${fn:contains(url, "map") ? "active":"" }'><fmt:message key="trip.route" /><span></span></a></li><!--
+    					    --><li><a href="${photosUrl}" class='${fn:contains(url, "photo") ? "active":"" }'><fmt:message key="content.photo" /><span></span></a></li><!--
+    					    --><li><a href="${participantsUrl}" class='${fn:contains(url, "participant") ? "active":"" }'><fmt:message key="content.participants" /><span></span></a></li><!--
+    					    --><li><a href="${postsUrl}" class='${fn:contains(url, "post") ? "active":"" }'><fmt:message key="post.list.title" /><span></span></a></li><!--
     					--></ul>
 					</nav>
 					

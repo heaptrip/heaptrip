@@ -41,7 +41,14 @@
 
 <c:if test="${not empty param.login_error}">
 	<div id="error_message">
-		${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
+		<c:choose>
+			<c:when test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}">
+				${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
+			</c:when>
+			<c:otherwise>
+				${param.login_error}
+			</c:otherwise>
+    	</c:choose>
 	</div>
 </c:if>
 
