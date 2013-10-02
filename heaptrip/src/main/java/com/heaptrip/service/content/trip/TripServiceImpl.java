@@ -34,6 +34,7 @@ import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
+import com.heaptrip.domain.service.content.post.PostService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
 import com.heaptrip.domain.service.region.RegionService;
@@ -67,6 +68,9 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
 	@Autowired
 	private ContentSearchService solrContentService;
+
+	@Autowired
+	private PostService postService;
 
 	@Override
 	public Trip save(Trip trip, Locale locale) {
@@ -330,25 +334,31 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
 	@Override
 	public List<TableItem> getTableItems(String tripId) {
-		// TODO Auto-generated method stub
-		return null;
+		Assert.notNull(tripId, "tripId must not be null");
+		TableItem[] items = tripRepository.getTableItemsWithDateBeginAndDateEnd(tripId);
+		Arrays.sort(items, new TableItemDateBeginComparator());
+		return Arrays.asList(items);
 	}
 
 	@Override
 	public void addPost(String tripId, String postId) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(postId, "postId must not be null");
+		tripRepository.addPostId(tripId, postId);
 	}
 
 	@Override
-	public List<Post> getPosts(String tripId) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Post> getPosts(String tripId, Locale locale) {
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(locale, "locale must not be null");
+		String[] postIds = tripRepository.getPostIds(tripId);
+		return (postIds == null) ? null : postService.getPosts(postIds, locale);
 	}
 
 	@Override
 	public void removePost(String tripId, String postId) {
-		// TODO Auto-generated method stub
-
+		Assert.notNull(tripId, "tripId must not be null");
+		Assert.notNull(postId, "postId must not be null");
+		tripRepository.removePostId(tripId, postId);
 	}
 }

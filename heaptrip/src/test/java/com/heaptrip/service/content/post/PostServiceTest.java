@@ -11,10 +11,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.post.Post;
-import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.post.PostRepository;
 import com.heaptrip.domain.service.content.post.PostService;
 import com.heaptrip.util.language.LanguageUtils;
@@ -42,6 +42,9 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
 		post.setId(POST_ID);
 		ContentOwner owner = new ContentOwner();
 		owner.setId(OWNER_ID);
+		post.setName(new MultiLangText("Test post"));
+		post.setSummary(new MultiLangText("Summary for test post"));
+		post.setDescription(new MultiLangText("Description for test post"));
 		post.setOwner(owner);
 	}
 
@@ -50,10 +53,10 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
 		postService.hardRemove(POST_ID);
 	}
 
-	@Test(priority = 0, enabled = false)
+	@Test(priority = 0, enabled = true)
 	public void save() {
 		// call
-		postService.save(post, LanguageUtils.getEnglishLocale());
+		postService.save(post);
 		// check
 		Post post = postRepository.findOne(POST_ID);
 		Assert.assertNotNull(post);
@@ -61,22 +64,21 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(post.getCreated());
 		Assert.assertNull(post.getDeleted());
 		Assert.assertTrue(ArrayUtils.isEmpty(post.getAllowed()));
-		Assert.assertNotNull(post.getMainLang());
-		Assert.assertEquals(post.getMainLang(), locale.getLanguage());
-		Assert.assertTrue(ArrayUtils.isNotEmpty(post.getLangs()));
-		Assert.assertEquals(post.getLangs()[0], locale.getLanguage());
+		Assert.assertNull(post.getMainLang());
+		Assert.assertTrue(ArrayUtils.isEmpty(post.getLangs()));
 		Assert.assertNotNull(post.getOwner());
 		Assert.assertNotNull(post.getOwner().getId());
 		Assert.assertEquals(post.getOwner().getId(), OWNER_ID);
 		Assert.assertNotNull(post.getStatus());
-		Assert.assertEquals(post.getStatus(), ContentStatusEnum.DRAFT);
+		Assert.assertNotNull(post.getStatus().getValue());
+		Assert.assertEquals(post.getStatus().getValue(), ContentStatusEnum.DRAFT);
 		Assert.assertNotNull(post.getRating());
-		Assert.assertEquals(post.getRating(), ContentRating.getDefaultValue());
+		Assert.assertEquals(post.getRating().getCount(), 0);
 		Assert.assertNotNull(post.getViews());
 		Assert.assertEquals(post.getViews().getCount(), 0);
 	}
 
-	@Test(priority = 1, enabled = false)
+	@Test(priority = 1, enabled = true)
 	public void update() {
 		// call
 		Post post = postRepository.findOne(POST_ID);
@@ -84,10 +86,9 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
 		String name = "Name for test post";
 		String summary = "Summary for test post";
 		String description = "Description for test post";
-		Locale locale = new Locale(post.getMainLang());
-		post.getName().setValue(name, locale);
-		post.getSummary().setValue(summary, locale);
-		post.getDescription().setValue(description, locale);
+		post.getName().setValue(name);
+		post.getSummary().setValue(summary);
+		post.getDescription().setValue(description);
 		postService.update(post);
 		// check
 		post = postRepository.findOne(POST_ID);

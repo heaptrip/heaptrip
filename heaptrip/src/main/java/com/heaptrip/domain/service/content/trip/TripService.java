@@ -123,9 +123,11 @@ public interface TripService extends ContentService {
 	 * 
 	 * @param tripId
 	 *            trip id
+	 * @param locale
+	 *            locale
 	 * @return list of posts
 	 */
-	public List<Post> getPosts(String tripId);
+	public List<Post> getPosts(String tripId, Locale locale);
 
 	/**
 	 * Remove post from trip

@@ -1,5 +1,6 @@
 package com.heaptrip.domain.service.content.post;
 
+import java.util.List;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.content.post.Post;
@@ -15,11 +16,10 @@ public interface PostService extends ContentService {
 	 * Save a new content
 	 * 
 	 * @param post
-	 * @param locale
-	 *            the locale for which to create the content
+	 * 
 	 * @return post
 	 */
-	public Post save(Post post, Locale locale);
+	public Post save(Post post);
 
 	/**
 	 * Update post information
@@ -28,4 +28,13 @@ public interface PostService extends ContentService {
 	 * 
 	 */
 	public void update(Post post);
+
+	/**
+	 * Get post by id list
+	 * 
+	 * @param postIds
+	 * @param locale
+	 * @return list of post
+	 */
+	public List<Post> getPosts(String[] postIds, Locale locale);
 }

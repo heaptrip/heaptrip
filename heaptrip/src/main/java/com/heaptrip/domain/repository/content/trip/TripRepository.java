@@ -42,4 +42,10 @@ public interface TripRepository extends CrudRepository<Trip> {
 	public void updateRoute(Trip trip, Locale locale);
 
 	public TableItem[] getTableItemsWithDateBeginAndDateEnd(String tripId);
+
+	public void addPostId(String tripId, String postId);
+
+	public void removePostId(String tripId, String postId);
+
+	public String[] getPostIds(String tripId);
 }
