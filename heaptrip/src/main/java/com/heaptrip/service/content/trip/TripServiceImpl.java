@@ -17,7 +17,6 @@ import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.Route;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatus;
@@ -134,7 +133,6 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
 		// set route
 		Route route = new Route();
-		route.setId(UUID.randomUUID().toString());
 		route.setText(new MultiLangText());
 		trip.setRoute(route);
 
@@ -151,6 +149,9 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 		trip.setDeleted(null);
 		trip.setRating(ContentRating.getDefaultValue());
 		trip.setComments(0L);
+
+		if (trip.getPostIds() == null)
+			trip.setPostIds(new String[0]);
 
 		// save to db
 		tripRepository.save(trip);
@@ -277,11 +278,15 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String mainLang = trip.getMainLang();
+
 		if (mainLang.equals(lang)) {
 			trip.getName().setMainLanguage(mainLang);
 			trip.getSummary().setMainLanguage(mainLang);
 			trip.getDescription().setMainLanguage(mainLang);
 		}
+
+		if (trip.getPostIds() == null)
+			trip.setPostIds(new String[0]);
 
 		// update to db
 		tripRepository.updateInfo(trip, locale);
@@ -345,14 +350,6 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(postId, "postId must not be null");
 		tripRepository.addPostId(tripId, postId);
-	}
-
-	@Override
-	public List<Post> getPosts(String tripId, Locale locale) {
-		Assert.notNull(tripId, "tripId must not be null");
-		Assert.notNull(locale, "locale must not be null");
-		String[] postIds = tripRepository.getPostIds(tripId);
-		return (postIds == null) ? null : postService.getPosts(postIds, locale);
 	}
 
 	@Override

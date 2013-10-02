@@ -37,8 +37,10 @@ public interface TripRepository extends CrudRepository<Trip> {
 
 	public void removeLanguage(String tripId, Locale locale);
 
+	@Deprecated
 	public Trip getRoute(String tripId, Locale locale);
 
+	@Deprecated
 	public void updateRoute(Trip trip, Locale locale);
 
 	public TableItem[] getTableItemsWithDateBeginAndDateEnd(String tripId);

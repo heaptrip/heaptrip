@@ -1,5 +1,6 @@
 package com.heaptrip.service.content.post;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.lang.ArrayUtils;
@@ -102,5 +103,16 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(post.getDescription());
 		Assert.assertNotNull(post.getDescription().getValue(locale));
 		Assert.assertEquals(post.getDescription().getValue(locale), description);
+	}
+
+	@Test(priority = 2, enabled = true)
+	public void getPosts() {
+		// call
+		String[] postIds = new String[] { POST_ID };
+		List<Post> posts = postService.getPosts(postIds, LanguageUtils.getEnglishLocale());
+		// check
+		Assert.assertNotNull(posts);
+		Assert.assertEquals(posts.size(), 1);
+		Assert.assertEquals(posts.get(0), post);
 	}
 }

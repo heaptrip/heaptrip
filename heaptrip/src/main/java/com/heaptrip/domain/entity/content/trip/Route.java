@@ -1,6 +1,5 @@
 package com.heaptrip.domain.entity.content.trip;
 
-import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.MultiLangText;
 
 /**
@@ -8,7 +7,7 @@ import com.heaptrip.domain.entity.MultiLangText;
  * Route of trip
  * 
  */
-public class Route extends BaseObject {
+public class Route {
 
 	// route description
 	private MultiLangText text;

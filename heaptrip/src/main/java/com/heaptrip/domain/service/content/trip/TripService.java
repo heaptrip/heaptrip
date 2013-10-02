@@ -3,7 +3,6 @@ package com.heaptrip.domain.service.content.trip;
 import java.util.List;
 import java.util.Locale;
 
-import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.ContentService;
@@ -117,17 +116,6 @@ public interface TripService extends ContentService {
 	 *            post id
 	 */
 	public void addPost(String tripId, String postId);
-
-	/**
-	 * Get posts by trip id
-	 * 
-	 * @param tripId
-	 *            trip id
-	 * @param locale
-	 *            locale
-	 * @return list of posts
-	 */
-	public List<Post> getPosts(String tripId, Locale locale);
 
 	/**
 	 * Remove post from trip
