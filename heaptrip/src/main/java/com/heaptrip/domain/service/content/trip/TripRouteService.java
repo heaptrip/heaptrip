@@ -3,10 +3,8 @@ package com.heaptrip.domain.service.content.trip;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Locale;
 
 import com.heaptrip.domain.entity.album.AlbumImage;
-import com.heaptrip.domain.entity.content.trip.Route;
 import com.heaptrip.domain.service.album.AlbumService;
 
 /**
@@ -15,29 +13,6 @@ import com.heaptrip.domain.service.album.AlbumService;
  * 
  */
 public interface TripRouteService extends AlbumService {
-
-	/**
-	 * Get route of the trip by trip id
-	 * 
-	 * @param tripId
-	 *            id of trip
-	 * @param locale
-	 *            locale
-	 * @return route
-	 */
-	public Route getRoute(String tripId, Locale locale);
-
-	/**
-	 * Update route of the trip
-	 * 
-	 * @param tripId
-	 *            id of trip
-	 * @param route
-	 *            route
-	 * @param locale
-	 *            locale
-	 */
-	public void updateRoute(String tripId, Route route, Locale locale);
 
 	/**
 	 * Add image to route

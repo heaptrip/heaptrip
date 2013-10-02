@@ -145,6 +145,8 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Trip trip = tripService.getTripInfo(TRIP_ID, Locale.ENGLISH);
 		// check
 		Assert.assertNotNull(trip);
+		Assert.assertNotNull(trip.getRoute());
+		Assert.assertNotNull(trip.getRoute().getText());
 	}
 
 	@Test(priority = 6, enabled = true)
@@ -154,9 +156,15 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		String name = "Тестовая поездка No1";
+		String summary = "Краткое описание тестовой поездки";
+		String description = "Полное описание тестовой поездки";
+		String routeText = "Описание маршрута";
+		String routeMap = "google map";
 		trip.getName().setValue(name, locale);
-		trip.getSummary().setValue("Краткое описание тестовой поездки", locale);
-		trip.getDescription().setValue("Полное описание тестовой поездки", locale);
+		trip.getSummary().setValue(summary, locale);
+		trip.getDescription().setValue(description, locale);
+		trip.getRoute().getText().setValue(routeText, locale);
+		trip.getRoute().setMap(routeMap);
 		tripService.updateTripInfo(trip, locale);
 		// check
 		trip = tripRepository.findOne(TRIP_ID);
@@ -164,6 +172,18 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getName());
 		Assert.assertNotNull(trip.getName().getValue(locale));
 		Assert.assertEquals(trip.getName().getValue(locale), name);
+		Assert.assertNotNull(trip.getSummary());
+		Assert.assertNotNull(trip.getSummary().getValue(locale));
+		Assert.assertEquals(trip.getSummary().getValue(locale), summary);
+		Assert.assertNotNull(trip.getDescription());
+		Assert.assertNotNull(trip.getDescription().getValue(locale));
+		Assert.assertEquals(trip.getDescription().getValue(locale), description);
+		Assert.assertNotNull(trip.getRoute());
+		Assert.assertNotNull(trip.getRoute().getText());
+		Assert.assertNotNull(trip.getRoute().getText().getValue(locale));
+		Assert.assertEquals(trip.getRoute().getText().getValue(locale), routeText);
+		Assert.assertNotNull(trip.getRoute().getMap());
+		Assert.assertEquals(trip.getRoute().getMap(), routeMap);
 	}
 
 	@Test(priority = 7, enabled = true)
@@ -220,25 +240,21 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Test(priority = 10, enabled = true)
 	public void addPost() {
+		// call
 		tripService.addPost(TRIP_ID, POST_ID);
+		// check
+		Trip trip = tripService.getTripInfo(TRIP_ID, LanguageUtils.getEnglishLocale());
+		Assert.assertNotNull(trip);
+		Assert.assertTrue(ArrayUtils.isNotEmpty(trip.getPostIds()));
 	}
 
 	@Test(priority = 11, enabled = true)
-	public void getPosts() {
-		// call
-		List<Post> posts = tripService.getPosts(TRIP_ID, LanguageUtils.getEnglishLocale());
-		// check
-		Assert.assertNotNull(posts);
-		Assert.assertEquals(posts.size(), 1);
-		Assert.assertEquals(posts.get(0), post);
-	}
-
-	@Test(priority = 12, enabled = true)
 	public void removePost() {
 		// call
 		tripService.removePost(TRIP_ID, POST_ID);
 		// check
-		List<Post> posts = tripService.getPosts(TRIP_ID, LanguageUtils.getEnglishLocale());
-		Assert.assertTrue(posts == null || posts.size() == 0);
+		Trip trip = tripService.getTripInfo(TRIP_ID, LanguageUtils.getEnglishLocale());
+		Assert.assertNotNull(trip);
+		Assert.assertTrue(ArrayUtils.isEmpty(trip.getPostIds()));
 	}
 }

@@ -168,8 +168,9 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 				.format("{_class: 1, owner: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1,"
 						+ " status: 1, 'name.%s': 1, 'name.main': 1, 'summary.%s': 1, 'summary.main': 1, 'description.%s': 1, 'description.main': 1,"
 						+ " 'table._id': 1, 'table.begin': 1, 'table.end': 1, 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1,"
-						+ " 'table.price': 1, image: 1, created: 1, owners:1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1, langs: 1}",
-						lang, lang, lang, lang, lang);
+						+ " 'table.price': 1, image: 1, created: 1, owners:1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1, langs: 1,"
+						+ " 'route._id': 1, 'route.text.main': 1, 'route.text.%s': 1, 'route.map': 1, postIds: 1}",
+						lang, lang, lang, lang, lang, lang);
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("get trip info\n->query: %s\n->parameters: %s\n->projection: %s", query, tripId,
 					projection);
@@ -192,8 +193,9 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			// update main language
 			updateQuery = String
 					.format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, 'name.%s': #, "
-							+ "'summary.main': #, 'summary.%s': #, 'description.main': #, 'description.%s': #, image: #, table: #}}",
-							lang, lang, lang);
+							+ "'summary.main': #, 'summary.%s': #, 'description.main': #, 'description.%s': #, image: #, table: #,"
+							+ "'route.text.main': #, 'route.text.%s': #, 'route.map': #, postIds: #}}", lang, lang,
+							lang, lang);
 
 			parameters.add(lang);
 			parameters.add(trip.getCategories());
@@ -208,10 +210,15 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			parameters.add(trip.getDescription().getValue(locale));
 			parameters.add(trip.getImage());
 			parameters.add(trip.getTable());
+			parameters.add(trip.getRoute().getText().getValue(locale));
+			parameters.add(trip.getRoute().getText().getValue(locale));
+			parameters.add(trip.getRoute().getMap());
+			parameters.add(trip.getPostIds());
 		} else {
 			updateQuery = String
-					.format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.%s': #, 'summary.%s': #, 'description.%s': #, image: #, table: #}}",
-							lang, lang, lang);
+					.format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.%s': #, 'summary.%s': #,"
+							+ " 'description.%s': #, image: #, table: #, 'route.text.%s': #, 'route.map': #, postIds: #}}",
+							lang, lang, lang, lang);
 
 			parameters.add(lang);
 			parameters.add(trip.getCategories());
@@ -223,6 +230,9 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 			parameters.add(trip.getDescription().getValue(locale));
 			parameters.add(trip.getImage());
 			parameters.add(trip.getTable());
+			parameters.add(trip.getRoute().getText().getValue(locale));
+			parameters.add(trip.getRoute().getMap());
+			parameters.add(trip.getPostIds());
 		}
 
 		if (logger.isDebugEnabled()) {
