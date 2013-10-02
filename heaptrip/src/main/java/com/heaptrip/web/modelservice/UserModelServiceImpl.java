@@ -45,7 +45,7 @@ public class UserModelServiceImpl implements UserModelService {
 
 		if (regInfo.getSocNetName() != null && !regInfo.getSocNetName().isEmpty() && regInfo.getSocNetUserUID() != null
 				&& !regInfo.getSocNetUserUID().isEmpty()) {
-			photo = new HttpClient().doInputStreamPost(regInfo.getPhotoUrl());
+			photo = new HttpClient().doInputStreamGet(regInfo.getPhotoUrl());
 			userReg.setNet(new SocialNetwork[] { new SocialNetwork(procsessSocNetName(regInfo.getSocNetName()), regInfo
 					.getSocNetUserUID()) });
 		}

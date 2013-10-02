@@ -63,7 +63,7 @@ public class SocNetController extends ExceptionHandlerControler {
 			VKUser vkUser = vkontakteAPIService.getUser(vkAccessToken);
 
 			User user = authenticationService.getUserBySocNetUID(VKontakteAPIService.SOC_NET_NAME, vkUser.getUid(),
-					new HttpClient().doInputStreamPost(vkUser.getPhoto()));
+					new HttpClient().doInputStreamGet(vkUser.getPhoto_big()));
 
 			if (user == null) {
 				// если пользователя нет, на страницу регистрации
