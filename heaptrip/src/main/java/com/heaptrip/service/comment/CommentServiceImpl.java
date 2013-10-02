@@ -54,8 +54,11 @@ public class CommentServiceImpl implements CommentService {
 		Assert.notNull(targetId, "targetId must not be null");
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(text, "text must not be null");
-		incCommentsNumber(targetClass, targetId);
-		return addComment(targetId, userId, text);
+		Comment comment = addComment(targetId, userId, text);
+		if (comment != null) {
+			incCommentsNumber(targetClass, targetId);
+		}
+		return comment;
 	}
 
 	@Override
@@ -66,8 +69,11 @@ public class CommentServiceImpl implements CommentService {
 		Assert.notNull(parentId, "parentId must not be null");
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(text, "text must not be null");
-		incCommentsNumber(targetClass, targetId);
-		return addChildComment(parentId, userId, text);
+		Comment comment = addChildComment(parentId, userId, text);
+		if (comment != null) {
+			incCommentsNumber(targetClass, targetId);
+		}
+		return comment;
 	}
 
 	@Override
