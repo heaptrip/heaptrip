@@ -2,6 +2,8 @@ package com.heaptrip.service.content.post;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,6 +175,13 @@ public class PostServiceImpl extends ContentServiceImpl implements PostService {
 
 		// save to solr
 		contentSearchService.saveContent(post.getId());
+	}
+
+	@Override
+	public List<Post> getPosts(String[] postIds, Locale locale) {
+		Assert.notNull(postIds, "postIds must not be null");
+		Assert.notNull(locale, "locale must not be null");
+		return postRepository.findByIds(postIds, locale);
 	}
 
 }

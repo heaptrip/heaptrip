@@ -44,6 +44,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 		Assert.notNull(contentId, "contentId must not be null");
 		try {
 			Content content = contentRepository.findOne(contentId);
+			Assert.notNull(content, "content with id " + contentId + " does not exist");
 			solrContentRepository.save(content);
 		} catch (SolrServerException | IOException e) {
 			throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);

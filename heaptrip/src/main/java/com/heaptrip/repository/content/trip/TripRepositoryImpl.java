@@ -358,4 +358,25 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 				.projection("{_class: 1, 'table._id': 1, 'table.begin': 1, 'table.end': 1}").as(getCollectionClass());
 		return (trip == null) ? null : trip.getTable();
 	}
+
+	@Override
+	public void addPostId(String tripId, String postId) {
+		MongoCollection coll = getCollection();
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$push: {postIds: #}}", postId);
+		logger.debug("WriteResult for add post id: {}", wr);
+	}
+
+	@Override
+	public void removePostId(String tripId, String postId) {
+		MongoCollection coll = getCollection();
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$pull: {postIds: #}}", postId);
+		logger.debug("WriteResult for remove post id: {}", wr);
+	}
+
+	@Override
+	public String[] getPostIds(String tripId) {
+		MongoCollection coll = getCollection();
+		Trip trip = coll.findOne("{_id: #}", tripId).projection("{_class: 1, postIds: 1}").as(getCollectionClass());
+		return (trip == null) ? null : trip.getPostIds();
+	}
 }
