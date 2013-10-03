@@ -7,7 +7,7 @@ import java.util.Locale;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.CrudRepository;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
@@ -22,7 +22,9 @@ public interface ContentRepository extends CrudRepository<Content> {
 
 	public boolean isOwner(String contentId, String userId);
 
-	public void setStatus(String contentId, ContentStatusEnum status, String[] allowed);
+	public ContentStatus getStatus(String contentId);
+
+	public void setStatus(String contentId, ContentStatus status, String[] allowed);
 
 	public void incViews(String contentId, String userIdOrRemoteIp);
 

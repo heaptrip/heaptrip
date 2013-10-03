@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.concurrent.Future;
 
-import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.ContentRating;
 
@@ -50,7 +50,15 @@ public interface ContentService {
 	 * @param contentId
 	 * @param status
 	 */
-	public void setStatus(String contentId, ContentStatusEnum status);
+	public void setStatus(String contentId, ContentStatus status);
+
+	/**
+	 * Get content status
+	 * 
+	 * @param contentId
+	 * @return status
+	 */
+	public ContentStatus getStatus(String contentId);
 
 	/**
 	 * Add a user to the list of allowed to view all contents this owner. Must

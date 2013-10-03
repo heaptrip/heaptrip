@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
@@ -29,19 +30,24 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Test(priority = 0, enabled = true)
 	public void setStatus() {
+		// prepare
+		ContentStatus status = contentService.getStatus(ContentDataProvider.CONTENT_ID);
+		Assert.assertNotNull(status);
+		Assert.assertNotNull(status.getValue());
+		Assert.assertEquals(status.getValue(), ContentStatusEnum.DRAFT);
 		// call
-		Content content = contentRepository.findOne(ContentDataProvider.CONTENT_ID);
-		Assert.assertNotNull(content);
-		Assert.assertNotNull(content.getStatus());
-		Assert.assertNotNull(content.getStatus().getValue());
-		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.DRAFT);
-		contentService.setStatus(ContentDataProvider.CONTENT_ID, ContentStatusEnum.PUBLISHED_ALL);
+		status.setValue(ContentStatusEnum.PUBLISHED_ALL);
+		status.setText("pablished for all");
+		contentService.setStatus(ContentDataProvider.CONTENT_ID, status);
+		// status is not changed
+		contentService.setStatus(ContentDataProvider.CONTENT_ID, status);
 		// check
-		content = contentRepository.findOne(ContentDataProvider.CONTENT_ID);
-		Assert.assertNotNull(content);
-		Assert.assertNotNull(content.getStatus());
-		Assert.assertNotNull(content.getStatus().getValue());
-		Assert.assertEquals(content.getStatus().getValue(), ContentStatusEnum.PUBLISHED_ALL);
+		status = contentService.getStatus(ContentDataProvider.CONTENT_ID);
+		Assert.assertNotNull(status);
+		Assert.assertNotNull(status.getValue());
+		Assert.assertEquals(status.getValue(), ContentStatusEnum.PUBLISHED_ALL);
+		Assert.assertNotNull(status.getText());
+		Assert.assertEquals(status.getText(), "pablished for all");
 	}
 
 	@Test(priority = 1, enabled = true)

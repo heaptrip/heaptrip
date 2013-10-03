@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.ContentRepository;
@@ -83,10 +84,17 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 	}
 
 	@Override
-	public void setStatus(String tripId, ContentStatusEnum status, String[] allowed) {
+	public ContentStatus getStatus(String contentId) {
 		MongoCollection coll = getCollection();
-		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {'status.value': #, allowed: #}}", status,
-				allowed);
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, status: 1}")
+				.as(getCollectionClass());
+		return (content == null) ? null : content.getStatus();
+	}
+
+	@Override
+	public void setStatus(String tripId, ContentStatus status, String[] allowed) {
+		MongoCollection coll = getCollection();
+		WriteResult wr = coll.update("{_id: #}", tripId).with("{$set: {status: #, allowed: #}}", status, allowed);
 		logger.debug("WriteResult for set status: {}", wr);
 	}
 

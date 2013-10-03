@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.rating.ContentRating;
@@ -52,11 +52,26 @@ public class ContentServiceImpl implements ContentService {
 	}
 
 	@Override
-	public void setStatus(String contentId, ContentStatusEnum status) {
+	public ContentStatus getStatus(String contentId) {
+		Assert.notNull(contentId, "contentId must not be null");
+		return contentRepository.getStatus(contentId);
+	}
+
+	@Override
+	public void setStatus(String contentId, ContentStatus status) {
 		Assert.notNull(contentId, "contentId must not be null");
 		Assert.notNull(status, "status must not be null");
+		Assert.notNull(status.getValue(), "status value must not be null");
+
+		ContentStatus oldStatus = getStatus(contentId);
+		if (oldStatus != null && oldStatus.getValue() != null && oldStatus.getValue().equals(status.getValue())) {
+			// status is not changed
+			return;
+		}
+
 		String[] allowed = null;
-		switch (status) {
+
+		switch (status.getValue()) {
 		case PUBLISHED_ALL:
 			allowed = new String[] { "0" };
 			break;
@@ -69,7 +84,10 @@ public class ContentServiceImpl implements ContentService {
 			allowed = new String[0];
 			break;
 		}
+
+		// save status and allowed list
 		contentRepository.setStatus(contentId, status, allowed);
+
 		// update whole content (include allowed field) to Apache Solr
 		contentSearchService.saveContent(contentId);
 	}
