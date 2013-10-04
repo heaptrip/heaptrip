@@ -14,7 +14,8 @@ public enum CollectionEnum {
 	JOURNAL("journal"), 
 	MEMBERS("members"), 
 	IMAGES("images"),
-	RATINGS("ratings");
+	RATINGS("ratings"),
+	EVENT_TYPES("event_types");
 
 	private String name;
 
