@@ -5,7 +5,7 @@
 	margin: -200px auto 0;
 	height: 200px;
 	position: relative;
-	z-index: 2;
+	z-index: 1;
 	border-top: 1px solid #E2E6E6;
 }
 

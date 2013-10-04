@@ -110,7 +110,6 @@
 #container {
 	width: 100%;
 	float: left;
-	overflow: hidden;
 }
 #contents {
 	padding: 0 298px 0 15px;
@@ -258,6 +257,7 @@ input[type=checkbox]{
 	color: #2C2C2C;
 	padding: 10px 0;
 	text-align: justify;
+	position: relative;
 }
 
 #article .description a{
@@ -348,29 +348,31 @@ input[type=checkbox]{
 #article .star4{ background-position: 0px -11px}
 #article .star5{ background-position: 0px 0px}
 
-/* Пагинация ----------------------------------------------------*/
+/* Пагинация 
+----------------------------------------------------*/
 #pagination{
-height: 21px; border-top: 1px solid #DEE5EB;
-/*border-bottom: 1px solid #DEE5EB;*/
-text-align: center;
-margin: 60px 0 -1px 0;
-padding: 4px 0;
-margin: 4px 298px 4px 15px;
+	height: 21px;
+	border-top: 1px solid #DEE5EB;
+	/*border-bottom: 1px solid #DEE5EB;*/
+	text-align: center;
+	margin: 60px 0 -1px 0;
+	padding: 4px 0;
+	margin: 4px 298px 4px 15px;
 }
 
 #pagination div,
 #pagination ul,
 #pagination li{
-display: -moz-inline-stack;
-display: inline-block;
-vertical-align: top;
-zoom: 1;
-*display: inline;
-color: #545454;
-font-family: verdana;
-font-size: 12px;
-line-height: 21px;
-text-align: center;
+	display: -moz-inline-stack;
+	display: inline-block;
+	vertical-align: top;
+	zoom: 1;
+	*display: inline;
+	color: #545454;
+	font-family: verdana;
+	font-size: 12px;
+	line-height: 21px;
+	text-align: center;
 }
 
 #pagination li a{
@@ -530,6 +532,12 @@ text-align: center;
 	background: url('../images/show_filtr.png') no-repeat;
 }
 
+.filtr.open .zag span{
+	background-image: url('/images/show_filtr.png');
+	background-position: initial initial;
+	background-repeat: no-repeat no-repeat;
+}
+
 .filtr .for_button{
 	text-align: right;
 	border-top: 1px dashed #C9C9C2;
@@ -564,6 +572,15 @@ text-align: center;
     *display: inline;	
 }
 
+.filtr div.content{
+	padding: 7px 0;
+	display: none;
+}
+
+.filtr.open div.content{
+	display: block;
+}
+
 /* Выбор категории
 ----------------------------------------------------*/
 .filtr{
@@ -595,13 +612,17 @@ text-align: center;
 
 /* Выбор региона
 ---------------------------------------------------*/
-#region .search{
+#region .search,
+#community .search,
+#people .search{
 	width: 270px;
 	left: 5px;
 	margin-bottom: 10px;
 }
 
-#region .search input[type=text]{
+#region .search input[type=text],
+#community .search input[type=text],
+#people .search input[type=text]{
 	border: 1px solid #C1C1BB;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -609,7 +630,9 @@ text-align: center;
 	height: 18px;
 }
 
-#region .search input[type=button]{
+#region .search input[type=button],
+#community .search input[type=button],
+#people .search input[type=button]{
 	width: 20px;
 	height: 20px;
 	position: absolute;
@@ -618,6 +641,26 @@ text-align: center;
 	cursor: pointer;
 	border: none;
 	background: url('../images/search.jpg') center center no-repeat;
+}
+
+#community ul{
+	margin: 0 0 10px 0;
+	padding: 0;
+	list-style: none;
+}
+
+#community ul li{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    padding: 0px 0pt 0px 12px;
+}
+
+#community ul li label{
+	font-weight: normal;
+	margin: 0 5px 0 5px;
 }
 
 /* Детально объявление
@@ -767,6 +810,7 @@ article .table_inf th:first-child {
 .comment_info{
 	margin: -3px 0 8px 0;
 	width: 100%;
+	position: relative;
 }
 
 .connemt_name{
@@ -1167,6 +1211,7 @@ article .table_inf th:first-child {
 #contents span.check_enabled{
 	background: url('../images/check_img.png') 0px -13px no-repeat !important;
 }
+
 /* Участники
 -------------------------------------------------------------*/
 #article .list_user{
@@ -1268,6 +1313,7 @@ article .table_inf th:first-child {
 	left: 65px;
 	bottom: 1px;
 }
+
 /* Одна фотография
 ---------------------------------------------------------------*/
 .one_photo_button{
@@ -1353,6 +1399,7 @@ article .table_inf th:first-child {
 	margin: 0;
 	cursor: pointer;
 }
+
 /* Редактирование описания путешествия
 ----------------------------------------------------------------*/
 article.edit .left ul{
@@ -1521,6 +1568,7 @@ article.edit .table_inf tr th.price_th{
 article.edit .del_article{
 	border-top: 1px solid #E2E6E5;
 	padding-top: 10px;
+	margin-top: 40px;
 }
 
 article.edit #img_load{
@@ -1593,7 +1641,7 @@ article.edit .description textarea{
 
 #article.edit .participants_menu{
 	position: absolute;
-	top: 26px;
+	/*top: 26px;*/
 	right: 5px;
 	width: 21px;
 	height: 21px;
@@ -2119,15 +2167,8 @@ article.edit .tabs input[type="text"] {
     zoom: 1;
     *display: inline;
     position: relative;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
-
-/*#article .community ul li:hover{
-	padding-bottom: 34px;
-	margin-bottom: -22px;
-	position: relative;
-	z-index: 10;
-}*/
 
 #article .community ul li .button{
 	position: absolute;
@@ -2306,9 +2347,6 @@ article.edit .tabs input[type="text"] {
 	width: auto;
 }
 
-.table_inf .experience th:last-child{
-	/*width: 145px;*/
-}
 /* Редактирование профиля
 ------------------------------------------------------------------------*/
 #article.edit .my_inf .my_name input{
@@ -2399,6 +2437,7 @@ article.edit .tabs input[type="text"] {
 	color: #000;
 	text-decoration: none;
 }
+
 /* Настройки
 ------------------------------------------------------------------*/
 .options_top{
@@ -2500,4 +2539,134 @@ margin-bottom: 3px;
 	border-bottom: 1px solid #E2E6E5;
 	height: 0px;
 	margin-top: 7px;
+}
+
+/* События
+---------------------------------------------------*/
+.user_developments_button{
+	margin: 20px 0;
+}
+
+/* События редактирование
+-----------------------------------------------------*/
+.price_developments{
+	position: absolute;
+	font-family: "Verdana";
+	font-size: 12px;
+	color: #ABABAB;	
+	bottom: 0px;
+	right: 0px;
+	width: 295px;
+	height: 66px;
+}
+
+#article.edit .price_developments input[type="text"]{
+	width: 116px;
+	display: inline;
+	padding: 5px;
+}
+
+#article.edit .price_developments .currency{
+	margin-top: 6px;
+	width: 45px;
+}
+
+.view_map_developments label{
+	margin-left: 5px;
+}
+
+.view_map_developments .map_content{
+	border: 1px solid #E2E6E7;
+	margin-top: -1px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	behavior: url(/pie/PIE.htc);
+	background: #FFF;
+	padding: 7px;
+	margin-top: 10px;
+	margin-bottom: 30px;
+}
+
+#developments ul{
+	margin: 0 0 10px 0;
+	padding: 0;
+	list-style: none;
+}
+
+#developments ul li{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    padding: 0px 0pt 0px 12px;
+    width: 119px;
+}
+
+#developments ul li label{
+	font-weight: normal;
+	margin: 0 5px 0 5px;
+}
+/* Вопросы
+-----------------------------------------------*/
+.comments_post h2{
+	font-size: 20px;
+	font-weight: normal;
+	color: #909090;
+	text-decoration: none;
+	padding-bottom: 3px;
+	letter-spacing: 0px;
+	display: block;
+	border-bottom: 1px solid #E2E6E5;
+	margin: 20px 0;
+}
+
+.rating_questions {
+	position: absolute;
+	right: 0px;
+	top: 0px;
+	font-size: 11px;
+	color: #A9A9A9;
+}
+
+.rating_questions span{
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+.this_otvet{
+	margin-left: 10px;
+	font-size: 11px;
+	color: #A9A9A9;
+}
+
+a.this_otvet.otvet_green{
+	color: #68C448;
+	font-weight: bold;
+	text-decoration: none;
+}
+/* Блок для вывода ошибок
+---------------------------------------------------*/
+.error_message{
+	padding: 5px;
+	color: red;
+	font-size: 10px;
+	line-height: 12px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+.error_message p{
+	margin: 0px;
+	padding: 1px;
+	color: red;
+	font-size: 10px;
+	line-height: 12px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+.error_message p.green{
+	color: green;
 }

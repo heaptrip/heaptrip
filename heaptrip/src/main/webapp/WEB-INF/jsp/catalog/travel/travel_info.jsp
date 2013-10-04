@@ -44,11 +44,17 @@
 		:<span>${trip.comments}</span>
 	</div>
 	<div class="wertung">
-		<fmt:message key="content.wertung" />
-		:
-		<div class="stars star${trip.rating.stars} activ">
-			<input type="hidden" value="${trip.rating.stars}">
-		</div>
+		<fmt:message key="content.wertung" />:
+		<c:choose>
+			<c:when test="${not trip.rating.locked}">
+				<div contentType="TRIP" class="stars star${trip.rating.stars} activ">
+					<input type="hidden" value="${trip.rating.stars}">
+				</div>	
+			</c:when>
+			<c:otherwise>
+				<div class="stars star${trip.rating.stars}"></div>				
+			</c:otherwise>
+		</c:choose>
 		<span>(${trip.rating.count})</span>
 	</div><a class="button"><fmt:message key="content.toFavorit" /></a></div>
 </article>

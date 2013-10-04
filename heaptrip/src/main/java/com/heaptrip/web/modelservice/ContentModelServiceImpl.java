@@ -7,23 +7,19 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.heaptrip.domain.entity.CurrencyEnum;
-import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.rating.TotalRating;
+import com.heaptrip.domain.entity.content.ContentStatus;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
-import com.heaptrip.domain.service.rating.RatingService;
+import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.util.language.LanguageUtils;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
-import com.heaptrip.web.model.content.PriceModel;
-import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.user.UserModel;
@@ -38,7 +34,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 	RegionService regionService;
 
 	@Autowired
-	RatingService ratingService;
+	ContentService contentService;
 
 	@Override
 	public CategoryModel convertCategoryToModel(SimpleCategory category) {
@@ -102,8 +98,8 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 		return result;
 	}
 
-	protected void setContentToContentModel(ContentModel contentModel, Content contetnt, Locale locale,
-			boolean isOnlyThisLocale) {
+	protected void setContentToContentModel(ContentEnum contentType, ContentModel contentModel, Content contetnt,
+			Locale locale, boolean isOnlyThisLocale) {
 
 		if (contetnt != null) {
 			contentModel.setId(contetnt.getId());
@@ -116,13 +112,8 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 			} else {
 				contentModel.setViews(contetnt.getViews().getCount());
 			}
-
-			contentModel.setRating(convertRatingToModel(contetnt.getRating()));
-
-			StatusModel status = new StatusModel();
-			status.setValue(contetnt.getStatus().getValue().name());
-			status.setText(contetnt.getStatus().getText());
-			contentModel.setStatus(status);
+			contentModel.setRating(convertRatingToRatingModel(contentType, contetnt.getId(), contetnt.getRating()));
+			contentModel.setStatus(convertContentStatusToModel(contetnt.getStatus()));
 			if (contetnt.getName() != null)
 				contentModel.setName(getMultiLangTextValue(contetnt.getName(), locale, isOnlyThisLocale));
 			contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
@@ -131,6 +122,23 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 			contentModel.setLangs(contetnt.getLangs());
 		}
 
+	}
+
+	protected StatusModel convertContentStatusToModel(ContentStatus contentStatus) {
+		StatusModel statusModel = new StatusModel();
+		statusModel.setValue(contentStatus.getValue().name());
+		statusModel.setText(contentStatus.getText());
+		return statusModel;
+	}
+
+	protected ContentStatus convertContentStatusModelToContentStatus(StatusModel statusModel) {
+		ContentStatus contentStatus = null;
+		if (statusModel != null) {
+			contentStatus = new ContentStatus();
+			contentStatus.setText(statusModel.getText());
+			contentStatus.setValue(ContentStatusEnum.valueOf(statusModel.getValue()));
+		}
+		return contentStatus;
 	}
 
 	@Override
@@ -146,18 +154,6 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 			contentOwner.setType(user.getTypeAccount());
 		}
 		return contentOwner;
-	}
-
-	@Override
-	public String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale) {
-		String result = null;
-		if (isOnlyThisLocale) {
-			text.setMainLanguage(LanguageUtils.getLanguageByLocale(locale));
-			result = text.getValue(locale);
-		} else {
-			result = text.getValue((locale != null ? locale : getCurrentLocale()));
-		}
-		return result;
 	}
 
 	@Override
@@ -214,48 +210,6 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 			ids.add(region.getId());
 		}
 		return ids.toArray(new String[ids.size()]);
-	}
-
-	@Override
-	public RatingModel convertRatingToModel(TotalRating rating) {
-		RatingModel result = new RatingModel();
-		result.setValue(0D);
-		result.setCount(0);
-		result.setStars(0D);
-		if (rating != null) {
-			result.setValue(rating.getValue());
-			// TODO: переделать, когда появятся звезды 0,5
-			result.setStars(new Double(Math.round(ratingService.ratingToStars(rating.getValue()))));
-			result.setCount(rating.getCount());
-		}
-		return result;
-	}
-
-	@Override
-	public PriceModel convertPrice(Price price) {
-		PriceModel priceModel = new PriceModel();
-		if (price != null) {
-			priceModel.setValue(price.getValue());
-			if (price.getCurrency() != null)
-				priceModel.setCurrency(price.getCurrency().name());
-		}
-		return priceModel;
-	}
-
-	@Override
-	public Price convertPriceModel(PriceModel priceModel) {
-		Price price = null;
-		if (priceModel != null) {
-			price = new Price();
-			price.setValue(priceModel.getValue());
-			CurrencyEnum currency = null;
-			for (CurrencyEnum currencyEnum : CurrencyEnum.values()) {
-				if (currencyEnum.name().equals(priceModel.getValue()))
-					currency = currencyEnum;
-			}
-			price.setCurrency(currency);
-		}
-		return price;
 	}
 
 }

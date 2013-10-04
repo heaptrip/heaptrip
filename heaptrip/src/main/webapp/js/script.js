@@ -53,7 +53,11 @@ $(document).ready(function() {
 			'position':'relative',
 			'margin-left': '-'+$(value).css('width')
 		});
-		$(value).before('<span class="chek check_false"></span>');
+    if($(value).is(':checked')){
+      $(value).before('<span class="chek check_true"></span>');  
+    }else{
+      $(value).before('<span class="chek check_false"></span>');  
+    }
 		$(value).click(function(e){
 			if(!$(this).is(':checked')){
 				$(this).prev(".chek").addClass('check_false');
@@ -79,7 +83,7 @@ $(document).ready(function() {
 	$('.comment_content').bind('click',function(e){
 		//$(this).unbind('click');
 		$('.comments_mother .comment_new').remove();
-		$(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" onClick="createNewComment(this)" value="Ответить" class="button"></div>');
+    $(this).parent().append('<div class="comment_new"><textarea noresize></textarea><input type="button" onClick="createNewComment(this)" value="Ответить" class="button"></div>');
 	});
 
 	// раздвижное текстовое поле по клику
@@ -112,7 +116,7 @@ $(document).ready(function() {
       			var value=0;
       			delta=e.pageX-$(this).offset().left*1;
       			value=Math.ceil(delta/11);
-      			console.log(value);
+      			addContentRating(value);     			
       			$(this).removeClass();
       			$(this).addClass("stars star"+value+" activ");
       			$(this).find('input').val(value);
@@ -146,11 +150,13 @@ $(document).ready(function() {
   		participants_menu('.participants_func',commands);
   	}
 
+    // так не хорошо
   	if($('.participants_is').length){
   		var commands=Array('Принять','Отказать');
   		participants_menu('.participants_is',commands);
   	}
 
+    // надо вот так
     if($('.community_func12').length){
       var commands=Array(Array('Закрыть','12'));
       participants_menu('.community_func12',commands);
@@ -180,6 +186,35 @@ $(document).ready(function() {
 		return false;   	
     });
 
+    if($('.rating_questions').length){
+
+      $(document).on('click','.rating_questions span',function(e){
+        var data=$(this).html();
+        data=data.slice(1)*1+1;
+        if($(this).hasClass('plus_questions')){
+          $(this).html('+'+data);  
+        }else{
+          $(this).html('-'+data);
+        }
+        return false;
+      });
+
+      $(document).on('click','.plus_questions',function(e){
+      });
+      $(document).on('click','.minus_questions',function(e){
+      });
+
+      $(document).on('click','.this_otvet',function(e){
+          var otvet=$(this);
+          otvet.parents('.comment_content').find('.comment_text').css('font-weight','bold');
+          otvet.html('Это ответ');
+          otvet.addClass('otvet_green');
+          otvet.unbind();
+      });
+
+
+    }
+
 
 });
 
@@ -192,7 +227,7 @@ $(document).ready(function() {
 
 
 // анимация контекстного меню в участниках
-function participants_menu(name,commands){
+/*function participants_menu(name,commands){
 	var commands_l=commands.length;
 	var commands_str='';
 	for (var i = 0; i < commands_l; i++) {
@@ -217,7 +252,7 @@ function participants_menu(name,commands){
   			$(this).css("background","url('/images/participants_func.jpg') right top no-repeat");
   		}
   	});
-}
+}*/
 
 // создание закладок
 function create_tabs(){
@@ -426,6 +461,38 @@ function func_button(id_func,is_button){
       case '19':
         alert('ok');
         //community_unsubscribe(is_button);
+        break;
+      case '20':
+        alert('20');
+        var el=$(is_button).parents('li.participants_li');
+        el.find('.participants_menu').remove();
+        $('#list_user_1>ul').append(el);
+        break;
+      case '21':
+        alert('21');
+        var el=$(is_button).parents('li.participants_li');
+        el.find('.participants_menu').remove();
+        $('#list_user_2>ul').append(el);
+        break;
+      case '22':
+        alert('22');
+        var el=$(is_button).parents('li.participants_li');
+        el.find('.participants_menu').remove();
+        $('#list_user_3>ul').append(el);        
+        break;
+      case '23':
+        alert('23');
+        var el=$(is_button).parents('li.participants_li');
+        el.find('.participants_menu').remove();
+        $('#list_user_4>ul').append(el);        
+        break;
+      case '24':
+        alert('24');
+        $(is_button).parents('li.participants_li').remove();
+        break;
+      case '25':
+        alert('25');
+        window.location = "/profile/chat.html"
         break;
 	    default:
     		//

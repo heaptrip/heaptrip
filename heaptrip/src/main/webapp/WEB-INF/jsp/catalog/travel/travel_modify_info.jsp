@@ -54,10 +54,19 @@
 			id : tripId
 		} : {});
 
+		var statusValue = null;
+		if($('#is_draft').is(':checked'))
+			statusValue = 'DRAFT';
+		else if($('#is_for_frends').is(':checked'))
+			statusValue = 'PUBLISHED_FRIENDS';
+		else
+			statusValue = 'PUBLISHED_ALL';
+		
 		jsonData.locale = locale;
 		jsonData.name = $("#name_post").val();
 		jsonData.summary = $("#desc_post").val();
 		jsonData.description = $("#desc_full_post").val();
+		$.extend(jsonData, {status:{value: statusValue}});
 		$.extend(jsonData, {route:{text: $("#desc_rout_post").val()}});
 
 		var paramsJson = $.getParamFromURL();
@@ -180,10 +189,10 @@
 			<div class="inf">
 				<div class="left">
 					<ul>
-						<li><input id="is_draft" type="checkbox" checked="${isDraft}"><label><fmt:message
+						<li><input id="is_draft" type="checkbox" ${isDraft ? "checked=true": "" }><label><fmt:message
 									key="content.draft" /></label></li>
 						<li><input id="is_for_frends" type="checkbox"
-							checked="${isForFrends}"><label><fmt:message
+							${isForFrends ? "checked=true": "" }><label><fmt:message
 									key="content.forFrends" /></label></li>
 					</ul>
 				</div>

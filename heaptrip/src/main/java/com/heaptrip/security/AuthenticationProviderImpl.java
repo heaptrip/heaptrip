@@ -40,37 +40,44 @@ public class AuthenticationProviderImpl implements AuthenticationProvider {
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
+		try {
 
-		String email = String.valueOf(auth.getPrincipal());
-		String password = String.valueOf(auth.getCredentials());
+			UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
 
-		LOG.info("user " + email + " trying authenticate");
+			String email = String.valueOf(auth.getPrincipal());
+			String password = String.valueOf(auth.getCredentials());
 
-		// Check user authentication info
-		User user = authenticationService.getUserByEmailAndPassword(email, password);
+			LOG.info("user " + email + " trying authenticate");
 
-		if (user == null || user.getStatus().equals(AccountStatusEnum.DELETED)) {
-			LOG.error("user " + email + " authenticate failure");
-			throw new BadCredentialsException(localeService.getMessage("err.login.failure"));
-		}
+			// Check user authentication info
+			User user = authenticationService.getUserByEmailAndPassword(email, password);
 
-		if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
-			throw new BadCredentialsException(localeService.getMessage("err.login.notconfirmed"));
-		}
-
-		// Return an authenticated token, containing user data and
-		// authorities
-
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-
-		if (user.getRoles() != null) {
-			for (String role : user.getRoles()) {
-				authorities.add(new SimpleGrantedAuthority(role));
+			if (user == null || user.getStatus().equals(AccountStatusEnum.DELETED)) {
+				LOG.error("user " + email + " authenticate failure");
+				throw new BadCredentialsException(localeService.getMessage("err.login.failure"));
 			}
+
+			if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
+				throw new BadCredentialsException(localeService.getMessage("err.login.notconfirmed"));
+			}
+
+			// Return an authenticated token, containing user data and
+			// authorities
+
+			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+
+			if (user.getRoles() != null) {
+				for (String role : user.getRoles()) {
+					authorities.add(new SimpleGrantedAuthority(role));
+				}
+			}
+
+			return new UsernamePasswordAuthenticationToken(user, null, authorities);
+
+		} catch (Exception e) {
+			throw new BadCredentialsException(e.getMessage());
 		}
 
-		return new UsernamePasswordAuthenticationToken(user, null, authorities);
 	}
 
 	@Override

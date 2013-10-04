@@ -10,10 +10,7 @@ import com.heaptrip.domain.entity.content.trip.Trip;
  */
 public enum ContentEnum {
 
-	TRIP(Trip.class.getName()), 
-	POST(Post.class.getName()), 
-	QA("null"), 
-	EVENT("null");
+	TRIP(Trip.class.getName()), POST(Post.class.getName()), QA("null"), EVENT("null");
 
 	private String clazz;
 
@@ -24,4 +21,5 @@ public enum ContentEnum {
 	public String getClazz() {
 		return clazz;
 	}
+
 }

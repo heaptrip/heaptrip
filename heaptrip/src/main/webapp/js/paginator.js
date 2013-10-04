@@ -9,8 +9,8 @@
 						length : 5,
 						next : '>',
 						prev : '<',
-						text : locale.pagingText,
-						go : locale.pagingGo,
+						text : pagingFMT.text,
+						go : pagingFMT.go,
 						initval : 1,
 						skip : 0,
 						onchange : null
@@ -113,24 +113,10 @@
 														navigate(currentPage);
 													}
 												}).addClass('btn');
-
-						
-								if(totalpages > 0){ 
-								container
-								.append(text)
-								.append(btnPrev)
-								.append(list)
-								.append(btnNext)
-								//.append(inputPage)
-								//.append(btnGo)
-								.append($('<div/>').addClass('short'));
-								}else{
-									
-									var empty =  $('<div/>').text(locale.pagingEmpty);
-									
-									container
-								.append(empty).append($('<div/>').addClass('short'));}
-								
+								container.append(text).append(btnPrev).append(
+										list).append(btnNext).append(inputPage)
+										.append(btnGo).append(
+												$('<div/>').addClass('short'));
 								buildNavigation(startPage);
 								if (settings.initval == 0)
 									settings.initval = 1;
@@ -158,7 +144,7 @@
 													$('<span/>').append(
 															$('<b/>').text(
 																	upper)))
-											.append($('<span/>').text(locale.pagingOf))
+											.append($('<span/>').text('of'))
 											.append(
 													$('<span/>')
 															.append(
@@ -264,16 +250,6 @@
 														recordStartIndex,
 														recordsEndIndex);
 											}
-											
-											else{
-												//onchange : function onChange(pageIndex, skip, limit) {
-													$.handParamToURL({
-														skip : skip,
-														limit : limit-skip
-													});
-												//}
-											}
-											
 										}
 
 										showRequiredButtons();

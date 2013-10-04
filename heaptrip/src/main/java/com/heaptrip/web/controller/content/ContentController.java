@@ -17,7 +17,9 @@ import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.content.CommentModel;
+import com.heaptrip.web.model.content.ContentRatingModel;
 import com.heaptrip.web.modelservice.CommentModelService;
+import com.heaptrip.web.modelservice.CountersService;
 
 /**
  * 
@@ -36,9 +38,12 @@ public class ContentController extends ExceptionHandlerControler {
 	@Autowired
 	private CommentModelService commentModelService;
 
+	@Autowired
+	private CountersService countersService;
+
 	@RequestMapping(value = "security/comment_save", method = RequestMethod.POST)
 	public @ResponseBody
-	Map<String, ? extends Object> saveTripInfo(@RequestBody CommentModel commentModel) {
+	Map<String, ? extends Object> saveComment(@RequestBody CommentModel commentModel) {
 		try {
 			commentModelService.saveComment(commentModel);
 		} catch (Throwable e) {
@@ -47,4 +52,14 @@ public class ContentController extends ExceptionHandlerControler {
 		return Ajax.emptyResponse();
 	}
 
+	@RequestMapping(value = "security/add_content_rating", method = RequestMethod.POST)
+	public @ResponseBody
+	Map<String, ? extends Object> addContentRating(@RequestBody ContentRatingModel ratingModel) {
+		try {
+			return Ajax.successResponse(countersService.addContentRating(ratingModel));
+		} catch (Throwable e) {
+			throw new RestException(e);
+		}
+
+	}
 }

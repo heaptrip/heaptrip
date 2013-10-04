@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.trip.Route;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatus;
@@ -45,19 +47,30 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
 	@Override
 	public Trip saveTripInfo(TripInfoModel tripInfoModel) {
-		return tripService.save(convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale())),
-				new Locale(tripInfoModel.getLocale()));
+		Trip trip = convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale()));
+		trip = tripService.save(trip, new Locale(tripInfoModel.getLocale()));
+		ContentStatus contentStatus = convertContentStatusModelToContentStatus(tripInfoModel.getStatus());
+		// TODO : voronenko : убедиться, что есть проверка предидущего статуса в
+		// методе contentService.setStatus()
+		// if (!trip.getStatus().getValue().equals(contentStatus.getValue()))
+		contentService.setStatus(trip.getId(), contentStatus);
+		return trip;
 	}
 
 	@Override
 	public void updateTripInfo(TripInfoModel tripInfoModel) {
-		tripService.updateTripInfo(convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale())),
-				new Locale(tripInfoModel.getLocale()));
+		Trip trip = convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale()));
+		tripService.updateTripInfo(trip, new Locale(tripInfoModel.getLocale()));
+		ContentStatus contentStatus = convertContentStatusModelToContentStatus(tripInfoModel.getStatus());
+		// TODO : voronenko : убедиться, что есть проверка предидущего статуса в
+		// методе contentService.setStatus()
+		// if (!trip.getStatus().getValue().equals(contentStatus.getValue()))
+		contentService.setStatus(trip.getId(), contentStatus);
 	}
 
 	private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale) {
 		if (trip != null) {
-			setContentToContentModel(tripModel, trip, locale, isOnlyThisLocale);
+			setContentToContentModel(ContentEnum.TRIP, tripModel, trip, locale, isOnlyThisLocale);
 
 			tripModel.setComments(trip.getComments());
 
@@ -117,6 +130,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		trip.setLangs(new String[] { locale.getLanguage() });
 		trip.setId(tripInfoModel.getId());
 		trip.setOwner(getContentOwner());
+		trip.setStatus(convertContentStatusModelToContentStatus(tripInfoModel.getStatus()));
 		trip.setMainLang(locale.getDisplayLanguage());
 		trip.setName(new MultiLangText(tripInfoModel.getName(), locale));
 		trip.setDescription(new MultiLangText(tripInfoModel.getDescription(), locale));
@@ -159,12 +173,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		if (statusModel != null) {
 			status = new TableStatus();
 			status.setText(status.getText());
-			TableStatusEnum statusEnum = null;
-			for (TableStatusEnum tableStatusEnum : TableStatusEnum.values()) {
-				if (tableStatusEnum.name().equals(statusModel.getValue()))
-					statusEnum = tableStatusEnum;
-			}
-			status.setValue(statusEnum);
+			status.setValue(TableStatusEnum.valueOf(statusModel.getValue()));
 		}
 		return status;
 	}

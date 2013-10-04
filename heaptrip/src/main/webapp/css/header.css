@@ -71,7 +71,7 @@ input {
 	z-index: 2;
 }
 
-#account{
+#account,#alert{
 	background: #292929;
 	border: 1px solid #404141;
 	-webkit-border-radius: 5px;
@@ -82,6 +82,15 @@ input {
 	left: 190px;
 	top: 7px;
 	z-index: 2;
+}
+
+#alert {
+	left: 148px;
+	padding-left: 17px;
+	padding-right: 3px;
+	color: #CFCFCF;
+	text-decoration: none;
+	background: url('../images/warning.png') 2px 1px no-repeat;
 }
 
 #account_name{

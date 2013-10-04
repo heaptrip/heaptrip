@@ -3,8 +3,9 @@ package com.heaptrip.web.model.content;
 public class RatingModel {
 
 	private Double value;
-	private Double stars;
+	private String stars;
 	private Integer count;
+	private Boolean locked;
 
 	public Double getValue() {
 		return value;
@@ -14,11 +15,11 @@ public class RatingModel {
 		this.value = value;
 	}
 
-	public Double getStars() {
+	public String getStars() {
 		return stars;
 	}
 
-	public void setStars(Double stars) {
+	public void setStars(String stars) {
 		this.stars = stars;
 	}
 
@@ -28,6 +29,14 @@ public class RatingModel {
 
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+
+	public Boolean getLocked() {
+		return locked;
+	}
+
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
 	}
 
 }
