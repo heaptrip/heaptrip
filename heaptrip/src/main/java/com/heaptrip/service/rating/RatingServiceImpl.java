@@ -89,7 +89,9 @@ public class RatingServiceImpl implements RatingService {
 		if (contentType.equals(ContentEnum.TRIP)) {
 			// trip can rated only members
 			if (!tripUserService.isTableUser(contentId, userId)) {
-				// TODO : voronenko: вернуть в false после отладки addRating
+				// TODO : voronenko: вернуть в false и включить тест
+				// RatingServiceTest.canSetRatingForTrip() после отладки
+				// addRating
 				if (true)
 					return true;
 				return false;
