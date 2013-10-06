@@ -1,7 +1,5 @@
 package com.heaptrip.domain.entity.content.event;
 
-import java.util.List;
-
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.comment.Commentsable;
 import com.heaptrip.domain.entity.content.Content;
@@ -16,7 +14,7 @@ public class Event extends Content implements Commentsable {
 	private static final String COMMENTS_NUMBER_FIELD_NAME = "comments";
 
 	// event types
-	private List<EventType> types;
+	private EventType[] types;
 
 	// number of comments
 	private long comments;
@@ -46,11 +44,11 @@ public class Event extends Content implements Commentsable {
 		this.comments = comments;
 	}
 
-	public List<EventType> getTypes() {
+	public EventType[] getTypes() {
 		return types;
 	}
 
-	public void setTypes(List<EventType> types) {
+	public void setTypes(EventType[] types) {
 		this.types = types;
 	}
 

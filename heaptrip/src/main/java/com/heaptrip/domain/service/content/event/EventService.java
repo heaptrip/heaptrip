@@ -3,13 +3,14 @@ package com.heaptrip.domain.service.content.event;
 import java.util.Locale;
 
 import com.heaptrip.domain.entity.content.event.Event;
+import com.heaptrip.domain.service.content.ContentService;
 
 /**
  * 
  * Event service
  * 
  */
-public interface EventService {
+public interface EventService extends ContentService {
 
 	/**
 	 * Save a new event
