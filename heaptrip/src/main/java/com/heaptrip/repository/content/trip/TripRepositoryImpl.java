@@ -310,58 +310,6 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
 	}
 
 	@Override
-	public Trip getRoute(String tripId, Locale locale) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		String lang = LanguageUtils.getLanguageByLocale(locale);
-		String fields = String.format(
-				"{_class: 1, 'route._id': 1, 'route.text.main': 1, 'route.text.%s': 1, 'route.map': 1}", lang);
-
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("get trip route\n->query: %s\n->parameters: %s\n->projection: %s", query,
-					tripId, fields);
-			logger.debug(msg);
-		}
-		return coll.findOne(query, tripId).projection(fields).as(Trip.class);
-	}
-
-	@Override
-	public void updateRoute(Trip trip, Locale locale) {
-		String query = "{_id: #}";
-
-		String updateQuery = null;
-		List<Object> parameters = new ArrayList<>();
-
-		String lang = LanguageUtils.getLanguageByLocale(locale);
-		String mainLang = trip.getMainLang();
-
-		if (mainLang.equals(lang)) {
-			// update main language
-			updateQuery = String.format("{$set: {'route.text.main': #, 'route.text.%s': #, 'route.map': #}}", lang);
-
-			parameters.add(trip.getRoute().getText().getValue(locale));
-			parameters.add(trip.getRoute().getText().getValue(locale));
-			parameters.add(trip.getRoute().getMap());
-		} else {
-			updateQuery = String.format("{$set: {'route.text.%s': #, 'route.map': #}}", lang);
-
-			parameters.add(trip.getRoute().getText().getValue(locale));
-			parameters.add(trip.getRoute().getMap());
-		}
-
-		if (logger.isDebugEnabled()) {
-			String msg = String.format(
-					"update trip route\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
-					query, trip.getId(), updateQuery, ArrayUtils.toString(parameters));
-			logger.debug(msg);
-		}
-
-		MongoCollection coll = getCollection();
-		WriteResult wr = coll.update(query, trip.getId()).with(updateQuery, parameters.toArray());
-		logger.debug("WriteResult for update trip route: {}", wr);
-	}
-
-	@Override
 	public TableItem[] getTableItemsWithDateBeginAndDateEnd(String tripId) {
 		MongoCollection coll = getCollection();
 		Trip trip = coll.findOne("{_id: #}", tripId)

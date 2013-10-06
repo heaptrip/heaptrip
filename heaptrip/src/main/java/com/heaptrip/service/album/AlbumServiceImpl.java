@@ -12,7 +12,6 @@ import org.springframework.util.Assert;
 import com.heaptrip.domain.entity.album.AlbumImage;
 import com.heaptrip.domain.entity.album.ImageOwner;
 import com.heaptrip.domain.entity.album.ImageReferences;
-import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.repository.album.AlbumRepository;
 import com.heaptrip.domain.service.album.AlbumImageEnum;
 import com.heaptrip.domain.service.album.AlbumService;
@@ -29,20 +28,21 @@ public class AlbumServiceImpl implements AlbumService {
 	private ImageService imageService;
 
 	@Override
-	public AlbumImage addAlbumImage(String targetId, String ownerId, AlbumImageEnum type, String fileName,
+	public AlbumImage addAlbumImage(String targetId, String ownerId, AlbumImageEnum imageType, String fileName,
 			InputStream is) throws IOException {
 		Assert.notNull(targetId, "targetId must not be null");
 		Assert.notNull(ownerId, "ownerId must not be null");
-		Assert.notNull(type, "type of album image must not be null");
+		Assert.notNull(imageType, "imageType of album image must not be null");
 		Assert.notNull(fileName, "fileName must not be null");
 		Assert.notNull(is, "input stream must not be null");
 
 		ImageOwner owner = new ImageOwner();
 		owner.setId(ownerId);
+
 		// TODO konovalov set owner name
 		// owner.setName(name)
 
-		ImageReferences refs = saveImage(fileName, type, is);
+		ImageReferences refs = saveImage(fileName, imageType, is);
 
 		AlbumImage albumImage = new AlbumImage();
 		albumImage.setTarget(targetId);
@@ -54,27 +54,16 @@ public class AlbumServiceImpl implements AlbumService {
 		return albumRepository.save(albumImage);
 	}
 
-	private ImageReferences saveImage(String fileName, AlbumImageEnum type, InputStream is) throws IOException {
+	private ImageReferences saveImage(String fileName, AlbumImageEnum imageType, InputStream is) throws IOException {
 		ImageReferences result = new ImageReferences();
 
 		is = StreamUtils.getResetableInputStream(is);
 
-		switch (type) {
-		case TRIP_ALBUM_IMAGE:
-			result.setSmall(imageService.saveImage(fileName, ImageEnum.TRIP_ALBUM_SMALL_IMAGE, is));
-			is.reset();
-			result.setMedium(imageService.saveImage(fileName, ImageEnum.TRIP_ALBUM_MEDIUM_IMAGE, is));
-			is.reset();
-			result.setFull(imageService.saveImage(fileName, ImageEnum.TRIP_ALBUM_FULL_IMAGE, is));
-			break;
-		case TRIP_ROUTE_IMAGE:
-			result.setSmall(imageService.saveImage(fileName, ImageEnum.TRIP_ROUTE_SMALL_IMAGE, is));
-			is.reset();
-			result.setMedium(imageService.saveImage(fileName, ImageEnum.TRIP_ROUTE_MEDIUM_IMAGE, is));
-			is.reset();
-			result.setFull(imageService.saveImage(fileName, ImageEnum.TRIP_ROUTE_FULL_IMAGE, is));
-			break;
-		}
+		result.setSmall(imageService.saveImage(fileName, imageType.getSmallImage(), is));
+		is.reset();
+		result.setMedium(imageService.saveImage(fileName, imageType.getMediumImage(), is));
+		is.reset();
+		result.setFull(imageService.saveImage(fileName, imageType.getFullImage(), is));
 
 		return result;
 	}
@@ -94,25 +83,25 @@ public class AlbumServiceImpl implements AlbumService {
 	}
 
 	@Override
-	public void removeAlbumImagesByTargetId(String targetId) {
+	public void removeAllAlbumImages(String targetId) {
 		Assert.notNull(targetId, "targetId must not be null");
 		albumRepository.removeByTargetId(targetId);
 	}
 
 	@Override
-	public List<AlbumImage> getAlbumImagesByTargetId(String targetId) {
+	public List<AlbumImage> getAlbumImages(String targetId) {
 		Assert.notNull(targetId, "targetId must not be null");
 		return albumRepository.findByTargetId(targetId);
 	}
 
 	@Override
-	public List<AlbumImage> getAlbumImagesByTargetId(String targetId, int limit) {
+	public List<AlbumImage> getAlbumImages(String targetId, int limit) {
 		Assert.notNull(targetId, "targetId must not be null");
 		return albumRepository.findByTargetId(targetId, limit);
 	}
 
 	@Override
-	public AlbumImage getAlbumImageById(String albumImageId) {
+	public AlbumImage getAlbumImage(String albumImageId) {
 		Assert.notNull(albumImageId, "albumImageId must not be null");
 		return albumRepository.findOne(albumImageId);
 	}

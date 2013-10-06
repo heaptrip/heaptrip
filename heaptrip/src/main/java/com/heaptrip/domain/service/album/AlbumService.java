@@ -23,7 +23,7 @@ public interface AlbumService {
 	 *            id, etc.)
 	 * @param ownerId
 	 *            owner id
-	 * @param type
+	 * @param imageType
 	 *            image type
 	 * @param fileName
 	 *            file name
@@ -32,8 +32,42 @@ public interface AlbumService {
 	 * @return album image
 	 * @throws IOException
 	 */
-	public AlbumImage addAlbumImage(String targetId, String ownerId, AlbumImageEnum type, String fileName,
+	public AlbumImage addAlbumImage(String targetId, String ownerId, AlbumImageEnum imageType, String fileName,
 			InputStream is) throws IOException;
+
+	/**
+	 * Get images by id
+	 * 
+	 * @param albumImageId
+	 *            album image id
+	 * @return image
+	 */
+	public AlbumImage getAlbumImage(String albumImageId);
+
+	/**
+	 * Get images by id of associated object
+	 * 
+	 * @param targetId
+	 *            _id of associated object
+	 * @return list of images
+	 */
+	public List<AlbumImage> getAlbumImages(String targetId);
+
+	/**
+	 * Get images by id of associated object and limit size
+	 * 
+	 * @param targetId
+	 *            _id of associated object
+	 * @return list of images
+	 */
+	public List<AlbumImage> getAlbumImages(String targetId, int limit);
+
+	/**
+	 * Update album image
+	 * 
+	 * @param albumImage
+	 */
+	public void updateAlbumImage(AlbumImage albumImage);
 
 	/**
 	 * Remove album image by albumImageId
@@ -50,45 +84,11 @@ public interface AlbumService {
 	public void removeAlbumImages(List<String> albumImageIds);
 
 	/**
-	 * Remove album images by targetId
+	 * Remove all album images by targetId
 	 * 
 	 * @param albumImageId
 	 */
-	public void removeAlbumImagesByTargetId(String targetId);
-
-	/**
-	 * Get images by id of associated object
-	 * 
-	 * @param targetId
-	 *            _id of associated object
-	 * @return list of images
-	 */
-	public List<AlbumImage> getAlbumImagesByTargetId(String targetId);
-
-	/**
-	 * Get images by id of associated object and limit size
-	 * 
-	 * @param targetId
-	 *            _id of associated object
-	 * @return list of images
-	 */
-	public List<AlbumImage> getAlbumImagesByTargetId(String targetId, int limit);
-
-	/**
-	 * Get images by id
-	 * 
-	 * @param albumImageId
-	 *            album image id
-	 * @return image
-	 */
-	public AlbumImage getAlbumImageById(String albumImageId);
-
-	/**
-	 * Update album image
-	 * 
-	 * @param albumImage
-	 */
-	public void updateAlbumImage(AlbumImage albumImage);
+	public void removeAllAlbumImages(String targetId);
 
 	/**
 	 * Add like to album image

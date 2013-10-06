@@ -72,17 +72,17 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
 		categories.add(new Category("11", null, null, "Самостоятельная поездка", "Self drive"));
 	}
 
-	@Test(priority = 1)
+	@Test(priority = 0)
 	public void removeAll() {
 		categoryRepository.removeAll();
 	}
 
-	@Test(priority = 2)
+	@Test(priority = 1)
 	public void save() {
 		categoryRepository.save(categories);
 	}
 
-	@Test(priority = 3)
+	@Test(priority = 2)
 	public void findById() {
 		String id = "2.4.7";
 		Category category = categoryRepository.findOne(id);
@@ -90,9 +90,18 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(category.getId(), id);
 	}
 
-	@Test(priority = 4)
+	@Test(priority = 3)
 	public void findAll() {
 		List<Category> categories = categoryService.getCategories(Locale.ENGLISH);
 		Assert.assertEqualsNoOrder(categories.toArray(), this.categories.toArray());
+	}
+
+	@Test(priority = 4)
+	public void getParents() {
+		List<String> parentIds = categoryService.getParentsByCategoryId("2.2.6");
+		Assert.assertNotNull(parentIds);
+		Assert.assertEquals(parentIds.size(), 2);
+		Assert.assertTrue(parentIds.contains("2"));
+		Assert.assertTrue(parentIds.contains("2.2"));
 	}
 }

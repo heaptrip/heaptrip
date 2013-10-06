@@ -133,6 +133,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
 		// set route
 		Route route = new Route();
+		route.setId(UUID.randomUUID().toString());
 		route.setText(new MultiLangText());
 		trip.setRoute(route);
 

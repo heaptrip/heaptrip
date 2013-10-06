@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.trip.TableMember;
 import com.heaptrip.domain.entity.content.trip.TableUser;
 import com.heaptrip.domain.entity.content.trip.TableUserStatusEnum;
@@ -24,7 +25,7 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 
 	@Override
 	protected String getCollectionName() {
-		return TableMember.COLLECTION_NAME;
+		return CollectionEnum.MEMBERS.getName();
 	}
 
 	@Override
@@ -49,8 +50,8 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	@Override
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId) {
 		MongoCollection coll = getCollection();
-		String query = "{tripId: #, tableId: #}";
-		String hint = "{tripId: 1, tableId: 1}";
+		String query = "{contentId: #, tableId: #}";
+		String hint = "{contentId: 1, tableId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("find table members\n->query: %s\n->parameters: [%s,%s]\n->hint: %s", query,
 					tripId, tableId, hint);
@@ -63,8 +64,8 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	@Override
 	public List<TableMember> findByTripIdAndTableId(String tripId, String tableId, int limit) {
 		MongoCollection coll = getCollection();
-		String query = "{tripId: #, tableId: #}";
-		String hint = "{tripId: 1, tableId: 1}";
+		String query = "{contentId: #, tableId: #}";
+		String hint = "{contentId: 1, tableId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"find table members\n->query: %s\n->parameters: [%s,%s]\n->limit: %d\n->hint: %s", query, tripId,
@@ -79,8 +80,8 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	@Override
 	public List<TableUser> findTableUsersByUserId(String tripId, String userId) {
 		MongoCollection coll = getCollection();
-		String query = "{userId: #, tripId: #}";
-		String hint = "{userId: 1, tripId: 1}";
+		String query = "{userId: #, contentId: #}";
+		String hint = "{userId: 1, contentId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format("find table users\n->query: %s\n->parameters: [%s,%s]\n->hint: %s", query,
 					userId, tripId, hint);
@@ -93,20 +94,20 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	@Override
 	public boolean existsByTripIdAndUserId(String tripId, String userId) {
 		MongoCollection coll = getCollection();
-		long count = coll.count("{userId: #, tripId: #, status: #}", userId, tripId, TableUserStatusEnum.OK);
+		long count = coll.count("{userId: #, contentId: #, status: #}", userId, tripId, TableUserStatusEnum.OK);
 		return (count > 0) ? true : false;
 	}
 
 	@Override
 	public long getCountByTripId(String tripId) {
 		MongoCollection coll = getCollection();
-		return coll.count("{tripId: #}", tripId);
+		return coll.count("{contentId: #}", tripId);
 	}
 
 	@Override
 	public void removeByTripId(String tripId) {
 		MongoCollection coll = getCollection();
-		WriteResult wr = coll.remove("{tripId: #}", tripId);
+		WriteResult wr = coll.remove("{contentId: #}", tripId);
 		logger.debug("WriteResult for remove table member by tripId: {}", wr);
 	}
 
@@ -114,8 +115,8 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 	public List<String> findTripIdsByUserId(String userId) {
 		MongoCollection coll = getCollection();
 		String query = "{userId: #}";
-		String projection = "{_class: 1, tripId: 1}";
-		String hint = "{userId: 1, tripId: 1}";
+		String projection = "{_class: 1, contentId: 1}";
+		String hint = "{userId: 1, contentId: 1}";
 		if (logger.isDebugEnabled()) {
 			String msg = String.format(
 					"find table members\n->query: %s\n->parameters: %s\n->projection: %s\n->hint: %s", query, userId,
@@ -128,7 +129,7 @@ public class MemberRepositoryImpl extends CrudRepositoryImpl<TableMember> implem
 		if (iter != null) {
 			while (iter.hasNext()) {
 				TableMember member = iter.next();
-				result.add(member.getTripId());
+				result.add(member.getContentId());
 			}
 		}
 		return result;

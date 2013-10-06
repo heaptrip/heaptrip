@@ -20,7 +20,7 @@ public interface CategoryService {
 	 * @return category
 	 */
 	public Category getCategoryById(String categoryId, Locale locale);
-	
+
 	/**
 	 * Get all categories
 	 * 
@@ -43,7 +43,6 @@ public interface CategoryService {
 	 * @param categoryId
 	 * @return list of identifiers
 	 */
-	// TODO konovalov add test
 	public List<String> getParentsByCategoryId(String categoryId);
 
 }

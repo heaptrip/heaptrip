@@ -14,7 +14,7 @@ import com.heaptrip.domain.service.album.AlbumService;
 public interface EventAlbumService extends AlbumService {
 
 	/**
-	 * Add image to owner album
+	 * Add image to event
 	 * 
 	 * @param eventId
 	 *            event id
@@ -24,11 +24,9 @@ public interface EventAlbumService extends AlbumService {
 	 *            file name
 	 * @param is
 	 *            input stream
-	 * @return album image
+	 * @return image
 	 * @throws IOException
 	 */
 	public AlbumImage addAlbumImage(String eventId, String ownerId, String fileName, InputStream is) throws IOException;
-
-	// TODO verify other methods
 
 }

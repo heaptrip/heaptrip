@@ -146,6 +146,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		// check
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getRoute());
+		Assert.assertNotNull(trip.getRoute().getId());
 		Assert.assertNotNull(trip.getRoute().getText());
 	}
 
@@ -179,6 +180,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getDescription().getValue(locale));
 		Assert.assertEquals(trip.getDescription().getValue(locale), description);
 		Assert.assertNotNull(trip.getRoute());
+		Assert.assertNotNull(trip.getRoute().getId());
 		Assert.assertNotNull(trip.getRoute().getText());
 		Assert.assertNotNull(trip.getRoute().getText().getValue(locale));
 		Assert.assertEquals(trip.getRoute().getText().getValue(locale), routeText);

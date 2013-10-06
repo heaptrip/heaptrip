@@ -42,7 +42,7 @@ public class AlbumServiceTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeClass
 	public void init() {
-		albumService.removeAlbumImagesByTargetId(TARGET_ID);
+		albumService.removeAllAlbumImages(TARGET_ID);
 	}
 
 	@Test(enabled = true, priority = 0)
@@ -66,9 +66,9 @@ public class AlbumServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(enabled = true, priority = 1)
-	public void getAlbumImagesByTargetId() throws IOException {
+	public void getAlbumImages() throws IOException {
 		// call
-		List<AlbumImage> albumImages = albumService.getAlbumImagesByTargetId(TARGET_ID);
+		List<AlbumImage> albumImages = albumService.getAlbumImages(TARGET_ID);
 		// check
 		Assert.assertNotNull(albumImages);
 		Assert.assertEquals(albumImages.size(), 1);
@@ -82,18 +82,18 @@ public class AlbumServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNull(albumImage.getRefs().getMedium());
 		Assert.assertNull(albumImage.getRefs().getFull());
 		// call
-		albumImages = albumService.getAlbumImagesByTargetId(TARGET_ID, 1);
+		albumImages = albumService.getAlbumImages(TARGET_ID, 1);
 		// check
 		Assert.assertNotNull(albumImages);
 		Assert.assertEquals(albumImages.size(), 1);
 	}
 
 	@Test(enabled = true, priority = 2)
-	public void getAlbumImageById() throws IOException {
+	public void getAlbumImage() throws IOException {
 		// call
 		Assert.assertNotNull(albumImage);
 		Assert.assertNotNull(albumImage.getId());
-		albumImage = albumService.getAlbumImageById(albumImage.getId());
+		albumImage = albumService.getAlbumImage(albumImage.getId());
 		// check
 		Assert.assertNotNull(albumImage);
 		Assert.assertNotNull(albumImage.getOwner());
@@ -114,7 +114,7 @@ public class AlbumServiceTest extends AbstractTestNGSpringContextTests {
 		albumImage.setText(text);
 		albumService.updateAlbumImage(albumImage);
 		// check
-		albumImage = albumService.getAlbumImageById(albumImage.getId());
+		albumImage = albumService.getAlbumImage(albumImage.getId());
 		Assert.assertNotNull(albumImage);
 		Assert.assertEquals(albumImage.getName(), name);
 		Assert.assertEquals(albumImage.getText(), text);
@@ -128,7 +128,7 @@ public class AlbumServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNull(albumImage.getLikes());
 		albumService.like(albumImage.getId());
 		// check
-		albumImage = albumService.getAlbumImageById(albumImage.getId());
+		albumImage = albumService.getAlbumImage(albumImage.getId());
 		Assert.assertNotNull(albumImage);
 		Assert.assertNotNull(albumImage.getLikes());
 		Assert.assertEquals(albumImage.getLikes(), new Long(1));
@@ -141,7 +141,7 @@ public class AlbumServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(albumImage.getId());
 		albumService.removeAlbumImage(albumImage.getId());
 		// check
-		albumImage = albumService.getAlbumImageById(albumImage.getId());
+		albumImage = albumService.getAlbumImage(albumImage.getId());
 		Assert.assertNull(albumImage);
 	}
 

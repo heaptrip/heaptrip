@@ -29,7 +29,7 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(tableId, "tableId must not be null");
 		Assert.notNull(userId, "userId must not be null");
 		TableUser tableUser = new TableUser();
-		tableUser.setTripId(tripId);
+		tableUser.setContentId(tripId);
 		tableUser.setTableId(tableId);
 		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.INVITE);
@@ -44,7 +44,7 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(tableId, "tableId must not be null");
 		Assert.notNull(email, "email must not be null");
 		TableInvite invite = new TableInvite();
-		invite.setTripId(tripId);
+		invite.setContentId(tripId);
 		invite.setTableId(tableId);
 		invite.setEmail(email);
 		tripRepository.incTableMembers(tripId, tableId, 1);
@@ -57,7 +57,7 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(tableId, "tableId must not be null");
 		Assert.notNull(userId, "userId must not be null");
 		TableUser tableUser = new TableUser();
-		tableUser.setTripId(tripId);
+		tableUser.setContentId(tripId);
 		tableUser.setTableId(tableId);
 		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.REQUEST);
@@ -111,8 +111,8 @@ public class TripUserServiceImpl implements TripUserService {
 		Assert.notNull(memberId, "memberId must not be null");
 		TableMember member = memberRepository.findOne(memberId);
 		Assert.notNull(member, "error memberId: " + memberId);
-		if (member.getTripId() != null && member.getTableId() != null) {
-			tripRepository.incTableMembers(member.getTripId(), member.getTableId(), -1);
+		if (member.getContentId() != null && member.getTableId() != null) {
+			tripRepository.incTableMembers(member.getContentId(), member.getTableId(), -1);
 		}
 		memberRepository.remove(memberId);
 	}

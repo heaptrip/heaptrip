@@ -28,22 +28,22 @@ public class TripAlbumServiceImpl extends AlbumServiceImpl implements TripAlbumS
 
 	@Override
 	public List<AlbumImage> getOwnerAlbumImages(String tripId) {
-		return getAlbumImagesByTargetId(tripId);
+		return getAlbumImages(tripId);
 	}
 
 	@Override
 	public List<AlbumImage> getOwnerAlbumImages(String tripId, int limit) {
-		return getAlbumImagesByTargetId(tripId, limit);
+		return getAlbumImages(tripId, limit);
 	}
 
 	@Override
 	public List<AlbumImage> getTableAlbumImages(String tableId) {
-		return getAlbumImagesByTargetId(tableId);
+		return getAlbumImages(tableId);
 	}
 
 	@Override
 	public List<AlbumImage> getTableAlbumImages(String tableId, int limit) {
-		return getAlbumImagesByTargetId(tableId, limit);
+		return getAlbumImages(tableId, limit);
 	}
 
 }

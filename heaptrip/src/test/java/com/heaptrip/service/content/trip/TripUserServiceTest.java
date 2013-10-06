@@ -65,7 +65,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(member);
 		Assert.assertTrue(member instanceof TableUser);
 		TableUser user = (TableUser) member;
-		Assert.assertEquals(user.getTripId(), TRIP_ID);
+		Assert.assertEquals(user.getContentId(), TRIP_ID);
 		Assert.assertEquals(user.getTableId(), TABLE_ID);
 		Assert.assertEquals(user.getUserId(), USER_ID);
 		Assert.assertEquals(user.getStatus(), TableUserStatusEnum.INVITE);
@@ -116,7 +116,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(member);
 		Assert.assertTrue(member instanceof TableInvite);
 		TableInvite invite = (TableInvite) member;
-		Assert.assertEquals(invite.getTripId(), TRIP_ID);
+		Assert.assertEquals(invite.getContentId(), TRIP_ID);
 		Assert.assertEquals(invite.getTableId(), TABLE_ID);
 		Assert.assertEquals(invite.getEmail(), USER_EMAIL);
 		// remove
@@ -147,7 +147,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(member);
 		Assert.assertTrue(member instanceof TableUser);
 		TableUser user = (TableUser) member;
-		Assert.assertEquals(user.getTripId(), TRIP_ID);
+		Assert.assertEquals(user.getContentId(), TRIP_ID);
 		Assert.assertEquals(user.getTableId(), TABLE_ID);
 		Assert.assertEquals(user.getUserId(), USER_ID);
 		Assert.assertEquals(user.getStatus(), TableUserStatusEnum.REQUEST);
@@ -170,7 +170,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(member);
 		Assert.assertTrue(member instanceof TableUser);
 		TableUser user = (TableUser) member;
-		Assert.assertEquals(user.getTripId(), TRIP_ID);
+		Assert.assertEquals(user.getContentId(), TRIP_ID);
 		Assert.assertEquals(user.getTableId(), TABLE_ID);
 		Assert.assertEquals(user.getUserId(), USER_ID);
 		Assert.assertEquals(user.getStatus(), TableUserStatusEnum.OK);
