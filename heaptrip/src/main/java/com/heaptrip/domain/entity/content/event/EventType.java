@@ -15,6 +15,16 @@ public class EventType extends BaseObject implements Collectionable {
 	// multilingual name of the event type
 	private MultiLangText name;
 
+	public EventType() {
+		super();
+	}
+
+	public EventType(String id, MultiLangText name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+
 	@Override
 	public String getCollectionName() {
 		return CollectionEnum.EVENT_TYPES.getName();
