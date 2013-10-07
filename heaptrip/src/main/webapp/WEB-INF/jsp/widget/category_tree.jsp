@@ -76,7 +76,7 @@
 
     <div id="category" class="filtr">
         <div class="zag"><fmt:message key="wgt.category.select" /></div>
-        <div class="content">
+        <div class="content" style="display: block;">
         <div class="tree"></div>
             <tiles:insertAttribute name="category_tree_btn" />
         </div>

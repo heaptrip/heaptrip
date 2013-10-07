@@ -607,7 +607,7 @@ input[type=checkbox]{
 
 .filtr div.content{
 	padding: 7px 0;
-	/*display: none;*/
+	display: none;
 }
 
 /* Выбор региона

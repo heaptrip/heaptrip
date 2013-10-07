@@ -132,10 +132,28 @@
 	behavior: url(/pie/PIE.htc); 
 }
 
-#registration input[type=checkbox],
-#authorization input[type=checkbox]{
+input[type=checkbox]{
 	cursor: pointer;
-	margin-right: 5px;
+}
+.chek{
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: middle;
+    zoom: 1;
+    *display: inline;
+    background-image: url("../js/themes/default/d.png"); background-repeat:no-repeat; background-color:transparent;	
+    cursor: pointer;
+    overflow: hidden;
+    width: 13px;
+    height: 13px;
+}
+
+.check_false{
+    background-position: -2px -20px;
+}
+
+.check_true{
+    background-position: -38px -20px;
 }
 
 #capcha input[type=text]{
@@ -251,7 +269,8 @@ dd #go,dd #submit{
 
 #error_message{
 	width: 283px;
-	margin: 24px auto;
+	margin: 10px auto;
+	margin-bottom: 1px;
 }
 
 .bad_message{
@@ -303,4 +322,29 @@ dd #go,dd #submit{
 
 #link #forgot_password{
 	color: #717171;
+}
+
+/* Блок для вывода ошибок
+---------------------------------------------------*/
+.error_message{
+	padding: 5px;
+	color: red;
+	font-size: 10px;
+	line-height: 12px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+.error_message p{
+	margin: 0px;
+	padding: 1px;
+	color: red;
+	font-size: 10px;
+	line-height: 12px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+.error_message p.green{
+	color: green;
 }
