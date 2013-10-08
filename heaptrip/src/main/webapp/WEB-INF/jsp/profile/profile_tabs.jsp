@@ -7,7 +7,7 @@
 	<nav id="nav">
     	<ul>
     		<li>
-    			<a href="<c:url value="/account_info.html"/>" class="${fn:contains(url, '/account_info') ? 'active':'' }">
+    			<a href="<c:url value="/profile.html"/>" class="${fn:contains(url, '/profile') ? 'active':'' }">
     				<fmt:message key="profile.info" />
     			</a>
     		</li>

@@ -287,17 +287,17 @@
 	
 		
 		
-		<definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile.jsp">
+		<definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile_content.jsp">
 			<put-attribute name="profile_tabs" value="/WEB-INF/jsp/profile/profile_tabs.jsp" />
 			<put-attribute name="profile_content" value="" />
 		</definition>
 		
 		
 		<definition name="accountInfoProfileTemplate" extends="profileTemplate">
-			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/account_info.jsp" />
+			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp" />
 		</definition>
 		
-		<definition name="account_info" extends="mainContentTemplate">
+		<definition name="profile" extends="mainContentTemplate">
 			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 			<put-attribute name="main_content" value="accountInfoProfileTemplate"  />
