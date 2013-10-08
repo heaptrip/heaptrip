@@ -13,9 +13,9 @@
 		</div>
 		<ul>
 			<li><a href="<c:url value="/tidings.html"/>"><fmt:message key="tiding.list.title" /></a></li>
-			<li><a href="/"><fmt:message key="profile.title" /></a></li>
+			<li><a href="<c:url value="/account_info.html"/>"><fmt:message key="profile.title" /></a></li>
 			<li><a href="/"><fmt:message key="profile.my" /></a></li>
-			<li><a href="/"><fmt:message key="profile.favorit" /></a></li>
+			<li><a href="/"><fmt:message key="profile.favorite" /></a></li>
 			<li><a href="<c:url value="/logout"/>"><fmt:message key="user.action.logout" /></a></li>
 		</ul>
 	</sec:authorize>

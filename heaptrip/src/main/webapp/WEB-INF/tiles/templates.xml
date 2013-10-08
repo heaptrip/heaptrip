@@ -275,7 +275,50 @@
 		
 		
 	
+	
+		
+		
 		<!-- Trip edit page -->
+	
+	
+		<!-- Profile -->	
+		
+		
+	
+		
+		
+		<definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile.jsp">
+			<put-attribute name="profile_tabs" value="/WEB-INF/jsp/profile/profile_tabs.jsp" />
+			<put-attribute name="profile_content" value="" />
+		</definition>
+		
+		
+		<definition name="accountInfoProfileTemplate" extends="profileTemplate">
+			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/account_info.jsp" />
+		</definition>
+		
+		<definition name="account_info" extends="mainContentTemplate">
+			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
+			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+			<put-attribute name="main_content" value="accountInfoProfileTemplate"  />
+		</definition>
+		
+	<!-- End Profile -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		
 	<definition name="posts" extends="listContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
