@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,20 +21,17 @@ import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
-import com.heaptrip.domain.service.content.criteria.ContentCriteria;
-import com.heaptrip.domain.service.content.criteria.ContentSortCriteria;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
-import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 
 @Service
-public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implements ContentRepository {
+public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implements ContentRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(ContentRepositoryImpl.class);
 
@@ -146,28 +142,6 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		return findByCriteria(criteria, queryHelper, tripIds);
 	}
 
-	private <T extends ContentSortCriteria> List<Content> findByCriteria(T criteria, QueryHelper<T> queryHelper,
-			Object... objects) {
-		MongoCollection coll = getCollection();
-		String query = queryHelper.getQuery(criteria);
-		Object[] parameters = queryHelper.getParameters(criteria, objects);
-		String projection = queryHelper.getProjection(criteria);
-		String sort = queryHelper.getSort(criteria);
-		int skip = (criteria.getSkip() != null) ? criteria.getSkip().intValue() : 0;
-		int limit = (criteria.getLimit() != null) ? criteria.getLimit().intValue() : 0;
-		String hint = queryHelper.getHint(criteria);
-		if (logger.isDebugEnabled()) {
-			String msg = String
-					.format("find contents\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
-							queryHelper.getClass(), query, ArrayUtils.toString(parameters), projection, sort, skip,
-							limit, hint);
-			logger.debug(msg);
-		}
-		Iterable<Content> iter = coll.find(query, parameters).projection(projection).sort(sort).skip(skip).limit(limit)
-				.hint(hint).as(Content.class);
-		return IteratorConverter.copyIterator(iter.iterator());
-	}
-
 	@Override
 	public long getCountByFeedCriteria(FeedCriteria criteria) {
 		QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
@@ -195,19 +169,6 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 		QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
 				.getHelperByCriteria(ForeignAccountCriteria.class);
 		return getCountByCriteria(criteria, queryHelper, tripIds);
-	}
-
-	private <T extends ContentCriteria> long getCountByCriteria(T criteria, QueryHelper<T> queryHelper,
-			Object... objects) {
-		MongoCollection coll = getCollection();
-		String query = queryHelper.getQuery(criteria);
-		Object[] parameters = queryHelper.getParameters(criteria, objects);
-		if (logger.isDebugEnabled()) {
-			String msg = String.format("get contents count\n->queryHelper: %s\n->query: %s\n->parameters: %s",
-					queryHelper.getClass(), query, ArrayUtils.toString(parameters));
-			logger.debug(msg);
-		}
-		return coll.count(query, parameters);
 	}
 
 	@Override

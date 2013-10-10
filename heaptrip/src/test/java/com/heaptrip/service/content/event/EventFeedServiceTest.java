@@ -70,7 +70,7 @@ public class EventFeedServiceTest extends AbstractTestNGSpringContextTests {
 		contentRepository.remove(EventFeedDataProvider.CONTENT_ID);
 	}
 
-	@Test(priority = 0, enabled = false, dataProviderClass = EventFeedDataProvider.class, dataProvider = "feedCriteria")
+	@Test(priority = 0, enabled = true, dataProviderClass = EventFeedDataProvider.class, dataProvider = "feedCriteria")
 	public void getContentsByFeedCriteria(EventFeedCriteria feedCriteria) {
 		// call
 		List<Event> contents = eventFeedService.getContentsByFeedCriteria(feedCriteria);
@@ -80,7 +80,7 @@ public class EventFeedServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(contents.get(0), event);
 	}
 
-	@Test(priority = 1, enabled = false, dataProviderClass = EventFeedDataProvider.class, dataProvider = "myAccountCriteria")
+	@Test(priority = 1, enabled = true, dataProviderClass = EventFeedDataProvider.class, dataProvider = "myAccountCriteria")
 	public void getContentsByMyAccountCriteria(EventMyAccountCriteria myAccountCriteria) {
 		// call
 		List<Event> contents = eventFeedService.getContentsByMyAccountCriteria(myAccountCriteria);
@@ -90,7 +90,7 @@ public class EventFeedServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(contents.get(0), event);
 	}
 
-	@Test(priority = 2, enabled = false, dataProviderClass = EventFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
+	@Test(priority = 2, enabled = true, dataProviderClass = EventFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
 	public void getContentsByForeignAccountCriteria(EventForeignAccountCriteria foreignAccountCriteria) {
 		// call
 		List<Event> contents = eventFeedService.getContentsByForeignAccountCriteria(foreignAccountCriteria);
@@ -100,7 +100,7 @@ public class EventFeedServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(contents.get(0), event);
 	}
 
-	@Test(priority = 3, enabled = false, dataProviderClass = EventFeedDataProvider.class, dataProvider = "feedCriteria")
+	@Test(priority = 3, enabled = true, dataProviderClass = EventFeedDataProvider.class, dataProvider = "feedCriteria")
 	public void getCountByFeedCriteria(EventFeedCriteria feedCriteria) {
 		// call
 		long count = eventFeedService.getCountByFeedCriteria(feedCriteria);
@@ -108,7 +108,7 @@ public class EventFeedServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, 1);
 	}
 
-	@Test(priority = 4, enabled = false, dataProviderClass = EventFeedDataProvider.class, dataProvider = "myAccountCriteria")
+	@Test(priority = 4, enabled = true, dataProviderClass = EventFeedDataProvider.class, dataProvider = "myAccountCriteria")
 	public void getCountByMyAccountCriteria(EventMyAccountCriteria myAccountCriteria) {
 		// call
 		long count = eventFeedService.getCountByMyAccountCriteria(myAccountCriteria);
@@ -116,7 +116,7 @@ public class EventFeedServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertEquals(count, 1);
 	}
 
-	@Test(priority = 5, enabled = false, dataProviderClass = EventFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
+	@Test(priority = 5, enabled = true, dataProviderClass = EventFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
 	public void getCountByForeignAccountCriteria(EventForeignAccountCriteria foreignAccountCriteria) {
 		// call
 		long count = eventFeedService.getCountByForeignAccountCriteria(foreignAccountCriteria);
