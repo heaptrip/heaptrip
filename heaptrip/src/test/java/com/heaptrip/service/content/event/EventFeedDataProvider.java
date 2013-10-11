@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.testng.annotations.DataProvider;
 
+import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.service.content.criteria.ContentSortEnum;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
@@ -30,6 +31,7 @@ public class EventFeedDataProvider {
 	@DataProvider(name = "feedCriteria")
 	public static Object[][] getTripFeedCriteria() {
 		EventFeedCriteria criteria = new EventFeedCriteria();
+		criteria.setContentType(ContentEnum.EVENT);
 		criteria.setUserId(USER_ID);
 		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, CATEGORY_IDS));
 		criteria.setRegions(new IDListCriteria(CheckModeEnum.IN, REGION_IDS));
@@ -44,6 +46,7 @@ public class EventFeedDataProvider {
 	@DataProvider(name = "myAccountCriteria")
 	public static Object[][] getTripMyAccountCriteria() {
 		EventMyAccountCriteria criteria = new EventMyAccountCriteria();
+		criteria.setContentType(ContentEnum.EVENT);
 		criteria.setUserId(OWNER_ID);
 		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, CATEGORY_IDS));
 		criteria.setRegions(new IDListCriteria(CheckModeEnum.IN, REGION_IDS));
@@ -60,6 +63,7 @@ public class EventFeedDataProvider {
 	@DataProvider(name = "foreignAccountCriteria")
 	public static Object[][] getTripForeignAccountCriteria() {
 		EventForeignAccountCriteria criteria = new EventForeignAccountCriteria();
+		criteria.setContentType(ContentEnum.EVENT);
 		criteria.setAccountId(OWNER_ID);
 		criteria.setUserId(USER_ID);
 		criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, CATEGORY_IDS));

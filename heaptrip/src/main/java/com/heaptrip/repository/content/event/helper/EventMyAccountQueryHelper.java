@@ -35,7 +35,7 @@ public class EventMyAccountQueryHelper extends ContentQueryHelper<EventMyAccount
 			query += ", regionIds: {$in: #}";
 		}
 		if (criteria.getTypes() != null && ArrayUtils.isNotEmpty(criteria.getTypes().getIds())) {
-			query += ", types: {$in: #}";
+			query += ", 'types._id': {$in: #}";
 		}
 		query += "}";
 		return query;
