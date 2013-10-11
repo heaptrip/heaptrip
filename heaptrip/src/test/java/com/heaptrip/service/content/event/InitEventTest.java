@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.event.Event;
@@ -85,6 +86,9 @@ public class InitEventTest extends AbstractTestNGSpringContextTests {
 		event.setCategories(getCategories());
 		event.setRegions(getRegions());
 		event.setTypes(getEventTypes());
+		event.setName(new MultiLangText("Test event"));
+		event.setSummary(new MultiLangText("Summary for test event"));
+		event.setDescription(new MultiLangText("Description for test event"));
 		eventService.save(event, LanguageUtils.getEnglishLocale());
 		eventUserService.removeEventMembers(event.getId());
 	}

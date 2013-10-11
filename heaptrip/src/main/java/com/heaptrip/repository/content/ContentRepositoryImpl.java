@@ -242,4 +242,12 @@ public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implement
 		MongoCollection coll = getCollection();
 		return coll.count("{'owner._id': #, allowed: #}", ownerId, allowedUserId);
 	}
+
+	@Override
+	public String getMainLanguage(String contentId) {
+		MongoCollection coll = getCollection();
+		Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, mainLang: 1}")
+				.as(getCollectionClass());
+		return (contentId == null) ? null : content.getMainLang();
+	}
 }
