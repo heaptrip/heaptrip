@@ -22,6 +22,7 @@ public class EventUserServiceTest extends AbstractTestNGSpringContextTests {
 		// call
 		EventMember member = eventUserService.addEventMember(EventDataProvider.CONTENT_ID, EventDataProvider.USER_ID);
 		// check
+		// TODO konovalov: check events members
 		Assert.assertNotNull(member);
 		Assert.assertNotNull(member.getId());
 		Assert.assertNotNull(member.getContentId());

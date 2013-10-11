@@ -1,24 +1,18 @@
 package com.heaptrip.service.content.post;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.category.Category;
-import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.Views;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.rating.ContentRating;
-import com.heaptrip.domain.entity.region.Region;
-import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.post.PostRepository;
 import com.heaptrip.domain.repository.region.RegionRepository;
@@ -59,43 +53,14 @@ public class PostServiceImpl extends ContentServiceImpl implements PostService {
 		Assert.notEmpty(content.getSummary(), "summary must not be empty");
 		Assert.notEmpty(content.getDescription(), "description must not be empty");
 
-		// TODO read and set owner name, account type and rating
-		// content.getOwner().setName("Ivan Petrov");
-		// content.getOwner().setRating(0D);
-		// trip.getOwner().setType(AccountEnum.USER);
-
 		// TODO if owner account type == (CLUB or COMPANY) then set owners
 		content.setOwners(new String[] { content.getOwner().getId() });
 
-		Set<String> categoryIds = new HashSet<>();
-		if (content.getCategories() != null) {
-			for (SimpleCategory simpleCategory : content.getCategories()) {
-				// set content categories
-				Assert.notNull(simpleCategory.getId(), "category.id must not be null");
-				Category category = categoryRepository.findOne(simpleCategory.getId());
-				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
-				simpleCategory.setName(category.getName());
-				// set all categories
-				categoryIds.add(simpleCategory.getId());
-				categoryIds.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
-			}
-		}
-		content.setCategoryIds(categoryIds.toArray(new String[0]));
+		// update categories and categoryIds
+		updateCategories(content);
 
-		Set<String> regionIds = new HashSet<>();
-		if (content.getRegions() != null) {
-			for (SimpleRegion simpleRegion : content.getRegions()) {
-				// set content regions
-				Assert.notNull(simpleRegion.getId(), "region.id must not be null");
-				Region region = regionRepository.findOne(simpleRegion.getId());
-				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
-				simpleRegion.setName(region.getName());
-				// set all regions
-				regionIds.add(simpleRegion.getId());
-				regionIds.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
-			}
-		}
-		content.setRegionIds(regionIds.toArray(new String[0]));
+		// update regions and regionIds
+		updateRegions(content);
 
 		content.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
 		content.setCreated(new Date());
@@ -140,35 +105,11 @@ public class PostServiceImpl extends ContentServiceImpl implements PostService {
 		Assert.notEmpty(post.getSummary(), "summary must not be empty");
 		Assert.notEmpty(post.getDescription(), "description must not be empty");
 
-		Set<String> categoryIds = new HashSet<>();
-		if (post.getCategories() != null) {
-			for (SimpleCategory simpleCategory : post.getCategories()) {
-				// set content categories
-				Assert.notNull(simpleCategory.getId(), "category.id must not be null");
-				Category category = categoryRepository.findOne(simpleCategory.getId());
-				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
-				simpleCategory.setName(category.getName());
-				// set all categories
-				categoryIds.add(simpleCategory.getId());
-				categoryIds.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
-			}
-		}
-		post.setCategoryIds(categoryIds.toArray(new String[0]));
+		// update categories and categoryIds
+		updateCategories(post);
 
-		Set<String> regionIds = new HashSet<>();
-		if (post.getRegions() != null) {
-			for (SimpleRegion simpleRegion : post.getRegions()) {
-				// set content regions
-				Assert.notNull(simpleRegion.getId(), "region.id must not be null");
-				Region region = regionRepository.findOne(simpleRegion.getId());
-				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
-				simpleRegion.setName(region.getName());
-				// set all regions
-				regionIds.add(simpleRegion.getId());
-				regionIds.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
-			}
-		}
-		post.setRegionIds(regionIds.toArray(new String[0]));
+		// update regions and regionIds
+		updateRegions(post);
 
 		// update to db
 		postRepository.update(post);

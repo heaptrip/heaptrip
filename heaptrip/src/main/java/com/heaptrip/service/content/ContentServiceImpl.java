@@ -3,6 +3,8 @@ package com.heaptrip.service.content;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,26 +13,81 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import com.heaptrip.domain.entity.category.Category;
+import com.heaptrip.domain.entity.category.SimpleCategory;
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.rating.ContentRating;
+import com.heaptrip.domain.entity.region.Region;
+import com.heaptrip.domain.entity.region.SimpleRegion;
+import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.repository.region.RegionRepository;
+import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.region.RegionService;
 
 @Service(ContentService.SERVICE_NAME)
 public class ContentServiceImpl implements ContentService {
 
 	@Autowired
-	private ContentRepository contentRepository;
+	protected ContentRepository contentRepository;
 
 	@Autowired
-	private ImageService imageService;
+	protected ImageService imageService;
 
 	@Autowired
-	private ContentSearchService contentSearchService;
+	protected ContentSearchService contentSearchService;
+
+	@Autowired
+	protected CategoryRepository categoryRepository;
+
+	@Autowired
+	protected CategoryService categoryService;
+
+	@Autowired
+	protected RegionRepository regionRepository;
+
+	@Autowired
+	protected RegionService regionService;
+
+	protected void updateCategories(Content content) {
+		Set<String> categoryIds = new HashSet<>();
+		if (content.getCategories() != null) {
+			for (SimpleCategory simpleCategory : content.getCategories()) {
+				// set content categories
+				Assert.notNull(simpleCategory.getId(), "category.id must not be null");
+				Category category = categoryRepository.findOne(simpleCategory.getId());
+				Assert.notNull(category, String.format("error category.id: %s", simpleCategory.getId()));
+				simpleCategory.setName(category.getName());
+				// set all categories
+				categoryIds.add(simpleCategory.getId());
+				categoryIds.addAll(categoryService.getParentsByCategoryId(simpleCategory.getId()));
+			}
+		}
+		content.setCategoryIds(categoryIds.toArray(new String[0]));
+	}
+
+	protected void updateRegions(Content content) {
+		Set<String> regionIds = new HashSet<>();
+		if (content.getRegions() != null) {
+			for (SimpleRegion simpleRegion : content.getRegions()) {
+				// set content regions
+				Assert.notNull(simpleRegion.getId(), "region.id must not be null");
+				Region region = regionRepository.findOne(simpleRegion.getId());
+				Assert.notNull(region, String.format("error region.id: %s", simpleRegion.getId()));
+				simpleRegion.setName(region.getName());
+				// set all regions
+				regionIds.add(simpleRegion.getId());
+				regionIds.addAll(regionService.getParentsByRegionId(simpleRegion.getId()));
+			}
+		}
+		content.setRegionIds(regionIds.toArray(new String[0]));
+	}
 
 	@Override
 	public boolean isOwner(String contentId, String userId) {

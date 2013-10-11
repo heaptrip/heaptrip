@@ -55,4 +55,7 @@ public interface ContentRepository extends CrudRepository<Content> {
 	public void removeAllowed(String ownerId, String userId);
 
 	public long getCountByOwnerIdAndAllowed(String ownerId, String allowedUserId);
+
+	public String getMainLanguage(String contentId);
+
 }

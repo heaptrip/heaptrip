@@ -69,6 +69,21 @@
 		</classes>
 	</test>
 
+	<test name="EventTypeTest">
+		<classes>
+			<class name="com.heaptrip.service.content.event.EventTypeServiceTest" />
+		</classes>
+	</test>
+
+	<test name="EventTest">
+		<classes>
+			<class name="com.heaptrip.service.content.event.InitEventTest" />
+			<class name="com.heaptrip.service.content.event.EventFeedServiceTest" />
+			<class name="com.heaptrip.service.content.event.EventServiceTest" />
+			<!-- <class name="com.heaptrip.service.content.event.EventUserServiceTest" /> -->
+		</classes>
+	</test>
+
 	<test name="CommentTest">
 		<classes>
 			<class name="com.heaptrip.service.comment.CommentServiceTest" />
