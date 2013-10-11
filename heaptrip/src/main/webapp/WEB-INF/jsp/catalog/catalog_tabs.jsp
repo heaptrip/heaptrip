@@ -18,7 +18,7 @@
 				</a>
     		</li>
     			<li>
-    			<a href="<c:url value="/posts.html"/>" class='${fn:contains(url, "/post") ? "active":"" }'>
+    			<a href="http://ui.heaptrip.com/posts.html" class='${fn:contains(url, "/post") ? "active":"" }'>
     				<fmt:message key="post.list.title" />
 				</a>
     		</li>

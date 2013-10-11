@@ -182,7 +182,7 @@
 	<div class="zag">
 		<fmt:message key="wgt.region.select" />
 	</div>
-	<div class="content">
+	<div class="content" style="display: block;">
 		<div class="search">
 			<input type="text" name="text_search"> <input type="button" name="go_region_search" value="">
 		</div>

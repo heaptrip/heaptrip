@@ -40,15 +40,17 @@
 </nav>
 
 <c:if test="${not empty param.login_error}">
-	<div id="error_message">
-		<c:choose>
-			<c:when test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}">
-				${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
-			</c:when>
-			<c:otherwise>
-				${param.login_error}
-			</c:otherwise>
-    	</c:choose>
+	<div id="error_message" class="error_message">
+		<p>
+			<c:choose>
+				<c:when test="${not empty sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}">
+					${sessionScope.SPRING_SECURITY_LAST_EXCEPTION.message}
+				</c:when>
+				<c:otherwise>
+					${param.login_error}
+				</c:otherwise>
+    		</c:choose>
+    	</p>
 	</div>
 </c:if>
 

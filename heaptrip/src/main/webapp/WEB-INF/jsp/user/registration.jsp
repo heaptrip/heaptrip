@@ -75,8 +75,8 @@
 	<div id="container">
 		<div id="contents">
 	
-	<div id="error_message">
-		<span id="msg"></span>
+	<div id="error_message" class="error_message">
+		<p id="msg"></p>
 	</div>
 
 			
@@ -107,8 +107,8 @@
 						</dd>
 					</dl>
 					<c:if test="${ not empty registrationInfo.socNetName}">
-						<div>
-							<fmt:message key="user.action.enterSocEmail" />
+						<div class="error_message">
+							<p class="green"><fmt:message key="user.action.enterSocEmail" /></p>
 						</div>
 					</c:if>
 					<dl>

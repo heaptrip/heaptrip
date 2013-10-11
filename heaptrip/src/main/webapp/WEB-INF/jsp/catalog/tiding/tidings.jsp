@@ -2,182 +2,106 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
+<script id="tripTemplate" type="text/x-jsrender">
 
-<!--<c:forEach var="tiding" items="${tidings}">
-
-	<div>${tiding.name}</div>
-	<br>
-
-</c:forEach>-->
-
-	<div id="container">
-
-<div id="contents">
-
-				<article id="article">
-					<div class="date">15.01.13<span>Путешествие</span></div>
-					<div class="inf">
-						<div class="left">
-							<h2><a href="/">Из Рима в Барселону</a></h2>
-							Нева тревел<span>(4,7)</span>
-						</div>
-						<div class="right">
-							<div>Период:<span class="date">с 19.01.13 по 29.01.13</span></div>
-							<div>Место:<span class="location">Италия</span></div>
-						</div>
-					</div>
-					<div class="description"><img src="1.jpg" width="300" align="left">Барселона расположена на северо-востоке Иберийского полуострова на побережье Средиземного моря на плато шириной в 5 км, границы которого с юга составляют горная гряда Кольсерола (кат. Collserola) и река Льобрегат, а на севере — река Бесос. Пиренеи находятся приблизительно в 120 км к северу от города.
-Прибрежные горы Кольсерола создают слегка скруглённый фон города. Высота самой высшей точки — горы Тибидабо составляет 512 м, над ней возвышается заметная издалека башня-антенна Кольсерола высотой 288,4 м. Самой высокой точкой в черте города является холм Мон-Табер (кат. Mont Taber) высотой 12 м, на нём расположен Барселонский собор.
-Барселона лежит на холмах, давших название городским кварталам: Кармель (кат. Carmel, 267 м), Монтерольс (кат. Monterols, 121 м), Пучет (кат. Putxet, 181 м), Ровира (кат. Rovira, 261 м) и Пейра (кат. Peira, 133 м). С горы Монжуик высотой 173 м в юго-западной части города открывается великолепный вид на порт Барселоны. На Монжуике расположена крепость XVII—XVIII веков, взявшая на себя оборонные функции разрушенной цитадели Сьютаделья (кат. Ciutadella), в то время как на месте последней разбили парк. В настоящее время в крепости размещается Военный музей. Помимо крепости на Монжуике находятся олимпийские объекты, учреждения культуры и знаменитые сады.</div>
+	<article id="article">
+		<div class="date">{{>created.text}}
+			<span><fmt:message key="trip.list.title" /></span>
+		</div>
+		<div class="inf">
+			<div class="left">
+				<h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>{{>owner.name}}<span>({{>owner.rating}})</span>
+			</div>
+			<div class="right">
+				{{if begin}}
 					<div>
-						<div class="tags"><a href="#">Морская прогулка</a><a href="#">Шоппинг</a><a href="#">Пляжный отдых</a></div>
-						<div class="price">99999 р.</div>
+						<fmt:message key="page.date.period" />:
+						<span class="date">
+							<fmt:message key="page.date.from" /> {{>begin.text}} <fmt:message key="page.date.to" /> {{>end.text)}}
+						</span>
 					</div>
-					<div>
-						<div class="views">Просмотров:<span>234</span></div>
-						<div class="comments">Коментариев:<span>24</span></div>
-						<div class="wertung">Рейтинг:<div class="stars star2"></div><span>(196)</span></div>
-					</div>
-				</article>
-
-				<article id="article">
-					<div class="date">15.01.13<span>Путешествие</span></div>
-					<div class="inf">
-						<div class="left">
-							<h2><a href="/">Из Рима в Барселону</a></h2>
-							Нева тревел<span>(4,7)</span>
-						</div>
-						<div class="right">
-							<div>Период:<span class="date">с 19.01.13 по 29.01.13</span></div>
-							<div>Место:<span class="location">Италия</span></div>
-						</div>
-					</div>
-					<div class="description">Барселона расположена на северо-востоке Иберийского полуострова на побережье Средиземного моря на плато шириной в 5 км, границы которого с юга составляют горная гряда Кольсерола (кат. Collserola) и река Льобрегат, а на севере — река Бесос. Пиренеи находятся приблизительно в 120 км к северу от города.
-Прибрежные горы Кольсерола создают слегка скруглённый фон города. Высота самой высшей точки — горы Тибидабо составляет 512 м, над ней возвышается заметная издалека башня-антенна Кольсерола высотой 288,4 м. Самой высокой точкой в черте города является холм Мон-Табер (кат. Mont Taber) высотой 12 м, на нём расположен Барселонский собор.
-Барселона лежит на холмах, давших название городским кварталам: Кармель (кат. Carmel, 267 м), Монтерольс (кат. Monterols, 121 м), Пучет (кат. Putxet, 181 м), Ровира (кат. Rovira, 261 м) и Пейра (кат. Peira, 133 м). С горы Монжуик высотой 173 м в юго-западной части города открывается великолепный вид на порт Барселоны. На Монжуике расположена крепость XVII—XVIII веков, взявшая на себя оборонные функции разрушенной цитадели Сьютаделья (кат. Ciutadella), в то время как на месте последней разбили парк. В настоящее время в крепости размещается Военный музей. Помимо крепости на Монжуике находятся олимпийские объекты, учреждения культуры и знаменитые сады.</div>
-					<div>
-						<div class="tags"><a href="#">Морская прогулка</a><a href="#">Шоппинг</a><a href="#">Пляжный отдых</a></div>
-						<div class="price">99999 р.</div>
-					</div>
-					<div>
-						<div class="views">Просмотров:<span>234</span></div>
-						<div class="comments">Коментариев:<span>24</span></div>
-						<div class="wertung">Рейтинг:<div class="stars star4"></div><span>(196)</span></div>
-					</div>
-				</article>
-
-				<article id="article">
-					<div class="date advertising">15.01.13<span>Рекламный пост</span></div>
-					<div class="inf">
-						<div class="left">
-							<h2><a href="/">Из Рима в Барселону</a></h2>
-							Нева тревел<span>(4,7)</span>
-						</div>
-						<div class="right">
-							<div>Место:<span class="location">Италия</span></div>
-						</div>
-					</div>
-					<div class="description"><img src="2.jpg" width="300" align="left">Описание: Пожалуй, Рим величайший город в мире по богатству истории и количеству художественных ценностей. Не зря его называют "вечным". Античные архитектурные памятники, церкви в стиле "барокко", великолепные фонтаны и современные бутики, очень органично вписываются в общий городской пейзаж. Прошлое и настоящее переплетаются здесь невидимыми нитями, заставляя восторгаться собой всех гостей столицы Италии. <a href="/">Подробнее...</a></div>
-					<div>
-						<div class="tags"><a href="#">Морская прогулка</a><a href="#">Шоппинг</a><a href="#">Пляжный отдых</a></div>
-					</div>
-					<div>
-						<div class="views">Просмотров:<span>234</span></div>
-						<div class="comments">Коментариев:<span>24</span></div>
-						<div class="wertung">Рейтинг:<div class="stars star4"></div><span>(196)</span></div>
-					</div>
-				</article>
-
-				<article id="article">
-					<div class="date">15.01.13<span>Вопрос</span></div>
-					<div class="inf">
-						<div class="left">
-							<h2><a href="/">Как грести веслом, если в руках банка пива?</a></h2>
-							Нева тревел<span>(4,7)</span>
-						</div>
-						<div class="right">
-							<div>Место:<span class="location">Италия</span></div>
-							<div class="answer">Есть ответ</div>
-						</div>
-					</div>
-					<div class="description"></div>
-					<div>
-						<div class="tags"><a href="#">Морская прогулка</a><a href="#">Шоппинг</a><a href="#">Пляжный отдых</a></div>
-					</div>
-					<div>
-						<div class="views">Просмотров:<span>234</span></div>
-						<div class="comments">Ответов:<span>24</span></div>
-					</div>
-				</article>
-
-				<article id="article">
-					<div class="date">15.01.13<span>Событие</span></div>
-					<div class="inf">
-						<div class="left">
-							<h2><a href="/">Из Рима в Барселону</a></h2>
-							Нева тревел<span>(4,7)</span>
-						</div>
-						<div class="right">
-							<div>Период:<span class="date">с 19.01.13 по 29.01.13</span></div>
-							<div>Место:<span class="location">Италия</span></div>
-						</div>
-					</div>
-					<div class="description"><img src="2.jpg" width="300" align="left">Описание: Пожалуй, Рим величайший город в мире по богатству истории и количеству художественных ценностей. Не зря его называют "вечным". Античные архитектурные памятники, церкви в стиле "барокко", великолепные фонтаны и современные бутики, очень органично вписываются в общий городской пейзаж. Прошлое и настоящее переплетаются здесь невидимыми нитями, заставляя восторгаться собой всех гостей столицы Италии. <a href="/">Подробнее...</a></div>
-					<div>
-						<div class="tags"><a href="#">Морская прогулка</a><a href="#">Шоппинг</a><a href="#">Пляжный отдых</a></div>
-						<div class="price">бесплатно</div>
-					</div>
-					<div>
-						<div class="views">Просмотров:<span>234</span></div>
-						<div class="comments">Коментариев:<span>24</span></div>
-						<div class="wertung">Рейтинг:<div class="stars star4"></div><span>(196)</span></div>
-					</div>
-				</article>				
-
-			</div><!-- #content-->
+				{{/if}}
+				<div>
+					<fmt:message key="content.place" />:
+						{{for regions}}
+							<span class="location">{{>data}}</span>
+						{{/for}}
+				</div>
+			</div>
+		</div>
+		<div class="description">
+			{{if image}}
+				<img src="<c:url value="/rest/image?imageId={{>image.id}}"/>" width="300" align="left">
+			{{/if}}
+				{{>summary}}
+		</div>
+		<div>
+			<div class="tags">
+				{{for categories}}
+					<a onclick="$.handParamToURL({ct:{{>id}}, skip : null ,limit : null})">{{>data}}</a>
+				{{/for}}
+			</div>
+			{{if price}}
+				<div class="price">{{>price}}<fmt:message key="locale.currency" /></div>
+			{{/if}}
 			
-			
-			<tiles:insertDefinition name="pagination" />
-		
-		
-		</div><!-- #container-->
-		
-		
-		
-		<aside id="sideRight">
+		</div>
+		<div>
+			<div class="views"><fmt:message key="content.views" />:<span>{{>views}}</span></div>
+			<div class="comments"><fmt:message key="content.comments" />:<span>{{>comments}}</span></div>
+			<div class="wertung"><fmt:message key="content.wertung" />:<div class="stars star{{>rating.stars}}"></div><span>({{>rating.count}})</span></div>
+		</div>
+	</article>
 
-<tiles:insertDefinition name="categoryTreeWithBtn" />
+</script>
 
-<tiles:insertDefinition name="regionFilterWithBtn" />
+<div id="container">
+	<div id="contents"></div>
+	<tiles:insertDefinition name="pagination" />
+</div>
 
+<aside id="sideRight">
+	<tiles:insertDefinition name="categoryTreeWithBtn" />
+	<tiles:insertDefinition name="regionFilterWithBtn" />
+</aside>
+
+<script type="text/javascript">
+
+	$(window).bind("onPageReady", function(e, paramsJson) {
+		getTripsList(paramsJson);
+	});
+
+	var getTripsList = function(paramsJson) {
+		
+		var url = 'rest/trips';
+
+		var tripCriteria = {
+			skip : paramsJson.skip ? paramsJson.skip : 0,
+			limit : paramsJson.limit,
+			categories : {
+				checkMode : "IN",
+				ids : paramsJson.ct ? paramsJson.ct.split(',') : null
+			},
+			regions : {
+				checkMode : "IN",
+				ids : paramsJson.rg ? paramsJson.rg.split(',') : null
+			} 		
+		};
+
+		var callbackSuccess = function(data) {
+			$("#contents").html($("#tripTemplate").render(data.trips));
+			$('#paginator').smartpaginator({
+				totalrecords : data.count,
+				skip : paramsJson.skip
+			});
+		};
+
+		var callbackError = function(error) {
+			alert(error);
+		};
+
+		$.postJSON(url, tripCriteria, callbackSuccess, callbackError);
+
+	};
 	
-			<div id="widget1" class="widget">
-				<div class="zag">Ближайшие путешествия</div>
-	    		<ul>
-	    		    <li>
-	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a></div>
-	    		    	<div class="date">с 12.03.2013 по 23.03.13</div>
-	    		    </li>
-	    		    <li>
-	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a></div>
-	    		    	<div class="date">с 12.03.2013 по 23.03.13</div>
-	    		    </li>	    		    
-   				</ul>				
-    		</div>
-			<div id="widget2" class="widget">
-				<div class="zag">Обсуждаемые путешествия</div>
-	    		<ul>
-	    		    <li>
-	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
-	    		    </li>
-	    		    <li>
-	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
-	    		    </li>	    		    
-   				</ul>				
-    		</div>    		
-		</aside><!-- #sideRight -->
-		
+</script>

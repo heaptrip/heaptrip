@@ -113,7 +113,6 @@ public class TripController extends ExceptionHandlerControler {
 			} else {
 				tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), true);
 			}
-
 		}
 		return mv.addObject("trip", tripModel);
 	}

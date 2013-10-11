@@ -38,7 +38,12 @@
 		<put-attribute name="search" value="" />
 	</definition>
 
-	<definition name="headerTemplate" extends="baseHeaderTemplate">
+	<definition name="accountHeaderTemplate" extends="baseHeaderTemplate">
+		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
+		
+	</definition>
+
+	<definition name="searcHeaderTemplate" extends="baseHeaderTemplate">
 		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
 		<put-attribute name="search" value="/WEB-INF/jsp/search.jsp" />
 	</definition>
@@ -57,7 +62,12 @@
 	</definition>
 
 	<definition name="mainContentTemplate" extends="mainTemplate">
-		<put-attribute name="header" value="headerTemplate" />
+		<put-attribute name="header" value="accountHeaderTemplate" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
+	</definition>
+	
+	<definition name="listContentTemplate" extends="mainTemplate">
+		<put-attribute name="header" value="searcHeaderTemplate" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
 	</definition>
 
@@ -156,7 +166,7 @@
 		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp" />
 	</definition>
 
-	<definition name="tidings" extends="mainContentTemplate">
+	<definition name="tidings" extends="listContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="tidingsTemplate" />
@@ -174,7 +184,7 @@
 		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_edit.jsp" />
 	</definition>
 
-	<definition name="travels" extends="mainContentTemplate">
+	<definition name="travels" extends="listContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="travelsTemplate" />
@@ -265,9 +275,52 @@
 		
 		
 	
-		<!-- Trip edit page -->
+	
 		
-	<definition name="posts" extends="mainContentTemplate">
+		
+		<!-- Trip edit page -->
+	
+	
+		<!-- Profile -->	
+		
+		
+	
+		
+		
+		<definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile_content.jsp">
+			<put-attribute name="profile_tabs" value="/WEB-INF/jsp/profile/profile_tabs.jsp" />
+			<put-attribute name="profile_content" value="" />
+		</definition>
+		
+		
+		<definition name="accountInfoProfileTemplate" extends="profileTemplate">
+			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp" />
+		</definition>
+		
+		<definition name="profile" extends="mainContentTemplate">
+			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
+			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+			<put-attribute name="main_content" value="accountInfoProfileTemplate"  />
+		</definition>
+		
+	<!-- End Profile -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+	<definition name="posts" extends="listContentTemplate">
 		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
 		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
 		<put-attribute name="main_content" value="postsTemplate" />
