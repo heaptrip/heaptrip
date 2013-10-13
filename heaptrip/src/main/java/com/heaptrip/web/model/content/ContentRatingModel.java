@@ -1,6 +1,6 @@
 package com.heaptrip.web.model.content;
 
-public class ContentRatingModel extends RatingModel {
+public class ContentRatingModel extends RatingStarsModel {
 
 	private String contentId;
 	private String contentType;

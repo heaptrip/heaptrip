@@ -23,7 +23,6 @@ import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
-import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.user.UserRepository;
@@ -55,10 +54,10 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
 	@Autowired
 	private MailService mailService;
-	
+
 	@Autowired
 	private ErrorService errorService;
-	
+
 	@Autowired
 	private AccountSearchService accountSearchService;
 
@@ -132,7 +131,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
 		String[] roles = { "ROLE_USER" };
 		userRegistration.setRoles(roles);
-		
+
 		UserRegistration user = userRepository.save(userRegistration);
 
 		MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);
@@ -147,8 +146,8 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		mailService.sendNoreplyMessage(user.getEmail(), mt.getSubject(locale), msg);
 
 		// TODO dikma: подключить поиск когда...
-//		accountSearchService.saveAccount(user);
-		
+		// accountSearchService.saveAccount(user);
+
 		return user;
 	}
 
@@ -156,19 +155,19 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 	public void changePassword(String userId, String currentPassword, String newPassword) {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(newPassword, "password must not be null");
-		
+
 		if (newPassword.length() < 8 || newPassword.length() > 32 || newPassword.matches(PASSWORD_REGEX)) {
 			String msg = String.format("email is not correct");
 			logger.debug(msg);
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_PSWD_IS_NOT_CORRECT);
 		}
-		
-//		Assert.isTrue(newPassword.length() > 8,
-//				"length password must be at least 8 characters and maximum length of 32");
-//		Assert.isTrue(newPassword.length() < 32,
-//				"length password must be at least 8 characters and maximum length of 32");
-//		Assert.isTrue(!newPassword.matches(PASSWORD_REGEX),
-//				"password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
+
+		// Assert.isTrue(newPassword.length() > 8,
+		// "length password must be at least 8 characters and maximum length of 32");
+		// Assert.isTrue(newPassword.length() < 32,
+		// "length password must be at least 8 characters and maximum length of 32");
+		// Assert.isTrue(!newPassword.matches(PASSWORD_REGEX),
+		// "password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
 
 		UserRegistration user = (UserRegistration) accountRepository.findOne(userId);
 
@@ -246,7 +245,8 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 				if (user.getNet().length == 1 && userRepository.isEmptyPassword(userId)) {
 					String msg = String.format("user id=%s have one social network and empty password", userId);
 					logger.debug(msg);
-					throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_HAVE_ONE_SOCIAL_NET_AND_EMPTY_PSWD);
+					throw errorService.createException(AccountException.class,
+							ErrorEnum.ERROR_USER_HAVE_ONE_SOCIAL_NET_AND_EMPTY_PSWD);
 				}
 
 				for (SocialNetwork net : user.getNet()) {
@@ -304,5 +304,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 				userRepository.linkSocialNetwork(userId, socialNetwork);
 			}
 		}
+	}
+
+	@Override
+	public User getUserById(String userId) {
+		Assert.notNull(userId, "userId must not be null");
+		return userRepository.findUserById(userId);
 	}
 }

@@ -21,7 +21,7 @@ import com.heaptrip.web.model.content.ContentRatingModel;
 import com.heaptrip.web.model.content.DateModel;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.PriceModel;
-import com.heaptrip.web.model.content.RatingModel;
+import com.heaptrip.web.model.content.RatingStarsModel;
 
 @Service
 public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl implements BaseModelTypeConverterService {
@@ -86,9 +86,9 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 	}
 
 	@Override
-	public RatingModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating) {
+	public RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating) {
 
-		RatingModel result = new RatingModel();
+		RatingStarsModel result = new RatingStarsModel();
 
 		result.setValue(0D);
 		result.setCount(0);
@@ -112,7 +112,7 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 	public ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId,
 			TotalRating rating) {
 		ContentRatingModel contentRatingModel = new ContentRatingModel();
-		RatingModel ratingModel = convertRatingToRatingModel(contentType, contentId, rating);
+		RatingStarsModel ratingModel = convertRatingToRatingModel(contentType, contentId, rating);
 		contentRatingModel.setContentId(contentId);
 		contentRatingModel.setContentType(contentType.name());
 		contentRatingModel.setCount(ratingModel.getCount());

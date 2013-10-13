@@ -12,7 +12,7 @@ import com.heaptrip.web.model.content.ContentRatingModel;
 import com.heaptrip.web.model.content.DateModel;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.PriceModel;
-import com.heaptrip.web.model.content.RatingModel;
+import com.heaptrip.web.model.content.RatingStarsModel;
 
 public interface BaseModelTypeConverterService {
 
@@ -26,7 +26,7 @@ public interface BaseModelTypeConverterService {
 
 	String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale);
 
-	RatingModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
+	RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
 
 	ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
 

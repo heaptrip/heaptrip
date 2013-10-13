@@ -2,7 +2,7 @@ package com.heaptrip.web.model.travel;
 
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.DateModel;
-import com.heaptrip.web.model.content.RatingModel;
+import com.heaptrip.web.model.content.RatingStarsModel;
 
 public class TripModel extends ContentModel {
 

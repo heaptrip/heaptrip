@@ -19,7 +19,7 @@ import com.mongodb.WriteResult;
 public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements UserRepository {
 
 	private static final Logger logger = LoggerFactory.getLogger(UserRepositoryImpl.class);
-	
+
 	@Override
 	public User findByEmailAndPassword(String email, String password) {
 		MongoCollection coll = getCollection();
@@ -38,14 +38,21 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 	public Boolean isEmptyPassword(String userId) {
 		MongoCollection coll = getCollection();
 		String query = "{_id: #}";
-		
+
 		UserRegistration user = coll.findOne(query, userId).as(UserRegistration.class);
-		
+
 		if (user == null) {
 			throw new IllegalArgumentException(String.format("user with id=%s is not found", userId));
 		} else {
 			return (StringUtils.isBlank(user.getPassword()));
 		}
+	}
+
+	@Override
+	public User findUserById(String userId) {
+		MongoCollection coll = getCollection();
+		String query = "{_id: #}";
+		return coll.findOne(query, userId).as(UserRegistration.class);
 	}
 
 	@Override
@@ -60,7 +67,7 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 	@Override
 	public void profileImageFrom(String userId, SocialNetworkEnum socialNetwork) {
 		MongoCollection coll = getCollection();
-		String query = "{_id: #}";		
+		String query = "{_id: #}";
 		String updateQuery = "{$set: {'extImageStore': #}}";
 		WriteResult wr = coll.update(query, userId).with(updateQuery, socialNetwork);
 		logger.debug("WriteResult for update user: {}", wr);
@@ -93,4 +100,5 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 	protected Class<User> getCollectionClass() {
 		return User.class;
 	}
+
 }
