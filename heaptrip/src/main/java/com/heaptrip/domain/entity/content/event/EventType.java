@@ -19,6 +19,11 @@ public class EventType extends BaseObject implements Collectionable {
 		super();
 	}
 
+	public EventType(String id) {
+		super();
+		this.id = id;
+	}
+
 	public EventType(String id, MultiLangText name) {
 		super();
 		this.id = id;

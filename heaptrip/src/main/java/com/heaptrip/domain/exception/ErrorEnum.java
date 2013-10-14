@@ -14,6 +14,8 @@ public enum ErrorEnum {
 	REMOVE_TRIP_FAILURE("err.remove.trip.failure"),
 	REMOVE_TRIP_LANGUAGE_FAILURE("err.remove.trip.language.failure"),
 	
+	REMOVE_EVENT_LANGUAGE_FAILURE("err.remove.event.language.failure"),
+	
 	ERROR_ADD_COMMENT("error.add.comment"),
 	
 	ERROR_ACCOUNT_NOT_FOUND("error.account.not.found"),
