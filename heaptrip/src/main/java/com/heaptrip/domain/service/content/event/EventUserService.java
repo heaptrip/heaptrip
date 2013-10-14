@@ -53,10 +53,10 @@ public interface EventUserService {
 	 * 
 	 * @param eventId
 	 *            event id
-	 * @param memberId
-	 *            member id
+	 * @param userId
+	 *            user id
 	 */
-	public void removeEventMember(String eventId, String memberId);
+	public void removeEventMember(String eventId, String userId);
 
 	/**
 	 * Remove all event members. It is recommended to use the after events tests

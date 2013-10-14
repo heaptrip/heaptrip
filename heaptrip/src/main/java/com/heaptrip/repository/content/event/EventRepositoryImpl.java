@@ -214,4 +214,26 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
 		logger.debug("WriteResult for remove language from event: {}", wr);
 	}
 
+	@Override
+	public void incMembers(String contentId, int value) {
+		String query = "{_id: #}";
+		String updateQuery = "{$inc: {'members': #}}";
+		if (logger.isDebugEnabled()) {
+			String msg = String.format(
+					"inc event members\n->query: %s\n->parameters: %s\n->updateQuery: %s\n->updateParameters: %s",
+					query, contentId, updateQuery, value);
+			logger.debug(msg);
+		}
+		MongoCollection coll = getCollection();
+		WriteResult wr = coll.update(query, contentId).with(updateQuery, value);
+		logger.debug("WriteResult for inc event members: {}", wr);
+	}
+
+	@Override
+	public void resetMembers(String contentId) {
+		MongoCollection coll = getCollection();
+		WriteResult wr = coll.update("{_id: #}", contentId).with("{$set: {members: 0}}");
+		logger.debug("WriteResult for reset event members: {}", wr);
+	}
+
 }
