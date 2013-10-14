@@ -148,11 +148,11 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 	@AfterTest
 	public void afterTest() {
 		for (Trip trip : trips) {
-			// tripService.hardRemoveTrip(trip.getId());
+			tripService.hardRemove(trip.getId());
 			tripUserService.removeTripMembers(trip.getId());
 		}
 		if (image != null) {
-			// imageStorageService.removeImage(image.getId());
+			imageService.removeImage(image.getId());
 		}
 	}
 }
