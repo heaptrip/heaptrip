@@ -17,7 +17,7 @@ import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatus;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
-import com.heaptrip.domain.repository.content.trip.MemberRepository;
+import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
@@ -35,7 +35,7 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 	private static final Logger logger = LoggerFactory.getLogger(TripRepositoryImpl.class);
 
 	@Autowired
-	private MemberRepository memberRepository;
+	private TripMemberRepository tripMemberRepository;
 
 	@Autowired
 	private FavoriteContentRepository favoriteContentRepository;
@@ -63,7 +63,7 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 	public List<Trip> findByMyAccountCriteria(TripMyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
-			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+			tripIds = tripMemberRepository.findTripIdsByUserId(criteria.getUserId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
 			tripIds = favoriteContentRepository
 					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
@@ -77,7 +77,7 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 	public List<Trip> findByForeignAccountCriteria(TripForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
-			tripIds = memberRepository.findTripIdsByUserId(criteria.getAccountId());
+			tripIds = tripMemberRepository.findTripIdsByUserId(criteria.getAccountId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
 			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
 					criteria.getAccountId());
@@ -97,7 +97,7 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 	public long getCountByMyAccountCriteria(TripMyAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
-			tripIds = memberRepository.findTripIdsByUserId(criteria.getUserId());
+			tripIds = tripMemberRepository.findTripIdsByUserId(criteria.getUserId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
 			tripIds = favoriteContentRepository
 					.findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
@@ -111,7 +111,7 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 	public long getCountByForeignAccountCriteria(TripForeignAccountCriteria criteria) {
 		List<String> tripIds = null;
 		if (criteria.getRelation().equals(RelationEnum.MEMBER)) {
-			tripIds = memberRepository.findTripIdsByUserId(criteria.getAccountId());
+			tripIds = tripMemberRepository.findTripIdsByUserId(criteria.getAccountId());
 		} else if (criteria.getRelation().equals(RelationEnum.FAVORITES)) {
 			tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
 					criteria.getAccountId());

@@ -67,6 +67,7 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 		event.setDeleted(null);
 		event.setRating(ContentRating.getDefaultValue());
 		event.setComments(0L);
+		event.setMembers(0);
 
 		Views views = new Views();
 		views.setCount(0);

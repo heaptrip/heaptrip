@@ -51,9 +51,12 @@ public interface EventUserService {
 	/**
 	 * Remove the user from list of event members
 	 * 
+	 * @param eventId
+	 *            event id
 	 * @param memberId
+	 *            member id
 	 */
-	public void removeEventMember(String memberId);
+	public void removeEventMember(String eventId, String memberId);
 
 	/**
 	 * Remove all event members. It is recommended to use the after events tests

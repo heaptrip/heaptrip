@@ -20,7 +20,7 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.TableItem;
-import com.heaptrip.domain.entity.content.trip.TableUser;
+import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
@@ -126,10 +126,10 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 		// if user is not accepted trip member then he can not set rating
 		boolean can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
 		Assert.assertEquals(can, false);
-		TableUser tableUser = tripUserService.addTableUser(TRIP_ID, TRIP_TABLE_ID, USER_ID);
+		TripUser tableUser = tripUserService.addTripUser(TRIP_ID, TRIP_TABLE_ID, USER_ID);
 		can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
 		Assert.assertEquals(can, false);
-		tripUserService.acceptTableUser(tableUser.getId());
+		tripUserService.acceptTripUser(tableUser.getId());
 		can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
 		Assert.assertEquals(can, true);
 		// trip can be rated in six months with the launch of the last schedule

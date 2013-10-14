@@ -4,10 +4,10 @@ import com.heaptrip.domain.entity.content.Member;
 
 /**
  * 
- * Base entity for table users and table invites
+ * Base entity for trip users and trip invites
  * 
  */
-public abstract class TableMember extends Member {
+public abstract class TripMember extends Member {
 
 	// table item id
 	private String tableId;

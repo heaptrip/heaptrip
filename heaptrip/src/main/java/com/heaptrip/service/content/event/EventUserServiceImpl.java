@@ -35,7 +35,7 @@ public class EventUserServiceImpl implements EventUserService {
 	}
 
 	@Override
-	public void removeEventMember(String memberId) {
+	public void removeEventMember(String eventId, String memberId) {
 		// TODO Auto-generated method stub
 
 	}

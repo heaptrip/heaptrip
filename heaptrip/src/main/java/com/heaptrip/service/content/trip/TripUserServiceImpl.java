@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.heaptrip.domain.entity.content.trip.TableInvite;
-import com.heaptrip.domain.entity.content.trip.TableMember;
-import com.heaptrip.domain.entity.content.trip.TableUser;
 import com.heaptrip.domain.entity.content.trip.TableUserStatusEnum;
-import com.heaptrip.domain.repository.content.trip.MemberRepository;
+import com.heaptrip.domain.entity.content.trip.TripInvite;
+import com.heaptrip.domain.entity.content.trip.TripMember;
+import com.heaptrip.domain.entity.content.trip.TripUser;
+import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 
@@ -21,105 +21,105 @@ public class TripUserServiceImpl implements TripUserService {
 	private TripRepository tripRepository;
 
 	@Autowired
-	private MemberRepository memberRepository;
+	private TripMemberRepository tripMemberRepository;
 
 	@Override
-	public TableUser addTableUser(String tripId, String tableId, String userId) {
+	public TripUser addTripUser(String tripId, String tableId, String userId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(tableId, "tableId must not be null");
 		Assert.notNull(userId, "userId must not be null");
-		TableUser tableUser = new TableUser();
+		TripUser tableUser = new TripUser();
 		tableUser.setContentId(tripId);
 		tableUser.setTableId(tableId);
 		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.INVITE);
 		// TODO read name and image from profile
 		tripRepository.incTableMembers(tripId, tableId, 1);
-		return memberRepository.save(tableUser);
+		return tripMemberRepository.save(tableUser);
 	}
 
 	@Override
-	public TableInvite addTableInvite(String tripId, String tableId, String email) {
+	public TripInvite addTripInvite(String tripId, String tableId, String email) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(tableId, "tableId must not be null");
 		Assert.notNull(email, "email must not be null");
-		TableInvite invite = new TableInvite();
+		TripInvite invite = new TripInvite();
 		invite.setContentId(tripId);
 		invite.setTableId(tableId);
 		invite.setEmail(email);
 		tripRepository.incTableMembers(tripId, tableId, 1);
-		return memberRepository.save(invite);
+		return tripMemberRepository.save(invite);
 	}
 
 	@Override
-	public TableUser addTableRequest(String tripId, String tableId, String userId) {
+	public TripUser addTripRequest(String tripId, String tableId, String userId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(tableId, "tableId must not be null");
 		Assert.notNull(userId, "userId must not be null");
-		TableUser tableUser = new TableUser();
+		TripUser tableUser = new TripUser();
 		tableUser.setContentId(tripId);
 		tableUser.setTableId(tableId);
 		tableUser.setUserId(userId);
 		tableUser.setStatus(TableUserStatusEnum.REQUEST);
 		// TODO read name and image from profile
 		tripRepository.incTableMembers(tripId, tableId, 1);
-		return memberRepository.save(tableUser);
+		return tripMemberRepository.save(tableUser);
 	}
 
 	@Override
-	public void acceptTableUser(String memberId) {
+	public void acceptTripUser(String memberId) {
 		Assert.notNull(memberId, "memberId must not be null");
-		memberRepository.setStatus(memberId, TableUserStatusEnum.OK);
+		tripMemberRepository.setStatus(memberId, TableUserStatusEnum.OK);
 	}
 
 	@Override
-	public void setTableUserOrganizer(String memberId, Boolean isOrganizer) {
+	public void setTripUserOrganizer(String memberId, Boolean isOrganizer) {
 		Assert.notNull(memberId, "memberId must not be null");
-		memberRepository.setOrganizer(memberId, isOrganizer);
+		tripMemberRepository.setOrganizer(memberId, isOrganizer);
 	}
 
 	@Override
-	public List<TableMember> getTableMembers(String tripId, String tableId, int limit) {
+	public List<TripMember> getTripMembers(String tripId, String tableId, int limit) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(tableId, "tableId must not be null");
-		return memberRepository.findByTripIdAndTableId(tripId, tableId, limit);
+		return tripMemberRepository.findByTripIdAndTableId(tripId, tableId, limit);
 	}
 
 	@Override
-	public List<TableMember> getTableMembers(String tripId, String tableId) {
+	public List<TripMember> getTripMembers(String tripId, String tableId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(tableId, "tableId must not be null");
-		return memberRepository.findByTripIdAndTableId(tripId, tableId);
+		return tripMemberRepository.findByTripIdAndTableId(tripId, tableId);
 	}
 
 	@Override
-	public List<TableUser> getTableUsersByUserId(String tripId, String userId) {
+	public List<TripUser> getTripUsersByUserId(String tripId, String userId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(userId, "userId must not be null");
-		return memberRepository.findTableUsersByUserId(tripId, userId);
+		return tripMemberRepository.findByUserId(tripId, userId);
 	}
 
 	@Override
-	public boolean isTableUser(String tripId, String userId) {
+	public boolean isTripUser(String tripId, String userId) {
 		Assert.notNull(tripId, "tripId must not be null");
 		Assert.notNull(userId, "userId must not be null");
-		return memberRepository.existsByTripIdAndUserId(tripId, userId);
+		return tripMemberRepository.existsByTripIdAndUserId(tripId, userId);
 	}
 
 	@Override
 	public void removeTripMember(String memberId) {
 		Assert.notNull(memberId, "memberId must not be null");
-		TableMember member = memberRepository.findOne(memberId);
+		TripMember member = tripMemberRepository.findOne(memberId);
 		Assert.notNull(member, "error memberId: " + memberId);
 		if (member.getContentId() != null && member.getTableId() != null) {
 			tripRepository.incTableMembers(member.getContentId(), member.getTableId(), -1);
 		}
-		memberRepository.remove(memberId);
+		tripMemberRepository.remove(memberId);
 	}
 
 	@Override
 	public void removeTripMembers(String tripId) {
 		Assert.notNull(tripId, "tripId must not be null");
-		memberRepository.removeByTripId(tripId);
+		tripMemberRepository.removeByTripId(tripId);
 	}
 }
