@@ -10,13 +10,13 @@ public abstract class ContentQueryHelper<T extends ContentSortCriteria> implemen
 
 	@Override
 	public String getSort(T criteria) {
-		String result = "{created:1}";
+		String result = "{created: -1}";
 		if (criteria != null && criteria.getSort() != null) {
 			switch (criteria.getSort()) {
 			case RATING:
-				return "{'rating.value':1}";
+				return "{'rating.value': -1}";
 			default:
-				return "{created:1}";
+				return "{created: -1}";
 			}
 		}
 		return result;
