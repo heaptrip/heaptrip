@@ -8,11 +8,11 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.heaptrip.domain.entity.content.trip.TableInvite;
-import com.heaptrip.domain.entity.content.trip.TableMember;
-import com.heaptrip.domain.entity.content.trip.TableUser;
 import com.heaptrip.domain.entity.content.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.entity.content.trip.TripInvite;
+import com.heaptrip.domain.entity.content.trip.TripMember;
+import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripService;
@@ -43,14 +43,14 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	private TripFeedService tripFeedService;
 
 	@Test(priority = 0, enabled = true)
-	public void addTableUser() {
+	public void addTripUser() {
 		// call
 		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
 		Assert.assertNotNull(trip.getTable());
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNull(trip.getTable()[0].getMembers());
-		tripUserService.addTableUser(TRIP_ID, TABLE_ID, USER_ID);
+		tripUserService.addTripUser(TRIP_ID, TABLE_ID, USER_ID);
 		// check
 		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
@@ -58,13 +58,13 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getMembers());
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(1L));
-		List<TableMember> list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		List<TripMember> list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
-		TableMember member = list.get(0);
+		TripMember member = list.get(0);
 		Assert.assertNotNull(member);
-		Assert.assertTrue(member instanceof TableUser);
-		TableUser user = (TableUser) member;
+		Assert.assertTrue(member instanceof TripUser);
+		TripUser user = (TripUser) member;
 		Assert.assertEquals(user.getContentId(), TRIP_ID);
 		Assert.assertEquals(user.getTableId(), TABLE_ID);
 		Assert.assertEquals(user.getUserId(), USER_ID);
@@ -72,12 +72,12 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 1, enabled = true)
-	public void removeTableUser() {
+	public void removeTripUser() {
 		// call
-		List<TableMember> list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		List<TripMember> list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
-		TableMember member = list.get(0);
+		TripMember member = list.get(0);
 		Assert.assertNotNull(member);
 		tripUserService.removeTripMember(member.getId());
 		// check
@@ -87,13 +87,13 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getMembers());
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(0L));
-		list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 0);
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void addTableInvite() {
+	public void addTripInvite() {
 		// call
 		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
@@ -101,7 +101,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getMembers());
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(0L));
-		tripUserService.addTableInvite(TRIP_ID, TABLE_ID, USER_EMAIL);
+		tripUserService.addTripInvite(TRIP_ID, TABLE_ID, USER_EMAIL);
 		// check
 		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
@@ -109,13 +109,13 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getMembers());
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(1L));
-		List<TableMember> list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		List<TripMember> list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
-		TableMember member = list.get(0);
+		TripMember member = list.get(0);
 		Assert.assertNotNull(member);
-		Assert.assertTrue(member instanceof TableInvite);
-		TableInvite invite = (TableInvite) member;
+		Assert.assertTrue(member instanceof TripInvite);
+		TripInvite invite = (TripInvite) member;
 		Assert.assertEquals(invite.getContentId(), TRIP_ID);
 		Assert.assertEquals(invite.getTableId(), TABLE_ID);
 		Assert.assertEquals(invite.getEmail(), USER_EMAIL);
@@ -124,7 +124,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 3, enabled = true)
-	public void addTableRequest() {
+	public void addTripRequest() {
 		// call
 		Trip trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
@@ -132,7 +132,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getMembers());
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(0L));
-		tripUserService.addTableRequest(TRIP_ID, TABLE_ID, USER_ID);
+		tripUserService.addTripRequest(TRIP_ID, TABLE_ID, USER_ID);
 		// check
 		trip = tripRepository.findOne(TRIP_ID);
 		Assert.assertNotNull(trip);
@@ -140,13 +140,13 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(trip.getTable()[0]);
 		Assert.assertNotNull(trip.getTable()[0].getMembers());
 		Assert.assertTrue(trip.getTable()[0].getMembers().equals(1L));
-		List<TableMember> list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		List<TripMember> list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
-		TableMember member = list.get(0);
+		TripMember member = list.get(0);
 		Assert.assertNotNull(member);
-		Assert.assertTrue(member instanceof TableUser);
-		TableUser user = (TableUser) member;
+		Assert.assertTrue(member instanceof TripUser);
+		TripUser user = (TripUser) member;
 		Assert.assertEquals(user.getContentId(), TRIP_ID);
 		Assert.assertEquals(user.getTableId(), TABLE_ID);
 		Assert.assertEquals(user.getUserId(), USER_ID);
@@ -154,22 +154,22 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 4, enabled = true)
-	public void acceptTableUser() {
+	public void acceptTripUser() {
 		// call
-		List<TableMember> list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		List<TripMember> list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
-		TableMember member = list.get(0);
+		TripMember member = list.get(0);
 		Assert.assertNotNull(member);
-		tripUserService.acceptTableUser(member.getId());
+		tripUserService.acceptTripUser(member.getId());
 		// check
-		list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
 		member = list.get(0);
 		Assert.assertNotNull(member);
-		Assert.assertTrue(member instanceof TableUser);
-		TableUser user = (TableUser) member;
+		Assert.assertTrue(member instanceof TripUser);
+		TripUser user = (TripUser) member;
 		Assert.assertEquals(user.getContentId(), TRIP_ID);
 		Assert.assertEquals(user.getTableId(), TABLE_ID);
 		Assert.assertEquals(user.getUserId(), USER_ID);
@@ -177,41 +177,41 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 	}
 
 	@Test(priority = 5, enabled = true)
-	public void setTableUserOrganizer() {
+	public void setTripUserOrganizer() {
 		// call
-		List<TableMember> list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		List<TripMember> list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
-		TableMember member = list.get(0);
+		TripMember member = list.get(0);
 		Assert.assertNotNull(member);
-		Assert.assertTrue(member instanceof TableUser);
-		TableUser user = (TableUser) member;
+		Assert.assertTrue(member instanceof TripUser);
+		TripUser user = (TripUser) member;
 		Assert.assertNull(user.getIsOrganizer());
-		tripUserService.setTableUserOrganizer(member.getId(), true);
+		tripUserService.setTripUserOrganizer(member.getId(), true);
 		// check
-		list = tripUserService.getTableMembers(TRIP_ID, TABLE_ID);
+		list = tripUserService.getTripMembers(TRIP_ID, TABLE_ID);
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
 		member = list.get(0);
 		Assert.assertNotNull(member);
-		Assert.assertTrue(member instanceof TableUser);
-		user = (TableUser) member;
+		Assert.assertTrue(member instanceof TripUser);
+		user = (TripUser) member;
 		Assert.assertTrue(user.getIsOrganizer());
 	}
 
 	@Test(priority = 6, enabled = true)
-	public void getTableUsersByUserId() {
+	public void getTripUsersByUserId() {
 		// call
-		List<TableUser> list = tripUserService.getTableUsersByUserId(TRIP_ID, USER_ID);
+		List<TripUser> list = tripUserService.getTripUsersByUserId(TRIP_ID, USER_ID);
 		// check
 		Assert.assertNotNull(list);
 		Assert.assertEquals(list.size(), 1);
 	}
 
 	@Test(priority = 7, enabled = true)
-	public void isTableUser() {
+	public void isTripUser() {
 		// call
-		boolean result = tripUserService.isTableUser(TRIP_ID, USER_ID);
+		boolean result = tripUserService.isTripUser(TRIP_ID, USER_ID);
 		// check
 		Assert.assertTrue(result);
 	}

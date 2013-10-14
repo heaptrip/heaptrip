@@ -11,11 +11,12 @@ import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.Views;
 import com.heaptrip.domain.entity.content.event.Event;
+import com.heaptrip.domain.entity.content.event.EventType;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.exception.trip.TripException;
+import com.heaptrip.domain.exception.event.EventException;
 import com.heaptrip.domain.repository.content.event.EventRepository;
-import com.heaptrip.domain.service.content.ContentSearchService;
+import com.heaptrip.domain.repository.content.event.EventTypeRepository;
 import com.heaptrip.domain.service.content.event.EventService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.service.content.ContentServiceImpl;
@@ -28,10 +29,10 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 	private EventRepository eventRepository;
 
 	@Autowired
-	private ContentSearchService contentSearchService;
+	private ErrorService errorService;
 
 	@Autowired
-	private ErrorService errorService;
+	private EventTypeRepository eventTypeRepository;
 
 	@Override
 	public Event save(Event event, Locale locale) {
@@ -52,6 +53,9 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 		// update regions and regionIds
 		updateRegions(event);
 
+		// update event types
+		updateTypes(event);
+
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		event.setLangs(new String[] { lang });
@@ -67,6 +71,7 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 		event.setDeleted(null);
 		event.setRating(ContentRating.getDefaultValue());
 		event.setComments(0L);
+		event.setMembers(0);
 
 		Views views = new Views();
 		views.setCount(0);
@@ -105,6 +110,9 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 		// update regions and regionIds
 		updateRegions(event);
 
+		// update event types
+		updateTypes(event);
+
 		// set lang
 		String lang = LanguageUtils.getLanguageByLocale(locale);
 		String mainLang = event.getMainLang();
@@ -133,7 +141,7 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 			throw new IllegalArgumentException(String.format("event with id=%s is not found", eventId));
 		}
 		if (mainLang.equals(removeLang)) {
-			throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_LANGUAGE_FAILURE);
+			throw errorService.createException(EventException.class, ErrorEnum.REMOVE_EVENT_LANGUAGE_FAILURE);
 		}
 
 		// remove frome db
@@ -141,6 +149,31 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 
 		// save to solr
 		contentSearchService.saveContent(eventId);
+	}
+
+	@Override
+	public void remove(String contentId) {
+		super.remove(contentId);
+		// remove from solr
+		contentSearchService.removeContent(contentId);
+	}
+
+	@Override
+	public void hardRemove(String contentId) {
+		super.hardRemove(contentId);
+		// remove from solr
+		contentSearchService.removeContent(contentId);
+	}
+
+	private void updateTypes(Event content) {
+		if (content.getTypes() != null) {
+			for (EventType type : content.getTypes()) {
+				Assert.notNull(type.getId(), "type.id must not be null");
+				EventType eventType = eventTypeRepository.findOne(type.getId());
+				Assert.notNull(eventType, String.format("error type.id: %s", type.getId()));
+				type.setName(eventType.getName());
+			}
+		}
 	}
 
 }

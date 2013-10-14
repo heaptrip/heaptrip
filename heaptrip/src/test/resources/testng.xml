@@ -80,7 +80,7 @@
 			<class name="com.heaptrip.service.content.event.InitEventTest" />
 			<class name="com.heaptrip.service.content.event.EventFeedServiceTest" />
 			<class name="com.heaptrip.service.content.event.EventServiceTest" />
-			<!-- <class name="com.heaptrip.service.content.event.EventUserServiceTest" /> -->
+			<class name="com.heaptrip.service.content.event.EventUserServiceTest" />
 		</classes>
 	</test>
 

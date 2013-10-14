@@ -23,7 +23,7 @@ import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.trip.TripException;
 import com.heaptrip.domain.repository.category.CategoryRepository;
-import com.heaptrip.domain.repository.content.trip.MemberRepository;
+import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.service.category.CategoryService;
@@ -55,7 +55,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 	private TripRepository tripRepository;
 
 	@Autowired
-	private MemberRepository memberRepository;
+	private TripMemberRepository tripMemberRepository;
 
 	@Autowired
 	private ErrorService errorService;
@@ -141,7 +141,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 	@Override
 	public void remove(String tripId) {
 		Assert.notNull(tripId, "tripId must not be null");
-		long members = memberRepository.getCountByTripId(tripId);
+		long members = tripMemberRepository.getCountByTripId(tripId);
 		if (members > 0) {
 			throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_FAILURE);
 		}

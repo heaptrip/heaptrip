@@ -29,4 +29,7 @@ public interface EventRepository extends CrudRepository<Event> {
 
 	public void removeLanguage(String contentId, Locale locale);
 
+	public void incMembers(String contentId, int value);
+
+	public void resetMembers(String contentId);
 }

@@ -4,10 +4,10 @@ import com.heaptrip.domain.entity.image.Image;
 
 /**
  * 
- * Table user
+ * Trip user
  * 
  */
-public class TableUser extends TableMember {
+public class TripUser extends TripMember {
 
 	// user id
 	private String userId;
@@ -24,11 +24,11 @@ public class TableUser extends TableMember {
 	// user image
 	private Image image;
 
-	public TableUser() {
+	public TripUser() {
 		super();
 	}
 
-	public TableUser(String id) {
+	public TripUser(String id) {
 		super();
 		this.id = id;
 	}

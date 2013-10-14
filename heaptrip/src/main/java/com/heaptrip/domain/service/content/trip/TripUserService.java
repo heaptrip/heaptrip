@@ -2,13 +2,13 @@ package com.heaptrip.domain.service.content.trip;
 
 import java.util.List;
 
-import com.heaptrip.domain.entity.content.trip.TableInvite;
-import com.heaptrip.domain.entity.content.trip.TableMember;
-import com.heaptrip.domain.entity.content.trip.TableUser;
+import com.heaptrip.domain.entity.content.trip.TripInvite;
+import com.heaptrip.domain.entity.content.trip.TripMember;
+import com.heaptrip.domain.entity.content.trip.TripUser;
 
 /**
  * 
- * Service to work with user trip
+ * Service to work with user of the trip
  * 
  */
 public interface TripUserService {
@@ -21,7 +21,7 @@ public interface TripUserService {
 	 * @param userId
 	 * @return table user with status INVITE
 	 */
-	public TableUser addTableUser(String tripId, String tableId, String userId);
+	public TripUser addTripUser(String tripId, String tableId, String userId);
 
 	/**
 	 * Send an invitation to an external email address
@@ -31,7 +31,7 @@ public interface TripUserService {
 	 * @param invite
 	 * @return table invite
 	 */
-	public TableInvite addTableInvite(String tripId, String tableId, String email);
+	public TripInvite addTripInvite(String tripId, String tableId, String email);
 
 	/**
 	 * Send a user's request to participate in trip
@@ -41,7 +41,7 @@ public interface TripUserService {
 	 * @param userId
 	 * @return table user with status REQUEST
 	 */
-	public TableUser addTableRequest(String tripId, String tableId, String userId);
+	public TripUser addTripRequest(String tripId, String tableId, String userId);
 
 	/**
 	 * Accept user to the members trip. Needs to be called when the user accepts
@@ -50,7 +50,7 @@ public interface TripUserService {
 	 * 
 	 * @param memberId
 	 */
-	public void acceptTableUser(String memberId);
+	public void acceptTripUser(String memberId);
 
 	/**
 	 * Set trip organizer
@@ -58,16 +58,16 @@ public interface TripUserService {
 	 * @param memberId
 	 * @param isOrganizer
 	 */
-	public void setTableUserOrganizer(String memberId, Boolean isOrganizer);
+	public void setTripUserOrganizer(String memberId, Boolean isOrganizer);
 
 	/**
-	 * Get all members for table item
+	 * Get all members for table item without limit
 	 * 
 	 * @param tripId
 	 * @param tableId
 	 * @return member list
 	 */
-	public List<TableMember> getTableMembers(String tripId, String tableId);
+	public List<TripMember> getTripMembers(String tripId, String tableId);
 
 	/**
 	 * Get limit members for table item
@@ -77,17 +77,17 @@ public interface TripUserService {
 	 * @param limit
 	 * @return members list
 	 */
-	public List<TableMember> getTableMembers(String tripId, String tableId, int limit);
+	public List<TripMember> getTripMembers(String tripId, String tableId, int limit);
 
 	/**
-	 * Get list of TableUser by tripId and userId. Must be called to determine
+	 * Get list of TripUser by tripId and userId. Must be called to determine
 	 * the list of possible actions in the schedule of trip.
 	 * 
 	 * @param tripId
 	 * @param userId
 	 * @return list of TableUser
 	 */
-	public List<TableUser> getTableUsersByUserId(String tripId, String userId);
+	public List<TripUser> getTripUsersByUserId(String tripId, String userId);
 
 	/**
 	 * Check that the user is a the trip member
@@ -98,7 +98,7 @@ public interface TripUserService {
 	 *            user id
 	 * @return true or false
 	 */
-	public boolean isTableUser(String tripId, String userId);
+	public boolean isTripUser(String tripId, String userId);
 
 	/**
 	 * Remove the user or invite from the travel. Needs to be called when the

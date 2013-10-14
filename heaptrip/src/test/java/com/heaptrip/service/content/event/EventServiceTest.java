@@ -12,9 +12,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.event.Event;
+import com.heaptrip.domain.entity.content.event.EventType;
+import com.heaptrip.domain.exception.event.EventException;
 import com.heaptrip.domain.repository.content.event.EventRepository;
 import com.heaptrip.domain.service.content.event.EventService;
 import com.heaptrip.util.language.LanguageUtils;
@@ -27,6 +30,10 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
 	private static final String OWNER_ID = "OWNER_FOR_EVENT_SERVICE_TEST";
 
 	private static final Locale LOCALE = LanguageUtils.getEnglishLocale();
+
+	private static String[] CATEGORY_IDS = new String[] { "1.2", "1.3" };
+
+	private static String[] EVENT_TYPE_IDS = new String[] { "1", "2", "3" };
 
 	@Autowired
 	private EventService eventService;
@@ -46,6 +53,18 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
 		event.setSummary(new MultiLangText("Summary for test event"));
 		event.setDescription(new MultiLangText("Description for test event"));
 		event.setOwner(owner);
+		// set categories
+		SimpleCategory[] categories = new SimpleCategory[CATEGORY_IDS.length];
+		for (int i = 0; i < CATEGORY_IDS.length; i++) {
+			categories[i] = new SimpleCategory(CATEGORY_IDS[i]);
+		}
+		event.setCategories(categories);
+		// set types
+		EventType[] types = new EventType[EVENT_TYPE_IDS.length];
+		for (int i = 0; i < EVENT_TYPE_IDS.length; i++) {
+			types[i] = new EventType(EVENT_TYPE_IDS[i]);
+		}
+		event.setTypes(types);
 	}
 
 	@AfterClass(alwaysRun = true)
@@ -61,6 +80,10 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
 		Event event = eventRepository.findOne(EVENT_ID);
 		Assert.assertNotNull(event);
 		Assert.assertEquals(event, this.event);
+		Assert.assertNotNull(event.getCategories());
+		Assert.assertEquals(event.getCategories().length, CATEGORY_IDS.length);
+		Assert.assertNotNull(event.getTypes());
+		Assert.assertEquals(event.getTypes().length, EVENT_TYPE_IDS.length);
 		Assert.assertNotNull(event.getCreated());
 		Assert.assertNull(event.getDeleted());
 		Assert.assertTrue(ArrayUtils.isEmpty(event.getAllowed()));
@@ -112,10 +135,14 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(event.getMap());
 		Assert.assertEquals(event.getMap(), map);
 		Assert.assertEquals(event.isShowMap(), true);
+		Assert.assertNotNull(event.getCategories());
+		Assert.assertEquals(event.getCategories().length, CATEGORY_IDS.length);
+		Assert.assertNotNull(event.getTypes());
+		Assert.assertEquals(event.getTypes().length, EVENT_TYPE_IDS.length);
 	}
 
 	@Test(priority = 2, enabled = true)
-	public void removeTripLocale() {
+	public void removeLocale() {
 		// call
 		Locale locale = new Locale("ru");
 		Event event = eventService.get(EVENT_ID, LOCALE);
@@ -128,6 +155,21 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
 		Assert.assertNotNull(event);
 		Assert.assertNotNull(event.getLangs());
 		Assert.assertEquals(event.getLangs().length, 1);
+	}
+
+	@Test(priority = 3, enabled = true, expectedExceptions = EventException.class)
+	public void removeMainLocale() {
+		eventService.removeLocale(event.getId(), LOCALE);
+	}
+
+	@Test(priority = 4, enabled = true)
+	public void remove() {
+		// call
+		eventService.remove(EVENT_ID);
+		// check
+		Event event = eventRepository.findOne(EVENT_ID);
+		Assert.assertNotNull(event);
+		Assert.assertNotNull(event.getDeleted());
 	}
 
 }
