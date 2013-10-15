@@ -35,7 +35,7 @@ $(window).bind("onPageReady", function(e, paramsJson) {
 var initializeMap = function() {
 	var mapCanvas = $('#google_map_canvas');
 	mapCanvas.width('98%');
-	mapCanvas.height(400);
+	mapCanvas.height(300);
 	var mapOptions = {
 		center : new google.maps.LatLng(59.5, 30.2),
 		zoom : 8,
