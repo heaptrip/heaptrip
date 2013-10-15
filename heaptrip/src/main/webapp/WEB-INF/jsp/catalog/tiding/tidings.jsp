@@ -42,8 +42,7 @@
 			</div>
 		</div>
 		<div class="description">
-		
-				{{:summary}}
+			{{:summary}}
 		</div>
 		<div>
 			<div class="tags">

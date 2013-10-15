@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.RegionEnum;
@@ -57,11 +58,14 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 	@Override
 	public String[] getUserCategories() {
 		String[] result = null;
-		if (getCurrentUser() != null) {
+		
+		User user = getCurrentUser();
+		
+		if (user != null) {
 			// TODO: voronenko получить пользовательские категории когда они
 			// появятся.
-			String[] testArr = { "1", "2.1" };
-			result = testArr;
+			String[] testArr = {};
+			//result = user.get;
 		}
 		return result;
 	}

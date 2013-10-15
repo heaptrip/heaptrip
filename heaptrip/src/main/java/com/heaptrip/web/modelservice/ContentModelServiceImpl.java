@@ -194,6 +194,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 	@Override
 	public String[] convertCategoriesModelsToIdsArray(CategoryModel[] categoryModels, Locale locale) {
+		if(categoryModels == null) return null;
 		SimpleCategory[] categories = convertCategoriesModelsToCategories(categoryModels, locale);
 		List<String> ids = new ArrayList<String>();
 		for (SimpleCategory category : categories) {
@@ -204,6 +205,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 	@Override
 	public String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale) {
+		if(regionModels == null) return null;
 		SimpleRegion[] regions = convertRegionModelsToRegions(regionModels, locale);
 		List<String> ids = new ArrayList<String>();
 		for (SimpleRegion region : regions) {

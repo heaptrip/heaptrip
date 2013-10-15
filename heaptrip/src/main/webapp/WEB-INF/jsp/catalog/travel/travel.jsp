@@ -52,7 +52,7 @@
 								<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
 							</c:if>
 
-							<div><fmt:message key="content.author" />:<a href="<c:url value="/profile.html?uid=${owner.id}"/>"><span>${trip.owner.name} (${trip.owner.rating})</span></a></div>
+							<div><fmt:message key="content.author" />:<a href="<c:url value="/profile.html?uid=${trip.owner.id}"/>"><span >${trip.owner.name} (${trip.owner.rating})</span></a></div>
 							<div><fmt:message key="content.category" />:
 								<c:forEach items="${trip.categories}" var="category">
 									<span>${category.data}</span>
@@ -95,59 +95,59 @@
 
 		<aside id="sideRight">
 			<div id="widget1" class="widget">
-				<div class="zag">Ближайшие путешествия</div>
+				<div class="zag">TODO</div>
 	    		<ul>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a></div>
-	    		    	<div class="date">с 12.03.2013 по 23.03.13</div>
+	    		    	<div class="name_post"><a href="/">todo</a></div>
+	    		    	<div class="date">todo 23.03.13</div>
 	    		    </li>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a></div>
-	    		    	<div class="date">с 12.03.2013 по 23.03.13</div>
+	    		    	<div class="name_post"><a href="/">todo</a></div>
+	    		    	<div class="date">todo 23.03.13</div>
 	    		    </li>	    		    
    				</ul>				
     		</div>
 			<div id="widget2" class="widget">
-				<div class="zag">Обсуждаемые путешествия</div>
+				<div class="zag">TODO</div>
 	    		<ul>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
 	    		    </li>
-	    		    <li>
+	    		  <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
-	    		    </li>	    		    
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
+	    		    </li>    		    
    				</ul>				
     		</div>
 			<div id="widget3" class="widget">
-				<div class="zag">Похожие путешествия</div>
+				<div class="zag">TODO</div>
 	    		<ul>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
 	    		    </li>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
-	    		    </li>	    		    
-	    		    <li>
-	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
 	    		    </li>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
-	    		    </li>	    		    
-	    		    <li>
-	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
 	    		    </li>
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
-	    		    	<div class="name_post"><a href="/">Путешествие 0111</a><span class="comments">12</span></div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
+	    		    </li>
+	    		    <li>
+	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
+	    		    </li>
+	    		    <li>
+	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
+	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
 	    		    </li>	    		    
    				</ul>				
     		</div>      				

@@ -281,7 +281,7 @@
 				<ul>
 					<!--
     				    -->
-					<li><a onClick="onEditTabClick(this,'tab1')" class='${fn:contains(param.tb, "info") ? "active":"" }'><fmt:message
+					<li><a onClick="onEditTabClick(this,'tab1')" class='${fn:contains(param.tb, "info") || empty param.tb ? "active":"" }'><fmt:message
 								key="content.information" /><span></span></a></li>
 					<!--
     				    -->
@@ -305,29 +305,10 @@
 			</nav>
 
 
-			<div id="tab1" style='display:${fn:contains(param.tb, "info") ? "true":"none" }'>
+			<div id="tab1" style='display:${fn:contains(param.tb, "info") || empty param.tb ? "true":"none" }'>
 
 
-				<div class="description">
-					<div id="img_load">
-
-						<c:choose>
-							<c:when test="${empty trip.image}">
-								<img src="<c:url value="/images/empty.jpg"/>" width="300">
-							</c:when>
-							<c:otherwise>
-								<img src="<c:url value="/rest/image?imageId=${trip.image}"/>"
-									width="300">
-							</c:otherwise>
-						</c:choose>
-
-					</div>
-					<div id="img_load_button">
-						<a href="/" class="button"><fmt:message
-								key="page.action.uploadPhoto" /></a> <a href="/" class="button"><fmt:message
-								key="page.action.albumSelect" /></a>
-					</div>
-				</div>
+	<br/>
 
 				<textarea id="desc_post"
 					alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
@@ -451,9 +432,13 @@
 		
 			</article>
 		
+		<c:if test="${not empty param.id}">
+		
 			<div class="del_article">
 				<a class="button"><fmt:message key="trip.action.delete" /></a>
 			</div>
+		</c:if>	
+			
 		</article>
 	</div>
 	<!-- #content-->
