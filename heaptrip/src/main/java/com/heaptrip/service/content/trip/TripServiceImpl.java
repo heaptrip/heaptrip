@@ -235,6 +235,9 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 			trip.getName().setMainLanguage(mainLang);
 			trip.getSummary().setMainLanguage(mainLang);
 			trip.getDescription().setMainLanguage(mainLang);
+			if (trip.getRoute() != null && trip.getRoute().getText() != null) {
+				trip.getRoute().getText().setMainLanguage(mainLang);
+			}
 		}
 
 		if (trip.getPostIds() == null)
