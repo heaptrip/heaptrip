@@ -42,10 +42,8 @@
 			</div>
 		</div>
 		<div class="description">
-			{{if image}}
-				<img src="<c:url value="/rest/image?imageId={{>image.id}}"/>" width="300" align="left">
-			{{/if}}
-				{{>summary}}
+		
+				{{:summary}}
 		</div>
 		<div>
 			<div class="tags">

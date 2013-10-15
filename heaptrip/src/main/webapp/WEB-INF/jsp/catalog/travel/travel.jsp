@@ -52,7 +52,7 @@
 								<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
 							</c:if>
 
-							<div><fmt:message key="content.author" />:<span>${trip.owner.name} (${trip.owner.rating})</span></div>
+							<div><fmt:message key="content.author" />:<a href="<c:url value="/profile.html?uid=${owner.id}"/>"><span>${trip.owner.name} (${trip.owner.rating})</span></a></div>
 							<div><fmt:message key="content.category" />:
 								<c:forEach items="${trip.categories}" var="category">
 									<span>${category.data}</span>
