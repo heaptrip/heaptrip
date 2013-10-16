@@ -18,7 +18,7 @@
 							<div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image}"/>"><a href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
 							<div class="my_inf">
 								<div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
-								<div class="my_location"><span><fmt:message key="user.place"/>: </span>Санкт-Петербург</div>
+								<div class="my_location"><span><fmt:message key="user.place"/>: </span>todo</div>
 								<div class="my_date"><span><fmt:message key="user.birthday"/>: </span>10.10.1980</div>
 								<div class="my_lang">
 									<fmt:message key="user.languages"/>:

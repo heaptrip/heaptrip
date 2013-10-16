@@ -68,7 +68,17 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 		if (priceModel != null) {
 			price = new Price();
 			price.setValue(priceModel.getValue());
-			price.setCurrency(CurrencyEnum.valueOf(priceModel.getCurrency()));
+			// 
+			
+			// TODO : voronenko разобраться с павлом переписать его футкцию по добавлию рассписания
+			// а пока 
+			
+			if(priceModel.getCurrency() == null)
+			price.setCurrency(CurrencyEnum.RUB);
+			else{
+				price.setCurrency(CurrencyEnum.valueOf(priceModel.getCurrency()));
+			}
+			
 		}
 		return price;
 	}
