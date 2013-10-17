@@ -11,7 +11,7 @@
 							<h2 class="people_title"><fmt:message key="profile.title"/></h2>
 						</div>
 						<div class="right">
-							<a href="/" class="button" func="2"><fmt:message key="page.action.edit"/></a>
+							<a href="<c:url value="/profile_modify_info.html?uid=${param.uid}"/>" class="button" ><fmt:message key="page.action.edit"/></a>
 						</div>
 					
 						<div class="profile">

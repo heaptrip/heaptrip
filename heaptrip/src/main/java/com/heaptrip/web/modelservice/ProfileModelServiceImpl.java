@@ -5,11 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
-import com.heaptrip.web.model.profile.AccountModelInfo;
+import com.heaptrip.web.model.profile.AccountInfoModel;
 
 @Service
 public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ProfileModelService {
@@ -18,18 +19,18 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 	private UserService userService;
 
 	@Override
-	public AccountModelInfo getProfileInformation(String uid) {
+	public AccountInfoModel getProfileInformation(String uid) {
 		Assert.notNull(uid, "user id  must not be null");
 		User user = userService.getUserById(uid);
 		return convertAccountToAccountModel(user);
 	}
 
-	private AccountModelInfo convertAccountToAccountModel(User account) {
+	private AccountInfoModel convertAccountToAccountModel(User account) {
 
-		AccountModelInfo accountModel = null;
+		AccountInfoModel accountModel = null;
 
 		if (account != null) {
-			accountModel = new AccountModelInfo();
+			accountModel = new AccountInfoModel();
 			accountModel.setName(account.getName());
 			accountModel.setEmail(account.getEmail());
 			accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
@@ -49,5 +50,17 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 			ratingModel.setCount(0);
 		}
 		return ratingModel;
+	}
+
+	@Override
+	public Trip saveProfileInfo(AccountInfoModel accountInfoModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateProfileInfo(AccountInfoModel accountInfoModel) {
+		// TODO Auto-generated method stub
+		
 	}
 }

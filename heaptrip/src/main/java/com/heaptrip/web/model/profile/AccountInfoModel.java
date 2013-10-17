@@ -2,7 +2,7 @@ package com.heaptrip.web.model.profile;
 
 import com.heaptrip.web.model.content.StatusModel;
 
-public class AccountModelInfo extends AccountModel {
+public class AccountInfoModel extends AccountModel {
 
 	private String name;
 
