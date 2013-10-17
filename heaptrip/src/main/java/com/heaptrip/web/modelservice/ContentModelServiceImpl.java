@@ -20,9 +20,10 @@ import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
+import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.content.StatusModel;
-import com.heaptrip.web.model.user.UserModel;
+import com.heaptrip.web.model.profile.AccountModel;
 
 @Service
 public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ContentModelService {
@@ -87,13 +88,13 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 	}
 
 	@Override
-	public UserModel convertContentOwnerToModel(ContentOwner owner) {
-		UserModel result = null;
+	public AccountModel convertContentOwnerToModel(ContentOwner owner) {
+		AccountModel result = null;
 		if (owner != null) {
-			result = new UserModel();
+			result = new AccountModel();
 			result.setId(owner.getId());
 			result.setName(owner.getName());
-			result.setRating(owner.getRating());
+			result.setRating(new RatingModel(owner.getRating()));
 		}
 		return result;
 	}

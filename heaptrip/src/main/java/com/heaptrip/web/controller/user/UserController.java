@@ -24,7 +24,7 @@ import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
-import com.heaptrip.web.model.user.RegistrationInfoModel;
+import com.heaptrip.web.model.profile.RegistrationInfoModel;
 import com.heaptrip.web.modelservice.UserModelService;
 
 @Controller

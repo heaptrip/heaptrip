@@ -1,9 +1,9 @@
 package com.heaptrip.web.modelservice;
 
-import com.heaptrip.web.model.profile.AccountModel;
+import com.heaptrip.web.model.profile.AccountModelInfo;
 
 public interface ProfileModelService {
 
-	AccountModel getProfileInformation(String uid); 
+	AccountModelInfo getProfileInformation(String uid); 
 	
 }

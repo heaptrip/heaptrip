@@ -1,4 +1,4 @@
-package com.heaptrip.web.model.user;
+package com.heaptrip.web.model.profile;
 
 public class RegistrationInfoModel {
 

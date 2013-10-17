@@ -7,7 +7,7 @@ import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.RegionModel;
-import com.heaptrip.web.model.user.UserModel;
+import com.heaptrip.web.model.profile.AccountModel;
 
 public interface ContentModelService {
 
@@ -31,7 +31,7 @@ public interface ContentModelService {
 
 	String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale);
 
-	UserModel convertContentOwnerToModel(ContentOwner owner);
+	AccountModel convertContentOwnerToModel(ContentOwner owner);
 
 	ContentOwner getContentOwner();
 

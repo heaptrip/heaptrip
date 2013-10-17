@@ -5,6 +5,19 @@ public class RatingModel {
 	private Double value;
 	private Integer count;
 
+	public RatingModel() {
+
+	}
+
+	public RatingModel(double value) {
+		setValue(value);
+	}
+
+	public RatingModel(double value, int cont) {
+		setValue(value);
+		setCount(cont);
+	}
+
 	public Double getValue() {
 		return value;
 	}
