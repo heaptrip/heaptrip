@@ -1,6 +1,6 @@
 package com.heaptrip.web.model.content;
 
-import com.heaptrip.web.model.user.UserModel;
+import com.heaptrip.web.model.profile.AccountModel;
 
 public class ContentModel {
 
@@ -8,7 +8,7 @@ public class ContentModel {
 	private String name;
 	private ImageModel image;
 	private DateModel created;
-	private UserModel owner;
+	private AccountModel owner;
 	private Long comments;
 	private Long views;
 	private RatingStarsModel rating;
@@ -85,11 +85,11 @@ public class ContentModel {
 		this.views = views;
 	}
 
-	public UserModel getOwner() {
+	public AccountModel getOwner() {
 		return owner;
 	}
 
-	public void setOwner(UserModel owner) {
+	public void setOwner(AccountModel owner) {
 		this.owner = owner;
 	}
 

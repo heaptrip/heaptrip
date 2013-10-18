@@ -26,7 +26,7 @@ import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
 import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
-import com.heaptrip.web.model.user.RegistrationInfoModel;
+import com.heaptrip.web.model.profile.RegistrationInfoModel;
 
 @Controller
 public class SocNetController extends ExceptionHandlerControler {

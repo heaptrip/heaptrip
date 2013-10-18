@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
-import com.heaptrip.web.model.profile.AccountModel;
+import com.heaptrip.web.model.profile.AccountInfoModel;
 import com.heaptrip.web.modelservice.ProfileModelService;
 
 @Controller
@@ -23,11 +23,18 @@ public class ProfileController extends ExceptionHandlerControler {
 
 	@RequestMapping(value = "profile", method = RequestMethod.GET)
 	public ModelAndView getProfileInformation(@RequestParam String uid) {
-
 		ModelAndView mv = new ModelAndView();
+		AccountInfoModel accountModel = profileModelService.getProfileInformation(uid);
+		return mv.addObject("account", accountModel);
+	}
 
-		AccountModel accountModel = profileModelService.getProfileInformation(uid);
-
+	@RequestMapping(value = "profile_modify_info", method = RequestMethod.GET)
+	public ModelAndView getEditTripInfo(@RequestParam(required = false) String uid) {
+		ModelAndView mv = new ModelAndView();
+		AccountInfoModel accountModel = null;
+		if (uid != null) {
+			accountModel = profileModelService.getProfileInformation(uid);
+		}
 		return mv.addObject("account", accountModel);
 	}
 

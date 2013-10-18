@@ -12,7 +12,7 @@ import com.heaptrip.domain.entity.comment.CommentAuthor;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.comment.CommentService;
 import com.heaptrip.web.model.content.CommentModel;
-import com.heaptrip.web.model.user.UserModel;
+import com.heaptrip.web.model.profile.AccountModel;
 
 @Service
 public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl implements CommentModelService {
@@ -45,8 +45,8 @@ public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 		return commentModel;
 	}
 
-	private UserModel convertCommentAuthorToUserModel(CommentAuthor author) {
-		UserModel userModel = new UserModel();
+	private AccountModel convertCommentAuthorToUserModel(CommentAuthor author) {
+		AccountModel userModel = new AccountModel();
 		userModel.setImage(convertImage(author.getImage()));
 		userModel.setName(author.getName());
 		return userModel;

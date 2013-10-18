@@ -11,11 +11,11 @@
 							<h2 class="people_title"><fmt:message key="profile.title"/></h2>
 						</div>
 						<div class="right">
-							<a href="/" class="button" func="2"><fmt:message key="page.action.edit"/></a>
+							<a href="<c:url value="/profile_modify_info.html?uid=${param.uid}"/>" class="button" ><fmt:message key="page.action.edit"/></a>
 						</div>
 					
 						<div class="profile">
-							<div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image}"/>"><a href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
+							<div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
 							<div class="my_inf">
 								<div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
 								<div class="my_location"><span><fmt:message key="user.place"/>: </span>todo</div>

@@ -1,9 +1,14 @@
 package com.heaptrip.web.modelservice;
 
-import com.heaptrip.web.model.profile.AccountModel;
+import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.web.model.profile.AccountInfoModel;
 
 public interface ProfileModelService {
 
-	AccountModel getProfileInformation(String uid); 
-	
+	AccountInfoModel getProfileInformation(String uid);
+
+	Trip saveProfileInfo(AccountInfoModel accountInfoModel);
+
+	void updateProfileInfo(AccountInfoModel accountInfoModel);
+
 }

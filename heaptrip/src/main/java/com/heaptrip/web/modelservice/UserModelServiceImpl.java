@@ -19,7 +19,7 @@ import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
 import com.heaptrip.domain.service.system.LocaleService;
 import com.heaptrip.util.http.HttpClient;
-import com.heaptrip.web.model.user.RegistrationInfoModel;
+import com.heaptrip.web.model.profile.RegistrationInfoModel;
 
 @Service
 public class UserModelServiceImpl implements UserModelService {

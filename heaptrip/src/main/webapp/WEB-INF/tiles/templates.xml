@@ -293,14 +293,24 @@
 		</definition>
 		
 		
-		<definition name="accountInfoProfileTemplate" extends="profileTemplate">
+		<definition name="accountInfoTemplate" extends="profileTemplate">
 			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp" />
 		</definition>
 		
 		<definition name="profile" extends="mainContentTemplate">
+			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
+			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
+			<put-attribute name="main_content" value="accountInfoTemplate"  />
+		</definition>
+		
+		<definition name="accountInfoEditTemplate" extends="profileTemplate">
+			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_modify_info.jsp" />
+		</definition>
+		
+		<definition name="profile_modify_info" extends="mainContentTemplate">
 			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
 			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="accountInfoProfileTemplate"  />
+			<put-attribute name="main_content" value="accountInfoEditTemplate"  />
 		</definition>
 		
 	<!-- End Profile -->

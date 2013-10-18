@@ -8,6 +8,25 @@ public class ImageModel {
 	// image text (description)
 	private String text;
 
+	public ImageModel() {
+
+	}
+
+	public ImageModel(String id) {
+		setId(id);
+	}
+
+	public ImageModel(String id, String name) {
+		setId(id);
+		setName(name);
+	}
+
+	public ImageModel(String id, String name, String text) {
+		setId(id);
+		setName(name);
+		setText(text);
+	}
+
 	public String getId() {
 		return id;
 	}

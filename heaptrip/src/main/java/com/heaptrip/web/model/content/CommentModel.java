@@ -3,7 +3,7 @@ package com.heaptrip.web.model.content;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.heaptrip.web.model.user.UserModel;
+import com.heaptrip.web.model.profile.AccountModel;
 
 public class CommentModel {
 
@@ -13,7 +13,7 @@ public class CommentModel {
 	// TRIP OR POST OR ETC. 
 	private String targetClass;
 	private String parent;
-	private UserModel author;
+	private AccountModel author;
 	private DateModel created;
 	private String text;
 	
@@ -43,11 +43,11 @@ public class CommentModel {
 		this.parent = parent;
 	}
 
-	public UserModel getAuthor() {
+	public AccountModel getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(UserModel author) {
+	public void setAuthor(AccountModel author) {
 		this.author = author;
 	}
 
