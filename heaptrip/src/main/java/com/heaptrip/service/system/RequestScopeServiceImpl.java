@@ -5,13 +5,13 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.LocaleService;
 import com.heaptrip.domain.service.system.RequestScopeService;
-import com.heaptrip.domain.service.system.UserService;
 
 @Service("requestScopeService")
 public class RequestScopeServiceImpl implements RequestScopeService {
@@ -25,12 +25,14 @@ public class RequestScopeServiceImpl implements RequestScopeService {
 	@Autowired
 	private ErrorService errorService;
 
-	@Autowired
-	private UserService userService;
-
 	@Override
 	public User getCurrentUser() {
-		return userService.getCurrentUser();
+		User result = null;
+		try {
+			result = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		} catch (Throwable e) {
+		}
+		return result;
 	}
 
 	@Override

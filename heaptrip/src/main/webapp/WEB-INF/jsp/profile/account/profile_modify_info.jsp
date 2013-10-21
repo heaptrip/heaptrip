@@ -4,26 +4,25 @@
 
 <div id="container">
 			<div id="contents">
-
 				<article id="article" class="deteil edit">
 					<div class="inf">
 						<div class="left">
-							<h2 class="people_title">Мой профиль</h2>
+							<h2 class="people_title"><fmt:message key="profile.title"/></h2></h2>
 						</div>
 						<div class="right">
-							<a href="/" class="button" func="3">Сохранить</a>
+							<a href="/" class="button"><fmt:message key="page.action.save"/></a>
 						</div>
 					
 						<div class="profile">
-							<div class="my_avatar"><img src="/albom/photo1_small.jpg"><a href="/" class="button">Загрузить аватар</a></div>
+							<div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
 							<div class="my_inf">
 								<div class="my_name">
-									<input type="text" value="Alexandr Alexeev Alexeevich" alt="Имя">
+									<input type="text" value="${account.name}" alt="<fmt:message key="user.firstName"/>">
 								</div>
-								<div class="my_location"><span>Местоположение: </span><input type="text"></div>
-								<div class="my_date"><span>Дата рождения: </span><input type="text" class="datepicker"></div>
+								<div class="my_location"><span><fmt:message key="user.place"/>: </span><input type="text"></div>
+								<div class="my_date"><span><fmt:message key="user.birthday"/>: </span><input type="text" class="datepicker"></div>
 								<div class="my_lang my_lang_edit">
-									Я владею:
+									<fmt:message key="user.languages"/>:
 									<ul><!--
 										--><li class="ru">Русский<span></span></li><!--
 										--><li class="en">Английский<span></span></li><!--
@@ -48,20 +47,21 @@
 
 					</div>
 					<div class="description">
-						<textarea alt="Обо мне:">Барселона расположена на северо-востоке Иберийского полуострова на побережье Средиземного моря на плато шириной в 5 км, границы которого с юга составляют горная гряда Кольсерола (кат. Collserola) и река Льобрегат, а на севере — река Бесос. Пиренеи находятся приблизительно в 120 км к северу от города.
-Прибрежные горы Кольсерола создают слегка скруглённый фон города. Высота самой высшей точки — горы Тибидабо составляет 512 м, над ней возвышается заметная издалека башня-антенна Кольсерола высотой 288,4 м. Самой высокой точкой в черте города является холм Мон-Табер (кат. Mont Taber) высотой 12 м, на нём расположен Барселонский собор.
-Барселона лежит на холмах, давших название городским кварталам: Кармель (кат. Carmel, 267 м), Монтерольс (кат. Monterols, 121 м), Пучет (кат. Putxet, 181 м), Ровира (кат. Rovira, 261 м) и Пейра (кат. Peira, 133 м). С горы Монжуик высотой 173 м в юго-западной части города открывается великолепный вид на порт Барселоны. На Монжуике расположена крепость XVII—XVIII веков, взявшая на себя оборонные функции разрушенной цитадели Сьютаделья (кат. Ciutadella), в то время как на месте последней разбили парк. В настоящее время в крепости размещается Военный музей. Помимо крепости на Монжуике находятся олимпийские объекты, учреждения культуры и знаменитые сады.</textarea>
+						<textarea alt="<fmt:message key="user.aboutMe"/>:">TODO</textarea>
 					</div>
+			
+					
+					
 					<div class="table_inf">
-						<h2 class="people_title">Мои знания</h2>
+						<h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
 						<table>
 							<thead><tr>
-								<th>Период</th>
-								<th>Специальность</th>
-								<th>Место прохождения</th>
-								<th>№ документа</th>
-								<th>Действие</th>
-							</tr></thead>
+								<th><fmt:message key="page.date.period"/></th>
+								<th><fmt:message key="user.specialty"/></th>
+								<th><fmt:message key="user.specialty.placeOf"/></th>
+								<th><fmt:message key="user.specialty.document"/></th>
+								<th><fmt:message key="page.action"/></th>
+								</tr></thead>
 							<tbody>
 								<tr>
 									<td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td>
@@ -70,18 +70,15 @@
 									<td><input type="text"></td>
 									<td><a class="button" func="4">Удалить</a></td>
 								</tr>
-								<tr>
-									<td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td>
-									<td><input type="text"></td>
-									<td><input type="text"></td>
-									<td><input type="text"></td>
-									<td><a class="button" func="4">Удалить</a></td>
-								</tr>
 							</tbody>
-
 						</table>
 						<a class="button" func="10">Добавить</a>
 					</div>
+					
+					
+					
+					
+					
 					<div class="table_inf">
 						<h2 class="people_title">Мой опыт</h2>
 						<table class="experience">

@@ -263,6 +263,11 @@
 														(currentPage + 1),
 														recordStartIndex,
 														recordsEndIndex);
+											}else{
+												$.handParamToURL({
+													skip : recordStartIndex,
+													limit : recordsEndIndex - recordStartIndex
+												});
 											}
 										}
 
