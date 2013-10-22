@@ -4,44 +4,25 @@ import com.heaptrip.web.model.content.StatusModel;
 
 public class AccountInfoModel extends AccountModel {
 
-	private String name;
+    private String email;
 
-	private String email;
+    private ProfileModel profile;
 
-	private ProfileModel profile;
+    public String getEmail() {
+        return email;
+    }
 
-	private StatusModel status;
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public ProfileModel getProfile() {
+        return profile;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setProfile(ProfileModel profile) {
+        this.profile = profile;
+    }
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public ProfileModel getProfile() {
-		return profile;
-	}
-
-	public void setProfile(ProfileModel profile) {
-		this.profile = profile;
-	}
-
-	public StatusModel getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusModel status) {
-		this.status = status;
-	}
 
 }

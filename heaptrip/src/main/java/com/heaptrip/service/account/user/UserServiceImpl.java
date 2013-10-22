@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -50,6 +51,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 	private MessageTemplateStorage messageTemplateStorage;
 
 	@Autowired
+    @Qualifier("requestScopeService")
 	private RequestScopeService requestScopeService;
 
 	@Autowired

@@ -1,388 +1,360 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tiles-definitions PUBLIC
-       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
-       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
 
 <tiles-definitions>
 
-	<definition name="mainScriptsTemplate" template="/WEB-INF/jsp/scripts.jsp">
-		<put-list-attribute name="scripts">
-			<add-attribute value="/js/jquery.js?ver=1.9.1-min" />
-			<add-attribute value="/js/lib/jquery.ba-bbq.min.js" />
-			<add-attribute value="/js/script.js" />
-			<add-attribute value="/js/util.js" />
-		</put-list-attribute>
-	</definition>
+    <definition name="mainScriptsTemplate" template="/WEB-INF/jsp/scripts.jsp">
+        <put-list-attribute name="scripts">
+            <add-attribute value="/js/jquery.js?ver=1.9.1-min"/>
+            <add-attribute value="/js/lib/jquery.ba-bbq.min.js"/>
+            <add-attribute value="/js/script.js"/>
+            <add-attribute value="/js/util.js"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="mainStylesTemplate" template="/WEB-INF/jsp/styles.jsp">
-		<put-list-attribute name="styles">
-			<add-attribute value="/css/header.css" />
-			<add-attribute value="/css/footer.css" />
-		</put-list-attribute>
-	</definition>
+    <definition name="mainStylesTemplate" template="/WEB-INF/jsp/styles.jsp">
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/header.css"/>
+            <add-attribute value="/css/footer.css"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="jqueryuiScriptsTemplate" extends="mainScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="http://code.jquery.com/ui/1.10.2/jquery-ui.js" />
-		</put-list-attribute>
-	</definition>
+    <definition name="jqueryuiScriptsTemplate" extends="mainScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="http://code.jquery.com/ui/1.10.2/jquery-ui.js"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" />
-		</put-list-attribute>
-	</definition>
+    <definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
+        <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="baseHeaderTemplate" template="/WEB-INF/jsp/header.jsp">
-		<put-attribute name="account" value="" />
-		<put-attribute name="search" value="" />
-	</definition>
+    <definition name="baseHeaderTemplate" template="/WEB-INF/jsp/header.jsp">
+        <put-attribute name="account" value=""/>
+        <put-attribute name="search" value=""/>
+    </definition>
 
-	<definition name="accountHeaderTemplate" extends="baseHeaderTemplate">
-		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
-		
-	</definition>
+    <definition name="accountHeaderTemplate" extends="baseHeaderTemplate">
+        <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
 
-	<definition name="searcHeaderTemplate" extends="baseHeaderTemplate">
-		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
-		<put-attribute name="search" value="/WEB-INF/jsp/search.jsp" />
-	</definition>
+    </definition>
 
-	<definition name="mainContentTemplate" extends="mainTemplate">
-		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
-		<put-attribute name="account" value="/WEB-INF/jsp/account.jsp" />
-	</definition>
+    <definition name="searcHeaderTemplate" extends="baseHeaderTemplate">
+        <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
+        <put-attribute name="search" value="/WEB-INF/jsp/search.jsp"/>
+    </definition>
 
-	<definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
-		<put-attribute name="scripts_ins" value="mainScriptsTemplate" />
-		<put-attribute name="styles_ins" value="mainStylesTemplate" />
-		<put-attribute name="header" value="baseHeaderTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/header.jsp" />
-		<put-attribute name="footer" value="" />
-	</definition>
+    <definition name="mainContentTemplate" extends="mainTemplate">
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
+        <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
+    </definition>
 
-	<definition name="mainContentTemplate" extends="mainTemplate">
-		<put-attribute name="header" value="accountHeaderTemplate" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
-	</definition>
-	
-	<definition name="listContentTemplate" extends="mainTemplate">
-		<put-attribute name="header" value="searcHeaderTemplate" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
-	</definition>
+    <definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
+        <put-attribute name="scripts_ins" value="mainScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="mainStylesTemplate"/>
+        <put-attribute name="header" value="baseHeaderTemplate"/>
+        <put-attribute name="main_content" value="/WEB-INF/jsp/header.jsp"/>
+        <put-attribute name="footer" value=""/>
+    </definition>
 
-	<definition name="registrationStylesTemplate" extends="mainStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/css/reg.css" />
-		</put-list-attribute>
-	</definition>
+    <definition name="mainContentTemplate" extends="mainTemplate">
+        <put-attribute name="header" value="accountHeaderTemplate"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
+    </definition>
 
-	<definition name="login" extends="mainTemplate">
-		<put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate" />
-		<put-attribute name="styles_ins" value="registrationStylesTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
-	</definition>
+    <definition name="listContentTemplate" extends="mainTemplate">
+        <put-attribute name="header" value="searcHeaderTemplate"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
+    </definition>
 
-	<definition name="registration" extends="mainTemplate">
-		<put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate" />
-		<put-attribute name="styles_ins" value="registrationStylesTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp" />
-	</definition>
-	
-	<definition name="confirmation" extends="mainTemplate">
-		<put-attribute name="styles_ins" value="errorStylesTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/user/confirmation.jsp" />
-	</definition>
+    <definition name="registrationStylesTemplate" extends="mainStylesTemplate">
+        <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="/css/reg.css"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="errorStylesTemplate" extends="mainStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/css/error.css" />
-		</put-list-attribute>
-	</definition>
+    <definition name="login" extends="mainTemplate">
+        <put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="registrationStylesTemplate"/>
+        <put-attribute name="main_content" value="/WEB-INF/jsp/user/login.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
+    </definition>
 
-	<definition name="error" extends="mainTemplate">
-		<put-attribute name="styles_ins" value="errorStylesTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/error.jsp" />
-	</definition>
+    <definition name="registration" extends="mainTemplate">
+        <put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="registrationStylesTemplate"/>
+        <put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
+    </definition>
 
-	<definition name="notfound" extends="mainTemplate">
-		<put-attribute name="styles_ins" value="errorStylesTemplate" />
-		<put-attribute name="main_content" value="/WEB-INF/jsp/notfound.jsp" />
-	</definition>
+    <definition name="confirmation" extends="mainTemplate">
+        <put-attribute name="styles_ins" value="errorStylesTemplate"/>
+        <put-attribute name="main_content" value="/WEB-INF/jsp/user/confirmation.jsp"/>
+    </definition>
 
+    <definition name="errorStylesTemplate" extends="mainStylesTemplate">
+        <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="/css/error.css"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="contentScriptsTemplate" extends="jqueryuiScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/js/jquery.jstree.js" />
-			<add-attribute value="/js/filtr.js" />
-		</put-list-attribute>
-	</definition>
-	
-	<definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false" />
-			<add-attribute value="/js/map.js" />
-		</put-list-attribute>
-	</definition>
-	
-	<definition name="contentEditScriptsTemplate" extends="contentScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/js/edit.js" />
-		</put-list-attribute>
-	</definition>
-	
-	<definition name="contentEditWithMapScriptsTemplate" extends="contentWithMapScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/js/edit.js" />
-		</put-list-attribute>
-	</definition>
+    <definition name="error" extends="mainTemplate">
+        <put-attribute name="styles_ins" value="errorStylesTemplate"/>
+        <put-attribute name="main_content" value="/WEB-INF/jsp/error.jsp"/>
+    </definition>
 
-	<definition name="catalogScriptsTemplate" extends="contentScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/js/lib/jsrender.js" />
-		</put-list-attribute>
-	</definition>
-	
-	
-	<definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
-		<put-list-attribute name="styles" inherit="true">
-			<add-attribute value="/css/style.css" />
-		</put-list-attribute>
-	</definition>
-
-	<definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">
-		<put-attribute name="catalog_tabs" value="/WEB-INF/jsp/catalog/catalog_tabs.jsp" />
-		<put-attribute name="catalog_content" value="" />
-	</definition>
-
-	<definition name="travelsTemplate" extends="catalogTemplate">
-		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travels.jsp" />
-		
-	</definition>
-
-	<definition name="tidingsTemplate" extends="catalogTemplate">
-		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp" />
-	</definition>
-
-	<definition name="tidings" extends="listContentTemplate">
-		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
-		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-		<put-attribute name="main_content" value="tidingsTemplate" />
-	</definition>
-
-	<definition name="postsTemplate" extends="catalogTemplate">
-		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/posts.jsp" />
-	</definition>
-
-	<definition name="postReadTemplate" extends="catalogTemplate">
-		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_read.jsp" />
-	</definition>
-
-	<definition name="postEditTemplate" extends="catalogTemplate">
-		<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_edit.jsp" />
-	</definition>
-
-	<definition name="travels" extends="listContentTemplate">
-		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
-		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-		<put-attribute name="main_content" value="travelsTemplate" />
-	</definition>
-	
-	<!-- Trip page -->
-	
-		<definition name="travelTemplate" template="/WEB-INF/jsp/catalog/travel/travel.jsp">
-			<put-attribute name="travel_content" value=""  />
-		</definition>
-	
-		<definition name="travelInfoTemplate" extends="travelTemplate">
-			<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_info.jsp"  />
-		</definition>
-		<definition name="travelInfoCatalogTemplate" extends="catalogTemplate">
-			<put-attribute name="catalog_content" value="travelInfoTemplate" />
-		</definition>
-	
-		<definition name="travelMapsTemplate" extends="travelTemplate">
-			<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_maps.jsp"  />
-		</definition>
-		<definition name="travelMapsCatalogTemplate" extends="catalogTemplate">
-			<put-attribute name="catalog_content" value="travelMapsTemplate" />
-		</definition>
-	
-		<definition name="travelPhotosTemplate" extends="travelTemplate">
-			<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_photos.jsp"  />
-		</definition>
-		<definition name="travelPhorosCatalogTemplate" extends="catalogTemplate">
-			<put-attribute name="catalog_content" value="travelPhotosTemplate" />
-		</definition>
-	
-		<definition name="travelParticipantsTemplate" extends="travelTemplate">
-			<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_participants.jsp"  />
-		</definition>
-		<definition name="travelParticipantsCatalogTemplate" extends="catalogTemplate">
-			<put-attribute name="catalog_content" value="travelParticipantsTemplate" />
-		</definition>
-	
-		<definition name="travelPostsTemplate" extends="travelTemplate">
-			<put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_posts.jsp"  />
-		</definition>
-			<definition name="travelPostsCatalogTemplate" extends="catalogTemplate">
-			<put-attribute name="catalog_content" value="travelPostsTemplate" />
-		</definition>
-	
-		<definition name="travel_info" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="travelInfoCatalogTemplate"  />
-		</definition>
-	
-		<definition name="travel_maps" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentWithMapScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="travelMapsCatalogTemplate"  />
-		</definition>
-	
-		<definition name="travel_photos" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="travelPhorosCatalogTemplate"  />
-		</definition>
-	
-		<definition name="travel_participants" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="travelParticipantsCatalogTemplate"  />
-		</definition>
-	
-		<definition name="travel_posts" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="travelPostsCatalogTemplate"  />
-		</definition>
-		
-		
-
-		<definition name="travelInfoEditCatalogTemplate" extends="catalogTemplate">
-			<put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travel_modify_info.jsp" />
-		</definition>
-		
-		<definition name="travel_modify_info" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentEditWithMapScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="travelInfoEditCatalogTemplate"  />
-		</definition>
-		
-		
-	
-	
-		
-		
-		<!-- Trip edit page -->
-	
-	
-		<!-- Profile -->	
-		
-		
-	
-		
-		
-		<definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile_content.jsp">
-			<put-attribute name="profile_tabs" value="/WEB-INF/jsp/profile/profile_tabs.jsp" />
-			<put-attribute name="profile_content" value="" />
-		</definition>
-		
-		
-		<definition name="accountInfoTemplate" extends="profileTemplate">
-			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp" />
-		</definition>
-		
-		<definition name="profile" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="accountInfoTemplate"  />
-		</definition>
-		
-		<definition name="accountInfoEditTemplate" extends="profileTemplate">
-			<put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_modify_info.jsp" />
-		</definition>
-		
-		<definition name="profile_modify_info" extends="mainContentTemplate">
-			<put-attribute name="scripts_ins" value="contentEditScriptsTemplate" />
-			<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-			<put-attribute name="main_content" value="accountInfoEditTemplate"  />
-		</definition>
-		
-	<!-- End Profile -->
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		
-	<definition name="posts" extends="listContentTemplate">
-		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
-		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-		<put-attribute name="main_content" value="postsTemplate" />
-	</definition>
+    <definition name="notfound" extends="mainTemplate">
+        <put-attribute name="styles_ins" value="errorStylesTemplate"/>
+        <put-attribute name="main_content" value="/WEB-INF/jsp/notfound.jsp"/>
+    </definition>
 
 
-	<definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp" >
-		<put-attribute name="category_tree_btn" value="" />
-	</definition>
-	<definition name="categoryTreeWithBtn" extends="categoryTree" >
-		<put-attribute name="category_tree_btn" value="/WEB-INF/jsp/widget/category_tree_btn.jsp" />
-	</definition>
-	
-	<definition name="regionFilter" template="/WEB-INF/jsp/widget/region_filter.jsp" >
-		<put-attribute name="region_filter_btn" value="" />
-	</definition>
-	<definition name="regionFilterWithBtn" extends="regionFilter" >
-		<put-attribute name="region_filter_btn" value="/WEB-INF/jsp/widget/region_filter_btn.jsp" />
-	</definition>
+    <definition name="contentScriptsTemplate" extends="jqueryuiScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/jquery.jstree.js"/>
+            <add-attribute value="/js/filtr.js"/>
+        </put-list-attribute>
+    </definition>
 
-	<definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp" />
-	
-	<definition name="comments" template="/WEB-INF/jsp/widget/comments_tree.jsp" />
-	
+    <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false"/>
+            <add-attribute value="/js/map.js"/>
+        </put-list-attribute>
+    </definition>
 
+    <definition name="contentEditScriptsTemplate" extends="contentScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/edit.js"/>
+        </put-list-attribute>
+    </definition>
 
+    <definition name="contentEditWithMapScriptsTemplate" extends="contentWithMapScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/edit.js"/>
+        </put-list-attribute>
+    </definition>
 
-
-	<definition name="post" extends="mainContentTemplate">
-		<put-attribute name="scripts_ins" value="catalogScriptsTemplate" />
-		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-		<put-attribute name="main_content" value="postReadTemplate" />
-	</definition>
-
-	<definition name="postEditScriptsTemplate" extends="catalogScriptsTemplate">
-		<put-list-attribute name="scripts" inherit="true">
-			<add-attribute value="/js/lib/ckeditor/ckeditor.js" />
-		</put-list-attribute>
-	</definition>
-
-	<definition name="post/edit" extends="mainContentTemplate">
-		<put-attribute name="scripts_ins" value="postEditScriptsTemplate" />
-		<put-attribute name="styles_ins" value="catalogStylesTemplate" />
-		<put-attribute name="main_content" value="postEditTemplate" />
-	</definition>
-
-	<definition name="postImage" extends="mainContentTemplate">
-		<put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp" />
-	</definition>
+    <definition name="catalogScriptsTemplate" extends="contentScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/lib/jsrender.js"/>
+        </put-list-attribute>
+    </definition>
 
 
-	
-	
+    <definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
+        <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="/css/style.css"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">
+        <put-attribute name="catalog_tabs" value="/WEB-INF/jsp/catalog/catalog_tabs.jsp"/>
+        <put-attribute name="catalog_content" value=""/>
+    </definition>
+
+    <definition name="travelsTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travels.jsp"/>
+
+    </definition>
+
+    <definition name="tidingsTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp"/>
+    </definition>
+
+    <definition name="tidings" extends="listContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="tidingsTemplate"/>
+    </definition>
+
+    <definition name="postsTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/posts.jsp"/>
+    </definition>
+
+    <definition name="postReadTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_read.jsp"/>
+    </definition>
+
+    <definition name="postEditTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_edit.jsp"/>
+    </definition>
+
+    <definition name="travels" extends="listContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelsTemplate"/>
+    </definition>
+
+    <!-- Trip page -->
+
+    <definition name="travelTemplate" template="/WEB-INF/jsp/catalog/travel/travel.jsp">
+        <put-attribute name="travel_content" value=""/>
+    </definition>
+
+    <definition name="travelInfoTemplate" extends="travelTemplate">
+        <put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_info.jsp"/>
+    </definition>
+    <definition name="travelInfoCatalogTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="travelInfoTemplate"/>
+    </definition>
+
+    <definition name="travelMapsTemplate" extends="travelTemplate">
+        <put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_maps.jsp"/>
+    </definition>
+    <definition name="travelMapsCatalogTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="travelMapsTemplate"/>
+    </definition>
+
+    <definition name="travelPhotosTemplate" extends="travelTemplate">
+        <put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_photos.jsp"/>
+    </definition>
+    <definition name="travelPhorosCatalogTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="travelPhotosTemplate"/>
+    </definition>
+
+    <definition name="travelParticipantsTemplate" extends="travelTemplate">
+        <put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_participants.jsp"/>
+    </definition>
+    <definition name="travelParticipantsCatalogTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="travelParticipantsTemplate"/>
+    </definition>
+
+    <definition name="travelPostsTemplate" extends="travelTemplate">
+        <put-attribute name="travel_content" value="/WEB-INF/jsp/catalog/travel/travel_posts.jsp"/>
+    </definition>
+    <definition name="travelPostsCatalogTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="travelPostsTemplate"/>
+    </definition>
+
+    <definition name="travel_info" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelInfoCatalogTemplate"/>
+    </definition>
+
+    <definition name="travel_maps" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentWithMapScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelMapsCatalogTemplate"/>
+    </definition>
+
+    <definition name="travel_photos" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelPhorosCatalogTemplate"/>
+    </definition>
+
+    <definition name="travel_participants" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelParticipantsCatalogTemplate"/>
+    </definition>
+
+    <definition name="travel_posts" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelPostsCatalogTemplate"/>
+    </definition>
+
+
+    <definition name="travelInfoEditCatalogTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travel_modify_info.jsp"/>
+    </definition>
+
+    <definition name="travel_modify_info" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentEditWithMapScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="travelInfoEditCatalogTemplate"/>
+    </definition>
+
+
+    <!-- Trip edit page -->
+
+
+    <!-- Profile -->
+
+
+    <definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile_content.jsp">
+        <put-attribute name="profile_tabs" value="/WEB-INF/jsp/profile/profile_tabs.jsp"/>
+        <put-attribute name="profile_content" value=""/>
+    </definition>
+
+
+    <definition name="accountInfoTemplate" extends="profileTemplate">
+        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp"/>
+    </definition>
+
+    <definition name="profile" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="accountInfoTemplate"/>
+    </definition>
+
+    <definition name="accountInfoEditTemplate" extends="profileTemplate">
+        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_modify_info.jsp"/>
+    </definition>
+
+    <definition name="profile_modify_info" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="accountInfoEditTemplate"/>
+    </definition>
+
+    <!-- End Profile -->
+
+
+    <definition name="posts" extends="listContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="postsTemplate"/>
+    </definition>
+
+
+    <definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp">
+        <put-attribute name="category_tree_btn" value=""/>
+    </definition>
+    <definition name="categoryTreeWithBtn" extends="categoryTree">
+        <put-attribute name="category_tree_btn" value="/WEB-INF/jsp/widget/category_tree_btn.jsp"/>
+    </definition>
+
+    <definition name="regionFilter" template="/WEB-INF/jsp/widget/region_filter.jsp">
+        <put-attribute name="region_filter_btn" value=""/>
+    </definition>
+    <definition name="regionFilterWithBtn" extends="regionFilter">
+        <put-attribute name="region_filter_btn" value="/WEB-INF/jsp/widget/region_filter_btn.jsp"/>
+    </definition>
+
+    <definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp"/>
+
+    <definition name="comments" template="/WEB-INF/jsp/widget/comments_tree.jsp"/>
+
+
+    <definition name="post" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="postReadTemplate"/>
+    </definition>
+
+    <definition name="postEditScriptsTemplate" extends="catalogScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/lib/ckeditor/ckeditor.js"/>
+        </put-list-attribute>
+    </definition>
+
+    <definition name="post/edit" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="postEditScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="postEditTemplate"/>
+    </definition>
+
+    <definition name="postImage" extends="mainContentTemplate">
+        <put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp"/>
+    </definition>
+
 
 </tiles-definitions>

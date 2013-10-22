@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.heaptrip.domain.service.rating.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
