@@ -1,55 +1,32 @@
 package com.heaptrip.service.content.trip;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.Views;
-import com.heaptrip.domain.entity.content.trip.Route;
-import com.heaptrip.domain.entity.content.trip.TableItem;
-import com.heaptrip.domain.entity.content.trip.TableStatus;
-import com.heaptrip.domain.entity.content.trip.TableStatusEnum;
-import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.entity.content.trip.*;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.trip.TripException;
-import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
-import com.heaptrip.domain.repository.region.RegionRepository;
-import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
-import com.heaptrip.domain.service.content.post.PostService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
-import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.service.content.ContentServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.util.*;
+
+/**
+ * test
+ */
 @Service
 public class TripServiceImpl extends ContentServiceImpl implements TripService {
-
-	@Autowired
-	private CategoryService categoryService;
-
-	@Autowired
-	private CategoryRepository categoryRepository;
-
-	@Autowired
-	private RegionService regionService;
-
-	@Autowired
-	private RegionRepository regionRepository;
 
 	@Autowired
 	private TripRepository tripRepository;
@@ -62,9 +39,6 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
 	@Autowired
 	private ContentSearchService solrContentService;
-
-	@Autowired
-	private PostService postService;
 
 	@Override
 	public Trip save(Trip trip, Locale locale) {
