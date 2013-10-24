@@ -5,10 +5,8 @@ import com.heaptrip.web.model.profile.UserInfoModel;
 
 public interface ProfileModelService {
 
-	UserInfoModel getProfileInformation(String uid);
+    UserInfoModel getProfileInformation(String uid);
 
-	Trip saveProfileInfo(UserInfoModel accountInfoModel);
-
-	void updateProfileInfo(UserInfoModel accountInfoModel);
+    void updateProfileInfo(UserInfoModel accountInfoModel);
 
 }

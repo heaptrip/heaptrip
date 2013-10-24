@@ -22,6 +22,6 @@ public interface FilterModelService {
 	 */
 	TreObject<RegionModel, RegionModel, RegionModel> getRegionHierarchy(String regionId);
 
-	String[] getUserCategories();
+	String[] getUserCategories(String uid);
 
 }

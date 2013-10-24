@@ -5,6 +5,8 @@ import com.heaptrip.web.model.content.RegionModel;
 
 public class ProfileModel {
 
+    private String id;
+
     private RegionModel location;
 
     private String[] langs;
@@ -56,4 +58,11 @@ public class ProfileModel {
     }
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

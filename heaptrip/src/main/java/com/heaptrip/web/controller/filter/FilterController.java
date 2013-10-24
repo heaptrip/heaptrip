@@ -5,9 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,80 +26,89 @@ import com.heaptrip.web.model.filter.CategoryTreeModel;
 import com.heaptrip.web.modelservice.FilterModelService;
 
 /**
- * 
  * Web контроллер, обеспечивает работу фильтров
- * 
+ *
  * @author voronenko
- * 
  */
 @Controller
 public class FilterController extends ExceptionHandlerControler {
 
-	@Autowired
-	private FilterModelService filterModelService;
+    @Autowired
+    private FilterModelService filterModelService;
 
-	private static final Logger LOG = LoggerFactory.getLogger(FilterController.class);
+    @Autowired
+    @Qualifier("requestScopeService")
+    private RequestScopeService scopeService;
 
-	@RequestMapping(value = "categories", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, ? extends Object> getCategories() {
-		LOG.trace("CALL getCategories");
-		List<CategoryTreeModel> categoryModels = new ArrayList<CategoryTreeModel>();
-		try {
-			categoryModels = filterModelService.getCategories();
-		} catch (Throwable e) {
-			throw new RestException(e);
-		}
-		LOG.trace("END getCategoriesByCriteria");
+    private static final Logger LOG = LoggerFactory.getLogger(FilterController.class);
 
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("categories", categoryModels);
+    @RequestMapping(value = "categories", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getCategories(@RequestBody String uid) {
 
-		String[] userCategories = filterModelService.getUserCategories();
+        uid = uid.isEmpty() ? null : uid;
 
-		if (userCategories != null && userCategories.length > 0) {
-			result.put("userCategories", userCategories);
-		}
+        try {
+            List<CategoryTreeModel> categoryModels = filterModelService.getCategories();
+            Map<String, Object> result = new HashMap<>();
+            result.put("categories", categoryModels);
 
-		return Ajax.successResponse(result);
-	}
+            if (uid == null) {
+                User user = scopeService.getCurrentUser();
+                if (user != null) {
+                    uid = user.getId();
+                }
+            }
 
-	@RequestMapping(value = "search_regions", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, ? extends Object> searchRegionsByText(@RequestBody String text) {
-		LOG.trace("CALL searchRegionsByText ", text);
-		List<RegionModel> regionModels = new ArrayList<RegionModel>();
-		try {
-			if (text != null)
-				regionModels = filterModelService.searchRegionsByText(text);
-		} catch (Throwable e) {
-			throw new RestException(e);
-		}
-		LOG.trace("END searchRegionsByText");
-		return Ajax.successResponse(regionModels);
-	}
+            if (uid != null) {
+                String[] userCategories = filterModelService.getUserCategories(uid);
+                if (userCategories != null && userCategories.length > 0) {
+                    result.put("userCategories", userCategories);
+                }
+            }
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
 
-	@RequestMapping(value = "get_region_hierarchy", method = RequestMethod.POST)
-	public @ResponseBody
-	Map<String, ? extends Object> getRegionHierarchy(@RequestBody String regionId) {
-		LOG.trace("CALL getRegionHierarchy ", regionId);
+    @RequestMapping(value = "search_regions", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> searchRegionsByText(@RequestBody String text) {
 
-		Map<String, Object> result = new HashMap<String, Object>();
+        text = text.isEmpty() ? null : text;
 
-		try {
-			if (regionId != null) {
-				TreObject<RegionModel, RegionModel, RegionModel> regions = filterModelService
-						.getRegionHierarchy(regionId);
+        try {
+            List<RegionModel> regionModels = new ArrayList<>();
+            if (text != null)
+                regionModels = filterModelService.searchRegionsByText(text);
+            LOG.trace("END searchRegionsByText");
+            return Ajax.successResponse(regionModels);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
 
-				result.put("country", regions.getUno());
-				result.put("area", regions.getDue());
-				result.put("city", regions.getTre());
-			}
-		} catch (Throwable e) {
-			throw new RestException(e);
-		}
-		LOG.trace("END getRegionHierarchy");
-		return Ajax.successResponse(result);
-	}
+    @RequestMapping(value = "get_region_hierarchy", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getRegionHierarchy(@RequestBody String regionId) {
+        try {
+            Map<String, Object> result = new HashMap<>();
+            if (regionId != null) {
+                TreObject<RegionModel, RegionModel, RegionModel> regions = filterModelService
+                        .getRegionHierarchy(regionId);
+                result.put("country", regions.getUno());
+                result.put("area", regions.getDue());
+                result.put("city", regions.getTre());
+            }
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+
+    }
 
 }

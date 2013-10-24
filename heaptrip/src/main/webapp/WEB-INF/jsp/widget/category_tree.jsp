@@ -68,7 +68,9 @@
             	alert(error);
         	};
 
-        	$.postJSON(url, null , callbackSuccess, callbackError);
+            var uid =  $.getParamFromURL().uid ? $.getParamFromURL().uid : null;
+
+        	$.postJSON(url, uid , callbackSuccess, callbackError);
     	});
   
   
