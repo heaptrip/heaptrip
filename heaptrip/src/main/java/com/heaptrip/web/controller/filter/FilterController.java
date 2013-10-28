@@ -94,21 +94,28 @@ public class FilterController extends ExceptionHandlerControler {
     @RequestMapping(value = "get_region_hierarchy", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> getRegionHierarchy(@RequestBody String regionId) {
+    Map<String, ? extends Object> getRegionHierarchy(@RequestBody Map regionHierarchyParams) {
         try {
-            Map<String, Object> result = new HashMap<>();
-            if (regionId != null) {
-                TreObject<RegionModel, RegionModel, RegionModel> regions = filterModelService
-                        .getRegionHierarchy(regionId);
-                result.put("country", regions.getUno());
-                result.put("area", regions.getDue());
-                result.put("city", regions.getTre());
+
+            String[] regionIds = ((String) regionHierarchyParams.get("regionIds")).split(",");
+            String uid = (String) regionHierarchyParams.get("uid");
+
+            List<Map> result = new ArrayList<>();
+            if (regionIds != null) {
+                for (String regionId : regionIds) {
+                    Map<String, Object> data = new HashMap<>();
+                    TreObject<RegionModel, RegionModel, RegionModel> regions = filterModelService
+                            .getRegionHierarchy(regionId);
+                    data.put("country", regions.getUno());
+                    data.put("area", regions.getDue());
+                    data.put("city", regions.getTre());
+                    result.add(data);
+                }
             }
             return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);
         }
-
     }
 
 }

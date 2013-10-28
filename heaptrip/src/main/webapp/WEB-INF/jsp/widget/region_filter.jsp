@@ -56,37 +56,49 @@
 	
 	$(window).bind("onPageReady", function(e, paramsJson) {
 		
-		if(paramsJson.rg){
-			var regIds = paramsJson.rg.split(',');
-			for(var index in regIds){
+
+
+
 				var url = 'rest/get_region_hierarchy';
  
-    			var callbackSuccess = function(data) {
-    				
-    				var arr = [];
-    				var country = data.country;
-    				var area = data.area;
-    				var city = data.city;
+    			var callbackSuccess = function(dataArr) {
+
+                    if(!dataArr) return;
+
+                    for(var i=0;i< dataArr.length;i++){
+
+                        var data = dataArr[i];
+
+    			    	var arr = [];
+    				    var country = data.country;
+    				    var area = data.area;
+    				    var city = data.city;
 				
-    				if(country)	arr.push({id:country.id,data:country.data});
-    				if(area) arr.push({id:area.id,data:area.data});
-    				if(city) arr.push( {id:city.id,data:city.data});
+    				    if(country)	arr.push({id:country.id,data:country.data});
+    				    if(area) arr.push({id:area.id,data:area.data});
+    				    if(city) arr.push( {id:city.id,data:city.data});
 
-    				create_tree(arr);
-
+    				    create_tree(arr);
+                    }
         		};
     
     			var callbackError = function(error) {
         			alert(error);
     			};
 
-    			$.postJSON(url, regIds[index], callbackSuccess, callbackError);
+                var requestParams = {"regionIds":paramsJson.rg};
 
-			}
+
+                if ($.getParamFromURL().uid )
+                    requestParams.uid = $.getParamFromURL().uid;
+
+    			$.postJSON(url, requestParams, callbackSuccess, callbackError);
+
+
 			
 			$.handInitParamToURL({rg : paramsJson.rg});
 			$("#region input[type=text]").val('');
-		}
+
 	});
 	
 	
@@ -179,9 +191,16 @@
 </script>
 
 <div id="region" class="filtr">
-	<div class="zag">
-		<fmt:message key="wgt.region.select" />
-	</div>
+
+    <c:choose>
+        <c:when test="${not empty param.uid}">
+            <div class="zag"><fmt:message key="content.region" /></div>
+        </c:when>
+        <c:otherwise>
+            <div class="zag"><fmt:message key="wgt.region.select" /></div>
+        </c:otherwise>
+    </c:choose>
+
 	<div class="content" style="display: block;">
 		<div class="search">
 			<input type="text" name="text_search"> <input type="button" name="go_region_search" value="">

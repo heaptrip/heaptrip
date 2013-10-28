@@ -275,7 +275,6 @@ function activ_tab(tabs){
 	var div=span.next();
 	div.css('display','block');
 	var h_tab=div.height();
-	console.log(h_tab);
 	if(h_tab==0){
 		h_tab=350;
 	}
