@@ -95,11 +95,29 @@ public class FilterController extends ExceptionHandlerControler {
     public
     @ResponseBody
     Map<String, ? extends Object> getRegionHierarchy(@RequestBody Map regionHierarchyParams) {
+
+        String[] regionIds = null;
+        String uid = null;
+
+        if (regionHierarchyParams != null) {
+            String regionIdsJoin = (String) regionHierarchyParams.get("regionIds");
+            if (regionIdsJoin != null && !regionIdsJoin.isEmpty())
+                regionIds = regionIdsJoin.split(",");
+            uid = (String) regionHierarchyParams.get("uid");
+            if (uid == null) {
+                User user = scopeService.getCurrentUser();
+                if (user != null) {
+                    uid = user.getId();
+                }
+            }
+        }
+
+        if (regionIds == null && uid == null) {
+            LOG.error("TODO : voronenko (fix GUI) METHOD CALL WITH regionIds == null && uid==null");
+            return Ajax.emptyResponse();
+        }
+
         try {
-
-            String[] regionIds = ((String) regionHierarchyParams.get("regionIds")).split(",");
-            String uid = (String) regionHierarchyParams.get("uid");
-
             List<Map> result = new ArrayList<>();
             if (regionIds != null) {
                 for (String regionId : regionIds) {
