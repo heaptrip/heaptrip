@@ -24,4 +24,6 @@ public interface FilterModelService {
 
 	String[] getUserCategories(String uid);
 
+    String[] getUserRegions(String uid);
+
 }

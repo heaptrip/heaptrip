@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.heaptrip.domain.entity.category.SimpleCategory;
+import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.account.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,6 +74,21 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
             }
         }
         return categoryIds.toArray(new String[categoryIds.size()]);
+    }
+
+
+    @Override
+    public String[] getUserRegions(String uid) {
+        Assert.notNull(uid, "user id  must not be null");
+        User user = userService.getUserById(uid);
+        Assert.notNull(user, "user not found by uid" + uid);
+        List<String> regionIds = new ArrayList<>();
+        if (user.getProfile() != null && user.getProfile().getRegions() != null) {
+            for (SimpleRegion region : user.getProfile().getRegions()) {
+                regionIds.add(region.getId());
+            }
+        }
+        return regionIds.toArray(new String[regionIds.size()]);
     }
 
     @Override

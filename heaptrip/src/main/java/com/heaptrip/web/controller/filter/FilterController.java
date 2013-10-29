@@ -119,6 +119,11 @@ public class FilterController extends ExceptionHandlerControler {
 
         try {
             List<Map> result = new ArrayList<>();
+            if (regionIds == null) {
+                if (uid != null) {
+                    regionIds = filterModelService.getUserRegions(uid);
+                }
+            }
             if (regionIds != null) {
                 for (String regionId : regionIds) {
                     Map<String, Object> data = new HashMap<>();
