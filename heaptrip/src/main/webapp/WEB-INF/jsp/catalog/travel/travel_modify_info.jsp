@@ -309,9 +309,9 @@
 
 	<br/>
 
-				<textarea id="desc_post"
+				<textarea id="desc_post" class="ckeditor" name="editor1"
 					alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
-				<textarea id="desc_full_post"
+				<textarea id="desc_full_post" class="ckeditor" name="editor2"
 					alt="<fmt:message key="content.fullDescription" />:">${trip.description}</textarea>
 
 				<div class="table_inf">
