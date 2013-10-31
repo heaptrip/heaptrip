@@ -2678,3 +2678,35 @@ a.this_otvet.otvet_green{
 .error_message p.green{
 	color: green;
 }
+
+/* Редактор ckeditor
+------------------------------------------------------*/
+#article span.cke_toolbar{
+    margin: 2px;
+}
+
+#article span.cke_toolbar span {
+    margin: 0;
+}
+
+#article span.cke_toolbar span.cke_toolbar_separator {
+    margin: 4px;
+}
+
+#cke_desc_full_post {
+    margin-top: 40px;
+}
+
+
+#article .cke_top,#article .cke_bottom{
+    margin-left: 0;
+}
+
+#article span.cke_toolbar span.cke_combo_arrow{
+    margin: 11px 0px 0px -4px;
+}
+
+#article .cke_contents textarea{
+    padding: 0;
+    margin: 0;
+}
