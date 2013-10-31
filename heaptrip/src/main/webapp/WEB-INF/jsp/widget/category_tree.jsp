@@ -73,7 +73,7 @@
                         }
                     });
 
-            $.allowLoading('getInitCategoryIds', {ct: data.userCategories.join()});
+            $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join(): null});
         };
 
         var callbackError = function (error) {
