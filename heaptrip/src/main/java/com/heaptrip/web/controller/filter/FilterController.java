@@ -55,13 +55,6 @@ public class FilterController extends ExceptionHandlerControler {
             Map<String, Object> result = new HashMap<>();
             result.put("categories", categoryModels);
 
-            if (uid == null) {
-                User user = scopeService.getCurrentUser();
-                if (user != null) {
-                    uid = user.getId();
-                }
-            }
-
             if (uid != null) {
                 String[] userCategories = filterModelService.getUserCategories(uid);
                 if (userCategories != null && userCategories.length > 0) {

@@ -116,7 +116,7 @@
 // Добавляет в url параметры paramsJson и не вызывает обработчит TODO: перименовать
 (function($) {
 	$.extend({
-		handInitParamToURL : function(paramsJson) {
+		putLOCALParamToURL : function(paramsJson) {
 			var url = window.location.href;
 			var newUrl = $.param.fragment(url, paramsJson);
 			window.location = newUrl;
@@ -157,21 +157,13 @@
             }
             if($.isEmptyObject(window.delayLoadingMap)){
                 $.handParamToURL(paramsJson);
+                $(window).trigger("hashchange");
             }else{
-                $.handParamToURL(handInitParamToURL);
+                $.putLOCALParamToURL(paramsJson);
             }
-
-
         }
     });
 })(jQuery);
-
-
-
-/*
- * $(window).bind( "onPageReady", function(e,paramsJson){
- * if(!$.isEmptyObject(localUrlParams)){ console.log(paramsJson); } });
- */
 
 $(function() {
 	$(window).bind("hashchange", function(event) {
@@ -185,12 +177,12 @@ $(function() {
 });
 
 var onLocaleChange = function(locale) {
-	$.handGETParamToURL('locale', locale);
+	$.putGETParamToURL('locale', locale);
 };
 
 (function($) {
 	$.extend({
-		handGETParamToURL : function(name, value) {
+        putGETParamToURL : function(name, value) {
 			var newUrl = $.param.querystring(window.location.href, name + '='
 					+ value);
 			window.location = newUrl;
@@ -203,7 +195,7 @@ var onLocaleChange = function(locale) {
 				alertNoAuthenticationUser : function() {
 					$.alert('Вы не залогинены.'
 									+ ' Пожалуйста '
-									+ '<a onClick="$.handGETParamToURL(\'need_login\',\'true\')">войдите</a>'
+									+ '<a onClick="$.putGETParamToURL(\'need_login\',\'true\')">войдите</a>'
 									+ ' для завершения действия.');
 				}
 			});
@@ -257,3 +249,5 @@ var addContentRating = function(value) {
 		$.postJSON(url, contentRating, callbackSuccess, callbackError);
 	});
 };
+
+

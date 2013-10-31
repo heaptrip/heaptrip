@@ -57,7 +57,7 @@ function create_tree(n) {
 
 function buildRegionsTree(regionsDataArr) {
 
-    if (!regionsDataArr) return;
+    if (!regionsDataArr || regionsDataArr.length === 0) return;
 
     var callbackSuccess = function (regionsDataArr) {
         for (var i = 0; i < regionsDataArr.length; i++) {
@@ -89,11 +89,17 @@ function buildRegionsTree(regionsDataArr) {
 }
 
 $(window).bind("onPageReady", function (e, paramsJson) {
-    if (paramsJson.rg) {
+
+    var localIds = getSelectedRegionsIds().join();
+
+    if (paramsJson.rg && (localIds && paramsJson.rg !== localIds)  ) {
         buildRegionsTree(paramsJson.rg.split(','));
     }
 
 });
+
+
+$.delayLoading('getInitRegionsIds');
 
 
 $(document).ready(function () {
@@ -181,13 +187,13 @@ $(document).ready(function () {
     });
 
 
-    $.delayLoading('getInitRegionsIds');
+
 
     var regionIds = $.getParamFromURL().rg;
 
     if (regionIds) {
         buildRegionsTree(regionIds.split(','));
-        $.allowLoading('getInitRegionsIds', {rg: regionIds.join()});
+        $.allowLoading('getInitRegionsIds', {rg: regionIds});
     } else {
         var uid = null;
         if ($.getParamFromURL().uid)
@@ -198,7 +204,6 @@ $(document).ready(function () {
         if (uid) {
 
             var callbackSuccess = function (regionIds) {
-                console.log(regionIds);
                 buildRegionsTree(regionIds);
                 $.allowLoading('getInitRegionsIds', {rg: regionIds.join()});
             };

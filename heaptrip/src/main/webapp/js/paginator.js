@@ -116,8 +116,10 @@
 
 
                         if (totalpages > 0) {
-                            container
+
+                            if(totalpages > 1)container
                                 .append(text)
+                            container
                                 .append(btnPrev)
                                 .append(list)
                                 .append(btnNext)

@@ -69,7 +69,7 @@
 							<ul>
 								<c:forEach items="${trip.langs}" var="lang">
 									<li class="${lang}">
-									<a onClick="$.handGETParamToURL('ul','${lang}')" class="${lang} lang" ></a>
+									<a onClick="$.putGETParamToURL('ul','${lang}')" class="${lang} lang" ></a>
 									</li>
 								</c:forEach>
 							</ul>

@@ -17,8 +17,8 @@
     };
 
     var selectCategories = function (categoryIdArr) {
-        if (!$("#category .tree").jstree.isLoad)
-            return;
+        //if (!$("#category .tree").jstree.isLoad)
+        //    return;
         $('#category .tree').jstree("uncheck_all");
 
         $.each(categoryIdArr, function (index, val) {
@@ -28,14 +28,18 @@
 
         var checked_ids = getSelectedCategories();
         if (checked_ids.length > 0)
-            $.handInitParamToURL({ct: checked_ids.join()});
+            $.putLOCALParamToURL({ct: checked_ids.join()});
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
-        if (paramsJson.ct) {
+        var localIds = getSelectedCategories().join();
+        if (paramsJson.ct && (localIds && paramsJson.ct !== localIds)  ) {
             selectCategories(paramsJson.ct.split(','));
         }
     });
+
+
+    $.delayLoading('getInitCategoryIds');
 
     $(document).ready(function () {
 
@@ -50,20 +54,26 @@
                 "plugins": [ "themes", "json_data", "checkbox" ]
 
             }).bind("loaded.jstree", function () {
-                        $("#category .tree").jstree.isLoad = true;
+                        //$("#category .tree").jstree.isLoad = true;
                         var paramsJson = $.getParamFromURL();
                         if (paramsJson.ct) {
                             selectCategories(paramsJson.ct.split(','));
-                        } else {
+                            //$.allowLoading('getInitCategoryIds', {ct: paramsJson.ct});
+                        } else if(data.userCategories) {
                             selectCategories(data.userCategories);
+
+                        } else{
+                            //$.allowLoading('getInitCategoryIds', {ct: null});
                         }
                     })
                     .bind("change_state.jstree", function (node, uncheck) {
                         if ($("#categoryFilterSubmit").length == 0) {
                             var checked_ids = getSelectedCategories();
-                            $.handInitParamToURL({ct: checked_ids.join()});
+                            $.putLOCALParamToURL({ct: checked_ids.join()});
                         }
                     });
+
+            $.allowLoading('getInitCategoryIds', {ct: data.userCategories.join()});
         };
 
         var callbackError = function (error) {

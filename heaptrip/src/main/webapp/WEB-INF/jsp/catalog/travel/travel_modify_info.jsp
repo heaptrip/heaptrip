@@ -204,14 +204,14 @@
 					<c:choose>
 						<c:when test="${empty tripId}">
 							<ul>
-								<li><a onClick="$.handGETParamToURL('ul','${currLocale}')"
+								<li><a onClick="$.putGETParamToURL('ul','${currLocale}')"
 									class="${currLocale} lang"></a></li>
 								<li class="add_list_lang"><a class="add_lang lang" href="/"></a>
 									<ul>
 										<c:forEach items="${langValues}" var="langValue">
 											<c:if test="${currLocale ne langValue}">
 												<li><a
-													onClick="$.handGETParamToURL('ul','${langValue}')"
+													onClick="$.putGETParamToURL('ul','${langValue}')"
 													class="${langValue} lang"></a></li>
 											</c:if>
 										</c:forEach>
@@ -232,7 +232,7 @@
 											<li>
 										</c:otherwise>
 									</c:choose>
-									<a onClick="$.handGETParamToURL('ul','${lang}')"
+									<a onClick="$.putGETParamToURL('ul','${lang}')"
 										class="${lang} lang"></a>
 									</li>
 								</c:forEach>
@@ -242,7 +242,7 @@
 								<c:choose>
 									<c:when test="${fn:contains(joinLangValues, param.ul) ne true}">
 										<li class="activ_lang"><a
-											onClick="$.handGETParamToURL('ul','${param.ul}')"
+											onClick="$.putGETParamToURL('ul','${param.ul}')"
 											class="${param.ul} lang"></a>
 									</c:when>
 									<c:otherwise>
@@ -254,7 +254,7 @@
 													<c:if
 														test="${fn:contains(joinLangValues, langValue) ne true}">
 														<li><a
-															onClick="$.handGETParamToURL('ul','${langValue}')"
+															onClick="$.putGETParamToURL('ul','${langValue}')"
 															class="${langValue} lang"></a></li>
 													</c:if>
 												</c:forEach>
