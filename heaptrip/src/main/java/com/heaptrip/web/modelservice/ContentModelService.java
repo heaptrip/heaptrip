@@ -11,26 +11,6 @@ import com.heaptrip.web.model.profile.AccountModel;
 
 public interface ContentModelService {
 
-	CategoryModel convertCategoryToModel(SimpleCategory category);
-
-	SimpleCategory convertCategoryModelToCategory(CategoryModel categoryModel, Locale locale);
-
-	SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels, Locale locale);
-
-	String[] convertCategoriesModelsToIdsArray(CategoryModel[] categoryModels, Locale locale);
-
-	CategoryModel[] convertCategoriesToModel(SimpleCategory[] categories);
-
-	RegionModel convertRegionToModel(SimpleRegion region);
-
-	RegionModel[] convertRegionsToModel(SimpleRegion[] regions);
-
-	SimpleRegion convertRegionModelToRegion(RegionModel regionModel, Locale locale);
-
-	SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels, Locale locale);
-
-	String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale);
-
 	AccountModel convertContentOwnerToModel(ContentOwner owner);
 
 	ContentOwner getContentOwner();

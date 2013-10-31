@@ -11,6 +11,7 @@
             <add-attribute value="/js/lib/jquery.ba-bbq.min.js"/>
             <add-attribute value="/js/script.js"/>
             <add-attribute value="/js/util.js"/>
+            <add-attribute value="/js/lib/ckeditor/ckeditor.js"/>
         </put-list-attribute>
     </definition>
 

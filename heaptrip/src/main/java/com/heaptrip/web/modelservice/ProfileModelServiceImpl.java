@@ -1,6 +1,7 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.rating.AccountRating;
@@ -9,6 +10,7 @@ import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.AccountInfoModel;
 import com.heaptrip.web.model.profile.AccountModel;
+import com.heaptrip.web.model.profile.ProfileModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (accountInfoModel != null && account != null) {
             putAccountToAccountModel(accountInfoModel, account);
             accountInfoModel.setEmail(account.getEmail());
+            accountInfoModel.setProfile(convertProfileToProfileModel(account.getProfile()));
         }
         return accountInfoModel;
     }
@@ -55,6 +58,37 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return accountModel;
     }
 
+    private ProfileModel convertProfileToProfileModel(Profile profile) {
+        ProfileModel profileModel = null;
+        if (profile != null) {
+            profileModel = new ProfileModel();
+            profileModel.setId(profile.getId());
+            profileModel.setDesc(profile.getDesc());
+            profileModel.setCategories(convertCategoriesToModel(profile.getCategories()));
+            profileModel.setRegions(convertRegionsToModel(profile.getRegions()));
+            profileModel.setLangs(profile.getLangs());
+            profileModel.setLocation(convertRegionToModel(profile.getLocation()));
+        }
+        return profileModel;
+
+    }
+
+    private Profile convertProfileToProfileModel(ProfileModel profileModel) {
+        Profile profile = null;
+        if (profileModel != null) {
+            profile = new Profile();
+            profile.setLangs(profileModel.getLangs());
+            profile.setLocation(convertRegionModelToRegion(profileModel.getLocation(), getCurrentLocale()));
+            profile.setCategories(convertCategoriesModelsToCategories(profileModel.getCategories(), getCurrentLocale()));
+            profile.setDesc(profileModel.getDesc());
+            profile.setRegions(convertRegionModelsToRegions(profileModel.getRegions(), getCurrentLocale()));
+            profile.setId(profileModel.getId());
+
+        }
+        return profile;
+
+    }
+
 
     private RatingModel convertAccountRatingToRatingModel(AccountRating accountRating) {
         RatingModel ratingModel = new RatingModel();
@@ -68,16 +102,12 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return ratingModel;
     }
 
-    @Override
-    public Trip saveProfileInfo(UserInfoModel accountInfoModel) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public void updateProfileInfo(UserInfoModel accountInfoModel) {
-
-        //userService.saveProfile(null);
-
+        Assert.notNull(accountInfoModel, "accountInfoModel must not be null");
+        Assert.notNull(accountInfoModel.getId(), "account id  must not be null");
+        Profile profile = convertProfileToProfileModel(accountInfoModel.getProfile());
+        userService.saveProfile(accountInfoModel.getId(), profile);
     }
 }

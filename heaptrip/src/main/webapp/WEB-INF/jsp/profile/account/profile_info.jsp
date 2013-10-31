@@ -1,6 +1,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+
+
 
 <div id="container">
     <div id="contents">
@@ -32,7 +35,7 @@
                 </div>
             </div>
             <div class="description">
-                todo.
+                ${account.profile.desc}
             </div>
             <div class="table_inf">
                 <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
@@ -80,8 +83,8 @@
 <!-- #container-->
 
 <aside id="sideRight">
-    <tiles:insertDefinition name="categoryTreeWithBtn"/>
-    <tiles:insertDefinition name="regionFilterWithBtn"/>
+    <tiles:insertDefinition name="categoryTree"/>
+    <tiles:insertDefinition name="regionFilter"/>
 </aside>
 <!-- #sideRight -->
 

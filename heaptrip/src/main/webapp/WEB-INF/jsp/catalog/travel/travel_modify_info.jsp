@@ -29,8 +29,7 @@
 	<c:set var="regionIds" value="${regionIds },${region.id}" />
 </c:forEach>
 
-<c:set var="isForFrends"
-	value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
+<c:set var="isForFrends" value="${trip.status.value eq 'PUBLISHED_FRIENDS'}" />
 <c:set var="isDraft" value="${trip.status.value eq 'DRAFT'}" />
 
 <script type="text/javascript">
@@ -272,7 +271,7 @@
 				alt="<fmt:message key="content.name" />:">
 
 			<div id="error_message">
-				<span id="msg" class="error"></span>
+				<span id="msg" class="error_message"></span>
 			</div>
 
 			<nav id="travel_nav">
@@ -310,9 +309,9 @@
 
 	<br/>
 
-				<textarea id="desc_post"
+				<textarea id="desc_post" class="ckeditor" name="editor1"
 					alt="<fmt:message key="content.shortDescription" />:">${trip.summary}</textarea>
-				<textarea id="desc_full_post"
+				<textarea id="desc_full_post" class="ckeditor" name="editor2"
 					alt="<fmt:message key="content.fullDescription" />:">${trip.description}</textarea>
 
 				<div class="table_inf">
@@ -423,10 +422,8 @@
     							</li><!--
 						--></ul>
 					</div>
-<div class="description">
-					
-					<textarea id="desc_rout_post" 
-					alt="<fmt:message key="content.routeDescription" />:">${trip.route.text}</textarea>
+    <div class="description">
+			<textarea id="desc_rout_post" alt="<fmt:message key="content.routeDescription" />:">${trip.route.text}</textarea>
 			</div>
 			</div>
 		

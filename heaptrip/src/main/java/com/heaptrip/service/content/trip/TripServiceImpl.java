@@ -22,9 +22,6 @@ import org.springframework.util.Assert;
 
 import java.util.*;
 
-/**
- * test
- */
 @Service
 public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
