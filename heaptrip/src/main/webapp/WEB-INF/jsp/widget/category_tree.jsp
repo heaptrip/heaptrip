@@ -21,6 +21,8 @@
         //    return;
         $('#category .tree').jstree("uncheck_all");
 
+
+
         $.each(categoryIdArr, function (index, val) {
             $('#category .tree').jstree("check_node", "#" + val.replace(/\./g, "\\."));
 
@@ -32,9 +34,11 @@
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
-        var localIds = getSelectedCategories().join();
-        if (paramsJson.ct && (localIds && paramsJson.ct !== localIds)  ) {
+        //var localIds = getSelectedCategories().join();
+        if (paramsJson.ct) {
             selectCategories(paramsJson.ct.split(','));
+        }else{
+            $('#category .tree').jstree("uncheck_all");
         }
     });
 

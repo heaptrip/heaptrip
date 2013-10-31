@@ -36,7 +36,7 @@
 				<div>
 					<fmt:message key="content.place" />:
 						{{for regions}}
-							<span class="location">{{>data}}</span>
+                            <a onclick="$.handParamToURL({rg:'{{>id}}', ct : null, skip : null ,limit : null})">{{>data}}</a>
 						{{/for}}
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 		<div>
 			<div class="tags">
 				{{for categories}}
-					<a onclick="$.handParamToURL({ct:{{>id}}, skip : null ,limit : null})">{{>data}}</a>
+					<a onclick="$.handParamToURL({ct:'{{>id}}', rg : null, skip : null ,limit : null})">{{>data}}</a>
 				{{/for}}
 			</div>
 			{{if price}}

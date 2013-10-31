@@ -90,10 +90,12 @@ function buildRegionsTree(regionsDataArr) {
 
 $(window).bind("onPageReady", function (e, paramsJson) {
 
-    var localIds = getSelectedRegionsIds().join();
+    //var localIds = getSelectedRegionsIds().join();
 
-    if (paramsJson.rg && (localIds && paramsJson.rg !== localIds)  ) {
+    if (paramsJson.rg) {
         buildRegionsTree(paramsJson.rg.split(','));
+    }else{
+        $('#region .tree').empty();
     }
 
 });
