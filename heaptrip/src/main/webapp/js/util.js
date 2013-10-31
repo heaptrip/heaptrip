@@ -100,6 +100,8 @@
 			});
 })(jQuery);
 
+
+// Добавляет в url параметры paramsJson и если window.delayLoadingMap[] пуста вызывает $(window).bind("onPageReady")
 (function($) {
 	$.extend({
 		handParamToURL : function(paramsJson) {
@@ -111,6 +113,7 @@
 	});
 })(jQuery);
 
+// Добавляет в url параметры paramsJson и не вызывает обработчит TODO: перименовать
 (function($) {
 	$.extend({
 		handInitParamToURL : function(paramsJson) {
@@ -122,6 +125,7 @@
 	});
 })(jQuery);
 
+// Возвращает все параметры из url включая #
 (function($) {
 	$.extend({
 		getParamFromURL : function() {
@@ -132,6 +136,38 @@
 	});
 })(jQuery);
 
+// Регистрирует ключи при наличее которых $(window).bind("onPageReady") не вызывается
+(function($) {
+    $.extend({
+        delayLoading : function(key) {
+            if(!window.delayLoadingMap)
+                window.delayLoadingMap = {};
+            window.delayLoadingMap[key]=true;
+        }
+    });
+})(jQuery);
+
+// Удаляет ключь запрещающий загрузку, и при отсутствии других ключей вызывает $(window).bind("onPageReady")
+(function($) {
+    $.extend({
+        allowLoading : function(key,paramsJson) {
+            if(window.delayLoadingMap){
+                if(window.delayLoadingMap[key])
+                delete window.delayLoadingMap[key];
+            }
+            if($.isEmptyObject(window.delayLoadingMap)){
+                $.handParamToURL(paramsJson);
+            }else{
+                $.handParamToURL(handInitParamToURL);
+            }
+
+
+        }
+    });
+})(jQuery);
+
+
+
 /*
  * $(window).bind( "onPageReady", function(e,paramsJson){
  * if(!$.isEmptyObject(localUrlParams)){ console.log(paramsJson); } });
@@ -140,7 +176,7 @@
 $(function() {
 	$(window).bind("hashchange", function(event) {
 		var localUrlParams = $.deparam.fragment(window.location.href);
-		if (!window.isInit) {
+		if (!window.isInit && $.isEmptyObject(window.delayLoadingMap)) {
 			window.isInit = false;
 			$(window).trigger("onPageReady", localUrlParams);
 		}
@@ -163,11 +199,9 @@ var onLocaleChange = function(locale) {
 })(jQuery);
 
 (function($) {
-	$
-			.extend({
+	$.extend({
 				alertNoAuthenticationUser : function() {
-					$
-							.alert('Вы не залогинены.'
+					$.alert('Вы не залогинены.'
 									+ ' Пожалуйста '
 									+ '<a onClick="$.handGETParamToURL(\'need_login\',\'true\')">войдите</a>'
 									+ ' для завершения действия.');

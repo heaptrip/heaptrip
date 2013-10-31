@@ -20,13 +20,15 @@
         if (!$("#category .tree").jstree.isLoad)
             return;
         $('#category .tree').jstree("uncheck_all");
+
         $.each(categoryIdArr, function (index, val) {
             $('#category .tree').jstree("check_node", "#" + val.replace(/\./g, "\\."));
-            var checked_ids = getSelectedCategories();
 
-            if (checked_ids.length > 0)
-                $.handInitParamToURL({ct: checked_ids.join()});
         });
+
+        var checked_ids = getSelectedCategories();
+        if (checked_ids.length > 0)
+            $.handInitParamToURL({ct: checked_ids.join()});
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
@@ -68,7 +70,12 @@
             alert(error);
         };
 
-        var uid = $.getParamFromURL().uid ? $.getParamFromURL().uid : null;
+        var uid = null;
+        if ($.getParamFromURL().uid)
+            uid = $.getParamFromURL().uid;
+        else if (window.user) {
+            uid = window.user.id;
+        }
 
         $.postJSON(url, uid, callbackSuccess, callbackError);
     });

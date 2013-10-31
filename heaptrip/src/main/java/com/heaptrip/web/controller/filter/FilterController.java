@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -91,39 +92,35 @@ public class FilterController extends ExceptionHandlerControler {
         }
     }
 
+
+    @RequestMapping(value = "get_user_regions", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getUserRegions(@RequestBody String uid) {
+        try {
+            Assert.notNull((uid.isEmpty() ? null : uid), "user id must not be null");
+            List<String> result = new ArrayList<>();
+            String[] regionIds = filterModelService.getUserRegions(uid);
+            if (regionIds != null) {
+                for (String regionId : regionIds) {
+                    result.add(regionId);
+                }
+            }
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
+
+
     @RequestMapping(value = "get_region_hierarchy", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> getRegionHierarchy(@RequestBody Map regionHierarchyParams) {
-
-        String[] regionIds = null;
-        String uid = null;
-
-        if (regionHierarchyParams != null) {
-            String regionIdsJoin = (String) regionHierarchyParams.get("regionIds");
-            if (regionIdsJoin != null && !regionIdsJoin.isEmpty())
-                regionIds = regionIdsJoin.split(",");
-            uid = (String) regionHierarchyParams.get("uid");
-            if (uid == null) {
-                User user = scopeService.getCurrentUser();
-                if (user != null) {
-                    uid = user.getId();
-                }
-            }
-        }
-
-        if (regionIds == null && uid == null) {
-            LOG.error("TODO : voronenko (fix GUI) METHOD CALL WITH regionIds == null && uid==null");
-            return Ajax.emptyResponse();
-        }
-
+    Map<String, ? extends Object> getRegionHierarchy(@RequestBody String joinRegionIds) {
         try {
+            Assert.notNull((joinRegionIds.isEmpty() ? null : joinRegionIds), "region ids must not be null");
+            String[] regionIds = joinRegionIds.split(",");
             List<Map> result = new ArrayList<>();
-            if (regionIds == null) {
-                if (uid != null) {
-                    regionIds = filterModelService.getUserRegions(uid);
-                }
-            }
             if (regionIds != null) {
                 for (String regionId : regionIds) {
                     Map<String, Object> data = new HashMap<>();

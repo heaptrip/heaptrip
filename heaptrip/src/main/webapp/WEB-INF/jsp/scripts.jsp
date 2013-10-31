@@ -16,7 +16,8 @@
 
 <script type="text/javascript">
 	<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-		window.user = {}; 
-		window.user.name =	'<sec:authentication property="principal.name" />'
+		window.user = {};
+        window.user.id = '<sec:authentication property="principal.id" />'
+		window.user.name = '<sec:authentication property="principal.name" />'
 	</sec:authorize>
 </script>

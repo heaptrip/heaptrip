@@ -37,11 +37,17 @@
     				<fmt:message key="profile.community" />
 				</a>
     		</li>
-    			<li>
-    			<a href="<c:url value="/options.todo?uid=${param.uid}"/>" class='${fn:contains(url, "/options") ? "active":"" }'>
-    				<fmt:message key="profile.options" />
-				</a>
-    		</li>
+            <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
+                <sec:authentication var="principal" property="principal" />
+
+                <c:if test="${principal.id eq param.uid}">
+                    <li>
+                        <a href="<c:url value="/options.html?uid=${param.uid}"/>" class='${fn:contains(url, "/options") ? "active":"" }'>
+                            <fmt:message key="profile.options" />
+                        </a>
+                    </li>
+                </c:if>
+            </sec:authorize>
     	</ul>	
 	</nav>
 
