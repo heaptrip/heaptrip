@@ -1,18 +1,5 @@
 package com.heaptrip.service.content;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.system.SolrException;
@@ -25,6 +12,17 @@ import com.heaptrip.domain.service.content.criteria.ContentSearchResponse;
 import com.heaptrip.domain.service.content.criteria.ContentTextCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.util.language.LanguageUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class ContentSearchServiceImpl implements ContentSearchService {
@@ -38,7 +36,6 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 	@Autowired
 	private ErrorService errorService;
 
-	@Async
 	@Override
 	public void saveContent(String contentId) {
 		Assert.notNull(contentId, "contentId must not be null");
@@ -51,7 +48,6 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 		}
 	}
 
-	@Async
 	@Override
 	public void removeContent(String contentId) {
 		Assert.notNull(contentId, "contentId must not be null");
@@ -68,7 +64,7 @@ public class ContentSearchServiceImpl implements ContentSearchService {
 		Assert.notNull(criteria.getQuery(), "query text must not be null");
 		Assert.notNull(criteria.getLocale(), "locale must not be null");
 
-		SolrContentSearchResponse response = null;
+		SolrContentSearchResponse response;
 		try {
 			response = solrContentRepository.findByСontextSearchCriteria(criteria);
 		} catch (SolrServerException e) {
