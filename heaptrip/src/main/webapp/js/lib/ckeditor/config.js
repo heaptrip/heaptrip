@@ -30,3 +30,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// need to have in the Standard(s) toolbar.
 	config.removeButtons = 'Underline,Subscript,Superscript';
 };
+
+CKEDITOR.editorConfig = function( config ){
+    config.extraPlugins = 'addImgServer';
+};
