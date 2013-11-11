@@ -130,6 +130,7 @@
     <definition name="contentEditScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
             <add-attribute value="/js/lib/ckeditor/ckeditor.js"/>
+            <add-attribute value="http://malsup.github.io/jquery.form.js"/>
             <add-attribute value="/js/edit.js"/>
         </put-list-attribute>
     </definition>
@@ -137,6 +138,7 @@
     <definition name="contentEditWithMapScriptsTemplate" extends="contentWithMapScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
             <add-attribute value="/js/lib/ckeditor/ckeditor.js"/>
+            <add-attribute value="http://malsup.github.io/jquery.form.js"/>
             <add-attribute value="/js/edit.js"/>
         </put-list-attribute>
     </definition>

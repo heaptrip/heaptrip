@@ -10,25 +10,17 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                 elements: [
                     {
                         type: 'html',
-                        html: '<script src="http://malsup.github.io/jquery.form.js"></script><div class="uploadImgServer"><form action="http://localhost:8080/heaptrip/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="Upload File to Server"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div><div id="image"/></div><div id="status"></div></div>'
+                        html: '<div class="uploadImgServer"><form action="http://localhost:8080/heaptrip/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="Upload File to Server"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div><div id="image"/></div><div id="status"></div></div>'
                     }
                 ]
             }
         ],
         onOk: function() {
             var dialog = this;
-
             var abbr = editor.document.createElement( 'abbr' );
-
-
-            /*abbr.setAttribute( 'title', dialog.getValueOf( 'tab-basic', 'title' ) );
-            abbr.setText( dialog.getValueOf( 'tab-basic', 'abbr' ) );
-
-            var id = dialog.getValueOf( 'tab-adv', 'id' );
-            if ( id )
-                abbr.setAttribute( 'id', id );
-
-            editor.insertElement( abbr );     */
+            console.log(dialog);
+            console.log(abbr);
+            editor.insertHtml( $('.uploadImgServer #image').html() );
         },
         onShow: function() {
             $('div.uploadImgServer').ready(function(){
@@ -60,13 +52,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                         status.html(xhr.responseText);
                     }
                 });
-
-
             });
-
-
-
-
         }
     };
 });
