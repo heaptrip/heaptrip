@@ -10,16 +10,16 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                 elements: [
                     {
                         type: 'html',
-                        html: '<div class="uploadImgServer"><form action="http://localhost:8080/heaptrip/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="Upload File to Server"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div><div id="image"/></div><div id="status"></div></div>'
+                        html: '<div class="uploadImgServer"><form action="rest/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="Upload File to Server"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div><div id="image"/></div><div id="status"></div></div>'
                     }
                 ]
             }
         ],
         onOk: function() {
-            var dialog = this;
-            var abbr = editor.document.createElement( 'abbr' );
-            console.log(dialog);
-            console.log(abbr);
+            //var dialog = this;
+            //var abbr = editor.document.createElement( 'abbr' );
+            //console.log(dialog);
+            //console.log(abbr);
             editor.insertHtml( $('.uploadImgServer #image').html() );
         },
         onShow: function() {
@@ -46,7 +46,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                         bar.width(percentVal)
                         percent.html(percentVal);
                         $('#image').html('');
-                        $("#image").append("<img id='upload-image' src=' http://localhost:8080/heaptrip/rest/image?imageId=" + result.fileId + "'/><br/>");
+                        $("#image").append("<img id='upload-image' src='rest/image?imageId=" + result.fileId + "'/><br/>");
                     },
                     complete: function (xhr) {
                         status.html(xhr.responseText);
