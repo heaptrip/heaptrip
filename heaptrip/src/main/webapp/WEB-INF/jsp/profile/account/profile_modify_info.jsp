@@ -194,24 +194,22 @@
                         <div class="my_lang my_lang_edit">
                             <fmt:message key="user.languages"/>:
                             <ul>
-                                <li class="ru">Русский<span></span></li>
-                                <li class="en">Английский<span></span></li>
-                                <li class="du">Немецкий<span></span></li>
-                                <li class="fr">Французский<span></span></li>
+                                <c:forEach items="${account.profile.langs}" var="lang" varStatus="stat">
+                                    <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
+                                </c:forEach>
                                 <li class="my_add_lang">
                                     <a class="add_lang lang"></a>
-
                                     <div>
                                         <ul>
-                                            <li><a class="en">English</a></li>
-                                            <li><a class="du">Dutish</a></li>
-                                            <li><a class="fr">Franch</a></li>
-                                            <li><a class="yk">Украiнскi</a></li>
-                                            <li><a class="sw">Sweden</a></li>
+                                            <c:set var="joinLangValues" value="${fn:join(account.profile.langs, ',')}" />
+                                            <c:forEach items="${langValues}" var="langValue">
+                                                <c:if test="${fn:contains(joinLangValues, langValue) ne true}">
+                                                    <li><a class="${langValue}"><fmt:message key="locale.${langValue}"/></a></li>
+                                                </c:if>
+                                            </c:forEach>
                                         </ul>
                                     </div>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
@@ -221,11 +219,6 @@
             <div class="description">
                 <textarea id="my_desc" alt="<fmt:message key="user.aboutMe"/>:">${account.profile.desc}</textarea>
             </div>
-
-
-
-
-
 
 
             <div class="table_inf">

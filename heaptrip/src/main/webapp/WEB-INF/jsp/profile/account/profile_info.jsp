@@ -27,9 +27,11 @@
                         <div class="my_date"><span><fmt:message key="user.birthday"/>: </span>10.10.1980</div>
                         <div class="my_lang">
                             <fmt:message key="user.languages"/>:
-                            <ul>
-                                <li class="ru"><fmt:message key="locale.ru"/></li>
-                            </ul>
+                                <ul>
+                                    <c:forEach items="${account.profile.langs}" var="lang" varStatus="stat">
+                                        <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
+                                    </c:forEach>
+                                </ul>
                         </div>
                     </div>
                 </div>
