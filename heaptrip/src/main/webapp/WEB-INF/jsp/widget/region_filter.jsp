@@ -54,7 +54,6 @@ function create_tree(n) {
     return false;
 }
 
-
 function buildRegionsTree(regionsDataArr) {
 
     if (!regionsDataArr || regionsDataArr.length === 0) return;
@@ -82,17 +81,14 @@ function buildRegionsTree(regionsDataArr) {
         alert(error);
     };
 
-
     $.postJSON('rest/get_region_hierarchy', regionsDataArr.join(), callbackSuccess, callbackError);
-
-
 }
 
 $(window).bind("onPageReady", function (e, paramsJson) {
 
-    //var localIds = getSelectedRegionsIds().join();
-
     if (paramsJson.rg) {
+        $('#region .tree').empty();
+        console.log(paramsJson.rg);
         buildRegionsTree(paramsJson.rg.split(','));
     }else{
         $('#region .tree').empty();
@@ -100,9 +96,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
 });
 
-
 $.delayLoading('getInitRegionsIds');
-
 
 $(document).ready(function () {
 
@@ -121,13 +115,10 @@ $(document).ready(function () {
                     var callbackSuccess = function (data) {
                         response(
                                 $.map(data, function (item) {
-
                                     var newPath = stringMarker(request.term, item.path);
-
                                     if (newPath == item.path) {
                                         newPath = stringMarker(item.data, item.path);
                                     }
-
                                     return {
                                         label: newPath,
                                         value: item.id
@@ -153,7 +144,6 @@ $(document).ready(function () {
                     // prevent value inserted on focus
                     return false;
                 },
-
                 open: function (event, ui) {
                     $("ul.ui-autocomplete li a").each(function () {
                         var htmlString = $(this).html().replace(/&lt;/g, '<');
@@ -161,7 +151,6 @@ $(document).ready(function () {
                         $(this).html(htmlString);
                     });
                 },
-
                 select: function (event, ui) {
                     var regId = ui.item.value;
                     var regIds = getSelectedRegionsIds();
@@ -187,9 +176,6 @@ $(document).ready(function () {
         $("#region input[type=text]").val('');
         return false;
     });
-
-
-
 
     var regionIds = $.getParamFromURL().rg;
 
@@ -225,7 +211,6 @@ $(document).ready(function () {
 </script>
 
 <div id="region" class="filtr">
-
     <c:choose>
         <c:when test="${not empty param.uid}">
             <div class="zag"><fmt:message key="content.region"/></div>
@@ -234,7 +219,6 @@ $(document).ready(function () {
             <div class="zag"><fmt:message key="wgt.region.select"/></div>
         </c:otherwise>
     </c:choose>
-
     <div class="content" style="display: block;">
         <div class="search">
             <input type="text" name="text_search"> <input type="button" name="go_region_search" value="">

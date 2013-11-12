@@ -48,10 +48,10 @@
         <put-attribute name="search" value="/WEB-INF/jsp/search.jsp"/>
     </definition>
 
-    <definition name="mainContentTemplate" extends="mainTemplate">
+    <!--<definition name="mainContentTemplate" extends="mainTemplate">
         <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
         <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
-    </definition>
+    </definition>-->
 
     <definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
         <put-attribute name="scripts_ins" value="mainScriptsTemplate"/>

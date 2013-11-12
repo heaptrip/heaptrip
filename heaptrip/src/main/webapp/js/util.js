@@ -113,7 +113,7 @@
 	});
 })(jQuery);
 
-// Добавляет в url параметры paramsJson и не вызывает обработчит TODO: перименовать
+// Добавляет в url параметры paramsJson и не вызывает обработчит
 (function($) {
 	$.extend({
 		putLOCALParamToURL : function(paramsJson) {

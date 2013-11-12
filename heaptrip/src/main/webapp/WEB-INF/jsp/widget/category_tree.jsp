@@ -5,7 +5,6 @@
 
 <script type="text/javascript">
 
-
     var getSelectedCategories = function () {
         var checked_ids = [];
         $("#category .tree").jstree("get_checked", null, true)
@@ -17,24 +16,17 @@
     };
 
     var selectCategories = function (categoryIdArr) {
-        //if (!$("#category .tree").jstree.isLoad)
-        //    return;
         $('#category .tree').jstree("uncheck_all");
-
-
-
         $.each(categoryIdArr, function (index, val) {
             $('#category .tree').jstree("check_node", "#" + val.replace(/\./g, "\\."));
 
         });
-
         var checked_ids = getSelectedCategories();
         if (checked_ids.length > 0)
             $.putLOCALParamToURL({ct: checked_ids.join()});
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
-        //var localIds = getSelectedCategories().join();
         if (paramsJson.ct) {
             selectCategories(paramsJson.ct.split(','));
         }else{
@@ -58,16 +50,11 @@
                 "plugins": [ "themes", "json_data", "checkbox" ]
 
             }).bind("loaded.jstree", function () {
-                        //$("#category .tree").jstree.isLoad = true;
                         var paramsJson = $.getParamFromURL();
                         if (paramsJson.ct) {
                             selectCategories(paramsJson.ct.split(','));
-                            //$.allowLoading('getInitCategoryIds', {ct: paramsJson.ct});
                         } else if(data.userCategories) {
                             selectCategories(data.userCategories);
-
-                        } else{
-                            //$.allowLoading('getInitCategoryIds', {ct: null});
                         }
                     })
                     .bind("change_state.jstree", function (node, uncheck) {
@@ -94,13 +81,9 @@
         $.postJSON(url, uid, callbackSuccess, callbackError);
     });
 
-
 </script>
 
-
 <div id="category" class="filtr">
-
-
     <c:choose>
         <c:when test="${not empty param.uid}">
             <div class="zag"><fmt:message key="content.category"/></div>
