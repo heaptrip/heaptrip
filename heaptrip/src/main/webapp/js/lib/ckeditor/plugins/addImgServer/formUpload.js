@@ -10,16 +10,12 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                 elements: [
                     {
                         type: 'html',
-                        html: '<div class="uploadImgServer"><form action="rest/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="Upload File to Server"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div><div id="image"/></div><div id="status"></div></div>'
+                        html: '<div class="uploadImgServer"><form action="rest/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="загрузить" class="button"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div></div><div class="image"/></div><div class="status"></div>'
                     }
                 ]
             }
         ],
         onOk: function() {
-            //var dialog = this;
-            //var abbr = editor.document.createElement( 'abbr' );
-            //console.log(dialog);
-            //console.log(abbr);
             editor.insertHtml( $('.uploadImgServer #image').html() );
         },
         onShow: function() {
@@ -27,7 +23,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
 
                 var bar = $('.bar');
                 var percent = $('.percent');
-                var status = $('#status');
+                var status = $('.status');
                 $('.uploadImgServer form').css('color','red');
                 $('.uploadImgServer form').ajaxForm({
                     beforeSend: function () {
@@ -45,8 +41,8 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                         var percentVal = '100%';
                         bar.width(percentVal)
                         percent.html(percentVal);
-                        $('#image').html('');
-                        $("#image").append("<img id='upload-image' src='rest/image?imageId=" + result.fileId + "'/><br/>");
+                        //$('#image').html('');
+                        $(".image").html("<img id='upload-image' src='rest/image?imageId=" + result.fileId + "'/>");
                     },
                     complete: function (xhr) {
                         status.html(xhr.responseText);
