@@ -3,18 +3,15 @@ package com.heaptrip.web.modelservice;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
-import com.heaptrip.web.model.profile.AccountInfoModel;
-import com.heaptrip.web.model.profile.AccountModel;
-import com.heaptrip.web.model.profile.ProfileModel;
-import com.heaptrip.web.model.profile.UserInfoModel;
+import com.heaptrip.web.model.profile.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import com.heaptrip.domain.entity.account.user.UserProfile;
 
 @Service
 public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ProfileModelService {
@@ -73,16 +70,21 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     }
 
-    private Profile convertProfileToProfileModel(ProfileModel profileModel) {
-        Profile profile = null;
+    private UserProfile convertProfileToProfileModel(ProfileModel profileModel, UserProfileModel userProfileModel) {
+        UserProfile profile = null;
         if (profileModel != null) {
-            profile = new Profile();
+            profile = new UserProfile();
             profile.setLangs(profileModel.getLangs());
             profile.setLocation(convertRegionModelToRegion(profileModel.getLocation(), getCurrentLocale()));
             profile.setCategories(convertCategoriesModelsToCategories(profileModel.getCategories(), getCurrentLocale()));
             profile.setDesc(profileModel.getDesc());
             profile.setRegions(convertRegionModelsToRegions(profileModel.getRegions(), getCurrentLocale()));
             profile.setId(profileModel.getId());
+            if (userProfileModel.getBirthday() != null)
+                profile.setBirthday(userProfileModel.getBirthday().getValue());
+
+            // TODO: voronenko profile.setKnowledgies(); profile.setPractices();
+
 
         }
         return profile;
@@ -107,7 +109,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     public void updateProfileInfo(UserInfoModel accountInfoModel) {
         Assert.notNull(accountInfoModel, "accountInfoModel must not be null");
         Assert.notNull(accountInfoModel.getId(), "account id  must not be null");
-        Profile profile = convertProfileToProfileModel(accountInfoModel.getProfile());
+        UserProfile profile = convertProfileToProfileModel(accountInfoModel.getProfile(), accountInfoModel.getUserProfile());
         userService.saveProfile(accountInfoModel.getId(), profile);
     }
 }

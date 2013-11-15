@@ -55,6 +55,14 @@
 
         profile.desc = $("#my_desc").val();
 
+        profile.langs = [];
+        $('.my_lang.my_lang_edit > ul > li').each(
+                function(ili, li) {
+                    var className = $(li).attr('class');
+                    if(className !== 'my_add_lang')
+                    profile.langs.push(className);
+        });
+
         var paramsJson = $.getParamFromURL();
 
         if (paramsJson.ct) {
@@ -78,7 +86,14 @@
         }
 
 
+        var userProfile = {};
+
+
+        if ($('.my_date').datepicker('getDate'))
+            userProfile.birthday.value = $('.my_date').datepicker('getDate').getTime();
+
         $.extend(jsonData, {profile:profile});
+        $.extend(jsonData, {userProfile:userProfile});
         /*
         var schedule = [];
 
@@ -161,7 +176,7 @@
 
 
 
-
+                               ac
 </script>
 
 
