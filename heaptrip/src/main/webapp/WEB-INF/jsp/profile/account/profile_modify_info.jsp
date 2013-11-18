@@ -4,8 +4,6 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-
-
 <c:set var="langValues" value="<%=LangEnum.getValues()%>" />
 
 <c:choose>
@@ -18,8 +16,6 @@
         <c:set var="currLocale">${param.ul}</c:set>
     </c:otherwise>
 </c:choose>
-
-
 
 <script type="text/javascript">
 
@@ -41,9 +37,9 @@
         });
     });
 
+    var onAccountSubmit = function(btn) {
 
-
-    var onAccountSubmit = function() {
+        $(btn).prop('disabled', true);
 
         var jsonData = {
             id : $.getParamFromURL().uid ? $.getParamFromURL().uid : null
@@ -51,48 +47,50 @@
 
         jsonData.name = $("#my_name").val();
 
-        var profile = {};
+        var accountProfile = {};
 
-        profile.desc = $("#my_desc").val();
+        accountProfile.desc = $("#my_desc").val();
 
-        profile.langs = [];
+        accountProfile.langs = [];
         $('.my_lang.my_lang_edit > ul > li').each(
                 function(ili, li) {
                     var className = $(li).attr('class');
                     if(className !== 'my_add_lang')
-                    profile.langs.push(className);
+                    accountProfile.langs.push(className);
         });
 
         var paramsJson = $.getParamFromURL();
 
         if (paramsJson.ct) {
-            profile.categories = [];
+            accountProfile.categories = [];
             var categoryIds = paramsJson.ct.split(',');
             $.each(categoryIds, function(index, id) {
-                profile.categories.push({
+                accountProfile.categories.push({
                     id : id
                 });
             });
         }
 
         if (paramsJson.rg) {
-            profile.regions = [];
+            accountProfile.regions = [];
             var regionIds = paramsJson.rg.split(',');
             $.each(regionIds, function(index, id) {
-                profile.regions.push({
+                accountProfile.regions.push({
                     id : id
                 });
             });
         }
 
+        if ($("#location").attr('reg_id')) {
+             $.extend(accountProfile,{location : {id:$("#location").attr('reg_id')}});
+        }
 
         var userProfile = {};
 
+        if ($('#birthday').datepicker('getDate'))
+            $.extend(userProfile,{birthday : {value:$('#birthday').datepicker('getDate').getTime()}});
 
-        if ($('.my_date').datepicker('getDate'))
-            userProfile.birthday.value = $('.my_date').datepicker('getDate').getTime();
-
-        $.extend(jsonData, {profile:profile});
+        $.extend(jsonData, {accountProfile:accountProfile});
         $.extend(jsonData, {userProfile:userProfile});
         /*
         var schedule = [];
@@ -160,12 +158,11 @@
 
 
         var callbackSuccess = function(data) {
-            //var domain =  $("#email").val().replace(/.*@/, "");
-            //window.location = 'confirmation.html?domain=' + domain;
-            alert("Success");
+            window.location = 'profile.html?uid=' + $.getParamFromURL().uid;
         };
 
         var callbackError = function(error) {
+            $(btn).prop('disabled', true);
             $("#error_message #msg").text(error);
         };
 
@@ -173,10 +170,6 @@
 
     };
 
-
-
-
-                               ac
 </script>
 
 
@@ -185,38 +178,38 @@
         <article id="article" class="deteil edit">
             <div class="inf">
                 <div class="left">
-                    <h2 class="people_title"><fmt:message key="profile.title"/></h2></h2>
+                    <h2 class="people_title"><fmt:message key="accountProfile.title"/></h2></h2>
                 </div>
                 <div class="right">
-                    <a onClick="onAccountSubmit()" class="button"><fmt:message key="page.action.save"/></a>
+                    <a onClick="onAccountSubmit(this)" class="button"><fmt:message key="page.action.save"/></a>
                 </div>
 
                 <div id="error_message">
                     <span id="msg" class="error_message"></span>
                 </div>
 
-                <div class="profile">
+                <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a
                             href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
                             <input id="my_name" type="text" value="${account.name}" alt="<fmt:message key="user.firstName"/>">
                         </div>
-                        <div class="my_location"><span><fmt:message key="user.place"/>: </span><input type="text"></div>
-                        <div class="my_date"><span><fmt:message key="user.birthday"/>: </span><input type="text"
-                                                                                                     class="datepicker">
+                        <div class="my_location"><span><fmt:message key="user.place"/>: </span><input id="location" reg_id="${account.accountProfile.location.id}" value="${account.accountProfile.location.data}" type="text"></div>
+                        <div class="my_date"><span><fmt:message key="user.birthday"/>:
+                            </span><input id="birthday" value="${account.userProfile.birthday.text}" type="text" class="datepicker">
                         </div>
                         <div class="my_lang my_lang_edit">
                             <fmt:message key="user.languages"/>:
                             <ul>
-                                <c:forEach items="${account.profile.langs}" var="lang" varStatus="stat">
+                                <c:forEach items="${account.accountProfile.langs}" var="lang" varStatus="stat">
                                     <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
                                 </c:forEach>
                                 <li class="my_add_lang">
                                     <a class="add_lang lang"></a>
                                     <div>
                                         <ul>
-                                            <c:set var="joinLangValues" value="${fn:join(account.profile.langs, ',')}" />
+                                            <c:set var="joinLangValues" value="${fn:join(account.accountProfile.langs, ',')}" />
                                             <c:forEach items="${langValues}" var="langValue">
                                                 <c:if test="${fn:contains(joinLangValues, langValue) ne true}">
                                                     <li><a class="${langValue}"><fmt:message key="locale.${langValue}"/></a></li>
@@ -232,7 +225,7 @@
 
             </div>
             <div class="description">
-                <textarea id="my_desc" alt="<fmt:message key="user.aboutMe"/>:">${account.profile.desc}</textarea>
+                <textarea id="my_desc" alt="<fmt:message key="user.aboutMe"/>:">${account.accountProfile.desc}</textarea>
             </div>
 
 

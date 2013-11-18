@@ -9,8 +9,8 @@
 	<nav id="nav">
     	<ul>
     		<li>
-    			<a href="<c:url value="/profile.html?uid=${param.uid}"/>" class="${fn:contains(url, '/profile') ? 'active':'' }">
-    				<fmt:message key="profile.info" />
+    			<a href="<c:url value="/profile.html?uid=${param.uid}"/>" class="${fn:contains(url, '/accountProfile') ? 'active':'' }">
+    				<fmt:message key="accountProfile.info" />
     			</a>
     		</li>
     		
@@ -20,7 +20,7 @@
     			<c:if test="${principal.id eq param.uid}">
 		   			<li>
     					<a href="<c:url value="/notification.html?uid=${param.uid}"/>" class='${fn:contains(url, "/notification") ? "active":"" }'>
-    						<fmt:message key="profile.notification" />
+    						<fmt:message key="accountProfile.notification" />
 						</a>
     				</li>
     			</c:if>	
@@ -29,12 +29,12 @@
     		
     		<li>
     			<a href="<c:url value="/people.todo?uid=${param.uid}"/>" class='${fn:contains(url, "/people") ? "active":"" }'>
-    				<fmt:message key="profile.people" />
+    				<fmt:message key="accountProfile.people" />
 				</a>
     		</li>
     			<li>
     			<a href="<c:url value="/community.todo?uid=${param.uid}"/>" class='${fn:contains(url, "/community") ? "active":"" }'>
-    				<fmt:message key="profile.community" />
+    				<fmt:message key="accountProfile.community" />
 				</a>
     		</li>
             <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
@@ -43,7 +43,7 @@
                 <c:if test="${principal.id eq param.uid}">
                     <li>
                         <a href="<c:url value="/options.html?uid=${param.uid}"/>" class='${fn:contains(url, "/options") ? "active":"" }'>
-                            <fmt:message key="profile.options" />
+                            <fmt:message key="accountProfile.options" />
                         </a>
                     </li>
                 </c:if>

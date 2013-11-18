@@ -1,12 +1,10 @@
 package com.heaptrip.web.model.profile;
 
-import com.heaptrip.web.model.content.StatusModel;
-
 public class AccountInfoModel extends AccountModel {
 
     private String email;
 
-    private ProfileModel profile;
+    private AccountProfileModel accountProfile;
 
     public String getEmail() {
         return email;
@@ -16,12 +14,12 @@ public class AccountInfoModel extends AccountModel {
         this.email = email;
     }
 
-    public ProfileModel getProfile() {
-        return profile;
+    public AccountProfileModel getAccountProfile() {
+        return accountProfile;
     }
 
-    public void setProfile(ProfileModel profile) {
-        this.profile = profile;
+    public void setAccountProfile(AccountProfileModel accountProfile) {
+        this.accountProfile = accountProfile;
     }
 
 

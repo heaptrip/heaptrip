@@ -11,24 +11,24 @@
         <article id="article" class="deteil">
             <div class="inf">
                 <div class="left">
-                    <h2 class="people_title"><fmt:message key="profile.title"/></h2>
+                    <h2 class="people_title"><fmt:message key="accountProfile.title"/></h2>
                 </div>
                 <div class="right">
                     <a href="<c:url value="/profile_modify_info.html?uid=${param.uid}"/>" class="button"><fmt:message
                             key="page.action.edit"/></a>
                 </div>
 
-                <div class="profile">
+                <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a
                             href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
-                        <div class="my_location"><span><fmt:message key="user.place"/>: </span>todo</div>
-                        <div class="my_date"><span><fmt:message key="user.birthday"/>: </span>10.10.1980</div>
+                        <div class="my_location"><span><fmt:message key="user.place"/>: </span>${account.accountProfile.location.data}</div>
+                        <div class="my_date"><span><fmt:message key="user.birthday"/>: </span>${account.userProfile.birthday.text}</div>
                         <div class="my_lang">
                             <fmt:message key="user.languages"/>:
                                 <ul>
-                                    <c:forEach items="${account.profile.langs}" var="lang" varStatus="stat">
+                                    <c:forEach items="${account.accountProfile.langs}" var="lang" varStatus="stat">
                                         <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
                                     </c:forEach>
                                 </ul>
@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="description">
-                ${account.profile.desc}
+                ${account.accountProfile.desc}
             </div>
             <div class="table_inf">
                 <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>

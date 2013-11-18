@@ -22,9 +22,9 @@
 		
 		<ul>
 			<li><a href="<c:url value="/tidings.html"/>"><fmt:message key="tiding.list.title" /></a></li>
-			<li><a href="${profileUrl}"><fmt:message key="profile.title" /></a></li>
-			<li><a href="/"><fmt:message key="profile.my" /></a></li>
-			<li><a href="/"><fmt:message key="profile.favorite" /></a></li>
+			<li><a href="${profileUrl}"><fmt:message key="accountProfile.title" /></a></li>
+			<li><a href="/"><fmt:message key="accountProfile.my" /></a></li>
+			<li><a href="/"><fmt:message key="accountProfile.favorite" /></a></li>
 			<li><a href="<c:url value="/logout"/>"><fmt:message key="user.action.logout" /></a></li>
 		</ul>
 		

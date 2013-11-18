@@ -31,6 +31,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (account != null) {
             userInfoModel = new UserInfoModel();
             putAccountToAccountInfoModel(userInfoModel, account);
+            userInfoModel.setUserProfile(convertUserProfileToProfileModel(account.getProfile()));
         }
         return userInfoModel;
     }
@@ -39,7 +40,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (accountInfoModel != null && account != null) {
             putAccountToAccountModel(accountInfoModel, account);
             accountInfoModel.setEmail(account.getEmail());
-            accountInfoModel.setProfile(convertProfileToProfileModel(account.getProfile()));
+            accountInfoModel.setAccountProfile(convertAccountProfileToProfileModel(account.getProfile()));
         }
         return accountInfoModel;
     }
@@ -55,37 +56,49 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return accountModel;
     }
 
-    private ProfileModel convertProfileToProfileModel(Profile profile) {
-        ProfileModel profileModel = null;
+    private AccountProfileModel convertAccountProfileToProfileModel(Profile profile) {
+        AccountProfileModel accountProfileModel = null;
         if (profile != null) {
-            profileModel = new ProfileModel();
-            profileModel.setId(profile.getId());
-            profileModel.setDesc(profile.getDesc());
-            profileModel.setCategories(convertCategoriesToModel(profile.getCategories()));
-            profileModel.setRegions(convertRegionsToModel(profile.getRegions()));
-            profileModel.setLangs(profile.getLangs());
-            profileModel.setLocation(convertRegionToModel(profile.getLocation()));
+            accountProfileModel = new AccountProfileModel();
+            accountProfileModel.setId(profile.getId());
+            accountProfileModel.setDesc(profile.getDesc());
+            accountProfileModel.setCategories(convertCategoriesToModel(profile.getCategories()));
+            accountProfileModel.setRegions(convertRegionsToModel(profile.getRegions()));
+            accountProfileModel.setLangs(profile.getLangs());
+            accountProfileModel.setLocation(convertRegionToModel(profile.getLocation()));
         }
-        return profileModel;
-
+        return accountProfileModel;
     }
 
-    private UserProfile convertProfileToProfileModel(ProfileModel profileModel, UserProfileModel userProfileModel) {
-        UserProfile profile = null;
-        if (profileModel != null) {
-            profile = new UserProfile();
-            profile.setLangs(profileModel.getLangs());
-            profile.setLocation(convertRegionModelToRegion(profileModel.getLocation(), getCurrentLocale()));
-            profile.setCategories(convertCategoriesModelsToCategories(profileModel.getCategories(), getCurrentLocale()));
-            profile.setDesc(profileModel.getDesc());
-            profile.setRegions(convertRegionModelsToRegions(profileModel.getRegions(), getCurrentLocale()));
-            profile.setId(profileModel.getId());
-            if (userProfileModel.getBirthday() != null)
-                profile.setBirthday(userProfileModel.getBirthday().getValue());
 
-            // TODO: voronenko profile.setKnowledgies(); profile.setPractices();
+    private UserProfileModel convertUserProfileToProfileModel(Profile profile) {
+        UserProfileModel profileModel = null;
+        if (profile != null && (profile instanceof UserProfile)) {
+            UserProfile userProfile = (UserProfile) profile;
+            profileModel = new UserProfileModel();
+            profileModel.setBirthday(convertDate(userProfile.getBirthday()));
+        }
+        return profileModel;
+    }
 
-
+    private Profile convertProfileModelToProfile(AccountProfileModel accountProfileModel, UserProfileModel userProfileModel) {
+        Profile profile = null;
+        if (accountProfileModel != null) {
+            if (userProfileModel != null) {
+                UserProfile userProfile = new UserProfile();
+                if (userProfileModel.getBirthday() != null)
+                    userProfile.setBirthday(userProfileModel.getBirthday().getValue());
+                // TODO: voronenko profile.setKnowledgies(); profile.setPractices();
+                profile = userProfile;
+            } else {
+                profile = new Profile();
+            }
+            profile.setLangs(accountProfileModel.getLangs());
+            profile.setLocation(convertRegionModelToRegion(accountProfileModel.getLocation(), getCurrentLocale()));
+            profile.setCategories(convertCategoriesModelsToCategories(accountProfileModel.getCategories(), getCurrentLocale()));
+            profile.setDesc(accountProfileModel.getDesc());
+            profile.setRegions(convertRegionModelsToRegions(accountProfileModel.getRegions(), getCurrentLocale()));
+            profile.setId(accountProfileModel.getId());
         }
         return profile;
 
@@ -109,7 +122,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     public void updateProfileInfo(UserInfoModel accountInfoModel) {
         Assert.notNull(accountInfoModel, "accountInfoModel must not be null");
         Assert.notNull(accountInfoModel.getId(), "account id  must not be null");
-        UserProfile profile = convertProfileToProfileModel(accountInfoModel.getProfile(), accountInfoModel.getUserProfile());
+        Profile profile = convertProfileModelToProfile(accountInfoModel.getAccountProfile(), accountInfoModel.getUserProfile());
         userService.saveProfile(accountInfoModel.getId(), profile);
     }
 }

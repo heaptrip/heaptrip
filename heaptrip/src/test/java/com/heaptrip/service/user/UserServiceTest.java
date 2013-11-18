@@ -163,28 +163,28 @@ public class UserServiceTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true, priority = 72)
 	public void saveProfile() {
 		User user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
-		((UserProfile) user.getProfile()).setDesc("description");
+		((UserProfile) user.getAccountProfile()).setDesc("description");
 		
-		userSettingService.saveProfile(InitUserTest.NET_USER_ID, (UserProfile) user.getProfile());
+		userSettingService.saveProfile(InitUserTest.NET_USER_ID, (UserProfile) user.getAccountProfile());
 		user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
 
 		Assert.assertNotNull(user);
-		Assert.assertNotNull(user.getProfile());
-		Assert.assertNotNull(user.getProfile().getDesc());
+		Assert.assertNotNull(user.getAccountProfile());
+		Assert.assertNotNull(user.getAccountProfile().getDesc());
 	}
 	
 	@Test(enabled = true, priority = 73)
 	public void updateProfile() {
 		User user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
-		((UserProfile) user.getProfile()).setBirthday(new Date());
+		((UserProfile) user.getAccountProfile()).setBirthday(new Date());
 		
-		userSettingService.saveProfile(InitUserTest.NET_USER_ID, (UserProfile) user.getProfile());
+		userSettingService.saveProfile(InitUserTest.NET_USER_ID, (UserProfile) user.getAccountProfile());
 		user = userSettingRepository.findOne(InitUserTest.NET_USER_ID);
 
 		Assert.assertNotNull(user);
-		Assert.assertNotNull(user.getProfile());
-		Assert.assertNotNull(user.getProfile().getDesc());
-		Assert.assertNotNull(((UserProfile) user.getProfile()).getBirthday());
+		Assert.assertNotNull(user.getAccountProfile());
+		Assert.assertNotNull(user.getAccountProfile().getDesc());
+		Assert.assertNotNull(((UserProfile) user.getAccountProfile()).getBirthday());
 	}
 	
 	@Test(enabled = true, priority = 90, expectedExceptions = IllegalArgumentException.class)

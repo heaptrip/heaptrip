@@ -1,3 +1,28 @@
+
+function stringMarker(term, path) {
+    var newPath = '';
+    var upperPath = path.toUpperCase().split('');
+    var pathArr = path.split('');
+    var upperTerm = term.toUpperCase();
+    var tmpTerm = '';
+    for (var i = 0; i < upperPath.length; i++) {
+        tmpTerm = tmpTerm + upperPath[i];
+        if (tmpTerm == upperTerm) {
+            newPath = newPath.substring(0, newPath.length - upperTerm.length)
+                + '<span style="font-weight:bold">'
+                + path.substring(i - upperTerm.length, i + 1)
+                + '</span>';
+            tmpTerm = '';
+        } else {
+            newPath = newPath + pathArr[i];
+            if (tmpTerm.length == upperTerm.length)
+                tmpTerm = tmpTerm.substring(1, tmpTerm.length);
+        }
+    }
+    return newPath;
+}
+
+
 $(document).ready(function() {
 	// календарь
 	if($(".datepicker" ).length){
@@ -179,9 +204,6 @@ $(document).ready(function() {
       });
     }
 
-
-
-
     $( ".my_location input[type=text]" )
       // don't navigate away from the field on tab when selecting an item
       .bind( "keydown", function( event ) {
@@ -191,27 +213,58 @@ $(document).ready(function() {
         }
       })
       .autocomplete({
-        source: function( request, response ) {
-          $.getJSON( "/list.json", {
-            term: extractLast( request.term )
-          }, response );
-        },
-        search: function() {
-          // custom minLength
-          var term = extractLast( this.value );
-          if ( term.length < 2 ) {
-            return false;
-          }
-        },
-        focus: function() {
-          // prevent value inserted on focus
-          return false;
-        },
-        select: function( event, ui ) {
-          $(this).val(ui.item.value);
-          return false;
+            source: function (request, response) {
+
+                var url = 'rest/search_regions';
+
+                var callbackSuccess = function (data) {
+                    response(
+                        $.map(data, function (item) {
+                            var newPath = stringMarker(request.term, item.path);
+                            if (newPath == item.path) {
+                                newPath = stringMarker(item.data, item.path);
+                            }
+                            return {
+                                label: newPath,
+                                text: item.data,
+                                value: item.id
+                            };
+                        }));
+                };
+
+                var callbackError = function (error) {
+                    alert(error);
+                };
+
+                $.postJSON(url, request.term, callbackSuccess, callbackError);
+
+            },
+            search: function () {
+                // custom minLength
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false;
+                }
+            },
+            focus: function () {
+                // prevent value inserted on focus
+                return false;
+            },
+            open: function (event, ui) {
+                $("ul.ui-autocomplete li a").each(function () {
+                    var htmlString = $(this).html().replace(/&lt;/g, '<');
+                    htmlString = htmlString.replace(/&gt;/g, '>');
+                    $(this).html(htmlString);
+                });
+            },
+            select: function (event, ui) {
+                var regId = ui.item.value;
+                $(this).val(ui.item.text);
+                $(this).attr("reg_id",regId);
+                return false;
+            }
         }
-      });
+    );
 
       if($('.my_lang_edit').length){
         $(document).on('click','.my_inf .my_lang_edit ul li span',function(e){
@@ -237,8 +290,6 @@ $(document).ready(function() {
           }
         });
       }
-
-
 });
 
 

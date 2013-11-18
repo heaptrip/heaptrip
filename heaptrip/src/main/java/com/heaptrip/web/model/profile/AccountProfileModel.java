@@ -3,7 +3,7 @@ package com.heaptrip.web.model.profile;
 import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.RegionModel;
 
-public class ProfileModel {
+public class AccountProfileModel {
 
     private String id;
 
