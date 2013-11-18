@@ -1,15 +1,15 @@
-<%@ page import="com.heaptrip.domain.entity.LangEnum"%>
+<%@ page import="com.heaptrip.domain.entity.LangEnum" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:set var="langValues" value="<%=LangEnum.getValues()%>" />
+<c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
 
 <c:choose>
     <c:when test="${empty param.ul}">
         <c:set var="currLocale">
-            <fmt:message key="locale.name" />
+            <fmt:message key="locale.name"/>
         </c:set>
     </c:when>
     <c:otherwise>
@@ -28,21 +28,21 @@
     </c:forEach>
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         var ct = "${fn:substring(categoryIds,1,1000)}";
         var rg = "${fn:substring(regionIds,1,1000)}";
         $.handParamToURL({
-            ct : ct,
-            rg : rg
+            ct: ct,
+            rg: rg
         });
     });
 
-    var onAccountSubmit = function(btn) {
+    var onAccountSubmit = function (btn) {
 
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id : $.getParamFromURL().uid ? $.getParamFromURL().uid : null
+            id: $.getParamFromURL().uid ? $.getParamFromURL().uid : null
         };
 
         jsonData.name = $("#my_name").val();
@@ -53,20 +53,20 @@
 
         accountProfile.langs = [];
         $('.my_lang.my_lang_edit > ul > li').each(
-                function(ili, li) {
+                function (ili, li) {
                     var className = $(li).attr('class');
-                    if(className !== 'my_add_lang')
-                    accountProfile.langs.push(className);
-        });
+                    if (className !== 'my_add_lang')
+                        accountProfile.langs.push(className);
+                });
 
         var paramsJson = $.getParamFromURL();
 
         if (paramsJson.ct) {
             accountProfile.categories = [];
             var categoryIds = paramsJson.ct.split(',');
-            $.each(categoryIds, function(index, id) {
+            $.each(categoryIds, function (index, id) {
                 accountProfile.categories.push({
-                    id : id
+                    id: id
                 });
             });
         }
@@ -74,94 +74,94 @@
         if (paramsJson.rg) {
             accountProfile.regions = [];
             var regionIds = paramsJson.rg.split(',');
-            $.each(regionIds, function(index, id) {
+            $.each(regionIds, function (index, id) {
                 accountProfile.regions.push({
-                    id : id
+                    id: id
                 });
             });
         }
 
         if ($("#location").attr('reg_id')) {
-             $.extend(accountProfile,{location : {id:$("#location").attr('reg_id')}});
+            $.extend(accountProfile, {location: {id: $("#location").attr('reg_id')}});
         }
 
         var userProfile = {};
 
         if ($('#birthday').datepicker('getDate'))
-            $.extend(userProfile,{birthday : {value:$('#birthday').datepicker('getDate').getTime()}});
+            $.extend(userProfile, {birthday: {value: $('#birthday').datepicker('getDate').getTime()}});
 
-        $.extend(jsonData, {accountProfile:accountProfile});
-        $.extend(jsonData, {userProfile:userProfile});
-        /*
-        var schedule = [];
+        var knowledgies = [];
 
-        $('#schedule_table > tbody  > tr')
-                .each(
-                function(iTR, tr) {
-                    var item = (tr.id ? {
-                        id : tr.id
-                    } : {});
-                    $(this)
-                            .children('td')
-                            .each(
-                            function(iTD, td) {
-                                var cellInps = $(this)
-                                        .children('input');
+        $('#knowledge_table > tbody  > tr')
+                .each(function (iTR, tr) {
+                    var knowledge = (tr.id ? { id: tr.id } : {});
+                    $(this).children('td').each(function (iTD, td) {
+                        var cellInps = $(this).children('input');
+                        switch (iTD) {
+                            case 0:
+                                knowledge.begin = {};
+                                if ($("#" + cellInps[0].id).datepicker('getDate'))
+                                    knowledge.begin.value = $("#" + cellInps[0].id).datepicker('getDate').getTime();
+                                knowledge.end = {};
+                                if ($("#" + cellInps[1].id).datepicker('getDate'))
+                                    knowledge.end.value = $("#" + cellInps[1].id).datepicker('getDate').getTime();
+                                break;
+                            case 1:
+                                knowledge.specialist = cellInps[0].value;
+                                break;
+                            case 2:
+                                knowledge.location = cellInps[0].value;
+                                break;
+                            case 3:
+                                knowledge.document = cellInps[0].value;
+                                break;
+                        }
+                    });
 
-                                switch (iTD) {
-                                    case 0:
-                                        item.begin = {};
-                                        if ($("#" + cellInps[0].id)
-                                                .datepicker(
-                                                        'getDate'))
-                                            item.begin.value = $(
-                                                    "#"
-                                                            + cellInps[0].id)
-                                                    .datepicker(
-                                                            'getDate')
-                                                    .getTime();
-                                        item.end = {};
-                                        if ($("#" + cellInps[1].id)
-                                                .datepicker(
-                                                        'getDate'))
-                                            item.end.value = $(
-                                                    "#"
-                                                            + cellInps[1].id)
-                                                    .datepicker(
-                                                            'getDate')
-                                                    .getTime();
-                                        break;
-                                    case 1:
-                                        item.price = {};
-                                        item.price.currency = cellInps[0]
-                                                .getAttribute('key');
-                                        item.price.value = cellInps[0].value;
-                                        break;
-                                    case 2:
-                                        item.min = cellInps[0].value;
-                                        break;
-                                    case 3:
-                                        item.max = cellInps[0].value;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            });
-
-                    schedule.push(item);
+                    knowledgies.push(knowledge);
 
                 });
 
-        jsonData.schedule = schedule;
-        */
-        var url =  'rest/security/account_update' ;
+        userProfile.knowledgies = knowledgies;
+
+        var practices = [];
+
+        $('#practices_table > tbody  > tr')
+                .each(function (iTR, tr) {
+                    var practice = (tr.id ? { id: tr.id } : {});
+                    $(this).children('td').each(function (iTD, td) {
+                        var cellInps = $(this).children('input');
+                        switch (iTD) {
+                            case 0:
+                                practice.begin = {};
+                                if ($("#" + cellInps[0].id).datepicker('getDate'))
+                                    practice.begin.value = $("#" + cellInps[0].id).datepicker('getDate').getTime();
+                                practice.end = {};
+                                if ($("#" + cellInps[1].id).datepicker('getDate'))
+                                    practice.end.value = $("#" + cellInps[1].id).datepicker('getDate').getTime();
+                                break;
+                            case 1:
+                                practice.desc = cellInps[0].value;
+                        }
+                    });
+
+                    practices.push(practice);
+
+                });
+
+        userProfile.practices = practices;
+
+        $.extend(jsonData, {accountProfile: accountProfile});
+        $.extend(jsonData, {userProfile: userProfile});
+
+        var url = 'rest/security/account_update';
 
 
-        var callbackSuccess = function(data) {
+        var callbackSuccess = function (data) {
             window.location = 'profile.html?uid=' + $.getParamFromURL().uid;
         };
 
-        var callbackError = function(error) {
+        var callbackError = function (error) {
             $(btn).prop('disabled', true);
             $("#error_message #msg").text(error);
         };
@@ -193,11 +193,16 @@
                             href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
-                            <input id="my_name" type="text" value="${account.name}" alt="<fmt:message key="user.firstName"/>">
+                            <input id="my_name" type="text" value="${account.name}"
+                                   alt="<fmt:message key="user.firstName"/>">
                         </div>
-                        <div class="my_location"><span><fmt:message key="user.place"/>: </span><input id="location" reg_id="${account.accountProfile.location.id}" value="${account.accountProfile.location.data}" type="text"></div>
+                        <div class="my_location"><span><fmt:message key="user.place"/>: </span><input id="location"
+                                                                                                      reg_id="${account.accountProfile.location.id}"
+                                                                                                      value="${account.accountProfile.location.data}"
+                                                                                                      type="text"></div>
                         <div class="my_date"><span><fmt:message key="user.birthday"/>:
-                            </span><input id="birthday" value="${account.userProfile.birthday.text}" type="text" class="datepicker">
+                            </span><input id="birthday" value="${account.userProfile.birthday.text}" type="text"
+                                          class="datepicker">
                         </div>
                         <div class="my_lang my_lang_edit">
                             <fmt:message key="user.languages"/>:
@@ -207,12 +212,15 @@
                                 </c:forEach>
                                 <li class="my_add_lang">
                                     <a class="add_lang lang"></a>
+
                                     <div>
                                         <ul>
-                                            <c:set var="joinLangValues" value="${fn:join(account.accountProfile.langs, ',')}" />
+                                            <c:set var="joinLangValues"
+                                                   value="${fn:join(account.accountProfile.langs, ',')}"/>
                                             <c:forEach items="${langValues}" var="langValue">
                                                 <c:if test="${fn:contains(joinLangValues, langValue) ne true}">
-                                                    <li><a class="${langValue}"><fmt:message key="locale.${langValue}"/></a></li>
+                                                    <li><a class="${langValue}"><fmt:message
+                                                            key="locale.${langValue}"/></a></li>
                                                 </c:if>
                                             </c:forEach>
                                         </ul>
@@ -225,12 +233,15 @@
 
             </div>
             <div class="description">
-                <textarea id="my_desc" alt="<fmt:message key="user.aboutMe"/>:">${account.accountProfile.desc}</textarea>
+                <textarea id="my_desc"
+                          alt="<fmt:message key="user.aboutMe"/>:">${account.accountProfile.desc}</textarea>
             </div>
 
 
             <div class="table_inf">
                 <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
+
+
                 <table id="knowledge_table">
                     <thead>
                     <tr>
@@ -242,41 +253,86 @@
                     </tr>
                     </thead>
                     <tbody>
-
-
-                    <tr>
-                        <td><fmt:message key="page.date.from"/> <input type="text" class="datepicker"><br/><fmt:message
-                                key="page.date.to"/> <input type="text" class="datepicker"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><input type="text"></td>
-                        <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
-                    </tr>
-
-
+                    <c:choose>
+                        <c:when test="${empty account.userProfile.knowledgies}">
+                            <tr>
+                                <td>
+                                    <fmt:message key="page.date.from"/>
+                                    <input type="text" class="datepicker"/>
+                                    <br/>
+                                    <fmt:message key="page.date.to"/>
+                                    <input type="text" class="datepicker"/>
+                                </td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
+                                <td><input type="text"></td>
+                                <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${account.userProfile.knowledgies}" var="knowledge">
+                                <tr id="${knowledge.id}">
+                                    <td>
+                                        <fmt:message key="page.date.from"/>
+                                        <input type="text" class="datepicker" value="${knowledge.begin.text}"/>
+                                        <br/>
+                                        <fmt:message key="page.date.to"/>
+                                        <input type="text" class="datepicker" value="${knowledge.end.text}"/>
+                                    </td>
+                                    <td><input type="text" value="${knowledge.specialist}" /></td>
+                                    <td><input type="text" value="${knowledge.location}" /></td>
+                                    <td><input type="text" value="${knowledge.document}" /></td>
+                                    <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                     </tbody>
                 </table>
-                <a class="button" func="10"><fmt:message key="page.action.add" /></a>
+                <a class="button" func="10"><fmt:message key="page.action.add"/></a>
             </div>
-
-
 
 
             <div class="table_inf">
                 <h2 class="people_title"><fmt:message key="user.experience"/></h2>
-                <table class="experience">
-                    <thead><tr>
+                <table id="practices_table" class="experience">
+                    <thead>
+                    <tr>
                         <th><fmt:message key="page.date.period"/></th>
                         <th><fmt:message key="content.description"/></th>
                         <th><fmt:message key="page.action"/></th>
-                    </tr></thead>
-                    <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
                     </tr>
-                    </tbody>
+                    </thead>
+                    <c:choose>
+                        <c:when test="${empty account.userProfile.practices}">
+                            <tr>
+                                <td>
+                                    <fmt:message key="page.date.from"/>
+                                    <input type="text" class="datepicker"/>
+                                    <br/>
+                                    <fmt:message key="page.date.to"/>
+                                    <input type="text" class="datepicker"/>
+                                </td>
+                                <td><input type="text"></td>
+                                <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
+                            </tr>
+                        </c:when>
+                        <c:otherwise>
+                            <c:forEach items="${account.userProfile.practices}" var="practice">
+                                <tr id="${practice.id}">
+                                    <td>
+                                        <fmt:message key="page.date.from"/>
+                                        <input type="text" class="datepicker" value="${practice.begin.text}"/>
+                                        <br/>
+                                        <fmt:message key="page.date.to"/>
+                                        <input type="text" class="datepicker" value="${practice.end.text}"/>
+                                    </td>
+                                    <td><input type="text" value="${practice.desc}"/></td>
+                                    <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
+                                </tr>
+                            </c:forEach>
+                        </c:otherwise>
+                    </c:choose>
                 </table>
                 <a class="button" func="11"><fmt:message key="page.action.add"/></a>
             </div>

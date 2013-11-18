@@ -382,7 +382,7 @@ function alt_input(name){
             });
         }
     });    
-} 
+}
 
 function func_button(id_func,is_button){
  	switch (id_func) {
@@ -396,7 +396,7 @@ function func_button(id_func,is_button){
     		$(is_button).parents('tr').remove();
     		break;
   		case '5':
-  			var new_zap='<tr><td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td><td class="price_td"><input type="text"><div class="currency"><span>РУБ</span><ul><li>РУБ</li><li>US</li><li>EURO</li><ul></div></td><td><input type="text"></td><td><input type="text"></td><td><a class="button" func="4">Удалить</a></td></tr>';
+  			var new_zap='<tr><td>с <input type="text" class="datepicker"><br/>по <input type="text" class="datepicker"></td><td class="price_td"><input type="text"><div class="currency">' + $($('.currency')[0]).html() +   '</div></td><td><input type="text"></td><td><input type="text"></td><td><a class="button" func="4">Удалить</a></td></tr>';
   			$('article.edit .table_inf tbody').append(new_zap);
   			$(".datepicker").datepicker();
   			break;

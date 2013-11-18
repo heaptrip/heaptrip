@@ -1,8 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
 <div id="container">
@@ -23,15 +22,17 @@
                             href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
-                        <div class="my_location"><span><fmt:message key="user.place"/>: </span>${account.accountProfile.location.data}</div>
-                        <div class="my_date"><span><fmt:message key="user.birthday"/>: </span>${account.userProfile.birthday.text}</div>
+                        <div class="my_location"><span><fmt:message
+                                key="user.place"/>: </span>${account.accountProfile.location.data}</div>
+                        <div class="my_date"><span><fmt:message
+                                key="user.birthday"/>: </span>${account.userProfile.birthday.text}</div>
                         <div class="my_lang">
                             <fmt:message key="user.languages"/>:
-                                <ul>
-                                    <c:forEach items="${account.accountProfile.langs}" var="lang" varStatus="stat">
-                                        <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
-                                    </c:forEach>
-                                </ul>
+                            <ul>
+                                <c:forEach items="${account.accountProfile.langs}" var="lang" varStatus="stat">
+                                    <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
+                                </c:forEach>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -51,12 +52,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    <c:forEach items="${account.userProfile.knowledgies}" var="knowledge">
+                        <tr>
+                            <td>
+                                <fmt:message key="page.date.from"/> ${knowledge.begin.text}
+                                <br/>
+                                <fmt:message key="page.date.to"/> ${knowledge.end.text}
+                            </td>
+                            <td>${knowledge.specialist}</td>
+                            <td>${knowledge.location}</td>
+                            <td>${knowledge.document}</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -71,14 +78,17 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <fmt:message key="page.date.from"/> ${practice.begin.text}
+                            <br/>
+                            <fmt:message key="page.date.to"/> ${practice.end.text}
+                        </td>
+                        <td>${practice.desc}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </article>
-
     </div>
     <!-- #content-->
 </div>

@@ -2,7 +2,10 @@ package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.Profile;
+import com.heaptrip.domain.entity.account.user.Knowledge;
+import com.heaptrip.domain.entity.account.user.Practice;
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.ImageModel;
@@ -11,7 +14,8 @@ import com.heaptrip.web.model.profile.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import com.heaptrip.domain.entity.account.user.UserProfile;
+
+import java.util.ArrayList;
 
 @Service
 public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ProfileModelService {
@@ -77,9 +81,110 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             UserProfile userProfile = (UserProfile) profile;
             profileModel = new UserProfileModel();
             profileModel.setBirthday(convertDate(userProfile.getBirthday()));
+            profileModel.setKnowledgies(convertKnowledgiesToModels(userProfile.getKnowledgies()));
+            profileModel.setPractices(convertPracticesToModels(userProfile.getPractices()));
         }
         return profileModel;
     }
+
+
+    private KnowledgeModel[] convertKnowledgiesToModels(Knowledge[] knowledgies) {
+        ArrayList<KnowledgeModel> knowledgeModelList = new ArrayList<>();
+        if (knowledgies != null) {
+            for (Knowledge knowledge : knowledgies) {
+                knowledgeModelList.add(convertKnowledgeToModel(knowledge));
+            }
+        }
+        return knowledgeModelList.toArray(new KnowledgeModel[knowledgeModelList.size()]);
+    }
+
+    private KnowledgeModel convertKnowledgeToModel(Knowledge knowledge) {
+        KnowledgeModel knowledgeModel = null;
+        if (knowledge != null) {
+            knowledgeModel = new KnowledgeModel();
+            knowledgeModel.setId(knowledge.getId());
+            knowledgeModel.setBegin(convertDate(knowledge.getBegin()));
+            knowledgeModel.setEnd(convertDate(knowledge.getEnd()));
+            knowledgeModel.setDocument(knowledge.getDocument());
+            knowledgeModel.setLocation(knowledge.getLocation());
+            knowledgeModel.setSpecialist(knowledge.getSpecialist());
+        }
+        return knowledgeModel;
+    }
+
+
+    private Knowledge[] convertKnowledgiesModelsToKnowledgies(KnowledgeModel[] knowledgeModels) {
+        ArrayList<Knowledge> knowledgeList = new ArrayList<>();
+        if (knowledgeModels != null) {
+            for (KnowledgeModel knowledgeModel : knowledgeModels) {
+                knowledgeList.add(convertKnowledgeModelToKnowledge(knowledgeModel));
+            }
+        }
+        return knowledgeList.toArray(new Knowledge[knowledgeList.size()]);
+    }
+
+
+    private Knowledge convertKnowledgeModelToKnowledge(KnowledgeModel knowledgeModel) {
+        Knowledge knowledge = null;
+        if (knowledgeModel != null) {
+            knowledge = new Knowledge();
+            knowledge.setId(knowledgeModel.getId());
+            knowledge.setBegin(knowledgeModel.getBegin().getValue());
+            knowledge.setEnd(knowledgeModel.getBegin().getValue());
+            knowledge.setDocument(knowledgeModel.getDocument());
+            knowledge.setLocation(knowledgeModel.getLocation());
+            knowledge.setSpecialist(knowledgeModel.getSpecialist());
+        }
+        return knowledge;
+    }
+
+
+    private PracticeModel[] convertPracticesToModels(Practice[] knowledgies) {
+        ArrayList<PracticeModel> practiceModelList = new ArrayList<>();
+        if (knowledgies != null) {
+            for (Practice practice : knowledgies) {
+                practiceModelList.add(convertPracticeToModel(practice));
+            }
+        }
+        return practiceModelList.toArray(new PracticeModel[practiceModelList.size()]);
+    }
+
+    private PracticeModel convertPracticeToModel(Practice practice) {
+        PracticeModel practiceModel = null;
+        if (practice != null) {
+            practiceModel = new PracticeModel();
+            practiceModel.setId(practice.getId());
+            practiceModel.setBegin(convertDate(practice.getBegin()));
+            practiceModel.setEnd(convertDate(practice.getEnd()));
+            practiceModel.setDesc(practice.getDesc());
+        }
+        return practiceModel;
+    }
+
+
+    private Practice[] convertPracticesModelsToPractices(PracticeModel[] practiceModels) {
+        ArrayList<Practice> practiceList = new ArrayList<>();
+        if (practiceModels != null) {
+            for (PracticeModel practiceModel : practiceModels) {
+                practiceList.add(convertPracticeModelToPractice(practiceModel));
+            }
+        }
+        return practiceList.toArray(new Practice[practiceList.size()]);
+    }
+
+
+    private Practice convertPracticeModelToPractice(PracticeModel practiceModel) {
+        Practice practice = null;
+        if (practiceModel != null) {
+            practice = new Practice();
+            practice.setId(practiceModel.getId());
+            practice.setBegin(practiceModel.getBegin().getValue());
+            practice.setEnd(practiceModel.getBegin().getValue());
+            practice.setDesc(practiceModel.getDesc());
+        }
+        return practice;
+    }
+
 
     private Profile convertProfileModelToProfile(AccountProfileModel accountProfileModel, UserProfileModel userProfileModel) {
         Profile profile = null;
@@ -88,7 +193,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
                 UserProfile userProfile = new UserProfile();
                 if (userProfileModel.getBirthday() != null)
                     userProfile.setBirthday(userProfileModel.getBirthday().getValue());
-                // TODO: voronenko profile.setKnowledgies(); profile.setPractices();
+                userProfile.setKnowledgies(convertKnowledgiesModelsToKnowledgies(userProfileModel.getKnowledgies()));
+                userProfile.setPractices(convertPracticesModelsToPractices(userProfileModel.getPractices()));
                 profile = userProfile;
             } else {
                 profile = new Profile();
