@@ -8,6 +8,10 @@ locale.pagingOf = 'из';
 locale.pagingEmpty = 'нет записей, удовлетворяющих вашим условиям';
 
 
+locale.action = {};
+locale.action.successEdit = 'Операция изменения данных успешно завершена';
+
+
 
 jQuery(function($){
         $.datepicker.regional[locale.name] = {

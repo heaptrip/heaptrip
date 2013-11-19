@@ -33,13 +33,22 @@ $(window).bind("onPageReady", function(e, paramsJson) {
 });
 
 var initializeMap = function() {
-	var mapCanvas = $('#google_map_canvas');
-	mapCanvas.width('98%');
-	mapCanvas.height(300);
-	var mapOptions = {
-		center : new google.maps.LatLng(59.5, 30.2),
-		zoom : 8,
-		mapTypeId : google.maps.MapTypeId.ROADMAP
-	};
-	var map = new google.maps.Map(mapCanvas[0], mapOptions);
+    var mapCanvas = $('#google_map_canvas');
+    mapCanvas.width('98%');
+    mapCanvas.height(300);
+    var mapOptions = {
+        center : new google.maps.LatLng(59.9, 30.4),
+        zoom : 8,
+
+        mapTypeId : google.maps.MapTypeId.ROADMAP
+    };
+    var map = new google.maps.Map(mapCanvas[0], mapOptions);
+
+
+    new google.maps.Marker({
+        position: new google.maps.LatLng(59.9, 30.4),
+        map: map,
+        title:"Пример маркера"
+
+    });
 };

@@ -77,14 +77,16 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>
-                            <fmt:message key="page.date.from"/> ${practice.begin.text}
-                            <br/>
-                            <fmt:message key="page.date.to"/> ${practice.end.text}
-                        </td>
-                        <td>${practice.desc}</td>
-                    </tr>
+                    <c:forEach items="${account.userProfile.practices}" var="practice">
+                        <tr>
+                            <td>
+                                <fmt:message key="page.date.from"/> ${practice.begin.text}
+                                <br/>
+                                <fmt:message key="page.date.to"/> ${practice.end.text}
+                            </td>
+                            <td>${practice.desc}</td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>

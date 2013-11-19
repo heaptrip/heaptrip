@@ -34,7 +34,7 @@
 
 <script type="text/javascript">
 	var tripId = '${tripId}';
-	var locale = '${currLocale}';
+	var lang = '${currLocale}';
 
 	//$("#is_draft")
 
@@ -47,7 +47,9 @@
 		});
 	});
 
-	var onTripSubmit = function() {
+	var onTripSubmit = function(btn) {
+
+        $(btn).prop('disabled', true);
 
 		var jsonData = (tripId ? {
 			id : tripId
@@ -61,7 +63,7 @@
 		else
 			statusValue = 'PUBLISHED_ALL';
 		
-		jsonData.locale = locale;
+		jsonData.locale = lang;
 		jsonData.name = $("#name_post").val();
 		jsonData.summary = $("#desc_post").val();
 		jsonData.description = $("#desc_full_post").val();
@@ -157,11 +159,16 @@
 		var callbackSuccess = function(data) {
 			//var domain =  $("#email").val().replace(/.*@/, ""); 
 			//window.location = 'confirmation.html?domain=' + domain;
-			alert("Success");
+            $(btn).prop('disabled', false);
+            $(".error_message").append('<p class="green">' + locale.action.successEdit + '</p>');
+
+			//alert("Success");
+
 		};
 
 		var callbackError = function(error) {
-			$("#error_message #msg").text(error);
+            $(btn).prop('disabled', false);
+            $(".error_message").append('<p class="green">' + error + '</p>');
 		};
 
 		$.postJSON(url, jsonData, callbackSuccess, callbackError);
@@ -270,12 +277,11 @@
 			<input type="text" id="name_post" value="${trip.name}"
 				alt="<fmt:message key="content.name" />:">
 
-			<div id="error_message">
-				<span id="msg" class="error_message"></span>
-			</div>
+			<div class="error_message"></div>
+
 
 			<nav id="travel_nav">
-				<a onClick="onTripSubmit()" class="button"><fmt:message
+				<a onClick="onTripSubmit(this)" class="button"><fmt:message
 						key="page.action.save" /></a>
 				<ul>
 					<!--

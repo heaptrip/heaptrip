@@ -327,7 +327,7 @@
                                         <fmt:message key="page.date.to"/>
                                         <input type="text" class="datepicker" value="${practice.end.text}"/>
                                     </td>
-                                    <td><input type="text" value="${practice.desc}"/></td>
+                                    <td><textarea>${practice.desc}</textarea></td>
                                     <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
                                 </tr>
                             </c:forEach>

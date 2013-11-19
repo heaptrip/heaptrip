@@ -33,7 +33,7 @@
 				</a>
     		</li>
     			<li>
-    			<a href="<c:url value="/community.todo?uid=${param.uid}"/>" class='${fn:contains(url, "/community") ? "active":"" }'>
+                    <a href="<c:url value="/communities.html?uid=${param.uid}"/>" class='${fn:contains(url, "/communit") ? "active":"" }'>
     				<fmt:message key="accountProfile.community" />
 				</a>
     		</li>

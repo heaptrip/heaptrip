@@ -122,7 +122,7 @@
 
     <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
-            <add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false"/>
+            <add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru&amp;libraries=drawing,geometry"/>
             <add-attribute value="/js/map.js"/>
         </put-list-attribute>
     </definition>
@@ -307,6 +307,17 @@
         <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="accountInfoEditTemplate"/>
+    </definition>
+
+
+    <definition name="communitiesTemplate" extends="profileTemplate">
+        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
+    </definition>
+
+    <definition name="communities" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="communitiesTemplate"/>
     </definition>
 
     <!-- End Profile -->

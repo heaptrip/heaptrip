@@ -8,6 +8,9 @@ locale.pagingGo = 'go';
 locale.pagingOf = 'of';
 locale.pagingEmpty = 'there are no records that meet your criteria';
 
+locale.action = {};
+locale.action.successEdit = 'Change operation is completed successfully';
+
 
 /* English/UK initialisation for the jQuery UI date picker plugin. */
 /* Written by Stuart. */
