@@ -20,7 +20,7 @@ import com.heaptrip.domain.entity.region.SimpleRegion;
  */
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Content extends BaseObject implements Collectionable {
-
+    test
 	public static final String ALLOWED_ALL_USERS = "0";
 
 	// contain a content categories set by the owner
