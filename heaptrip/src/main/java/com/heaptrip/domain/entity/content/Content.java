@@ -1,7 +1,5 @@
 package com.heaptrip.domain.entity.content;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
@@ -13,228 +11,228 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 
+import java.util.Date;
+
 /**
- * 
  * Base entity for trips, posts, questions and events
- * 
  */
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Content extends BaseObject implements Collectionable {
-    test
-	public static final String ALLOWED_ALL_USERS = "0";
 
-	// contain a content categories set by the owner
-	private SimpleCategory[] categories;
+    public static final String ALLOWED_ALL_USERS = "0";
 
-	// contain a categories IDs set by the owner, and parent for them
-	private String[] categoryIds;
+    // contain a content categories set by the owner
+    private SimpleCategory[] categories;
 
-	// contain a content regions set by the owner
-	private SimpleRegion[] regions;
+    // contain a categories IDs set by the owner, and parent for them
+    private String[] categoryIds;
 
-	// contain a regions IDs set by the owner, and parent for them
-	private String[] regionIds;
+    // contain a content regions set by the owner
+    private SimpleRegion[] regions;
 
-	// content status
-	private ContentStatus status;
+    // contain a regions IDs set by the owner, and parent for them
+    private String[] regionIds;
 
-	// multilingual name of the content
-	private MultiLangText name;
+    // content status
+    private ContentStatus status;
 
-	// multilingual short description
-	private MultiLangText summary;
+    // multilingual name of the content
+    private MultiLangText name;
 
-	// multilingual description
-	private MultiLangText description;
+    // multilingual short description
+    private MultiLangText summary;
 
-	// date created
-	private Date created;
+    // multilingual description
+    private MultiLangText description;
 
-	// date of remove
-	private Date deleted;
+    // date created
+    private Date created;
 
-	// list of user IDs that are allowed to view content. [0] - allow all
-	private String[] allowed;
+    // date of remove
+    private Date deleted;
 
-	// content owner
-	private ContentOwner owner;
+    // list of user IDs that are allowed to view content. [0] - allow all
+    private String[] allowed;
 
-	// list owners. If the trip is owned by the company, then it may be a few
-	// owners
-	private String[] owners;
+    // content owner
+    private ContentOwner owner;
 
-	// language in which the trip was created
-	private String mainLang;
+    // list owners. If the trip is owned by the company, then it may be a few
+    // owners
+    private String[] owners;
 
-	// set of languages ​​that are available for this content
-	private String[] langs;
+    // language in which the trip was created
+    private String mainLang;
 
-	// viewing information
-	private Views views;
+    // set of languages ​​that are available for this content
+    private String[] langs;
 
-	// information about adding to favorites
-	private Favorites favorites;
+    // viewing information
+    private Views views;
 
-	// content rating
-	private ContentRating rating;
+    // information about adding to favorites
+    private Favorites favorites;
 
-	// image
-	private Image image;
+    // content rating
+    private ContentRating rating;
 
-	@Override
-	public String getCollectionName() {
-		return CollectionEnum.CONTENTS.getName();
-	}
+    // image
+    private Image image;
 
-	public ContentOwner getOwner() {
-		return owner;
-	}
+    @Override
+    public String getCollectionName() {
+        return CollectionEnum.CONTENTS.getName();
+    }
 
-	public void setOwner(ContentOwner owner) {
-		this.owner = owner;
-	}
+    public ContentOwner getOwner() {
+        return owner;
+    }
 
-	public SimpleCategory[] getCategories() {
-		return categories;
-	}
+    public void setOwner(ContentOwner owner) {
+        this.owner = owner;
+    }
 
-	public void setCategories(SimpleCategory[] categories) {
-		this.categories = categories;
-	}
+    public SimpleCategory[] getCategories() {
+        return categories;
+    }
 
-	public SimpleRegion[] getRegions() {
-		return regions;
-	}
+    public void setCategories(SimpleCategory[] categories) {
+        this.categories = categories;
+    }
 
-	public void setRegions(SimpleRegion[] regions) {
-		this.regions = regions;
-	}
+    public SimpleRegion[] getRegions() {
+        return regions;
+    }
 
-	public ContentStatus getStatus() {
-		return status;
-	}
+    public void setRegions(SimpleRegion[] regions) {
+        this.regions = regions;
+    }
 
-	public void setStatus(ContentStatus status) {
-		this.status = status;
-	}
+    public ContentStatus getStatus() {
+        return status;
+    }
 
-	public MultiLangText getName() {
-		return name;
-	}
+    public void setStatus(ContentStatus status) {
+        this.status = status;
+    }
 
-	public void setName(MultiLangText name) {
-		this.name = name;
-	}
+    public MultiLangText getName() {
+        return name;
+    }
 
-	public MultiLangText getSummary() {
-		return summary;
-	}
+    public void setName(MultiLangText name) {
+        this.name = name;
+    }
 
-	public void setSummary(MultiLangText summary) {
-		this.summary = summary;
-	}
+    public MultiLangText getSummary() {
+        return summary;
+    }
 
-	public MultiLangText getDescription() {
-		return description;
-	}
+    public void setSummary(MultiLangText summary) {
+        this.summary = summary;
+    }
 
-	public void setDescription(MultiLangText description) {
-		this.description = description;
-	}
+    public MultiLangText getDescription() {
+        return description;
+    }
 
-	public Image getImage() {
-		return image;
-	}
+    public void setDescription(MultiLangText description) {
+        this.description = description;
+    }
 
-	public void setImage(Image image) {
-		this.image = image;
-	}
+    public Image getImage() {
+        return image;
+    }
 
-	public Date getCreated() {
-		return created;
-	}
+    public void setImage(Image image) {
+        this.image = image;
+    }
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
+    public Date getCreated() {
+        return created;
+    }
 
-	public Date getDeleted() {
-		return deleted;
-	}
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
-	public void setDeleted(Date deleted) {
-		this.deleted = deleted;
-	}
+    public Date getDeleted() {
+        return deleted;
+    }
 
-	public String[] getAllowed() {
-		return allowed;
-	}
+    public void setDeleted(Date deleted) {
+        this.deleted = deleted;
+    }
 
-	public void setAllowed(String[] allowed) {
-		this.allowed = allowed;
-	}
+    public String[] getAllowed() {
+        return allowed;
+    }
 
-	public String[] getOwners() {
-		return owners;
-	}
+    public void setAllowed(String[] allowed) {
+        this.allowed = allowed;
+    }
 
-	public void setOwners(String[] owners) {
-		this.owners = owners;
-	}
+    public String[] getOwners() {
+        return owners;
+    }
 
-	public Views getViews() {
-		return views;
-	}
+    public void setOwners(String[] owners) {
+        this.owners = owners;
+    }
 
-	public void setViews(Views views) {
-		this.views = views;
-	}
+    public Views getViews() {
+        return views;
+    }
 
-	public String getMainLang() {
-		return mainLang;
-	}
+    public void setViews(Views views) {
+        this.views = views;
+    }
 
-	public void setMainLang(String mainLang) {
-		this.mainLang = mainLang;
-	}
+    public String getMainLang() {
+        return mainLang;
+    }
 
-	public String[] getLangs() {
-		return langs;
-	}
+    public void setMainLang(String mainLang) {
+        this.mainLang = mainLang;
+    }
 
-	public void setLangs(String[] langs) {
-		this.langs = langs;
-	}
+    public String[] getLangs() {
+        return langs;
+    }
 
-	public Favorites getFavorites() {
-		return favorites;
-	}
+    public void setLangs(String[] langs) {
+        this.langs = langs;
+    }
 
-	public void setFavorites(Favorites favorites) {
-		this.favorites = favorites;
-	}
+    public Favorites getFavorites() {
+        return favorites;
+    }
 
-	public String[] getCategoryIds() {
-		return categoryIds;
-	}
+    public void setFavorites(Favorites favorites) {
+        this.favorites = favorites;
+    }
 
-	public void setCategoryIds(String[] categoryIds) {
-		this.categoryIds = categoryIds;
-	}
+    public String[] getCategoryIds() {
+        return categoryIds;
+    }
 
-	public String[] getRegionIds() {
-		return regionIds;
-	}
+    public void setCategoryIds(String[] categoryIds) {
+        this.categoryIds = categoryIds;
+    }
 
-	public void setRegionIds(String[] regionIds) {
-		this.regionIds = regionIds;
-	}
+    public String[] getRegionIds() {
+        return regionIds;
+    }
 
-	public ContentRating getRating() {
-		return rating;
-	}
+    public void setRegionIds(String[] regionIds) {
+        this.regionIds = regionIds;
+    }
 
-	public void setRating(ContentRating rating) {
-		this.rating = rating;
-	}
+    public ContentRating getRating() {
+        return rating;
+    }
+
+    public void setRating(ContentRating rating) {
+        this.rating = rating;
+    }
 }
