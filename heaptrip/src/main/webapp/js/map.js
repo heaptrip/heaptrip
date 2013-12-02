@@ -28,7 +28,8 @@
 var geocoder;
 var map;
 var poly;
-var infoWindow;
+var infowindow;
+var markers = [];
 var polyOptions = {
     fillColor: '#00ff00',
     fillOpacity: 1,
@@ -65,10 +66,59 @@ var initializeMap = function() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(mapCanvas[0],mapOptions);
+    var newControlDiv = document.createElement('div');
+    var newControls = new newControl(newControlDiv, map);
+    newControlDiv.index = 1;
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(newControlDiv);
     newPoly(flightPlanCoordinates);
-    google.maps.event.addListener(map, 'click', addLatLng);
-    google.maps.event.addListener(map, 'rightclick', delLatLng);
+    google.maps.event.addListener(map, 'rightclick', function(event) {
+        if($('#line').is(':checked')){
+            delLatLng(event);
+        }
+    });
+    google.maps.event.addListener(map, 'click', function(event) {
+        if($('#line').is(':checked')){
+            addLatLng(event);
+        }else{
+            addMarker(event.latLng);
+        }
+    });
+    google.maps.event.addListener(poly, 'click', function(event) {
+        if(!$('#line').is(':checked')){
+            addMarker(event.latLng);
+        }
+    });
 };
+
+function addMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map,
+        draggable: true,
+        content: '',
+    });
+    markers.push(marker);
+    google.maps.event.addListener(marker, 'click',function(event) {
+        var contentString='<pre>'+marker.content+'</pre>';
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        if(marker.content!=''){
+            infowindow.open(map,marker);
+        }
+    } );
+    google.maps.event.addListener(marker, 'rightclick',function(event) {marker.setVisible(false); } );
+    google.maps.event.addListener(marker, 'dblclick',function(event) {
+        var contentString='<textarea class="markerContent">'+marker.content+'</textarea>';
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        google.maps.event.addListener(infowindow, 'closeclick', function(event) {
+            marker.content=$('.markerContent').val();
+        } );
+        infowindow.open(map,marker);
+    } );
+}
 
 function newPoly(path){
     if(path){
@@ -97,4 +147,41 @@ function delLatLng(event) {
 function coordLatLng(event) {
     var path = poly.getPath();
     console.table(path.getArray());
+}
+
+function codeAddress() {
+    var address = 'Санкт';
+    geocoder.geocode( { 'address': address}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: results[0].geometry.location
+            });
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+        }
+    });
+}
+
+function newControl(controlDiv, map) {
+    controlDiv.style.padding = '5px';
+
+    var controlUI = document.createElement('div');
+    controlUI.style.backgroundColor = 'white';
+    controlUI.style.borderStyle = 'solid';
+    controlUI.style.borderWidth = '1px';
+    controlUI.style.borderColor = '#eee';
+    controlUI.style.cursor = 'pointer';
+    controlUI.style.textAlign = 'center';
+    controlUI.title = '';
+    controlDiv.appendChild(controlUI);
+
+    var controlText = document.createElement('div');
+    controlText.style.fontFamily = 'Arial,sans-serif';
+    controlText.style.fontSize = '12px';
+    controlText.style.paddingLeft = '4px';
+    controlText.style.paddingRight = '4px';
+    controlText.innerHTML = '<input type="radio" checked="checked" name="edit" id="line"/><lable for="line">Пути</lable><input type="radio" name="edit" id="metka"/><lable for="metka">Метки</lable>';
+    controlUI.appendChild(controlText);
 }
