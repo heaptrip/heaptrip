@@ -1,26 +1,5 @@
 
-function stringMarker(term, path) {
-    var newPath = '';
-    var upperPath = path.toUpperCase().split('');
-    var pathArr = path.split('');
-    var upperTerm = term.toUpperCase();
-    var tmpTerm = '';
-    for (var i = 0; i < upperPath.length; i++) {
-        tmpTerm = tmpTerm + upperPath[i];
-        if (tmpTerm == upperTerm) {
-            newPath = newPath.substring(0, newPath.length - upperTerm.length)
-                + '<span style="font-weight:bold">'
-                + path.substring(i - upperTerm.length, i + 1)
-                + '</span>';
-            tmpTerm = '';
-        } else {
-            newPath = newPath + pathArr[i];
-            if (tmpTerm.length == upperTerm.length)
-                tmpTerm = tmpTerm.substring(1, tmpTerm.length);
-        }
-    }
-    return newPath;
-}
+
 
 
 $(document).ready(function() {

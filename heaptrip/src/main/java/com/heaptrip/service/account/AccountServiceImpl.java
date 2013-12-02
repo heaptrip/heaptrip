@@ -3,6 +3,7 @@ package com.heaptrip.service.account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.heaptrip.domain.entity.account.Account;
@@ -17,7 +18,8 @@ import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.system.ErrorService;
 
-public abstract class AccountServiceImpl implements AccountService {
+@Service("accountService")
+public class AccountServiceImpl implements AccountService {
 
 	protected static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
@@ -29,8 +31,14 @@ public abstract class AccountServiceImpl implements AccountService {
 	@Autowired
 	private ErrorService errorService;
 	
-	@Autowired
-	private AccountSearchService accountSearchService;
+	//@Autowired
+	//private AccountSearchService accountSearchService;
+
+    @Override
+    public Account getAccountById(String accountId){
+        Assert.notNull(accountId, "accountId must not be null");
+        return accountRepository.findAccountById(accountId);
+    }
 
 	@Override
 	public void hardRemove(String accountId) {
@@ -148,4 +156,9 @@ public abstract class AccountServiceImpl implements AccountService {
 		Assert.notNull(ratingValue, "ratingValue must not be null");
 		accountRepository.updateRating(accountId, ratingValue);
 	}
+
+    @Override
+    public void delete(String accountId){
+
+    }
 }

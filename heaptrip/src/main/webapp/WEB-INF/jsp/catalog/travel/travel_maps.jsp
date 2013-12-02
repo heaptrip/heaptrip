@@ -24,7 +24,7 @@
     										--><li><a href="/map.html"><img src="/map/map1.jpg"></a></li><!--
     										--><li><a href="/map.html"><img src="/map/map1.jpg"></a></li><!--
     										--><li><a href="/map.html"><img src="/map/map1.jpg"></a></li><!--
-    										--><li><a href="/map.html"><img src="/map/map1.jpg"></a></li><!--
+    					R					--><li><a href="/map.html"><img src="/map/map1.jpg"></a></li><!--
     										--><li><a href="/map.html"><img src="/map/map1.jpg"></a></li><!--
     									--><ul>
     								</div>

@@ -1,16 +1,27 @@
 package com.heaptrip.domain.service.account;
 
+import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.rating.AccountRating;
+import org.springframework.stereotype.Service;
+
 
 public interface AccountService {
 
-	/**
+    /**
+     * Get user by id
+     *
+     * @param accountId
+     */
+    public Account getAccountById(String accountId);
+
+    /**
 	 * Hard remove account. It is recommended to use the after tests to clear
 	 * data
 	 * 
-	 * @param userId
+	 * @param accountId
 	 */
 	void hardRemove(String accountId);
 

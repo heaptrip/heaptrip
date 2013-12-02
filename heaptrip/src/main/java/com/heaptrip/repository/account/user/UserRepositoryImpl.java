@@ -48,12 +48,7 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 		}
 	}
 
-	@Override
-	public User findUserById(String userId) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		return coll.findOne(query, userId).as(UserRegistration.class);
-	}
+
 
 	@Override
 	public void changePassword(String userId, String newPassword) {

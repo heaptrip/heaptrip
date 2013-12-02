@@ -9,6 +9,8 @@ import com.heaptrip.domain.repository.CrudRepository;
 
 public interface AccountRepository extends CrudRepository<Account> {
 
+    Account findAccountById(String accId);
+
 	void changeStatus(String accountId, AccountStatusEnum accountStatus);
 	
 	void changeEmail(String accountId, String newEmail);

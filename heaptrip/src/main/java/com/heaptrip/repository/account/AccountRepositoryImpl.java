@@ -1,5 +1,7 @@
 package com.heaptrip.repository.account;
 
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.account.user.UserRegistration;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +20,15 @@ import com.mongodb.WriteResult;
 public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implements AccountRepository {
 
 	protected static final Logger logger = LoggerFactory.getLogger(AccountRepositoryImpl.class);
-	
+
+
+    @Override
+    public Account findAccountById(String userId) {
+        MongoCollection coll = getCollection();
+        String query = "{_id: #}";
+        return coll.findOne(query, userId).as(Account.class);
+    }
+
 	@Override
 	public void changeStatus(String accountId, AccountStatusEnum accountStatus) {
 		MongoCollection coll = getCollection();

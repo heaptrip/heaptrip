@@ -1,26 +1,19 @@
 package com.heaptrip.domain.service.account.user;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-
-import javax.mail.MessagingException;
-
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserRegistration;
 import com.heaptrip.domain.service.account.AccountService;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
+
 public interface UserService extends AccountService {
 
-	/**
-	 * Get user by id
-	 * 
-	 * @param userId
-	 */
-	public User getUserById(String userId);
 
 	/**
 	 * User registration
@@ -35,7 +28,7 @@ public interface UserService extends AccountService {
 	 * Change password
 	 * 
 	 * @param userId
-	 * @param oldPassword
+	 * @param currentPassword
 	 * @param newPassword
 	 */
 	void changePassword(String userId, String currentPassword, String newPassword);

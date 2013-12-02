@@ -18,7 +18,7 @@
 <div class="tags">
 
 
-<a href="<c:url value="/profile.html?uid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+<a href="<c:url value="/profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
 </div>
 
 

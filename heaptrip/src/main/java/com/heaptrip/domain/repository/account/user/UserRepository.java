@@ -11,8 +11,6 @@ public interface UserRepository extends CrudRepository<User> {
 
 	User findUserBySocNetUID(String socNetName, String uid);
 
-	User findUserById(String userId);
-
 	Boolean isEmptyPassword(String userId);
 
 	void changePassword(String userId, String newPassword);

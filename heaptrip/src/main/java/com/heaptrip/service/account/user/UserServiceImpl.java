@@ -308,9 +308,4 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	public User getUserById(String userId) {
-		Assert.notNull(userId, "userId must not be null");
-		return userRepository.findUserById(userId);
-	}
 }

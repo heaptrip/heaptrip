@@ -7,11 +7,13 @@ import com.heaptrip.domain.entity.account.user.Practice;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.rating.AccountRating;
+import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -21,13 +23,34 @@ import java.util.ArrayList;
 public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ProfileModelService {
 
     @Autowired
+    @Qualifier("accountService")
+    private AccountService accountService;
+
+    @Autowired
     private UserService userService;
 
     @Override
     public UserInfoModel getProfileInformation(String uid) {
         Assert.notNull(uid, "user id  must not be null");
-        User user = userService.getUserById(uid);
+        User user = (User) accountService.getAccountById(uid);
         return convertUserToUserModel(user);
+    }
+
+    @Override
+    public AccountModel getAccountInformation(String uid) {
+        Assert.notNull(uid, "account id  must not be null");
+        Account user = (Account) accountService.getAccountById(uid);
+        return convertUserToUserModel(user);
+    }
+
+    private AccountModel convertUserToUserModel(Account account) {
+        AccountModel accountModel = null;
+        if (account != null) {
+            accountModel = new AccountModel();
+            putAccountToAccountModel(accountModel, account);
+
+        }
+        return accountModel;
     }
 
     private UserInfoModel convertUserToUserModel(User account) {
@@ -231,4 +254,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Profile profile = convertProfileModelToProfile(accountInfoModel.getAccountProfile(), accountInfoModel.getUserProfile());
         userService.saveProfile(accountInfoModel.getId(), profile);
     }
+
+
 }

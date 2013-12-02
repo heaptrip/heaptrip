@@ -5,8 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.region.SimpleRegion;
+import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     private RegionService regionService;
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @Override
     public List<CategoryTreeModel> getCategories() {
@@ -65,7 +67,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     @Override
     public String[] getUserCategories(String uid) {
         Assert.notNull(uid, "user id  must not be null");
-        User user = userService.getUserById(uid);
+        Account user = accountService.getAccountById(uid);
         Assert.notNull(user, "user not found by uid" + uid);
         List<String> categoryIds = new ArrayList<>();
         if (user.getProfile() != null && user.getProfile().getCategories() != null) {
@@ -80,7 +82,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     @Override
     public String[] getUserRegions(String uid) {
         Assert.notNull(uid, "user id  must not be null");
-        User user = userService.getUserById(uid);
+        Account user = accountService.getAccountById(uid);
         Assert.notNull(user, "user not found by uid" + uid);
         List<String> regionIds = new ArrayList<>();
         if (user.getProfile() != null && user.getProfile().getRegions() != null) {

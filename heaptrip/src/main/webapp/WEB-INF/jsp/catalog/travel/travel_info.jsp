@@ -18,7 +18,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${trip.schedule}" var="scheduleItem">
+			<c:forEach items="${trip.route.map}" var="map">
 				<tr>
 				<td><fmt:message key="trip.status.${scheduleItem.status.value}"  /> ${scheduleItem.status.text}</td>
 				<td><fmt:message key="page.date.from" /> ${scheduleItem.begin.text}<br /><fmt:message key="page.date.to" /> ${scheduleItem.end.text}</td>
