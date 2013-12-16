@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import javax.mail.MessagingException;
 
+import com.heaptrip.domain.repository.account.AccountRepository;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -40,9 +41,14 @@ import com.heaptrip.util.stream.StreamUtils;
 public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
 	static String PASSWORD_REGEX = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]))";
+    static int PASSWORD_MIN_LENGTH = 8;
+    static int PASSWORD_MAX_LENGTH = 32;
 
 	@Autowired
 	private UserRepository userRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
 	@Autowired
 	private ImageService imageService;
@@ -92,11 +98,19 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		Assert.notNull(userRegistration.getEmail(), "email must not be null");
 		Assert.isTrue(userRegistration.getEmail().matches(EMAIL_REGEX), "email is not correct");
 
+        Account account = accountRepository.findByEmail(userRegistration.getEmail());
+
+        if (account != null && account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+            String msg = String.format("account with the email already exists");
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_ACCOUN_WITH_THE_EMAIL_ALREADY_EXISTS);
+        }
+
 		if (userRegistration.getNet() == null) {
 			Assert.notNull(userRegistration.getPassword(), "password must not be null");
-			Assert.isTrue(userRegistration.getPassword().length() >= 8,
+			Assert.isTrue(userRegistration.getPassword().length() >= PASSWORD_MIN_LENGTH,
 					"length password must be at least 8 characters and maximum length of 32");
-			Assert.isTrue(userRegistration.getPassword().length() <= 32,
+			Assert.isTrue(userRegistration.getPassword().length() <= PASSWORD_MAX_LENGTH,
 					"length password must be at least 8 characters and maximum length of 32");
 			Assert.isTrue(!userRegistration.getPassword().matches(PASSWORD_REGEX),
 					"password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
@@ -134,6 +148,12 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		String[] roles = { "ROLE_USER" };
 		userRegistration.setRoles(roles);
 
+        if (account != null) {
+            // При совпадении email у не активного аккаунта меняем ее на идентификатор, тем самым добиваемся что email уникален.
+            // Иначе возможна регистрация через email и соц. сеть для одного и того же человека
+            accountRepository.changeEmail(account.getId(), account.getId());
+        }
+
 		UserRegistration user = userRepository.save(userRegistration);
 
 		MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);
@@ -147,7 +167,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		String msg = String.format(mt.getText(locale), str.toString());
 		mailService.sendNoreplyMessage(user.getEmail(), mt.getSubject(locale), msg);
 
-		// TODO dikma: подключить поиск когда...
+		// TODO dikma: здесь должен быть вызов сервиса-обвертки над Solr и Reddis
 		// accountSearchService.saveAccount(user);
 
 		return user;
@@ -158,18 +178,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(newPassword, "password must not be null");
 
-		if (newPassword.length() < 8 || newPassword.length() > 32 || newPassword.matches(PASSWORD_REGEX)) {
-			String msg = String.format("email is not correct");
+		if (newPassword.length() < PASSWORD_MIN_LENGTH || newPassword.length() > PASSWORD_MAX_LENGTH || newPassword.matches(PASSWORD_REGEX)) {
+			String msg = String.format("password is not correct");
 			logger.debug(msg);
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_PSWD_IS_NOT_CORRECT);
 		}
-
-		// Assert.isTrue(newPassword.length() > 8,
-		// "length password must be at least 8 characters and maximum length of 32");
-		// Assert.isTrue(newPassword.length() < 32,
-		// "length password must be at least 8 characters and maximum length of 32");
-		// Assert.isTrue(!newPassword.matches(PASSWORD_REGEX),
-		// "password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
 
 		UserRegistration user = (UserRegistration) accountRepository.findOne(userId);
 

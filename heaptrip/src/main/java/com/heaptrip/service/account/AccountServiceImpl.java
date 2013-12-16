@@ -62,7 +62,8 @@ public class AccountServiceImpl implements AccountService {
 			logger.debug(msg);
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_ALREADY_CONFIRM);
 		} else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
-			accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
+            // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
+            accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
 		} else {
 			String msg = String.format("value not correct, account not been confirmed id: %s", accountId);
 			logger.debug(msg);
@@ -74,7 +75,6 @@ public class AccountServiceImpl implements AccountService {
 	public void changeEmail(String accountId, String currentEmail, String newEmail) {
 		Assert.notNull(accountId, "accountId must not be null");
 		Assert.notNull(newEmail, "email must not be null");
-//		Assert.isTrue(newEmail.matches(EMAIL_REGEX), "email is not correct");
 
 		if (!newEmail.matches(EMAIL_REGEX)) {
 			String msg = String.format("email is not correct");

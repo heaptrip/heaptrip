@@ -48,8 +48,6 @@ public class UserRepositoryImpl extends CrudRepositoryImpl<User> implements User
 		}
 	}
 
-
-
 	@Override
 	public void changePassword(String userId, String newPassword) {
 		MongoCollection coll = getCollection();
