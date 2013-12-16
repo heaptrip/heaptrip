@@ -162,13 +162,13 @@ $(document).ready(function () {
         buildRegionsTree(regionIds.split(','));
         $.allowLoading('getInitRegionsIds', {rg: regionIds});
     } else {
-        var uid = null;
-        if ($.getParamFromURL().uid)
-            uid = $.getParamFromURL().uid;
+        var guid = null;
+        if ($.getParamFromURL().guid)
+            guid = $.getParamFromURL().guid;
         else if (window.user) {
-            uid = window.user.id;
+            guid = window.user.id;
         }
-        if (uid) {
+        if (guid) {
 
             var callbackSuccess = function (regionIds) {
                 buildRegionsTree(regionIds);
@@ -179,7 +179,7 @@ $(document).ready(function () {
                 alert(error);
             };
 
-            $.postJSON('rest/get_user_regions', uid, callbackSuccess, callbackError);
+            $.postJSON('rest/get_user_regions', guid, callbackSuccess, callbackError);
         } else {
             $.allowLoading('getInitRegionsIds', {rg: null});
         }
@@ -191,7 +191,7 @@ $(document).ready(function () {
 
 <div id="region" class="filtr">
     <c:choose>
-        <c:when test="${not empty param.uid}">
+        <c:when test="${not empty param.guid}">
             <div class="zag"><fmt:message key="content.region"/></div>
         </c:when>
         <c:otherwise>

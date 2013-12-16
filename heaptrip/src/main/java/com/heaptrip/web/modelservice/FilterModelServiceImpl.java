@@ -40,7 +40,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     @Override
     public List<CategoryTreeModel> getCategories() {
         List<Category> categories = categoryService.getCategories(getCurrentLocale());
-        Map<String, CategoryTreeModel> map = new HashMap<String, CategoryTreeModel>();
+        Map<String, CategoryTreeModel> map = new HashMap();
         map.put(null, new CategoryTreeModel());
         for (Category category : categories) {
             CategoryTreeModel categoryModel = new CategoryTreeModel();
@@ -54,7 +54,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
 
     @Override
     public List<RegionModel> searchRegionsByText(String text) {
-        List<RegionModel> regionModels = new ArrayList<RegionModel>();
+        List<RegionModel> regionModels = new ArrayList();
         List<Region> regions = regionService.getRegionsByName(text, 0L, 20L, getCurrentLocale());
         if (regions != null) {
             for (Region region : regions) {
@@ -96,12 +96,13 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     @Override
     public TreObject<RegionModel, RegionModel, RegionModel> getRegionHierarchy(String regionId) {
         Region region = regionService.getRegionById(regionId, getCurrentLocale());
-        Map<RegionEnum, Region> map = new HashMap<RegionEnum, Region>();
+        Map<RegionEnum, Region> map = new HashMap();
         map.put(RegionEnum.COUNTRY, null);
         map.put(RegionEnum.AREA, null);
         map.put(RegionEnum.CITY, null);
-        iterateRegions(region, map);
-        return new TreObject<RegionModel, RegionModel, RegionModel>(convertRegionToModel(map.get(RegionEnum.COUNTRY)),
+        if (region != null)
+            iterateRegions(region, map);
+        return new TreObject(convertRegionToModel(map.get(RegionEnum.COUNTRY)),
                 convertRegionToModel(map.get(RegionEnum.AREA)), convertRegionToModel(map.get(RegionEnum.CITY)));
     }
 

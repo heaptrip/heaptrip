@@ -9,7 +9,7 @@
 	<nav id="nav">
     	<ul>
     		<li>
-    			<a href="<c:url value="/profile.html?uid=${param.uid}"/>" class="${fn:contains(url, '/profile') ? 'active':'' }">
+    			<a href="<c:url value="/profile.html?guid=${param.guid}"/>" class="${fn:contains(url, '/profile') ? 'active':'' }">
     				<fmt:message key="accountProfile.info" />
     			</a>
     		</li>
@@ -17,9 +17,9 @@
     		<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
     			<sec:authentication var="principal" property="principal" />
     			
-    			<c:if test="${principal.id eq param.uid}">
+    			<c:if test="${principal.id eq param.guid}">
 		   			<li>
-    					<a href="<c:url value="/notification.html?uid=${param.uid}"/>" class='${fn:contains(url, "/notification") ? "active":"" }'>
+    					<a href="<c:url value="/notification.html?guid=${param.guid}"/>" class='${fn:contains(url, "/notification") ? "active":"" }'>
     						<fmt:message key="accountProfile.notification" />
 						</a>
     				</li>
@@ -28,21 +28,21 @@
     		
     		
     		<li>
-    			<a href="<c:url value="/people.todo?uid=${param.uid}"/>" class='${fn:contains(url, "/people") ? "active":"" }'>
+    			<a href="<c:url value="/people.todo?guid=${param.guid}"/>" class='${fn:contains(url, "/people") ? "active":"" }'>
     				<fmt:message key="accountProfile.people" />
 				</a>
     		</li>
     			<li>
-                    <a href="<c:url value="/communities.html?uid=${param.uid}"/>" class='${fn:contains(url, "/communit") ? "active":"" }'>
+                    <a href="<c:url value="/communities.html?guid=${param.guid}"/>" class='${fn:contains(url, "/communit") ? "active":"" }'>
     				<fmt:message key="accountProfile.community" />
 				</a>
     		</li>
             <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
                 <sec:authentication var="principal" property="principal" />
 
-                <c:if test="${principal.id eq param.uid}">
+                <c:if test="${principal.id eq param.guid}">
                     <li>
-                        <a href="<c:url value="/options.html?uid=${param.uid}"/>" class='${fn:contains(url, "/options") ? "active":"" }'>
+                        <a href="<c:url value="/options.html?guid=${param.guid}"/>" class='${fn:contains(url, "/options") ? "active":"" }'>
                             <fmt:message key="accountProfile.options" />
                         </a>
                     </li>

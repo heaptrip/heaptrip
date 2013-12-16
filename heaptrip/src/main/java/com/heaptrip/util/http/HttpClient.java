@@ -15,13 +15,13 @@ public class HttpClient {
 
 	public String doStringGet(String url) {
 		String response = null;
-		HttpGet httpPost = new HttpGet(url.toString());
+		HttpGet httpGet = new HttpGet(url.toString());
 		try {
-			response = EntityUtils.toString(new DefaultHttpClient().execute(httpPost).getEntity());
+			response = EntityUtils.toString(new DefaultHttpClient().execute(httpGet).getEntity());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			httpPost.releaseConnection();
+			httpGet.releaseConnection();
 		}
 		return response;
 	}

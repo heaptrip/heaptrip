@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd         
-						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
-	<bean id="resetPasswordMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
-		<property name="subject">
-			<map>
-				<entry key="ru" value="восстановление пароля" />
-				<entry key="en" value="same subject" />
-			</map>
-		</property>
-		<property name="text">
-			<map>
-				<entry key="ru">
-					<value> 
-<![CDATA[ 
+    <bean id="resetPasswordMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="восстановление пароля"/>
+                <entry key="en" value="same subject"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
 	<p>
 		<strong>Дорогой друг,</strong>
 	</p>
@@ -23,31 +22,31 @@
 		Восстанови пароль кликнув по <a href="%s">этой</a> ссылке.
 	</p>
 ]]>
-					</value>
-				</entry>
-				<entry key="en">
-					<value> 
-<![CDATA[ 
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
 	<a href="%s">link</a>
 ]]>
-					</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
-	<bean id="sendNewPasswordMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
-		<property name="subject">
-			<map>
-				<entry key="ru" value="новый пароль" />
-				<entry key="en" value="same subject" />
-			</map>
-		</property>
-		<property name="text">
-			<map>
-				<entry key="ru">
-					<value> 
-<![CDATA[ 
+    <bean id="sendNewPasswordMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="новый пароль"/>
+                <entry key="en" value="same subject"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
 	<p>
 		<strong>Дорогой друг,</strong>
 	</p>
@@ -55,25 +54,25 @@
 		Новый пароль %s
 	</p>
 ]]>
-					</value>
-				</entry>
-				<entry key="en" value="same text" />
-			</map>
-		</property>
-	</bean>
+                    </value>
+                </entry>
+                <entry key="en" value="same text"/>
+            </map>
+        </property>
+    </bean>
 
-	<bean id="confirmRegistrationMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
-		<property name="subject">
-			<map>
-				<entry key="ru" value="подтверждение регистрации" />
-				<entry key="en" value="same subject" />
-			</map>
-		</property>
-		<property name="text">
-			<map>
-				<entry key="ru">
-					<value> 
-<![CDATA[ 
+    <bean id="confirmRegistrationMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="подтверждение регистрации"/>
+                <entry key="en" value="same subject"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
 	<p>
 		<strong>Дорогой друг,</strong>
 	</p>
@@ -81,72 +80,72 @@
 		Для подтверждения регистрации кликни по <a href="%s">этой</a> ссылке.
 	</p>
 ]]>
-					</value>
-				</entry>
-				<entry key="en">
-					<value> 
-<![CDATA[ 
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
 	<a href="%s">link</a>
 ]]>
-					</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
-	<bean id="inviteMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
-		<property name="subject">
-			<map>
-				<entry key="ru" value="наша тема" />
-				<entry key="en" value="same subject" />
-			</map>
-		</property>
-		<property name="text">
-			<map>
-				<entry key="ru" value="наш текст" />
-				<entry key="en" value="same text" />
-			</map>
-		</property>
-	</bean>
+    <bean id="inviteMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="наша тема"/>
+                <entry key="en" value="same subject"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru" value="наш текст"/>
+                <entry key="en" value="same text"/>
+            </map>
+        </property>
+    </bean>
 
-	<bean id="errorMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
-		<property name="subject">
-			<map>
-				<entry key="ru" value="Ошибка на ноде %s" />
-				<entry key="en" value="Error on the node %s" />
-			</map>
-		</property>
-		<property name="text">
-			<map>
-				<entry key="ru">
-					<value> 
-<![CDATA[ 
+    <bean id="errorMessageTemplate" class="com.heaptrip.domain.entity.mail.MessageTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="Ошибка на ноде %s"/>
+                <entry key="en" value="Error on the node %s"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
 	<p><strong>На ноде %s произошла следующая ошибка:</strong></p>
 	<p>%s</p>
 ]]>
-					</value>
-				</entry>
-				<entry key="en">
-					<value> 
-<![CDATA[ 
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
 	<p><strong>At node %s the following error occurred:</strong></p>
 	<p>%s</p>
 ]]>
-					</value>
-				</entry>
-			</map>
-		</property>
-	</bean>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
 
-	<bean id="messageTemplateStorage" class="com.heaptrip.domain.entity.mail.MessageTemplateStorage">
-		<property name="messageTemplates">
-			<map>
-				<entry key="RESET_PASSWORD" value-ref="resetPasswordMessageTemplate" />
-				<entry key="SEND_NEW_PASSWORD" value-ref="sendNewPasswordMessageTemplate" />
-				<entry key="CONFIRM_REGISTRATION" value-ref="confirmRegistrationMessageTemplate" />
-				<entry key="INVITE" value-ref="inviteMessageTemplate" />
-				<entry key="ERROR" value-ref="errorMessageTemplate" />
-			</map>
-		</property>
-	</bean>
+    <bean id="messageTemplateStorage" class="com.heaptrip.domain.entity.mail.MessageTemplateStorage">
+        <property name="messageTemplates">
+            <map>
+                <entry key="RESET_PASSWORD" value-ref="resetPasswordMessageTemplate"/>
+                <entry key="SEND_NEW_PASSWORD" value-ref="sendNewPasswordMessageTemplate"/>
+                <entry key="CONFIRM_REGISTRATION" value-ref="confirmRegistrationMessageTemplate"/>
+                <entry key="INVITE" value-ref="inviteMessageTemplate"/>
+                <entry key="ERROR" value-ref="errorMessageTemplate"/>
+            </map>
+        </property>
+    </bean>
 </beans>

@@ -4,6 +4,5 @@
 	<script src="<c:url value="/js/paginator.js"/>" type="text/javascript"></script>
 	<link href="<c:url value="/css/paginator.css"/>" rel="stylesheet" type="text/css" />
 
-	<div id="pagination">
-		<div id="paginator"></div>
-	</div>
+
+

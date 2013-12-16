@@ -48,7 +48,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (account != null) {
             accountModel = new AccountModel();
             putAccountToAccountModel(accountModel, account);
-
         }
         return accountModel;
     }

@@ -71,21 +71,21 @@
             alert(error);
         };
 
-        var uid = null;
-        if ($.getParamFromURL().uid)
-            uid = $.getParamFromURL().uid;
+        var guid = null;
+        if ($.getParamFromURL().guid)
+            guid = $.getParamFromURL().guid;
         else if (window.user) {
-            uid = window.user.id;
+            guid = window.user.id;
         }
 
-        $.postJSON(url, uid, callbackSuccess, callbackError);
+        $.postJSON(url, guid, callbackSuccess, callbackError);
     });
 
 </script>
 
 <div id="category" class="filtr">
     <c:choose>
-        <c:when test="${not empty param.uid}">
+        <c:when test="${not empty param.guid}">
             <div class="zag"><fmt:message key="content.category"/></div>
         </c:when>
         <c:otherwise>

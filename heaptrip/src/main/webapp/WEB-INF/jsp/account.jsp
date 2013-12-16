@@ -32,7 +32,7 @@
 
         <ul>
             <li><a href="<c:url value="/tidings.html"/>"><fmt:message key="tiding.list.title"/></a></li>
-            <li><a href="<c:url var="profileUrl" value="/profile.html"/>"><fmt:message key="accountProfile.title"/></a></li>
+            <li><a href="<c:url value="/profile.html"/>"><fmt:message key="accountProfile.title"/></a></li>
             <li><a href="/"><fmt:message key="accountProfile.my"/></a></li>
             <li><a href="/"><fmt:message key="accountProfile.favorite"/></a></li>
             <li><a href="<c:url value="/logout"/>"><fmt:message key="user.action.logout"/></a></li>

@@ -32,6 +32,7 @@ public class ProfileController extends ExceptionHandlerControler {
     @RequestMapping(value = "profile", method = RequestMethod.GET)
     public ModelAndView getProfileInformation(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
+        guid = guid != null && guid.isEmpty() ? null : guid;
         if (guid == null) {
             User currentUser = scopeService.getCurrentUser();
             if (currentUser != null) {
@@ -41,25 +42,17 @@ public class ProfileController extends ExceptionHandlerControler {
             mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
         UserInfoModel accountModel = profileModelService.getProfileInformation(guid);
-
-
         return mv.addObject("account", accountModel);
     }
 
     @RequestMapping(value = "profile_modify_info", method = RequestMethod.GET)
     public ModelAndView getEditTripInfo() {
-        ModelAndView mv = new ModelAndView();
         UserInfoModel accountModel = null;
-        String uid = null;
         User currentUser = scopeService.getCurrentUser();
         if (currentUser != null) {
-            uid = currentUser.getId();
+            accountModel = profileModelService.getProfileInformation(currentUser.getId());
         }
-
-        if (uid != null) {
-            accountModel = profileModelService.getProfileInformation(uid);
-        }
-        return mv.addObject("account", accountModel);
+        return new ModelAndView().addObject("account", accountModel);
     }
 
 
@@ -74,5 +67,22 @@ public class ProfileController extends ExceptionHandlerControler {
         }
         return Ajax.emptyResponse();
     }
+
+
+    @RequestMapping(value = "communities", method = RequestMethod.GET)
+    public ModelAndView getCommunitiesList(@RequestParam(required = false) String guid) {
+        guid = guid != null && guid.isEmpty() ? null : guid;
+        ModelAndView mv = new ModelAndView();
+        if (guid == null) {
+            User currentUser = scopeService.getCurrentUser();
+            if (currentUser != null) {
+                guid = currentUser.getId();
+            }
+        } else {
+            mv.addObject("owner", profileModelService.getAccountInformation(guid));
+        }
+        return mv;
+    }
+
 
 }
