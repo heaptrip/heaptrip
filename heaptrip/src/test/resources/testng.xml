@@ -14,14 +14,16 @@
 		</classes>
 	</test>
 
-    <!--
 	<test name="CommunityTest">
 		<classes>
 			<class name="com.heaptrip.service.account.community.InitCommunityTest" />
+            <!--
 			<class name="com.heaptrip.service.account.community.CommunityServiceTest" />
+			-->
 		</classes>
 	</test>
 
+    <!--
 	<test name="AccountRelationsTest">
 		<classes>
 			<class name="com.heaptrip.service.account.relations.InitAccountRelationsTest" />
@@ -30,6 +32,7 @@
 	</test>
 	-->
 
+    <!--
 	<test name="ImageTest">
 		<classes>
 			<class name="com.heaptrip.service.image.ImageServiceTest" />
@@ -113,4 +116,5 @@
 			<class name="com.heaptrip.service.rating.RatingServiceTest" />
 		</classes>
 	</test>
+	-->
 </suite>

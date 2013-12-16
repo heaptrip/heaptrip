@@ -12,14 +12,14 @@ public class UserDataProvider {
 
     public static String EMAIL_USER_ID = "email";
     public static String EMAIL_USER_NAME = "Email User";
-    public static String EMAIL_USER_EMAIL = "support@heaptrip.com";
+    public static String EMAIL_USER_EMAIL = "emailUser@heaptrip.com";
     public static String EMAIL_USER_EMAIL_NEW = "noreply@heaptrip.com";
     public static String EMAIL_USER_PSWD = "Qwerty2013";
     public static String EMAIL_USER_PSWD_NEW = "new_Qwerty2013";
 
     public static String NET_USER_ID = "net";
     public static String NET_USER_NAME = "Net User";
-    public static String NET_USER_EMAIL = "support@heaptrip.com";
+    public static String NET_USER_EMAIL = "netUser@heaptrip.com";
     public static String NET_USER_PSWD = "qwerty2014";
 
     public static String NOT_CONFIRMED_USER_ID = "notConfirmed";

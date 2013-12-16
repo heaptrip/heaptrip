@@ -9,19 +9,21 @@ import com.heaptrip.domain.repository.CrudRepository;
 
 public interface AccountRepository extends CrudRepository<Account> {
 
-    Account findAccountById(String accId);
+    Account findById(String accountId);
 
-	void changeStatus(String accountId, AccountStatusEnum accountStatus);
-	
-	void changeEmail(String accountId, String newEmail);
-	
-	void saveSetting(String accountId, Setting setting);
-	
-	void saveProfile(String accountId, Profile profile);
-	
-	Account findByEmail(String email);
-	
-	public AccountRating getRating(String accountId);
+    void changeStatus(String accountId, AccountStatusEnum accountStatus);
 
-	public void updateRating(String accountId, double ratingValue);
+    void changeEmail(String accountId, String newEmail);
+
+    void saveSetting(String accountId, Setting setting);
+
+    void saveProfile(String accountId, Profile profile);
+
+    Account findUserByEmail(String email);
+
+    Account findCommunityByEmail(String email);
+
+    public AccountRating getRating(String accountId);
+
+    public void updateRating(String accountId, double ratingValue);
 }
