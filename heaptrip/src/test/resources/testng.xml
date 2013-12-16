@@ -5,12 +5,16 @@
 	<test name="UserTest">
 		<classes>
 			<class name="com.heaptrip.service.account.user.InitUserTest" />
-			<class name="com.heaptrip.service.account.user.AuthenticationServiceTest" />
-			<class name="com.heaptrip.service.account.user.UserServiceTest" />
-			<class name="com.heaptrip.repository.solr.SolrAccountRepositoryTest" />
+            <class name="com.heaptrip.service.account.user.UserRegistrationTest" />
+            <!--
+            <class name="com.heaptrip.service.account.user.AuthenticationServiceTest" />
+            <class name="com.heaptrip.service.account.user.UserServiceTest" />
+            <class name="com.heaptrip.repository.solr.SolrAccountRepositoryTest" />
+            -->
 		</classes>
 	</test>
 
+    <!--
 	<test name="CommunityTest">
 		<classes>
 			<class name="com.heaptrip.service.account.community.InitCommunityTest" />
@@ -24,6 +28,7 @@
 			<class name="com.heaptrip.service.account.relations.UserRelationsServiceTest" />
 		</classes>
 	</test>
+	-->
 
 	<test name="ImageTest">
 		<classes>
@@ -108,5 +113,4 @@
 			<class name="com.heaptrip.service.rating.RatingServiceTest" />
 		</classes>
 	</test>
-
 </suite>

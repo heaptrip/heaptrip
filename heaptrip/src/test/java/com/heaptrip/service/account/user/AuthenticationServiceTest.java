@@ -42,36 +42,21 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 	private UserService userService;
 
 	@Test(enabled = true, priority = 1)
-	public void confirmRegistrationEmailUser() {
-		userService.confirmRegistration(InitUserTest.EMAIL_USER_ID, String.valueOf(InitUserTest.EMAIL_USER_ID.hashCode()));
-	}
-	
-	@Test(enabled = true, priority = 2)
-	public void confirmRegistrationNetUser() {
-		userService.confirmRegistration(InitUserTest.NET_USER_ID, String.valueOf(InitUserTest.NET_USER_ID.hashCode()));
-}
-	
-	@Test(enabled = true, priority = 3, expectedExceptions = AccountException.class)
-	public void confirmRegistrationFakeUser() {
-		userService.confirmRegistration(InitUserTest.FAKE_USER_ID, String.valueOf(InitUserTest.FAKE_USER_ID.hashCode()));
-	}
-	
-	@Test(enabled = true, priority = 4)
 	public void getUserByEmail() {
 		User user;
 		
-		user = authenticationService.getUserByEmailAndPassword(InitUserTest.EMAIL_USER_EMAIL, InitUserTest.EMAIL_USER_PSWD);
+		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.EMAIL_USER_EMAIL, UserDataProvider.EMAIL_USER_PSWD);
 		Assert.assertNotNull(user);
 		Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.ACTIVE));
 		
-		user = authenticationService.getUserByEmailAndPassword(InitUserTest.NOTCONFIRMED_USER_EMAIL, InitUserTest.NOTCONFIRMED_USER_PSWD);
+		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.NOT_CONFIRMED_USER_EMAIL, UserDataProvider.NOT_CONFIRMED_USER_PSWD);
 		Assert.assertNotNull(user);
 		Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED));
 		
-		user = authenticationService.getUserByEmailAndPassword(InitUserTest.NET_USER_EMAIL, InitUserTest.NET_USER_PSWD);
+		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.NET_USER_EMAIL, UserDataProvider.NET_USER_PSWD);
 		Assert.assertNull(user);
 		
-		user = authenticationService.getUserByEmailAndPassword(InitUserTest.FAKE_USER_EMAIL, InitUserTest.FAKE_USER_PSWD);
+		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.FAKE_USER_EMAIL, UserDataProvider.FAKE_USER_PSWD);
 		Assert.assertNull(user);
 	}
 	
@@ -87,29 +72,29 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 		InputStream is;
 		
 		// load image 1
-		resource = loader.getResource(InitUserTest.IMAGE_1);
+		resource = loader.getResource(UserDataProvider.IMAGE_1);
 		Assert.assertNotNull(resource);
 		file = resource.getFile();
 		is = new FileInputStream(file);
 		
 		// fake user
-		net = InitUserTest.getFakeNet();
+		net = UserDataProvider.getFakeNet();
 		Assert.assertNull(authenticationService.getUserBySocNetUID(net.getId(), net.getUid(), is));
 		
 		// load image 1
-		resource = loader.getResource(InitUserTest.IMAGE_1);
+		resource = loader.getResource(UserDataProvider.IMAGE_1);
 		Assert.assertNotNull(resource);
 		file = resource.getFile();
 		is = new FileInputStream(file);
 		
 		// net user
-		net = InitUserTest.getVK();
+		net = UserDataProvider.getVK();
 		user = authenticationService.getUserBySocNetUID(net.getId(), net.getUid(), is);
 		Assert.assertNotNull(user);
 		imageCRC = user.getImageCRC();
 		
 		// load image 2
-		resource = loader.getResource(InitUserTest.IMAGE_2);
+		resource = loader.getResource(UserDataProvider.IMAGE_2);
 		Assert.assertNotNull(resource);
 		file = resource.getFile();
 		is = new FileInputStream(file);
@@ -122,119 +107,119 @@ public class AuthenticationServiceTest extends AbstractTestNGSpringContextTests 
 	@Test(enabled = true, priority = 6, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void resetPasswordFakeUser() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.resetPassword(InitUserTest.FAKE_USER_EMAIL, locale);
+		authenticationService.resetPassword(UserDataProvider.FAKE_USER_EMAIL, locale);
 	}
 	
 	@Test(enabled = true, priority = 7, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void resetPasswordNotConfirmed() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.resetPassword(InitUserTest.NOTCONFIRMED_USER_EMAIL, locale);
+		authenticationService.resetPassword(UserDataProvider.NOT_CONFIRMED_USER_EMAIL, locale);
 	}
 	
 	@Test(enabled = true, priority = 8)
 	public void resetPasswordEmailUser() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.resetPassword(InitUserTest.EMAIL_USER_EMAIL, locale);
+		authenticationService.resetPassword(UserDataProvider.EMAIL_USER_EMAIL, locale);
 	}
 	
 	@Test(enabled = true, priority = 9, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordFakeUser() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(InitUserTest.FAKE_USER_ID, String.valueOf(InitUserTest.FAKE_USER_ID.hashCode()), locale);
+		authenticationService.sendNewPassword(UserDataProvider.FAKE_USER_ID, String.valueOf(UserDataProvider.FAKE_USER_ID.hashCode()), locale);
 	}
 	
 	@Test(enabled = true, priority = 10, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordNotConfirmed() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(InitUserTest.NOTCONFIRMED_USER_ID, String.valueOf(InitUserTest.NOTCONFIRMED_USER_ID.hashCode()), locale);
+		authenticationService.sendNewPassword(UserDataProvider.NOT_CONFIRMED_USER_ID, String.valueOf(UserDataProvider.NOT_CONFIRMED_USER_ID.hashCode()), locale);
 	}
 	
 	@Test(enabled = true, priority = 11, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordWrongValue() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(InitUserTest.NOTCONFIRMED_USER_ID, "1234567890", locale);
+		authenticationService.sendNewPassword(UserDataProvider.NOT_CONFIRMED_USER_ID, "1234567890", locale);
 	}
 	
 	@Test(enabled = true, priority = 12)
 	public void sendNewPassword() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(InitUserTest.EMAIL_USER_ID, String.valueOf(InitUserTest.EMAIL_USER_ID.hashCode()), locale);
+		authenticationService.sendNewPassword(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()), locale);
 	}
 	
 	@Test(enabled = true, priority = 13, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordFakeUser() {
-		userService.changePassword(InitUserTest.FAKE_USER_ID, 
-																InitUserTest.FAKE_USER_PSWD, 
-																InitUserTest.FAKE_USER_PSWD);
+		userService.changePassword(UserDataProvider.FAKE_USER_ID, 
+																UserDataProvider.FAKE_USER_PSWD, 
+																UserDataProvider.FAKE_USER_PSWD);
 	}
 	
 	@Test(enabled = true, priority = 14, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordNotConfirmedUser() {
-		userService.changePassword(InitUserTest.NOTCONFIRMED_USER_ID, 
-																InitUserTest.NOTCONFIRMED_USER_PSWD, 
-																InitUserTest.NOTCONFIRMED_USER_PSWD);
+		userService.changePassword(UserDataProvider.NOT_CONFIRMED_USER_ID,
+                                    UserDataProvider.NOT_CONFIRMED_USER_PSWD,
+									UserDataProvider.NOT_CONFIRMED_USER_PSWD);
 	}
 	
 	@Test(enabled = true, priority = 15, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordEmptyNewPassword() {
-		userService.changePassword(InitUserTest.EMAIL_USER_ID, InitUserTest.EMAIL_USER_PSWD, "");
+		userService.changePassword(UserDataProvider.EMAIL_USER_ID, UserDataProvider.EMAIL_USER_PSWD, "");
 	}
 	
 	@Test(enabled = true, priority = 16, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changePasswordWorngCurrentPassword() {
-		userService.changePassword(InitUserTest.EMAIL_USER_ID, "", InitUserTest.EMAIL_USER_PSWD_NEW);
+		userService.changePassword(UserDataProvider.EMAIL_USER_ID, "", UserDataProvider.EMAIL_USER_PSWD_NEW);
 	}
 	
 	@Test(enabled = true, priority = 17, expectedExceptions = {AccountException.class})
 	public void changePasswordIncorrectNewPassword() {
-		UserRegistration user = (UserRegistration) userRepository.findOne(InitUserTest.EMAIL_USER_ID);
+		UserRegistration user = (UserRegistration) userRepository.findOne(UserDataProvider.EMAIL_USER_ID);
 		
-		userService.changePassword(InitUserTest.EMAIL_USER_ID, 
+		userService.changePassword(UserDataProvider.EMAIL_USER_ID, 
 									user.getPassword(), 
-									InitUserTest.INCORRECT_EMAIL);
+									UserDataProvider.INCORRECT_EMAIL);
 	}
 	
 	@Test(enabled = true, priority = 18)
 	public void changePassword() {
-		UserRegistration user = (UserRegistration) userRepository.findOne(InitUserTest.EMAIL_USER_ID);
+		UserRegistration user = (UserRegistration) userRepository.findOne(UserDataProvider.EMAIL_USER_ID);
 		
-		userService.changePassword(InitUserTest.EMAIL_USER_ID, 
+		userService.changePassword(UserDataProvider.EMAIL_USER_ID, 
 									user.getPassword(), 
-									InitUserTest.EMAIL_USER_PSWD_NEW);
+									UserDataProvider.EMAIL_USER_PSWD_NEW);
 	}
 	
 	@Test(enabled = true, priority = 19, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changeEmailFakeUser() {
-		userService.changeEmail(InitUserTest.FAKE_USER_ID, 
-																InitUserTest.FAKE_USER_EMAIL, 
-																InitUserTest.FAKE_USER_EMAIL);
+		userService.changeEmail(UserDataProvider.FAKE_USER_ID, 
+																UserDataProvider.FAKE_USER_EMAIL, 
+																UserDataProvider.FAKE_USER_EMAIL);
 	}
 	
 	@Test(enabled = true, priority = 20, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void changeEmailNotConfirmed() {
-		userService.changeEmail(InitUserTest.NOTCONFIRMED_USER_ID, 
-																InitUserTest.NOTCONFIRMED_USER_EMAIL, 
-																InitUserTest.NOTCONFIRMED_USER_EMAIL);
+		userService.changeEmail(UserDataProvider.NOT_CONFIRMED_USER_ID,
+                                UserDataProvider.NOT_CONFIRMED_USER_EMAIL,
+                                UserDataProvider.NOT_CONFIRMED_USER_EMAIL);
 	}
 	
 	@Test(enabled = true, priority = 21, expectedExceptions = {AccountException.class})
 	public void changeEmailIncorrectEmail() {
-		userService.changeEmail(InitUserTest.EMAIL_USER_ID, 
-								InitUserTest.EMAIL_USER_EMAIL, 
-								InitUserTest.INCORRECT_EMAIL);
+		userService.changeEmail(UserDataProvider.EMAIL_USER_ID, 
+								UserDataProvider.EMAIL_USER_EMAIL, 
+								UserDataProvider.INCORRECT_EMAIL);
 	}
 	
 	@Test(enabled = true, priority = 22, expectedExceptions = {AccountException.class})
 	public void changeEmailWrongEmail() {
-		userService.changeEmail(InitUserTest.EMAIL_USER_ID, 
-								InitUserTest.EMAIL_USER_EMAIL_NEW, 
-								InitUserTest.EMAIL_USER_EMAIL_NEW);
+		userService.changeEmail(UserDataProvider.EMAIL_USER_ID, 
+								UserDataProvider.EMAIL_USER_EMAIL_NEW, 
+								UserDataProvider.EMAIL_USER_EMAIL_NEW);
 	}
 	
 	@Test(enabled = true, priority = 23)
 	public void changeEmail() {
-		userService.changeEmail(InitUserTest.EMAIL_USER_ID, 
-								InitUserTest.EMAIL_USER_EMAIL, 
-								InitUserTest.EMAIL_USER_EMAIL_NEW);
+		userService.changeEmail(UserDataProvider.EMAIL_USER_ID, 
+								UserDataProvider.EMAIL_USER_EMAIL, 
+								UserDataProvider.EMAIL_USER_EMAIL_NEW);
 	}
 }
