@@ -29,13 +29,13 @@
 
         var callbackSuccess = function(data) {
 
-            $('#paginator').smartpaginator({
-                totalrecords : data.count,
+            $('#paginator1').smartpaginator({
+                totalrecords : 100 ,
                 skip : paramsJson.skip
             });
 
-            $('#paginator1').smartpaginator({
-                totalrecords : data.count,
+            $('#paginator2').smartpaginator({
+                totalrecords : 100,
                 skip : paramsJson.skip
             });
 
@@ -50,6 +50,8 @@
     };
 
 </script>
+
+<tiles:insertDefinition name="pagination" />
 
 
 <div id="container">
@@ -122,31 +124,13 @@
         </article>
 
 
-        <!--<div id="pagination" class="pagination_mini">
-            <div id="pagination_name">Страница:</div>
-            <div id="pagination_prev"><</div>
-            <ul>
-                <li><a>1</a></li>
-                <li class="active"><a>2</a></li>
-                <li><a>3</a></li>
-                <li><a>4</a></li>
-                <li><a>5</a></li>
-            </ul>
-            <div id="pagination_next">></div>
-        </div>-->
-
-
-        <tiles:insertDefinition name="pagination" />
-
         <div id="pagination" class="pagination_mini">
-            <div id="paginator"></div>
-        </div>
-
-        <div class="pagination_mini">
             <div id="paginator1"></div>
         </div>
 
-
+        <div id="pagination2" class="pagination_mini">
+            <div id="paginator2"></div>
+        </div>
 
     </div>
     <!-- #content-->
