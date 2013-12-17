@@ -119,7 +119,7 @@
 		putLOCALParamToURL : function(paramsJson) {
 			var url = window.location.href;
 			var newUrl = $.param.fragment(url, paramsJson);
-			window.href = newUrl;
+			window.location.href = newUrl;
 			window.isInit = true;
 		}
 	});
