@@ -1,11 +1,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <footer id="footer">
 
 	<ul>
 		<li>
 			<ul>
-				<li><a href="/" class="zag"><fmt:message key="trip.list.title" /></a></li>
+				<li><a href="<c:url value="/travels.html"/>" class="zag"><fmt:message key="trip.list.title" /></a></li>
 				<li><a href="/"><fmt:message key="trip.rank.upcoming" /></a></li>
 				<li><a href="/"><fmt:message key="trip.rank.current" /></a></li>
 				<li><a href="/"><fmt:message key="trip.rank.past" /></a></li>
@@ -20,7 +21,7 @@
 		</li>
 		<li>
 			<ul>
-				<li><a href="/" class="zag"><fmt:message key="question.list.title" />‹</a></li>
+				<li><a href="/" class="zag"><fmt:message key="question.list.title" />ï¿½</a></li>
 				<li><a href="/"><fmt:message key="question.rank.last" /></a></li>
 				<li><a href="/"><fmt:message key="question.rank.closed" /></a></li>
 				<li><a href="/"><fmt:message key="question.rank.noanswer" /></a></li>

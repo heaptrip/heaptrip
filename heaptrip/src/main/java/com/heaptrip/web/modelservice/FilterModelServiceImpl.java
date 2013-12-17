@@ -35,7 +35,7 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     private RegionService regionService;
 
     @Autowired
-    private AccountService accountService;
+    private UserService accountService;
 
     @Override
     public List<CategoryTreeModel> getCategories() {
@@ -87,6 +87,8 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
         List<String> regionIds = new ArrayList<>();
         if (user.getProfile() != null && user.getProfile().getRegions() != null) {
             for (SimpleRegion region : user.getProfile().getRegions()) {
+                // TODO : voronenko узнать почему region = null
+                if (region == null) continue;
                 regionIds.add(region.getId());
             }
         }

@@ -160,7 +160,7 @@
 			//var domain =  $("#email").val().replace(/.*@/, ""); 
 			//window.location = 'confirmation.html?domain=' + domain;
             $(btn).prop('disabled', false);
-            $(".error_message").append('<p class="green">' + locale.action.successEdit + '</p>');
+            $(".error_message").html('<p class="green">' + locale.action.successEdit + '</p>');
 
 			//alert("Success");
 
@@ -168,7 +168,7 @@
 
 		var callbackError = function(error) {
             $(btn).prop('disabled', false);
-            $(".error_message").append('<p class="green">' + error + '</p>');
+            $(".error_message").html('<p class="red">' + error + '</p>');
 		};
 
 		$.postJSON(url, jsonData, callbackSuccess, callbackError);

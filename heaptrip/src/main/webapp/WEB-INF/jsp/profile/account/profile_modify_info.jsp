@@ -42,7 +42,7 @@
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: $.getParamFromURL().uid ? $.getParamFromURL().uid : null
+            id: $.getParamFromURL().guid ? $.getParamFromURL().guid : null
         };
 
         jsonData.name = $("#my_name").val();
@@ -158,7 +158,7 @@
 
 
         var callbackSuccess = function (data) {
-            window.location = 'profile.html?uid=' + $.getParamFromURL().uid;
+            window.location = 'profile.html?guid=' + $.getParamFromURL().guid;
         };
 
         var callbackError = function (error) {

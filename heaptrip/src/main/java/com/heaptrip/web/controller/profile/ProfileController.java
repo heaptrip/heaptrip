@@ -46,13 +46,19 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
     @RequestMapping(value = "profile_modify_info", method = RequestMethod.GET)
-    public ModelAndView getEditTripInfo() {
-        UserInfoModel accountModel = null;
-        User currentUser = scopeService.getCurrentUser();
-        if (currentUser != null) {
-            accountModel = profileModelService.getProfileInformation(currentUser.getId());
+    public ModelAndView getEditProfileIInfo(@RequestParam(required = false) String guid) {
+        ModelAndView mv = new ModelAndView();
+        guid = guid != null && guid.isEmpty() ? null : guid;
+        if (guid == null) {
+            User currentUser = scopeService.getCurrentUser();
+            if (currentUser != null) {
+                guid = currentUser.getId();
+            }
+        } else {
+            mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
-        return new ModelAndView().addObject("account", accountModel);
+        UserInfoModel accountModel = profileModelService.getProfileInformation(guid);
+        return mv.addObject("account", accountModel);
     }
 
 

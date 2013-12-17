@@ -33,7 +33,9 @@
 
 
 <script type="text/javascript">
-    var onRegistrationSubmit = function () {
+    var onRegistrationSubmit = function (btn) {
+
+        $(btn).prop('disabled', true);
 
         var url = 'rest/registration';
 
@@ -54,7 +56,8 @@
         };
 
         var callbackError = function (error) {
-            $("#error_message #msg").text(error);
+            $(btn).prop('disabled', false);
+            $(".error_message").html('<p class="red">' + error + '</p>');
         };
 
         $.postJSON(url, jsonData, callbackSuccess, callbackError);
@@ -75,9 +78,8 @@
     <div id="container">
         <div id="contents">
 
-            <div id="error_message" class="error_message">
-                <p id="msg"></p>
-            </div>
+            <div id="error_message" class="error_message"></div>
+
             <div id="registration">
 
                 <form:form name="reg" modelAttribute="registrationInfo" action="" method="post">
