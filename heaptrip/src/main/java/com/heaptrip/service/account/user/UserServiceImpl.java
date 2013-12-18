@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import javax.mail.MessagingException;
 
+import com.heaptrip.domain.entity.account.AccountImageReferences;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,12 +127,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
                 isImage = StreamUtils.getResetableInputStream(isImage);
 
-                userRegistration.setImageContentId(imageService.saveImage(net[0].getId() + net[0].getUid(),
-                        ImageEnum.USER_CONTENT_PHOTO, isImage));
+                AccountImageReferences images = new AccountImageReferences();
                 isImage.reset();
-                userRegistration.setImageProfileId(imageService.saveImage(net[0].getId() + net[0].getUid(),
-                        ImageEnum.USER_PHOTO_PROFILE, isImage));
+                images.setContentId(imageService.saveImage(net[0].getId() + net[0].getUid(), ImageEnum.USER_CONTENT_PHOTO, isImage));
                 isImage.reset();
+                images.setProfileId(imageService.saveImage(net[0].getId() + net[0].getUid(), ImageEnum.USER_PHOTO_PROFILE, isImage));
 
                 MessageDigest md;
                 md = MessageDigest.getInstance("MD5");
