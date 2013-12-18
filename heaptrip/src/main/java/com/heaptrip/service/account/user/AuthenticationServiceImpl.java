@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javax.mail.MessagingException;
 
+import com.heaptrip.domain.entity.account.AccountImageReferences;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
@@ -88,10 +89,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
                 if (!Arrays.equals(user.getImageCRC(), digest)) {
 
+                    AccountImageReferences images = new AccountImageReferences();
                     isImage.reset();
-                    user.setImageContentId(imageService.saveImage(socNetName + uid, ImageEnum.USER_CONTENT_PHOTO, isImage));
+                    images.setContentId(imageService.saveImage(socNetName + uid, ImageEnum.USER_CONTENT_PHOTO, isImage));
                     isImage.reset();
-                    user.setImageProfileId(imageService.saveImage(socNetName + uid, ImageEnum.USER_PHOTO_PROFILE, isImage));
+                    images.setProfileId(imageService.saveImage(socNetName + uid, ImageEnum.USER_PHOTO_PROFILE, isImage));
 
                     user.setImageCRC(digest);
 

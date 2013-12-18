@@ -10,26 +10,20 @@ public abstract class Account extends BaseObject {
 
 	public static final String COLLECTION_NAME = "accounts";
 
-	// entity class name
 	private String _class;
 
-	// name
 	private String name;
 
 	private String email;
 
-	private String imageProfileId;
-
-	private String imageContentId;
+    private AccountImageReferences images;
 
 	private Profile profile;
 
 	private Setting setting;
 
-	// account status
 	private AccountStatusEnum status;
 
-	// type account
 	private AccountEnum typeAccount;
 	
 	private AccountRating rating; 
@@ -74,22 +68,6 @@ public abstract class Account extends BaseObject {
 		this.typeAccount = typeAccount;
 	}
 
-	public String getImageProfileId() {
-		return imageProfileId;
-	}
-
-	public void setImageProfileId(String imageProfileId) {
-		this.imageProfileId = imageProfileId;
-	}
-
-	public String getImageContentId() {
-		return imageContentId;
-	}
-
-	public void setImageContentId(String imageContentId) {
-		this.imageContentId = imageContentId;
-	}
-
 	public Profile getProfile() {
 		return profile;
 	}
@@ -113,4 +91,12 @@ public abstract class Account extends BaseObject {
 	public void setRating(AccountRating rating) {
 		this.rating = rating;
 	}
+
+    public AccountImageReferences getImages() {
+        return images;
+    }
+
+    public void setImages(AccountImageReferences images) {
+        this.images = images;
+    }
 }
