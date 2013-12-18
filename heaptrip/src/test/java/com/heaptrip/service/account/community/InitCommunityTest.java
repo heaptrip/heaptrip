@@ -17,37 +17,16 @@ public class InitCommunityTest  extends AbstractTestNGSpringContextTests {
     @Autowired
     private CommunityService communityService;
 
-    public static String COMMUNITY_ID = "clubOne";
-    public static String COMMUNITY_EMAIL = "clubOne@heaptrip.com";
-
-    public static String NOTCONFIRMED_COMMUNITY_ID = "notConfirmedClub";
-    public static String NOTCONFIRMED_COMMUNITY_EMAIL = "notConfirmedClub@heaptrip.com";
-
-    public static String FAKE_COMMUNITY_ID = "fakeClub";
-    public static String FAKE_COMMUNITY_EMAIL = "fakeClub@heaptrip.com";
-
     @BeforeTest()
     public void init() throws Exception {
         this.springTestContextPrepareTestInstance();
-
-        Locale locale = new Locale("ru");
-
-        Club club = new Club();
-        club.setId(COMMUNITY_ID);
-        club.setName("Club number one");
-        club.setEmail(COMMUNITY_EMAIL);
-        communityService.registration(club, locale);
-
-        Club notConfirmedClub = new Club();
-        notConfirmedClub.setId(NOTCONFIRMED_COMMUNITY_ID);
-        notConfirmedClub.setName("not Confirmed Club");
-        notConfirmedClub.setEmail(NOTCONFIRMED_COMMUNITY_EMAIL);
-        communityService.registration(notConfirmedClub, locale);
     }
 
     @AfterTest
     public void afterTest() {
-        communityService.hardRemove(NOTCONFIRMED_COMMUNITY_ID);
-        communityService.hardRemove(COMMUNITY_ID);
+        communityService.hardRemove(CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
+        communityService.hardRemove(CommunityDataProvider.COMMUNITY_ID);
+        communityService.hardRemove(CommunityDataProvider.ACTIVE_COMMUNITY_ID);
+        communityService.hardRemove(CommunityDataProvider.DELETED_COMMUNITY_ID);
     }
 }

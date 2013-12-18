@@ -2,24 +2,26 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HeapTrip" parallel="false">
 
+
 	<test name="UserTest">
 		<classes>
 			<class name="com.heaptrip.service.account.user.InitUserTest" />
             <class name="com.heaptrip.service.account.user.UserRegistrationTest" />
+            <class name="com.heaptrip.service.account.user.UserProfileTest" />
+            <class name="com.heaptrip.service.account.user.UserSettingTest" />
             <!--
-            <class name="com.heaptrip.service.account.user.AuthenticationServiceTest" />
-            <class name="com.heaptrip.service.account.user.UserServiceTest" />
+            <class name="com.heaptrip.service.account.user.UserAuthenticationTest>
             <class name="com.heaptrip.repository.solr.SolrAccountRepositoryTest" />
             -->
 		</classes>
 	</test>
 
+
 	<test name="CommunityTest">
 		<classes>
 			<class name="com.heaptrip.service.account.community.InitCommunityTest" />
-            <!--
-			<class name="com.heaptrip.service.account.community.CommunityServiceTest" />
-			-->
+            <class name="com.heaptrip.service.account.community.CommunityRegistrationTest"/>
+			<class name="com.heaptrip.service.account.community.CommunityProfileAndSettingTest" />
 		</classes>
 	</test>
 
