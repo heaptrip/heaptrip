@@ -34,6 +34,9 @@ public class UserDataProvider {
     public static String ACTIVE_USER_ID = "active";
 
     public static String DELETED_USER_ID = "deleted";
+    public static String DELETED_USER_NAME = "Deleted User";
+    public static String DELETED_USER_EMAIL = "deletedUser@heaptrip.com";
+    public static String DELETED_USER_PSWD = "nopassword";
 
     public static String INCORRECT_EMAIL = "!@#$%";
 
@@ -101,9 +104,9 @@ public class UserDataProvider {
     public static UserRegistration getDeletedUser() {
         UserRegistration user = new UserRegistration();
         user.setId(DELETED_USER_ID);
-        user.setName("Deleted User");
-        user.setPassword("DeletedUser");
-        user.setEmail("DeletedUser@heaptrip.com");
+        user.setName(DELETED_USER_NAME);
+        user.setPassword(DELETED_USER_PSWD);
+        user.setEmail(DELETED_USER_EMAIL);
         user.setStatus(AccountStatusEnum.DELETED);
         return user;
     }
