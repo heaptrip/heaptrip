@@ -77,7 +77,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             accountModel.setId(account.getId());
             accountModel.setName(account.getName());
             accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
-            accountModel.setImage(new ImageModel(account.getImages().getProfileId()));
+            if (account.getImages() != null) {
+                accountModel.setImage(new ImageModel(account.getImages().getProfileId()));
+            }
         }
         return accountModel;
     }
