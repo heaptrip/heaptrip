@@ -1,5 +1,10 @@
-package com.heaptrip.service.account.user;
+package com.heaptrip.service.account.relation;
 
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
+import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.relation.RelationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,21 +23,20 @@ import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.notification.NotificationService;
-import com.heaptrip.domain.service.account.user.UserRelationsService;
 import com.heaptrip.domain.service.system.ErrorService;
 
 @Service
-public class UserRelationsServiceImpl implements UserRelationsService {
+public class RelationServiceImpl implements RelationService {
 
 	@Autowired
 	private UserRepository userRepository;
 	
 	@Autowired
 	private CommunityRepository communityRepository;
-	
-	@Autowired
-	private UserRelationsRepository userRelationsRepository;
-	
+
+    @Autowired
+	private RelationRepository relationRepository;
+
 	@Autowired
 	private NotificationService notificationService;
 	
@@ -42,16 +46,16 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 	@Autowired
 	private AccountSearchService accountSearchService;
 	
-	protected static final Logger logger = LoggerFactory.getLogger(UserRelationsServiceImpl.class);
+	protected static final Logger logger = LoggerFactory.getLogger(RelationServiceImpl.class);
 	
 	@Override
 	public void sendFriendshipRequest(String userId, String friendId) {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(friendId, "friendId must not be null");
-		
+
 		User user = (User) userRepository.findOne(userId);
 		User friend = (User) userRepository.findOne(friendId);
-		
+
 		if (user == null) {
 			String msg = String.format("user not find by id %s", userId);
 			logger.debug(msg);
@@ -81,10 +85,10 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 	public void deleteFriend(String userId, String friendId) {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(friendId, "publisherId must not be null");
-		
+
 		User user = (User) userRepository.findOne(userId);
 		User friend = (User) userRepository.findOne(friendId);
-		
+
 		if (user == null) {
 			String msg = String.format("user not find by id %s", userId);
 			logger.debug(msg);
@@ -98,7 +102,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		} else if (!friend.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			return;
 		} else {
-			userRelationsRepository.deleteFriend(userId, friendId);
+//			userRelationsRepository.deleteFriend(userId, friendId);
 			// TODO dikma: подключить поиск когда...
 //			accountSearchService.updateUser(userId);
 		}
@@ -109,8 +113,8 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(publisherId, "publisherId must not be null");
 		
-		User user = (User) userRepository.findOne(userId);
-		User publisher = (User) userRepository.findOne(publisherId);
+		User user = userRepository.findOne(userId);
+		User publisher = userRepository.findOne(publisherId);
 		
 		if (user == null) {
 			String msg = String.format("user not find by id %s", userId);
@@ -129,7 +133,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			logger.debug(msg);
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
-			userRelationsRepository.addPublisher(userId, publisherId);
+            relationRepository.save(Relation.getPublisherRelation(userId, publisherId));
 			// TODO dikma: подключить поиск когда...
 //			accountSearchService.updateUser(userId);
 		}
@@ -140,23 +144,27 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		Assert.notNull(userId, "userId must not be null");
 		Assert.notNull(publisherId, "publisherId must not be null");
 		
-		User user = (User) userRepository.findOne(userId);
-		User publisher = (User) userRepository.findOne(publisherId);
+		User user = userRepository.findOne(userId);
+		User publisher = userRepository.findOne(publisherId);
 		
 		if (user == null) {
 			String msg = String.format("user not find by id %s", userId);
 			logger.debug(msg);
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
-			return;
+            String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else if (publisher == null) {
 			String msg = String.format("publisher not find by id %s", userId);
 			logger.debug(msg);
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
 		} else if (!publisher.getStatus().equals(AccountStatusEnum.ACTIVE)) {
-			return;
+            String msg = String.format("publisher status must be: %s", AccountStatusEnum.ACTIVE);
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
-			userRelationsRepository.deletePublisher(userId, publisherId);
+            relationRepository.delete(new RelationCriteria(userId, publisherId, TypeRelationEnum.PUBLISHER));
 			// TODO dikma: подключить поиск когда...
 //			accountSearchService.updateUser(userId);
 		}
@@ -217,7 +225,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			return;
 		} else {
 			// TODO dikma: надо проверить, есть он не единственный сотрудник, если сообщество активно, иначе 
-			userRelationsRepository.deleteOwner(userId, communityId);
+//			userRelationsRepository.deleteOwner(userId, communityId);
 			// TODO dikma: подключить поиск когда...
 //			accountSearchService.updateUser(userId);
 		}		
@@ -278,7 +286,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 			return;
 		} else {
 			// TODO dikma: надо проверить, есть ли у него активное путешествие или событие!
-			userRelationsRepository.deleteEmployee(userId, communityId);
+//			userRelationsRepository.deleteEmployee(userId, communityId);
 			// TODO dikma: подключить поиск когда...
 //			accountSearchService.updateUser(userId);
 		}
@@ -338,7 +346,7 @@ public class UserRelationsServiceImpl implements UserRelationsService {
 		} else if (!club.getStatus().equals(AccountStatusEnum.ACTIVE)) {
 			return;
 		} else {
-			userRelationsRepository.deleteMember(userId, clubId);
+//			userRelationsRepository.deleteMember(userId, clubId);
 			// TODO dikma: подключить поиск когда...
 //			accountSearchService.updateUser(userId);
 		}

@@ -18,8 +18,7 @@ public interface NotificationService {
 	/**
 	 * Get limit notifications
 	 * 
-	 * @param accountId
-	 * @param limit
+	 * @param criteria
 	 * @return list of notifications
 	 */
 	List<Notification> getNotifications(NotificationCriteria criteria);

@@ -1,12 +1,12 @@
-package com.heaptrip.domain.service.account.user;
+package com.heaptrip.domain.service.account.relation;
 
-public interface UserRelationsService {
+public interface RelationService {
 
 	/**
 	 * send friendship request
 	 * 
 	 * @param userId
-	 * @param frendId
+	 * @param friendId
 	 */
 	void sendFriendshipRequest(String userId, String friendId);
 	
@@ -70,15 +70,15 @@ public interface UserRelationsService {
 	 * send member request
 	 * 
 	 * @param userId
-	 * @param clubId
+	 * @param communityId
 	 */
-	void sendMemberRequest(String userId, String clubId);
+	void sendMemberRequest(String userId, String communityId);
 	
 	/**
 	 * delete member
 	 * 
 	 * @param userId
-	 * @param clubId
+	 * @param communityId
 	 */
-	void deleteMember(String userId, String clubId);
+	void deleteMember(String userId, String communityId);
 }

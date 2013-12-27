@@ -87,7 +87,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
             }
         }
 
-        community.setRating(new AccountRating());
+        community.setRating(AccountRating.getDefaultValue());
         Community com = communityRepository.save(community);
 
         MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);

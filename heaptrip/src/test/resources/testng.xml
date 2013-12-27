@@ -25,13 +25,13 @@
 	</test>
 
     <!--
-	<test name="AccountRelationsTest">
-		<classes>
-			<class name="com.heaptrip.service.account.relations.InitAccountRelationsTest" />
-			<class name="com.heaptrip.service.account.relations.UserRelationsServiceTest" />
-		</classes>
-	</test>
-	-->
+    <test name="RelationTest">
+        <classes>
+            <class name="com.heaptrip.service.account.relations.InitRelationTest" />
+            <class name="com.heaptrip.service.account.relations.RelationTest" />
+        </classes>
+    </test>
+    -->
 
 	<test name="ImageTest">
 		<classes>

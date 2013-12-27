@@ -155,7 +155,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             accountRepository.changeEmail(account.getId(), account.getId());
         }
 
-        userRegistration.setRating(new AccountRating());
+        userRegistration.setRating(AccountRating.getDefaultValue());
         UserRegistration user = userRepository.save(userRegistration);
 
         MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);
