@@ -10,9 +10,8 @@
             <class name="com.heaptrip.service.account.user.UserAuthenticationTest" />
             <class name="com.heaptrip.service.account.user.UserProfileTest" />
             <class name="com.heaptrip.service.account.user.UserSettingTest" />
-            <!--
             <class name="com.heaptrip.repository.solr.SolrAccountRepositoryTest" />
-            -->
+            <class name="com.heaptrip.repository.redis.RedisAccountRepositoryTest" />
 		</classes>
 	</test>
 

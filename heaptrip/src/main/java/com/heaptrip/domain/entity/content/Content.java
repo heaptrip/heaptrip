@@ -7,6 +7,7 @@ import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
+import com.heaptrip.domain.entity.comment.Commentsable;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
@@ -17,9 +18,11 @@ import java.util.Date;
  * Base entity for trips, posts, questions and events
  */
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public abstract class Content extends BaseObject implements Collectionable {
+public abstract class Content extends BaseObject implements Collectionable, Commentsable {
 
     public static final String ALLOWED_ALL_USERS = "0";
+
+    private static final String COMMENTS_NUMBER_FIELD_NAME = "comments";
 
     // contain a content categories set by the owner
     private SimpleCategory[] categories;
@@ -79,9 +82,17 @@ public abstract class Content extends BaseObject implements Collectionable {
     // image
     private Image image;
 
+    // number of comments
+    private long comments;
+
     @Override
     public String getCollectionName() {
         return CollectionEnum.CONTENTS.getName();
+    }
+
+    @Override
+    public String getCommentsNumberFieldName() {
+        return COMMENTS_NUMBER_FIELD_NAME;
     }
 
     public ContentOwner getOwner() {
@@ -234,5 +245,13 @@ public abstract class Content extends BaseObject implements Collectionable {
 
     public void setRating(ContentRating rating) {
         this.rating = rating;
+    }
+
+    public long getComments() {
+        return comments;
+    }
+
+    public void setComments(long comments) {
+        this.comments = comments;
     }
 }

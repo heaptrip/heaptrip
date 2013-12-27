@@ -1,64 +1,44 @@
 package com.heaptrip.domain.entity.content.trip;
 
-import com.heaptrip.domain.entity.comment.Commentsable;
 import com.heaptrip.domain.entity.content.Content;
 
 /**
- * 
  * Trip
- * 
  */
-public class Trip extends Content implements Commentsable {
+public class Trip extends Content {
 
-	private static final String COMMENTS_NUMBER_FIELD_NAME = "comments";
+    // travel schedule
+    private TableItem[] table;
 
-	// travel schedule
-	private TableItem[] table;
+    // route
+    private Route route;
 
-	// route
-	private Route route;
+    // IDs of trip posts
+    private String[] postIds;
 
-	// number of comments
-	private long comments;
 
-	// IDs of trip posts
-	private String[] postIds;
+    public TableItem[] getTable() {
+        return table;
+    }
 
-	@Override
-	public String getCommentsNumberFieldName() {
-		return COMMENTS_NUMBER_FIELD_NAME;
-	}
+    public void setTable(TableItem[] table) {
+        this.table = table;
+    }
 
-	public TableItem[] getTable() {
-		return table;
-	}
+    public Route getRoute() {
+        return route;
+    }
 
-	public void setTable(TableItem[] table) {
-		this.table = table;
-	}
+    public void setRoute(Route route) {
+        this.route = route;
+    }
 
-	public Route getRoute() {
-		return route;
-	}
+    public String[] getPostIds() {
+        return postIds;
+    }
 
-	public void setRoute(Route route) {
-		this.route = route;
-	}
-
-	public long getComments() {
-		return comments;
-	}
-
-	public void setComments(long comments) {
-		this.comments = comments;
-	}
-
-	public String[] getPostIds() {
-		return postIds;
-	}
-
-	public void setPostIds(String[] postIds) {
-		this.postIds = postIds;
-	}
+    public void setPostIds(String[] postIds) {
+        this.postIds = postIds;
+    }
 
 }
