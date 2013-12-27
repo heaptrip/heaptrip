@@ -3,6 +3,7 @@ package com.heaptrip.service.account.community;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
             }
         }
 
+        community.setRating(new AccountRating());
         Community com = communityRepository.save(community);
 
         MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);

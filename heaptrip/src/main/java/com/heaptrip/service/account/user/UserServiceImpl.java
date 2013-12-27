@@ -9,6 +9,7 @@ import java.util.Locale;
 import javax.mail.MessagingException;
 
 import com.heaptrip.domain.entity.account.AccountImageReferences;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +155,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             accountRepository.changeEmail(account.getId(), account.getId());
         }
 
+        userRegistration.setRating(new AccountRating());
         UserRegistration user = userRepository.save(userRegistration);
 
         MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);
