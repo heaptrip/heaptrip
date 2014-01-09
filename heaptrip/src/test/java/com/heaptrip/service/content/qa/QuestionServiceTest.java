@@ -53,7 +53,7 @@ public class QuestionServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(priority = 0, enabled = true)
-    public void save() throws Exception {
+    public void save() {
         // call
         questionService.save(question);
         // check
@@ -78,7 +78,7 @@ public class QuestionServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(priority = 1, enabled = true)
-    public void update() throws Exception {
+    public void update() {
         // call
         Question question = questionRepository.findOne(QUESTION_ID);
         Assert.assertNotNull(question);
