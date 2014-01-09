@@ -17,7 +17,7 @@ public class AnswerServiceImpl implements AnswerService {
 
 
     @Override
-    public Answer addComment(String questionId, String answerId, String userId, String text) {
+    public Answer addChildAnswer(String questionId, String parentAnswerId, String userId, String text) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

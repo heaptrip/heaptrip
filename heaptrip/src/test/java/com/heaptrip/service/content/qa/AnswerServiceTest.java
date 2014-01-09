@@ -1,6 +1,5 @@
 package com.heaptrip.service.content.qa;
 
-import com.heaptrip.domain.entity.comment.Comment;
 import com.heaptrip.domain.entity.content.qa.Answer;
 import com.heaptrip.domain.entity.content.qa.Question;
 import com.heaptrip.domain.repository.content.qa.AnswerRepository;
@@ -14,7 +13,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.List;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
@@ -71,24 +69,27 @@ public class AnswerServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(answer.getCorrect());
         Assert.assertNull(answer.getLikes());
         Assert.assertNull(answer.getDislikes());
-        // check number of comments
+        // check number of answers
         Question question = questionRepository.findOne(QUESTION_ID);
         Assert.assertNotNull(question);
         Assert.assertEquals(question.getComments(), 1L);
     }
 
     @Test(enabled = true, priority = 1)
-    public void addComment() {
+    public void addChildAnswer() {
         // call
-        Answer comment = answerService.addComment(QUESTION_ID, answer.getId(), USER_ID, "some comment");
+        Answer childAnswer = answerService.addChildAnswer(QUESTION_ID, answer.getId(), USER_ID, "some child answers");
         // check
-        Assert.assertNotNull(comment);
-        Assert.assertNotNull(comment.getId());
-        Assert.assertNotNull(comment.getParent());
-        Assert.assertEquals(comment.getParent(), answer.getId());
-        Assert.assertEquals(comment.getTarget(), QUESTION_ID);
-        Assert.assertEquals(comment.getAuthor().getId(), USER_ID);
-        // check number of comments
+        Assert.assertNotNull(childAnswer);
+        Assert.assertNotNull(childAnswer.getId());
+        Assert.assertNotNull(childAnswer.getParent());
+        Assert.assertEquals(childAnswer.getParent(), answer.getId());
+        Assert.assertEquals(childAnswer.getTarget(), QUESTION_ID);
+        Assert.assertEquals(childAnswer.getAuthor().getId(), USER_ID);
+        Assert.assertNull(childAnswer.getCorrect());
+        Assert.assertNull(childAnswer.getLikes());
+        Assert.assertNull(childAnswer.getDislikes());
+        // check number of answers
         Question question = questionRepository.findOne(QUESTION_ID);
         Assert.assertNotNull(question);
         Assert.assertEquals(question.getComments(), 2L);
@@ -120,18 +121,18 @@ public class AnswerServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(answer.getDislikes().equals(2L));
     }
 
-    @Test(enabled = true, priority = 3)
-    public void getAnswers() throws IOException {
+    @Test(enabled = true, priority = 4)
+    public void getAnswers() {
         // call
         List<Answer> answers = answerService.getAnswers(QUESTION_ID);
         // check
         Assert.assertNotNull(answers);
         Assert.assertEquals(answers.size(), 2);
         // check first parent/child comments
-        Comment answer = answers.get(0);
-        Comment comments = answers.get(1);
-        Assert.assertNull(answer.getParent());
-        Assert.assertNotNull(comments.getParent());
-        Assert.assertEquals(comments.getParent(), answer.getId());
+        Answer rootAnswer = answers.get(0);
+        Answer childAnswer = answers.get(1);
+        Assert.assertNull(rootAnswer.getParent());
+        Assert.assertNotNull(childAnswer.getParent());
+        Assert.assertEquals(childAnswer.getParent(), rootAnswer.getId());
     }
 }

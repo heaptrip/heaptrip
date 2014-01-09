@@ -8,7 +8,7 @@ public interface AnswerService {
 
     public Answer addAnswer(String questionId, String userId, String text);
 
-    public Answer addComment(String questionId, String answerId, String userId, String text);
+    public Answer addChildAnswer(String questionId, String parentAnswerId, String userId, String text);
 
     public void setCorrect(String answerId, boolean correct);
 
