@@ -59,7 +59,7 @@
 
         <article id="article" class="deteil edit">
             <div class="description">
-                <div id="list_user_1" class="community">
+                <div id="list_user_1" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty owner.name}">
@@ -89,7 +89,14 @@
 						<li class="participants_li community_func13"><div class="list_user_img"><img src="/1_small.jpg"></div><div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div></li>
 					</ul>
                 </div>
-                <div id="list_user_3" class="community">
+
+                <br/>
+                <div class="pagination_mini">
+                    <div id="paginator2"></div>
+                </div>
+
+                <br/>
+                <div id="list_user_3" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty owner.name}">
@@ -121,16 +128,20 @@
                 </div>
             </div>
 
+            <div class="pagination_mini">
+                <div id="paginator1"></div>
+            </div>
+
         </article>
 
 
-        <div id="pagination" class="pagination_mini">
-            <div id="paginator1"></div>
-        </div>
 
-        <div id="pagination2" class="pagination_mini">
-            <div id="paginator2"></div>
-        </div>
+
+
+
+
+
+
 
     </div>
     <!-- #content-->

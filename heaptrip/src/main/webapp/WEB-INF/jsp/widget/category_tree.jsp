@@ -27,6 +27,9 @@
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
+
+
+
         if (paramsJson.ct) {
             selectCategories(paramsJson.ct.split(','));
         }else{
@@ -51,6 +54,9 @@
 
             }).bind("loaded.jstree", function () {
                         var paramsJson = $.getParamFromURL();
+
+
+
                         if (paramsJson.ct) {
                             selectCategories(paramsJson.ct.split(','));
                         } else if(data.userCategories) {
@@ -72,10 +78,12 @@
         };
 
         var guid = null;
-        if ($.getParamFromURL().guid)
-            guid = $.getParamFromURL().guid;
-        else if (window.user) {
-            guid = window.user.id;
+        if($.getParamFromURL().ct ==undefined){
+            if ($.getParamFromURL().guid)
+                guid = $.getParamFromURL().guid;
+            else if (window.user) {
+                guid = window.user.id;
+            }
         }
 
         $.postJSON(url, guid, callbackSuccess, callbackError);

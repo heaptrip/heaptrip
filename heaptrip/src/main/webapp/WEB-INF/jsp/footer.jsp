@@ -14,14 +14,14 @@
 		</li>
 		<li>
 			<ul>
-				<li><a href="/" class="zag"><fmt:message key="post.list.title" /></a></li>
+				<li><a href="<c:url value="/travels.html"/>" class="zag"><fmt:message key="post.list.title" /></a></li>
 				<li><a href="/"><fmt:message key="post.rank.last" /></a></li>
 				<li><a href="/"><fmt:message key="post.rank.best" /></a></li>
 			</ul>
 		</li>
 		<li>
 			<ul>
-				<li><a href="/" class="zag"><fmt:message key="question.list.title" />�</a></li>
+				<li><a href="/" class="zag"><fmt:message key="question.list.title" /></a></li>
 				<li><a href="/"><fmt:message key="question.rank.last" /></a></li>
 				<li><a href="/"><fmt:message key="question.rank.closed" /></a></li>
 				<li><a href="/"><fmt:message key="question.rank.noanswer" /></a></li>

@@ -358,7 +358,7 @@ input[type=checkbox]{
 
 /* Пагинация 
 ----------------------------------------------------*/
-#pagination{
+.pagination{
 	height: 21px;
 	border-top: 1px solid #DEE5EB;
 	/*border-bottom: 1px solid #DEE5EB;*/
@@ -368,9 +368,9 @@ input[type=checkbox]{
 	margin: 4px 298px 4px 15px;
 }
 
-#pagination div,
-#pagination ul,
-#pagination li{
+.pagination div,
+.pagination ul,
+.pagination li{
 	display: -moz-inline-stack;
 	display: inline-block;
 	vertical-align: top;
@@ -383,19 +383,19 @@ input[type=checkbox]{
 	text-align: center;
 }
 
-#pagination li a{
+.pagination li a{
 	text-decoration: none;
 	color: #545454;
 	margin-left: 2px;
 }
 
-#pagination li a:hover{
+.pagination li a:hover{
 	text-decoration: none;
-	
+
 }
 
-#pagination #pagination_prev,
-#pagination #pagination_next{
+.pagination .pagination_prev,
+.pagination .pagination_next{
 	background: #DEE5EB;
 	border: none;
 	-webkit-border-radius: 11px;
@@ -408,7 +408,7 @@ input[type=checkbox]{
 	margin-left: 2px;
 }
 
-#pagination li.active{
+.pagination li.active{
 	background: #00BBFF;
 	border: none;
 	-webkit-border-radius: 11px;
@@ -419,14 +419,14 @@ input[type=checkbox]{
 	width: 22px;
 	cursor: pointer;
 	margin-left: 2px;
-	
+
 }
 
-#pagination li.active > a{
+.pagination li.active > a{
 	color: #FFFFFF;
 }
 
-#pagination_name{
+.pagination_name{
 	font-weight: bold;
 	letter-spacing: 1px;
 	margin-right: 20px;
@@ -1189,7 +1189,7 @@ article .table_inf th:first-child {
 	text-decoration: none;
 }
 
-#contents .pagination_mini {
+.pagination_mini {
 	margin: -20px 0px -28px -17px;
 	border-bottom: none;
 	width: 650px;
@@ -2134,13 +2134,23 @@ article.edit .tabs input[type="text"] {
 
 /* Сообщества
 -------------------------------------------------------------*/
-#article .community{
+#article .community-border-bottom{
 	border-bottom: 1px solid #E2E6E5;
-	margin-bottom: 15px;
+	margin-top: 15px;
+}
+
+#article .community{
+    /*border-bottom: 1px solid #E2E6E5;*/
+    margin-top: 15px;
+}
+
+#article .community:first-child{
+    margin-top: 0px;
 }
 
 #article .community:last-child{
 	border-bottom: none;
+    margin-bottom: 10px;
 }
 
 #article .community .list_user_inf{
