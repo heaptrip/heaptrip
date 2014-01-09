@@ -101,7 +101,7 @@ public class AnswerServiceTest extends AbstractTestNGSpringContextTests {
         answerService.setCorrect(answer.getId(), true);
         // check
         Answer answer = answerRepository.findOne(this.answer.getId());
-        Assert.assertNull(answer.getCorrect());
+        Assert.assertNotNull(answer.getCorrect());
         Assert.assertTrue(answer.getCorrect());
     }
 
@@ -115,9 +115,9 @@ public class AnswerServiceTest extends AbstractTestNGSpringContextTests {
         answerService.incDislikes(answer.getId());
         // check
         Answer answer = answerRepository.findOne(this.answer.getId());
-        Assert.assertNull(answer.getLikes());
+        Assert.assertNotNull(answer.getLikes());
         Assert.assertTrue(answer.getLikes().equals(3L));
-        Assert.assertNull(answer.getDislikes());
+        Assert.assertNotNull(answer.getDislikes());
         Assert.assertTrue(answer.getDislikes().equals(2L));
     }
 

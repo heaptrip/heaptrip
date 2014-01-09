@@ -1,128 +1,110 @@
 package com.heaptrip.service.content.post;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.Views;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.rating.ContentRating;
-import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.post.PostRepository;
-import com.heaptrip.domain.repository.region.RegionRepository;
-import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.post.PostService;
-import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.content.ContentServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class PostServiceImpl extends ContentServiceImpl implements PostService {
 
-	@Autowired
-	private PostRepository postRepository;
+    @Autowired
+    private PostRepository postRepository;
 
-	@Autowired
-	private ContentSearchService contentSearchService;
+    @Autowired
+    private ContentSearchService contentSearchService;
 
-	@Autowired
-	private CategoryRepository categoryRepository;
+    @Override
+    public Post save(Post content) {
+        Assert.notNull(content, "content must not be null");
+        Assert.notNull(content.getOwner(), "owner must not be null");
+        Assert.notNull(content.getOwner().getId(), "owner.id must not be null");
+        Assert.notEmpty(content.getName(), "name must not be empty");
+        Assert.notEmpty(content.getSummary(), "summary must not be empty");
+        Assert.notEmpty(content.getDescription(), "description must not be empty");
 
-	@Autowired
-	private CategoryService categoryService;
+        // TODO if owner account type == (CLUB or COMPANY) then set owners
+        content.setOwners(new String[]{content.getOwner().getId()});
 
-	@Autowired
-	private RegionRepository regionRepository;
+        // update categories and categoryIds
+        updateCategories(content);
 
-	@Autowired
-	private RegionService regionService;
+        // update regions and regionIds
+        updateRegions(content);
 
-	@Override
-	public Post save(Post content) {
-		Assert.notNull(content, "content must not be null");
-		Assert.notNull(content.getId(), "contentId must not be null");
-		Assert.notNull(content.getOwner(), "owner must not be null");
-		Assert.notNull(content.getOwner().getId(), "owner.id must not be null");
-		Assert.notEmpty(content.getName(), "name must not be empty");
-		Assert.notEmpty(content.getSummary(), "summary must not be empty");
-		Assert.notEmpty(content.getDescription(), "description must not be empty");
+        content.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
+        content.setCreated(new Date());
+        content.setDeleted(null);
+        content.setRating(ContentRating.getDefaultValue());
+        content.setComments(0L);
 
-		// TODO if owner account type == (CLUB or COMPANY) then set owners
-		content.setOwners(new String[] { content.getOwner().getId() });
+        Views views = new Views();
+        views.setCount(0);
+        content.setViews(views);
 
-		// update categories and categoryIds
-		updateCategories(content);
+        // save to mongodb
+        postRepository.save(content);
 
-		// update regions and regionIds
-		updateRegions(content);
+        // save to solr
+        contentSearchService.saveContent(content.getId());
 
-		content.setStatus(new ContentStatus(ContentStatusEnum.DRAFT));
-		content.setCreated(new Date());
-		content.setDeleted(null);
-		content.setRating(ContentRating.getDefaultValue());
-		content.setComments(0L);
+        return content;
+    }
 
-		Views views = new Views();
-		views.setCount(0);
-		content.setViews(views);
+    @Override
+    public void remove(String contentId) {
+        Assert.notNull(contentId, "contentId must not be null");
+        super.remove(contentId);
+        // remove from solr
+        contentSearchService.removeContent(contentId);
+    }
 
-		// save to mongodb
-		postRepository.save(content);
+    @Override
+    public void hardRemove(String contentId) {
+        Assert.notNull(contentId, "contentId must not be null");
+        super.hardRemove(contentId);
+        // remove from solr
+        contentSearchService.removeContent(contentId);
+    }
 
-		// save to solr
-		contentSearchService.saveContent(content.getId());
+    @Override
+    public void update(Post post) {
+        Assert.notNull(post, "post must not be null");
+        Assert.notNull(post.getId(), "post.id must not be null");
+        Assert.notEmpty(post.getName(), "name must not be empty");
+        Assert.notEmpty(post.getSummary(), "summary must not be empty");
+        Assert.notEmpty(post.getDescription(), "description must not be empty");
 
-		return content;
-	}
+        // update categories and categoryIds
+        updateCategories(post);
 
-	@Override
-	public void remove(String contentId) {
-		Assert.notNull(contentId, "contentId must not be null");
-		super.remove(contentId);
-		// remove from solr
-		contentSearchService.removeContent(contentId);
-	}
+        // update regions and regionIds
+        updateRegions(post);
 
-	@Override
-	public void hardRemove(String contentId) {
-		Assert.notNull(contentId, "contentId must not be null");
-		super.hardRemove(contentId);
-		// remove from solr
-		contentSearchService.removeContent(contentId);
-	}
+        // update to db
+        postRepository.update(post);
 
-	@Override
-	public void update(Post post) {
-		Assert.notNull(post, "post must not be null");
-		Assert.notNull(post.getId(), "post.id must not be null");
-		Assert.notEmpty(post.getName(), "name must not be empty");
-		Assert.notEmpty(post.getSummary(), "summary must not be empty");
-		Assert.notEmpty(post.getDescription(), "description must not be empty");
+        // save to solr
+        contentSearchService.saveContent(post.getId());
+    }
 
-		// update categories and categoryIds
-		updateCategories(post);
-
-		// update regions and regionIds
-		updateRegions(post);
-
-		// update to db
-		postRepository.update(post);
-
-		// save to solr
-		contentSearchService.saveContent(post.getId());
-	}
-
-	@Override
-	public List<Post> getPosts(String[] postIds, Locale locale) {
-		Assert.notNull(postIds, "postIds must not be null");
-		Assert.notNull(locale, "locale must not be null");
-		return postRepository.findByIds(postIds, locale);
-	}
+    @Override
+    public List<Post> getPosts(String[] postIds, Locale locale) {
+        Assert.notNull(postIds, "postIds must not be null");
+        Assert.notNull(locale, "locale must not be null");
+        return postRepository.findByIds(postIds, locale);
+    }
 
 }

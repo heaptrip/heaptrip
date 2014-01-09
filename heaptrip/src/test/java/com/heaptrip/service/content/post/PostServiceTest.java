@@ -37,7 +37,7 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
     private Post post = null;
 
     @BeforeClass
-    public void init() {
+    public void beforeTest() {
         post = new Post();
         post.setId(POST_ID);
         ContentOwner owner = new ContentOwner();
@@ -49,7 +49,7 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterClass(alwaysRun = true)
-    public void relese() {
+    public void afterTest() {
         postService.hardRemove(POST_ID);
     }
 
