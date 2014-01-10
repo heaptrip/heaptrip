@@ -1,6 +1,5 @@
 package com.heaptrip.domain.entity.comment;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.heaptrip.domain.entity.BaseObject;
 
 import java.util.Date;
@@ -8,7 +7,6 @@ import java.util.Date;
 /**
  * Comment
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "_class")
 public class Comment extends BaseObject {
 
     public static final String COLLECTION_NAME = "comments";
