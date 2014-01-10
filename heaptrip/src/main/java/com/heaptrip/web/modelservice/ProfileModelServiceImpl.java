@@ -1,13 +1,17 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.Profile;
+import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.account.community.CommunityProfile;
 import com.heaptrip.domain.entity.account.user.Knowledge;
 import com.heaptrip.domain.entity.account.user.Practice;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountService;
+import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
@@ -28,6 +32,10 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommunityService communityService;
+
 
     @Override
     public UserInfoModel getProfileInformation(String uid) {
@@ -223,6 +231,30 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             } else {
                 profile = new Profile();
             }
+            putProfileModelInfoToProfile(profile, accountProfileModel);
+        }
+        return profile;
+
+    }
+
+    private Profile convertProfileModelToProfile(AccountProfileModel accountProfileModel, CommunityProfileModel communityProfileModel) {
+        Profile profile = null;
+        if (accountProfileModel != null) {
+            if (communityProfileModel != null) {
+                CommunityProfile communityProfile = new CommunityProfile();
+                profile = communityProfile;
+            } else {
+                profile = new Profile();
+            }
+            putProfileModelInfoToProfile(profile, accountProfileModel);
+        }
+        return profile;
+
+    }
+
+
+    private void putProfileModelInfoToProfile(Profile profile, AccountProfileModel accountProfileModel) {
+        if (accountProfileModel != null) {
             profile.setLangs(accountProfileModel.getLangs());
             profile.setLocation(convertRegionModelToRegion(accountProfileModel.getLocation(), getCurrentLocale()));
             profile.setCategories(convertCategoriesModelsToCategories(accountProfileModel.getCategories(), getCurrentLocale()));
@@ -230,8 +262,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             profile.setRegions(convertRegionModelsToRegions(accountProfileModel.getRegions(), getCurrentLocale()));
             profile.setId(accountProfileModel.getId());
         }
-        return profile;
-
     }
 
 
@@ -249,11 +279,33 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     @Override
-    public void updateProfileInfo(UserInfoModel accountInfoModel) {
-        Assert.notNull(accountInfoModel, "accountInfoModel must not be null");
-        Assert.notNull(accountInfoModel.getId(), "account id  must not be null");
-        Profile profile = convertProfileModelToProfile(accountInfoModel.getAccountProfile(), accountInfoModel.getUserProfile());
-        userService.saveProfile(accountInfoModel.getId(), profile);
+    public void updateUserInfo(UserInfoModel userInfoModel) {
+        Assert.notNull(userInfoModel, "userInfoModel must not be null");
+        Assert.notNull(userInfoModel.getId(), "account id  must not be null");
+        Profile profile = convertProfileModelToProfile(userInfoModel.getAccountProfile(), userInfoModel.getUserProfile());
+        userService.saveProfile(userInfoModel.getId(), profile);
+    }
+
+    @Override
+    public void updateCommunityInfo(CommunityInfoModel communityInfoModel) {
+        // TODO: impl updateCommunityInfo
+    }
+
+    @Override
+    public CommunityInfoModel getCommunityInformation(String cid) {
+        // TODO: impl getCommunityInformation
+        return null;
+    }
+
+    @Override
+    public Community saveCommunityInfo(CommunityInfoModel communityInfoModel) {
+        Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
+        Community community = new Community();
+        // community.setName();
+        // community.set...
+        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfileModel()));
+        community = communityService.registration(community, getCurrentLocale());
+        return community;
     }
 
 

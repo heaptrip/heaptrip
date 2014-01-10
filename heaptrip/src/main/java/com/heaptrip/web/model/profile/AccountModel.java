@@ -9,8 +9,17 @@ public class AccountModel {
 	private String name;
 	private RatingModel rating;
 	private ImageModel image;
+    private String typeAccount;
 
-	public String getId() {
+    public String getTypeAccount() {
+        return typeAccount;
+    }
+
+    public void setTypeAccount(String typeAccount) {
+        this.typeAccount = typeAccount;
+    }
+
+    public String getId() {
 		return id;
 	}
 

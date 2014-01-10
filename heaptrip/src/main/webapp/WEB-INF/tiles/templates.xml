@@ -320,6 +320,16 @@
         <put-attribute name="main_content" value="communitiesTemplate"/>
     </definition>
 
+    <definition name="communityInfoEditTemplate" extends="profileTemplate">
+        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/community/community_modify_info.jsp"/>
+    </definition>
+
+    <definition name="community_modify_info" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="communityInfoEditTemplate"/>
+    </definition>
+
     <!-- End Profile -->
 
 

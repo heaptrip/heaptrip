@@ -5,6 +5,7 @@ import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
+import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
 import com.heaptrip.web.modelservice.ProfileModelService;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
     @RequestMapping(value = "profile_modify_info", method = RequestMethod.GET)
-    public ModelAndView getEditProfileIInfo(@RequestParam(required = false) String guid) {
+    public ModelAndView getEditProfileInfo(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
         guid = guid != null && guid.isEmpty() ? null : guid;
         if (guid == null) {
@@ -67,7 +68,7 @@ public class ProfileController extends ExceptionHandlerControler {
     @ResponseBody
     Map<String, ? extends Object> updateUserInfo(@RequestBody UserInfoModel userInfoModel) {
         try {
-            profileModelService.updateProfileInfo(userInfoModel);
+            profileModelService.updateUserInfo(userInfoModel);
         } catch (Throwable e) {
             throw new RestException(e);
         }
@@ -88,6 +89,48 @@ public class ProfileController extends ExceptionHandlerControler {
             mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
         return mv;
+    }
+
+
+    @RequestMapping(value = "community_modify_info", method = RequestMethod.GET)
+    public ModelAndView getEditCommunityInfo(@RequestParam(required = false) String guid, @RequestParam(required = false) String id) {
+        ModelAndView mv = new ModelAndView();
+        guid = guid != null && guid.isEmpty() ? null : guid;
+        if (guid == null) {
+            User currentUser = scopeService.getCurrentUser();
+            if (currentUser != null) {
+                guid = currentUser.getId();
+            }
+        } else {
+            mv.addObject("owner", profileModelService.getAccountInformation(guid));
+        }
+        CommunityInfoModel communityModel = profileModelService.getCommunityInformation(id);
+        return mv.addObject("community", communityModel);
+    }
+
+    @RequestMapping(value = "security/community_save", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> saveCommunityInfo(@RequestBody CommunityInfoModel communityInfoModel) {
+        try {
+            profileModelService.saveCommunityInfo(communityInfoModel);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+
+    @RequestMapping(value = "security/community_update", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> updateCommunityInfo(@RequestBody CommunityInfoModel communityInfoModel) {
+        try {
+            profileModelService.updateCommunityInfo(communityInfoModel);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
     }
 
 

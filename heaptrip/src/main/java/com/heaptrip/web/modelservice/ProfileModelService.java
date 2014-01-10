@@ -1,7 +1,11 @@
 package com.heaptrip.web.modelservice;
 
+import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.web.model.profile.AccountModel;
+import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
+import com.heaptrip.web.model.travel.TripInfoModel;
 
 public interface ProfileModelService {
 
@@ -9,6 +13,12 @@ public interface ProfileModelService {
 
     AccountModel getAccountInformation(String uid);
 
-    void updateProfileInfo(UserInfoModel accountInfoModel);
+    CommunityInfoModel getCommunityInformation(String id);
+
+    void updateUserInfo(UserInfoModel userInfoModel);
+
+    Community saveCommunityInfo(CommunityInfoModel communityInfoModel);
+
+    void updateCommunityInfo(CommunityInfoModel communityInfoModel);
 
 }

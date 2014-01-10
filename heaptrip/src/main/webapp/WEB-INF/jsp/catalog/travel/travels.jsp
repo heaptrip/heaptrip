@@ -67,9 +67,7 @@
 <div id="container">
     <div id="contents"></div>
     <tiles:insertDefinition name="pagination" />
-
-        <div id="paginator"></div>
-
+    <div id="paginator"></div>
 </div>
 
 <aside id="sideRight">

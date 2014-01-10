@@ -59,6 +59,7 @@
 
         <article id="article" class="deteil edit">
             <div class="description">
+
                 <div id="list_user_1" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
@@ -69,7 +70,10 @@
                                 <fmt:message key="user.i.owner"/>
                             </c:otherwise>
                         </c:choose>
+                        <input type="button" onClick="window.location = '<c:url value="/community_modify_info.html"/>'" value="<fmt:message key="page.action.add" />" class="button">
+
                     </div>
+
                     <ul>
 						<li class="participants_li community_func12"><div class="list_user_img"><img src="/1_small.jpg"></div><div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div></li>
                     </ul>
@@ -90,12 +94,11 @@
 					</ul>
                 </div>
 
-                <br/>
+
                 <div class="pagination_mini">
                     <div id="paginator2"></div>
                 </div>
 
-                <br/>
                 <div id="list_user_3" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
@@ -111,6 +114,7 @@
 						<li class="participants_li community_func14"><div class="list_user_img"><img src="/1_small.jpg"></div><div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div></li>
                     </ul>
                 </div>
+
                 <div id="list_user_4" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
@@ -126,11 +130,14 @@
 					    <li class="participants_li community_func15"><div class="list_user_img"><img src="/1_small.jpg"></div><div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div></li>
                     </ul>
                 </div>
+
+                <div class="pagination_mini">
+                    <div id="paginator1"></div>
+                </div>
+
             </div>
 
-            <div class="pagination_mini">
-                <div id="paginator1"></div>
-            </div>
+
 
         </article>
 

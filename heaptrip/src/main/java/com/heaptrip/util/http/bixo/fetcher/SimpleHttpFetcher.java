@@ -22,40 +22,15 @@
  */
 package com.heaptrip.util.http.bixo.fetcher;
 
-import java.io.ByteArrayOutputStream;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLException;
-import javax.net.ssl.SSLHandshakeException;
-import javax.net.ssl.TrustManager;
-
+import com.heaptrip.util.http.bixo.config.FetcherPolicy;
+import com.heaptrip.util.http.bixo.config.FetcherPolicy.RedirectMode;
+import com.heaptrip.util.http.bixo.config.UserAgent;
+import com.heaptrip.util.http.bixo.datum.HttpHeaders;
+import com.heaptrip.util.http.bixo.datum.TupleTwo;
+import com.heaptrip.util.http.bixo.exceptions.*;
+import com.heaptrip.util.http.bixo.exceptions.RedirectFetchException.RedirectExceptionReason;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpEntityEnclosingRequest;
-import org.apache.http.HttpException;
-import org.apache.http.HttpHost;
-import org.apache.http.HttpInetConnection;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpRequestInterceptor;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.NoHttpResponseException;
+import org.apache.http.*;
 import org.apache.http.ProtocolException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
@@ -94,19 +69,17 @@ import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.Logger;
 
-import com.heaptrip.util.http.bixo.config.FetcherPolicy;
-import com.heaptrip.util.http.bixo.config.UserAgent;
-import com.heaptrip.util.http.bixo.config.FetcherPolicy.RedirectMode;
-import com.heaptrip.util.http.bixo.datum.HttpHeaders;
-import com.heaptrip.util.http.bixo.datum.TupleTwo;
-import com.heaptrip.util.http.bixo.exceptions.AbortedFetchException;
-import com.heaptrip.util.http.bixo.exceptions.AbortedFetchReason;
-import com.heaptrip.util.http.bixo.exceptions.BaseFetchException;
-import com.heaptrip.util.http.bixo.exceptions.HttpFetchException;
-import com.heaptrip.util.http.bixo.exceptions.IOFetchException;
-import com.heaptrip.util.http.bixo.exceptions.RedirectFetchException;
-import com.heaptrip.util.http.bixo.exceptions.UrlFetchException;
-import com.heaptrip.util.http.bixo.exceptions.RedirectFetchException.RedirectExceptionReason;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.SSLHandshakeException;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 
