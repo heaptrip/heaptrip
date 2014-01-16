@@ -37,27 +37,22 @@
         });
     });
 
-    var onСommunitySubmit = function (btn) {
+    var onCommunitySubmit = function (btn) {
 
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: $.getParamFromURL().guid ? $.getParamFromURL().guid : null
+            id: $.getParamFromURL().uid ? $.getParamFromURL().uid : null
         };
 
-        jsonData.name = $("#my_name").val();
+        jsonData.name = $("#community_name").val();
+        jsonData.email = $("#community_email").val();
+        jsonData.typeAccount = $("#community_type option:selected")[0].getAttribute('key');
 
         var accountProfile = {};
 
-        accountProfile.desc = $("#my_desc").val();
+        accountProfile.desc = $("#community_desc").val();
 
-        accountProfile.langs = [];
-        $('.my_lang.my_lang_edit > ul > li').each(
-                function (ili, li) {
-                    var className = $(li).attr('class');
-                    if (className !== 'my_add_lang')
-                        accountProfile.langs.push(className);
-                });
 
         var paramsJson = $.getParamFromURL();
 
@@ -85,8 +80,12 @@
             $.extend(accountProfile, {location: {id: $("#location").attr('reg_id')}});
         }
 
-        var url = 'rest/security/community_update';
+        var url = null;
 
+        if (jsonData.id)
+            url = 'rest/security/community_update';
+        else
+            url = 'rest/security/community_save';
 
         var callbackSuccess = function (data) {
             window.location = 'profile.html?guid=' + $.getParamFromURL().guid;
@@ -94,7 +93,7 @@
 
         var callbackError = function (error) {
             $(btn).prop('disabled', true);
-            $("#error_message #msg").text(error);
+            $("#error_message #msg").html(error + '<br/><br/>');
         };
 
         $.postJSON(url, jsonData, callbackSuccess, callbackError);
@@ -109,10 +108,10 @@
         <article id="article" class="deteil edit">
             <div class="inf">
                 <div class="left">
-                    <h2 class="people_title"><fmt:message key="communityProfile.title"/></h2></h2>
+                    <h2 class="people_title"><fmt:message key="community.title"/></h2></h2>
                 </div>
                 <div class="right">
-                    <a onClick="onСommunitySubmit(this)" class="button"><fmt:message key="page.action.save"/></a>
+                    <a onClick="onCommunitySubmit(this)" class="button"><fmt:message key="page.action.save"/></a>
                 </div>
 
                 <div id="error_message">
@@ -122,50 +121,47 @@
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${community.image.id}"/>"><a
                             href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
+
+                    <a id="cke_46" class="cke_button cke_button__addimgserver cke_button_off " "="" href="javascript:void('Загрузить изображение')" title="Загрузить изображение" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_46_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(128,event);" onfocus="return CKEDITOR.tools.callFunction(129,event);" onmousedown="return CKEDITOR.tools.callFunction(130,event);" onclick="CKEDITOR.tools.callFunction(131,this);return false;"><span class="cke_button_icon cke_button__addimgserver_icon" style="background-image:url(http://localhost:8080/heaptrip/js/lib/ckeditor/plugins/addImgServer/icons/addImgServer.png?t=CAPD);background-position:0 0px;">&nbsp;</span><span id="cke_46_label" class="cke_button_label cke_button__addimgserver_label">Загрузить изображение</span></a>
+
+
                     <div class="my_inf">
                         <div class="my_name">
-                            <input id="my_name" type="text" value="${community.name}"
-                                   alt="<fmt:message key="user.firstName"/>">
+                            <input id="community_name" type="text" value="${community.name}"
+                                   alt="<fmt:message key="community.name"/>">
                         </div>
-                        <div class="my_location"><span><fmt:message key="user.place"/>: </span><input id="location"
-                                                                                                      reg_id="${community.accountProfile.location.id}"
-                                                                                                      value="${community.accountProfile.location.data}"
-                                                                                                      type="text"></div>
-
-                        <div class="my_lang my_lang_edit">
-                            <fmt:message key="user.languages"/>:
-                            <ul>
-                                <c:forEach items="${community.accountProfile.langs}" var="lang" varStatus="stat">
-                                    <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
-                                </c:forEach>
-                                <li class="my_add_lang">
-                                    <a class="add_lang lang"></a>
-
-                                    <div>
-                                        <ul>
-                                            <c:set var="joinLangValues"
-                                                   value="${fn:join(community.accountProfile.langs, ',')}"/>
-                                            <c:forEach items="${langValues}" var="langValue">
-                                                <c:if test="${fn:contains(joinLangValues, langValue) ne true}">
-                                                    <li><a class="${langValue}"><fmt:message
-                                                            key="locale.${langValue}"/></a></li>
-                                                </c:if>
-                                            </c:forEach>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
+                        <div class="my_name">
+                            <input id="community_email" type="text" value="${community.email}"
+                                   alt="<fmt:message key="accountProfile.email"/>">
                         </div>
+
+
+                        <div class="my_location"><span><fmt:message key="account.type"/>: </span>
+                            <select id="community_type">
+                                <option key="CLUB"><fmt:message key="account.type.club"/></option>
+                                <option key="COMPANY"><fmt:message key="account.type.company"/></option>
+                                <option key="AGENCY"><fmt:message key="account.type.agency"/></option>
+                            </select>
+                        </div>
+
+
+
+                        <div class="my_location"><span><fmt:message key="user.place"/>: </span>
+                            <input id="location"
+                                   reg_id="${community.accountProfile.location.id}"
+                                   value="${community.accountProfile.location.data}"
+                                   type="text"/>
+                        </div>
+
+
                     </div>
                 </div>
 
             </div>
             <div class="description">
-                <textarea id="my_desc"
-                          alt="<fmt:message key="user.aboutMe"/>:">${community.accountProfile.desc}</textarea>
+                <textarea id="community_desc"
+                          alt="<fmt:message key="content.description"/>:">${community.accountProfile.desc}</textarea>
             </div>
-
-
 
 
         </article>

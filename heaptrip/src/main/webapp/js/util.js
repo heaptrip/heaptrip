@@ -277,3 +277,11 @@ function stringMarker(term, path) {
 }
 
 
+var uploader = {
+    show:function(callBackFunction){
+        $('<div>' + 'text' + '</div>').dialog();
+        callBackFunction();
+    }
+}
+
+

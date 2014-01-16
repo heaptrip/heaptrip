@@ -13,7 +13,7 @@ public interface ProfileModelService {
 
     AccountModel getAccountInformation(String uid);
 
-    CommunityInfoModel getCommunityInformation(String id);
+    CommunityInfoModel getCommunityInformation(String communityId);
 
     void updateUserInfo(UserInfoModel userInfoModel);
 

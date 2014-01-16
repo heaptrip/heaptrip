@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 @Controller
+@Deprecated
 public class ImageController extends ExceptionHandlerControler {
 
 

@@ -2,6 +2,7 @@ package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
+import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
@@ -292,7 +293,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     }
 
     @Override
-    public CommunityInfoModel getCommunityInformation(String cid) {
+    public CommunityInfoModel getCommunityInformation(String communityId) {
         // TODO: impl getCommunityInformation
         return null;
     }
@@ -301,9 +302,12 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     public Community saveCommunityInfo(CommunityInfoModel communityInfoModel) {
         Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
         Community community = new Community();
-        // community.setName();
-        // community.set...
-        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfileModel()));
+        community.setTypeAccount(AccountEnum.valueOf(communityInfoModel.getTypeAccount()));
+        community.setName(communityInfoModel.getName());
+        community.setEmail(communityInfoModel.getEmail());
+        community.setStatus(AccountStatusEnum.ACTIVE);
+        // TODO: community.set...
+        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
         community = communityService.registration(community, getCurrentLocale());
         return community;
     }

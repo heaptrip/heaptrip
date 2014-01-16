@@ -2,13 +2,13 @@ package com.heaptrip.web.model.profile;
 
 public class CommunityInfoModel extends AccountInfoModel {
 
-    private CommunityProfileModel communityProfileModel;
+    private CommunityProfileModel communityProfile;
 
-    public CommunityProfileModel getCommunityProfileModel() {
-        return communityProfileModel;
+    public CommunityProfileModel getCommunityProfile() {
+        return communityProfile;
     }
 
-    public void setCommunityProfileModel(CommunityProfileModel communityProfileModel) {
-        this.communityProfileModel = communityProfileModel;
+    public void setCommunityProfile(CommunityProfileModel communityProfile) {
+        this.communityProfile = communityProfile;
     }
 }
