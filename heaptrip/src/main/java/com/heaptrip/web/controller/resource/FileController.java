@@ -109,12 +109,7 @@ public class FileController extends ExceptionHandlerControler {
     public
     @ResponseBody
     Map<String, ? extends Object> upload() {
-
-        Map result = new HashMap<String, Object>();
-
-        result.put("files", files);
-
-        return result;
+        return Collections.singletonMap("files", files);
     }
 
     /**

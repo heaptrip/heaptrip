@@ -36,7 +36,7 @@
 
 <div class="container">
 
-    <br/><br/>
+    <br/>
 
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="./rest/upload/" method="POST" enctype="multipart/form-data">

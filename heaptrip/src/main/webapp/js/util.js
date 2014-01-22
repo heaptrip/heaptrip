@@ -279,8 +279,35 @@ function stringMarker(term, path) {
 
 var uploader = {
     show:function(callBackFunction){
-        $('<div>' + 'text' + '</div>').dialog();
-        callBackFunction();
+
+        var iframe = $('<iframe frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
+        var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
+            autoOpen: false,
+            modal: true,
+            resizable: false,
+            width: "auto",
+            height: "auto",
+            close: function () {
+                iframe.attr("src", "");
+            }
+        });
+
+            var src = '/heaptrip/upload.jsp';
+            var title = 'UPLOADER';
+            var width = 800;
+            var height = 350;
+            iframe.attr({
+                width: +width,
+                height: +height,
+                src: src
+            });
+            dialog.dialog("option", "title", title).dialog("open");
+
+
+
+
+
+       // callBackFunction();
     }
 }
 
