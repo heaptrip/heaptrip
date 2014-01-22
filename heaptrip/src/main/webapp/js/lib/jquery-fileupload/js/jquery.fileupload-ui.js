@@ -467,6 +467,10 @@
         },
 
         _renderTemplate: function (func, files) {
+
+            console.log("ren");
+            console.log(files);
+
             if (!func) {
                 return $();
             }
@@ -482,12 +486,22 @@
         },
 
         _renderPreviews: function (data) {
+
+            console.log("---");
+            console.log(data);
+            console.log("---");
+
             data.context.find('.preview').each(function (index, elm) {
                 $(elm).append(data.files[index].preview);
             });
         },
 
         _renderUpload: function (files) {
+
+            console.log("-1-");
+            console.log(files);
+            console.log("-1-");
+
             return this._renderTemplate(
                 this.options.uploadTemplate,
                 files

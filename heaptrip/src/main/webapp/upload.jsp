@@ -1,71 +1,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!--
-
-<!DOCTYPE HTML>
-<html>
-<head>
-<meta charset="utf-8">
-<title>jQuery File Upload Example</title>
-
-
-<script src="./js/jquery.js?ver=1.9.1-min"></script>
-<script src="./js/lib/jquery-fileupload/js/vendor/jquery.ui.widget.js"></script>
-
-<script src="./js/lib/jquery-fileupload/js/jquery.iframe-transport.js"></script>
-<script src="./js/lib/jquery-fileupload/js/jquery.fileupload.js"></script>
-
-
-<script src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
-<link href="./js/lib/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet" />
-
-
-</head>
-
-<body>
-
-
--->
-
-
-<!DOCTYPE HTML>
-<!--
-/*
-* jQuery File Upload Plugin Demo 9.0.1
-* https://github.com/blueimp/jQuery-File-Upload
-*
-* Copyright 2010, Sebastian Tschan
-* https://blueimp.net
-*
-* Licensed under the MIT license:
-* http://www.opensource.org/licenses/MIT
-*/
--->
 <html lang="en">
 <head>
-    <!-- Force latest IE rendering engine or ChromeFrame if installed -->
-    <!--[if IE]>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <![endif]-->
-    <meta charset="utf-8">
-    <title>jQuery File Upload Demo</title>
-    <meta name="description"
-          content="File Upload widget with multiple file selection, drag&amp;drop support, progress bars, validation and preview images, audio and video for jQuery. Supports cross-domain, chunked and resumable file uploads and client-side image resizing. Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap styles -->
-    <link rel="stylesheet" href="./js/lib/bootstrap/css/bootstrap.min.css">
 
-    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-    <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload.css">
-    <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload-ui.css">
+    <link rel="stylesheet" href="./js/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload.css"/>
+    <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload-ui.css"/>
 
-    <!-- CSS adjustments for browsers with JavaScript disabled -->
-    <noscript>
-        <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload-noscript.css">
-    </noscript>
-    <noscript>
-        <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload-ui-noscript.css">
-    </noscript>
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
+    <script src="./js/lib/jquery-fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <!-- The Templates plugin is included to render the upload/download listings -->
+    <script src="./js/lib/jquery-fileupload/js/add/tmpl.min.js"></script>
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+    <script src="./js/lib/jquery-fileupload/js/add/load-image.min.js"></script>
+    <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
+    <script src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <script src="./js/lib/jquery-fileupload/js/jquery.iframe-transport.js"></script>
+    <!-- The basic File Upload plugin -->
+    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload.js"></script>
+    <!-- The File Upload processing plugin -->
+    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-process.js"></script>
+    <!-- The File Upload image preview & resize plugin -->
+    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-image.js"></script>
+    <!-- The File Upload validation plugin -->
+    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-validate.js"></script>
+    <!-- The File Upload user interface plugin -->
+    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-ui.js"></script>
 
 </head>
 <body>
@@ -73,11 +36,10 @@
 
 <div class="container">
 
-                  <br/><br/>
+    <br/><br/>
 
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="./rest/upload/" method="POST" enctype="multipart/form-data">
-
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="col-lg-7">
@@ -203,47 +165,9 @@
     </tr>
     {% } %}
 </script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-<script src="./js/lib/jquery-fileupload/js/vendor/jquery.ui.widget.js"></script>
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="./js/lib/jquery-fileupload/js/add/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-<script src="./js/lib/jquery-fileupload/js/add/load-image.min.js"></script>
-<!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-<script src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-<script src="./js/lib/jquery-fileupload/js/jquery.iframe-transport.js"></script>
-<!-- The basic File Upload plugin -->
-<script src="./js/lib/jquery-fileupload/js/jquery.fileupload.js"></script>
-<!-- The File Upload processing plugin -->
-<script src="./js/lib/jquery-fileupload/js/jquery.fileupload-process.js"></script>
-<!-- The File Upload image preview & resize plugin -->
-<script src="./js/lib/jquery-fileupload/js/jquery.fileupload-image.js"></script>
-<!-- The File Upload validation plugin -->
-<script src="./js/lib/jquery-fileupload/js/jquery.fileupload-validate.js"></script>
-<!-- The File Upload user interface plugin -->
-<script src="./js/lib/jquery-fileupload/js/jquery.fileupload-ui.js"></script>
-<!-- The main application script -->
-
-
-<!--<script src="js/main.js"></script>-->
 
 
 <script>
-
-    /*
-     * jQuery File Upload Plugin JS Example 8.9.1
-     * https://github.com/blueimp/jQuery-File-Upload
-     *
-     * Copyright 2010, Sebastian Tschan
-     * https://blueimp.net
-     *
-     * Licensed under the MIT license:
-     * http://www.opensource.org/licenses/MIT
-     */
-
-    /* global $, window */
 
     $(function () {
         'use strict';
@@ -256,9 +180,15 @@
         });
 
 
+
+
         // Load existing files:
         $('#fileupload').addClass('fileupload-processing');
         $.ajax({
+
+
+
+
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
             url: $('#fileupload').fileupload('option', 'url'),
@@ -267,6 +197,9 @@
         }).always(function () {
                     $(this).removeClass('fileupload-processing');
                 }).done(function (result) {
+
+                    console.log(result);
+
                     $(this).fileupload('option', 'done')
                             .call(this, $.Event('done'), {result: result});
                 });

@@ -16,15 +16,19 @@ public class FileMeta {
     private String size;
     private String deleteUrl;
     private String deleteType;
-    private byte[] bytes;
 
-    public byte[] getBytes() {
-        return bytes;
+    public String getId() {
+        return id;
     }
 
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
+    public void setId(String id) {
+        this.id = id;
     }
+
+    private String id;
+
+
+
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
