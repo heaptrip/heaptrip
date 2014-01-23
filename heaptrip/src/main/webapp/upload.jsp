@@ -40,6 +40,10 @@
 
     <!-- The file upload form used as target for the file upload widget -->
     <form id="fileupload" action="./rest/upload/" method="POST" enctype="multipart/form-data">
+
+
+
+
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="col-lg-7">
@@ -80,6 +84,12 @@
             <tbody class="files"></tbody>
         </table>
     </form>
+
+
+   <!-- <button type="submit" class="btn" id="FormSuccessBTN">
+        <i class="glyphicon glyphicon-upload"></i>
+        <span>ADD</span>
+    </button>-->
 
 </div>
 
@@ -127,7 +137,7 @@
             <span class="preview">
                 {% if (file.thumbnailUrl) { %}
                     <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" data-gallery><img
-                            src="{%=file.thumbnailUrl%}" width="150"></a>
+                            src="{%=file.thumbnailUrl%}" width="120"></a>
                 {% } %}
             </span>
         </td>
@@ -176,7 +186,7 @@
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: 'rest/upload/'
+            url: 'rest/upload?ids=${param.ids}'
         });
 
 
@@ -197,9 +207,6 @@
         }).always(function () {
                     $(this).removeClass('fileupload-processing');
                 }).done(function (result) {
-
-                    console.log(result);
-
                     $(this).fileupload('option', 'done')
                             .call(this, $.Event('done'), {result: result});
                 });

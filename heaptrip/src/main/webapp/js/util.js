@@ -278,36 +278,49 @@ function stringMarker(term, path) {
 
 
 var uploader = {
-    show:function(callBackFunction){
+    show: function (callBackFunction) {
 
-        var iframe = $('<iframe frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
-        var dialog = $("<div></div>").append(iframe).appendTo("body").dialog({
+        var iframe = $('<iframe id="UPLOADER_CONTAINER" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
+        var dialog = $("<div id='UPLOADER_DIALOG'></div>").append(iframe).appendTo("body").dialog({
             autoOpen: false,
             modal: true,
             resizable: false,
             width: "auto",
             height: "auto",
+            buttons: [
+                {
+                    text: "OK",
+                    click: function () {
+                        var files = null;
+                        var filesDiv = $("#UPLOADER_CONTAINER").contents().find('#FILES_RESULT')
+                        if (filesDiv) {
+                            var filesString = filesDiv.text();
+                            if (filesString) {
+                                files = jQuery.parseJSON(filesString);
+                            }
+                        }
+                        callBackFunction(files);
+                        $(this).dialog("close");
+                    }
+                }
+            ],
             close: function () {
                 iframe.attr("src", "");
             }
         });
 
-            var src = '/heaptrip/upload.jsp';
-            var title = 'UPLOADER';
-            var width = 800;
-            var height = 350;
-            iframe.attr({
-                width: +width,
-                height: +height,
-                src: src
-            });
-            dialog.dialog("option", "title", title).dialog("open");
+        var src = './upload.jsp';
+        var title = 'UPLOADER';
+        var width = 800;
+        var height = 350;
+        iframe.attr({
+            width: +width,
+            height: +height,
+            src: src
+        });
+        dialog.dialog("option", "title", title).dialog("open");
 
 
-
-
-
-       // callBackFunction();
     }
 }
 

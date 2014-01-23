@@ -94,37 +94,37 @@
                     .addClass('processing');
                 options.filesContainer[
                     options.prependFiles ? 'prepend' : 'append'
-                ](data.context);
+                    ](data.context);
                 that._forceReflow(data.context);
                 $.when(
-                    that._transition(data.context),
-                    data.process(function () {
-                        return $this.fileupload('process', data);
-                    })
-                ).always(function () {
-                    data.context.each(function (index) {
-                        $(this).find('.size').text(
-                            that._formatFileSize(data.files[index].size)
-                        );
-                    }).removeClass('processing');
-                    that._renderPreviews(data);
-                }).done(function () {
-                    data.context.find('.start').prop('disabled', false);
-                    if ((that._trigger('added', e, data) !== false) &&
+                        that._transition(data.context),
+                        data.process(function () {
+                            return $this.fileupload('process', data);
+                        })
+                    ).always(function () {
+                        data.context.each(function (index) {
+                            $(this).find('.size').text(
+                                that._formatFileSize(data.files[index].size)
+                            );
+                        }).removeClass('processing');
+                        that._renderPreviews(data);
+                    }).done(function () {
+                        data.context.find('.start').prop('disabled', false);
+                        if ((that._trigger('added', e, data) !== false) &&
                             (options.autoUpload || data.autoUpload) &&
                             data.autoUpload !== false) {
-                        data.submit();
-                    }
-                }).fail(function () {
-                    if (data.files.error) {
-                        data.context.each(function (index) {
-                            var error = data.files[index].error;
-                            if (error) {
-                                $(this).find('.error').text(error);
-                            }
-                        });
-                    }
-                });
+                            data.submit();
+                        }
+                    }).fail(function () {
+                        if (data.files.error) {
+                            data.context.each(function (index) {
+                                var error = data.files[index].error;
+                                if (error) {
+                                    $(this).find('.error').text(error);
+                                }
+                            });
+                        }
+                    });
             },
             // Callback for the start of each file upload request:
             send: function (e, data) {
@@ -132,9 +132,9 @@
                     return false;
                 }
                 var that = $(this).data('blueimp-fileupload') ||
-                        $(this).data('fileupload');
+                    $(this).data('fileupload');
                 if (data.context && data.dataType &&
-                        data.dataType.substr(0, 6) === 'iframe') {
+                    data.dataType.substr(0, 6) === 'iframe') {
                     // Iframe Transport does not support progress events.
                     // In lack of an indeterminate progress bar, we set
                     // the progress to 100%, showing the full animated bar:
@@ -165,7 +165,7 @@
                 if (data.context) {
                     data.context.each(function (index) {
                         var file = files[index] ||
-                                {error: 'Empty file upload result'};
+                        {error: 'Empty file upload result'};
                         deferred = that._addFinishedDeferreds();
                         that._transition($(this)).done(
                             function () {
@@ -187,7 +187,7 @@
                 } else {
                     template = that._renderDownload(files)[
                         that.options.prependFiles ? 'prependTo' : 'appendTo'
-                    ](that.options.filesContainer);
+                        ](that.options.filesContainer);
                     that._forceReflow(template);
                     deferred = that._addFinishedDeferreds();
                     that._transition(template).done(
@@ -247,7 +247,7 @@
                 } else if (data.errorThrown !== 'abort') {
                     data.context = that._renderUpload(data.files)[
                         that.options.prependFiles ? 'prependTo' : 'appendTo'
-                    ](that.options.filesContainer)
+                        ](that.options.filesContainer)
                         .data('data', data);
                     that._forceReflow(data.context);
                     deferred = that._addFinishedDeferreds();
@@ -312,7 +312,7 @@
                     return false;
                 }
                 var that = $(this).data('blueimp-fileupload') ||
-                        $(this).data('fileupload');
+                    $(this).data('fileupload');
                 that._resetFinishedDeferreds();
                 that._transition($(this).find('.fileupload-progress')).done(
                     function () {
@@ -407,7 +407,8 @@
                         'DownloadURL',
                         [type, name, url].join(':')
                     );
-                } catch (ignore) {}
+                } catch (ignore) {
+                }
             });
         },
 
@@ -467,9 +468,35 @@
         },
 
         _renderTemplate: function (func, files) {
+            var cache = [];
+            if ($('#FILES_RESULT')) {
+                var cacheString = $('#FILES_RESULT').text();
+                if (cacheString) {
+                    cache = jQuery.parseJSON(cacheString);
+                }
+            }
 
-            console.log("ren");
-            console.log(files);
+            $.each(files, function (index, file) {
+                if (file.id) {
+                    var isContains = false;
+                    $.each(cache, function (index, cacheFile) {
+                        if (cacheFile.id == file.id) {
+                            isContains = true;
+                            return;
+                        }
+                    });
+                    if (isContains === false) {
+                        cache.push(file);
+                    }
+                }
+            });
+
+            if ($('#FILES_RESULT').length == 0) {
+                $('<div id="FILES_RESULT"></div>')
+                    .attr('style', 'display: none;')
+                    .appendTo('body');
+            }
+            $('#FILES_RESULT').text(JSON.stringify(cache));
 
             if (!func) {
                 return $();
@@ -486,21 +513,12 @@
         },
 
         _renderPreviews: function (data) {
-
-            console.log("---");
-            console.log(data);
-            console.log("---");
-
             data.context.find('.preview').each(function (index, elm) {
                 $(elm).append(data.files[index].preview);
             });
         },
 
         _renderUpload: function (files) {
-
-            console.log("-1-");
-            console.log(files);
-            console.log("-1-");
 
             return this._renderTemplate(
                 this.options.uploadTemplate,

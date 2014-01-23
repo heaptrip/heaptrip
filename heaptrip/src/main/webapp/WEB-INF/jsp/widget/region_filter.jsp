@@ -67,7 +67,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
     if (paramsJson.rg) {
         $('#region .tree').empty();
-        console.log(paramsJson.rg);
+        //console.log(paramsJson.rg);
         buildRegionsTree(paramsJson.rg.split(','));
     }else{
         $('#region .tree').empty();

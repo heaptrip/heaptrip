@@ -40,7 +40,7 @@ public class FileController extends ExceptionHandlerControler {
     @Autowired
     private ImageService imageService;
 
-    Stack<FileMeta> files = new Stack<FileMeta>();
+    // Stack<FileMeta> files = new Stack<FileMeta>();
 
 
     /**
@@ -56,38 +56,40 @@ public class FileController extends ExceptionHandlerControler {
     @RequestMapping(value = "upload", headers = "content-type=multipart/*", method = {RequestMethod.POST, RequestMethod.HEAD})
     public
     @ResponseBody
-    Map<String, ? extends Object> upload(MultipartHttpServletRequest request, HttpServletResponse response) throws Exception {
+    Map<String, ? extends Object> upload(MultipartHttpServletRequest request) throws Exception {
+
+        Stack<FileMeta> files = new Stack<FileMeta>();
 
         Iterator<String> itr = request.getFileNames();
         MultipartFile mpf;
 
         List<FileMeta> fileMetaList = new ArrayList<>();
 
-        if(itr.hasNext()){
+        if (itr.hasNext()) {
 
-        while (itr.hasNext()) {
+            while (itr.hasNext()) {
 
-            FileMeta fileMeta = new FileMeta();
+                FileMeta fileMeta = new FileMeta();
 
-            mpf = request.getFile(itr.next());
-            System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
+                mpf = request.getFile(itr.next());
+                System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
 
-            String id = imageService.saveImage(mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
+                String id = imageService.saveImage(mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
 
-            fileMeta.setName(mpf.getOriginalFilename());
-            fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
-            fileMeta.setType(mpf.getContentType());
-            fileMeta.setUrl("./rest/get/" + id);
-            fileMeta.setThumbnailUrl("./rest/get/" + id);
-            fileMeta.setDeleteUrl("./rest/get/" + id);
-            fileMeta.setDeleteType("DELETE");
-            fileMeta.setId(id);
+                fileMeta.setName(mpf.getOriginalFilename());
+                fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
+                fileMeta.setType(mpf.getContentType());
+                fileMeta.setUrl("./rest/get/" + id);
+                fileMeta.setThumbnailUrl("./rest/get/" + id);
+                fileMeta.setDeleteUrl("./rest/get/" + id);
+                fileMeta.setDeleteType("DELETE");
+                fileMeta.setId(id);
 
-            fileMetaList.add(fileMeta);
+                fileMetaList.add(fileMeta);
 
-            files.push(fileMeta);
+                files.push(fileMeta);
 
-            return Collections.singletonMap("files", fileMetaList);
+                return Collections.singletonMap("files", fileMetaList);
             }
         }
 
@@ -95,21 +97,46 @@ public class FileController extends ExceptionHandlerControler {
     }
 
 
-   /* /**
-     * ************************************************
-     * URL: /rest/controller/upload
-     * upload(): receives files
-     *
-     * @param request  : MultipartHttpServletRequest auto passed
-     * @param response : HttpServletResponse auto passed
-     * @return LinkedList<FileMeta> as json format
-     *         **************************************************
-     */
+    /* /**
+      * ************************************************
+      * URL: /rest/controller/upload
+      * upload(): receives files
+      *
+      * @param request  : MultipartHttpServletRequest auto passed
+      * @param response : HttpServletResponse auto passed
+      * @return LinkedList<FileMeta> as json format
+      *         **************************************************
+      */
     @RequestMapping(value = "upload", method = {RequestMethod.GET, RequestMethod.HEAD})
     public
     @ResponseBody
-    Map<String, ? extends Object> upload() {
-        return Collections.singletonMap("files", files);
+    Map<String, ? extends Object> upload(@RequestParam(value = "ids") String ids) {
+
+        if (ids == null || ids.isEmpty())
+            return Collections.singletonMap("files", Collections.emptyList());
+
+        List<FileMeta> fileMetaList = new ArrayList<>();
+
+        for(String id : ids.split(",")){
+            FileMeta fileMeta = new FileMeta();
+
+
+            fileMeta.setName(id);
+            fileMeta.setSize(1000 / 1024 + " Kb");
+            fileMeta.setType("none");
+            fileMeta.setUrl("./rest/get/" + id);
+            fileMeta.setThumbnailUrl("./rest/get/" + id);
+            fileMeta.setDeleteUrl("./rest/get/" + id);
+            fileMeta.setDeleteType("DELETE");
+            fileMeta.setId(id);
+
+            fileMetaList.add(fileMeta);
+        }
+
+
+        return Collections.singletonMap("files", fileMetaList);
+
+
     }
 
     /**

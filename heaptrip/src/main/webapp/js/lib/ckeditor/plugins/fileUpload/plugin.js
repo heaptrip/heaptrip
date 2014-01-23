@@ -10,11 +10,16 @@ CKEDITOR.plugins.add('fileUpload',
                 });
 
             editor.addCommand('OpenDialog', { exec: function () {
-                var callBackFunction = function (jsonUploadResult) {
-                    editor.insertHtml('<img src="test" />');
+                var callBackFunction = function (files) {
+                    if (files) {
+                        $.each(files, function (index, value) {
+                            editor.insertHtml('<br/>');
+                            editor.insertHtml('<img src="' + value.url + '" />');
+                        });
+                    }
                 };
                 uploader.show(callBackFunction);
-                }
+            }
             });
         }
     });
