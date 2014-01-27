@@ -3,10 +3,10 @@ package com.heaptrip.domain.repository;
 import com.heaptrip.domain.entity.BaseObject;
 
 /**
- * 
+ *
  * Interface for generic CRUD operations on a repository for a specific domain
  * type.
- * 
+ *
  * @param <T>
  *            domain type
  */
@@ -14,7 +14,7 @@ public interface CrudRepository<T extends BaseObject> extends Repository {
 
 	/**
 	 * Saves a given entity.
-	 * 
+	 *
 	 * @param entity
 	 * @return persist entity
 	 */
@@ -22,7 +22,7 @@ public interface CrudRepository<T extends BaseObject> extends Repository {
 
 	/**
 	 * Saves all given entities.
-	 * 
+	 *
 	 * @param entities
 	 * @return persist entities
 	 */
@@ -30,21 +30,21 @@ public interface CrudRepository<T extends BaseObject> extends Repository {
 
 	/**
 	 * Returns the number of entities available.
-	 * 
+	 *
 	 * @return count
 	 */
 	public long count();
 
 	/**
 	 * Returns all instances of the type.
-	 * 
+	 *
 	 * @return entities
 	 */
 	public Iterable<T> findAll();
 
 	/**
 	 * Returns all instances of the type with the given IDs.
-	 * 
+	 *
 	 * @param ids
 	 * @return entities
 	 */
@@ -52,15 +52,23 @@ public interface CrudRepository<T extends BaseObject> extends Repository {
 
 	/**
 	 * Retrieves an entity by its id.
-	 * 
+	 *
 	 * @param id
 	 * @return entity
 	 */
 	public T findOne(String id);
 
+    /**
+     * Retrieves an entity by its id.
+     *
+     * @param id
+     * @return entity
+     */
+    public T findOne();
+
 	/**
 	 * Returns whether an entity with the given id exists.
-	 * 
+	 *
 	 * @param id
 	 * @return
 	 */
@@ -68,21 +76,21 @@ public interface CrudRepository<T extends BaseObject> extends Repository {
 
 	/**
 	 * Deletes the entity with the given id.
-	 * 
+	 *
 	 * @param id
 	 */
 	public void remove(String id);
 
 	/**
 	 * Deletes a given entity.
-	 * 
+	 *
 	 * @param entity
 	 */
 	public void remove(T entity);
 
 	/**
 	 * Deletes the given entities.
-	 * 
+	 *
 	 * @param entities
 	 */
 	public void remove(Iterable<? extends T> entities);

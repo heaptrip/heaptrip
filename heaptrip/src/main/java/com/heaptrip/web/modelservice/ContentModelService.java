@@ -1,19 +1,19 @@
 package com.heaptrip.web.modelservice;
 
-import java.util.Locale;
-
-import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.region.SimpleRegion;
-import com.heaptrip.web.model.content.CategoryModel;
-import com.heaptrip.web.model.content.RegionModel;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.profile.AccountModel;
+
+import java.util.List;
 
 public interface ContentModelService {
 
-	AccountModel convertContentOwnerToModel(ContentOwner owner);
+    public static String SERVICE_NAME = "contentModelService";
 
-	ContentOwner getContentOwner();
+    AccountModel convertContentOwnerToModel(ContentOwner owner);
 
+    ContentOwner getContentOwner();
 
+    List<ContentModel> getContentModelsByCriteria(FeedCriteria feedCriteria);
 }

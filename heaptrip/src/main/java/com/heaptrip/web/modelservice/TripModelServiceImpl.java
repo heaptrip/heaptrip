@@ -72,8 +72,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 		if (trip != null) {
 			setContentToContentModel(ContentEnum.TRIP, tripModel, trip, locale, isOnlyThisLocale);
 
-			tripModel.setComments(trip.getComments());
-
 			if (trip.getTable() != null && trip.getTable().length > 0) {
 				TableItem tableItem = tripService.getNearestTableItem(trip);
 				if (tableItem != null) {
@@ -81,9 +79,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 					tripModel.setEnd(convertDate(tableItem.getEnd()));
 				}
 			}
-
-			if (trip.getSummary() != null)
-				tripModel.setSummary(getMultiLangTextValue(trip.getSummary(), locale, isOnlyThisLocale));
 		}
 
 		return tripModel;
@@ -92,8 +87,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 	private TripInfoModel convertTripToTripInfoModel(Trip trip, Locale locale, boolean isOnlyThisLocale) {
 		TripInfoModel tripInfoModel = new TripInfoModel();
 		appendTripToTripModel(tripInfoModel, trip, locale, isOnlyThisLocale);
-		if (trip.getDescription() != null)
-			tripInfoModel.setDescription(getMultiLangTextValue(trip.getDescription(), locale, isOnlyThisLocale));
 		tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
 		tripInfoModel.setRoute(convertTripRouteToModel(trip.getRoute(), locale, isOnlyThisLocale));
 		return tripInfoModel;

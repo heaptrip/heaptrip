@@ -163,7 +163,6 @@
 
     <definition name="travelsTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travels.jsp"/>
-
     </definition>
 
     <definition name="tidingsTemplate" extends="catalogTemplate">
@@ -192,6 +191,12 @@
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
+    </definition>
+
+    <definition name="posts" extends="listContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="postsTemplate"/>
     </definition>
 
     <!-- Trip page -->
@@ -333,13 +338,6 @@
     <!-- End Profile -->
 
 
-    <definition name="posts" extends="listContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
-        <put-attribute name="main_content" value="postsTemplate"/>
-    </definition>
-
-
     <definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp">
         <put-attribute name="category_tree_btn" value=""/>
     </definition>
@@ -357,29 +355,5 @@
     <definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp"/>
 
     <definition name="comments" template="/WEB-INF/jsp/widget/comments_tree.jsp"/>
-
-
-    <definition name="post" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
-        <put-attribute name="main_content" value="postReadTemplate"/>
-    </definition>
-
-    <definition name="postEditScriptsTemplate" extends="catalogScriptsTemplate">
-        <put-list-attribute name="scripts" inherit="true">
-            <add-attribute value="/js/lib/ckeditor/ckeditor.js"/>
-        </put-list-attribute>
-    </definition>
-
-    <definition name="post/edit" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="postEditScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
-        <put-attribute name="main_content" value="postEditTemplate"/>
-    </definition>
-
-    <definition name="postImage" extends="mainContentTemplate">
-        <put-attribute name="main_content" value="/WEB-INF/jsp/catalog/post/post_image.jsp"/>
-    </definition>
-
 
 </tiles-definitions>
