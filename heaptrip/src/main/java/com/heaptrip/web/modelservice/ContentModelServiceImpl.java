@@ -1,39 +1,29 @@
 package com.heaptrip.web.modelservice;
 
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.content.*;
+import com.heaptrip.domain.service.content.ContentService;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
+import com.heaptrip.domain.service.content.feed.ContentFeedService;
+import com.heaptrip.web.model.content.ContentModel;
+import com.heaptrip.web.model.content.RatingModel;
+import com.heaptrip.web.model.content.StatusModel;
+import com.heaptrip.web.model.profile.AccountModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.category.SimpleCategory;
-import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.entity.content.ContentOwner;
-import com.heaptrip.domain.entity.content.ContentStatus;
-import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.region.SimpleRegion;
-import com.heaptrip.domain.service.category.CategoryService;
-import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.region.RegionService;
-import com.heaptrip.web.model.content.CategoryModel;
-import com.heaptrip.web.model.content.ContentModel;
-import com.heaptrip.web.model.content.RatingModel;
-import com.heaptrip.web.model.content.RegionModel;
-import com.heaptrip.web.model.content.StatusModel;
-import com.heaptrip.web.model.profile.AccountModel;
-
-@Service
+@Service(ContentModelService.SERVICE_NAME)
 public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ContentModelService {
 
-
+    @Autowired
+    protected ContentService contentService;
 
     @Autowired
-    ContentService contentService;
-
-
+    protected ContentFeedService contentFeedService;
 
 
     @Override
@@ -48,30 +38,50 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return result;
     }
 
-    protected void setContentToContentModel(ContentEnum contentType, ContentModel contentModel, Content contetnt,
+
+    protected ContentModel convertContentToContentModel(ContentEnum contentType, Content content, boolean isOnlyThisLocale) {
+        ContentModel contentModel = new ContentModel();
+        setContentToContentModel(contentType, contentModel, content, getCurrentLocale(), isOnlyThisLocale);
+        return contentModel;
+    }
+
+    protected void setContentToContentModel(ContentEnum contentType, ContentModel contentModel, Content content,
                                             Locale locale, boolean isOnlyThisLocale) {
 
-        if (contetnt != null) {
-            contentModel.setId(contetnt.getId());
-            contentModel.setCreated(convertDate(contetnt.getCreated()));
+        if (content != null) {
+            contentModel.setId(content.getId());
+            contentModel.setCreated(convertDate(content.getCreated()));
 
-            if (contetnt.getImage() != null)
-                contentModel.setImage(convertImage(contetnt.getImage()));
-            if (contetnt.getViews() == null) {
+            if (content.getName() != null)
+                contentModel.setName(getMultiLangTextValue(content.getName(), locale, isOnlyThisLocale));
+
+            if (content.getSummary() != null)
+                contentModel.setSummary(getMultiLangTextValue(content.getSummary(), locale, isOnlyThisLocale));
+
+            if (content.getDescription() != null)
+                contentModel.setDescription(getMultiLangTextValue(content.getDescription(), locale, isOnlyThisLocale));
+
+            contentModel.setOwner(convertContentOwnerToModel(content.getOwner()));
+            contentModel.setCategories(convertCategoriesToModel(content.getCategories()));
+            contentModel.setRegions(convertRegionsToModel(content.getRegions()));
+            contentModel.setLangs(content.getLangs());
+
+            if (content.getStatus() != null)
+                contentModel.setStatus(convertContentStatusToModel(content.getStatus()));
+
+            contentModel.setRating(convertRatingToRatingModel(contentType, content.getId(), content.getRating()));
+
+            if (content.getImage() != null)
+                contentModel.setImage(convertImage(content.getImage()));
+
+            if (content.getViews() == null) {
                 contentModel.setViews(0L);
             } else {
-                contentModel.setViews(contetnt.getViews().getCount());
+                contentModel.setViews(content.getViews().getCount());
             }
-            contentModel.setRating(convertRatingToRatingModel(contentType, contetnt.getId(), contetnt.getRating()));
-            contentModel.setStatus(convertContentStatusToModel(contetnt.getStatus()));
-            if (contetnt.getName() != null)
-                contentModel.setName(getMultiLangTextValue(contetnt.getName(), locale, isOnlyThisLocale));
-            contentModel.setOwner(convertContentOwnerToModel(contetnt.getOwner()));
-            contentModel.setCategories(convertCategoriesToModel(contetnt.getCategories()));
-            contentModel.setRegions(convertRegionsToModel(contetnt.getRegions()));
-            contentModel.setLangs(contetnt.getLangs());
-        }
 
+            contentModel.setComments(content.getComments());
+        }
     }
 
     protected StatusModel convertContentStatusToModel(ContentStatus contentStatus) {
@@ -106,5 +116,17 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return contentOwner;
     }
 
-
+    @Override
+    public List<ContentModel> getContentModelsByCriteria(FeedCriteria feedCriteria) {
+        feedCriteria.setLocale(getCurrentLocale());
+        List<Content> contents = contentFeedService.getContentsByFeedCriteria(feedCriteria);
+        List<ContentModel> result = null;
+        if (contents != null) {
+            result = new ArrayList<>(contents.size());
+            for (Content content : contents) {
+                result.add(convertContentToContentModel(feedCriteria.getContentType(), content, false));
+            }
+        }
+        return result;
+    }
 }

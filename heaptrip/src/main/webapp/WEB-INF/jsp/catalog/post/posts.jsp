@@ -1,36 +1,105 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<script id="postTemplate" type="text/x-jsrender">
 
-<h1>
-	<fmt:message key="post.list.title" />
-</h1>
+    <article id="article">
+        <div class="date">{{>created.text}}
+            <span><fmt:message key="post.list.title"/></span>
+        </div>
+        <div class="inf">
+            <div class="left">
+                <h2><a href="<c:url value="/post_info.html?id={{>id}}"/>">{{>name}}</a></h2>
 
-<a style="font-size: 16pt" href="<c:url value="/post/edit.html"/>">Add</a>
 
-<c:if test="${not empty posts}">
-	<table>
-		<tr>
-			<th>No</th>
-			<th>Name/Date</th>
-			<th></th>
-			<th></th>
-		</tr>
-		<%
-			int i = 0;
-		%>
-		<c:forEach items="${posts}" var="post">
-			<tr>
-				<td><%=++i%>.</td>
-				<td><a href="<c:url value="/post.html?id=${post.id}"/>">${post.name} <fmt:formatDate
-							value="${post.dateCreate}" pattern="MM.dd.yyyy HH:mm" /></a></td>
-				<td><a href="<c:url value="/post/edit.html?id=${post.id}"/>">edit</a></td>
-				<td><a href="<c:url value="/post/remove.html?id=${post.id}"/>">remove</a></td>
-			</tr>
-		</c:forEach>
-	</table>
-</c:if>
+                <div class="tags">
 
-<h1>Posts Rright Bar</h1>
+
+                    <a href="<c:url value="/profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+                </div>
+
+
+            </div>
+            <div class="right">
+                <div>
+                    <fmt:message key="content.place"/>:
+                    {{for regions}}
+                    <a onclick="$.handParamToURL({rg:'{{>id}}', ct : null, skip : null ,limit : null})">{{>data}}</a>
+                    {{/for}}
+                </div>
+            </div>
+        </div>
+        <div class="description">
+            {{:summary}}
+        </div>
+        <div>
+            <div class="tags">
+                {{for categories}}
+                <a onclick="$.handParamToURL({ct:'{{>id}}', rg : null, skip : null ,limit : null})">{{>data}}</a>
+                {{/for}}
+            </div>
+
+        </div>
+        <div>
+            <div class="views"><fmt:message key="content.views"/>:<span>{{>views}}</span></div>
+            <div class="comments"><fmt:message key="content.comments"/>:<span>{{>comments}}</span></div>
+            <div class="wertung"><fmt:message key="content.wertung"/>:
+                <div class="stars star{{>rating.stars}}"></div>
+                <span>({{>rating.count}})</span></div>
+        </div>
+    </article>
+
+</script>
+
+<div id="container">
+    <div id="contents"></div>
+    <tiles:insertDefinition name="pagination"/>
+    <div id="paginator"></div>
+</div>
+
+<aside id="sideRight">
+    <tiles:insertDefinition name="categoryTreeWithBtn"/>
+    <tiles:insertDefinition name="regionFilterWithBtn"/>
+</aside>
+
+<script type="text/javascript">
+
+    $(window).bind("onPageReady", function (e, paramsJson) {
+        getPostsList(paramsJson);
+    });
+
+    var getPostsList = function (paramsJson) {
+
+        var url = 'rest/posts';
+
+        var postCriteria = {
+            skip: paramsJson.skip ? paramsJson.skip : 0,
+            limit: paramsJson.limit,
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+        };
+
+        var callbackSuccess = function (data) {
+            $("#contents").html($("#postTemplate").render(data.posts));
+            $('#paginator').smartpaginator({
+                totalrecords: data.count,
+                skip: paramsJson.skip
+            });
+        };
+
+        var callbackError = function (error) {
+            alert(error);
+        };
+
+        $.postJSON(url, postCriteria, callbackSuccess, callbackError);
+
+    };
+
+</script>

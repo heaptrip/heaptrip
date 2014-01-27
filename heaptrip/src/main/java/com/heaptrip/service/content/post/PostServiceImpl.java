@@ -1,5 +1,6 @@
 package com.heaptrip.service.content.post;
 
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.Views;
@@ -35,7 +36,13 @@ public class PostServiceImpl extends ContentServiceImpl implements PostService {
         Assert.notEmpty(content.getSummary(), "summary must not be empty");
         Assert.notEmpty(content.getDescription(), "description must not be empty");
 
-        // TODO if owner account type == (CLUB or COMPANY) then set owners
+        // TODO konovalov: read and set owner name, account type and rating
+        content.getOwner().setName("Ivan Petrov");
+        content.getOwner().setRating(0D);
+        content.getOwner().setType(AccountEnum.USER);
+        content.setAllowed(new String[]{"0"});
+
+        // TODO konovalov: if owner account type == (CLUB or COMPANY) then set owners
         content.setOwners(new String[]{content.getOwner().getId()});
 
         // update categories and categoryIds
