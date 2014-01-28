@@ -1,55 +1,59 @@
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="
         http://www.springframework.org/schema/beans     
         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-        http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
 
-	<!-- <mvc:view-controller path="/login.html" /> <mvc:view-controller path="/notfound.html" /> <mvc:view-controller path="/confirmation.html" 
-		/> <mvc:view-controller path="/travels.html" /> <mvc:view-controller path="/travel_maps.html" /> <mvc:view-controller path="/travel_photos.html" 
-		/> <mvc:view-controller path="/travel_participants.html" /> <mvc:view-controller path="/travel_posts.html" /> -->
-	<mvc:view-controller path="/*.html" />
+    <mvc:view-controller path="/*.html"/>
 
+    <mvc:annotation-driven/>
 
-	<mvc:annotation-driven />
+    <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+        <property name="definitions">
+            <list>
+                <value>/WEB-INF/tiles/templates.xml</value>
+                <value>/WEB-INF/tiles/post.xml</value>
+            </list>
+        </property>
+    </bean>
 
-	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer" p:definitions="/WEB-INF/tiles/templates.xml" />
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+        <property name="viewClass">
+            <value>
+                org.springframework.web.servlet.view.tiles2.TilesView
+            </value>
+        </property>
+    </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:locale/messages</value>
+                <value>classpath:locale/errors</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
 
-	<bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-		<property name="viewClass">
-			<value>
-				org.springframework.web.servlet.view.tiles2.TilesView
-			</value>
-		</property>
-	</bean>
-	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>classpath:locale/messages</value>
-				<value>classpath:locale/errors</value>
-			</list>
-		</property>
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean>
+    <!-- Declare the Interceptor -->
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale"/>
+    </mvc:interceptors>
 
-	<!-- Declare the Interceptor -->
-	<mvc:interceptors>
-		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="locale" />
-	</mvc:interceptors>
+    <!-- Declare the Resolver -->
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
 
-	<!-- Declare the Resolver -->
-	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" />
+    <!-- Configure the multipart resolver -->
 
-	<!-- Configure the multipart resolver -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize" value="10000000"/>
+    </bean>
 
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- one of the properties available; the maximum file size in bytes -->
-		<property name="maxUploadSize" value="10000000" />
-	</bean>
-
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver" />
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver"/>
 
 </beans>

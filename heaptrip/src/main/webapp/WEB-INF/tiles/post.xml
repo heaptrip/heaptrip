@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+
+<tiles-definitions>
+
+    <definition name="postsTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/posts.jsp"/>
+    </definition>
+
+    <definition name="postTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post.jsp"/>
+    </definition>
+
+    <definition name="posts" extends="listContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="postsTemplate"/>
+    </definition>
+
+    <definition name="post" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="postTemplate"/>
+    </definition>
+
+</tiles-definitions>

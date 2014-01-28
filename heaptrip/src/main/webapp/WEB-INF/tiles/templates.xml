@@ -175,28 +175,10 @@
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
 
-    <definition name="postsTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/posts.jsp"/>
-    </definition>
-
-    <definition name="postReadTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_read.jsp"/>
-    </definition>
-
-    <definition name="postEditTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_edit.jsp"/>
-    </definition>
-
     <definition name="travels" extends="listContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
-    </definition>
-
-    <definition name="posts" extends="listContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
-        <put-attribute name="main_content" value="postsTemplate"/>
     </definition>
 
     <!-- Trip page -->
@@ -283,7 +265,6 @@
 
 
     <!-- Trip edit page -->
-
 
     <!-- Profile -->
 
