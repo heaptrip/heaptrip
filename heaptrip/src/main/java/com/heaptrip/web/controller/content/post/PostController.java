@@ -7,16 +7,16 @@ import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.content.ContentModel;
+import com.heaptrip.web.modelservice.CommentModelService;
 import com.heaptrip.web.modelservice.ContentModelService;
+import com.heaptrip.web.modelservice.CountersService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +33,12 @@ public class PostController extends ExceptionHandlerControler {
 
     @Autowired
     private ContentFeedService contentFeedService;
+
+    @Autowired
+    private CommentModelService commentModelService;
+
+    @Autowired
+    private CountersService countersService;
 
     @RequestMapping(value = "posts", method = RequestMethod.GET)
     public String getPosts() {
@@ -53,6 +59,19 @@ public class PostController extends ExceptionHandlerControler {
         } catch (Throwable e) {
             throw new RestException(e);
         }
+
+    }
+
+    @RequestMapping(value = "post", method = RequestMethod.GET)
+    public ModelAndView getPost(@RequestParam(value = "id", required = false) String postId) {
+        ModelAndView mv = new ModelAndView();
+        ContentModel postModel = null;
+        if (postId != null) {
+            countersService.incViews(postId);
+            postModel = contentModelService.getContentModelByContentId(postId, ContentEnum.POST);
+            mv.addObject("comments", commentModelService.getComments(postId));
+        }
+        return mv.addObject("post", postModel);
 
     }
 }

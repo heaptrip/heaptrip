@@ -2,6 +2,7 @@ package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.*;
+import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.feed.ContentFeedService;
@@ -24,6 +25,9 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Autowired
     protected ContentFeedService contentFeedService;
+
+    @Autowired
+    private ContentRepository contentRepository;
 
 
     @Override
@@ -128,5 +132,11 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             }
         }
         return result;
+    }
+
+    @Override
+    public ContentModel getContentModelByContentId(String contentId, ContentEnum contentType) {
+        Content content = contentRepository.findOne(contentId);
+        return (content == null) ? null :   convertContentToContentModel(contentType, content, false);
     }
 }

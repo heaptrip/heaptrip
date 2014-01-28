@@ -1,5 +1,6 @@
 package com.heaptrip.web.modelservice;
 
+import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.web.model.content.ContentModel;
@@ -16,4 +17,6 @@ public interface ContentModelService {
     ContentOwner getContentOwner();
 
     List<ContentModel> getContentModelsByCriteria(FeedCriteria feedCriteria);
+
+    ContentModel getContentModelByContentId(String contentId, ContentEnum contentType);
 }
