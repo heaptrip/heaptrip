@@ -137,6 +137,6 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Override
     public ContentModel getContentModelByContentId(String contentId, ContentEnum contentType) {
         Content content = contentRepository.findOne(contentId);
-        return (content == null) ? null :   convertContentToContentModel(contentType, content, false);
+        return (content == null) ? null : convertContentToContentModel(contentType, content, false);
     }
 }

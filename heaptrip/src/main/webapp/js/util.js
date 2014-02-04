@@ -65,20 +65,30 @@
                     // such as "Not Found" or "Internal Server Error."
                     error: function (jqXHR, textStatus, errorThrown) {
 
-                        try {
-                            // errorThrown =
-                            // $(jqXHR.responseText).find('#message')[0].textContent;
-                            // без $('<div></div>').append(... возникает
-                            // Exception т.к. JQ пытается захерачить всю
-                            // страницу :)
-                            errorThrown = $('<div></div>').append(
-                                jqXHR.responseText).find('#message')[0].textContent;
+                        if (jqXHR.status == 401) {
+                            // if "Unauthorized" go to login page
+                            pathArray = window.location.href.split('/');
+                            protocol = pathArray[0];
+                            host = pathArray[2];
+                            app = pathArray[3];
+                            url = protocol + '//' + host + '/' + app + '/login.html';
+                            window.location.replace(url);
+                        } else {
+                            try {
+                                // errorThrown =
+                                // $(jqXHR.responseText).find('#message')[0].textContent;
+                                // без $('<div></div>').append(... возникает
+                                // Exception т.к. JQ пытается захерачить всю
+                                // страницу :)
+                                errorThrown = $('<div></div>').append(
+                                    jqXHR.responseText).find('#message')[0].textContent;
 
-                        } catch (e) {
-                            alert("For correct processing errors, use Exception Handler Controller");
+                            } catch (e) {
+                                alert("For correct processing errors, use Exception Handler Controller");
+                            }
+                            callbackError(errorThrown, null, jqXHR);
                         }
 
-                        callbackError(errorThrown, null, jqXHR);
                     },
                     // A function to be called when the request finishes
                     // (after

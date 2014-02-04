@@ -10,6 +10,7 @@ import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.modelservice.CommentModelService;
 import com.heaptrip.web.modelservice.ContentModelService;
 import com.heaptrip.web.modelservice.CountersService;
+import com.heaptrip.web.modelservice.PostModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,9 @@ public class PostController extends ExceptionHandlerControler {
 
     @Autowired
     private CountersService countersService;
+
+    @Autowired
+    private PostModelService postModelService;
 
     @RequestMapping(value = "posts", method = RequestMethod.GET)
     public String getPosts() {
@@ -73,5 +77,42 @@ public class PostController extends ExceptionHandlerControler {
         }
         return mv.addObject("post", postModel);
 
+    }
+
+    @RequestMapping(value = "post_edit", method = RequestMethod.GET)
+    public ModelAndView getPostEdit(@RequestParam(value = "id", required = false) String postId) {
+        ModelAndView mv = new ModelAndView();
+        ContentModel postModel = null;
+        if (postId != null) {
+            countersService.incViews(postId);
+            postModel = contentModelService.getContentModelByContentId(postId, ContentEnum.POST);
+            mv.addObject("comments", commentModelService.getComments(postId));
+        }
+        return mv.addObject("post", postModel);
+
+    }
+
+    @RequestMapping(value = "security/post_save", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> savePost(@RequestBody ContentModel postModel) {
+        try {
+            postModelService.savePostModel(postModel);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/post_update", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> updateTripInfo(@RequestBody ContentModel postModel) {
+        try {
+            postModelService.updatePostModel(postModel);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
     }
 }

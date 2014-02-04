@@ -5,6 +5,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<c:set var="postId" value='${param.id}'/>
 
 <c:url var="postEditUrl" value="post_edit.html">
     <c:param name='id' value="${postId}"/>

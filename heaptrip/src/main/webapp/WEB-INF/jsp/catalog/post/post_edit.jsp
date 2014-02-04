@@ -1,163 +1,146 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:url value="/post/upload/header" var="fileUploadUrl" />
+<c:set var="postId" value='${param.id}'/>
 
-<c:url value="/posts.html" var="postsUrl" />
+<c:forEach items="${post.categories}" var="category" varStatus="stat">
+    <c:set var="categoryIds" value="${categoryIds },${category.id}"/>
+</c:forEach>
 
-<c:url value="/post/edit.html" var="saveUrl" />
+<c:forEach items="${post.regions}" var="region" varStatus="stat">
+    <c:set var="regionIds" value="${regionIds },${region.id}"/>
+</c:forEach>
 
+<c:set var="isForFrends" value="${post.status.value eq 'PUBLISHED_FRIENDS'}"/>
 
-<script type='text/javascript' src='<c:url value="/js/lib/jquery-fileupload/vendor/jquery.ui.widget.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/js/lib/jquery-fileupload/jquery.iframe-transport.js"/>'></script>
-<script type='text/javascript' src='<c:url value="/js/lib/jquery-fileupload/jquery.fileupload.js"/>'></script>
+<c:set var="isDraft" value="${post.status.value eq 'DRAFT'}"/>
 
-<script type='text/javascript'>
-	$(function() {
-		init();
-	});
+<c:set var="currLocale">
+    <fmt:message key="locale.name"/>
+</c:set>
 
-	function init() {
+<script type="text/javascript">
 
-		$('body').data('filelist', new Array());
+    var postId = '${postId}';
+    var lang = '${currLocale}';
 
-		<c:forEach var="image" items="${post.images}">
-		var image = {
-			id : '${image.id}',
-			name : '${image.name}',
-			size : '${image.size}'
-		};
-		addRow(image);
-		</c:forEach>
+    $(document).ready(function () {
+        var ct = "${fn:substring(categoryIds,1,1000)}";
+        var rg = "${fn:substring(regionIds,1,1000)}";
+        $.handParamToURL({
+            ct: ct,
+            rg: rg
+        });
+    });
 
-		var editor = CKEDITOR.replace('textDescription', {
-			filebrowserUploadUrl : '${pageContext.request.contextPath}/post/upload?id=${post.id}',
-			height : '800',
-			width : '100%'
-		});
+    var onPostSubmit = function (btn) {
+        $(btn).prop('disabled', true);
 
-		CKEDITOR.dialog.add('image', function(editor) {
-			return {
-				title : 'Upload image',
-				resizable : CKEDITOR.DIALOG_RESIZE_BOTH,
-				minWidth : 500,
-				minHeight : 150,
-				contents : [ {
-					id : 'Upload',
-					hidden : true,
-					filebrowser : 'uploadButton',
-					label : editor.lang.image.upload,
-					elements : [ {
-						type : 'file',
-						id : 'upload',
-						label : editor.lang.image.btnUpload,
-						style : 'height:40px',
-						size : 38
-					}, {
-						type : 'fileButton',
-						id : 'uploadButton',
-						filebrowser : 'info:txtUrl',
-						label : editor.lang.image.btnUpload,
-						'for' : [ 'Upload', 'upload' ]
-					} ]
-				}, ]
-			};
-		});
+        var jsonData = (postId ? {
+            id: postId
+        } : {});
 
-		$("#btnSave").click(function() {
-			var jsonData = {
-				id : '${post.id}',
-				name : $("#txtName").val(),
-				description : editor.getData(),
-				'images' : $('body').data('filelist')
-			};
+        var statusValue = null;
+        if ($('#is_draft').is(':checked'))
+            statusValue = 'DRAFT';
+        else if ($('#is_for_frends').is(':checked'))
+            statusValue = 'PUBLISHED_FRIENDS';
+        else
+            statusValue = 'PUBLISHED_ALL';
 
-			$.postJSON('${saveUrl}', jsonData, function onSuccess(result) {
-				alert("Success");
-			}, function onError(errorMsg) {
-				alert("Error: " + errorMsg);
-			}, function onFinally() {
-				$(location).attr('href', '${postsUrl}');
-			});
-		});
+        jsonData.locale = lang;
+        jsonData.name = $("#name_post").val();
+        jsonData.summary = $("#desc_post").val();
+        jsonData.description = $("#desc_full_post").val();
+        $.extend(jsonData, {status: {value: statusValue}});
 
-		$('#upload').fileupload({
-			dataType : 'json',
-			done : function(e, data) {
-				$.each(data.result, function(index, file) {
-					addRow(file);
-				});
-			}
-		});
+        var paramsJson = $.getParamFromURL();
 
-		// Technique borrowed from http://stackoverflow.com/questions/1944267/how-to-change-the-button-text-of-input-type-file
-		// http://stackoverflow.com/questions/210643/in-javascript-can-i-make-a-click-event-fire-programmatically-for-a-file-input
-		$("#attach").click(function() {
-			$("#upload").trigger('click');
-		});
-	}
+        if (paramsJson.ct) {
+            jsonData.categories = [];
+            var categoryIds = paramsJson.ct.split(',');
+            $.each(categoryIds, function (index, id) {
+                jsonData.categories.push({
+                    id: id
+                });
+            });
+        }
 
-	function addRow(file) {
-		$('body').data('filelist').push(file);
-		$('#dataTable > tbody:last').append('<tr id="' + file.id + '"><td>' + formatFileDisplay(file) + '</td></tr>');
-	}
+        if (paramsJson.rg) {
+            jsonData.regions = [];
+            var regionIds = paramsJson.rg.split(',');
+            $.each(regionIds, function (index, id) {
+                jsonData.regions.push({
+                    id: id
+                });
+            });
+        }
 
-	function formatFileDisplay(file) {
-		var fileUrl = '${pageContext.request.contextPath}/image.html?imageId=' + file.id;
-		var link = '<img src="' + fileUrl + '"/><br/>';
+        var url = (postId ? 'rest/security/post_update'
+                : 'rest/security/post_save');
 
-		var size = '<span style="font-style:italic">' + (file.size / 1000).toFixed(2) + 'K</span>';
+        var callbackSuccess = function (data) {
+            $(btn).prop('disabled', false);
+            $(".error_message").html('<p class="green">' + locale.action.successEdit + '</p>');
+        };
 
-		var removeLinkId = 'a' + file.id;
-		var remove = '<a id="' + removeLinkId + '"  href="#" >remove</a>';
+        var callbackError = function (error) {
+            $(btn).prop('disabled', false);
+            $(".error_message").html('<p class="red">' + error + '</p>');
+        };
 
-		$('#' + removeLinkId).live("click", function() {
-			var files = $('body').data('filelist');
-			$.each(files, function(i, file) {
-				if (file.id === removeLinkId.substring(1)) {
-					files.splice(i, 1);
-					return false;
-				}
-			});
-			$("#" + file.id).remove();
-			return false;
-		});
-
-		return link + file.name + ' (' + size + ')' + remove;
-	}
+        $.postJSON(url, jsonData, callbackSuccess, callbackError);
+    }
 </script>
 
-<h1>Post edit</h1>
+<div id="container">
+    <div id="contents">
 
-<div id="postEdit">
+        <article id="article" class="deteil edit">
+            <div class="date">
+                ${post.created.text}<span><fmt:message key="post.title"/></span>
+            </div>
+            <div class="inf">
+                <div class="left">
+                    <ul>
+                        <li><input id="is_draft" type="checkbox" ${isDraft ? "checked=true": "" }><label><fmt:message
+                                key="content.draft"/></label></li>
+                        <li><input id="is_for_frends" type="checkbox"
+                        ${isForFrends ? "checked=true": "" }><label><fmt:message
+                                key="content.forFrends"/></label></li>
+                    </ul>
+                </div>
+            </div>
 
-	<button id="btnSave">Save</button>
+            <input type="text" id="name_post" value="${post.name}" alt="<fmt:message key="content.name" />:">
 
-	<div>
-		<form id='uploadForm'>
-			<fieldset>
-				<legend>Header</legend>
+            <div class="error_message"></div>
 
-				<div>
-					<TABLE id="dataTable" border="0">
-						<TR>
-							<TD></TD>
-						</TR>
-					</TABLE>
-				</div>
-				<br /> <a href='#' id='attach'>Add a file</a><br /> <input id="upload" type="file" name="file"
-					data-url="${fileUploadUrl}" multiple style="opacity: 0; filter: alpha(opacity :         0);" />
-			</fieldset>
-		</form>
-	</div>
+            <nav id="travel_nav">
+                <a onClick="onPostSubmit(this)" class="button"><fmt:message key="page.action.save"/></a>
+            </nav>
 
-	<h3>Name</h3>
-	<input id="txtName" type="text" name="name" value="${post.name}" />
+            <textarea id="desc_post" class="ckeditor" name="editor1"
+                      alt="<fmt:message key="content.shortDescription" />:">${post.summary}</textarea>
+            <textarea id="desc_full_post" class="ckeditor" name="editor2"
+                      alt="<fmt:message key="content.fullDescription" />:">${post.description}</textarea>
 
-	<h3>Description</h3>
-	<form:textarea id="textDescription" path="post.description" cols="60" rows="8" />
+            <c:if test="${not empty param.id}">
 
+                <div class="del_article">
+                    <a class="button"><fmt:message key="trip.action.delete"/></a>
+                </div>
+            </c:if>
+
+        </article>
+    </div>
+    <!-- #content-->
 </div>
+<!-- #container-->
 
+<aside id="sideRight">
+    <tiles:insertDefinition name="categoryTree"/>
+    <tiles:insertDefinition name="regionFilter"/>
+</aside>
