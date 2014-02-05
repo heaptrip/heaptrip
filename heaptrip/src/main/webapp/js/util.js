@@ -65,16 +65,13 @@
                     // such as "Not Found" or "Internal Server Error."
                     error: function (jqXHR, textStatus, errorThrown) {
 
-                        if (jqXHR.status == 401) {
-                            // if "Unauthorized" go to login page
-                            pathArray = window.location.href.split('/');
-                            protocol = pathArray[0];
-                            host = pathArray[2];
-                            app = pathArray[3];
-                            url = protocol + '//' + host + '/' + app + '/login.html';
-                            window.location.replace(url);
-                        } else {
-                            try {
+                        try {
+
+                            if (jqXHR.status == 401) {
+                                // unauthorized
+                                errorThrown = jqXHR.responseText;
+
+                            } else {
                                 // errorThrown =
                                 // $(jqXHR.responseText).find('#message')[0].textContent;
                                 // без $('<div></div>').append(... возникает
@@ -82,11 +79,12 @@
                                 // страницу :)
                                 errorThrown = $('<div></div>').append(
                                     jqXHR.responseText).find('#message')[0].textContent;
-
-                            } catch (e) {
-                                alert("For correct processing errors, use Exception Handler Controller");
                             }
+
                             callbackError(errorThrown, null, jqXHR);
+
+                        } catch (e) {
+                            alert("For correct processing errors, use Exception Handler Controller");
                         }
 
                     },

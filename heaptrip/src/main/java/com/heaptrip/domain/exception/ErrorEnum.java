@@ -1,13 +1,14 @@
 package com.heaptrip.domain.exception;
 
 /**
- *  Error list from:
- *
- *  errors_ru.properties
- *  errors_en.properties 
+ * Error list from:
+ * <p/>
+ * errors_ru.properties
+ * errors_en.properties
  */
 public enum ErrorEnum {
 
+    UNAUTHORIZED("err.unauthorized"),
     LOGIN_FAILURE("err.login.failure"),
     REGISTRATION_FAILURE("err.registration.failure"),
 
