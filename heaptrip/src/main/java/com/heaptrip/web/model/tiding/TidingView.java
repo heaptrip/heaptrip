@@ -2,6 +2,7 @@ package com.heaptrip.web.model.tiding;
 
 import java.util.Date;
 
+@Deprecated
 public interface TidingView {
 
 	String getName();

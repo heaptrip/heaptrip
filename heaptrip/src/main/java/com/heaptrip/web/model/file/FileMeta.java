@@ -11,6 +11,7 @@ public class FileMeta {
 
     private String url;
     private String thumbnailUrl;
+    private String highResolutionUrl;
     private String name;
     private String type;
     private String size;
@@ -28,7 +29,13 @@ public class FileMeta {
     private String id;
 
 
+    public String getHighResolutionUrl() {
+        return highResolutionUrl;
+    }
 
+    public void setHighResolutionUrl(String highResolutionUrl) {
+        this.highResolutionUrl = highResolutionUrl;
+    }
 
     public String getThumbnailUrl() {
         return thumbnailUrl;
@@ -80,7 +87,6 @@ public class FileMeta {
 
 
     public String getUrl() {
-
         return url;
     }
 

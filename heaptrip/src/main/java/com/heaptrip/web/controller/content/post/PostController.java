@@ -7,6 +7,7 @@ import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.content.ContentModel;
+import com.heaptrip.web.model.post.PostModel;
 import com.heaptrip.web.modelservice.CommentModelService;
 import com.heaptrip.web.modelservice.ContentModelService;
 import com.heaptrip.web.modelservice.CountersService;
@@ -79,7 +80,7 @@ public class PostController extends ExceptionHandlerControler {
 
     }
 
-    @RequestMapping(value = "post_edit", method = RequestMethod.GET)
+    @RequestMapping(value = "post_modify_info", method = RequestMethod.GET)
     public ModelAndView getPostEdit(@RequestParam(value = "id", required = false) String postId) {
         ModelAndView mv = new ModelAndView();
         ContentModel postModel = null;
@@ -95,7 +96,7 @@ public class PostController extends ExceptionHandlerControler {
     @RequestMapping(value = "security/post_save", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> savePost(@RequestBody ContentModel postModel) {
+    Map<String, ? extends Object> savePost(@RequestBody PostModel postModel) {
         try {
             postModelService.savePostModel(postModel);
         } catch (Throwable e) {
@@ -107,7 +108,7 @@ public class PostController extends ExceptionHandlerControler {
     @RequestMapping(value = "security/post_update", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> updateTripInfo(@RequestBody ContentModel postModel) {
+    Map<String, ? extends Object> updateTripInfo(@RequestBody PostModel postModel) {
         try {
             postModelService.updatePostModel(postModel);
         } catch (Throwable e) {

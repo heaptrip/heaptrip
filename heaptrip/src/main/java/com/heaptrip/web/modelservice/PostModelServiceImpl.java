@@ -1,19 +1,13 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.post.Post;
-import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.content.post.PostService;
-import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.ContentModel;
-import com.heaptrip.web.model.content.RegionModel;
+import com.heaptrip.web.model.post.PostModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class PostModelServiceImpl extends ContentModelServiceImpl implements PostModelService {
@@ -22,14 +16,14 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
     private PostService postService;
 
     @Override
-    public ContentModel savePostModel(ContentModel postModel) {
+    public PostModel savePostModel(PostModel postModel) {
         Post post = convertContentModelToPost(postModel);
         post = postService.save(post);
-        return convertContentToContentModel(ContentEnum.POST, post, false);
+        return (PostModel) convertContentToContentModel(ContentEnum.POST, post, false);
     }
 
     @Override
-    public void updatePostModel(ContentModel postModel) {
+    public void updatePostModel(PostModel postModel) {
         Post post = convertContentModelToPost(postModel);
         postService.update(post);
     }
@@ -43,13 +37,16 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
         post.setName(new MultiLangText(contentModel.getName()));
         post.setDescription(new MultiLangText(contentModel.getDescription()));
         post.setSummary(new MultiLangText(contentModel.getSummary()));
-        post.setCategories(convertCategoriesModelsToCategories(contentModel.getCategories()));
-        post.setRegions(convertRegionModelsToRegions(contentModel.getRegions()));
+        post.setCategories(convertCategoriesModelsToCategories(contentModel.getCategories(),getCurrentLocale()));
+        post.setRegions(convertRegionModelsToRegions(contentModel.getRegions(),getCurrentLocale()));
         return post;
     }
 
 
-    private SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels) {
+
+
+
+    /*private SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels) {
         SimpleCategory[] result = null;
         if (categoryModels != null) {
             List<SimpleCategory> categories = new ArrayList<>();
@@ -59,9 +56,9 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
             result = categories.toArray(new SimpleCategory[categories.size()]);
         }
         return result;
-    }
+    }*/
 
-    private SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels) {
+    /*private SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels) {
         SimpleRegion[] result = null;
         if (regionModels != null) {
             List<SimpleRegion> regions = new ArrayList<>();
@@ -71,6 +68,6 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
             result = regions.toArray(new SimpleRegion[regions.size()]);
         }
         return result;
-    }
+    }   */
 
 }

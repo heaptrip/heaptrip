@@ -7,7 +7,7 @@
 
 <c:set var="postId" value='${param.id}'/>
 
-<c:url var="postEditUrl" value="post_edit.html">
+<c:url var="postEditUrl" value="post_modify_info.html">
     <c:param name='id' value="${postId}"/>
 </c:url>
 

@@ -14,7 +14,7 @@
     </definition>
 
     <definition name="postEditTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_edit.jsp"/>
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_modify_info.jsp"/>
     </definition>
 
     <definition name="posts" extends="listContentTemplate">
@@ -29,7 +29,7 @@
         <put-attribute name="main_content" value="postTemplate"/>
     </definition>
 
-    <definition name="post_edit" extends="mainContentTemplate">
+    <definition name="post_modify_info" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentEditWithMapScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="postEditTemplate"/>

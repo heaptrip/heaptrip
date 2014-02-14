@@ -1,12 +1,12 @@
 package com.heaptrip.web.modelservice;
 
 
-import com.heaptrip.web.model.content.ContentModel;
+import com.heaptrip.web.model.post.PostModel;
 
 public interface PostModelService {
 
-    ContentModel savePostModel(ContentModel postModel);
+    PostModel savePostModel(PostModel postModel);
 
-    void updatePostModel(ContentModel postModel);
+    void updatePostModel(PostModel postModel);
 
 }
