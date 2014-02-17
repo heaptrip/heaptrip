@@ -11,7 +11,7 @@ CKEDITOR.editorConfig = function (config) {
     config.extraPlugins = 'fileUpload';
     config.toolbarGroups = [
         { name: 'document', items: [ 'Source' ] },
-        { name: 'fileUpload', items: [ 'FileUpload' ] }
+        { name: 'fileUpload', items: [ 'FileUpload','Image' ] }
     ]
 };
 

@@ -190,7 +190,7 @@
 
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a
-                            href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
+                            class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
                             <input id="my_name" type="text" value="${account.name}"

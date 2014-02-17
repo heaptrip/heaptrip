@@ -1,4 +1,21 @@
 $(document).ready(function() {
+
+
+
+
+
+    $(".my_avatar a").click(function(){
+
+        uploader.show(function(files){
+            $('.my_avatar img').attr('src',files[0].url);
+        })
+
+
+    });
+
+
+
+
 	if($('#account').length){
 		$('#account_name').bind('click',function(){
 			if($('#account ul').is(':hidden')){
@@ -496,6 +513,13 @@ function func_button(id_func,is_button){
 	    default:
     		//
     	break;
- 	}	
+ 	}
+
+
+
+
+
+
+
 }
 

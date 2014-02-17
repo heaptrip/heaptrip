@@ -120,11 +120,7 @@
 
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${community.image.id}"/>"><a
-                            href="/" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
-
-                    <a id="cke_46" class="cke_button cke_button__addimgserver cke_button_off " "="" href="javascript:void('Загрузить изображение')" title="Загрузить изображение" tabindex="-1" hidefocus="true" role="button" aria-labelledby="cke_46_label" aria-haspopup="false" onkeydown="return CKEDITOR.tools.callFunction(128,event);" onfocus="return CKEDITOR.tools.callFunction(129,event);" onmousedown="return CKEDITOR.tools.callFunction(130,event);" onclick="CKEDITOR.tools.callFunction(131,this);return false;"><span class="cke_button_icon cke_button__addimgserver_icon" style="background-image:url(http://localhost:8080/heaptrip/js/lib/ckeditor/plugins/addImgServer/icons/addImgServer.png?t=CAPD);background-position:0 0px;">&nbsp;</span><span id="cke_46_label" class="cke_button_label cke_button__addimgserver_label">Загрузить изображение</span></a>
-
-
+                            class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
                             <input id="community_name" type="text" value="${community.name}"
