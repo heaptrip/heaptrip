@@ -39,6 +39,9 @@
 	//$("#is_draft")
 
 	$(document).ready(function() {
+
+
+
 		var ct = "${fn:substring(categoryIds,1,1000)}";
 		var rg = "${fn:substring(regionIds,1,1000)}";
 		$.handParamToURL({

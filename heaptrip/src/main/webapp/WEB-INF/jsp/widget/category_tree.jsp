@@ -42,6 +42,8 @@
 
     $(document).ready(function () {
 
+
+
         var url = 'rest/categories';
 
         var callbackSuccess = function (data) {
@@ -70,7 +72,7 @@
                         }
                     });
 
-            $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join(): null});
+            $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join(): $.getParamFromURL().ct});
         };
 
         var callbackError = function (error) {
@@ -78,6 +80,7 @@
         };
 
         var guid = null;
+
         if($.getParamFromURL().ct ==undefined){
             if ($.getParamFromURL().guid)
                 guid = $.getParamFromURL().guid;
