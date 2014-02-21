@@ -35,10 +35,16 @@ function create_tree(n) {
 
 function buildRegionsTree(regionsDataArr) {
 
+    console.log('buildddd')
+
+
     if (!regionsDataArr || regionsDataArr.length === 0) return;
 
     var callbackSuccess = function (regionsDataArr) {
         for (var i = 0; i < regionsDataArr.length; i++) {
+
+
+            console.log(regionsDataArr)
 
             var data = regionsDataArr[i];
 
@@ -59,6 +65,9 @@ function buildRegionsTree(regionsDataArr) {
     var callbackError = function (error) {
         alert(error);
     };
+
+
+
 
     $.postJSON('rest/get_region_hierarchy', regionsDataArr.join(), callbackSuccess, callbackError);
 }
@@ -131,7 +140,13 @@ $(document).ready(function () {
                     });
                 },
                 select: function (event, ui) {
+
+
+
                     var regId = ui.item.value;
+
+
+
                     var regIds = getSelectedRegionsIds();
                     regIds.push(regId);
                     $.handParamToURL({rg: regIds.join()});
@@ -159,6 +174,9 @@ $(document).ready(function () {
     var regionIds = $.getParamFromURL().rg;
 
     if (regionIds) {
+
+        console.log(regionIds);
+
         buildRegionsTree(regionIds.split(','));
         $.allowLoading('getInitRegionsIds', {rg: regionIds});
     } else {

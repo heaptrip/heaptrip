@@ -88,7 +88,7 @@
             url = 'rest/security/community_save';
 
         var callbackSuccess = function (data) {
-            window.location = 'profile.html?guid=' + $.getParamFromURL().guid;
+            window.location = 'communities.html';
         };
 
         var callbackError = function (error) {

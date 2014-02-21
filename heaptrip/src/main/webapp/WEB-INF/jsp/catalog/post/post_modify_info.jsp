@@ -54,8 +54,8 @@
 
         jsonData.locale = lang;
         jsonData.name = $("#name_post").val();
-        jsonData.summary = $("#desc_post").val();
-        jsonData.description = $("#desc_full_post").val();
+        jsonData.summary = CKEDITOR.instances['desc_post'].getData(); //  $("#desc_post").val();
+        jsonData.description = CKEDITOR.instances['desc_full_post'].getData(); // $("#desc_full_post").val();
         $.extend(jsonData, {status: {value: statusValue}});
 
         var paramsJson = $.getParamFromURL();

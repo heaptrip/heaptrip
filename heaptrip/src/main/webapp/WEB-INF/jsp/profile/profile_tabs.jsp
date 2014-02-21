@@ -17,7 +17,7 @@
     		<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
     			<sec:authentication var="principal" property="principal" />
     			
-    			<c:if test="${principal.id eq param.guid}">
+    			<c:if test="${not empty principal.id && empty param.guid }">
 		   			<li>
     					<a href="<c:url value="/notification.html?guid=${param.guid}"/>" class='${fn:contains(url, "/notification") ? "active":"" }'>
     						<fmt:message key="accountProfile.notification" />
@@ -28,7 +28,7 @@
     		
     		
     		<li>
-    			<a href="<c:url value="/people.todo?guid=${param.guid}"/>" class='${fn:contains(url, "/people") ? "active":"" }'>
+    			<a href="<c:url value="/"/>" class='${fn:contains(url, "/people") ? "active":"" }'>
     				<fmt:message key="accountProfile.people" />
 				</a>
     		</li>
@@ -40,7 +40,7 @@
             <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
                 <sec:authentication var="principal" property="principal" />
 
-                <c:if test="${principal.id eq param.guid}">
+                <c:if test="${not empty principal.id && empty param.guid }">
                     <li>
                         <a href="<c:url value="/options.html?guid=${param.guid}"/>" class='${fn:contains(url, "/options") ? "active":"" }'>
                             <fmt:message key="accountProfile.options" />

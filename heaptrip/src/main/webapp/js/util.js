@@ -132,6 +132,9 @@ var urlParamsJson = {};
         putLOCALParamToURL: function (paramsJson) {
             urlParamsJson = $.extend(urlParamsJson, paramsJson);
             window.isInit = true;
+            window.location = $.param.fragment(window.location.href, paramsJson);
+            //$.handParamToURL(urlParamsJson);
+
         }
     });
 })(jQuery);
