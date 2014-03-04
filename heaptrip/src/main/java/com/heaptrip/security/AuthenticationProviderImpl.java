@@ -26,79 +26,79 @@ import com.heaptrip.domain.service.system.LocaleService;
 @Component("userAuthenticationProvider")
 public class AuthenticationProviderImpl implements AuthenticationProvider {
 
-	private static final Logger LOG = LoggerFactory.getLogger(AuthenticationProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AuthenticationProvider.class);
 
-	@Autowired
-	private AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
-	@Autowired
-	private LocaleService localeService;
+    @Autowired
+    private LocaleService localeService;
 
-	@Autowired(required = false)
-	private HttpServletRequest request;
+    @Autowired(required = false)
+    private HttpServletRequest request;
 
-	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		try {
+        try {
 
-			UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
+            UsernamePasswordAuthenticationToken auth = (UsernamePasswordAuthenticationToken) authentication;
 
-			String email = String.valueOf(auth.getPrincipal());
-			String password = String.valueOf(auth.getCredentials());
+            String email = String.valueOf(auth.getPrincipal());
+            String password = String.valueOf(auth.getCredentials());
 
-			LOG.info("user " + email + " trying authenticate");
+            LOG.info("user " + email + " trying authenticate");
 
-			// Check user authentication info
-			User user = authenticationService.getUserByEmailAndPassword(email, password);
+            // Check user authentication info
+            User user = authenticationService.getUserByEmailAndPassword(email, password);
 
-			if (user == null || user.getStatus().equals(AccountStatusEnum.DELETED)) {
-				LOG.error("user " + email + " authenticate failure");
-				throw new BadCredentialsException(localeService.getMessage("err.login.failure"));
-			}
+            if (user == null || user.getStatus().equals(AccountStatusEnum.DELETED)) {
+                LOG.error("user " + email + " authenticate failure");
+                throw new BadCredentialsException(localeService.getMessage("err.login.failure"));
+            }
 
-			if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
-				throw new BadCredentialsException(localeService.getMessage("err.login.notconfirmed"));
-			}
+            if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
+                throw new BadCredentialsException(localeService.getMessage("err.login.notconfirmed"));
+            }
 
-			// Return an authenticated token, containing user data and
-			// authorities
+            // Return an authenticated token, containing user data and
+            // authorities
 
-			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+            List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-			if (user.getRoles() != null) {
-				for (String role : user.getRoles()) {
-					authorities.add(new SimpleGrantedAuthority(role));
-				}
-			}
+            if (user.getRoles() != null) {
+                for (String role : user.getRoles()) {
+                    authorities.add(new SimpleGrantedAuthority(role));
+                }
+            }
 
-			return new UsernamePasswordAuthenticationToken(user, null, authorities);
+            return new UsernamePasswordAuthenticationToken(user, null, authorities);
 
-		} catch (Exception e) {
-			throw new BadCredentialsException(e.getMessage());
-		}
+        } catch (Exception e) {
+            throw new BadCredentialsException(e.getMessage());
+        }
 
-	}
+    }
 
-	@Override
-	public void authenticateInternal(User user) {
+    @Override
+    public void authenticateInternal(User user) {
 
-		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		if (user.getRoles() != null) {
-			for (String role : user.getRoles()) {
-				authorities.add(new SimpleGrantedAuthority(role));
-			}
-		}
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        if (user.getRoles() != null) {
+            for (String role : user.getRoles()) {
+                authorities.add(new SimpleGrantedAuthority(role));
+            }
+        }
 
-		UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
-		auth.setDetails(new WebAuthenticationDetails(request));
-		SecurityContextHolder.getContext().setAuthentication(auth);
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user, null, authorities);
+        auth.setDetails(new WebAuthenticationDetails(request));
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
-	}
+    }
 
-	@Override
-	public boolean supports(Class<?> clazz) {
-		return true;
-	}
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return true;
+    }
 
 }

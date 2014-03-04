@@ -169,13 +169,15 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp"/>
     </definition>
 
-    <definition name="tidings" extends="listContentTemplate">
+    <!--definition name="tidings" extends="listContentTemplate"-->
+    <definition name="tidings" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
 
-    <definition name="travels" extends="listContentTemplate">
+    <!--definition name="travels" extends="listContentTemplate"-->
+    <definition name="travels" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
