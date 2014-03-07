@@ -9,7 +9,7 @@
 <c:choose>
     <c:when test="${empty param.ul}">
         <c:set var="currLocale">
-            <fmt:message key="locale.name"/>
+            ${curr_locale}
         </c:set>
     </c:when>
     <c:otherwise>

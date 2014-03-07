@@ -71,6 +71,37 @@ input {
 	z-index: 2;
 }
 
+
+#path {
+    background: #292929;
+   // border: 1px solid #404141;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    //behavior: url(/pie/PIE.htc);
+    position: absolute;
+    left: 200px;
+    top: 8px;
+    z-index: 2;
+}
+
+#path_text{
+    color: #CFCFCF;
+    padding: 0 7px 0 7px;
+    height: 18px;
+    line-height: 18px;
+   // border: 1px solid #404141;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    behavior: url(/pie/PIE.htc);
+    cursor: pointer;
+    margin: -1px;
+}
+
+
+
+
 #account,#alert{
 	background: #292929;
 	border: 1px solid #404141;
@@ -79,7 +110,7 @@ input {
 	border-radius: 5px;
 	behavior: url(/pie/PIE.htc);
 	position: absolute;
-	left: 190px;
+	left: 870px;
 	top: 7px;
 	z-index: 2;
 }
@@ -145,6 +176,11 @@ input {
 	background: #22404B;
 }
 
+
+
+
+
+
 #language{
 	background: #F0F0E7 url('../images/language.png') -1px -1px repeat-x;
 	min-width: 106px;
@@ -154,7 +190,7 @@ input {
 	border-radius: 5px;
 	behavior: url(/pie/PIE.htc);
 	position: absolute;
-	right: 0px;
+	right: 80px;
 	top: 7px;
 	z-index: 3;
 }

@@ -1,11 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"  %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-
-
-<c:set var="url" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 
 <nav id="nav">
     <ul>
@@ -34,6 +30,7 @@
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
+
 
 
         <sec:authorize ifNotGranted="ROLE_ANONYMOUS">

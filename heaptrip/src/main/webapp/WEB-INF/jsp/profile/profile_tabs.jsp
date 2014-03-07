@@ -3,8 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
-<c:set var="url" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
-
 
 <nav id="nav">
     <ul>
@@ -47,7 +45,12 @@
             </a>
         </li>
 
-
+        <li>
+            <a href="<c:url value="/communities.html?guid=${param.guid}"/>"
+               class='${fn:contains(url, "/communit") ? "active":"" }'>
+                <fmt:message key="accountProfile.community"/>
+            </a>
+        </li>
 
 
         <c:if test="${not empty param.guid }">
@@ -77,12 +80,7 @@
         </c:if>
 
 
-        <li>
-            <a href="<c:url value="/communities.html?guid=${param.guid}"/>"
-               class='${fn:contains(url, "/communit") ? "active":"" }'>
-                <fmt:message key="accountProfile.community"/>
-            </a>
-        </li>
+
 
         <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
             <sec:authentication var="principal" property="principal"/>

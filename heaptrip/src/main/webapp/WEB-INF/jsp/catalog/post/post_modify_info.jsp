@@ -19,14 +19,11 @@
 
 <c:set var="isDraft" value="${post.status.value eq 'DRAFT'}"/>
 
-<c:set var="currLocale">
-    <fmt:message key="locale.name"/>
-</c:set>
 
 <script type="text/javascript">
 
     var postId = '${postId}';
-    var lang = '${currLocale}';
+    var lang = '${curr_locale}';
 
     $(document).ready(function () {
         var ct = "${fn:substring(categoryIds,1,1000)}";

@@ -33,42 +33,16 @@
         </put-list-attribute>
     </definition>
 
-    <definition name="baseHeaderTemplate" template="/WEB-INF/jsp/header.jsp">
-        <put-attribute name="account" value=""/>
-        <put-attribute name="search" value=""/>
-    </definition>
-
-    <definition name="accountHeaderTemplate" extends="baseHeaderTemplate">
-        <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
-
-    </definition>
-
-    <definition name="searcHeaderTemplate" extends="baseHeaderTemplate">
-        <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
-        <put-attribute name="search" value="/WEB-INF/jsp/search.jsp"/>
-    </definition>
-
-    <!--<definition name="mainContentTemplate" extends="mainTemplate">
-        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
-        <put-attribute name="account" value="/WEB-INF/jsp/account.jsp"/>
-    </definition>-->
-
     <definition name="mainTemplate" template="/WEB-INF/jsp/main.jsp">
         <put-attribute name="scripts_ins" value="mainScriptsTemplate"/>
         <put-attribute name="styles_ins" value="mainStylesTemplate"/>
-        <put-attribute name="header" value="baseHeaderTemplate"/>
-        <put-attribute name="main_content" value="/WEB-INF/jsp/header.jsp"/>
-        <put-attribute name="footer" value=""/>
+        <put-attribute name="header" value="/WEB-INF/jsp/header.jsp"/>
+        <put-attribute name="main_content" value=""/>
+        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
     </definition>
 
     <definition name="mainContentTemplate" extends="mainTemplate">
-        <put-attribute name="header" value="accountHeaderTemplate"/>
-        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
-    </definition>
 
-    <definition name="listContentTemplate" extends="mainTemplate">
-        <put-attribute name="header" value="searcHeaderTemplate"/>
-        <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
     </definition>
 
     <definition name="registrationStylesTemplate" extends="mainStylesTemplate">
@@ -169,14 +143,12 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp"/>
     </definition>
 
-    <!--definition name="tidings" extends="listContentTemplate"-->
     <definition name="tidings" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
 
-    <!--definition name="travels" extends="listContentTemplate"-->
     <definition name="travels" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
