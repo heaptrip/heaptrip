@@ -45,7 +45,7 @@
 						<div class="left">
 							
 							<c:if test = "${trip.status.value != 'DRAFT'}">
-								<h2><a href="/">${trip.name}</a></h2>
+								<h2>${trip.name}</h2>
 							</c:if>
 							<c:if test = "${trip.status.value == 'DRAFT'}">
 								<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>

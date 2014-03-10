@@ -225,7 +225,18 @@ input[type=checkbox]{
 	width: 240px;
 }
 
-#article .inf .left h2 a{
+#article .inf .right a{
+    color: #ABABAB;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#article .inf .right a{
+    text-decoration: underline;
+}
+
+#article .inf .left h2 a,
+#article .inf .left h2{
 	font-size: 20px;
 	font-weight: normal;
 	color: #07284C;
@@ -681,6 +692,10 @@ input[type=checkbox]{
 #contents .deteil .inf .left div span{
 	font-weight: bold;
 	color: #2D2D2D;
+}
+
+#contents .deteil .inf .left div a:hover>span{
+    text-decoration: underline;
 }
 
 #contents .deteil .inf .right{

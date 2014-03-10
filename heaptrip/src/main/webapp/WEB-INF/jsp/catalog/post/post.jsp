@@ -24,10 +24,10 @@
             <div class="inf">
                 <div class="left">
                     <c:if test="${post.status.value != 'DRAFT'}">
-                        <h2><a href="/">${post.name}</a></h2>
+                        <h2>${post.name}</h2>
                     </c:if>
                     <c:if test="${post.status.value == 'DRAFT'}">
-                        <h2 class="chernovik"><a href="/"><fmt:message key="content.draft"/> ${post.name}</a></h2>
+                        <h2 class="chernovik"><fmt:message key="content.draft"/> ${post.name}</h2>
                     </c:if>
 
                     <div><fmt:message key="content.author"/>:<a
