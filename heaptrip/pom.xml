@@ -25,6 +25,10 @@
 
     <dependencies>
 
+
+
+
+
         <!-- Spring Core -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -138,12 +142,14 @@
         </dependency>
 
         <!-- servlet-api -->
+
+
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>${servlet.version}</version>
-            <scope>provided</scope>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
         </dependency>
+
 
         <!-- logging -->
         <dependency>
@@ -325,19 +331,33 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.mortbay.jetty</groupId>
-                <artifactId>maven-jetty-plugin</artifactId>
-                <version>6.1.26</version>
+
+
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.1.3.v20140225</version>
+
+
                 <configuration>
                     <webAppConfig>
                         <contextPath>/heaptrip</contextPath>
                     </webAppConfig>
                     <connectors>
-                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                        <connector implementation="org.eclipse.jetty.nio.SelectChannelConnector">
                             <port>8080</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
+                    <loginServices>
+                        <loginService implementation="org.eclipse.jetty.security.HashLoginService">
+                            <name>Monitoring</name>
+                            <config>${basedir}/src/test/resources/jetty-realm.properties</config>
+                        </loginService>
+                    </loginServices>
+
+
+
+
                 </configuration>
             </plugin>
         </plugins>

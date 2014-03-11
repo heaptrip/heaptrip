@@ -39,8 +39,6 @@ public class ProfileController extends ExceptionHandlerControler {
             if (currentUser != null) {
                 guid = currentUser.getId();
             }
-        } else {
-            mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
         UserInfoModel accountModel = profileModelService.getProfileInformation(guid);
         return mv.addObject("account", accountModel);
@@ -55,8 +53,6 @@ public class ProfileController extends ExceptionHandlerControler {
             if (currentUser != null) {
                 guid = currentUser.getId();
             }
-        } else {
-            mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
         UserInfoModel accountModel = profileModelService.getProfileInformation(guid);
         return mv.addObject("account", accountModel);
@@ -85,8 +81,6 @@ public class ProfileController extends ExceptionHandlerControler {
             if (currentUser != null) {
                 guid = currentUser.getId();
             }
-        } else {
-            mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
         return mv;
     }
@@ -101,8 +95,6 @@ public class ProfileController extends ExceptionHandlerControler {
             if (currentUser != null) {
                 guid = currentUser.getId();
             }
-        } else {
-            mv.addObject("owner", profileModelService.getAccountInformation(guid));
         }
         CommunityInfoModel communityModel = profileModelService.getCommunityInformation(id);
         return mv.addObject("community", communityModel);

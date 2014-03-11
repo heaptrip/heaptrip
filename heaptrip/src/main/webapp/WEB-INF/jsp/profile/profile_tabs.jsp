@@ -56,7 +56,7 @@
         <c:if test="${not empty param.guid }">
 
             <li>
-                <a href="<c:url value="/travels.html"/>" class='${fn:contains(url, "/travel") ? "active":"" }'>
+                <a href="<c:url value="/travels.html?guid=${param.guid}"/>" class='${fn:contains(url, "/travel") ? "active":"" }'>
                     <fmt:message key="trip.list.title" />
                 </a>
             </li>

@@ -17,6 +17,8 @@ import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
