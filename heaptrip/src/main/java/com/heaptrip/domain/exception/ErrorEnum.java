@@ -24,6 +24,7 @@ public enum ErrorEnum {
     ERROR_ACCOUNT_WRONG_CONFIRM_VALUE("error.account.wrong.confirm.value"),
     ERROR_ACCOUNT_NOT_ACTIVE("error.account.not.active"),
     ERROR_ACCOUNT_CURRENT_EMAIL_NOT_EQUALS("error.account.current.email.not.equals"),
+    ERROR_ACCOUNT_WITH_THE_EMAIL_ALREADY_EXISTS("error.account.with.the.email.already.exists"),
 
     ERROR_NOTIFICATION_NOT_FOUND("error.notification.not.found"),
     ERROR_NOTIFICATION_NOT_NEW("error.notification.not.new"),
@@ -38,7 +39,6 @@ public enum ErrorEnum {
     ERROR_USER_PSWD_VALUE_IS_WRONG("error.user.pswd.value.is.wrong"),
     ERROR_USER_EMAIL_IS_NOT_CORRECT("error.user.email.is.not.correct"),
     ERROR_USER_PSWD_IS_NOT_CORRECT("error.user.pswd.is.not.correct"),
-    ERROR_ACCOUNT_WITH_THE_EMAIL_ALREADY_EXISTS("error.account.with.the.email.already.exists"),
 
     ERROR_COMMUNITY_NOT_FOUND("error.community.not.found"),
     ERROR_COMMUNITY_NOT_ACTIVE("error.community.not.active"),
