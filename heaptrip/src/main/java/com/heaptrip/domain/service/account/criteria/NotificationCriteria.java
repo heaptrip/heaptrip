@@ -2,8 +2,9 @@ package com.heaptrip.domain.service.account.criteria;
 
 import com.heaptrip.domain.service.criteria.Criteria;
 
-
 public class NotificationCriteria extends Criteria {
+
+    private String fromId;
 
 	// recipient notification
 	private String toId;
@@ -37,4 +38,12 @@ public class NotificationCriteria extends Criteria {
 	public void setToId(String toId) {
 		this.toId = toId;
 	}
+
+    public String getFromId() {
+        return fromId;
+    }
+
+    public void setFromId(String fromId) {
+        this.fromId = fromId;
+    }
 }

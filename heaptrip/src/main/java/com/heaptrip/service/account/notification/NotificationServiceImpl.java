@@ -2,6 +2,9 @@ package com.heaptrip.service.account.notification;
 
 import java.util.List;
 
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,6 @@ import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
-import com.heaptrip.domain.repository.account.user.UserRelationsRepository;
 import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
@@ -27,9 +29,9 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	@Autowired
 	private NotificationRepository notificationRepository;
-	
-	@Autowired
-	private UserRelationsRepository userRelationsRepository;
+
+    @Autowired
+    private RelationRepository relationRepository;
 	
 	@Autowired
 	private ErrorService errorService;
@@ -71,19 +73,19 @@ public class NotificationServiceImpl implements NotificationService {
 				String userId = null; 
 				
 				if (notification.getType().equals(NotificationTypeEnum.FRIEND)) {
-					userRelationsRepository.addFriend(notification.getFromId(), notification.getToId());
+                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.FRIEND));
 					// TODO dikma: подключить поиск когда...
 //					userId = notification.getToId();
 				} else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE)) {
-					userRelationsRepository.addEmployee(notification.getFromId(), notification.getToId());
+                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.EMPLOYEE));
 					// TODO dikma: подключить поиск когда...
 //					userId = notification.getFromId();
 				} else if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
-					userRelationsRepository.addMember(notification.getFromId(), notification.getToId());
+                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.MEMBER));
 					// TODO dikma: подключить поиск когда...
 //					userId = notification.getFromId();
 				} else if (notification.getType().equals(NotificationTypeEnum.OWNER)) {
-					userRelationsRepository.addOwner(notification.getFromId(), notification.getToId());
+                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.OWNER));
 					// TODO dikma: подключить поиск когда...
 //					userId = notification.getFromId();
 				} 

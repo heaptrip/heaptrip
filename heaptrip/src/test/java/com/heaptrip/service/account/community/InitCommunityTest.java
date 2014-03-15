@@ -20,10 +20,15 @@ public class InitCommunityTest  extends AbstractTestNGSpringContextTests {
     @BeforeTest()
     public void init() throws Exception {
         this.springTestContextPrepareTestInstance();
+        deleteAccounts();
     }
 
     @AfterTest
     public void afterTest() {
+        deleteAccounts();
+    }
+
+    private void deleteAccounts() {
         communityService.hardRemove(CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
         communityService.hardRemove(CommunityDataProvider.COMMUNITY_ID);
         communityService.hardRemove(CommunityDataProvider.ACTIVE_COMMUNITY_ID);

@@ -6,10 +6,10 @@ import com.heaptrip.domain.entity.Collectionable;
 
 public class Relation extends BaseObject implements Collectionable {
 
-    // who is the initiator
+    // user relations
     private String fromId;
 
-    // who decides
+    // my frend, user community is, user works in, user owns the community
     private String toId;
 
     private TypeRelationEnum typeRelation;
@@ -48,6 +48,14 @@ public class Relation extends BaseObject implements Collectionable {
         relation.setFromId(userId);
         relation.setToId(accountId);
         relation.setTypeRelation(TypeRelationEnum.PUBLISHER);
+        return relation;
+    }
+
+    public static Relation getRelation(String userId, String accountId, TypeRelationEnum typeRelation) {
+        Relation relation = new Relation();
+        relation.setFromId(userId);
+        relation.setToId(accountId);
+        relation.setTypeRelation(typeRelation);
         return relation;
     }
 }
