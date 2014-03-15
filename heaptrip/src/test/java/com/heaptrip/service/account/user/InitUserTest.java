@@ -27,16 +27,20 @@ public class InitUserTest extends AbstractTestNGSpringContextTests {
 
 	@BeforeTest()
 	public void init() throws Exception {
-		
 		this.springTestContextPrepareTestInstance();
+        deleteAccounts();
 	}	
 	
 	@AfterTest
 	public void afterTest() {
-		userService.hardRemove(UserDataProvider.EMAIL_USER_ID);
-		userService.hardRemove(UserDataProvider.NET_USER_ID);
+        deleteAccounts();
+	}
+
+    private void deleteAccounts() {
+        userService.hardRemove(UserDataProvider.EMAIL_USER_ID);
+        userService.hardRemove(UserDataProvider.NET_USER_ID);
         userService.hardRemove(UserDataProvider.NOT_CONFIRMED_USER_ID);
         userService.hardRemove(UserDataProvider.ACTIVE_USER_ID);
         userService.hardRemove(UserDataProvider.DELETED_USER_ID);
-	}
+    }
 }

@@ -1,8 +1,17 @@
 package com.heaptrip.service.account.relations;
 
+import com.heaptrip.domain.entity.account.notification.Notification;
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.notification.NotificationRepository;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.community.CommunityService;
+import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
+import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.service.account.community.CommunityDataProvider;
 import com.heaptrip.service.account.user.UserDataProvider;
@@ -12,6 +21,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 
+import java.util.List;
 import java.util.Locale;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
@@ -29,9 +39,23 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private RelationService relationService;
+
+    @Autowired
+    private RelationRepository relationRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
     @BeforeTest()
     public void init() throws Exception {
         this.springTestContextPrepareTestInstance();
+
+        deleteAll();
 
         Locale locale = new Locale("ru");
 
@@ -45,7 +69,6 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
 
         userRepository.save(UserDataProvider.getDeletedUser());
 
-
         communityService.registration(CommunityDataProvider.getClub(), locale);
         communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
 
@@ -55,7 +78,40 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterTest
-    public void afterTest() {
+    public void deleteAll() {
+        deleteNotifications();
+        deleteRelations();
+        deleteAccounts();
+    }
+
+    private void deleteNotifications() {
+        NotificationCriteria criteria = new NotificationCriteria();
+        criteria.setToId(UserDataProvider.EMAIL_USER_ID);
+        List<Notification> list = notificationService.getNotifications(criteria);
+
+        criteria.setToId(UserDataProvider.NET_USER_ID);
+        list.addAll(notificationService.getNotifications(criteria));
+
+        criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
+        list.addAll(notificationService.getNotifications(criteria));
+
+        for (Notification notification : list) {
+            notificationRepository.remove(notification.getId());
+        }
+    }
+
+    private void deleteRelations() {
+        RelationCriteria relationCriteria = new RelationCriteria();
+        relationCriteria.setFromId(UserDataProvider.EMAIL_USER_ID);
+
+        List<Relation> relations = relationRepository.findByCriteria(relationCriteria);
+
+        for (Relation relation : relations) {
+            relationRepository.remove(relation.getId());
+        }
+    }
+
+    private void deleteAccounts() {
         userService.hardRemove(UserDataProvider.EMAIL_USER_ID);
         userService.hardRemove(UserDataProvider.NET_USER_ID);
         userService.hardRemove(UserDataProvider.NOT_CONFIRMED_USER_ID);

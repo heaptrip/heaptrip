@@ -2,7 +2,6 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HeapTrip" parallel="false">
 
-
     <test name="UserTest">
         <classes>
             <class name="com.heaptrip.service.account.user.InitUserTest"/>
@@ -15,7 +14,6 @@
         </classes>
     </test>
 
-
     <test name="CommunityTest">
         <classes>
             <class name="com.heaptrip.service.account.community.InitCommunityTest"/>
@@ -24,14 +22,12 @@
         </classes>
     </test>
 
-    <!--
     <test name="RelationTest">
         <classes>
             <class name="com.heaptrip.service.account.relations.InitRelationTest" />
             <class name="com.heaptrip.service.account.relations.RelationTest" />
         </classes>
     </test>
-    -->
 
     <test name="ImageTest">
         <classes>

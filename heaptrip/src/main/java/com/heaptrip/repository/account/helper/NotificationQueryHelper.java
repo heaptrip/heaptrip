@@ -20,9 +20,13 @@ public class NotificationQueryHelper implements QueryHelper<NotificationCriteria
 	public String getQuery(NotificationCriteria criteria) {
 		String query = null;
 
-		if (criteria.getToId() != null) {
-			query = "{toId: #";
+		if (criteria.getFromId() != null) {
+			query = "{fromId: #";
 		}
+
+        if (criteria.getToId() != null) {
+            query = ((query == null) ? "{toId: #" : query + ", toId: #");
+        }
 
 		if (criteria.getStatus() != null) {
 			query = ((query == null) ? "{status: #" : query + ", status: #");
@@ -41,9 +45,13 @@ public class NotificationQueryHelper implements QueryHelper<NotificationCriteria
 	public Object[] getParameters(NotificationCriteria criteria, Object... arg) {
 		List<Object> parameters = new ArrayList<>();
 
-		if (criteria.getToId() != null) {
-			parameters.add(criteria.getToId());
+		if (criteria.getFromId() != null) {
+			parameters.add(criteria.getFromId());
 		}
+
+        if (criteria.getToId() != null) {
+            parameters.add(criteria.getToId());
+        }
 
 		if (criteria.getStatus() != null) {
 			parameters.add(criteria.getStatus());
