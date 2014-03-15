@@ -6,6 +6,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -25,6 +26,7 @@ public class MailServiceImpl implements MailService {
 	private ErrorService errorService;
 
 	@Override
+    @Async
 	public void sendNoreplyMessage(String to, String subject, String text) {
 		Assert.notNull(to, "destination address must not be null");
 		Assert.notNull(subject, "subject must not be null");
@@ -44,6 +46,7 @@ public class MailServiceImpl implements MailService {
 	}
 
 	@Override
+    @Async
 	public void sendNoreplyMessage(String[] to, String subject, String text) {
 		Assert.notNull(to, "destination addresses must not be null");
 		Assert.notNull(subject, "subject must not be null");
