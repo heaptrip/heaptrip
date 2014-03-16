@@ -4,6 +4,7 @@ import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
 import com.heaptrip.domain.entity.rating.AccountRating;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
     @Autowired
     private MailService mailService;
 
+    @Autowired
+    private AccountStoreService accountStoreService;
+
     @Override
     public void delete(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
@@ -62,6 +66,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
         } else {
             accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
+            accountStoreService.remove(accountId);
         }
     }
 

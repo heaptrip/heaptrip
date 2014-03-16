@@ -6,7 +6,7 @@ import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.rating.AccountRating;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public abstract class Account extends BaseObject {
+public class Account extends BaseObject {
 
 	public static final String COLLECTION_NAME = "accounts";
 
@@ -26,7 +26,9 @@ public abstract class Account extends BaseObject {
 
 	private AccountEnum typeAccount;
 	
-	private AccountRating rating; 
+	private AccountRating rating;
+
+    public Account() {}
 
 	public String get_class() {
 		return _class;

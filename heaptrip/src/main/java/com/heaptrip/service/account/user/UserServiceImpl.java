@@ -11,6 +11,7 @@ import javax.mail.MessagingException;
 import com.heaptrip.domain.entity.account.AccountImageReferences;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -69,14 +70,12 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     private ErrorService errorService;
 
     @Autowired
-    private AccountSearchService accountSearchService;
+    private AccountStoreService accountStoreService;
 
     @Override
     public void delete(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
-        // TODO dikma после реализации сообществ, добавть проверку их наличия,
-        // если есть, удалить профиль нельзя если пользователь единственный
-        // владелец
+        // TODO dikma после реализации сообществ, добавть проверку их наличия, если есть, удалить профиль нельзя если пользователь единственныйвладелец
 
         Account account = accountRepository.findOne(accountId);
 
@@ -90,6 +89,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
         } else {
             accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
+            accountStoreService.remove(accountId);
         }
     }
 

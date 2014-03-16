@@ -1,5 +1,6 @@
 package com.heaptrip.service.account;
 
+import com.heaptrip.domain.service.account.AccountStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private ErrorService errorService;
 
-    //@Autowired
-    //private AccountSearchService accountSearchService;
+    @Autowired
+    private AccountStoreService accountStoreService;
 
     @Override
     public Account getAccountById(String accountId){
@@ -63,6 +64,7 @@ public class AccountServiceImpl implements AccountService {
         } else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
             // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
+            accountStoreService.save(account.getId());
         } else {
             String msg = String.format("value not correct, account not been confirmed id: %s", accountId);
             logger.debug(msg);
@@ -137,9 +139,7 @@ public class AccountServiceImpl implements AccountService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
             accountRepository.saveProfile(accountId, profile);
-            // TODO dikma: подключить поиск когда...
-//			account = accountRepository.findOne(accountId);
-//			accountSearchService.saveAccount(account);
+            accountStoreService.update(accountId);
         }
     }
 
@@ -154,6 +154,7 @@ public class AccountServiceImpl implements AccountService {
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(ratingValue, "ratingValue must not be null");
         accountRepository.updateRating(accountId, ratingValue);
+        accountStoreService.updateRating(accountId, ratingValue);
     }
 
     @Override
