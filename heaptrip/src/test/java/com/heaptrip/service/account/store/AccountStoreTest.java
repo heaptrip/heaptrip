@@ -26,6 +26,8 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
@@ -47,8 +49,11 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
     private CategoryRepository categoryRepository;
 
     @Test(enabled = true, priority = 1)
-    public void saveAccount() throws SolrServerException, IOException {
-        userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
+    public void saveAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException {
+        Future<Void> future = userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
+        future.get();
+
+        solrAccountRepository.commit();
 
         RedisAccount redisAccount = redisAccountRepository.findOne(UserDataProvider.EMAIL_USER_ID);
         Assert.assertNotNull(redisAccount);
@@ -71,7 +76,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 2)
-    public void updateAccount() throws SolrServerException, IOException {
+    public void updateAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException {
         UserProfile profile = new UserProfile();
 
         String id = "1";
@@ -79,7 +84,10 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
         simpleCategorys[0] = categoryRepository.findOne(id);
         profile.setCategories(simpleCategorys);
 
-        userService.saveProfile(UserDataProvider.EMAIL_USER_ID, profile);
+        Future<Void> future = userService.saveProfile(UserDataProvider.EMAIL_USER_ID, profile);
+        future.get();
+
+        solrAccountRepository.commit();
 
         AccountTextCriteria criteria = new AccountTextCriteria();
         criteria.setQuery(UserDataProvider.EMAIL_USER_NAME);
@@ -140,16 +148,12 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 8)
-    public void removeEmailUser() throws SolrServerException {
-        accountStoreService.remove(UserDataProvider.EMAIL_USER_ID);
+    public void removeEmailUser() throws SolrServerException, ExecutionException, InterruptedException, IOException {
+        Future<Void> future = accountStoreService.remove(UserDataProvider.EMAIL_USER_ID);
+        future.get();
 
-        AccountTextCriteria criteria = new AccountTextCriteria();
-        criteria.setQuery(UserDataProvider.EMAIL_USER_NAME);
-        criteria.setSkip(0L);
-        criteria.setLimit(1L);
+        solrAccountRepository.commit();
 
-        SolrAccountSearchReponse response = solrAccountRepository.findByAccountSearchCriteria(criteria);
-        Assert.assertNotNull(response);
-        Assert.assertTrue(response.getNumFound() == 0);
+        Assert.assertFalse(solrAccountRepository.exists(UserDataProvider.EMAIL_USER_ID));
     }
 }

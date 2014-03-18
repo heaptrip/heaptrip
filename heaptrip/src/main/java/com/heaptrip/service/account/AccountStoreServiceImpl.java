@@ -24,12 +24,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Future;
 
 @Service
 public class AccountStoreServiceImpl implements AccountStoreService {
@@ -50,7 +52,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
     @Async
     @Override
-    public void save(String accountId) {
+    public Future<Void> save(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
         Account account = accountRepository.findOne(accountId);
 
@@ -75,6 +77,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             try {
                 solrAccountRepository.save(solrAccount);
             } catch (SolrServerException | IOException e) {
+                // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
                 errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
             }
 
@@ -91,16 +94,19 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             }
 
             try {
+                // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
                 redisAccountRepository.save(redisAccount);
             } catch (Exception e) {
                 errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
             }
         }
+
+        return new AsyncResult<Void>(null);
     }
 
     @Async
     @Override
-    public void update(String accountId) {
+    public Future<Void> update(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
         Account account = accountRepository.findOne(accountId);
 
@@ -125,9 +131,12 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             try {
                 solrAccountRepository.save(solrAccount);
             } catch (SolrServerException | IOException e) {
+                // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
                 errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
             }
         }
+
+        return new AsyncResult<Void>(null);
     }
 
     @Async
@@ -148,19 +157,21 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         try {
             redisAccountRepository.updateImages(accountId, imageId, thumbnailId);
         } catch (Exception e) {
-            errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+            throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
     }
 
     @Async
     @Override
-    public void remove(String accountId) {
+    public Future<Void> remove(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
             solrAccountRepository.remove(accountId);
         } catch (SolrServerException | IOException e) {
-            errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
+            throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
         }
+
+        return new AsyncResult<Void>(null);
     }
 
     @Override
@@ -173,7 +184,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         try {
             redisAccount = redisAccountRepository.findOne(accountId);
         } catch (Exception e) {
-            errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+            throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
 
         if (redisAccount == null) {
@@ -206,7 +217,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         try {
             response = solrAccountRepository.findByAccountSearchCriteria(criteria);
         } catch (SolrServerException e) {
-            errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
+            throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
         }
 
         if (response != null && response.getAccountIds() != null && response.getAccountIds().length > 0) {

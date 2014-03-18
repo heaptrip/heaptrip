@@ -29,12 +29,12 @@
         </classes>
     </test>
 
-    <!--<test name="StoreTest">-->
-        <!--<classes>-->
-            <!--<class name="com.heaptrip.service.account.store.InitStoreTest" />-->
-            <!--<class name="com.heaptrip.service.account.store.AccountStoreTest" />-->
-        <!--</classes>-->
-    <!--</test>-->
+    <test name="StoreTest">
+        <classes>
+            <class name="com.heaptrip.service.account.store.InitStoreTest" />
+            <class name="com.heaptrip.service.account.store.AccountStoreTest" />
+        </classes>
+    </test>
 
     <test name="ImageTest">
         <classes>

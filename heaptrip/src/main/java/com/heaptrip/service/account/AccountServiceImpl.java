@@ -18,6 +18,8 @@ import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.system.ErrorService;
 
+import java.util.concurrent.Future;
+
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
 
@@ -47,7 +49,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void confirmRegistration(String accountId, String value) {
+    public Future<Void> confirmRegistration(String accountId, String value) {
+        Future<Void> future = null;
+
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(value, "value must not be null");
 
@@ -64,12 +68,14 @@ public class AccountServiceImpl implements AccountService {
         } else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
             // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
-            accountStoreService.save(account.getId());
+            future = accountStoreService.save(account.getId());
         } else {
             String msg = String.format("value not correct, account not been confirmed id: %s", accountId);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WRONG_CONFIRM_VALUE);
         }
+
+        return future;
     }
 
     @Override
@@ -123,7 +129,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void saveProfile(String accountId, Profile profile) {
+    public Future<Void> saveProfile(String accountId, Profile profile) {
+        Future<Void> future = null;
+
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(profile, "profile must not be null");
 
@@ -139,8 +147,10 @@ public class AccountServiceImpl implements AccountService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
             accountRepository.saveProfile(accountId, profile);
-            accountStoreService.update(accountId);
+            future = accountStoreService.update(accountId);
         }
+
+        return future;
     }
 
     @Override
