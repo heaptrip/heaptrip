@@ -20,17 +20,34 @@ public class RedisContextImpl implements RedisContext {
     @Value("${redis.url}")
     private String url;
 
+    @Value("${redis.pool.maxActive:20}")
+    private int maxActive;
+
+    @Value("${redis.pool.maxIdle:10}")
+    private int maxIdle;
+
+    @Value("${redis.pool.minIdle:5}")
+    private int minIdle;
+
     private JedisPool pool;
 
     @PostConstruct
     public void init() throws MalformedURLException {
         logger.info("Redis pool connections initialization ...");
         logger.info("redis url: {}", url);
+        logger.info("redis.pool.maxActive: {}", maxActive);
+        logger.info("redis.pool.maxIdle: {}", maxIdle);
+        logger.info("redis.pool.minIdle: {}", minIdle);
 
         if (url == null || url.isEmpty()) {
             throw new RuntimeException("Redis pool connections not initialized: host is not defined");
         }
 
+
+        JedisPoolConfig config = new JedisPoolConfig();
+        config.setMaxActive(maxActive);
+        config.setMaxIdle(maxIdle);
+        config.setMinIdle(minIdle);
 
         pool = new JedisPool(new JedisPoolConfig(), url);
 
