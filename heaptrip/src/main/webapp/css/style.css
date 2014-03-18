@@ -211,7 +211,11 @@ input[type=checkbox]{
 }
 
 #article .inf .left a:hover{
-    text-decoration: none;
+    text-decoration: underline;
+}
+
+#article .inf .left .tags a:hover{
+
 }
 
 #article .inf .left h2{
@@ -232,6 +236,10 @@ input[type=checkbox]{
 }
 
 #article .inf .right a{
+    text-decoration: none;
+}
+
+#article .inf .right a:hover{
     text-decoration: underline;
 }
 
@@ -309,10 +317,10 @@ input[type=checkbox]{
 }
 
 #article .tags a{
-	color: #545454;
-	font-weight: bold;
-	text-decoration: none;
-	margin-right: 10px;
+    color: #545454;
+    margin-right: 10px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
 #article .tags a:hover{
