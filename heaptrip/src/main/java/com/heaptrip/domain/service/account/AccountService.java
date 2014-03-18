@@ -17,7 +17,7 @@ public interface AccountService {
      *
      * @param accountId
      */
-    public Account getAccountById(String accountId);
+    Account getAccountById(String accountId);
 
     /**
 	 * Hard remove account. It is recommended to use the after tests to clear
@@ -74,7 +74,7 @@ public interface AccountService {
 	 *            account id
 	 * @return account rating
 	 */
-	public AccountRating getAccountRating(String accountId);
+    AccountRating getAccountRating(String accountId);
 
 	/**
 	 * Update account rating value by account id
@@ -85,5 +85,5 @@ public interface AccountService {
 	 *            new value for account rating
 	 * 
 	 */
-	public void updateAccountRatingValue(String accountId, double ratingValue);
+	Future<Void> updateAccountRatingValue(String accountId, double ratingValue);
 }

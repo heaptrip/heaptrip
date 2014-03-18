@@ -3,6 +3,7 @@ package com.heaptrip.service.account.relation;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.RelationCriteria;
 import com.heaptrip.domain.service.account.relation.RelationService;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public class RelationServiceImpl implements RelationService {
 	private ErrorService errorService;
 	
 	@Autowired
-	private AccountSearchService accountSearchService;
+	private AccountStoreService accountStoreService;
 	
 	protected static final Logger logger = LoggerFactory.getLogger(RelationServiceImpl.class);
 	
@@ -106,8 +107,7 @@ public class RelationServiceImpl implements RelationService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
         } else {
             relationRepository.delete(new RelationCriteria(userId, friendId, TypeRelationEnum.FRIEND));
-            // TODO dikma: подключить поиск когда...
-//			accountSearchService.updateUser(userId);
+            accountStoreService.update(userId);
         }
 	}
 
@@ -137,8 +137,7 @@ public class RelationServiceImpl implements RelationService {
 			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
             relationRepository.save(Relation.getRelation(userId, publisherId, TypeRelationEnum.PUBLISHER));
-			// TODO dikma: подключить поиск когда...
-//			accountSearchService.updateUser(userId);
+            accountStoreService.update(userId);
 		}
 	}
 
@@ -168,8 +167,7 @@ public class RelationServiceImpl implements RelationService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
 		} else {
             relationRepository.delete(new RelationCriteria(userId, publisherId, TypeRelationEnum.PUBLISHER));
-			// TODO dikma: подключить поиск когда...
-//			accountSearchService.updateUser(userId);
+            accountStoreService.update(userId);
 		}
 	}
 
@@ -233,8 +231,7 @@ public class RelationServiceImpl implements RelationService {
         } else {
 			// TODO dikma: надо проверить, не единственный ли он сотрудник и есть ли активные путешествия
             relationRepository.delete(new RelationCriteria(userId, communityId, TypeRelationEnum.OWNER));
-			// TODO dikma: подключить поиск когда...
-//			accountSearchService.updateUser(userId);
+            accountStoreService.update(userId);
 		}		
 	}
 
@@ -298,8 +295,7 @@ public class RelationServiceImpl implements RelationService {
         } else {
             // TODO dikma: надо проверить, не единственный ли он сотрудник и есть ли активные путешествия
             relationRepository.delete(new RelationCriteria(userId, communityId, TypeRelationEnum.EMPLOYEE));
-			// TODO dikma: подключить поиск когда...
-//			accountSearchService.updateUser(userId);
+            accountStoreService.update(userId);
 		}
 	}
 
@@ -362,8 +358,7 @@ public class RelationServiceImpl implements RelationService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
         } else {
             relationRepository.delete(new RelationCriteria(userId, communityId, TypeRelationEnum.MEMBER));
-			// TODO dikma: подключить поиск когда...
-//			accountSearchService.updateUser(userId);
+            accountStoreService.update(userId);
 		}
 	}
 }

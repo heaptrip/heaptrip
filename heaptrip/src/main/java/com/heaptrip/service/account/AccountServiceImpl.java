@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Future<Void> confirmRegistration(String accountId, String value) {
-        Future<Void> future = null;
+        Future<Void> future;
 
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(value, "value must not be null");
@@ -130,7 +130,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Future<Void> saveProfile(String accountId, Profile profile) {
-        Future<Void> future = null;
+        Future<Void> future;
 
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(profile, "profile must not be null");
@@ -160,11 +160,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void updateAccountRatingValue(String accountId, double ratingValue) {
+    public Future<Void> updateAccountRatingValue(String accountId, double ratingValue) {
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(ratingValue, "ratingValue must not be null");
         accountRepository.updateRating(accountId, ratingValue);
-        accountStoreService.updateRating(accountId, ratingValue);
+        return accountStoreService.updateRating(accountId, ratingValue);
     }
 
     @Override

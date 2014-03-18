@@ -169,9 +169,6 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         String msg = String.format(mt.getText(locale), str.toString());
         mailService.sendNoreplyMessage(user.getEmail(), mt.getSubject(locale), msg);
 
-        // TODO dikma: здесь должен быть вызов сервиса-обвертки над Solr и Reddis
-        // accountSearchService.saveAccount(user);
-
         return user;
     }
 

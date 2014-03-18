@@ -5,12 +5,15 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountImageReferences;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.exception.system.RedisException;
 import com.heaptrip.domain.exception.system.SolrException;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.redis.RedisAccountRepository;
 import com.heaptrip.domain.repository.redis.entity.RedisAccount;
 import com.heaptrip.domain.repository.solr.SolrAccountRepository;
@@ -18,6 +21,7 @@ import com.heaptrip.domain.repository.solr.entity.SolrAccount;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.account.criteria.RelationCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.slf4j.Logger;
@@ -49,6 +53,9 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
     @Autowired
     private ErrorService errorService;
+
+    @Autowired
+    RelationRepository relationRepository;
 
     @Async
     @Override
@@ -128,6 +135,23 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 solrAccount.setRegions(getIds(account.getProfile().getRegions()));
             }
 
+            RelationCriteria criteria = new RelationCriteria();
+            criteria.setFromId(accountId);
+            criteria.setTypeRelation(TypeRelationEnum.PUBLISHER);
+            solrAccount.setPublishers(getRelations(criteria));
+
+            criteria.setTypeRelation(TypeRelationEnum.MEMBER);
+            solrAccount.setMembers(getRelations(criteria));
+
+            criteria.setTypeRelation(TypeRelationEnum.EMPLOYEE);
+            solrAccount.setStaff(getRelations(criteria));
+
+            criteria.setTypeRelation(TypeRelationEnum.OWNER);
+            solrAccount.setOwners(getRelations(criteria));
+
+            criteria.setTypeRelation(TypeRelationEnum.FRIEND);
+            solrAccount.setFriends(getRelations(criteria));
+
             try {
                 solrAccountRepository.save(solrAccount);
             } catch (SolrServerException | IOException e) {
@@ -141,24 +165,28 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
     @Async
     @Override
-    public void updateRating(String accountId, double ratingValue) {
+    public Future<Void>  updateRating(String accountId, double ratingValue) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
             redisAccountRepository.updateRating(accountId, ratingValue);
         } catch (Exception e) {
             errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
+
+        return new AsyncResult<Void>(null);
     }
 
     @Async
     @Override
-    public void updateImages(String accountId, String imageId, String thumbnailId) {
+    public Future<Void>  updateImages(String accountId, String imageId, String thumbnailId) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
             redisAccountRepository.updateImages(accountId, imageId, thumbnailId);
         } catch (Exception e) {
             throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
+
+        return new AsyncResult<Void>(null);
     }
 
     @Async
@@ -178,7 +206,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
     public Account findOne(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
 
-        RedisAccount redisAccount = null;
+        RedisAccount redisAccount;
         Account account;
 
         try {
@@ -212,7 +240,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
     @Override
     public List<Account> findByCriteria(AccountTextCriteria criteria) {
         List<Account> result = null;
-        SolrAccountSearchReponse response = null;
+        SolrAccountSearchReponse response;
 
         try {
             response = solrAccountRepository.findByAccountSearchCriteria(criteria);
@@ -246,5 +274,22 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
             return ids;
         }
+    }
+
+    private String[] getRelations(RelationCriteria criteria) {
+        // TODO нет проверки на уникальность связей
+        List<Relation> relations;
+        String[] result;
+
+        relations = relationRepository.findByCriteria(criteria);
+        result = new String[relations.size()];
+
+        if (relations.size() > 0) {
+            for (int i = 0; relations.size() > i; i++) {
+                result[i] = relations.get(i).getToId();
+            }
+        }
+
+        return result;
     }
 }
