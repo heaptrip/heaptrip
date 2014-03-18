@@ -11,8 +11,11 @@
 
     <context:annotation-config/>
 
-    <!-- need for @Async -->
-    <task:annotation-driven/>
+    <!-- Activates @Async -->
+    <task:annotation-driven executor="poolTaskExecutor"/>
+
+    <!-- Task executor for asynchronous calls -->
+    <task:executor id="poolTaskExecutor" pool-size="10-50" queue-capacity="100" keep-alive="300"/>
 
     <context:component-scan base-package="com.heaptrip"/>
 
@@ -51,8 +54,5 @@
             </props>
         </property>
     </bean>
-
-
-
 
 </beans>
