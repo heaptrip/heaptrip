@@ -214,11 +214,11 @@
                                 'active');
                             if (totalpages < settings.length) {
                                 list.css({
-                                    width: totalpages * 20
+                                   // width: totalpages * 20
                                 });
                             } else {
                                 list.css({
-                                    width: settings.length * 20
+                                   // width: settings.length * 20
                                 });
                             }
                             showRequiredButtons(startPage);
