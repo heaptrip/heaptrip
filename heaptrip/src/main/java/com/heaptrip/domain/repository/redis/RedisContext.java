@@ -4,5 +4,9 @@ import redis.clients.jedis.Jedis;
 
 public interface RedisContext {
 
-    public Jedis getJedis();
+    public Jedis getConnection();
+
+    public void returnConnection(Jedis jedis);
+
+    public void returnBrokenConnection(Jedis jedis);
 }

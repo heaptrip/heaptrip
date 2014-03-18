@@ -38,7 +38,17 @@ public class RedisContextImpl implements RedisContext {
     }
 
     @Override
-    public Jedis getJedis() {
+    public Jedis getConnection() {
         return pool.getResource();
+    }
+
+    @Override
+    public void returnConnection(Jedis jedis) {
+        pool.returnResource(jedis);
+    }
+
+    @Override
+    public void returnBrokenConnection(Jedis jedis) {
+        pool.returnBrokenResource(jedis);
     }
 }
