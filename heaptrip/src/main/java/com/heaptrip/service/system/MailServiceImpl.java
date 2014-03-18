@@ -28,7 +28,8 @@ public class MailServiceImpl implements MailService {
 	@Override
     @Async
 	public void sendNoreplyMessage(String to, String subject, String text) {
-		Assert.notNull(to, "destination address must not be null");
+		/*
+        Assert.notNull(to, "destination address must not be null");
 		Assert.notNull(subject, "subject must not be null");
 		Assert.notNull(text, "text must not be null");
 
@@ -43,6 +44,7 @@ public class MailServiceImpl implements MailService {
 		} catch (MessagingException e) {
 			throw errorService.createException(MailException.class, e, ErrorEnum.ERR_SYSTEM_SEND_MAIL);
 		}
+		*/
 	}
 
 	@Override
