@@ -12,9 +12,9 @@ public interface AccountStoreService {
 
     public Future<Void> update(String accountId);
 
-    public void updateRating(String accountId, double ratingValue);
+    public Future<Void> updateRating(String accountId, double ratingValue);
 
-    public void updateImages(String accountId, String imageId, String thumbnailId);
+    public Future<Void> updateImages(String accountId, String imageId, String thumbnailId);
 
     public Future<Void> remove(String accountId);
 
