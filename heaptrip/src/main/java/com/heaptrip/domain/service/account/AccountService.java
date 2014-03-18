@@ -7,6 +7,8 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.Future;
+
 
 public interface AccountService {
 
@@ -31,7 +33,7 @@ public interface AccountService {
 	 * @param accountId
 	 * @param value
 	 */
-	void confirmRegistration(String accountId, String value);
+    Future<Void> confirmRegistration(String accountId, String value);
 
 	/**
 	 * Change email
@@ -56,7 +58,7 @@ public interface AccountService {
 	 * @param accountId
 	 * @param profile
 	 */
-	void saveProfile(String accountId, Profile profile);
+    Future<Void> saveProfile(String accountId, Profile profile);
 
 	/**
 	 * Soft delete account

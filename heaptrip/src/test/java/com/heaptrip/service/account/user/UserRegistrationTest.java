@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.concurrent.Future;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
@@ -87,7 +88,7 @@ public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
         userService.registration(UserDataProvider.getDeletedUser(), null, locale);
     }
 
-    // подтверждаем регистрацию 2х базовых пользователей
+//    подтверждаем регистрацию 2х базовых пользователей
     @Test(enabled = true, priority = 31)
     public void confirmRegistrationEmailUser() {
         userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
