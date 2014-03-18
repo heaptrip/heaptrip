@@ -378,79 +378,78 @@ input[type=checkbox]{
 /* Пагинация 
 ----------------------------------------------------*/
 .pagination{
-	height: 21px;
-	border-top: 1px solid #DEE5EB;
-	/*border-bottom: 1px solid #DEE5EB;*/
-	text-align: center;
-	margin: 60px 0 -1px 0;
-	padding: 4px 0;
-	margin: 4px 298px 4px 15px;
+    height: 22px;
+    border-top: 1px solid #DEE5EB;
+    text-align: center;
+    margin: 60px 0 -1px 0;
+    padding: 4px 0;
 }
 
 .pagination div,
 .pagination ul,
 .pagination li{
-	display: -moz-inline-stack;
-	display: inline-block;
-	vertical-align: top;
-	zoom: 1;
-	*display: inline;
-	color: #545454;
-	font-family: verdana;
-	font-size: 12px;
-	line-height: 21px;
-	text-align: center;
+    display: -moz-inline-stack;
+    display: inline-block;
+    vertical-align: top;
+    zoom: 1;
+    *display: inline;
+    color: #545454;
+    font-family: verdana;
+    font-size: 12px;
+    line-height: 21px;
+    text-align: center;
 }
 
 .pagination li a{
-	text-decoration: none;
-	color: #545454;
-	margin-left: 2px;
+    text-decoration: none;
+    color: #545454;
+    /* margin-left: 2px; */
+    width: 22px;
+    display: block;
 }
 
 .pagination li a:hover{
-	text-decoration: none;
+    text-decoration: none;
 
 }
 
 .pagination .pagination_prev,
 .pagination .pagination_next{
-	background: #DEE5EB;
-	border: none;
-	-webkit-border-radius: 11px;
-	-moz-border-radius: 11px;
-	border-radius: 11px;
-	behavior: url(/pie/PIE.htc);
-	height: 22px;
-	width: 22px;
-	cursor: pointer;
-	margin-left: 2px;
+    background: #DEE5EB;
+    border: none;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    behavior: url(/pie/PIE.htc);
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+    margin-left: 2px;
 }
 
 .pagination li.active{
-	background: #00BBFF;
-	border: none;
-	-webkit-border-radius: 11px;
-	-moz-border-radius: 11px;
-	border-radius: 11px;
-	behavior: url(/pie/PIE.htc);
-	height: 22px;
-	width: 22px;
-	cursor: pointer;
-	margin-left: 2px;
+    background: #00BBFF;
+    border: none;
+    -webkit-border-radius: 11px;
+    -moz-border-radius: 11px;
+    border-radius: 11px;
+    behavior: url(/pie/PIE.htc);
+    height: 22px;
+    width: 22px;
+    cursor: pointer;
+    margin-left: 2px;
 
 }
 
 .pagination li.active > a{
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 .pagination_name{
-	font-weight: bold;
-	letter-spacing: 1px;
-	margin-right: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-right: 20px;
 }
-
 
 /* Виджет
 ----------------------------------------------------*/
