@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'verdana';
+    src: url('../fonts/VERDANA.TTF');
+}
+
 #nav{
 	height: 37px;
 	background: #00BBFF;
