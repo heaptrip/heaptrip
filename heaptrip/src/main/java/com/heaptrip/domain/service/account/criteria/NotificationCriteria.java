@@ -6,38 +6,38 @@ public class NotificationCriteria extends Criteria {
 
     private String fromId;
 
-	// recipient notification
-	private String toId;
-	
-	// notification type
-	private String type;
-	
-	// notification status
-	private String status;
-	
-	public String getType() {
-		return type;
-	}
+    // recipient notification
+    private String toId;
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    // notification type
+    private String type;
 
-	public String getStatus() {
-		return status;
-	}
+    // notification status
+    private String status;
 
-	public void setStatus(String status) {
-		this.status = status;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getToId() {
-		return toId;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setToId(String toId) {
-		this.toId = toId;
-	}
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getToId() {
+        return toId;
+    }
+
+    public void setToId(String toId) {
+        this.toId = toId;
+    }
 
     public String getFromId() {
         return fromId;

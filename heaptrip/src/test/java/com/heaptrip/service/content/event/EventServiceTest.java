@@ -2,7 +2,10 @@ package com.heaptrip.service.content.event;
 
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
-import com.heaptrip.domain.entity.content.*;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.Map;
+import com.heaptrip.domain.entity.content.Marker;
+import com.heaptrip.domain.entity.content.Point;
 import com.heaptrip.domain.entity.content.event.Event;
 import com.heaptrip.domain.entity.content.event.EventType;
 import com.heaptrip.domain.exception.event.EventException;
@@ -45,12 +48,10 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
     public void init() {
         event = new Event();
         event.setId(EVENT_ID);
-        ContentOwner owner = new ContentOwner();
-        owner.setId(OWNER_ID);
         event.setName(new MultiLangText("Test event"));
         event.setSummary(new MultiLangText("Summary for test event"));
         event.setDescription(new MultiLangText("Description for test event"));
-        event.setOwner(owner);
+        event.setOwnerId(OWNER_ID);
         // set categories
         SimpleCategory[] categories = new SimpleCategory[CATEGORY_IDS.length];
         for (int i = 0; i < CATEGORY_IDS.length; i++) {
@@ -90,9 +91,7 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(ArrayUtils.isNotEmpty(event.getLangs()));
         Assert.assertEquals(event.getLangs().length, 1);
         Assert.assertEquals(event.getLangs()[0], LOCALE.getLanguage());
-        Assert.assertNotNull(event.getOwner());
-        Assert.assertNotNull(event.getOwner().getId());
-        Assert.assertEquals(event.getOwner().getId(), OWNER_ID);
+        Assert.assertEquals(event.getOwnerId(), OWNER_ID);
         Assert.assertNotNull(event.getStatus());
         Assert.assertNotNull(event.getStatus().getValue());
         Assert.assertEquals(event.getStatus().getValue(), ContentStatusEnum.DRAFT);

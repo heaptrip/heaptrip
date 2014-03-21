@@ -70,7 +70,7 @@ public class AnswerServiceImpl implements AnswerService {
         answer.setFullSlug(comment.getFullSlug());
         answer.setCreated(comment.getCreated());
         answer.setText(comment.getText());
-        answer.setAuthor(comment.getAuthor());
+        answer.setAuthorId(comment.getAuthorId());
         return answer;
     }
 }

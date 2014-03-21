@@ -4,30 +4,28 @@ import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.MultiLangText;
 
 /**
- * 
  * Simple region
- * 
  */
 public class SimpleRegion extends BaseObject {
 
-	// multilingual name of the region
-	protected MultiLangText name;
+    // multilingual name of the region
+    protected MultiLangText name;
 
-	public SimpleRegion() {
-		super();
-	}
+    public SimpleRegion() {
+        super();
+    }
 
-	public SimpleRegion(String id) {
-		super();
-		this.id = id;
-	}
+    public SimpleRegion(String id) {
+        super();
+        this.id = id;
+    }
 
-	public MultiLangText getName() {
-		return name;
-	}
+    public MultiLangText getName() {
+        return name;
+    }
 
-	public void setName(MultiLangText name) {
-		this.name = name;
-	}
+    public void setName(MultiLangText name) {
+        this.name = name;
+    }
 
 }

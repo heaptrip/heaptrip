@@ -1,8 +1,12 @@
 package com.heaptrip.web.modelservice;
 
-import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.content.*;
+import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.ContentStatus;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.feed.ContentFeedService;
@@ -29,15 +33,22 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Autowired
     private ContentRepository contentRepository;
 
+    @Autowired
+    private AccountStoreService accountStoreService;
 
     @Override
-    public AccountModel convertContentOwnerToModel(ContentOwner owner) {
+    public AccountModel convertContentOwnerToModel(String ownerId) {
         AccountModel result = null;
-        if (owner != null) {
-            result = new AccountModel();
-            result.setId(owner.getId());
-            result.setName(owner.getName());
-            result.setRating(new RatingModel(owner.getRating()));
+        if (ownerId != null) {
+            Account account = accountStoreService.findOne(ownerId);
+            if (account != null) {
+                result = new AccountModel();
+                result.setId(account.getId());
+                result.setName(account.getName());
+                if (account.getRating() != null) {
+                    result.setRating(new RatingModel(account.getRating().getValue()));
+                }
+            }
         }
         return result;
     }
@@ -65,7 +76,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             if (content.getDescription() != null)
                 contentModel.setDescription(getMultiLangTextValue(content.getDescription(), locale, isOnlyThisLocale));
 
-            contentModel.setOwner(convertContentOwnerToModel(content.getOwner()));
+            contentModel.setOwner(convertContentOwnerToModel(content.getOwnerId()));
             contentModel.setCategories(convertCategoriesToModel(content.getCategories()));
             contentModel.setRegions(convertRegionsToModel(content.getRegions()));
             contentModel.setLangs(content.getLangs());
@@ -74,9 +85,6 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
                 contentModel.setStatus(convertContentStatusToModel(content.getStatus()));
 
             contentModel.setRating(convertRatingToRatingModel(contentType, content.getId(), content.getRating()));
-
-            if (content.getImage() != null)
-                contentModel.setImage(convertImage(content.getImage()));
 
             if (content.getViews() == null) {
                 contentModel.setViews(0L);
@@ -103,21 +111,6 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             contentStatus.setValue(ContentStatusEnum.valueOf(statusModel.getValue()));
         }
         return contentStatus;
-    }
-
-    @Override
-    public ContentOwner getContentOwner() {
-        ContentOwner contentOwner = null;
-        User user = getCurrentUser();
-        if (user != null) {
-            contentOwner = new ContentOwner();
-            contentOwner.setId(user.getId());
-            contentOwner.setName(user.getName());
-            // TODO: getRating() from user
-            contentOwner.setRating(0D);
-            contentOwner.setType(user.getTypeAccount());
-        }
-        return contentOwner;
     }
 
     @Override

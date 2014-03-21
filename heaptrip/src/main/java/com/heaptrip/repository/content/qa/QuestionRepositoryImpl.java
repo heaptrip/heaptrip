@@ -37,7 +37,7 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question> impleme
         List<Object> parameters = new ArrayList<>();
 
         updateQuery = String.format("{$set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #,"
-                + "'summary.main': #, 'description.main': #, image: #}}");
+                + "'summary.main': #, 'description.main': #}}");
 
         parameters.add(question.getCategories());
         parameters.add(question.getCategoryIds());
@@ -46,7 +46,6 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question> impleme
         parameters.add(question.getName().getValue());
         parameters.add(question.getSummary().getValue());
         parameters.add(question.getDescription().getValue());
-        parameters.add(question.getImage());
 
         if (logger.isDebugEnabled()) {
             String msg = String.format(

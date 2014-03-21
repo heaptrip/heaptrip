@@ -9,8 +9,6 @@ import java.util.Date;
  */
 public class Comment extends BaseObject {
 
-    public static final String COLLECTION_NAME = "comments";
-
     // _id of discussion object (trip, post, etc.)
     private String target;
 
@@ -28,8 +26,8 @@ public class Comment extends BaseObject {
     // posted timestamp,
     private Date created;
 
-    // author of the comment
-    private CommentAuthor author;
+    // account id for author of the comment
+    private String authorId;
 
     // comment text
     private String text;
@@ -74,12 +72,12 @@ public class Comment extends BaseObject {
         this.created = created;
     }
 
-    public CommentAuthor getAuthor() {
-        return author;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(CommentAuthor author) {
-        this.author = author;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public String getText() {

@@ -58,7 +58,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(rootComment.getId());
         Assert.assertNull(rootComment.getParent());
         Assert.assertEquals(rootComment.getTarget(), TARGET_ID);
-        Assert.assertEquals(rootComment.getAuthor().getId(), USER_ID);
+        Assert.assertEquals(rootComment.getAuthorId(), USER_ID);
         // call
         Comment childComment = commentService.addChildComment(Trip.class, TARGET_ID, rootComment.getId(), USER_ID,
                 "some child comment");
@@ -68,7 +68,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(childComment.getParent());
         Assert.assertEquals(childComment.getParent(), rootComment.getId());
         Assert.assertEquals(childComment.getTarget(), TARGET_ID);
-        Assert.assertEquals(childComment.getAuthor().getId(), USER_ID);
+        Assert.assertEquals(childComment.getAuthorId(), USER_ID);
         // check number of comments
         Trip content = tripRepository.findOne(TARGET_ID);
         Assert.assertNotNull(content);
@@ -83,7 +83,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(rootComment.getId());
         Assert.assertNull(rootComment.getParent());
         Assert.assertEquals(rootComment.getTarget(), TARGET_ID);
-        Assert.assertEquals(rootComment.getAuthor().getId(), USER_ID);
+        Assert.assertEquals(rootComment.getAuthorId(), USER_ID);
         // call
         Comment childComment = commentService.addChildComment(rootComment.getId(), USER_ID, "some child comment");
         // check
@@ -92,7 +92,7 @@ public class CommentServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(childComment.getParent());
         Assert.assertEquals(childComment.getParent(), rootComment.getId());
         Assert.assertEquals(childComment.getTarget(), TARGET_ID);
-        Assert.assertEquals(childComment.getAuthor().getId(), USER_ID);
+        Assert.assertEquals(childComment.getAuthorId(), USER_ID);
     }
 
     @Test(enabled = true, priority = 2)

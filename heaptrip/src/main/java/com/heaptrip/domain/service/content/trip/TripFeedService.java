@@ -6,7 +6,10 @@ import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 
+/**
+ * Service to find trips for feed
+ */
 public interface TripFeedService extends
-		FeedService<Trip, TripFeedCriteria, TripMyAccountCriteria, TripForeignAccountCriteria> {
+        FeedService<Trip, TripFeedCriteria, TripMyAccountCriteria, TripForeignAccountCriteria> {
 
 }

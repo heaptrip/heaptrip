@@ -1,18 +1,7 @@
 package com.heaptrip.service.content;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.solr.client.solrj.SolrServerException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
-
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
-import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.post.Post;
@@ -22,6 +11,15 @@ import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.solr.SolrContentRepository;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.language.LanguageUtils;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+
+import java.io.IOException;
+import java.util.List;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class InitContentTest extends AbstractTestNGSpringContextTests {
@@ -67,7 +65,7 @@ public class InitContentTest extends AbstractTestNGSpringContextTests {
         this.springTestContextPrepareTestInstance();
         post = new Post();
         post.setId(ContentDataProvider.CONTENT_ID);
-        post.setOwner(new ContentOwner(ContentDataProvider.OWNER_ID));
+        post.setOwnerId(ContentDataProvider.OWNER_ID);
         post.setName(new MultiLangText("test name", LanguageUtils.getEnglishLocale()));
         post.setSummary(new MultiLangText("test summary", LanguageUtils.getEnglishLocale()));
         post.setDescription(new MultiLangText("test description", LanguageUtils.getEnglishLocale()));

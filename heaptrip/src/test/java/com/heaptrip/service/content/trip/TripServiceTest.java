@@ -1,7 +1,10 @@
 package com.heaptrip.service.content.trip;
 
 import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.content.*;
+import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.content.Map;
+import com.heaptrip.domain.entity.content.Marker;
+import com.heaptrip.domain.entity.content.Point;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatusEnum;
@@ -46,15 +49,13 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private PostService postService;
 
-    private Post post = null;
+    private Post post;
 
     @BeforeClass
     public void init() {
         post = new Post();
         post.setId(POST_ID);
-        ContentOwner owner = new ContentOwner();
-        owner.setId(OWNER_ID);
-        post.setOwner(owner);
+        post.setOwnerId(OWNER_ID);
         post.setName(new MultiLangText("Test post"));
         post.setSummary(new MultiLangText("Summary for test post"));
         post.setDescription(new MultiLangText("Description for test post"));
@@ -90,9 +91,9 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
     public void getNearestTableItemByPeriod(Trip trip) {
         // call
         Calendar begin = Calendar.getInstance();
-        begin.set(2013, 0, 1);
+        begin.set(2013, Calendar.JANUARY, 1);
         Calendar end = Calendar.getInstance();
-        end.set(2013, 6, 1);
+        end.set(2013, Calendar.JULY, 1);
         SearchPeriod period = new SearchPeriod(begin.getTime(), end.getTime());
         TableItem item = tripService.getNearestTableItemByPeriod(trip, period);
         // check

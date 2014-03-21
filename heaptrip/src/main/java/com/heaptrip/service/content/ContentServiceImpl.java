@@ -4,8 +4,6 @@ import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentStatus;
-import com.heaptrip.domain.entity.image.Image;
-import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
@@ -23,9 +21,6 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Future;
@@ -129,12 +124,12 @@ public class ContentServiceImpl implements ContentService {
 
         switch (status.getValue()) {
             case PUBLISHED_ALL:
-                allowed = new String[]{"0"};
+                allowed = new String[]{Content.ALLOWED_ALL_USERS};
                 break;
             case PUBLISHED_FRIENDS:
                 // TODO konovalov: add owner friends
                 // String ownerId = contentRepository.getOwnerId(contentId);
-                allowed = new String[]{"0"};
+                allowed = new String[]{Content.ALLOWED_ALL_USERS};
                 break;
             default:
                 allowed = new String[0];
@@ -182,15 +177,5 @@ public class ContentServiceImpl implements ContentService {
         Assert.notNull(contentId, "contentId must not be null");
         Assert.notNull(ratingValue, "ratingValue must not be null");
         contentRepository.updateRating(contentId, ratingValue);
-    }
-
-    @Override
-    public Image saveTitleImage(String fileName, InputStream is) throws IOException {
-        Image image = new Image();
-        String imageId = imageService.saveImage(fileName, ImageEnum.CONTENT_TITLE_IMAGE, is);
-        image.setId(imageId);
-        image.setName(fileName);
-        image.setUploaded(new Date());
-        return image;
     }
 }

@@ -23,14 +23,10 @@ public class QuestionServiceImpl extends ContentServiceImpl implements QuestionS
     @Override
     public Question save(Question question) {
         Assert.notNull(question, "question must not be null");
-        Assert.notNull(question.getOwner(), "owner must not be null");
-        Assert.notNull(question.getOwner().getId(), "owner.id must not be null");
+        Assert.notNull(question.getOwnerId(), "owner.id must not be null");
         Assert.notEmpty(question.getName(), "name must not be empty");
         Assert.notEmpty(question.getSummary(), "summary must not be empty");
         Assert.notEmpty(question.getDescription(), "description must not be empty");
-
-        // TODO if owner account type == (CLUB or COMPANY) then set owners
-        question.setOwners(new String[]{question.getOwner().getId()});
 
         // update categories and categoryIds
         updateCategories(question);

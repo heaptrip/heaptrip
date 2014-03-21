@@ -3,56 +3,54 @@ package com.heaptrip.domain.entity.album;
 import com.heaptrip.domain.entity.image.Image;
 
 /**
- * 
  * Album image stores images for albums and trip routes
- * 
  */
 public class AlbumImage extends Image {
 
-	public static final String COLLECTION_NAME = "images";
+    public static final String COLLECTION_NAME = "images";
 
-	// _id of associated object (table item id or trip id, trip route id, etc.)
-	private String target;
+    // _id of associated object (table item id or trip id, trip route id, etc.)
+    private String target;
 
-	// references to images in GridFS
-	private ImageReferences refs;
+    // references to images in GridFS
+    private ImageReferences refs;
 
-	// owner of the image
-	private ImageOwner owner;
+    // account id for owner of the image
+    private String ownerId;
 
-	// the number of likes
-	private Long likes;
+    // the number of likes
+    private Long likes;
 
-	public String getTarget() {
-		return target;
-	}
+    public String getTarget() {
+        return target;
+    }
 
-	public void setTarget(String target) {
-		this.target = target;
-	}
+    public void setTarget(String target) {
+        this.target = target;
+    }
 
-	public ImageReferences getRefs() {
-		return refs;
-	}
+    public ImageReferences getRefs() {
+        return refs;
+    }
 
-	public void setRefs(ImageReferences refs) {
-		this.refs = refs;
-	}
+    public void setRefs(ImageReferences refs) {
+        this.refs = refs;
+    }
 
-	public ImageOwner getOwner() {
-		return owner;
-	}
+    public String getOwnerId() {
+        return ownerId;
+    }
 
-	public void setOwner(ImageOwner owner) {
-		this.owner = owner;
-	}
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
 
-	public Long getLikes() {
-		return likes;
-	}
+    public Long getLikes() {
+        return likes;
+    }
 
-	public void setLikes(Long likes) {
-		this.likes = likes;
-	}
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
 
 }

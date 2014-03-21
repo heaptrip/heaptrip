@@ -1,7 +1,6 @@
 package com.heaptrip.service.content.qa;
 
 import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.qa.Question;
 import com.heaptrip.domain.repository.content.qa.QuestionRepository;
@@ -39,12 +38,10 @@ public class QuestionServiceTest extends AbstractTestNGSpringContextTests {
     public void beforeTest() {
         question = new Question();
         question.setId(QUESTION_ID);
-        ContentOwner owner = new ContentOwner();
-        owner.setId(OWNER_ID);
         question.setName(new MultiLangText("Test question"));
         question.setSummary(new MultiLangText("Summary for test question"));
         question.setDescription(new MultiLangText("Description for test question"));
-        question.setOwner(owner);
+        question.setOwnerId(OWNER_ID);
     }
 
     @AfterClass(alwaysRun = true)
@@ -65,9 +62,7 @@ public class QuestionServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(ArrayUtils.isEmpty(question.getAllowed()));
         Assert.assertNull(question.getMainLang());
         Assert.assertTrue(ArrayUtils.isEmpty(question.getLangs()));
-        Assert.assertNotNull(question.getOwner());
-        Assert.assertNotNull(question.getOwner().getId());
-        Assert.assertEquals(question.getOwner().getId(), OWNER_ID);
+        Assert.assertEquals(question.getOwnerId(), OWNER_ID);
         Assert.assertNotNull(question.getStatus());
         Assert.assertNotNull(question.getStatus().getValue());
         Assert.assertEquals(question.getStatus().getValue(), ContentStatusEnum.DRAFT);
