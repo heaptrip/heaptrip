@@ -29,7 +29,7 @@ public class RedisContextImpl implements RedisContext {
     @Value("${redis.pool.minIdle:5}")
     private int minIdle;
 
-    @Value("${redis.pool.maxWait:5000}")
+    @Value("${redis.pool.maxWait:-1}")
     private int maxWait;
 
     private JedisPool pool;
