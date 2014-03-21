@@ -18,9 +18,9 @@
     padding: 0;
     list-style: none;
 	position: relative;
-	left: 180px;
+	left: 202px;
 	top: 4px;
-	width: 800px;
+	width: 736px;
 }
 
 #nav ul li{
@@ -51,6 +51,7 @@
 
 #nav ul li a:hover{
     background: #19A1D3;
+    color: #FFFFFF;
 }
 
 #nav ul li a:active{
@@ -59,6 +60,40 @@
 
 #nav ul li a.active{
     background: #0E84AF;
+}
+
+.global_menu{
+    width: 24px;
+    height: 24px;
+    background: url("../images/global_menu.png") no-repeat;
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    left: 172px;
+    top: 6px;
+}
+
+#nav .global_menu>ul{
+    position: absolute;
+    width: 160px;
+    background: #F0F0F0;
+    border: 1px solid #D8D8D8;
+    top: 26px;
+    left: -72px;
+    padding: 4px 2px;
+}
+
+#nav .global_menu>ul li{
+    width: 100%;
+    text-align: center;
+}
+
+#nav .global_menu>ul li a{
+    color: #333333;
+}
+
+#nav .global_menu>ul li a:hover{
+    color: #FFFFFF;
 }
 
 .search{

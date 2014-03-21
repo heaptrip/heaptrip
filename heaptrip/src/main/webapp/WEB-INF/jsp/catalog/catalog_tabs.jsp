@@ -4,6 +4,16 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <nav id="nav">
+    <div class="global_menu">
+        <ul>
+            <li><a href="#">Lenta</a></li>
+            <li><a href="#">Anketa</a></li>
+            <li><a href="#">Puteshestviya</a></li>
+            <li><a href="#">Novosti</a></li>
+            <li><a href="#">Soobshestva</a></li>
+            <li><a href="#">Opovesheniya</a></li>
+        </ul>
+    </div>
     <ul>
         <li>
             <a href="<c:url value="/tidings.html"/>" class="${fn:contains(url, '/tiding') ? 'active':'' }">
