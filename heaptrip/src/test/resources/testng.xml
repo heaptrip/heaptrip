@@ -24,15 +24,15 @@
 
     <test name="RelationTest">
         <classes>
-            <class name="com.heaptrip.service.account.relations.InitRelationTest" />
-            <class name="com.heaptrip.service.account.relations.RelationTest" />
+            <class name="com.heaptrip.service.account.relations.InitRelationTest"/>
+            <class name="com.heaptrip.service.account.relations.RelationTest"/>
         </classes>
     </test>
 
     <test name="StoreTest">
         <classes>
-            <class name="com.heaptrip.service.account.store.InitStoreTest" />
-            <class name="com.heaptrip.service.account.store.AccountStoreTest" />
+            <class name="com.heaptrip.service.account.store.InitStoreTest"/>
+            <class name="com.heaptrip.service.account.store.AccountStoreTest"/>
         </classes>
     </test>
 
@@ -126,4 +126,5 @@
             <class name="com.heaptrip.service.rating.RatingServiceTest"/>
         </classes>
     </test>
+
 </suite>

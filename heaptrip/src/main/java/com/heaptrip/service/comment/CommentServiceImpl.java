@@ -3,7 +3,6 @@ package com.heaptrip.service.comment;
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.comment.Comment;
-import com.heaptrip.domain.entity.comment.CommentAuthor;
 import com.heaptrip.domain.entity.comment.Commentsable;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.SystemException;
@@ -90,11 +89,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setFullSlug(fullSlug);
         comment.setCreated(new Date());
         comment.setText(text);
-
-        CommentAuthor author = new CommentAuthor();
-        author.setId(userId);
-        // TODO set name and image for author
-        comment.setAuthor(author);
+        comment.setAuthorId(userId);
 
         return commentRepository.save(comment);
     }
@@ -119,11 +114,7 @@ public class CommentServiceImpl implements CommentService {
         comment.setFullSlug(fullSlug);
         comment.setCreated(new Date());
         comment.setText(text);
-
-        CommentAuthor author = new CommentAuthor();
-        author.setId(userId);
-        // TODO set name and image for author
-        comment.setAuthor(author);
+        comment.setAuthorId(userId);
 
         return commentRepository.save(comment);
     }

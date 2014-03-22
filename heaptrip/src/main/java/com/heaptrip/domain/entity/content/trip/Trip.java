@@ -16,7 +16,6 @@ public class Trip extends Content {
     // IDs of trip posts
     private String[] postIds;
 
-
     public TableItem[] getTable() {
         return table;
     }

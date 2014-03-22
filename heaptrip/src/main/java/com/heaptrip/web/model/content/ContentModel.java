@@ -6,7 +6,6 @@ public class ContentModel {
 
     private String id;
     private String name;
-    private ImageModel image;
     private DateModel created;
     private AccountModel owner;
     private Long comments;
@@ -38,13 +37,6 @@ public class ContentModel {
         this.created = created;
     }
 
-    public ImageModel getImage() {
-        return image;
-    }
-
-    public void setImage(ImageModel image) {
-        this.image = image;
-    }
 
     public CategoryModel[] getCategories() {
         return categories;

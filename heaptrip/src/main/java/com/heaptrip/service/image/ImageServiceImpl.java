@@ -1,17 +1,5 @@
 package com.heaptrip.service.image;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import net.coobird.thumbnailator.Thumbnails;
-
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.service.image.ImageService;
@@ -19,6 +7,16 @@ import com.mongodb.DB;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import com.mongodb.gridfs.GridFSInputFile;
+import net.coobird.thumbnailator.Thumbnails;
+import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -76,8 +74,7 @@ public class ImageServiceImpl implements ImageService {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         Thumbnails.of(is).size(imageType.getWidth(), imageType.getHeight()).useOriginalFormat()
                 .outputQuality(RESIZE_QUALITY).toOutputStream(os);
-        InputStream result = new ByteArrayInputStream(os.toByteArray());
-        return result;
+        return new ByteArrayInputStream(os.toByteArray());
     }
 
 }

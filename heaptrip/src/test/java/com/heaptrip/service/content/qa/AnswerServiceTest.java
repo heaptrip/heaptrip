@@ -65,7 +65,7 @@ public class AnswerServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(answer.getId());
         Assert.assertNull(answer.getParent());
         Assert.assertEquals(answer.getTarget(), QUESTION_ID);
-        Assert.assertEquals(answer.getAuthor().getId(), USER_ID);
+        Assert.assertEquals(answer.getAuthorId(), USER_ID);
         Assert.assertNull(answer.getCorrect());
         Assert.assertNull(answer.getLikes());
         Assert.assertNull(answer.getDislikes());
@@ -85,7 +85,7 @@ public class AnswerServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(childAnswer.getParent());
         Assert.assertEquals(childAnswer.getParent(), answer.getId());
         Assert.assertEquals(childAnswer.getTarget(), QUESTION_ID);
-        Assert.assertEquals(childAnswer.getAuthor().getId(), USER_ID);
+        Assert.assertEquals(childAnswer.getAuthorId(), USER_ID);
         Assert.assertNull(childAnswer.getCorrect());
         Assert.assertNull(childAnswer.getLikes());
         Assert.assertNull(childAnswer.getDislikes());

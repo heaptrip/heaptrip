@@ -11,13 +11,13 @@ public class RelationCriteria extends Criteria {
 
     private TypeRelationEnum typeRelation;
 
-    public RelationCriteria () {};
+    public RelationCriteria() {
+    }
 
     public RelationCriteria(String fromId, String toId, TypeRelationEnum typeRelation) {
         this.fromId = fromId;
         this.toId = toId;
         this.typeRelation = typeRelation;
-
     }
 
     public TypeRelationEnum getTypeRelation() {

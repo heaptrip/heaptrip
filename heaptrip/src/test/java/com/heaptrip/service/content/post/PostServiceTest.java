@@ -2,7 +2,6 @@ package com.heaptrip.service.content.post;
 
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
-import com.heaptrip.domain.entity.content.ContentOwner;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.region.Region;
@@ -59,9 +58,7 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
     public void beforeTest() throws IOException {
         post = new Post();
         post.setId(POST_ID);
-        ContentOwner owner = new ContentOwner();
-        owner.setId(OWNER_ID);
-        post.setOwner(owner);
+        post.setOwnerId(OWNER_ID);
         post.setCategories(getCategories());
         post.setRegions(getRegions());
         post.setName(new MultiLangText("Test post"));
@@ -89,9 +86,7 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
         //Assert.assertTrue(ArrayUtils.isEmpty(post.getAllowed()));
         Assert.assertNull(post.getMainLang());
         Assert.assertTrue(ArrayUtils.isEmpty(post.getLangs()));
-        Assert.assertNotNull(post.getOwner());
-        Assert.assertNotNull(post.getOwner().getId());
-        Assert.assertEquals(post.getOwner().getId(), OWNER_ID);
+        Assert.assertEquals(post.getOwnerId(), OWNER_ID);
         Assert.assertNotNull(post.getStatus());
         Assert.assertNotNull(post.getStatus().getValue());
         Assert.assertEquals(post.getStatus().getValue(), ContentStatusEnum.DRAFT);

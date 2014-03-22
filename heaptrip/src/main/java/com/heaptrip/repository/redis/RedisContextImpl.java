@@ -29,6 +29,9 @@ public class RedisContextImpl implements RedisContext {
     @Value("${redis.pool.minIdle:5}")
     private int minIdle;
 
+    @Value("${redis.pool.maxWait:-1}")
+    private int maxWait;
+
     private JedisPool pool;
 
     @PostConstruct
@@ -38,16 +41,18 @@ public class RedisContextImpl implements RedisContext {
         logger.info("redis.pool.maxActive: {}", maxActive);
         logger.info("redis.pool.maxIdle: {}", maxIdle);
         logger.info("redis.pool.minIdle: {}", minIdle);
+        logger.info("redis.pool.maxWait: {}", maxWait);
 
         if (url == null || url.isEmpty()) {
             throw new RuntimeException("Redis pool connections not initialized: host is not defined");
         }
 
 
-        JedisPoolConfig config = new JedisPoolConfig();
-        config.setMaxActive(maxActive);
-        config.setMaxIdle(maxIdle);
-        config.setMinIdle(minIdle);
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxActive(maxActive);
+        poolConfig.setMaxIdle(maxIdle);
+        poolConfig.setMinIdle(minIdle);
+        poolConfig.setMaxWait(maxWait);
 
         pool = new JedisPool(new JedisPoolConfig(), url);
 

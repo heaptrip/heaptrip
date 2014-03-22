@@ -130,8 +130,8 @@
         </put-list-attribute>
     </definition>
 
-    <definition name="catalogTemplate" template="/WEB-INF/jsp/catalog/catalog.jsp">
-        <put-attribute name="catalog_tabs" value="/WEB-INF/jsp/catalog/catalog_tabs.jsp"/>
+    <definition name="catalogTemplate" template="/WEB-INF/jsp/content.jsp">
+        <put-attribute name="catalog_tabs" value="/WEB-INF/jsp/menu.jsp"/>
         <put-attribute name="catalog_content" value=""/>
     </definition>
 
@@ -237,20 +237,8 @@
         <put-attribute name="main_content" value="travelInfoEditCatalogTemplate"/>
     </definition>
 
-
-    <!-- Trip edit page -->
-
-    <!-- Profile -->
-
-
-    <definition name="profileTemplate" template="/WEB-INF/jsp/profile/profile_content.jsp">
-        <put-attribute name="profile_tabs" value="/WEB-INF/jsp/profile/profile_tabs.jsp"/>
-        <put-attribute name="profile_content" value=""/>
-    </definition>
-
-
-    <definition name="accountInfoTemplate" extends="profileTemplate">
-        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp"/>
+    <definition name="accountInfoTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp"/>
     </definition>
 
     <definition name="profile" extends="mainContentTemplate">
@@ -259,8 +247,8 @@
         <put-attribute name="main_content" value="accountInfoTemplate"/>
     </definition>
 
-    <definition name="accountInfoEditTemplate" extends="profileTemplate">
-        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/account/profile_modify_info.jsp"/>
+    <definition name="accountInfoEditTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_modify_info.jsp"/>
     </definition>
 
     <definition name="profile_modify_info" extends="mainContentTemplate">
@@ -270,8 +258,8 @@
     </definition>
 
 
-    <definition name="communitiesTemplate" extends="profileTemplate">
-        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
+    <definition name="communitiesTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
     </definition>
 
     <definition name="communities" extends="mainContentTemplate">
@@ -280,8 +268,8 @@
         <put-attribute name="main_content" value="communitiesTemplate"/>
     </definition>
 
-    <definition name="communityInfoEditTemplate" extends="profileTemplate">
-        <put-attribute name="profile_content" value="/WEB-INF/jsp/profile/community/community_modify_info.jsp"/>
+    <definition name="communityInfoEditTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_modify_info.jsp"/>
     </definition>
 
     <definition name="community_modify_info" extends="mainContentTemplate">

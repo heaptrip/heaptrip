@@ -8,7 +8,6 @@ import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.comment.Commentsable;
-import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 
@@ -20,20 +19,20 @@ import java.util.Date;
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public abstract class Content extends BaseObject implements Collectionable, Commentsable {
 
-    public static final String ALLOWED_ALL_USERS = "0";
+    public static final String ALLOWED_ALL_USERS = "ALL";
 
     private static final String COMMENTS_NUMBER_FIELD_NAME = "comments";
 
     // contain a content categories set by the owner
     private SimpleCategory[] categories;
 
-    // contain a categories IDs set by the owner, and parent for them
+    // contain a categories IDs set by the owner, and parent for them, need to perform a search
     private String[] categoryIds;
 
     // contain a content regions set by the owner
     private SimpleRegion[] regions;
 
-    // contain a regions IDs set by the owner, and parent for them
+    // contain a regions IDs set by the owner, and parent for them, need to perform a search
     private String[] regionIds;
 
     // content status
@@ -54,15 +53,11 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
     // date of remove
     private Date deleted;
 
-    // list of user IDs that are allowed to view content. [0] - allow all
+    // account id for content owner
+    private String ownerId;
+
+    // list of user IDs that are allowed to view content. [0] - allow for all users
     private String[] allowed;
-
-    // content owner
-    private ContentOwner owner;
-
-    // list owners. If the trip is owned by the company, then it may be a few
-    // owners
-    private String[] owners;
 
     // language in which the trip was created
     private String mainLang;
@@ -79,9 +74,6 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
     // content rating
     private ContentRating rating;
 
-    // image
-    private Image image;
-
     // number of comments
     private long comments;
 
@@ -93,14 +85,6 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
     @Override
     public String getCommentsNumberFieldName() {
         return COMMENTS_NUMBER_FIELD_NAME;
-    }
-
-    public ContentOwner getOwner() {
-        return owner;
-    }
-
-    public void setOwner(ContentOwner owner) {
-        this.owner = owner;
     }
 
     public SimpleCategory[] getCategories() {
@@ -151,14 +135,6 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
         this.description = description;
     }
 
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
-    }
-
     public Date getCreated() {
         return created;
     }
@@ -183,12 +159,12 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
         this.allowed = allowed;
     }
 
-    public String[] getOwners() {
-        return owners;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwners(String[] owners) {
-        this.owners = owners;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public Views getViews() {

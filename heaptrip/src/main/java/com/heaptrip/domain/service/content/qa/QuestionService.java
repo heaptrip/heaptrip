@@ -11,7 +11,7 @@ public interface QuestionService extends ContentService {
     /**
      * Save a new question
      *
-     * @param question
+     * @param question question
      * @return question
      */
     public Question save(Question question);
@@ -19,7 +19,7 @@ public interface QuestionService extends ContentService {
     /**
      * Update question information
      *
-     * @param question
+     * @param question question
      */
     public void update(Question question);
 

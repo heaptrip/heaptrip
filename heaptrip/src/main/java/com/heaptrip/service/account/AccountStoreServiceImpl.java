@@ -2,7 +2,6 @@ package com.heaptrip.service.account;
 
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.account.Account;
-import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountImageReferences;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
@@ -66,11 +65,12 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         if (account == null) {
             String msg = String.format("account not find by id: %s", accountId);
             logger.debug(msg);
-            errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
-        } if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
+        }
+        if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
             String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
             logger.debug(msg);
-            errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
             SolrAccount solrAccount = new SolrAccount();
             solrAccount.setId(account.getId());
@@ -85,7 +85,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 solrAccountRepository.save(solrAccount);
             } catch (SolrServerException | IOException e) {
                 // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
-                errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
+                throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
             }
 
             RedisAccount redisAccount = new RedisAccount();
@@ -104,11 +104,11 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
                 redisAccountRepository.save(redisAccount);
             } catch (Exception e) {
-                errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+                throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
             }
         }
 
-        return new AsyncResult<Void>(null);
+        return new AsyncResult<>(null);
     }
 
     @Async
@@ -120,11 +120,11 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         if (account == null) {
             String msg = String.format("account not find by id: %s", accountId);
             logger.debug(msg);
-            errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
         } else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
             String msg = String.format("account status must be: %s", AccountStatusEnum.ACTIVE);
             logger.debug(msg);
-            errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
             SolrAccount solrAccount = new SolrAccount();
             solrAccount.setId(account.getId());
@@ -156,29 +156,29 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 solrAccountRepository.save(solrAccount);
             } catch (SolrServerException | IOException e) {
                 // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
-                errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
+                throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
             }
         }
 
-        return new AsyncResult<Void>(null);
+        return new AsyncResult<>(null);
     }
 
     @Async
     @Override
-    public Future<Void>  updateRating(String accountId, double ratingValue) {
+    public Future<Void> updateRating(String accountId, double ratingValue) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
             redisAccountRepository.updateRating(accountId, ratingValue);
         } catch (Exception e) {
-            errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+            throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
 
-        return new AsyncResult<Void>(null);
+        return new AsyncResult<>(null);
     }
 
     @Async
     @Override
-    public Future<Void>  updateImages(String accountId, String imageId, String thumbnailId) {
+    public Future<Void> updateImages(String accountId, String imageId, String thumbnailId) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
             redisAccountRepository.updateImages(accountId, imageId, thumbnailId);
@@ -186,7 +186,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
 
-        return new AsyncResult<Void>(null);
+        return new AsyncResult<>(null);
     }
 
     @Async
@@ -199,7 +199,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
         }
 
-        return new AsyncResult<Void>(null);
+        return new AsyncResult<>(null);
     }
 
     @Override
@@ -219,6 +219,26 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             String msg = String.format("account not exists in Redis: %s", accountId);
             logger.warn(msg);
             account = accountRepository.findOne(accountId);
+
+            redisAccount = new RedisAccount();
+            redisAccount.setId(account.getId());
+            redisAccount.setName(account.getName());
+            redisAccount.setEmail(account.getEmail());
+            if (account.getRating() != null) {
+                redisAccount.setRating(account.getRating().getValue());
+            }
+            if (account.getImages() != null) {
+                redisAccount.setImageId(account.getImages().getProfileId());
+                redisAccount.setThumbnailId(account.getImages().getContentId());
+            }
+
+            try {
+                // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
+                redisAccountRepository.save(redisAccount);
+            } catch (Exception e) {
+                throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+            }
+
         } else {
             account = new Account();
             account.setId(redisAccount.getId());

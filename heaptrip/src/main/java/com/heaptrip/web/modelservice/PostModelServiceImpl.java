@@ -31,7 +31,7 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
     protected Post convertContentModelToPost(ContentModel contentModel) {
         Post post = new Post();
         post.setId(contentModel.getId());
-        post.setOwner(getContentOwner());
+        post.setOwnerId(getCurrentUser().getId());
         post.setStatus(convertContentStatusModelToContentStatus(contentModel.getStatus()));
         post.setMainLang(contentModel.getLocale());
         post.setName(new MultiLangText(contentModel.getName()));

@@ -7,9 +7,7 @@ import com.heaptrip.domain.service.content.event.criteria.EventMyAccountCriteria
 import com.heaptrip.domain.service.content.feed.FeedService;
 
 /**
- * 
  * Service to find events for feed
- * 
  */
 public interface EventFeedService extends
 		FeedService<Event, EventFeedCriteria, EventMyAccountCriteria, EventForeignAccountCriteria> {
