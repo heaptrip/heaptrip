@@ -16,15 +16,26 @@ $(document).ready(function() {
 
 
 
-	if($('#account').length){
-		$('#account_name').bind('click',function(){
-			if($('#account ul').is(':hidden')){
-				$('#account ul').slideDown(100);
+	if($('.global_menu').length){
+		$('.global_menu').bind('click',function(){
+			if($('.global_menu ul').is(':hidden')){
+				$('.global_menu ul').slideDown(100);
 			} else {
-    			$('#account ul').slideUp(100);
+    			$('.global_menu ul').slideUp(100);
   			}
 		});
 	}
+
+    if($('#account').length){
+        $('#account_name').bind('click',function(){
+            if($('#account ul').is(':hidden')){
+                $('#account ul').slideDown(100);
+            } else {
+                $('#account ul').slideUp(100);
+            }
+        });
+    }
+
 	if($('#language').length){
 		$('#language_now').bind('click',function(){
 			if($('#language ul').is(':hidden')){
@@ -56,9 +67,12 @@ $(document).ready(function() {
 		if ($(e.target).closest("#account").length) return;
     	if ($(e.target).closest("#language").length) return;
     	if ($(e.target).closest(".select").length) return;
+        if ($(e.target).closest(".global_menu>ul").length) return;
+        if ($(e.target).closest(".global_menu").length) return;
     	$('#account ul').slideUp(100);
     	$('#language ul').slideUp(100);
     	$('.select ul').slideUp(100);
+        $('.global_menu>ul').slideUp(100);
     	e.stopPropagation();
   	});
 

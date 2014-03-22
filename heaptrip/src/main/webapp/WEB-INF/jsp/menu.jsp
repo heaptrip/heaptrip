@@ -6,7 +6,7 @@
 <nav id="nav">
     <div class="global_menu">
         <ul>
-            <li><a href="#">Lenta</a></li>
+            <li><a href="/test/">Lenta</a></li>
             <li><a href="#">Anketa</a></li>
             <li><a href="#">Puteshestviya</a></li>
             <li><a href="#">Novosti</a></li>

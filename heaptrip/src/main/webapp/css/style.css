@@ -86,6 +86,11 @@
     top: 26px;
     left: -72px;
     padding: 4px 2px;
+    display: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    behavior: url(/pie/PIE.htc);
 }
 
 #nav .global_menu>ul li{
