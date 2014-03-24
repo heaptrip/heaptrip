@@ -143,17 +143,24 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp"/>
     </definition>
 
-    <definition name="tidings" extends="mainContentTemplate">
+    <definition name="ct-tidings" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
 
-    <definition name="travels" extends="mainContentTemplate">
+    <definition name="ct-travels" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
     </definition>
+    <definition name="my-travels" extends="ct-travels"/>
+    <definition name="fv-travels" extends="ct-travels"/>
+    <definition name="pf-travels" extends="ct-travels"/>
+
+
+
+
 
     <!-- Trip page -->
 
@@ -241,7 +248,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp"/>
     </definition>
 
-    <definition name="profile" extends="mainContentTemplate">
+    <definition name="pf-profile" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="accountInfoTemplate"/>
@@ -262,7 +269,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
     </definition>
 
-    <definition name="communities" extends="mainContentTemplate">
+    <definition name="pf-communities" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communitiesTemplate"/>

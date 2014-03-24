@@ -1,4 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<c:redirect url="/tidings.html"/>
+<c:redirect url="/ct-tidings.html"/>

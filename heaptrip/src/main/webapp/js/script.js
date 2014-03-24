@@ -18,6 +18,10 @@ $(document).ready(function() {
 
 	if($('.global_menu').length){
 		$('.global_menu').bind('click',function(){
+            if (!window.user){
+                window.location = 'ct-tidings.html';
+                return;
+            }
 			if($('.global_menu ul').is(':hidden')){
 				$('.global_menu ul').slideDown(100);
 			} else {

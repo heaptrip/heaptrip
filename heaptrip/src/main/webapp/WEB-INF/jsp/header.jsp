@@ -7,33 +7,38 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:set var="curr_locale" scope="request"><fmt:message key="locale.name"/></c:set>
-<c:set var="url" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
-<c:set var="lang_values" value="<%=LangEnum.getValues()%>"/>
+<c:set var="url" scope="request" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+<c:set var="lang_values" scope="request" value="<%=LangEnum.getValues()%>"/>
+
+<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
+    <sec:authentication var="principal" scope="request" property="principal"/>
+</sec:authorize>
+
+<c:if test="${not empty param.guid && not param.guid eq principal.id}">
+    <c:set var="catcher" scope="request" value="${profileModelService.getAccountInformation(param.guid)}"/>
+</c:if>
 
 <a id="logo"></a>
 
 <div id="path">
     <div id="path_text">
-        <sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-            <sec:authentication var="principal" property="principal"/>
+        <c:if test="${not empty principal}">
             ${principal.name} -
-        </sec:authorize>
-        <c:if test="${not empty param.guid}">
-            <span style="color: #ffee2f">
-            ${profileModelService.getAccountInformation(param.guid).name} -
-            </span>
+        </c:if>
+        <c:if test="${not empty catcher}">
+            <span style="color: #ffee2f"> ${catcher.name} - </span>
         </c:if>
             <span style="color: #2abeff">
-                ${fn:contains(url, "/tidings") ? "tidings":"" }
-                ${fn:contains(url, "/profile") ? "profiles":"" }
-                ${fn:contains(url, "/travel") ? "travels":"" }
-                ${fn:contains(url, "/post") ? "posts":"" }
-                ${fn:contains(url, "/question") ? "questions":"" }
-                ${fn:contains(url, "/event") ? "events":"" }
-                ${fn:contains(url, "/notification") ? "notifications":"" }
-                ${fn:contains(url, "/communit") ? "communities":"" }
-                ${fn:contains(url, "/option") ? "options":"" }
-                ${fn:contains(url, "/peopl") ? "people":"" }
+                ${fn:contains(url, "tidings") ? "tidings":"" }
+                ${fn:contains(url, "profile") ? "profiles":"" }
+                ${fn:contains(url, "travel") ? "travels":"" }
+                ${fn:contains(url, "post") ? "posts":"" }
+                ${fn:contains(url, "question") ? "questions":"" }
+                ${fn:contains(url, "event") ? "events":"" }
+                ${fn:contains(url, "notification") ? "notifications":"" }
+                ${fn:contains(url, "communit") ? "communities":"" }
+                ${fn:contains(url, "option") ? "options":"" }
+                ${fn:contains(url, "peopl") ? "people":"" }
             </span>
     </div>
 </div>
