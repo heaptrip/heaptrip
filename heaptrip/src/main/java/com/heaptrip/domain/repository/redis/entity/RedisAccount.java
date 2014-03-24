@@ -7,7 +7,8 @@ public class RedisAccount {
     private String email;
     private double rating;
     private String imageId;
-    private String thumbnailId;
+    private String smallId;
+    private String mediumId;
 
     public String getId() {
         return id;
@@ -49,11 +50,19 @@ public class RedisAccount {
         this.imageId = imageId;
     }
 
-    public String getThumbnailId() {
-        return thumbnailId;
+    public String getSmallId() {
+        return smallId;
     }
 
-    public void setThumbnailId(String thumbnailId) {
-        this.thumbnailId = thumbnailId;
+    public void setSmallId(String smallId) {
+        this.smallId = smallId;
+    }
+
+    public String getMediumId() {
+        return mediumId;
+    }
+
+    public void setMediumId(String mediumId) {
+        this.mediumId = mediumId;
     }
 }

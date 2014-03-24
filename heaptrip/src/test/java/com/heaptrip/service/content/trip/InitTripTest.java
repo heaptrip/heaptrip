@@ -4,12 +4,10 @@ import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.Trip;
-import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
-import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.util.RandomUtils;
 import com.heaptrip.util.language.LanguageUtils;
@@ -32,16 +30,11 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
 
     private List<Trip> trips = null;
 
-    private Image image = null;
-
     @Autowired
     private TripService tripService;
 
     @Autowired
     private TripUserService tripUserService;
-
-    @Autowired
-    private ImageService imageService;
 
     @Autowired
     private RegionService regionService;
@@ -125,9 +118,6 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
         for (Trip trip : trips) {
             tripService.hardRemove(trip.getId());
             tripUserService.removeTripMembers(trip.getId());
-        }
-        if (image != null) {
-            imageService.removeImage(image.getId());
         }
     }
 }

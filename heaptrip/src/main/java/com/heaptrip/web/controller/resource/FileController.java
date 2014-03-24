@@ -1,17 +1,13 @@
 package com.heaptrip.web.controller.resource;
 
+import com.heaptrip.domain.service.image.GridFileService;
 import com.heaptrip.domain.service.image.ImageService;
-import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.model.file.FileMeta;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -40,16 +35,15 @@ public class FileController extends ExceptionHandlerControler {
     @Autowired
     private ImageService imageService;
 
-    // Stack<FileMeta> files = new Stack<FileMeta>();
-
+    @Autowired
+    private GridFileService gridFileService;
 
     /**
      * ************************************************
      * URL: /rest/controller/upload
      * upload(): receives files
      *
-     * @param request  : MultipartHttpServletRequest auto passed
-     * @param response : HttpServletResponse auto passed
+     * @param request : MultipartHttpServletRequest auto passed
      * @return LinkedList<FileMeta> as json format
      *         **************************************************
      */
@@ -58,7 +52,7 @@ public class FileController extends ExceptionHandlerControler {
     @ResponseBody
     Map<String, ? extends Object> upload(MultipartHttpServletRequest request) throws Exception {
 
-        Stack<FileMeta> files = new Stack<FileMeta>();
+        Stack<FileMeta> files = new Stack<>();
 
         Iterator<String> itr = request.getFileNames();
         MultipartFile mpf;
@@ -74,7 +68,8 @@ public class FileController extends ExceptionHandlerControler {
                 mpf = request.getFile(itr.next());
                 System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
 
-                String id = imageService.saveImage(mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
+                // TODO voronenko: call imageService.addImage(...)
+                /*String id = imageService.saveImage(mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
 
                 fileMeta.setName(mpf.getOriginalFilename());
                 fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
@@ -84,6 +79,7 @@ public class FileController extends ExceptionHandlerControler {
                 fileMeta.setDeleteUrl("./rest/get/" + id);
                 fileMeta.setDeleteType("DELETE");
                 fileMeta.setId(id);
+                */
 
                 fileMetaList.add(fileMeta);
 
@@ -117,7 +113,7 @@ public class FileController extends ExceptionHandlerControler {
 
         List<FileMeta> fileMetaList = new ArrayList<>();
 
-        for(String id : ids.split(",")){
+        for (String id : ids.split(",")) {
             FileMeta fileMeta = new FileMeta();
 
 
@@ -156,7 +152,7 @@ public class FileController extends ExceptionHandlerControler {
             //response.setContentType(getFile.getType());
             response.setHeader("Content-disposition", "attachment; filename=\"" + value + "\"");
 
-            InputStream in = imageService.getImage(value);
+            InputStream in = gridFileService.getFile(value);
 
             FileCopyUtils.copy(IOUtils.toByteArray(in), response.getOutputStream());
 

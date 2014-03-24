@@ -14,11 +14,8 @@ import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.user.UserService;
-import com.heaptrip.web.model.content.ImageModel;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -50,7 +47,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Override
     public AccountModel getAccountInformation(String uid) {
         Assert.notNull(uid, "account id  must not be null");
-        Account user = (Account) accountService.getAccountById(uid);
+        Account user = accountService.getAccountById(uid);
         return convertUserToUserModel(user);
     }
 
@@ -88,8 +85,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             accountModel.setId(account.getId());
             accountModel.setName(account.getName());
             accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
-            if (account.getImages() != null) {
-                accountModel.setImage(new ImageModel(account.getImages().getProfileId()));
+            if (account.getImage() != null && account.getImage().getRefs() != null) {
+                accountModel.setImage(convertImage(account.getImage()));
             }
         }
         return accountModel;
@@ -244,8 +241,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Profile profile = null;
         if (accountProfileModel != null) {
             if (communityProfileModel != null) {
-                CommunityProfile communityProfile = new CommunityProfile();
-                profile = communityProfile;
+                profile = new CommunityProfile();
             } else {
                 profile = new Profile();
             }

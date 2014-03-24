@@ -52,8 +52,7 @@ public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         AccountModel userModel = new AccountModel();
         Account account = accountStoreService.findOne(authorId);
         if (account != null) {
-            // TODO konovalov: set user image
-            //userModel.setImage(convertImage(account.getImage()));
+            userModel.setImage(convertImage(account.getImage()));
             userModel.setName(account.getName());
         }
         return userModel;

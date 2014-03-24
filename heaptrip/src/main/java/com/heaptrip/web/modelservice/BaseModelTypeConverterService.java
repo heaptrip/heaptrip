@@ -1,32 +1,35 @@
 package com.heaptrip.web.modelservice;
 
-import java.util.Date;
-import java.util.Locale;
-
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.image.SimpleImage;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.web.model.content.*;
 
+import java.util.Date;
+import java.util.Locale;
+
 public interface BaseModelTypeConverterService {
 
-	DateModel convertDate(Date date);
+    DateModel convertDate(Date date);
 
-	ImageModel convertImage(Image image);
+    ImageModel convertImage(SimpleImage image);
 
-	PriceModel convertPrice(Price price);
+    ImageModel convertImage(Image image);
 
-	Price convertPriceModel(PriceModel priceModel);
+    PriceModel convertPrice(Price price);
 
-	String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale);
+    Price convertPriceModel(PriceModel priceModel);
 
-	RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
+    String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale);
 
-	ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
+    RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
+
+    ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
 
     CategoryModel convertCategoryToModel(SimpleCategory category);
 

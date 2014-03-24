@@ -1,27 +1,10 @@
 package com.heaptrip.service.account.user;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-import java.util.Locale;
-
-import javax.mail.MessagingException;
-
-import com.heaptrip.domain.entity.account.AccountImageReferences;
-import org.apache.commons.lang.ArrayUtils;
-import org.apache.commons.lang.RandomStringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
@@ -35,6 +18,21 @@ import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.util.stream.StreamUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.RandomStringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import java.util.Locale;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -69,6 +67,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User getUserBySocNetUID(String socNetName, String uid, InputStream isImage) throws IOException, NoSuchAlgorithmException {
         Assert.notNull(socNetName, "socNetName must not be null");
+        // TODO dikma: 'equals()' between objects of inconvertible types 'SocialNetworkEnum' and 'String'
         Assert.isTrue(!socNetName.equals(SocialNetworkEnum.NONE), "socNetName must not be NONE");
         Assert.notNull(uid, "uid must not be null");
         Assert.notNull(isImage, "isImage must not be null");
@@ -82,21 +81,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
                 MessageDigest md;
                 md = MessageDigest.getInstance("MD5");
-                byte[] image = new byte[isImage.available()];
-                isImage.read(image);
-                byte[] d = md.digest(image);
+                byte[] d = md.digest(StreamUtils.toByteArray(isImage));
                 Byte[] digest = ArrayUtils.toObject(d);
 
                 if (!Arrays.equals(user.getImageCRC(), digest)) {
-
-                    AccountImageReferences images = new AccountImageReferences();
                     isImage.reset();
-                    images.setContentId(imageService.saveImage(socNetName + uid, ImageEnum.USER_CONTENT_PHOTO, isImage));
-                    isImage.reset();
-                    images.setProfileId(imageService.saveImage(socNetName + uid, ImageEnum.USER_PHOTO_PROFILE, isImage));
-
+                    Image image = imageService.addImage(user.getId(), user.getId(), ImageEnum.ACCOUNT_IMAGE, socNetName + uid, isImage);
+                    user.setImage(image);
                     user.setImageCRC(digest);
-
                     userRepository.save(user);
                 }
             }
@@ -149,7 +141,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
-        } else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
+        } else if (account.getId().hashCode() == Integer.valueOf(value)) {
             String newPassword = RandomStringUtils.randomAlphanumeric(8);
             userRepository.changePassword(accountId, newPassword);
 

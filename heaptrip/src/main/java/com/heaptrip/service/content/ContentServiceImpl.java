@@ -13,7 +13,6 @@ import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.region.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -30,9 +29,6 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     protected ContentRepository contentRepository;
-
-    @Autowired
-    protected ImageService imageService;
 
     @Autowired
     protected ContentSearchService contentSearchService;
