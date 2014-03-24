@@ -7,7 +7,6 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.image.Image;
-import com.heaptrip.domain.entity.image.SimpleImage;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
@@ -50,7 +49,7 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     }
 
     @Override
-    public ImageModel convertImage(SimpleImage image) {
+    public ImageModel convertImage(Image image) {
         ImageModel result = null;
         if (image != null) {
             result = new ImageModel();
@@ -61,15 +60,6 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
                 result.setFullId(image.getRefs().getFull());
             }
             result.setName(image.getName());
-        }
-        return result;
-    }
-
-    @Override
-    public ImageModel convertImage(Image image) {
-        ImageModel result = null;
-        if (image != null) {
-            result = convertImage((SimpleImage) image);
             result.setText(image.getText());
         }
         return result;

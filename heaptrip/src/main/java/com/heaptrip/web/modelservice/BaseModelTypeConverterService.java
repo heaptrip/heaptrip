@@ -5,7 +5,6 @@ import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.image.Image;
-import com.heaptrip.domain.entity.image.SimpleImage;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.web.model.content.*;
@@ -16,8 +15,6 @@ import java.util.Locale;
 public interface BaseModelTypeConverterService {
 
     DateModel convertDate(Date date);
-
-    ImageModel convertImage(SimpleImage image);
 
     ImageModel convertImage(Image image);
 

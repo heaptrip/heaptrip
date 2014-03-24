@@ -6,7 +6,7 @@ import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.entity.image.FileReferences;
-import com.heaptrip.domain.entity.image.SimpleImage;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
@@ -256,7 +256,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             rating.setValue(redisAccount.getRating());
             account.setRating(rating);
 
-            SimpleImage image = new SimpleImage();
+            Image image = new Image();
             image.setId(redisAccount.getImageId());
             image.setRefs(new FileReferences());
             image.getRefs().setSmall(redisAccount.getSmallId());

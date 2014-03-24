@@ -3,7 +3,7 @@ package com.heaptrip.domain.entity.account;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
-import com.heaptrip.domain.entity.image.SimpleImage;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
@@ -15,7 +15,7 @@ public class Account extends BaseObject {
 
     private String email;
 
-    private SimpleImage image;
+    private Image image;
 
     private Profile profile;
 
@@ -94,11 +94,11 @@ public class Account extends BaseObject {
         this.rating = rating;
     }
 
-    public SimpleImage getImage() {
+    public Image getImage() {
         return image;
     }
 
-    public void setImage(SimpleImage image) {
+    public void setImage(Image image) {
         this.image = image;
     }
 }
