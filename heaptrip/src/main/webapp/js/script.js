@@ -8,7 +8,7 @@ $(document).ready(function() {
 
         uploader.show(function(files){
             $('.my_avatar img').attr('src',files[0].url);
-        })
+        },{imageType:'ACCOUNT_IMAGE'})
 
 
     });

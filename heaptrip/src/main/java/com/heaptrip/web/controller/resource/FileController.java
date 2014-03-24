@@ -1,5 +1,7 @@
 package com.heaptrip.web.controller.resource;
 
+import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.service.image.GridFileService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -66,24 +69,31 @@ public class FileController extends ExceptionHandlerControler {
                 FileMeta fileMeta = new FileMeta();
 
                 mpf = request.getFile(itr.next());
-                System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
 
-                // TODO voronenko: call imageService.addImage(...)
-                /*String id = imageService.saveImage(mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
 
-                fileMeta.setName(mpf.getOriginalFilename());
-                fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
-                fileMeta.setType(mpf.getContentType());
-                fileMeta.setUrl("./rest/get/" + id);
-                fileMeta.setThumbnailUrl("./rest/get/" + id);
-                fileMeta.setDeleteUrl("./rest/get/" + id);
-                fileMeta.setDeleteType("DELETE");
-                fileMeta.setId(id);
-                */
+                String imageType = request.getParameter("imageType");
+
+
+                if (imageType != null) {
+                    Image image = imageService.addImage(ImageEnum.valueOf(imageType), mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
+                    fileMeta.setName(mpf.getOriginalFilename());
+                    fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
+                    fileMeta.setType(mpf.getContentType());
+                    fileMeta.setUrl("./rest/get/" + image.getRefs().getMedium());
+                    fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall());
+                    if (image.getRefs().getFull() != null)
+                        fileMeta.setHighResolutionUrl("./rest/get/" + image.getRefs().getFull());
+                    fileMeta.setDeleteUrl("./rest/del/" + image.getId());
+                    fileMeta.setDeleteType("DELETE");
+                    fileMeta.setId(image.getId());
+                }
+
 
                 fileMetaList.add(fileMeta);
 
                 files.push(fileMeta);
+
+                System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
 
                 return Collections.singletonMap("files", fileMetaList);
             }
@@ -116,14 +126,18 @@ public class FileController extends ExceptionHandlerControler {
         for (String id : ids.split(",")) {
             FileMeta fileMeta = new FileMeta();
 
+            Image image = imageService.getImageById(id);
 
             fileMeta.setName(id);
             fileMeta.setSize(1000 / 1024 + " Kb");
             fileMeta.setType("none");
-            fileMeta.setUrl("./rest/get/" + id);
-            fileMeta.setThumbnailUrl("./rest/get/" + id);
-            fileMeta.setDeleteUrl("./rest/get/" + id);
+            fileMeta.setUrl("./rest/get/" + image.getRefs().getMedium());
+            fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall());
+            if (image.getRefs().getFull() != null)
+                fileMeta.setHighResolutionUrl("./rest/get/" + image.getRefs().getFull());
+            fileMeta.setDeleteUrl("./rest/del/" + image.getId());
             fileMeta.setDeleteType("DELETE");
+
             fileMeta.setId(id);
 
             fileMetaList.add(fileMeta);

@@ -42,8 +42,6 @@
     <form id="fileupload" action="./rest/upload/" method="POST" enctype="multipart/form-data">
 
 
-
-
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="col-lg-7">
@@ -86,10 +84,10 @@
     </form>
 
 
-   <!-- <button type="submit" class="btn" id="FormSuccessBTN">
-        <i class="glyphicon glyphicon-upload"></i>
-        <span>ADD</span>
-    </button>-->
+    <!-- <button type="submit" class="btn" id="FormSuccessBTN">
+         <i class="glyphicon glyphicon-upload"></i>
+         <span>ADD</span>
+     </button>-->
 
 </div>
 
@@ -186,10 +184,9 @@
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: 'rest/upload?ids=${param.ids}'
+            url: 'rest/upload?ids=${param.ids}',
+            formData: {imageType: '${param.image_type}'}
         });
-
-
 
 
         // Load existing files:

@@ -289,7 +289,7 @@ function stringMarker(term, path) {
 
 
 var uploader = {
-    show: function (callBackFunction) {
+    show: function (callBackFunction,params) {
 
         var iframe = $('<iframe id="UPLOADER_CONTAINER" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
         var dialog = $("<div id='UPLOADER_DIALOG'></div>").append(iframe).appendTo("body").dialog({
@@ -320,7 +320,7 @@ var uploader = {
             }
         });
 
-        var src = './upload.jsp';
+        var src = './upload.jsp?image_type='+ params.imageType;
         var title = 'UPLOADER';
         var width = 800;
         var height = 350;
