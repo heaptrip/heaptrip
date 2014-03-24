@@ -23,7 +23,7 @@ import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.service.account.AccountServiceImpl;
-import com.heaptrip.util.stream.StreamUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -33,7 +33,6 @@ import org.springframework.util.Assert;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
@@ -123,16 +122,10 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
             if (isImage != null) {
 
-                isImage = StreamUtils.getResetableInputStream(isImage);
-
                 Image image = imageService.addImage(ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
                 userRegistration.setImage(image);
 
-                isImage.reset();
-
-                MessageDigest md;
-                md = MessageDigest.getInstance("MD5");
-                byte[] d = md.digest(StreamUtils.toByteArray(isImage));
+                byte[] d = DigestUtils.md5(isImage);
                 Byte[] digest = ArrayUtils.toObject(d);
 
                 userRegistration.setImageCRC(digest);

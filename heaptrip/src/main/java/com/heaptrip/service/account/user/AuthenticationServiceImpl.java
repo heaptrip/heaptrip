@@ -17,7 +17,7 @@ import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
-import com.heaptrip.util.stream.StreamUtils;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.slf4j.Logger;
@@ -29,7 +29,6 @@ import org.springframework.util.Assert;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Locale;
@@ -76,16 +75,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (user != null) {
             if (socNetName.equals(user.getExternalImageStore())) {
-
-                isImage = StreamUtils.getResetableInputStream(isImage);
-
-                MessageDigest md;
-                md = MessageDigest.getInstance("MD5");
-                byte[] d = md.digest(StreamUtils.toByteArray(isImage));
+                byte[] d = DigestUtils.md5(isImage);
                 Byte[] digest = ArrayUtils.toObject(d);
 
                 if (!Arrays.equals(user.getImageCRC(), digest)) {
-                    isImage.reset();
                     Image image = imageService.addImage(user.getId(), user.getId(), ImageEnum.ACCOUNT_IMAGE, socNetName + uid, isImage);
                     user.setImage(image);
                     user.setImageCRC(digest);
