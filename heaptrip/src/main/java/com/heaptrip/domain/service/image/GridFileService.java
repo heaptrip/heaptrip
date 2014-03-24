@@ -6,7 +6,6 @@ import java.io.InputStream;
 /**
  * Service to work with GridFS
  */
-// TODO konovalov: check tests
 public interface GridFileService {
 
     /**
