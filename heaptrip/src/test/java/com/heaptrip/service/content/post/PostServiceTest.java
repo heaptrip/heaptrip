@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -66,8 +67,7 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
         post.setDescription(new MultiLangText("Description for test post"));
     }
 
-    // TODO konovalov: return afterTest
-    //@AfterClass(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void afterTest() {
         postService.hardRemove(POST_ID);
     }
@@ -82,8 +82,7 @@ public class PostServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(post, this.post);
         Assert.assertNotNull(post.getCreated());
         Assert.assertNull(post.getDeleted());
-        // TODO konovalov: uncomment getAllowed
-        //Assert.assertTrue(ArrayUtils.isEmpty(post.getAllowed()));
+        Assert.assertTrue(ArrayUtils.isEmpty(post.getAllowed()));
         Assert.assertNull(post.getMainLang());
         Assert.assertTrue(ArrayUtils.isEmpty(post.getLangs()));
         Assert.assertEquals(post.getOwnerId(), OWNER_ID);

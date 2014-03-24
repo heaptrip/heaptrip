@@ -35,7 +35,8 @@ public class RedisAccountRepositoryTest extends AbstractTestNGSpringContextTests
         Assert.assertEquals(readAccount.getEmail(), account.getEmail());
         Assert.assertEquals(readAccount.getRating(), account.getRating());
         Assert.assertEquals(readAccount.getImageId(), account.getImageId());
-        Assert.assertEquals(readAccount.getThumbnailId(), account.getThumbnailId());
+        Assert.assertEquals(readAccount.getSmallId(), account.getSmallId());
+        Assert.assertEquals(readAccount.getMediumId(), account.getMediumId());
     }
 
     @Test(priority = 3, enabled = true, dataProvider = "redisAccount", dataProviderClass = AccountDataProvider.class)

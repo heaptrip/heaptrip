@@ -1,15 +1,15 @@
 package com.heaptrip.repository.account;
 
+import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.account.*;
-import org.jongo.MongoCollection;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
-
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.mongodb.WriteResult;
+import org.jongo.MongoCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implements AccountRepository {
@@ -76,7 +76,7 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
 
     @Override
     protected String getCollectionName() {
-        return Account.COLLECTION_NAME;
+        return CollectionEnum.ACCOUNTS.getName();
     }
 
     @Override

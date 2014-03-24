@@ -35,8 +35,11 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
         if (account.getImageId() != null) {
             values.put("imageId", account.getImageId());
         }
-        if (account.getThumbnailId() != null) {
-            values.put("thumbnailId", account.getThumbnailId());
+        if (account.getSmallId() != null) {
+            values.put("smallId", account.getSmallId());
+        }
+        if (account.getMediumId() != null) {
+            values.put("mediumId", account.getMediumId());
         }
 
         Jedis jedis = redisContext.getConnection();
@@ -77,8 +80,9 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
         }
     }
 
+
     @Override
-    public void updateImages(String accountId, String imageId, String thumbnailId) {
+    public void updateImages(String accountId, String imageId, String smallId, String mediumId) {
         Assert.notNull(accountId, "accountId must not be null");
 
         String key = "account:" + accountId;
@@ -86,7 +90,8 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
         Jedis jedis = redisContext.getConnection();
         try {
             jedis.hset(key, "imageId", imageId);
-            jedis.hset(key, "thumbnailId", thumbnailId);
+            jedis.hset(key, "smallId", smallId);
+            jedis.hset(key, "mediumId", mediumId);
         } catch (Exception e) {
             if (jedis != null) {
                 redisContext.returnBrokenConnection(jedis);
@@ -150,7 +155,7 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
 
         String key = "account:" + accountId;
 
-        String[] fields = new String[]{"emails", "name", "rating", "imageId", "thumbnailId"};
+        String[] fields = new String[]{"emails", "name", "rating", "imageId", "smallId", "mediumId"};
 
         List<String> values = null;
         Jedis jedis = redisContext.getConnection();
@@ -183,7 +188,10 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
             result.setImageId(values.get(3));
         }
         if (values.get(4) != null) {
-            result.setThumbnailId(values.get(4));
+            result.setSmallId(values.get(4));
+        }
+        if (values.get(5) != null) {
+            result.setMediumId(values.get(5));
         }
 
         return result;

@@ -38,7 +38,7 @@
 
     <test name="ImageTest">
         <classes>
-            <class name="com.heaptrip.service.image.ImageServiceTest"/>
+            <class name="com.heaptrip.service.image.GridFileServiceTest"/>
         </classes>
     </test>
 
@@ -70,7 +70,6 @@
             <class name="com.heaptrip.service.content.trip.TripFeedServiceTest"/>
             <class name="com.heaptrip.service.content.trip.TripServiceTest"/>
             <class name="com.heaptrip.service.content.trip.TripUserServiceTest"/>
-            <class name="com.heaptrip.service.content.trip.TripRouteServiceTest"/>
         </classes>
     </test>
 
@@ -110,7 +109,7 @@
 
     <test name="AlbumTest">
         <classes>
-            <class name="com.heaptrip.service.album.AlbumServiceTest"/>
+            <class name="com.heaptrip.service.image.ImageServiceTest"/>
         </classes>
     </test>
 

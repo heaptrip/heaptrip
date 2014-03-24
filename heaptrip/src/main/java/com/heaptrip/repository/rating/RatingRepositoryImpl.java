@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class RatingRepositoryImpl extends CrudRepositoryImpl<Rating> implements RatingRepository {
@@ -36,8 +37,9 @@ public class RatingRepositoryImpl extends CrudRepositoryImpl<Rating> implements 
         MongoCollection coll = getCollection();
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -6);
-        return coll.aggregate("{$match : {targetId: #, created: {$gte: #}}}", targetId, calendar.getTime())
-                .and(" {$group: {_id: '', count: {$sum: 1 }, sum: {$sum: '$value'}}} ").as(RatingSum.class).get(0);
+        List<RatingSum> list = coll.aggregate("{$match : {targetId: #, created: {$gte: #}}}", targetId, calendar.getTime())
+                .and(" {$group: {_id: '', count: {$sum: 1 }, sum: {$sum: '$value'}}} ").as(RatingSum.class);
+        return (list == null) ? null : list.get(0);
     }
 
     @Override

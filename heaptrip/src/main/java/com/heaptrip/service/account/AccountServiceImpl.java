@@ -1,12 +1,5 @@
 package com.heaptrip.service.account;
 
-import com.heaptrip.domain.service.account.AccountStoreService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
@@ -16,7 +9,13 @@ import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.service.account.AccountService;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.system.ErrorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.concurrent.Future;
 
@@ -37,7 +36,7 @@ public class AccountServiceImpl implements AccountService {
     private AccountStoreService accountStoreService;
 
     @Override
-    public Account getAccountById(String accountId){
+    public Account getAccountById(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
         return accountRepository.findById(accountId);
     }
@@ -65,7 +64,7 @@ public class AccountServiceImpl implements AccountService {
             String msg = String.format("account status must be: %s", AccountStatusEnum.NOTCONFIRMED);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_ALREADY_CONFIRM);
-        } else if (account.getId().hashCode() == Integer.valueOf(value).intValue()) {
+        } else if (account.getId().hashCode() == Integer.valueOf(value)) {
             // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
             future = accountStoreService.save(account.getId());
@@ -146,6 +145,7 @@ public class AccountServiceImpl implements AccountService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
+            // TODO dikma: set regions and categories name. Maybe need set there parent IDs.
             accountRepository.saveProfile(accountId, profile);
             future = accountStoreService.update(accountId);
         }
@@ -168,7 +168,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void delete(String accountId){
+    public void delete(String accountId) {
 
     }
 }

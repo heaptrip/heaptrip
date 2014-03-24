@@ -48,6 +48,9 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
                 if (account.getRating() != null) {
                     result.setRating(new RatingModel(account.getRating().getValue()));
                 }
+                if (account.getImage() != null) {
+                    result.setImage(convertImage(account.getImage()));
+                }
             }
         }
         return result;

@@ -1,37 +1,22 @@
 package com.heaptrip.service.account.user;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
-
-import javax.mail.MessagingException;
-
-import com.heaptrip.domain.entity.account.AccountImageReferences;
-import com.heaptrip.domain.entity.rating.AccountRating;
-import com.heaptrip.domain.repository.account.AccountRepository;
-import com.heaptrip.domain.service.account.AccountStoreService;
-import org.apache.commons.lang.ArrayUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserRegistration;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MessageEnum;
 import com.heaptrip.domain.entity.mail.MessageTemplate;
 import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
-import com.heaptrip.domain.service.account.AccountSearchService;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -39,6 +24,18 @@ import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.service.account.AccountServiceImpl;
 import com.heaptrip.util.stream.StreamUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 @Service
 public class UserServiceImpl extends AccountServiceImpl implements UserService {
@@ -128,17 +125,14 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
                 isImage = StreamUtils.getResetableInputStream(isImage);
 
-                AccountImageReferences images = new AccountImageReferences();
+                Image image = imageService.addImage(ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
+                userRegistration.setImage(image);
+
                 isImage.reset();
-                images.setContentId(imageService.saveImage(net[0].getId() + net[0].getUid(), ImageEnum.USER_CONTENT_PHOTO, isImage));
-                isImage.reset();
-                images.setProfileId(imageService.saveImage(net[0].getId() + net[0].getUid(), ImageEnum.USER_PHOTO_PROFILE, isImage));
 
                 MessageDigest md;
                 md = MessageDigest.getInstance("MD5");
-                byte[] image = new byte[isImage.available()];
-                isImage.read(image);
-                byte[] d = md.digest(image);
+                byte[] d = md.digest(StreamUtils.toByteArray(isImage));
                 Byte[] digest = ArrayUtils.toObject(d);
 
                 userRegistration.setImageCRC(digest);
@@ -146,7 +140,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             }
         }
 
-        String[] roles = { "ROLE_USER" };
+        String[] roles = {"ROLE_USER"};
         userRegistration.setRoles(roles);
 
         if (account != null) {
@@ -205,7 +199,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     @Override
     public void profileImageFrom(String userId, SocialNetworkEnum socialNetwork) {
         Assert.notNull(userId, "userId must not be null");
-        User user = (User) userRepository.findOne(userId);
+        User user = userRepository.findOne(userId);
 
         if (user == null) {
             String msg = String.format("user not find by userId: %s", userId);
@@ -221,7 +215,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             if (socialNetwork.equals(SocialNetworkEnum.NONE)) {
                 findNet = true;
             } else if (user.getNet() != null) {
+                // TODO dikma: 'for' statement does not loop
                 for (SocialNetwork net : user.getNet()) {
+                    // TODO dikma: Result of 'String.equals()' is ignored. 'equals()' between objects of inconvertible types 'SocialNetworkEnum' and 'String'
                     net.getId().equals(socialNetwork);
                     findNet = true;
                     break;
@@ -242,7 +238,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     public void unlinkSocialNetwork(String userId, SocialNetworkEnum socialNetwork) {
         Assert.notNull(userId, "userId must not be null");
         Assert.isTrue(!socialNetwork.equals(SocialNetworkEnum.NONE), "socialNetwork must not be NONE");
-        User user = (User) userRepository.findOne(userId);
+        User user = userRepository.findOne(userId);
 
         if (user == null) {
             String msg = String.format("user not find by id %s", userId);
@@ -288,7 +284,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         Assert.notNull(socialNetwork.getId(), "socialNetwork id must not be null");
         Assert.notNull(socialNetwork.getUid(), "socialNetwork uid must not be null");
 
-        User user = (User) userRepository.findOne(userId);
+        User user = userRepository.findOne(userId);
 
         if (user == null) {
             String msg = String.format("user not find by id %s", userId);

@@ -2,47 +2,64 @@ package com.heaptrip.domain.entity.image;
 
 import java.util.Date;
 
-import com.heaptrip.domain.entity.BaseObject;
-
-
 /**
- * 
  * Image
- * 
  */
-public class Image extends BaseObject {
+public class Image extends SimpleImage {
 
-	// image name
-	private String name;
+    // _id of associated object (account id, trip id, table item id, trip route id, etc.)
+    private String target;
 
-	// image text (description)
-	private String text;
+    // account id for owner of the image
+    private String ownerId;
 
-	// date uploaded
-	private Date uploaded;
+    // image text (description)
+    // TODO konovalov: add multi language text
+    private String text;
 
-	public String getName() {
-		return name;
-	}
+    // date uploaded
+    private Date uploaded;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    // the number of likes
+    private Long likes;
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public Date getUploaded() {
-		return uploaded;
-	}
+    public Date getUploaded() {
+        return uploaded;
+    }
 
-	public void setUploaded(Date uploaded) {
-		this.uploaded = uploaded;
-	}
+    public void setUploaded(Date uploaded) {
+        this.uploaded = uploaded;
+    }
 
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
 }

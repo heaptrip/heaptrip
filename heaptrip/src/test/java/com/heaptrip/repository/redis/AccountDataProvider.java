@@ -15,7 +15,8 @@ public class AccountDataProvider {
         account.setEmail("test@test.com");
         account.setRating(1d);
         account.setImageId("111");
-        account.setThumbnailId("222");
+        account.setSmallId("222");
+        account.setMediumId("333");
         return new Object[][]{new Object[]{account}};
     }
 }

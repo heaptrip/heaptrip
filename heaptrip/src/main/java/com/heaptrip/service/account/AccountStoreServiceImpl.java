@@ -2,10 +2,11 @@ package com.heaptrip.service.account;
 
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.account.Account;
-import com.heaptrip.domain.entity.account.AccountImageReferences;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.image.FileReferences;
+import com.heaptrip.domain.entity.image.SimpleImage;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
@@ -95,9 +96,12 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             if (account.getRating() != null) {
                 redisAccount.setRating(account.getRating().getValue());
             }
-            if (account.getImages() != null) {
-                redisAccount.setImageId(account.getImages().getProfileId());
-                redisAccount.setThumbnailId(account.getImages().getContentId());
+            if (account.getImage() != null) {
+                redisAccount.setImageId(account.getImage().getId());
+                if (account.getImage().getRefs() != null) {
+                    redisAccount.setSmallId(account.getImage().getRefs().getSmall());
+                    redisAccount.setMediumId(account.getImage().getRefs().getMedium());
+                }
             }
 
             try {
@@ -181,7 +185,8 @@ public class AccountStoreServiceImpl implements AccountStoreService {
     public Future<Void> updateImages(String accountId, String imageId, String thumbnailId) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
-            redisAccountRepository.updateImages(accountId, imageId, thumbnailId);
+            // TODO dikma: fix call redis
+            //redisAccountRepository.updateImages(accountId, imageId, thumbnailId);
         } catch (Exception e) {
             throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
@@ -227,9 +232,12 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             if (account.getRating() != null) {
                 redisAccount.setRating(account.getRating().getValue());
             }
-            if (account.getImages() != null) {
-                redisAccount.setImageId(account.getImages().getProfileId());
-                redisAccount.setThumbnailId(account.getImages().getContentId());
+            if (account.getImage() != null) {
+                redisAccount.setImageId(account.getImage().getId());
+                if (account.getImage().getRefs() != null) {
+                    redisAccount.setSmallId(account.getImage().getRefs().getSmall());
+                    redisAccount.setMediumId(account.getImage().getRefs().getMedium());
+                }
             }
 
             try {
@@ -248,10 +256,12 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             rating.setValue(redisAccount.getRating());
             account.setRating(rating);
 
-            AccountImageReferences images = new AccountImageReferences();
-            images.setProfileId(redisAccount.getImageId());
-            images.setContentId(redisAccount.getThumbnailId());
-            account.setImages(images);
+            SimpleImage image = new SimpleImage();
+            image.setId(redisAccount.getImageId());
+            image.setRefs(new FileReferences());
+            image.getRefs().setSmall(redisAccount.getSmallId());
+            image.getRefs().setMedium(redisAccount.getMediumId());
+            account.setImage(image);
         }
 
         return account;

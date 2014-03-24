@@ -2,53 +2,73 @@ package com.heaptrip.web.model.content;
 
 public class ImageModel {
 
-	private String id;
-	// image name
-	private String name;
-	// image text (description)
-	private String text;
+    // id in image collection
+    private String id;
 
-	public ImageModel() {
+    // id of file with small image
+    private String smallId;
 
-	}
+    // id of file with small image
+    private String mediumId;
 
-	public ImageModel(String id) {
-		setId(id);
-	}
+    // id of file with small image
+    private String fullId;
 
-	public ImageModel(String id, String name) {
-		setId(id);
-		setName(name);
-	}
+    // image name
+    private String name;
 
-	public ImageModel(String id, String name, String text) {
-		setId(id);
-		setName(name);
-		setText(text);
-	}
+    // image text (description)
+    private String text;
 
-	public String getId() {
-		return id;
-	}
+    public ImageModel() {
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getSmallId() {
+        return smallId;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setSmallId(String smallId) {
+        this.smallId = smallId;
+    }
 
+    public String getMediumId() {
+        return mediumId;
+    }
+
+    public void setMediumId(String mediumId) {
+        this.mediumId = mediumId;
+    }
+
+    public String getFullId() {
+        return fullId;
+    }
+
+    public void setFullId(String fullId) {
+        this.fullId = fullId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
 }
