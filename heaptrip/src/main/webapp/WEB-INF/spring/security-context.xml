@@ -35,9 +35,9 @@
         <!-- Override default login and lsogout pages -->
         <security:form-login login-page="/login.html"
                              login-processing-url="/loginProcess"
-                             default-target-url="/tidings.html"
+                             default-target-url="/ct-tidings.html"
                              authentication-failure-url="/login.html?login_error=true"/>
-        <security:logout logout-url="/logout" logout-success-url="/tidings.html"/>
+        <security:logout logout-url="/logout" logout-success-url="/ct-tidings.html"/>
 
         <!-- reference to the shared request cache -->
         <security:request-cache ref="requestCache"/>

@@ -30,7 +30,7 @@ public class ProfileController extends ExceptionHandlerControler {
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
 
-    @RequestMapping(value = "profile", method = RequestMethod.GET)
+    @RequestMapping(value = "*profile", method = RequestMethod.GET)
     public ModelAndView getProfileInformation(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
         guid = guid != null && guid.isEmpty() ? null : guid;
@@ -72,7 +72,7 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
 
-    @RequestMapping(value = "communities", method = RequestMethod.GET)
+    @RequestMapping(value = "*communities", method = RequestMethod.GET)
     public ModelAndView getCommunitiesList(@RequestParam(required = false) String guid) {
         guid = guid != null && guid.isEmpty() ? null : guid;
         ModelAndView mv = new ModelAndView();
