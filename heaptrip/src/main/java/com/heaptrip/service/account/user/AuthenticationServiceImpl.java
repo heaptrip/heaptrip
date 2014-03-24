@@ -17,6 +17,7 @@ import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
+import com.heaptrip.util.stream.StreamUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.RandomStringUtils;
@@ -75,10 +76,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         if (user != null) {
             if (socNetName.equals(user.getExternalImageStore())) {
+                isImage = StreamUtils.getResetableInputStream(isImage);
                 byte[] d = DigestUtils.md5(isImage);
                 Byte[] digest = ArrayUtils.toObject(d);
 
                 if (!Arrays.equals(user.getImageCRC(), digest)) {
+                    isImage.reset();
                     Image image = imageService.addImage(user.getId(), user.getId(), ImageEnum.ACCOUNT_IMAGE, socNetName + uid, isImage);
                     user.setImage(image);
                     user.setImageCRC(digest);
