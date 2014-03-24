@@ -88,11 +88,6 @@ public class RatingServiceImpl implements RatingService {
         if (contentType.equals(ContentEnum.TRIP)) {
             // trip can rated only members
             if (!tripUserService.isTripUser(contentId, userId)) {
-                // TODO : voronenko: вернуть в false и включить тест
-                // RatingServiceTest.canSetRatingForTrip() после отладки
-                // addRating
-                if (true)
-                    return true;
                 return false;
             }
             // trip can be rated in six months with the launch of the last
@@ -181,6 +176,11 @@ public class RatingServiceImpl implements RatingService {
         ratingRepository.save(rating);
 
         RatingSum ratingSum = ratingRepository.getRatingSumByTargetIdAndCreatedLessThenHalfYear(accountId);
+        if (ratingSum == null) {
+            ratingSum = new RatingSum();
+            ratingSum.setCount(getDefaultAccountRating().getCount());
+            ratingSum.setSum(getDefaultAccountRating().getValue());
+        }
         calcAccountRating(ratingSum, accountRating);
 
         accountService.updateAccountRatingValue(accountId, accountRating.getValue());

@@ -116,8 +116,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(can, false);
     }
 
-    // TODO : voronenko: вернуть enabled в true после отладки addRating
-    @Test(enabled = false, priority = 0)
+    @Test(enabled = true, priority = 0)
     public void canSetRatingForTrip() {
         // if user is not accepted trip member then he can not set rating
         boolean can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
