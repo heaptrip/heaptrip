@@ -31,7 +31,7 @@
                     </c:if>
 
                     <div><fmt:message key="content.author"/>:<a
-                            href="<c:url value="/profile.html?uid=${post.owner.id}"/>"><span>${post.owner.name} (${post.owner.rating.value})</span></a>
+                            href="<c:url value="/pf-profile.html?guid=${post.owner.id}"/>"><span>${post.owner.name} (${post.owner.rating.value})</span></a>
                     </div>
                     <div><fmt:message key="content.category"/>:
                         <c:forEach items="${post.categories}" var="category">
@@ -47,8 +47,11 @@
             </div>
 
             <nav id="travel_nav">
+
+            <c:if test='${principal.id eq post.owner.id }'>
                 <input type="button" onClick="window.location = '${postEditUrl}'"
                        value="<fmt:message key="page.action.edit" />" class="button">
+            </c:if>
             </nav>
 
             <div class="description">${post.description}</div>

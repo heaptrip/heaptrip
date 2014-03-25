@@ -158,7 +158,7 @@
 
 
         var callbackSuccess = function (data) {
-            window.location = 'profile.html?guid=' + $.getParamFromURL().guid;
+            window.location = 'pf-profile.html?guid=' + $.getParamFromURL().guid;
         };
 
         var callbackError = function (error) {

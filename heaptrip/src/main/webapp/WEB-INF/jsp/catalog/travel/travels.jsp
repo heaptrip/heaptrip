@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <script id="tripTemplate" type="text/x-jsrender">
 
@@ -16,7 +17,7 @@
                 <div class="tags">
 
 
-                    <a href="<c:url value="/profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+                    <a href="<c:url value="/pf-profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
 
 
@@ -67,21 +68,18 @@
 
     <div id="contents">
 
-        <c:if test="${not empty principal && empty catcher}">
-
+        <c:if test='${not empty principal && empty catcher && fn:contains(url, "/my-")}'>
             <article id="article" class="deteil">
                 <div class="inf">
-
                     <div class="right">
                         <a href="<c:url value="/travel_modify_info.html"/>"
                            class="button"><fmt:message
                                 key="page.action.add"/></a>
                     </div>
-
                 </div>
             </article>
-
         </c:if>
+
         <span id="contents_span"></span></div>
 
 

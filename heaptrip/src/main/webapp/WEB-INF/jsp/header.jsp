@@ -14,7 +14,7 @@
     <sec:authentication var="principal" scope="request" property="principal"/>
 </sec:authorize>
 
-<c:if test="${not empty param.guid && not param.guid eq principal.id}">
+<c:if test="${not empty param.guid && param.guid ne principal.id}">
     <c:set var="catcher" scope="request" value="${profileModelService.getAccountInformation(param.guid)}"/>
 </c:if>
 
