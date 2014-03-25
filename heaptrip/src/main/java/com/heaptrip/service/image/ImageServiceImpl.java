@@ -147,7 +147,7 @@ public class ImageServiceImpl implements ImageService {
             }
         }
 
-        if (fileIds.size() > 0) {
+        if (!fileIds.isEmpty()) {
             gridFileService.removeFiles(fileIds);
         }
         imageRepository.remove(imageId);
