@@ -1,6 +1,7 @@
 package com.heaptrip.domain.service.account;
 
 import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface AccountStoreService {
 
     public Future<Void> updateRating(String accountId, double ratingValue);
 
-    public Future<Void> updateImages(String accountId, String imageId, String thumbnailId);
+    public Future<Void> changeImage(String accountId, Image image);
 
     public Future<Void> remove(String accountId);
 

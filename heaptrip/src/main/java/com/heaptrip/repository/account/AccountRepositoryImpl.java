@@ -2,6 +2,7 @@ package com.heaptrip.repository.account;
 
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.account.*;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
@@ -96,5 +97,19 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     public void updateRating(String accountId, double ratingValue) {
         MongoCollection coll = getCollection();
         coll.update("{_id: #}", accountId).with("{$set: {rating.value: #}, $inc: {'rating.count': 1}}", ratingValue);
+    }
+
+    @Override
+    public Image getImage(String accountId) {
+        MongoCollection coll = getCollection();
+        Account account = coll.findOne("{_id: #}", accountId).projection("{_class: 1, image: 1}")
+                .as(getCollectionClass());
+        return (account == null) ? null : account.getImage();
+    }
+
+    @Override
+    public void changeImage(String accountId, Image image) {
+        MongoCollection coll = getCollection();
+        coll.update("{_id: #}", accountId).with("{$set: {image: #}})", image);
     }
 }

@@ -22,6 +22,7 @@ import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.slf4j.Logger;
@@ -53,6 +54,9 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
     @Autowired
     private ErrorService errorService;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     RelationRepository relationRepository;
@@ -182,15 +186,21 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
     @Async
     @Override
-    public Future<Void> updateImages(String accountId, String imageId, String thumbnailId) {
+    public Future<Void> changeImage(String accountId, Image image) {
         Assert.notNull(accountId, "accountId must not be null");
-        try {
-            // TODO dikma: fix call redis
-            //redisAccountRepository.updateImages(accountId, imageId, thumbnailId);
-        } catch (Exception e) {
-            throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+        if (image == null) {
+            //TODO konovalov: set default image
+        } else {
+            Assert.notNull(image.getId(), "image.id must not be null");
+            Image oldImage = accountRepository.getImage(accountId);
+            if (oldImage != null) {
+                imageService.removeImageById(oldImage.getId());
+            }
+            accountRepository.changeImage(accountId, image);
+            String smallId = (image.getRefs() == null) ? null : image.getRefs().getSmall();
+            String mediumId = (image.getRefs() == null) ? null : image.getRefs().getMedium();
+            redisAccountRepository.updateImages(accountId, image.getId(), smallId, mediumId);
         }
-
         return new AsyncResult<>(null);
     }
 
@@ -211,19 +221,17 @@ public class AccountStoreServiceImpl implements AccountStoreService {
     public Account findOne(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
 
-        RedisAccount redisAccount;
-        Account account;
-
-        try {
-            redisAccount = redisAccountRepository.findOne(accountId);
-        } catch (Exception e) {
-            throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
-        }
+        // TODO dikma: нужно иметь возможность залогировать исключение не выходя из метода
+        RedisAccount redisAccount = redisAccountRepository.findOne(accountId);
 
         if (redisAccount == null) {
             String msg = String.format("account not exists in Redis: %s", accountId);
             logger.warn(msg);
-            account = accountRepository.findOne(accountId);
+            Account account = accountRepository.findOne(accountId);
+
+            if (account == null) {
+                return null;
+            }
 
             redisAccount = new RedisAccount();
             redisAccount.setId(account.getId());
@@ -240,15 +248,12 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 }
             }
 
-            try {
-                // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
-                redisAccountRepository.save(redisAccount);
-            } catch (Exception e) {
-                throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
-            }
+            // TODO dikma: нужно иметь возможность залогировать исключение не выходя из метода
+            redisAccountRepository.save(redisAccount);
 
+            return account;
         } else {
-            account = new Account();
+            Account account = new Account();
             account.setId(redisAccount.getId());
             account.setName(redisAccount.getName());
 
@@ -256,15 +261,17 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             rating.setValue(redisAccount.getRating());
             account.setRating(rating);
 
-            Image image = new Image();
-            image.setId(redisAccount.getImageId());
-            image.setRefs(new FileReferences());
-            image.getRefs().setSmall(redisAccount.getSmallId());
-            image.getRefs().setMedium(redisAccount.getMediumId());
-            account.setImage(image);
-        }
+            if (redisAccount.getImageId() != null) {
+                Image image = new Image();
+                image.setId(redisAccount.getImageId());
+                image.setRefs(new FileReferences());
+                image.getRefs().setSmall(redisAccount.getSmallId());
+                image.getRefs().setMedium(redisAccount.getMediumId());
+                account.setImage(image);
+            }
 
-        return account;
+            return account;
+        }
     }
 
     @Override

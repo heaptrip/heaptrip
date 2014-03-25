@@ -25,11 +25,9 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class AccountStoreTest extends AbstractTestNGSpringContextTests {
@@ -101,7 +99,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
         AccountTextCriteria criteria = new AccountTextCriteria();
         criteria.setQuery(UserDataProvider.EMAIL_USER_NAME);
         criteria.setAccountType(AccountEnum.USER);
-        criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[] {id}));
+        criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[]{id}));
         criteria.setSkip(0L);
         criteria.setLimit(1L);
 
@@ -141,7 +139,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
 
     @Test(enabled = true, priority = 6)
     public void findEmailUser() {
-        Account account = accountStoreService.findOne(UserDataProvider.EMAIL_USER_EMAIL);
+        Account account = accountStoreService.findOne(UserDataProvider.EMAIL_USER_ID);
         Assert.assertNotNull(account);
     }
 

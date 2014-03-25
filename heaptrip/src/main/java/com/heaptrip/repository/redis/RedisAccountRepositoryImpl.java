@@ -3,6 +3,7 @@ package com.heaptrip.repository.redis;
 import com.heaptrip.domain.repository.redis.RedisAccountRepository;
 import com.heaptrip.domain.repository.redis.RedisContext;
 import com.heaptrip.domain.repository.redis.entity.RedisAccount;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -173,29 +174,45 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
             }
         }
 
-        RedisAccount result = new RedisAccount();
-        result.setId(accountId);
-        if (values.get(0) != null) {
-            result.setEmail(values.get(0));
-        }
-        if (values.get(1) != null) {
-            result.setName(values.get(1));
-        }
-        if (values.get(2) != null) {
-            result.setRating(Double.parseDouble(values.get(2)));
-        }
-        if (values.get(3) != null) {
-            result.setImageId(values.get(3));
-        }
-        if (values.get(4) != null) {
-            result.setSmallId(values.get(4));
-        }
-        if (values.get(5) != null) {
-            result.setMediumId(values.get(5));
-        }
+        if (isEmpty(values)) {
+            return null;
+        } else {
+            RedisAccount result = new RedisAccount();
+            result.setId(accountId);
+            if (values.get(0) != null) {
+                result.setEmail(values.get(0));
+            }
+            if (values.get(1) != null) {
+                result.setName(values.get(1));
+            }
+            if (values.get(2) != null) {
+                result.setRating(Double.parseDouble(values.get(2)));
+            }
+            if (values.get(3) != null) {
+                result.setImageId(values.get(3));
+            }
+            if (values.get(4) != null) {
+                result.setSmallId(values.get(4));
+            }
+            if (values.get(5) != null) {
+                result.setMediumId(values.get(5));
+            }
 
-        return result;
+            return result;
+        }
     }
+
+    private boolean isEmpty(List<String> values) {
+        if (values != null) {
+            for (String value : values) {
+                if (!StringUtils.isEmpty(value)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
 
 
