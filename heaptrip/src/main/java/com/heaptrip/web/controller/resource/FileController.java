@@ -80,7 +80,8 @@ public class FileController extends ExceptionHandlerControler {
                     fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
                     fileMeta.setType(mpf.getContentType());
                     fileMeta.setUrl("./rest/get/" + image.getRefs().getMedium());
-                    fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall());
+                    fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall()!=null ? image.getRefs().getSmall() :image.getRefs().getMedium() );
+
                     if (image.getRefs().getFull() != null)
                         fileMeta.setHighResolutionUrl("./rest/get/" + image.getRefs().getFull());
                     fileMeta.setDeleteUrl("./rest/del/" + image.getId());
@@ -132,7 +133,7 @@ public class FileController extends ExceptionHandlerControler {
             fileMeta.setSize(1000 / 1024 + " Kb");
             fileMeta.setType("none");
             fileMeta.setUrl("./rest/get/" + image.getRefs().getMedium());
-            fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall());
+            fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall()!=null ? image.getRefs().getSmall() :image.getRefs().getMedium() );
             if (image.getRefs().getFull() != null)
                 fileMeta.setHighResolutionUrl("./rest/get/" + image.getRefs().getFull());
             fileMeta.setDeleteUrl("./rest/del/" + image.getId());
