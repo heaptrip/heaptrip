@@ -40,6 +40,12 @@ public class ImageRepositoryImpl extends CrudRepositoryImpl<Image> implements Im
     }
 
     @Override
+    public long getCountByTargetId(String targetId) {
+        MongoCollection coll = getCollection();
+        return coll.count("{target: #}", targetId);
+    }
+
+    @Override
     public List<Image> findByTargetId(String targetId, int skip, int limit) {
         MongoCollection coll = getCollection();
         String fields = "{name:1, text:1, target: 1, refs: 1, ownerId: 1, uploaded: 1, likes: 1}";
@@ -49,13 +55,13 @@ public class ImageRepositoryImpl extends CrudRepositoryImpl<Image> implements Im
         return IteratorConverter.copyIterator(iter.iterator());
     }
 
+
     @Override
-    public void update(Image image) {
+    public void updateNameAndText(String imageId, String name, String text) {
         String query = "{_id: #}";
         String updateQuery = "{$set: {name: #, text: #}}";
         MongoCollection coll = getCollection();
-        WriteResult wr = coll.update(query, image.getId()).with(updateQuery, image.getName(),
-                image.getText());
+        WriteResult wr = coll.update(query, imageId).with(updateQuery, name, text);
         logger.debug("WriteResult for update image: {}", wr);
     }
 

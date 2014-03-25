@@ -10,10 +10,7 @@ import java.util.List;
 /**
  * Service to working with images
  */
-// TODO konovalov: check tests
 public interface ImageService {
-
-    public String SERVICE_NAME = "imageService";
 
     /**
      * Add image to associated object
@@ -30,7 +27,7 @@ public interface ImageService {
                           InputStream is) throws IOException;
 
     /**
-     * Add image
+     * Add image without targetId and ownerId
      *
      * @param imageType image type
      * @param fileName  file name
@@ -75,12 +72,20 @@ public interface ImageService {
     public long getCountByTargetId(String targetId);
 
     /**
-     * Update image
+     * Update image name and text
      *
-     * @param image image
+     * @param imageId image id
+     * @param name    new image name
+     * @param text    new image description
      */
-    // TODO konovalov: rename to updateImageNameAndText
-    public void updateImage(Image image);
+    public void updateImageNameAndText(String imageId, String name, String text);
+
+    /**
+     * Add like to image
+     *
+     * @param imageId id of image
+     */
+    public void like(String imageId);
 
     /**
      * Remove image by image id
@@ -102,11 +107,4 @@ public interface ImageService {
      * @param targetId _id of associated object (account id, trip id, table item id, trip route id, etc.)
      */
     public void removeImagesByTargetId(String targetId);
-
-    /**
-     * Add like to image
-     *
-     * @param imageId id of image
-     */
-    public void like(String imageId);
 }

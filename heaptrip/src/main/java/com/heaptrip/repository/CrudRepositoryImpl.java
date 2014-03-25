@@ -58,7 +58,7 @@ public abstract class CrudRepositoryImpl<T extends BaseObject> extends BaseRepos
     public boolean exists(String id) {
         MongoCollection coll = getCollection();
         long count = coll.count("{_id: #}", id);
-        return (count > 0) ? true : false;
+        return count > 0;
     }
 
     @Override
@@ -73,10 +73,9 @@ public abstract class CrudRepositoryImpl<T extends BaseObject> extends BaseRepos
     }
 
     @Override
-    public void remove(Iterable<? extends T> entities) {
-        for (T entity : entities) {
-            remove(entity);
-        }
+    public void remove(Iterable<String> ids) {
+        MongoCollection coll = getCollection();
+        coll.remove("{_id: {$in: #}}", ids);
     }
 
     @Override

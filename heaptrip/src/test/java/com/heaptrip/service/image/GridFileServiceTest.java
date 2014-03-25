@@ -1,6 +1,7 @@
 package com.heaptrip.service.image;
 
 import com.heaptrip.domain.service.image.GridFileService;
+import com.heaptrip.util.stream.StreamUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class GridFileServiceTest extends AbstractTestNGSpringContextTests {
@@ -65,6 +68,33 @@ public class GridFileServiceTest extends AbstractTestNGSpringContextTests {
         // check
         InputStream is = gridFileService.getFile(fileId);
         Assert.assertNull(is);
+    }
+
+    @Test(enabled = true, priority = 3)
+    public void removeFiles() throws IOException {
+        // prepare
+        List<String> fileIds = new ArrayList<>();
+        Resource resource = loader.getResource(IMAGE_NAME);
+        Assert.assertNotNull(resource);
+        File file = resource.getFile();
+        InputStream is = StreamUtils.getResetableInputStream(new FileInputStream(file));
+        fileIds.add(gridFileService.saveFile(file.getName(), is));
+        is.reset();
+        fileIds.add(gridFileService.saveFile(file.getName(), is));
+        is.reset();
+        fileIds.add(gridFileService.saveFile(file.getName(), is));
+        Assert.assertEquals(fileIds.size(), 3);
+        for (String fileId : fileIds) {
+            is = gridFileService.getFile(fileId);
+            Assert.assertNotNull(is);
+        }
+        // call
+        gridFileService.removeFiles(fileIds);
+        // check
+        for (String fileId : fileIds) {
+            is = gridFileService.getFile(fileId);
+            Assert.assertNull(is);
+        }
     }
 
 }

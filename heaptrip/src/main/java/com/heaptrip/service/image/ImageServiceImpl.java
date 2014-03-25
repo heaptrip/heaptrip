@@ -9,6 +9,7 @@ import com.heaptrip.domain.service.image.GridFileService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.util.stream.StreamUtils;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -18,9 +19,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Service(ImageService.SERVICE_NAME)
+@Service
 public class ImageServiceImpl implements ImageService {
 
     private static float RESIZE_QUALITY = 0.9f;
@@ -114,38 +117,92 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public long getCountByTargetId(String targetId) {
-        // TODO konovalov
-        return 0;
+        Assert.notNull(targetId, "targetId must not be null");
+        return imageRepository.getCountByTargetId(targetId);
     }
 
     @Override
-    public void updateImage(Image image) {
-        Assert.notNull(image, "image must not be null");
-        Assert.notNull(image.getId(), "image.id must not be null");
-        imageRepository.update(image);
+    public void updateImageNameAndText(String imageId, String name, String text) {
+        Assert.notNull(imageId, "imageId must not be null");
+        imageRepository.updateNameAndText(imageId, name, text);
     }
 
     @Override
     public void removeImageById(String imageId) {
         Assert.notNull(imageId, "imageId must not be null");
+
+        Image image = imageRepository.findOne(imageId);
+        Assert.notNull(image, "image with id:" + imageId + " dose not exist");
+
+        Set<String> fileIds = new HashSet<>();
+        if (image.getRefs() != null) {
+            if (StringUtils.isNotEmpty(image.getRefs().getSmall())) {
+                fileIds.add(image.getRefs().getSmall());
+            }
+            if (StringUtils.isNotEmpty(image.getRefs().getMedium())) {
+                fileIds.add(image.getRefs().getMedium());
+            }
+            if (StringUtils.isNotEmpty(image.getRefs().getFull())) {
+                fileIds.add(image.getRefs().getFull());
+            }
+        }
+
+        if (fileIds.size() > 0) {
+            gridFileService.removeFiles(fileIds);
+        }
         imageRepository.remove(imageId);
-        // TODO konovalov: remove from GridFS
     }
 
     @Override
     public void removeImagesByIds(List<String> imageIds) {
         Assert.notNull(imageIds, "imageIds must not be null");
-        for (String imageId : imageIds) {
-            imageRepository.remove(imageId);
-            // TODO konovalov: remove from GridFS
+        Iterable<Image> images = imageRepository.findAll(imageIds);
+        if (images != null) {
+            Set<String> fileIds = new HashSet<>();
+            for (Image image : images) {
+                if (image.getRefs() != null) {
+                    if (StringUtils.isNotEmpty(image.getRefs().getSmall())) {
+                        fileIds.add(image.getRefs().getSmall());
+                    }
+                    if (StringUtils.isNotEmpty(image.getRefs().getMedium())) {
+                        fileIds.add(image.getRefs().getMedium());
+                    }
+                    if (StringUtils.isNotEmpty(image.getRefs().getFull())) {
+                        fileIds.add(image.getRefs().getFull());
+                    }
+                }
+            }
+            if (!fileIds.isEmpty()) {
+                gridFileService.removeFiles(fileIds);
+            }
+            imageRepository.remove(imageIds);
         }
     }
 
     @Override
     public void removeImagesByTargetId(String targetId) {
         Assert.notNull(targetId, "targetId must not be null");
-        imageRepository.removeByTargetId(targetId);
-        // TODO konovalov: remove from GridFS
+        List<Image> images = imageRepository.findByTargetId(targetId);
+        if (images != null) {
+            Set<String> fileIds = new HashSet<>();
+            for (Image image : images) {
+                if (image.getRefs() != null) {
+                    if (StringUtils.isNotEmpty(image.getRefs().getSmall())) {
+                        fileIds.add(image.getRefs().getSmall());
+                    }
+                    if (StringUtils.isNotEmpty(image.getRefs().getMedium())) {
+                        fileIds.add(image.getRefs().getMedium());
+                    }
+                    if (StringUtils.isNotEmpty(image.getRefs().getFull())) {
+                        fileIds.add(image.getRefs().getFull());
+                    }
+                }
+            }
+            if (!fileIds.isEmpty()) {
+                gridFileService.removeFiles(fileIds);
+            }
+            imageRepository.removeByTargetId(targetId);
+        }
     }
 
     @Override

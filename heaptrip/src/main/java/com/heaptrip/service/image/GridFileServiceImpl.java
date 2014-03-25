@@ -2,6 +2,7 @@ package com.heaptrip.service.image;
 
 import com.heaptrip.domain.repository.MongoContext;
 import com.heaptrip.domain.service.image.GridFileService;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
@@ -13,6 +14,9 @@ import org.springframework.util.Assert;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class GridFileServiceImpl implements GridFileService {
@@ -49,5 +53,20 @@ public class GridFileServiceImpl implements GridFileService {
         DB db = mongoContext.getDatabase();
         GridFS fs = new GridFS(db, FOLDER_NAME);
         fs.remove(new ObjectId(fileId));
+    }
+
+
+    @Override
+    public void removeFiles(Collection fileIds) {
+        Assert.notEmpty(fileIds, "fileIds must not be empty");
+        Set<ObjectId> objectIds = new HashSet<>(fileIds.size());
+        for (Object fileId : fileIds) {
+            objectIds.add(new ObjectId((String) fileId));
+        }
+        BasicDBObject query = new BasicDBObject();
+        query.put("_id", new BasicDBObject("$in", objectIds));
+        DB db = mongoContext.getDatabase();
+        GridFS fs = new GridFS(db, FOLDER_NAME);
+        fs.remove(query);
     }
 }

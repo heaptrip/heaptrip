@@ -2,6 +2,7 @@ package com.heaptrip.domain.service.image;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 
 /**
  * Service to work with GridFS
@@ -31,4 +32,11 @@ public interface GridFileService {
      * @param fileId file id
      */
     public void removeFile(String fileId);
+
+    /**
+     * Remove list of files from GridFS
+     *
+     * @param fileIds collection of file id
+     */
+    public void removeFiles(Collection fileIds);
 }

@@ -10,9 +10,11 @@ public interface ImageRepository extends CrudRepository<Image> {
 
     public List<Image> findByTargetId(String targetId);
 
+    public long getCountByTargetId(String targetId);
+
     public List<Image> findByTargetId(String targetId, int skip, int limit);
 
-    public void update(Image image);
+    public void updateNameAndText(String imageId, String name, String text);
 
     public void incLike(String imageId);
 
