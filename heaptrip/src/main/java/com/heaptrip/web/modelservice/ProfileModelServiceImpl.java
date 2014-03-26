@@ -11,11 +11,9 @@ import com.heaptrip.domain.entity.account.user.Practice;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.rating.AccountRating;
-import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
-import com.heaptrip.domain.service.account.criteria.AccountSearchReponse;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.RatingModel;
@@ -24,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,7 +81,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Override
     public void updateCommunityInfo(CommunityInfoModel communityInfoModel) {
-        // TODO: impl updateCommunityInfo
+        // TODO voronenko: impl updateCommunityInfo
     }
 
 
@@ -96,7 +93,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         community.setName(communityInfoModel.getName());
         community.setEmail(communityInfoModel.getEmail());
         community.setStatus(AccountStatusEnum.ACTIVE);
-        // TODO: community.set...
+        // TODO voronenko: community.set...
         community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
         community = communityService.registration(community, getCurrentLocale());
         return community;
@@ -113,24 +110,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             } else {
                 accountModel = new AccountModel();
                 putAccountToAccountModel(accountModel, account);
-
-
             }
         }
         return accountModel;
-    }
-
-    private List<AccountModel> convertAccountsToAccountModels(List<Account> accounts) {
-
-
-        ArrayList<AccountModel> accountModels = new ArrayList<>();
-        if (accounts != null) {
-            for (Account account : accounts) {
-                accountModels.add(convertAccountToAccountModel(account));
-
-            }
-        }
-        return accountModels;
     }
 
 
@@ -170,24 +152,12 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (accountModel != null && account != null) {
             accountModel.setId(account.getId());
             accountModel.setName(account.getName());
+            accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
             if (account.getTypeAccount() != null)
                 accountModel.setTypeAccount(account.getTypeAccount().name());
-            accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
             if (account.getImage() != null && account.getImage().getRefs() != null) {
                 accountModel.setImage(convertImage(account.getImage()));
             }
-
-            //                accountModel = new AccountModel();
-//                accountModel.setId(account.getId());
-//                accountModel.setName(account.getName());
-//                if (account.getRating() != null) {
-//                    accountModel.setRating(new RatingModel(account.getRating().getValue()));
-//                }
-//                if (account.getImage() != null) {
-//                    accountModel.setImage(convertImage(account.getImage()));
-//                }
-
-
         }
         return accountModel;
     }
@@ -223,8 +193,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         CommunityProfileModel profileModel = null;
         if (profile != null && (profile instanceof CommunityProfile)) {
             CommunityProfile communityProfile = (CommunityProfile) profile;
+            profileModel = new CommunityProfileModel();
             profileModel.setSkype(communityProfile.getSkype());
-
         }
         return profileModel;
     }
@@ -382,6 +352,17 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             profile.setRegions(convertRegionModelsToRegions(accountProfileModel.getRegions(), getCurrentLocale()));
             profile.setId(accountProfileModel.getId());
         }
+    }
+
+    private List<AccountModel> convertAccountsToAccountModels(List<Account> accounts) {
+        ArrayList<AccountModel> accountModels = new ArrayList<>();
+        if (accounts != null) {
+            for (Account account : accounts) {
+                accountModels.add(convertAccountToAccountModel(account));
+
+            }
+        }
+        return accountModels;
     }
 
 
