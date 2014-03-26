@@ -4,6 +4,8 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.service.image.GridFileService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.security.Authenticate;
+import com.heaptrip.security.AuthenticationListener;
 import com.heaptrip.util.stream.StreamUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -13,6 +15,7 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.springframework.util.CollectionUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
+@Listeners(AuthenticationListener.class)
 public class ImageServiceTest extends AbstractTestNGSpringContextTests {
 
     private static final String TARGET_ID = "1";
@@ -53,6 +57,7 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         imageService.removeImagesByTargetId(TARGET_ID);
     }
 
+    @Authenticate(userid = OWNER_ID)
     @Test(enabled = true, priority = 0)
     public void addImageWithTargetIdAndOwnerId() throws IOException {
         // call
@@ -60,7 +65,7 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(resource);
         File file = resource.getFile();
         InputStream is = new FileInputStream(file);
-        image = imageService.addImage(TARGET_ID, OWNER_ID, TRIP_ALBUM_IMAGE, IMAGE_NAME, is);
+        image = imageService.addImage(TARGET_ID, TRIP_ALBUM_IMAGE, IMAGE_NAME, is);
         // check
         Assert.assertNotNull(image);
         Assert.assertEquals(image.getTarget(), TARGET_ID);
@@ -253,9 +258,9 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         File file = resource.getFile();
         InputStream is = StreamUtils.getResetableInputStream(new FileInputStream(file));
         List<Image> images = new ArrayList<>();
-        images.add(imageService.addImage(TARGET_ID, OWNER_ID, CONTENT_IMAGE, IMAGE_NAME, is));
+        images.add(imageService.addImage(TARGET_ID, CONTENT_IMAGE, IMAGE_NAME, is));
         is.reset();
-        images.add(imageService.addImage(TARGET_ID, OWNER_ID, CONTENT_IMAGE, IMAGE_NAME, is));
+        images.add(imageService.addImage(TARGET_ID, CONTENT_IMAGE, IMAGE_NAME, is));
         long count = imageService.getCountByTargetId(TARGET_ID);
         Assert.assertEquals(count, images.size());
         List<String> imageIds = new ArrayList<>();

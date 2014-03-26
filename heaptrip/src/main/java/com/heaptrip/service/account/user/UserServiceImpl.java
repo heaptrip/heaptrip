@@ -122,7 +122,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
             if (isImage != null) {
 
-                Image image = imageService.addImage(ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
+                Image image = imageService.addImage(userRegistration.getId(), ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
                 userRegistration.setImage(image);
 
                 byte[] d = DigestUtils.md5(isImage);

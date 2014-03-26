@@ -82,7 +82,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
                 if (!Arrays.equals(user.getImageCRC(), digest)) {
                     isImage.reset();
-                    Image image = imageService.addImage(user.getId(), user.getId(), ImageEnum.ACCOUNT_IMAGE, socNetName + uid, isImage);
+                    Image image = imageService.addImage(user.getId(), ImageEnum.ACCOUNT_IMAGE, socNetName + uid, isImage);
                     user.setImage(image);
                     user.setImageCRC(digest);
                     userRepository.save(user);

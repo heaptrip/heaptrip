@@ -1,5 +1,6 @@
 package com.heaptrip.service.image;
 
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.image.FileReferences;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
@@ -7,10 +8,12 @@ import com.heaptrip.domain.entity.image.ImageSize;
 import com.heaptrip.domain.repository.image.ImageRepository;
 import com.heaptrip.domain.service.image.GridFileService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.stream.StreamUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -34,20 +37,26 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     private ImageRepository imageRepository;
 
+    @Autowired
+    @Qualifier("requestScopeService")
+    private RequestScopeService requestScopeService;
+
     @Override
-    public Image addImage(String targetId, String ownerId, ImageEnum imageType, String fileName, InputStream is) throws IOException {
+    public Image addImage(String targetId, ImageEnum imageType, String fileName, InputStream is) throws IOException {
         Assert.notNull(targetId, "targetId must not be null");
-        Assert.notNull(ownerId, "ownerId must not be null");
         Assert.notNull(imageType, "imageType of album image must not be null");
         Assert.notNull(fileName, "fileName must not be null");
         Assert.notNull(is, "input stream must not be null");
 
         FileReferences refs = saveImage(fileName, imageType, is);
+        User owner = requestScopeService.getCurrentUser();
 
         Image image = new Image();
         image.setTarget(targetId);
         image.setName(fileName);
-        image.setOwnerId(ownerId);
+        if (owner != null) {
+            image.setOwnerId(owner.getId());
+        }
         image.setUploaded(new Date());
         image.setRefs(refs);
 
@@ -61,9 +70,13 @@ public class ImageServiceImpl implements ImageService {
         Assert.notNull(is, "input stream must not be null");
 
         FileReferences refs = saveImage(fileName, imageType, is);
+        User owner = requestScopeService.getCurrentUser();
 
         Image image = new Image();
         image.setName(fileName);
+        if (owner != null) {
+            image.setOwnerId(owner.getId());
+        }
         image.setUploaded(new Date());
         image.setRefs(refs);
 

@@ -2,6 +2,12 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HeapTrip" parallel="false">
 
+    <test name="Security">
+        <classes>
+            <class name="com.heaptrip.security.AuthenticationListenerTest"/>
+        </classes>
+    </test>
+
     <test name="UserTest">
         <classes>
             <class name="com.heaptrip.service.account.user.InitUserTest"/>
