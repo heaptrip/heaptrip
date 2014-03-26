@@ -36,21 +36,16 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Autowired
     private AccountStoreService accountStoreService;
 
+    @Autowired
+    private ProfileModelService profileModelService;
+
     @Override
     public AccountModel convertContentOwnerToModel(String ownerId) {
         AccountModel result = null;
         if (ownerId != null) {
             Account account = accountStoreService.findOne(ownerId);
             if (account != null) {
-                result = new AccountModel();
-                result.setId(account.getId());
-                result.setName(account.getName());
-                if (account.getRating() != null) {
-                    result.setRating(new RatingModel(account.getRating().getValue()));
-                }
-                if (account.getImage() != null) {
-                    result.setImage(convertImage(account.getImage()));
-                }
+                result = profileModelService.convertAccountToAccountModel(account);
             }
         }
         return result;

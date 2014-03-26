@@ -1,17 +1,22 @@
 package com.heaptrip.web.modelservice;
 
+import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.service.account.criteria.AccountSearchReponse;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 
+import java.util.List;
+
 public interface ProfileModelService {
 
-    UserInfoModel getProfileInformation(String uid);
-
     AccountModel getAccountInformation(String uid);
+
+    UserInfoModel getProfileInformation(String uid);
 
     CommunityInfoModel getCommunityInformation(String communityId);
 
@@ -21,4 +26,7 @@ public interface ProfileModelService {
 
     void updateCommunityInfo(CommunityInfoModel communityInfoModel);
 
+    List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria);
+
+    AccountModel convertAccountToAccountModel(Account account);
 }

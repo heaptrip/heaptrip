@@ -1,12 +1,17 @@
 package com.heaptrip.web.controller.profile;
 
 import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.service.account.AccountSearchService;
+import com.heaptrip.domain.service.account.criteria.AccountSearchReponse;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
+import com.heaptrip.web.model.travel.TripModel;
 import com.heaptrip.web.modelservice.ProfileModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,9 +33,27 @@ public class ProfileController extends ExceptionHandlerControler {
     @Autowired
     ProfileModelService profileModelService;
 
+
     @Autowired
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
+
+
+    @RequestMapping(value = "communities", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getCommunitiesByCriteria(@RequestBody AccountTextCriteria accountTextCriteria) {
+        try {
+            Map<String, Object> result = new HashMap();
+            result.put("accounts", profileModelService.getAccountsModelByCriteria(accountTextCriteria));
+            result.put("count", 100);
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+
+    }
+
 
     @RequestMapping(value = "*profile", method = RequestMethod.GET)
     public ModelAndView getProfileInformation(@RequestParam(required = false) String guid) {
@@ -69,20 +94,6 @@ public class ProfileController extends ExceptionHandlerControler {
             throw new RestException(e);
         }
         return Ajax.emptyResponse();
-    }
-
-
-    @RequestMapping(value = "*communities", method = RequestMethod.GET)
-    public ModelAndView getCommunitiesList(@RequestParam(required = false) String guid) {
-        guid = guid != null && guid.isEmpty() ? null : guid;
-        ModelAndView mv = new ModelAndView();
-        if (guid == null) {
-            User currentUser = scopeService.getCurrentUser();
-            if (currentUser != null) {
-                guid = currentUser.getId();
-            }
-        }
-        return mv;
     }
 
 
