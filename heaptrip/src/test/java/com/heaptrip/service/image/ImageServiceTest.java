@@ -59,7 +59,7 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
 
     @Authenticate(userid = OWNER_ID)
     @Test(enabled = true, priority = 0)
-    public void addImageWithTargetIdAndOwnerId() throws IOException {
+    public void addImageWithTargetId() throws IOException {
         // call
         Resource resource = loader.getResource(IMAGE_NAME);
         Assert.assertNotNull(resource);
@@ -70,6 +70,7 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(image);
         Assert.assertEquals(image.getTarget(), TARGET_ID);
         Assert.assertEquals(image.getOwnerId(), OWNER_ID);
+        Assert.assertEquals(image.getType(), TRIP_ALBUM_IMAGE);
         Assert.assertEquals(image.getName(), IMAGE_NAME);
         Assert.assertNull(image.getText());
         Assert.assertNotNull(image.getRefs());
@@ -154,21 +155,22 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 5)
-    public void addImageWithoutTargetIdAndOwnerId() throws IOException {
+    public void addImageWithoutTargetId() throws IOException {
         // call
         Resource resource = loader.getResource(IMAGE_NAME);
         Assert.assertNotNull(resource);
         File file = resource.getFile();
         InputStream is = new FileInputStream(file);
-        image = imageService.addImage(ACCOUNT_IMAGE, IMAGE_NAME, is);
+        image = imageService.addImage(CONTENT_IMAGE, IMAGE_NAME, is);
         // check
         Assert.assertNotNull(image);
         Assert.assertNull(image.getTarget());
         Assert.assertNull(image.getOwnerId());
+        Assert.assertEquals(image.getType(), CONTENT_IMAGE);
         Assert.assertEquals(image.getName(), IMAGE_NAME);
         Assert.assertNull(image.getText());
         Assert.assertNotNull(image.getRefs());
-        Assert.assertNotNull(image.getRefs().getSmall());
+        Assert.assertNull(image.getRefs().getSmall());
         Assert.assertNotNull(image.getRefs().getMedium());
         Assert.assertNull(image.getRefs().getFull());
         Assert.assertNotNull(image.getUploaded());
@@ -188,7 +190,7 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(image.getName(), IMAGE_NAME);
         Assert.assertNull(image.getText());
         Assert.assertNotNull(image.getRefs());
-        Assert.assertNotNull(image.getRefs().getSmall());
+        Assert.assertNull(image.getRefs().getSmall());
         Assert.assertNotNull(image.getRefs().getMedium());
         Assert.assertNull(image.getRefs().getFull());
         Assert.assertNotNull(image.getUploaded());
@@ -250,6 +252,7 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(image);
     }
 
+    @Authenticate(userid = OWNER_ID)
     @Test(enabled = true, priority = 10)
     public void removeImagesByIds() throws IOException {
         // prepare images
@@ -258,9 +261,9 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         File file = resource.getFile();
         InputStream is = StreamUtils.getResetableInputStream(new FileInputStream(file));
         List<Image> images = new ArrayList<>();
-        images.add(imageService.addImage(TARGET_ID, CONTENT_IMAGE, IMAGE_NAME, is));
+        images.add(imageService.addImage(OWNER_ID, ACCOUNT_IMAGE, IMAGE_NAME, is));
         is.reset();
-        images.add(imageService.addImage(TARGET_ID, CONTENT_IMAGE, IMAGE_NAME, is));
+        images.add(imageService.addImage(OWNER_ID, ACCOUNT_IMAGE, IMAGE_NAME, is));
         long count = imageService.getCountByTargetId(TARGET_ID);
         Assert.assertEquals(count, images.size());
         List<String> imageIds = new ArrayList<>();

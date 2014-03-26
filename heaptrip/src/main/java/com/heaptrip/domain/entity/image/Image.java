@@ -9,6 +9,9 @@ import java.util.Date;
  */
 public class Image extends BaseObject {
 
+    // type of image
+    private ImageEnum type;
+
     // _id of associated object (account id, trip id, table item id, trip route id, etc.)
     private String target;
 
@@ -31,6 +34,14 @@ public class Image extends BaseObject {
 
     // the number of likes
     private Long likes;
+
+    public ImageEnum getType() {
+        return type;
+    }
+
+    public void setType(ImageEnum type) {
+        this.type = type;
+    }
 
     public String getTarget() {
         return target;

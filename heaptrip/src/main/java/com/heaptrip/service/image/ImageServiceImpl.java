@@ -52,11 +52,12 @@ public class ImageServiceImpl implements ImageService {
         User owner = requestScopeService.getCurrentUser();
 
         Image image = new Image();
+        image.setType(imageType);
         image.setTarget(targetId);
-        image.setName(fileName);
         if (owner != null) {
             image.setOwnerId(owner.getId());
         }
+        image.setName(fileName);
         image.setUploaded(new Date());
         image.setRefs(refs);
 
@@ -73,10 +74,11 @@ public class ImageServiceImpl implements ImageService {
         User owner = requestScopeService.getCurrentUser();
 
         Image image = new Image();
-        image.setName(fileName);
+        image.setType(imageType);
         if (owner != null) {
             image.setOwnerId(owner.getId());
         }
+        image.setName(fileName);
         image.setUploaded(new Date());
         image.setRefs(refs);
 

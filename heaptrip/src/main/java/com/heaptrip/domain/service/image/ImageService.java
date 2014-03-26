@@ -13,7 +13,7 @@ import java.util.List;
 public interface ImageService {
 
     /**
-     * Add image to associated object. Designed to work with following types of image: ImageEnum.ACCOUNT_IMAGE and ImageEnum.CONTENT_IMAGE
+     * Add image to associated object. Designed to add all types of the images except ImageEnum.CONTENT_IMAGE
      *
      * @param targetId  _id of associated object (account id, trip id, table item id, trip route id, etc.)
      * @param imageType image type
@@ -25,7 +25,7 @@ public interface ImageService {
     public Image addImage(String targetId, ImageEnum imageType, String fileName, InputStream is) throws IOException;
 
     /**
-     * Add image without targetId. Designed to work with following types of image: ImageEnum.ACCOUNT_IMAGE and ImageEnum.CONTENT_IMAGE
+     * Add image without targetId. Designed to work with following types of image: ImageEnum.CONTENT_IMAGE
      *
      * @param imageType image type
      * @param fileName  file name
