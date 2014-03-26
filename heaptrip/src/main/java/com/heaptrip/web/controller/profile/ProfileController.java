@@ -1,17 +1,13 @@
 package com.heaptrip.web.controller.profile;
 
 import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.service.account.AccountSearchService;
-import com.heaptrip.domain.service.account.criteria.AccountSearchReponse;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
-import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
-import com.heaptrip.web.model.travel.TripModel;
 import com.heaptrip.web.modelservice.ProfileModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -65,7 +60,7 @@ public class ProfileController extends ExceptionHandlerControler {
                 guid = currentUser.getId();
             }
         }
-        UserInfoModel accountModel = profileModelService.getProfileInformation(guid);
+        UserInfoModel accountModel = profileModelService.getUserInformation(guid);
         return mv.addObject("account", accountModel);
     }
 
@@ -79,7 +74,7 @@ public class ProfileController extends ExceptionHandlerControler {
                 guid = currentUser.getId();
             }
         }
-        UserInfoModel accountModel = profileModelService.getProfileInformation(guid);
+        UserInfoModel accountModel = profileModelService.getUserInformation(guid);
         return mv.addObject("account", accountModel);
     }
 

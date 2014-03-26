@@ -38,12 +38,13 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Autowired
     private CommunityService communityService;
 
+
     @Autowired
     private AccountStoreService accountStoreService;
 
 
     @Override
-    public UserInfoModel getProfileInformation(String uid) {
+    public UserInfoModel getUserInformation(String uid) {
         Assert.notNull(uid, "user id  must not be null");
         User user = (User) accountService.getAccountById(uid);
         return convertUserToUserModel(user);
@@ -60,8 +61,16 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Override
     public AccountModel getAccountInformation(String uid) {
         Assert.notNull(uid, "account id  must not be null");
-        Account account = accountService.getAccountById(uid);
-        return convertAccountToAccountModel(account);
+        AccountModel result = null;
+        if (uid != null) {
+            Account account = accountStoreService.findOne(uid);
+            if (account != null) {
+                result = convertAccountToAccountModel(account);
+            }
+        }
+        return result;
+        //Account account = accountService.getAccountById(uid);
+        //return convertAccountToAccountModel(account);
     }
 
     @Override
@@ -99,8 +108,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return community;
     }
 
-    @Override
-    public AccountModel convertAccountToAccountModel(Account account) {
+
+    private AccountModel convertAccountToAccountModel(Account account) {
         AccountModel accountModel = null;
         if (account != null) {
             if (account instanceof User) {
