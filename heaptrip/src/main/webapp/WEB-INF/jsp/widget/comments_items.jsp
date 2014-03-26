@@ -21,7 +21,7 @@
 						class="connemt_date">${comment.created.text}</span>
 				</div>
 				<div class="comment_avatar">
-					<img src="/avatar/${comment.author.image}.jpg">
+					<img src="<c:url value="/rest/image/small/${comment.author.image.id}"/>">">
 				</div>
 				<div class="comment_text">${comment.text}</div>
 			</div>

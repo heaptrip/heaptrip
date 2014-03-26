@@ -185,7 +185,7 @@
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
             url: 'rest/upload?ids=${param.ids}',
-            formData: {imageType: '${param.image_type}'}
+            formData: {imageType: '${param.image_type}',targetId:'${param.target_id}'}
         });
 
 

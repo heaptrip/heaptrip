@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,6 +56,13 @@ public class FileController extends ExceptionHandlerControler {
     @ResponseBody
     Map<String, ? extends Object> upload(MultipartHttpServletRequest request) throws Exception {
 
+
+        String imageType = request.getParameter("imageType");
+        Assert.notNull(imageType, "imageType must not be null");
+
+        String targetId = request.getParameter("targetId");
+        Assert.notNull(targetId, "targetId must not be null");
+
         Stack<FileMeta> files = new Stack<>();
 
         Iterator<String> itr = request.getFileNames();
@@ -63,35 +71,23 @@ public class FileController extends ExceptionHandlerControler {
         List<FileMeta> fileMetaList = new ArrayList<>();
 
         if (itr.hasNext()) {
-
             while (itr.hasNext()) {
 
                 FileMeta fileMeta = new FileMeta();
-
                 mpf = request.getFile(itr.next());
 
-
-                String imageType = request.getParameter("imageType");
-
-
-                if (imageType != null) {
-                    Image image = imageService.addImage(ImageEnum.valueOf(imageType), mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
-                    fileMeta.setName(mpf.getOriginalFilename());
-                    fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
-                    fileMeta.setType(mpf.getContentType());
-                    fileMeta.setUrl("./rest/get/" + image.getRefs().getMedium());
-                    fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall()!=null ? image.getRefs().getSmall() :image.getRefs().getMedium() );
-
-                    if (image.getRefs().getFull() != null)
-                        fileMeta.setHighResolutionUrl("./rest/get/" + image.getRefs().getFull());
-                    fileMeta.setDeleteUrl("./rest/del/" + image.getId());
-                    fileMeta.setDeleteType("DELETE");
-                    fileMeta.setId(image.getId());
-                }
-
+                Image image = imageService.addImage(targetId, ImageEnum.valueOf(imageType), mpf.getOriginalFilename(), new ByteArrayInputStream(mpf.getBytes()));
+                fileMeta.setName(mpf.getOriginalFilename());
+                fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
+                fileMeta.setType(mpf.getContentType());
+                fileMeta.setThumbnailUrl("./rest/image/small/" + image.getId());
+                fileMeta.setUrl("./rest/image/medium/" + image.getId());
+                fileMeta.setHighResolutionUrl("./rest/image/full/" + image.getId());
+                fileMeta.setDeleteUrl("./rest/del/" + image.getId());
+                fileMeta.setDeleteType("DELETE");
+                fileMeta.setId(image.getId());
 
                 fileMetaList.add(fileMeta);
-
                 files.push(fileMeta);
 
                 System.out.println(mpf.getOriginalFilename() + " uploaded! " + files.size());
@@ -132,10 +128,9 @@ public class FileController extends ExceptionHandlerControler {
             fileMeta.setName(id);
             fileMeta.setSize(1000 / 1024 + " Kb");
             fileMeta.setType("none");
-            fileMeta.setUrl("./rest/get/" + image.getRefs().getMedium());
-            fileMeta.setThumbnailUrl("./rest/get/" + image.getRefs().getSmall()!=null ? image.getRefs().getSmall() :image.getRefs().getMedium() );
-            if (image.getRefs().getFull() != null)
-                fileMeta.setHighResolutionUrl("./rest/get/" + image.getRefs().getFull());
+            fileMeta.setThumbnailUrl("./rest/image/small/" + image.getId());
+            fileMeta.setUrl("./rest/image/medium/" + image.getId());
+            fileMeta.setHighResolutionUrl("./rest/image/full/" + image.getId());
             fileMeta.setDeleteUrl("./rest/del/" + image.getId());
             fileMeta.setDeleteType("DELETE");
 
@@ -160,20 +155,50 @@ public class FileController extends ExceptionHandlerControler {
      * @return void
      *         **************************************************
      */
-    @RequestMapping(value = "get/{value}", method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.HEAD})
+    @RequestMapping(value = "file/{value}", method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.HEAD})
     public void get(HttpServletResponse response, @PathVariable String value) {
-        // FileMeta getFile = files.get(value);
         try {
-            //response.setContentType(getFile.getType());
             response.setHeader("Content-disposition", "attachment; filename=\"" + value + "\"");
-
             InputStream in = gridFileService.getFile(value);
-
             FileCopyUtils.copy(IOUtils.toByteArray(in), response.getOutputStream());
-
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            LOG.error("Error file " + value + "download : ", e);
+        }
+    }
+
+    @RequestMapping(value = "image/small/{value}", method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.HEAD})
+    public void getSmallImage(HttpServletResponse response, @PathVariable String value) {
+        try {
+            response.setHeader("Content-disposition", "attachment; filename=\"" + value + "\"");
+            Image image = imageService.getImageById(value);
+            InputStream in = gridFileService.getFile(image.getRefs().getSmall() != null ? image.getRefs().getSmall() : image.getRefs().getMedium());
+            FileCopyUtils.copy(IOUtils.toByteArray(in), response.getOutputStream());
+        } catch (IOException e) {
+            LOG.error("Error file " + value + "download : ", e);
+        }
+    }
+
+    @RequestMapping(value = "image/medium/{value}", method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.HEAD})
+    public void getMediumImage(HttpServletResponse response, @PathVariable String value) {
+        try {
+            response.setHeader("Content-disposition", "attachment; filename=\"" + value + "\"");
+            Image image = imageService.getImageById(value);
+            InputStream in = gridFileService.getFile(image.getRefs().getMedium());
+            FileCopyUtils.copy(IOUtils.toByteArray(in), response.getOutputStream());
+        } catch (IOException e) {
+            LOG.error("Error file " + value + "download : ", e);
+        }
+    }
+
+    @RequestMapping(value = "image/full/{value}", method = {RequestMethod.POST, RequestMethod.GET, RequestMethod.HEAD})
+    public void getFullImage(HttpServletResponse response, @PathVariable String value) {
+        try {
+            response.setHeader("Content-disposition", "attachment; filename=\"" + value + "\"");
+            Image image = imageService.getImageById(value);
+            InputStream in = gridFileService.getFile(image.getRefs().getFull());
+            FileCopyUtils.copy(IOUtils.toByteArray(in), response.getOutputStream());
+        } catch (IOException e) {
+            LOG.error("Error file " + value + "download : ", e);
         }
     }
 }

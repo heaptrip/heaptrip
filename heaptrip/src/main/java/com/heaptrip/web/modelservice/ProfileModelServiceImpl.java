@@ -10,12 +10,14 @@ import com.heaptrip.domain.entity.account.user.Knowledge;
 import com.heaptrip.domain.entity.account.user.Practice;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
+import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +43,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Autowired
     private AccountStoreService accountStoreService;
+
+    @Autowired
+    private ImageService imageService;
 
 
     @Override
@@ -69,8 +74,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             }
         }
         return result;
-        //Account account = accountService.getAccountById(uid);
-        //return convertAccountToAccountModel(account);
     }
 
     @Override
@@ -108,6 +111,11 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return community;
     }
 
+
+    @Override
+    public void changeImage(String accountId, String imageId) {
+        accountStoreService.changeImage(accountId,imageService.getImageById(imageId));
+    }
 
     private AccountModel convertAccountToAccountModel(Account account) {
         AccountModel accountModel = null;

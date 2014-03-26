@@ -320,7 +320,7 @@ var uploader = {
             }
         });
 
-        var src = './upload.jsp?image_type='+ params.imageType;
+        var src = './upload.jsp?image_type='+ params.imageType + '&target_id=' + params.targetId ;
         var title = 'UPLOADER';
         var width = 800;
         var height = 350;

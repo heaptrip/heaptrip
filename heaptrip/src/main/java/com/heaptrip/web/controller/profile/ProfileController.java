@@ -79,6 +79,20 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
 
+    @RequestMapping(value = "security/change_image", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> updateUserInfo(@RequestBody Map<String, String> map) {
+        try {
+            String accountId = map.get("accountId");
+            String imageId = map.get("imageId");
+            profileModelService.changeImage(accountId, imageId);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
     @RequestMapping(value = "security/account_update", method = RequestMethod.POST)
     public
     @ResponseBody

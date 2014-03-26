@@ -1,6 +1,7 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
@@ -14,11 +15,11 @@ public interface ProfileModelService {
      * @param uid - account id
      * @return account model
      */
-    AccountModel getAccountInformation(String uid);
+    AccountModel getAccountInformation(String accountId);
 
-    UserInfoModel getUserInformation(String uid);
+    UserInfoModel getUserInformation(String accountId);
 
-    CommunityInfoModel getCommunityInformation(String communityId);
+    CommunityInfoModel getCommunityInformation(String accountId);
 
     void updateUserInfo(UserInfoModel userInfoModel);
 
@@ -27,5 +28,7 @@ public interface ProfileModelService {
     void updateCommunityInfo(CommunityInfoModel communityInfoModel);
 
     List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria);
+
+    void changeImage(String accountId, String imageId);
 
 }
