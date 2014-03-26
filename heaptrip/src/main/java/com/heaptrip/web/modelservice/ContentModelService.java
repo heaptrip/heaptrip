@@ -11,8 +11,6 @@ public interface ContentModelService {
 
     public static String SERVICE_NAME = "contentModelService";
 
-    AccountModel convertContentOwnerToModel(String ownerId);
-
     List<ContentModel> getContentModelsByCriteria(FeedCriteria feedCriteria);
 
     ContentModel getContentModelByContentId(String contentId, ContentEnum contentType);

@@ -34,27 +34,8 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     private ContentRepository contentRepository;
 
     @Autowired
-    private AccountStoreService accountStoreService;
+    protected ProfileModelService profileModelService;
 
-    @Override
-    public AccountModel convertContentOwnerToModel(String ownerId) {
-        AccountModel result = null;
-        if (ownerId != null) {
-            Account account = accountStoreService.findOne(ownerId);
-            if (account != null) {
-                result = new AccountModel();
-                result.setId(account.getId());
-                result.setName(account.getName());
-                if (account.getRating() != null) {
-                    result.setRating(new RatingModel(account.getRating().getValue()));
-                }
-                if (account.getImage() != null) {
-                    result.setImage(convertImage(account.getImage()));
-                }
-            }
-        }
-        return result;
-    }
 
 
     protected ContentModel convertContentToContentModel(ContentEnum contentType, Content content, boolean isOnlyThisLocale) {
@@ -79,7 +60,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             if (content.getDescription() != null)
                 contentModel.setDescription(getMultiLangTextValue(content.getDescription(), locale, isOnlyThisLocale));
 
-            contentModel.setOwner(convertContentOwnerToModel(content.getOwnerId()));
+            contentModel.setOwner(profileModelService.getAccountInformation(content.getOwnerId()));
             contentModel.setCategories(convertCategoriesToModel(content.getCategories()));
             contentModel.setRegions(convertRegionsToModel(content.getRegions()));
             contentModel.setLangs(content.getLangs());

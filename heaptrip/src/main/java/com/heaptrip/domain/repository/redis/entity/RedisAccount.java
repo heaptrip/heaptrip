@@ -2,6 +2,7 @@ package com.heaptrip.domain.repository.redis.entity;
 
 public class RedisAccount {
 
+    // TODO konovalov: add account type
     private String id;
     private String name;
     private String email;

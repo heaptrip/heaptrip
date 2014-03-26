@@ -270,7 +270,7 @@
     </definition>
 
     <definition name="pf-communities" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communitiesTemplate"/>
     </definition>

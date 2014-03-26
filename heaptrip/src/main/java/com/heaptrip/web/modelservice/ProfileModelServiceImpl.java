@@ -12,7 +12,9 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountService;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
@@ -20,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl implements ProfileModelService {
@@ -37,38 +39,113 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     private CommunityService communityService;
 
 
+    @Autowired
+    private AccountStoreService accountStoreService;
+
+
     @Override
-    public UserInfoModel getProfileInformation(String uid) {
+    public UserInfoModel getUserInformation(String uid) {
         Assert.notNull(uid, "user id  must not be null");
         User user = (User) accountService.getAccountById(uid);
         return convertUserToUserModel(user);
     }
 
     @Override
-    public AccountModel getAccountInformation(String uid) {
-        Assert.notNull(uid, "account id  must not be null");
-        Account user = accountService.getAccountById(uid);
-        return convertUserToUserModel(user);
+    public CommunityInfoModel getCommunityInformation(String communityId) {
+        Assert.notNull(communityId, "communityI id  must not be null");
+        Community community = (Community) accountService.getAccountById(communityId);
+        return convertCommunityToCommunityModel(community);
     }
 
-    private AccountModel convertUserToUserModel(Account account) {
+
+    @Override
+    public AccountModel getAccountInformation(String uid) {
+        Assert.notNull(uid, "account id  must not be null");
+        AccountModel result = null;
+        if (uid != null) {
+            Account account = accountStoreService.findOne(uid);
+            if (account != null) {
+                result = convertAccountToAccountModel(account);
+            }
+        }
+        return result;
+        //Account account = accountService.getAccountById(uid);
+        //return convertAccountToAccountModel(account);
+    }
+
+    @Override
+    public void updateUserInfo(UserInfoModel userInfoModel) {
+        Assert.notNull(userInfoModel, "userInfoModel must not be null");
+        Assert.notNull(userInfoModel.getId(), "account id  must not be null");
+        Profile profile = convertProfileModelToProfile(userInfoModel.getAccountProfile(), userInfoModel.getUserProfile());
+        userService.saveProfile(userInfoModel.getId(), profile);
+    }
+
+
+    @Override
+    public List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria) {
+        List<Account> accounts = accountStoreService.findByCriteria(accountTextCriteria);
+        return convertAccountsToAccountModels(accounts);
+    }
+
+    @Override
+    public void updateCommunityInfo(CommunityInfoModel communityInfoModel) {
+        // TODO voronenko: impl updateCommunityInfo
+    }
+
+
+    @Override
+    public Community saveCommunityInfo(CommunityInfoModel communityInfoModel) {
+        Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
+        Community community = new Community();
+        community.setTypeAccount(AccountEnum.valueOf(communityInfoModel.getTypeAccount()));
+        community.setName(communityInfoModel.getName());
+        community.setEmail(communityInfoModel.getEmail());
+        community.setStatus(AccountStatusEnum.ACTIVE);
+        // TODO voronenko: community.set...
+        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
+        community = communityService.registration(community, getCurrentLocale());
+        return community;
+    }
+
+
+    private AccountModel convertAccountToAccountModel(Account account) {
         AccountModel accountModel = null;
         if (account != null) {
-            accountModel = new AccountModel();
-            putAccountToAccountModel(accountModel, account);
+            if (account instanceof User) {
+                accountModel = convertUserToUserModel((User) account);
+            } else if (account instanceof Community) {
+                accountModel = convertCommunityToCommunityModel((Community) account);
+            } else {
+                accountModel = new AccountModel();
+                putAccountToAccountModel(accountModel, account);
+            }
         }
         return accountModel;
     }
 
-    private UserInfoModel convertUserToUserModel(User account) {
+
+    private UserInfoModel convertUserToUserModel(User user) {
         UserInfoModel userInfoModel = null;
-        if (account != null) {
+        if (user != null) {
             userInfoModel = new UserInfoModel();
-            putAccountToAccountInfoModel(userInfoModel, account);
-            userInfoModel.setUserProfile(convertUserProfileToProfileModel(account.getProfile()));
+            putAccountToAccountInfoModel(userInfoModel, user);
+            userInfoModel.setUserProfile(convertUserProfileToProfileModel(user.getProfile()));
         }
         return userInfoModel;
     }
+
+
+    private CommunityInfoModel convertCommunityToCommunityModel(Community community) {
+        CommunityInfoModel communityInfoModel = null;
+        if (community != null) {
+            communityInfoModel = new CommunityInfoModel();
+            putAccountToAccountInfoModel(communityInfoModel, community);
+            communityInfoModel.setCommunityProfile(convertCommunityProfileToProfileModel(community.getProfile()));
+        }
+        return communityInfoModel;
+    }
+
 
     private AccountInfoModel putAccountToAccountInfoModel(AccountInfoModel accountInfoModel, Account account) {
         if (accountInfoModel != null && account != null) {
@@ -84,8 +161,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (accountModel != null && account != null) {
             accountModel.setId(account.getId());
             accountModel.setName(account.getName());
-            accountModel.setTypeAccount(account.getTypeAccount().name());
             accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
+            if (account.getTypeAccount() != null)
+                accountModel.setTypeAccount(account.getTypeAccount().name());
             if (account.getImage() != null && account.getImage().getRefs() != null) {
                 accountModel.setImage(convertImage(account.getImage()));
             }
@@ -116,6 +194,16 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             profileModel.setBirthday(convertDate(userProfile.getBirthday()));
             profileModel.setKnowledgies(convertKnowledgiesToModels(userProfile.getKnowledgies()));
             profileModel.setPractices(convertPracticesToModels(userProfile.getPractices()));
+        }
+        return profileModel;
+    }
+
+    private CommunityProfileModel convertCommunityProfileToProfileModel(Profile profile) {
+        CommunityProfileModel profileModel = null;
+        if (profile != null && (profile instanceof CommunityProfile)) {
+            CommunityProfile communityProfile = (CommunityProfile) profile;
+            profileModel = new CommunityProfileModel();
+            profileModel.setSkype(communityProfile.getSkype());
         }
         return profileModel;
     }
@@ -249,19 +337,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             putProfileModelInfoToProfile(profile, accountProfileModel);
         }
         return profile;
-
-    }
-
-
-    private void putProfileModelInfoToProfile(Profile profile, AccountProfileModel accountProfileModel) {
-        if (accountProfileModel != null) {
-            profile.setLangs(accountProfileModel.getLangs());
-            profile.setLocation(convertRegionModelToRegion(accountProfileModel.getLocation(), getCurrentLocale()));
-            profile.setCategories(convertCategoriesModelsToCategories(accountProfileModel.getCategories(), getCurrentLocale()));
-            profile.setDesc(accountProfileModel.getDesc());
-            profile.setRegions(convertRegionModelsToRegions(accountProfileModel.getRegions(), getCurrentLocale()));
-            profile.setId(accountProfileModel.getId());
-        }
     }
 
 
@@ -277,38 +352,26 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return ratingModel;
     }
 
-
-    @Override
-    public void updateUserInfo(UserInfoModel userInfoModel) {
-        Assert.notNull(userInfoModel, "userInfoModel must not be null");
-        Assert.notNull(userInfoModel.getId(), "account id  must not be null");
-        Profile profile = convertProfileModelToProfile(userInfoModel.getAccountProfile(), userInfoModel.getUserProfile());
-        userService.saveProfile(userInfoModel.getId(), profile);
+    private void putProfileModelInfoToProfile(Profile profile, AccountProfileModel accountProfileModel) {
+        if (accountProfileModel != null) {
+            profile.setLangs(accountProfileModel.getLangs());
+            profile.setLocation(convertRegionModelToRegion(accountProfileModel.getLocation(), getCurrentLocale()));
+            profile.setCategories(convertCategoriesModelsToCategories(accountProfileModel.getCategories(), getCurrentLocale()));
+            profile.setDesc(accountProfileModel.getDesc());
+            profile.setRegions(convertRegionModelsToRegions(accountProfileModel.getRegions(), getCurrentLocale()));
+            profile.setId(accountProfileModel.getId());
+        }
     }
 
-    @Override
-    public void updateCommunityInfo(CommunityInfoModel communityInfoModel) {
-        // TODO: impl updateCommunityInfo
-    }
+    private List<AccountModel> convertAccountsToAccountModels(List<Account> accounts) {
+        ArrayList<AccountModel> accountModels = new ArrayList<>();
+        if (accounts != null) {
+            for (Account account : accounts) {
+                accountModels.add(convertAccountToAccountModel(account));
 
-    @Override
-    public CommunityInfoModel getCommunityInformation(String communityId) {
-        // TODO: impl getCommunityInformation
-        return null;
-    }
-
-    @Override
-    public Community saveCommunityInfo(CommunityInfoModel communityInfoModel) {
-        Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
-        Community community = new Community();
-        community.setTypeAccount(AccountEnum.valueOf(communityInfoModel.getTypeAccount()));
-        community.setName(communityInfoModel.getName());
-        community.setEmail(communityInfoModel.getEmail());
-        community.setStatus(AccountStatusEnum.ACTIVE);
-        // TODO: community.set...
-        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
-        community = communityService.registration(community, getCurrentLocale());
-        return community;
+            }
+        }
+        return accountModels;
     }
 
 
