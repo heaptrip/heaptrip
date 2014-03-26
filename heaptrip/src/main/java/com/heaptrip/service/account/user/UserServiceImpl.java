@@ -18,7 +18,6 @@ import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.user.UserService;
-import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
@@ -48,9 +47,6 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
-    private ImageService imageService;
 
     @Autowired
     private MessageTemplateStorage messageTemplateStorage;

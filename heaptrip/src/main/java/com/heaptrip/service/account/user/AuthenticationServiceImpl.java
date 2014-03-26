@@ -13,6 +13,7 @@ import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.user.AuthenticationService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -57,6 +58,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private ErrorService errorService;
 
+    @Autowired
+    private AccountStoreService accountStoreService;
+
     @Override
     public User getUserByEmailAndPassword(String email, String password) {
         Assert.notNull(email, "email must not be null");
@@ -83,7 +87,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 if (!Arrays.equals(user.getImageCRC(), digest)) {
                     isImage.reset();
                     Image image = imageService.addImage(user.getId(), ImageEnum.ACCOUNT_IMAGE, socNetName + uid, isImage);
-                    user.setImage(image);
+                    accountStoreService.changeImage(user.getId(), image);
                     user.setImageCRC(digest);
                     userRepository.save(user);
                 }

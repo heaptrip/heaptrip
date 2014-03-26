@@ -145,27 +145,26 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void removeImageById(String imageId) {
         Assert.notNull(imageId, "imageId must not be null");
-
         Image image = imageRepository.findOne(imageId);
-        Assert.notNull(image, "image with id:" + imageId + " dose not exist");
+        if (image != null) {
+            Set<String> fileIds = new HashSet<>();
+            if (image.getRefs() != null) {
+                if (StringUtils.isNotEmpty(image.getRefs().getSmall())) {
+                    fileIds.add(image.getRefs().getSmall());
+                }
+                if (StringUtils.isNotEmpty(image.getRefs().getMedium())) {
+                    fileIds.add(image.getRefs().getMedium());
+                }
+                if (StringUtils.isNotEmpty(image.getRefs().getFull())) {
+                    fileIds.add(image.getRefs().getFull());
+                }
+            }
 
-        Set<String> fileIds = new HashSet<>();
-        if (image.getRefs() != null) {
-            if (StringUtils.isNotEmpty(image.getRefs().getSmall())) {
-                fileIds.add(image.getRefs().getSmall());
+            if (!fileIds.isEmpty()) {
+                gridFileService.removeFiles(fileIds);
             }
-            if (StringUtils.isNotEmpty(image.getRefs().getMedium())) {
-                fileIds.add(image.getRefs().getMedium());
-            }
-            if (StringUtils.isNotEmpty(image.getRefs().getFull())) {
-                fileIds.add(image.getRefs().getFull());
-            }
+            imageRepository.remove(imageId);
         }
-
-        if (!fileIds.isEmpty()) {
-            gridFileService.removeFiles(fileIds);
-        }
-        imageRepository.remove(imageId);
     }
 
     @Override

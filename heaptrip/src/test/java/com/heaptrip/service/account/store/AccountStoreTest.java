@@ -114,11 +114,6 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
         }
     }
 
-    @Test(enabled = true, priority = 3)
-    public void updateImages() {
-        // TODO dikma отсутствует реализация изменения картинок у аккаунта!!!
-    }
-
     @Test(enabled = true, priority = 4)
     public void updateRating() throws IOException, ExecutionException, InterruptedException {
         double rating = 10d;

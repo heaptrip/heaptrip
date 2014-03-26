@@ -10,6 +10,7 @@ import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
+import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,9 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountStoreService accountStoreService;
 
+    @Autowired
+    protected ImageService imageService;
+
     @Override
     public Account getAccountById(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
@@ -44,7 +48,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void hardRemove(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
-        accountRepository.remove(accountId);
+        Account account = accountRepository.findOne(accountId);
+        if (account != null) {
+            if (account.getImage() != null) {
+                imageService.removeImageById(account.getImage().getId());
+            }
+            accountRepository.remove(accountId);
+        }
     }
 
     @Override

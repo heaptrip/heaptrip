@@ -46,6 +46,7 @@
     <test name="ImageTest">
         <classes>
             <class name="com.heaptrip.service.image.GridFileServiceTest"/>
+            <class name="com.heaptrip.service.image.ImageServiceTest"/>
         </classes>
     </test>
 
@@ -111,12 +112,6 @@
     <test name="CommentTest">
         <classes>
             <class name="com.heaptrip.service.comment.CommentServiceTest"/>
-        </classes>
-    </test>
-
-    <test name="AlbumTest">
-        <classes>
-            <class name="com.heaptrip.service.image.ImageServiceTest"/>
         </classes>
     </test>
 
