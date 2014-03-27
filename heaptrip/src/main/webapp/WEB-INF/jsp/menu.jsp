@@ -169,64 +169,14 @@
                 </a>
             </li>
 
-            <li>
-                <a href="<c:url value="/pf-travels.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-travel") ? "active":"" }'>
-                    <fmt:message key="trip.list.title"/>
-                </a>
-            </li>
-            <li>
-                <a href="<c:url value="/pf-posts.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-post") ? "active":"" }'>
-                    <fmt:message key="post.list.title"/>
-                </a>
-            </li>
-            <li>
-                <a href="<c:url value="/pf-questions.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-questions") ? "active":"" }'>
-                    <fmt:message key="question.list.title"/>
-                </a>
-            </li>
-            <li>
-                <a href="<c:url value="/pf-events.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-events") ? "active":"" }'>
-                    <fmt:message key="event.list.title"/>
-                </a>
-            </li>
-
         </c:if>
         <%--тип чужого аккаунта сообщество--%>
-        <c:if test="${ not catcher.typeAccount eq 'USER' }">
+        <c:if test="${ catcher.typeAccount ne 'USER' }">
 
             <li>
                 <a href="<c:url value="/pf-people.html?guid=${catcher.id}"/>"
                    class='${fn:contains(url, "/pf-people") ? "active":"" }'>
                     <fmt:message key="tiding.list.title"/>
-                </a>
-            </li>
-
-            <li>
-                <a href="<c:url value="/pf-travels.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-travel") ? "active":"" }'>
-                    <fmt:message key="trip.list.title"/>
-                </a>
-            </li>
-            <li>
-                <a href="<c:url value="/pf-posts.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-post") ? "active":"" }'>
-                    <fmt:message key="post.list.title"/>
-                </a>
-            </li>
-            <li>
-                <a href="<c:url value="/pf-questions.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-questions") ? "active":"" }'>
-                    <fmt:message key="question.list.title"/>
-                </a>
-            </li>
-            <li>
-                <a href="<c:url value="/pf-events.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-events") ? "active":"" }'>
-                    <fmt:message key="event.list.title"/>
                 </a>
             </li>
 

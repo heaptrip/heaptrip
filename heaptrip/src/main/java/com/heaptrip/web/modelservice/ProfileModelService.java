@@ -1,7 +1,6 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.community.Community;
-import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
@@ -12,7 +11,7 @@ public interface ProfileModelService {
 
     /**
      * attention !!! used to jsp (servlet) context webmvc-context.xml
-     * @param uid - account id
+     * @param accountId - account id
      * @return account model
      */
     AccountModel getAccountInformation(String accountId);
