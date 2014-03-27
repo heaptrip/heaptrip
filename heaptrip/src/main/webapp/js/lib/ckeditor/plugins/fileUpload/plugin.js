@@ -18,7 +18,7 @@ CKEDITOR.plugins.add('fileUpload',
                         });
                     }
                 };
-                uploader.show(callBackFunction,{imageType:'CONTENT_IMAGE'});
+                uploader.show(callBackFunction,{imageType:'CONTENT_IMAGE',targetId:$.getParamFromURL().id});
             }
             });
         }

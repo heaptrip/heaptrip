@@ -12,14 +12,26 @@
                 <div class="left">
                     <h2 class="people_title"><fmt:message key="accountProfile.title"/></h2>
                 </div>
+
+<c:if test='${not empty principal && empty catcher}'>
+
                 <div class="right">
                     <a href="<c:url value="/profile_modify_info.html?guid=${param.guid}"/>" class="button"><fmt:message
                             key="page.action.edit"/></a>
                 </div>
 
+    </c:if>
+
+
+
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a
-                            class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
+                    <div class="my_avatar"><img src="<c:url value="/rest/image/medium/${account.image.id}"/>">
+
+                        <c:if test='${not empty principal && empty catcher}'>
+                        <a class="button"><fmt:message key="page.action.uploadPhoto"/></a>
+                            </c:if>
+
+                    </div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
                         <div class="my_location"><span><fmt:message

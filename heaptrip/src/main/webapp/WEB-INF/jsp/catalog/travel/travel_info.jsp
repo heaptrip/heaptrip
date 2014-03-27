@@ -5,6 +5,7 @@
 <div class="description">
 	${trip.description}
 </div>
+
 <div class="table_inf">
 	<table>
 		<thead>
@@ -31,9 +32,6 @@
 		</tbody>
 	</table>
 </div>
-
-
-
 <div class="dop_inf">
 	<div class="views">
 		<fmt:message key="content.views" />

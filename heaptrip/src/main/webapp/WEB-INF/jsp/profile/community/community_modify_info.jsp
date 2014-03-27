@@ -119,7 +119,7 @@
                 </div>
 
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${community.image.id}"/>"><a
+                    <div class="my_avatar"><img src="<c:url value="/rest/image/small/${community.image.id}"/>"><a
                             class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">

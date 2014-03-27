@@ -19,30 +19,30 @@
 
 <script type="text/javascript">
 
-    <c:forEach items="${trip.categories}" var="category" varStatus="stat">
-    <c:set var="categoryIds" value="${categoriesIds },${category.id}" />
-    </c:forEach>
+    <%--<c:forEach items="${account.accountProfile.categories}" var="category" varStatus="stat">--%>
+    <%--<c:set var="categoryIds" value="${categoriesIds },${category.id}" />--%>
+    <%--</c:forEach>--%>
 
-    <c:forEach items="${trip.regions}" var="region" varStatus="stat">
-    <c:set var="regionIds" value="${regionIds },${region.id}" />
-    </c:forEach>
+    <%--<c:forEach items="${account.accountProfile.regions}" var="region" varStatus="stat">--%>
+    <%--<c:set var="regionIds" value="${regionIds },${region.id}" />--%>
+    <%--</c:forEach>--%>
 
 
-    $(document).ready(function () {
-        var ct = "${fn:substring(categoryIds,1,1000)}";
-        var rg = "${fn:substring(regionIds,1,1000)}";
-        $.handParamToURL({
-            ct: ct,
-            rg: rg
-        });
-    });
+    <%--$(document).ready(function () {--%>
+    <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
+    <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
+    <%--$.handParamToURL({--%>
+    <%--ct: ct,--%>
+    <%--rg: rg--%>
+    <%--});--%>
+    <%--});--%>
 
     var onAccountSubmit = function (btn) {
 
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: $.getParamFromURL().guid ? $.getParamFromURL().guid : null
+            id: window.user.id //$.getParamFromURL().guid ? $.getParamFromURL().guid : null
         };
 
         jsonData.name = $("#my_name").val();
@@ -130,9 +130,9 @@
                 .each(function (iTR, tr) {
                     var practice = (tr.id ? { id: tr.id } : {});
                     $(this).children('td').each(function (iTD, td) {
-                        var cellInps = $(this).children('input');
                         switch (iTD) {
                             case 0:
+                                var cellInps = $(this).children('input');
                                 practice.begin = {};
                                 if ($("#" + cellInps[0].id).datepicker('getDate'))
                                     practice.begin.value = $("#" + cellInps[0].id).datepicker('getDate').getTime();
@@ -141,7 +141,8 @@
                                     practice.end.value = $("#" + cellInps[1].id).datepicker('getDate').getTime();
                                 break;
                             case 1:
-                                practice.desc = cellInps[0].value;
+                                practice.desc = $(this).children('textarea')[0].value;
+                                break;
                         }
                     });
 
@@ -189,7 +190,7 @@
                 </div>
 
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image?imageId=${account.image.id}"/>"><a
+                    <div class="my_avatar"><img src="<c:url value="/rest/image/medium/${account.image.id}"/>"><a
                             class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
@@ -279,9 +280,9 @@
                                         <fmt:message key="page.date.to"/>
                                         <input type="text" class="datepicker" value="${knowledge.end.text}"/>
                                     </td>
-                                    <td><input type="text" value="${knowledge.specialist}" /></td>
-                                    <td><input type="text" value="${knowledge.location}" /></td>
-                                    <td><input type="text" value="${knowledge.document}" /></td>
+                                    <td><input type="text" value="${knowledge.specialist}"/></td>
+                                    <td><input type="text" value="${knowledge.location}"/></td>
+                                    <td><input type="text" value="${knowledge.document}"/></td>
                                     <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
                                 </tr>
                             </c:forEach>

@@ -13,14 +13,9 @@
             <div class="left">
                 <h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>
 
-
                 <div class="tags">
-
-
                     <a href="<c:url value="/pf-profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
-
-
             </div>
             <div class="right">
                 {{if begin}}
@@ -49,7 +44,7 @@
                 {{/for}}
             </div>
             {{if price}}
-            <div class="price">{{>price}}<fmt:message key="locale.currency"/></div>
+            <div class="price">{{>price}}<fmt:message key="currency.current"/></div>
             {{/if}}
 
         </div>
@@ -65,11 +60,9 @@
 </script>
 
 <div id="container">
-
     <div id="contents">
-
         <c:if test='${not empty principal && empty catcher && fn:contains(url, "/my-")}'>
-            <article id="article" class="deteil">
+            <article  id="article" class="deteil">
                 <div class="inf">
                     <div class="right">
                         <a href="<c:url value="/travel_modify_info.html"/>"
@@ -79,17 +72,17 @@
                 </div>
             </article>
         </c:if>
-
-        <span id="contents_span"></span></div>
-
-
+        <span id="contents_span"></span>
+    </div>
     <tiles:insertDefinition name="pagination"/>
     <div id="paginator"></div>
 </div>
 
 <aside id="sideRight">
-    <tiles:insertDefinition name="categoryTreeWithBtn"/>
-    <tiles:insertDefinition name="regionFilterWithBtn"/>
+    <c:if test='${ fn:contains(url, "/ct-") }'>
+        <tiles:insertDefinition name="categoryTreeWithBtn"/>
+        <tiles:insertDefinition name="regionFilterWithBtn"/>
+    </c:if>
 </aside>
 
 <script type="text/javascript">
