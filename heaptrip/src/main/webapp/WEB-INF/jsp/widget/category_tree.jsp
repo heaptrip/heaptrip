@@ -68,7 +68,7 @@
                     .bind("change_state.jstree", function (node, uncheck) {
                         if ($("#categoryFilterSubmit").length == 0) {
 
-                            console.log('---dfdfd')
+
 
                             var checked_ids = getSelectedCategories();
                             $.putLOCALParamToURL({ct: checked_ids.join()});

@@ -19,30 +19,30 @@
 
 <script type="text/javascript">
 
-    <c:forEach items="${trip.categories}" var="category" varStatus="stat">
-    <c:set var="categoryIds" value="${categoriesIds },${category.id}" />
-    </c:forEach>
+    <%--<c:forEach items="${account.accountProfile.categories}" var="category" varStatus="stat">--%>
+    <%--<c:set var="categoryIds" value="${categoriesIds },${category.id}" />--%>
+    <%--</c:forEach>--%>
 
-    <c:forEach items="${trip.regions}" var="region" varStatus="stat">
-    <c:set var="regionIds" value="${regionIds },${region.id}" />
-    </c:forEach>
+    <%--<c:forEach items="${account.accountProfile.regions}" var="region" varStatus="stat">--%>
+    <%--<c:set var="regionIds" value="${regionIds },${region.id}" />--%>
+    <%--</c:forEach>--%>
 
 
-    $(document).ready(function () {
-        var ct = "${fn:substring(categoryIds,1,1000)}";
-        var rg = "${fn:substring(regionIds,1,1000)}";
-        $.handParamToURL({
-            ct: ct,
-            rg: rg
-        });
-    });
+    <%--$(document).ready(function () {--%>
+        <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
+        <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
+        <%--$.handParamToURL({--%>
+            <%--ct: ct,--%>
+            <%--rg: rg--%>
+        <%--});--%>
+    <%--});--%>
 
     var onAccountSubmit = function (btn) {
 
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: $.getParamFromURL().guid ? $.getParamFromURL().guid : null
+            id: window.user.id //$.getParamFromURL().guid ? $.getParamFromURL().guid : null
         };
 
         jsonData.name = $("#my_name").val();
