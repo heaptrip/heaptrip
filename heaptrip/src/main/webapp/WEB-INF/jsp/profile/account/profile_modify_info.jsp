@@ -29,12 +29,12 @@
 
 
     <%--$(document).ready(function () {--%>
-        <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
-        <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
-        <%--$.handParamToURL({--%>
-            <%--ct: ct,--%>
-            <%--rg: rg--%>
-        <%--});--%>
+    <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
+    <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
+    <%--$.handParamToURL({--%>
+    <%--ct: ct,--%>
+    <%--rg: rg--%>
+    <%--});--%>
     <%--});--%>
 
     var onAccountSubmit = function (btn) {
@@ -130,9 +130,9 @@
                 .each(function (iTR, tr) {
                     var practice = (tr.id ? { id: tr.id } : {});
                     $(this).children('td').each(function (iTD, td) {
-                        var cellInps = $(this).children('input');
                         switch (iTD) {
                             case 0:
+                                var cellInps = $(this).children('input');
                                 practice.begin = {};
                                 if ($("#" + cellInps[0].id).datepicker('getDate'))
                                     practice.begin.value = $("#" + cellInps[0].id).datepicker('getDate').getTime();
@@ -141,7 +141,8 @@
                                     practice.end.value = $("#" + cellInps[1].id).datepicker('getDate').getTime();
                                 break;
                             case 1:
-                                practice.desc = cellInps[0].value;
+                                practice.desc = $(this).children('textarea')[0].value;
+                                break;
                         }
                     });
 
@@ -279,9 +280,9 @@
                                         <fmt:message key="page.date.to"/>
                                         <input type="text" class="datepicker" value="${knowledge.end.text}"/>
                                     </td>
-                                    <td><input type="text" value="${knowledge.specialist}" /></td>
-                                    <td><input type="text" value="${knowledge.location}" /></td>
-                                    <td><input type="text" value="${knowledge.document}" /></td>
+                                    <td><input type="text" value="${knowledge.specialist}"/></td>
+                                    <td><input type="text" value="${knowledge.location}"/></td>
+                                    <td><input type="text" value="${knowledge.document}"/></td>
                                     <td><a class="button" func="4"><fmt:message key="page.action.delete"/></a></td>
                                 </tr>
                             </c:forEach>
