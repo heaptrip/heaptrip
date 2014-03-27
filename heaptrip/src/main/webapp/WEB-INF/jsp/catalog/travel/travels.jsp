@@ -62,7 +62,7 @@
 <div id="container">
     <div id="contents">
         <c:if test='${not empty principal && empty catcher && fn:contains(url, "/my-")}'>
-            <article class="deteil">
+            <article  id="article" class="deteil">
                 <div class="inf">
                     <div class="right">
                         <a href="<c:url value="/travel_modify_info.html"/>"
