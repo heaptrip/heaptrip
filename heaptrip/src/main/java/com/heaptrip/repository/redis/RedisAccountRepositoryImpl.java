@@ -1,5 +1,6 @@
 package com.heaptrip.repository.redis;
 
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.repository.redis.RedisAccountRepository;
 import com.heaptrip.domain.repository.redis.RedisContext;
 import com.heaptrip.domain.repository.redis.entity.RedisAccount;
@@ -41,6 +42,9 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
         }
         if (account.getMediumId() != null) {
             values.put("mediumId", account.getMediumId());
+        }
+        if (account.getAccountType() != null) {
+            values.put("accountType", account.getAccountType().toString());
         }
 
         Jedis jedis = redisContext.getConnection();
@@ -156,7 +160,7 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
 
         String key = "account:" + accountId;
 
-        String[] fields = new String[]{"emails", "name", "rating", "imageId", "smallId", "mediumId"};
+        String[] fields = new String[]{"emails", "name", "rating", "imageId", "smallId", "mediumId", "accountType"};
 
         List<String> values = null;
         Jedis jedis = redisContext.getConnection();
@@ -196,6 +200,9 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
             }
             if (values.get(5) != null) {
                 result.setMediumId(values.get(5));
+            }
+            if (values.get(6) != null) {
+                result.setAccountType(AccountEnum.valueOf(values.get(6)));
             }
 
             return result;

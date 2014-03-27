@@ -1,5 +1,6 @@
 package com.heaptrip.repository.redis;
 
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.repository.redis.entity.RedisAccount;
 import org.testng.annotations.DataProvider;
 
@@ -17,6 +18,7 @@ public class AccountDataProvider {
         account.setImageId("111");
         account.setSmallId("222");
         account.setMediumId("333");
+        account.setAccountType(AccountEnum.USER);
         return new Object[][]{new Object[]{account}};
     }
 }

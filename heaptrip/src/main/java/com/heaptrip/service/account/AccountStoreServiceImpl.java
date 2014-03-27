@@ -97,6 +97,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             redisAccount.setId(account.getId());
             redisAccount.setName(account.getName());
             redisAccount.setEmail(account.getEmail());
+            redisAccount.setAccountType(account.getTypeAccount());
             if (account.getRating() != null) {
                 redisAccount.setRating(account.getRating().getValue());
             }
@@ -237,6 +238,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             redisAccount.setId(account.getId());
             redisAccount.setName(account.getName());
             redisAccount.setEmail(account.getEmail());
+            redisAccount.setAccountType(account.getTypeAccount());
             if (account.getRating() != null) {
                 redisAccount.setRating(account.getRating().getValue());
             }
@@ -260,6 +262,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             AccountRating rating = new AccountRating();
             rating.setValue(redisAccount.getRating());
             account.setRating(rating);
+            account.setTypeAccount(redisAccount.getAccountType());
 
             if (redisAccount.getImageId() != null) {
                 Image image = new Image();

@@ -1,8 +1,9 @@
 package com.heaptrip.domain.repository.redis.entity;
 
+import com.heaptrip.domain.entity.account.AccountEnum;
+
 public class RedisAccount {
 
-    // TODO konovalov: add account type
     private String id;
     private String name;
     private String email;
@@ -10,6 +11,7 @@ public class RedisAccount {
     private String imageId;
     private String smallId;
     private String mediumId;
+    private AccountEnum accountType;
 
     public String getId() {
         return id;
@@ -65,5 +67,13 @@ public class RedisAccount {
 
     public void setMediumId(String mediumId) {
         this.mediumId = mediumId;
+    }
+
+    public AccountEnum getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountEnum accountType) {
+        this.accountType = accountType;
     }
 }
