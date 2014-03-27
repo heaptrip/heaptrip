@@ -152,11 +152,8 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 
         if (mainLang.equals(lang)) {
             // update main language
-            updateQuery = String
-                    .format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, 'name.%s': #, "
-                            + "'summary.main': #, 'summary.%s': #, 'description.main': #, 'description.%s': #, table: #,"
-                            + "'route.text.main': #, 'route.text.%s': #, 'route.map': #, postIds: #}}", lang, lang,
-                            lang, lang);
+            updateQuery = "{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, " +
+                    "'summary.main': #, 'description.main': #, table: #, 'route.text.main': #, 'route.map': #, postIds: #}}";
 
             parameters.add(lang);
             parameters.add(trip.getCategories());
@@ -164,20 +161,16 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
             parameters.add(trip.getRegions());
             parameters.add(trip.getRegionIds());
             parameters.add(trip.getName().getValue(locale));
-            parameters.add(trip.getName().getValue(locale));
             parameters.add(trip.getSummary().getValue(locale));
-            parameters.add(trip.getSummary().getValue(locale));
-            parameters.add(trip.getDescription().getValue(locale));
             parameters.add(trip.getDescription().getValue(locale));
             parameters.add(trip.getTable());
-            parameters.add(trip.getRoute().getText().getValue(locale));
             parameters.add(trip.getRoute().getText().getValue(locale));
             parameters.add(trip.getRoute().getMap());
             parameters.add(trip.getPostIds());
         } else {
             updateQuery = String
-                    .format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.%s': #, 'summary.%s': #,"
-                            + " 'description.%s': #, table: #, 'route.text.%s': #, 'route.map': #, postIds: #}}",
+                    .format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.%s': #, " +
+                            "'summary.%s': #, 'description.%s': #, table: #, 'route.text.%s': #, 'route.map': #, postIds: #}}",
                             lang, lang, lang, lang);
 
             parameters.add(lang);

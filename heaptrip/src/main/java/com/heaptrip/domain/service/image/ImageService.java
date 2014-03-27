@@ -33,6 +33,7 @@ public interface ImageService {
      * @return image
      * @throws java.io.IOException
      */
+    // TODO konovalov: remove this method
     public Image addImage(ImageEnum imageType, String fileName, InputStream is) throws IOException;
 
     /**

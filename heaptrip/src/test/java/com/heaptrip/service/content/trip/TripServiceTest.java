@@ -63,7 +63,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterClass(alwaysRun = true)
-    public void relese() {
+    public void release() {
         postService.hardRemove(POST_ID);
     }
 
@@ -174,12 +174,15 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(trip.getName());
         Assert.assertNotNull(trip.getName().getValue(locale));
         Assert.assertEquals(trip.getName().getValue(locale), name);
+        Assert.assertEquals(trip.getName().getCountLanguage(), 2);
         Assert.assertNotNull(trip.getSummary());
         Assert.assertNotNull(trip.getSummary().getValue(locale));
         Assert.assertEquals(trip.getSummary().getValue(locale), summary);
+        Assert.assertEquals(trip.getSummary().getCountLanguage(), 2);
         Assert.assertNotNull(trip.getDescription());
         Assert.assertNotNull(trip.getDescription().getValue(locale));
         Assert.assertEquals(trip.getDescription().getValue(locale), description);
+        Assert.assertEquals(trip.getDescription().getCountLanguage(), 2);
         Assert.assertNotNull(trip.getRoute());
         Assert.assertNotNull(trip.getRoute().getId());
         Assert.assertNotNull(trip.getRoute().getText());
@@ -205,18 +208,22 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test(priority = 7, enabled = true)
     public void removeTripLocale() {
-        // call
-        Locale locale = new Locale("ru");
+        // prepare
         Trip trip = tripRepository.findOne(TRIP_ID);
         Assert.assertNotNull(trip);
         Assert.assertNotNull(trip.getLangs());
         Assert.assertEquals(trip.getLangs().length, 2);
+        // call
+        Locale locale = new Locale("ru");
         tripService.removeTripLocale(trip.getId(), locale);
         // check
         trip = tripRepository.findOne(TRIP_ID);
         Assert.assertNotNull(trip);
         Assert.assertNotNull(trip.getLangs());
         Assert.assertEquals(trip.getLangs().length, 1);
+        Assert.assertEquals(trip.getName().getCountLanguage(), 1);
+        Assert.assertEquals(trip.getSummary().getCountLanguage(), 1);
+        Assert.assertEquals(trip.getDescription().getCountLanguage(), 1);
     }
 
     @Test(priority = 8, enabled = true)

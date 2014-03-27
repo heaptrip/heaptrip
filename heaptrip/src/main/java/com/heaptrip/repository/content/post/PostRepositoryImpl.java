@@ -43,8 +43,7 @@ public class PostRepositoryImpl extends CrudRepositoryImpl<Post> implements Post
         String updateQuery;
         List<Object> parameters = new ArrayList<>();
 
-        updateQuery = String.format("{$set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #,"
-                + "'summary.main': #, 'description.main': #}}");
+        updateQuery = "{$set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, 'summary.main': #, 'description.main': #}}";
 
         parameters.add(post.getCategories());
         parameters.add(post.getCategoryIds());

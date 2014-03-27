@@ -45,7 +45,7 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterClass(alwaysRun = true)
-    public void relese() {
+    public void release() {
         contentRepository.remove(TripFeedDataProvider.CONTENT_ID);
     }
 

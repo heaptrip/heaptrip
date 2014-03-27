@@ -45,7 +45,7 @@ public class ContentFeedServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterClass(alwaysRun = true)
-    public void relese() {
+    public void release() {
         contentRepository.remove(FeedDataProvider.CONTENT_ID);
     }
 

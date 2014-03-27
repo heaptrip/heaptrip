@@ -67,7 +67,7 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterClass(alwaysRun = true)
-    public void relese() {
+    public void release() {
         eventService.hardRemove(EVENT_ID);
     }
 
