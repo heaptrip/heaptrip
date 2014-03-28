@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content.event.helper;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.event.Event;
 import com.heaptrip.domain.service.content.event.criteria.EventFeedCriteria;
 import com.heaptrip.repository.content.helper.ContentQueryHelper;
 import org.apache.commons.lang.ArrayUtils;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria> {
+public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria, Event> {
 
     @Override
     public String getQuery(EventFeedCriteria criteria) {
@@ -93,5 +94,10 @@ public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria> 
     @Override
     public Class<EventFeedCriteria> getCriteriaClass() {
         return EventFeedCriteria.class;
+    }
+
+    @Override
+    protected Class<Event> getCollectionClass() {
+        return Event.class;
     }
 }

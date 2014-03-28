@@ -1,19 +1,16 @@
 package com.heaptrip.repository.account.helper;
 
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.service.account.criteria.RelationCriteria;
-import com.heaptrip.repository.helper.QueryHelper;
+import com.heaptrip.repository.helper.AbstractQueryHelper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class RelationQueryHelper implements QueryHelper<RelationCriteria> {
-
-    @Override
-    public Class<RelationCriteria> getCriteriaClass() {
-        return RelationCriteria.class;
-    }
+public class RelationQueryHelper extends AbstractQueryHelper<RelationCriteria, Relation> {
 
     @Override
     public String getQuery(RelationCriteria criteria) {
@@ -68,5 +65,20 @@ public class RelationQueryHelper implements QueryHelper<RelationCriteria> {
     @Override
     public String getSort(RelationCriteria criteria) {
         return null;
+    }
+
+    @Override
+    public Class<RelationCriteria> getCriteriaClass() {
+        return RelationCriteria.class;
+    }
+
+    @Override
+    protected Class<Relation> getCollectionClass() {
+        return Relation.class;
+    }
+
+    @Override
+    protected String getCollectionName() {
+        return CollectionEnum.RELATIONS.getName();
     }
 }

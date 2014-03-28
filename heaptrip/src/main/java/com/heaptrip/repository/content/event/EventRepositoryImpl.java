@@ -4,14 +4,11 @@ import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.event.Event;
 import com.heaptrip.domain.repository.content.FavoriteContentRepository;
 import com.heaptrip.domain.repository.content.event.EventRepository;
-import com.heaptrip.domain.service.content.criteria.FeedCriteria;
-import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
-import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.event.criteria.EventFeedCriteria;
 import com.heaptrip.domain.service.content.event.criteria.EventForeignAccountCriteria;
 import com.heaptrip.domain.service.content.event.criteria.EventMyAccountCriteria;
-import com.heaptrip.repository.content.FeedRepositoryImpl;
+import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.language.LanguageUtils;
@@ -28,7 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Service
-public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements EventRepository {
+public class EventRepositoryImpl extends CrudRepositoryImpl<Event> implements EventRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(EventRepositoryImpl.class);
 
@@ -40,8 +37,8 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
 
     @Override
     public List<Event> findByFeedCriteria(EventFeedCriteria criteria) {
-        QueryHelper<EventFeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(EventFeedCriteria.class);
-        return findByCriteria(criteria, queryHelper);
+        QueryHelper<EventFeedCriteria, Event> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria);
     }
 
     @Override
@@ -51,8 +48,8 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
             eventIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getUserId());
         }
-        QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(MyAccountCriteria.class);
-        return findByCriteria(criteria, queryHelper, eventIds);
+        QueryHelper<EventMyAccountCriteria, Event> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria, eventIds);
     }
 
     @Override
@@ -62,15 +59,14 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
             eventIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getAccountId());
         }
-        QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(ForeignAccountCriteria.class);
-        return findByCriteria(criteria, queryHelper, eventIds);
+        QueryHelper<EventForeignAccountCriteria, Event> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria, eventIds);
     }
 
     @Override
     public long getCountByFeedCriteria(EventFeedCriteria criteria) {
-        QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
-        return getCountByCriteria(criteria, queryHelper);
+        QueryHelper<EventFeedCriteria, Event> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria);
     }
 
     @Override
@@ -80,8 +76,8 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
             eventIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getUserId());
         }
-        QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(MyAccountCriteria.class);
-        return getCountByCriteria(criteria, queryHelper, eventIds);
+        QueryHelper<EventMyAccountCriteria, Event> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria, eventIds);
     }
 
     @Override
@@ -91,9 +87,8 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
             eventIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getAccountId());
         }
-        QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(ForeignAccountCriteria.class);
-        return getCountByCriteria(criteria, queryHelper, eventIds);
+        QueryHelper<EventForeignAccountCriteria, Event> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria, eventIds);
     }
 
     @Override

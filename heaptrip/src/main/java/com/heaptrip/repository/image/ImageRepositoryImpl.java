@@ -7,9 +7,7 @@ import com.heaptrip.domain.service.image.criteria.ImageCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
-import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
-import org.apache.commons.lang.ArrayUtils;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,39 +36,14 @@ public class ImageRepositoryImpl extends CrudRepositoryImpl<Image> implements Im
 
     @Override
     public List<Image> findByCriteria(ImageCriteria imageCriteria) {
-        QueryHelper queryHelper = queryHelperFactory.getHelperByCriteria(imageCriteria.getClass());
-        String query = queryHelper.getQuery(imageCriteria);
-        Object[] parameters = queryHelper.getParameters(imageCriteria);
-        String projection = queryHelper.getProjection(imageCriteria);
-        String sort = queryHelper.getSort(imageCriteria);
-        int skip = (imageCriteria.getSkip() != null) ? imageCriteria.getSkip().intValue() : 0;
-        int limit = (imageCriteria.getLimit() != null) ? imageCriteria.getLimit().intValue() : 0;
-        String hint = queryHelper.getHint(imageCriteria);
-        if (logger.isDebugEnabled()) {
-            String msg = String
-                    .format("find images\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
-                            queryHelper.getClass(), query, ArrayUtils.toString(parameters), projection, sort, skip,
-                            limit, hint);
-            logger.debug(msg);
-        }
-        MongoCollection coll = getCollection();
-        Iterable<Image> iter = coll.find(query, parameters).projection(projection).sort(sort).skip(skip).limit(limit)
-                .hint(hint).as(getCollectionClass());
-        return IteratorConverter.copyIterator(iter.iterator());
+        QueryHelper<ImageCriteria, Image> queryHelper = queryHelperFactory.getHelperByCriteria(imageCriteria);
+        return queryHelper.findByCriteria(imageCriteria);
     }
 
     @Override
     public long countByCriteria(ImageCriteria imageCriteria) {
-        QueryHelper queryHelper = queryHelperFactory.getHelperByCriteria(imageCriteria.getClass());
-        String query = queryHelper.getQuery(imageCriteria);
-        Object[] parameters = queryHelper.getParameters(imageCriteria);
-        if (logger.isDebugEnabled()) {
-            String msg = String
-                    .format("find images\n->queryHelper %s\n->query: %s\n->parameters: %s", queryHelper.getClass(), query, ArrayUtils.toString(parameters));
-            logger.debug(msg);
-        }
-        MongoCollection coll = getCollection();
-        return coll.count(query, parameters);
+        QueryHelper<ImageCriteria, Image> queryHelper = queryHelperFactory.getHelperByCriteria(imageCriteria);
+        return queryHelper.countByCriteria(imageCriteria);
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ContentMyAccountQueryHelper extends ContentQueryHelper<MyAccountCriteria> {
+public class ContentMyAccountQueryHelper extends ContentQueryHelper<MyAccountCriteria, Content> {
 
     @Override
     public String getQuery(MyAccountCriteria criteria) {
@@ -95,6 +95,11 @@ public class ContentMyAccountQueryHelper extends ContentQueryHelper<MyAccountCri
     @Override
     public Class<MyAccountCriteria> getCriteriaClass() {
         return MyAccountCriteria.class;
+    }
+
+    @Override
+    protected Class<Content> getCollectionClass() {
+        return Content.class;
     }
 
 }

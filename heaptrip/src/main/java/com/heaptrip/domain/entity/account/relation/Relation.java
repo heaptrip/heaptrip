@@ -40,7 +40,7 @@ public class Relation extends BaseObject implements Collectionable {
 
     @Override
     public String getCollectionName() {
-        return CollectionEnum.RELATION.getName();
+        return CollectionEnum.RELATIONS.getName();
     }
 
     public static Relation getRelation(String userId, String accountId, TypeRelationEnum typeRelation) {

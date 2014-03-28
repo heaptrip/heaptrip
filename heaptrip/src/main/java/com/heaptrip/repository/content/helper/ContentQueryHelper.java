@@ -1,11 +1,15 @@
 package com.heaptrip.repository.content.helper;
 
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.criteria.ContentSortCriteria;
+import com.heaptrip.repository.helper.AbstractQueryHelper;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.util.language.LanguageUtils;
 import org.springframework.util.Assert;
 
-public abstract class ContentQueryHelper<T extends ContentSortCriteria> implements QueryHelper<T> {
+public abstract class ContentQueryHelper<T extends ContentSortCriteria, M extends Content>
+        extends AbstractQueryHelper<T, M> implements QueryHelper<T, M> {
 
     @Override
     public String getSort(T criteria) {
@@ -30,5 +34,11 @@ public abstract class ContentQueryHelper<T extends ContentSortCriteria> implemen
                         + " 'name.%s': 1, 'name.main': 1, 'summary.%s': 1, 'summary.main': 1, 'table._id': 1, 'table.begin': 1, 'table.end': 1,"
                         + " 'table.price': 1, created: 1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1}",
                         lang, lang, lang, lang);
+    }
+
+
+    @Override
+    protected String getCollectionName() {
+        return CollectionEnum.CONTENTS.getName();
     }
 }

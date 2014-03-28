@@ -12,7 +12,7 @@ import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
-import com.heaptrip.repository.content.FeedRepositoryImpl;
+import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.language.LanguageUtils;
@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Service
-public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements TripRepository {
+public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements TripRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(TripRepositoryImpl.class);
 
@@ -54,8 +54,8 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
 
     @Override
     public List<Trip> findByFeedCriteria(TripFeedCriteria criteria) {
-        QueryHelper<TripFeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(TripFeedCriteria.class);
-        return findByCriteria(criteria, queryHelper);
+        QueryHelper<TripFeedCriteria, Trip> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria);
     }
 
     @Override
@@ -67,9 +67,8 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
             tripIds = favoriteContentRepository
                     .findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
         }
-        QueryHelper<TripMyAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(TripMyAccountCriteria.class);
-        return findByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<TripMyAccountCriteria, Trip> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria, tripIds);
     }
 
     @Override
@@ -81,15 +80,14 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
             tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
                     criteria.getAccountId());
         }
-        QueryHelper<TripForeignAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(TripForeignAccountCriteria.class);
-        return findByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<TripForeignAccountCriteria, Trip> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria, tripIds);
     }
 
     @Override
     public long getCountByFeedCriteria(TripFeedCriteria criteria) {
-        QueryHelper<TripFeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(TripFeedCriteria.class);
-        return getCountByCriteria(criteria, queryHelper);
+        QueryHelper<TripFeedCriteria, Trip> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria);
     }
 
     @Override
@@ -101,9 +99,8 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
             tripIds = favoriteContentRepository
                     .findIdsByContentTypeAndAccountId(ContentEnum.TRIP, criteria.getUserId());
         }
-        QueryHelper<TripMyAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(TripMyAccountCriteria.class);
-        return getCountByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<TripMyAccountCriteria, Trip> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria, tripIds);
     }
 
     @Override
@@ -115,9 +112,9 @@ public class TripRepositoryImpl extends FeedRepositoryImpl<Trip> implements Trip
             tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(ContentEnum.TRIP,
                     criteria.getAccountId());
         }
-        QueryHelper<TripForeignAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(TripForeignAccountCriteria.class);
-        return getCountByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<TripForeignAccountCriteria, Trip> queryHelper = queryHelperFactory
+                .getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria, tripIds);
     }
 
     @Override

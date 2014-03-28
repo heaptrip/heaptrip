@@ -6,6 +6,7 @@ package com.heaptrip.domain.entity;
 public enum CollectionEnum {
     CONTENTS("contents"),
     ACCOUNTS("accounts"),
+    NOTIFICATIONS("notifications"),
     COMMENTS("comments"),
     CATEGORIES("categories"),
     REGIONS("regions"),
@@ -13,7 +14,7 @@ public enum CollectionEnum {
     MEMBERS("members"),
     IMAGES("images"),
     RATINGS("ratings"),
-    RELATION("relation"),
+    RELATIONS("relations"),
     EVENT_TYPES("event.types");
 
     private String name;

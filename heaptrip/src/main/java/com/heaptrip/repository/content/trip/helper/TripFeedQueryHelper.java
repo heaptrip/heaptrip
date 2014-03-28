@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content.trip.helper;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.repository.content.helper.ContentQueryHelper;
 import org.apache.commons.lang.ArrayUtils;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria> {
+class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria, Trip> {
 
     @Override
     public String getQuery(TripFeedCriteria criteria) {
@@ -84,6 +85,11 @@ class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria> {
     @Override
     public Class<TripFeedCriteria> getCriteriaClass() {
         return TripFeedCriteria.class;
+    }
+
+    @Override
+    protected Class<Trip> getCollectionClass() {
+        return Trip.class;
     }
 
 }

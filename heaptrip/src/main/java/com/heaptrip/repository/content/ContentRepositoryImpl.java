@@ -12,6 +12,7 @@ import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
+import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
@@ -25,7 +26,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implements ContentRepository {
+public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implements ContentRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(ContentRepositoryImpl.class);
 
@@ -102,15 +103,15 @@ public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implement
         FeedCriteria criteria = new FeedCriteria();
         criteria.setLocale(locale);
         MongoCollection coll = getCollection();
-        String fields = queryHelperFactory.getHelperByCriteria(FeedCriteria.class).getProjection(criteria);
-        Iterable<Content> iter = coll.find("{_id: {$in: #}}", ids).projection(fields).as(Content.class);
-        return IteratorConverter.copyIterator(iter.iterator());
+        String fields = queryHelperFactory.getHelperByCriteriaClass(FeedCriteria.class).getProjection(criteria);
+        Iterable<Content> data = coll.find("{_id: {$in: #}}", ids).projection(fields).as(Content.class);
+        return IteratorConverter.copyIterator(data.iterator());
     }
 
     @Override
     public List<Content> findByFeedCriteria(FeedCriteria criteria) {
-        QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
-        return findByCriteria(criteria, queryHelper);
+        QueryHelper<FeedCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria);
     }
 
     @Override
@@ -120,8 +121,8 @@ public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implement
             tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getUserId());
         }
-        QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(MyAccountCriteria.class);
-        return findByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<MyAccountCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria, tripIds);
     }
 
     @Override
@@ -131,15 +132,14 @@ public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implement
             tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getAccountId());
         }
-        QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(ForeignAccountCriteria.class);
-        return findByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<ForeignAccountCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria, tripIds);
     }
 
     @Override
     public long getCountByFeedCriteria(FeedCriteria criteria) {
-        QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
-        return getCountByCriteria(criteria, queryHelper);
+        QueryHelper<FeedCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria);
     }
 
     @Override
@@ -149,8 +149,8 @@ public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implement
             tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getUserId());
         }
-        QueryHelper<MyAccountCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(MyAccountCriteria.class);
-        return getCountByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<MyAccountCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria, tripIds);
     }
 
     @Override
@@ -160,9 +160,8 @@ public class ContentRepositoryImpl extends FeedRepositoryImpl<Content> implement
             tripIds = favoriteContentRepository.findIdsByContentTypeAndAccountId(criteria.getContentType(),
                     criteria.getAccountId());
         }
-        QueryHelper<ForeignAccountCriteria> queryHelper = queryHelperFactory
-                .getHelperByCriteria(ForeignAccountCriteria.class);
-        return getCountByCriteria(criteria, queryHelper, tripIds);
+        QueryHelper<ForeignAccountCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria, tripIds);
     }
 
     @Override
