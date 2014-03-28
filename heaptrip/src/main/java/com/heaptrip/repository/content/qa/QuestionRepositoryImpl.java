@@ -36,8 +36,7 @@ public class QuestionRepositoryImpl extends CrudRepositoryImpl<Question> impleme
         String updateQuery;
         List<Object> parameters = new ArrayList<>();
 
-        updateQuery = String.format("{$set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #,"
-                + "'summary.main': #, 'description.main': #}}");
+        updateQuery = "{$set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, 'summary.main': #, 'description.main': #}}";
 
         parameters.add(question.getCategories());
         parameters.add(question.getCategoryIds());

@@ -56,7 +56,7 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
     // account id for content owner
     private String ownerId;
 
-    // list of user IDs that are allowed to view content. [0] - allow for all users
+    // list of user IDs that are allowed to view content. ['ALL'] - allow for all users
     private String[] allowed;
 
     // language in which the trip was created

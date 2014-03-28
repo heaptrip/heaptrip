@@ -2,17 +2,16 @@ package com.heaptrip.domain.repository.image;
 
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.repository.CrudRepository;
+import com.heaptrip.domain.service.image.criteria.ImageCriteria;
 
 import java.util.List;
 
 
 public interface ImageRepository extends CrudRepository<Image> {
 
-    public List<Image> findByTargetId(String targetId);
+    public List<Image> findByCriteria(ImageCriteria imageCriteria);
 
-    public long getCountByTargetId(String targetId);
-
-    public List<Image> findByTargetId(String targetId, int skip, int limit);
+    public long countByCriteria(ImageCriteria imageCriteria);
 
     public void updateNameAndText(String imageId, String name, String text);
 

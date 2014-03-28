@@ -137,10 +137,8 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
 
         if (mainLang.equals(lang)) {
             // update main language
-            updateQuery = String
-                    .format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, 'name.%s': #, "
-                            + "'summary.main': #, 'summary.%s': #, 'description.main': #, 'description.%s': #, types: #, price: #, map: #, showMap: #}}",
-                            lang, lang, lang);
+            updateQuery = "{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, "
+                    + "'summary.main': #, 'description.main': #, types: #, price: #, map: #, showMap: #}}";
 
             parameters.add(lang);
             parameters.add(event.getCategories());
@@ -148,10 +146,7 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
             parameters.add(event.getRegions());
             parameters.add(event.getRegionIds());
             parameters.add(event.getName().getValue(locale));
-            parameters.add(event.getName().getValue(locale));
             parameters.add(event.getSummary().getValue(locale));
-            parameters.add(event.getSummary().getValue(locale));
-            parameters.add(event.getDescription().getValue(locale));
             parameters.add(event.getDescription().getValue(locale));
             parameters.add(event.getTypes());
             parameters.add(event.getPrice());
@@ -160,8 +155,8 @@ public class EventRepositoryImpl extends FeedRepositoryImpl<Event> implements Ev
 
         } else {
             updateQuery = String
-                    .format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.%s': #, 'summary.%s': #,"
-                            + " 'description.%s': #, types: #, price: #, map: #, showMap: #}}", lang, lang, lang);
+                    .format("{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.%s': #, " +
+                            "'summary.%s': #, 'description.%s': #, types: #, price: #, map: #, showMap: #}}", lang, lang, lang);
 
             parameters.add(lang);
             parameters.add(event.getCategories());

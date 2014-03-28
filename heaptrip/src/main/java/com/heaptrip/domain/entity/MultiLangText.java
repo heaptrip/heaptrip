@@ -10,9 +10,6 @@ import java.util.Locale;
  */
 public class MultiLangText extends HashMap<String, String> {
 
-    private static final long serialVersionUID = -248938959357861383L;
-
-    // TODO konovalov: consider a variant that the text in the first language was stored only in this field
     private static final String MAIN_LANG = "main";
 
     public MultiLangText() {
@@ -46,15 +43,20 @@ public class MultiLangText extends HashMap<String, String> {
         put(lang, value);
     }
 
-    public void setMainLanguage(String lang) {
-        put(MAIN_LANG, get(lang));
-    }
-
     public String getValue() {
         return get(MAIN_LANG);
     }
 
     public void setValue(String value) {
         put(MAIN_LANG, value);
+    }
+
+    public void setMainLanguage(String lang) {
+        put(MAIN_LANG, get(lang));
+        remove(lang); // main language stored only in main field
+    }
+
+    public int getCountLanguage() {
+        return size();
     }
 }
