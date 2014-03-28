@@ -4,33 +4,20 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
-
-<c:choose>
-    <c:when test="${empty param.ul}">
-        <c:set var="currLocale">
-            ${curr_locale}
-        </c:set>
-    </c:when>
-    <c:otherwise>
-        <c:set var="currLocale">${param.ul}</c:set>
-    </c:otherwise>
-</c:choose>
-
 <script type="text/javascript">
 
-    <c:forEach items="${trip.categories}" var="category" varStatus="stat">
-    <c:set var="categoryIds" value="${categoriesIds },${category.id}" />
-    </c:forEach>
+    <%--<c:forEach items="${trip.categories}" var="category" varStatus="stat">--%>
+    <%--<c:set var="categoryIds" value="${categoriesIds },${category.id}" />--%>
+    <%--</c:forEach>--%>
 
-    <c:forEach items="${trip.regions}" var="region" varStatus="stat">
-    <c:set var="regionIds" value="${regionIds },${region.id}" />
-    </c:forEach>
+    <%--<c:forEach items="${trip.regions}" var="region" varStatus="stat">--%>
+    <%--<c:set var="regionIds" value="${regionIds },${region.id}" />--%>
+    <%--</c:forEach>--%>
 
 
     $(document).ready(function () {
-        var ct = "${fn:substring(categoryIds,1,1000)}";
-        var rg = "${fn:substring(regionIds,1,1000)}";
+        <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
+        <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
         $.handParamToURL({
             ct: ct,
             rg: rg
@@ -42,7 +29,7 @@
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: $.getParamFromURL().uid ? $.getParamFromURL().uid : null
+            id: $.getParamFromURL().guid ? $.getParamFromURL().guid : null
         };
 
         jsonData.name = $("#community_name").val();
@@ -119,15 +106,15 @@
                 </div>
 
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image/small/${community.image.id}"/>"><a
+                    <div class="my_avatar"><img src="<c:url value="/rest/image/small/${account.image.id}"/>"><a
                             class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
-                            <input id="community_name" type="text" value="${community.name}"
+                            <input id="community_name" type="text" value="${account.name}"
                                    alt="<fmt:message key="community.name"/>">
                         </div>
                         <div class="my_name">
-                            <input id="community_email" type="text" value="${community.email}"
+                            <input id="community_email" type="text" value="${account.email}"
                                    alt="<fmt:message key="accountProfile.email"/>">
                         </div>
 
@@ -144,8 +131,8 @@
 
                         <div class="my_location"><span><fmt:message key="user.place"/>: </span>
                             <input id="location"
-                                   reg_id="${community.accountProfile.location.id}"
-                                   value="${community.accountProfile.location.data}"
+                                   reg_id="${account.accountProfile.location.id}"
+                                   value="${account.accountProfile.location.data}"
                                    type="text"/>
                         </div>
 
@@ -156,7 +143,7 @@
             </div>
             <div class="description">
                 <textarea id="community_desc"
-                          alt="<fmt:message key="content.description"/>:">${community.accountProfile.desc}</textarea>
+                          alt="<fmt:message key="content.description"/>:">${account.accountProfile.desc}</textarea>
             </div>
 
 

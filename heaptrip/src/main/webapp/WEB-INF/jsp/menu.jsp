@@ -158,13 +158,6 @@
             </li>
 
             <li>
-                <a href="<c:url value="/pf-profile.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
-                    <fmt:message key="accountProfile.title"/>
-                </a>
-            </li>
-
-            <li>
                 <a href="<c:url value="/pf-communities.html?guid=${catcher.id}"/>"
                    class='${fn:contains(url, "/pf-communit") ? "active":"" }'>
                     <fmt:message key="accountProfile.community"/>
