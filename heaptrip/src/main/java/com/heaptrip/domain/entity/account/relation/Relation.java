@@ -43,14 +43,6 @@ public class Relation extends BaseObject implements Collectionable {
         return CollectionEnum.RELATION.getName();
     }
 
-    public static Relation getPublisherRelation(String userId, String accountId) {
-        Relation relation = new Relation();
-        relation.setFromId(userId);
-        relation.setToId(accountId);
-        relation.setTypeRelation(TypeRelationEnum.PUBLISHER);
-        return relation;
-    }
-
     public static Relation getRelation(String userId, String accountId, TypeRelationEnum typeRelation) {
         Relation relation = new Relation();
         relation.setFromId(userId);

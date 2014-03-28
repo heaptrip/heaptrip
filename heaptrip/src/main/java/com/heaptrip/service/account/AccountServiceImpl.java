@@ -1,13 +1,14 @@
 package com.heaptrip.service.account;
 
-import com.heaptrip.domain.entity.account.Account;
-import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.account.Profile;
-import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.account.*;
+import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.image.ImageService;
@@ -38,6 +39,9 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     protected ImageService imageService;
+
+    @Autowired
+    private RelationRepository relationRepository;
 
     @Override
     public Account getAccountById(String accountId) {
@@ -77,6 +81,11 @@ public class AccountServiceImpl implements AccountService {
         } else if (account.getId().hashCode() == Integer.valueOf(value)) {
             // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
+
+            if (!account.getTypeAccount().equals(AccountEnum.USER) && account instanceof Community && (((Community) account).getOwnerAccountId() != null)) {
+                relationRepository.save(Relation.getRelation(((Community) account).getOwnerAccountId(), accountId, TypeRelationEnum.OWNER));
+            }
+
             future = accountStoreService.save(account.getId());
         } else {
             String msg = String.format("value not correct, account not been confirmed id: %s", accountId);

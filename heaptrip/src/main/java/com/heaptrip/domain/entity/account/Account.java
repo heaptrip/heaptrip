@@ -6,6 +6,8 @@ import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 
+import java.util.Date;
+
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public class Account extends BaseObject {
 
@@ -26,6 +28,8 @@ public class Account extends BaseObject {
     private AccountEnum typeAccount;
 
     private AccountRating rating;
+
+    private Date created;
 
     public Account() {
     }
@@ -100,5 +104,13 @@ public class Account extends BaseObject {
 
     public void setImage(Image image) {
         this.image = image;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

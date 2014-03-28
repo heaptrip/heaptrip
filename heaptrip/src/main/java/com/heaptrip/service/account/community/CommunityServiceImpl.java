@@ -78,6 +78,11 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
         Assert.isTrue(!community.getTypeAccount().equals(AccountEnum.USER), "account must not be type account is user");
         Assert.isTrue(community.getEmail().matches(EMAIL_REGEX), "email is not correct");
 
+        // устанавливаем создателя сообщества
+        if (requestScopeService.getCurrentUser() != null) {
+            community.setOwnerAccountId(requestScopeService.getCurrentUser().getId());
+        }
+
         Account account = accountRepository.findCommunityByEmail(community.getEmail());
 
         if (account != null) {

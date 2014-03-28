@@ -1,25 +1,41 @@
 package com.heaptrip.service.account.community;
 
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.service.account.community.CommunityService;
+import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.security.Authenticate;
+import com.heaptrip.security.AuthenticationListener;
+import com.heaptrip.service.account.user.UserDataProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
+import javax.management.relation.RelationService;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Locale;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
+@Listeners(AuthenticationListener.class)
 public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private CommunityService communityService;
 
+    @Autowired
+    private RelationRepository relationRepository;
+
     // регистрация клуба
     @Test(enabled = true, priority = 1)
+    @Authenticate(userid = "email", username = "Email User", roles = "ROLE_USER")
     public void registrationСlub() throws NoSuchAlgorithmException, MessagingException, IOException {
         Locale locale = new Locale("ru");
         communityService.registration(CommunityDataProvider.getClub(), locale);
@@ -67,6 +83,12 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
     @Test(enabled = true, priority = 31)
     public void confirmRegistrationClub() {
         communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
+
+        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
+                CommunityDataProvider.COMMUNITY_ID,
+                TypeRelationEnum.OWNER));
+
+        Assert.assertTrue(relations.size() == 1);
     }
 
     // проверяем "левые" вызовы
