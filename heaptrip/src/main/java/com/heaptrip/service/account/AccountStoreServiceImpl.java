@@ -2,6 +2,7 @@ package com.heaptrip.service.account;
 
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
@@ -86,6 +87,13 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 solrAccount.setRegions(getIds(account.getProfile().getRegions()));
             }
 
+            if (!account.getTypeAccount().equals(AccountEnum.USER)) {
+                RelationCriteria criteria = new RelationCriteria();
+                criteria.setToId(accountId);
+                criteria.setTypeRelation(TypeRelationEnum.OWNER);
+                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+            }
+
             try {
                 solrAccountRepository.save(solrAccount);
             } catch (SolrServerException | IOException e) {
@@ -145,21 +153,38 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             }
 
             RelationCriteria criteria = new RelationCriteria();
-            criteria.setFromId(accountId);
-            criteria.setTypeRelation(TypeRelationEnum.PUBLISHER);
-            solrAccount.setPublishers(getRelations(criteria));
 
-            criteria.setTypeRelation(TypeRelationEnum.MEMBER);
-            solrAccount.setMembers(getRelations(criteria));
+            if (account.getTypeAccount().equals(AccountEnum.USER)) {
+                criteria.setFromId(accountId);
+                criteria.setTypeRelation(TypeRelationEnum.PUBLISHER);
+                solrAccount.setPublishers(getRelations(criteria, account.getTypeAccount()));
 
-            criteria.setTypeRelation(TypeRelationEnum.EMPLOYEE);
-            solrAccount.setStaff(getRelations(criteria));
+                criteria.setTypeRelation(TypeRelationEnum.MEMBER);
+                solrAccount.setMembers(getRelations(criteria, account.getTypeAccount()));
 
-            criteria.setTypeRelation(TypeRelationEnum.OWNER);
-            solrAccount.setOwners(getRelations(criteria));
+                criteria.setTypeRelation(TypeRelationEnum.EMPLOYEE);
+                solrAccount.setStaff(getRelations(criteria, account.getTypeAccount()));
 
-            criteria.setTypeRelation(TypeRelationEnum.FRIEND);
-            solrAccount.setFriends(getRelations(criteria));
+                criteria.setTypeRelation(TypeRelationEnum.OWNER);
+                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+
+                criteria.setTypeRelation(TypeRelationEnum.FRIEND);
+                solrAccount.setFriends(getRelations(criteria, account.getTypeAccount()));
+            } else {
+                criteria.setToId(accountId);
+                criteria.setTypeRelation(TypeRelationEnum.PUBLISHER);
+                solrAccount.setPublishers(getRelations(criteria, account.getTypeAccount()));
+
+                criteria.setTypeRelation(TypeRelationEnum.MEMBER);
+                solrAccount.setMembers(getRelations(criteria, account.getTypeAccount()));
+
+                criteria.setTypeRelation(TypeRelationEnum.EMPLOYEE);
+                solrAccount.setStaff(getRelations(criteria, account.getTypeAccount()));
+
+                criteria.setTypeRelation(TypeRelationEnum.OWNER);
+                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+            }
+
 
             try {
                 solrAccountRepository.save(solrAccount);
@@ -316,8 +341,8 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         }
     }
 
-    private String[] getRelations(RelationCriteria criteria) {
-        // TODO нет проверки на уникальность связей
+    private String[] getRelations(RelationCriteria criteria, AccountEnum typeAccount) {
+        // TODO dikma нет проверки на уникальность связей
         List<Relation> relations;
         String[] result;
 
@@ -326,7 +351,11 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
         if (relations.size() > 0) {
             for (int i = 0; relations.size() > i; i++) {
-                result[i] = relations.get(i).getToId();
+                if (typeAccount.equals(AccountEnum.USER)) {
+                    result[i] = relations.get(i).getToId();
+                } else {
+                    result[i] = relations.get(i).getFromId();
+                }
             }
         }
 
