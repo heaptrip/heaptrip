@@ -141,26 +141,28 @@
     </c:if>
 
     <%--чужой аккаунт--%>
-    <c:if test="${fn:contains(url, 'pf-') && not empty catcher &&  catcher.typeAccount eq 'USER' }">
+    <c:if test="${fn:contains(url, 'pf-') && not empty catcher  }">
 
 
-        <li>
-            <a href="<c:url value="/pf-profile.html?guid=${catcher.id}"/>"
-               class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
-                <fmt:message key="accountProfile.title"/>
-            </a>
-        </li>
-
-        <li>
-            <a href="<c:url value="/pf-people.html?guid=${catcher.id}"/>"
-               class='${fn:contains(url, "/pf-people") ? "active":"" }'>
-                <fmt:message key="accountProfile.people"/>
-            </a>
-        </li>
 
         <%--тип чужого аккаунта пользователь--%>
 
         <c:if test="${ catcher.typeAccount eq 'USER' }">
+
+
+            <li>
+                <a href="<c:url value="/pf-profile.html?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
+                    <fmt:message key="accountProfile.title"/>
+                </a>
+            </li>
+
+            <li>
+                <a href="<c:url value="/pf-profile.html?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
+                    <fmt:message key="accountProfile.title"/>
+                </a>
+            </li>
 
             <li>
                 <a href="<c:url value="/pf-communities.html?guid=${catcher.id}"/>"
@@ -173,9 +175,17 @@
         <%--тип чужого аккаунта сообщество--%>
         <c:if test="${ catcher.typeAccount ne 'USER' }">
 
+
             <li>
-                <a href="<c:url value="/pf-people.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-people") ? "active":"" }'>
+                <a href="<c:url value="/pf-community.html?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "/pf-community") ? "active":"" }'>
+                    <fmt:message key="accountProfile.title"/>
+                </a>
+            </li>
+
+            <li>
+                <a href="<c:url value="/pf-tidings.html?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "/pf-tidings") ? "active":"" }'>
                     <fmt:message key="tiding.list.title"/>
                 </a>
             </li>

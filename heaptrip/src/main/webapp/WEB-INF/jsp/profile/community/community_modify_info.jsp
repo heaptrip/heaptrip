@@ -88,7 +88,7 @@
             url = 'rest/security/community_save';
 
         var callbackSuccess = function (data) {
-            window.location = 'communities.html';
+            window.location = 'pf-communities.html';
         };
 
         var callbackError = function (error) {
