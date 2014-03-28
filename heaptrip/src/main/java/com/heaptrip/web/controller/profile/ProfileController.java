@@ -6,6 +6,7 @@ import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
+import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
 import com.heaptrip.web.modelservice.ProfileModelService;
@@ -113,14 +114,15 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
 
+
     @RequestMapping(value = "community_modify_info", method = RequestMethod.GET)
     public ModelAndView getEditCommunityInfo(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
-        CommunityInfoModel communityModel = null;
-        if (communityModel != null) {
-            profileModelService.getCommunityInformation(guid);
+        AccountModel accountModel = null;
+        if (guid != null) {
+            accountModel = profileModelService.getCommunityInformation(guid);
         }
-        return mv.addObject("community", communityModel);
+        return mv.addObject("account",accountModel);
     }
 
     @RequestMapping(value = "security/community_save", method = RequestMethod.POST)
