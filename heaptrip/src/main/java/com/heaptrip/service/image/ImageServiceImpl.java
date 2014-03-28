@@ -8,6 +8,7 @@ import com.heaptrip.domain.entity.image.ImageSize;
 import com.heaptrip.domain.repository.image.ImageRepository;
 import com.heaptrip.domain.service.image.GridFileService;
 import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.image.criteria.ImageCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.stream.StreamUtils;
 import net.coobird.thumbnailator.Thumbnails;
@@ -64,27 +65,6 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.save(image);
     }
 
-    @Override
-    public Image addImage(ImageEnum imageType, String fileName, InputStream is) throws IOException {
-        Assert.notNull(imageType, "imageType of album image must not be null");
-        Assert.notNull(fileName, "fileName must not be null");
-        Assert.notNull(is, "input stream must not be null");
-
-        FileReferences refs = saveImage(fileName, imageType, is);
-        User owner = requestScopeService.getCurrentUser();
-
-        Image image = new Image();
-        image.setType(imageType);
-        if (owner != null) {
-            image.setOwnerId(owner.getId());
-        }
-        image.setName(fileName);
-        image.setUploaded(new Date());
-        image.setRefs(refs);
-
-        return imageRepository.save(image);
-    }
-
     private FileReferences saveImage(String fileName, ImageEnum imageType, InputStream is) throws IOException {
         FileReferences result = new FileReferences();
 
@@ -119,27 +99,29 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public List<Image> getImagesByTargetId(String targetId) {
-        Assert.notNull(targetId, "targetId must not be null");
-        return imageRepository.findByTargetId(targetId);
-    }
-
-    @Override
-    public List<Image> getImagesByTargetId(String targetId, int skip, int limit) {
-        Assert.notNull(targetId, "targetId must not be null");
-        return imageRepository.findByTargetId(targetId, skip, limit);
-    }
-
-    @Override
-    public long getCountByTargetId(String targetId) {
-        Assert.notNull(targetId, "targetId must not be null");
-        return imageRepository.getCountByTargetId(targetId);
-    }
-
-    @Override
-    public void updateImageNameAndText(String imageId, String name, String text) {
+    public void updateNameAndText(String imageId, String name, String text) {
         Assert.notNull(imageId, "imageId must not be null");
         imageRepository.updateNameAndText(imageId, name, text);
+    }
+
+    @Override
+    public void like(String imageId) {
+        Assert.notNull(imageId, "imageId must not be null");
+        imageRepository.incLike(imageId);
+    }
+
+    @Override
+    public List<Image> getImagesByCriteria(ImageCriteria imageCriteria) {
+        Assert.notNull(imageCriteria, "criteria must not be null");
+        Assert.notNull(imageCriteria.getTargetId(), "criteria.targetId must not be null");
+        return imageRepository.findByCriteria(imageCriteria);
+    }
+
+    @Override
+    public long getCountByCriteria(ImageCriteria imageCriteria) {
+        Assert.notNull(imageCriteria, "criteria must not be null");
+        Assert.notNull(imageCriteria.getTargetId(), "criteria.targetId must not be null");
+        return imageRepository.countByCriteria(imageCriteria);
     }
 
     @Override
@@ -196,7 +178,9 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void removeImagesByTargetId(String targetId) {
         Assert.notNull(targetId, "targetId must not be null");
-        List<Image> images = imageRepository.findByTargetId(targetId);
+        ImageCriteria imageCriteria = new ImageCriteria();
+        imageCriteria.setTargetId(targetId);
+        List<Image> images = imageRepository.findByCriteria(imageCriteria);
         if (images != null) {
             Set<String> fileIds = new HashSet<>();
             for (Image image : images) {
@@ -220,8 +204,32 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public void like(String imageId) {
-        Assert.notNull(imageId, "imageId must not be null");
-        imageRepository.incLike(imageId);
+    public void removeImagesByTargetId(String targetId, ImageEnum imageType) {
+        Assert.notNull(targetId, "targetId must not be null");
+        Assert.notNull(imageType, "imageType must not be null");
+        ImageCriteria imageCriteria = new ImageCriteria();
+        imageCriteria.setTargetId(targetId);
+        imageCriteria.setImageType(imageType);
+        List<Image> images = imageRepository.findByCriteria(imageCriteria);
+        if (images != null) {
+            Set<String> fileIds = new HashSet<>();
+            for (Image image : images) {
+                if (image.getRefs() != null) {
+                    if (StringUtils.isNotEmpty(image.getRefs().getSmall())) {
+                        fileIds.add(image.getRefs().getSmall());
+                    }
+                    if (StringUtils.isNotEmpty(image.getRefs().getMedium())) {
+                        fileIds.add(image.getRefs().getMedium());
+                    }
+                    if (StringUtils.isNotEmpty(image.getRefs().getFull())) {
+                        fileIds.add(image.getRefs().getFull());
+                    }
+                }
+            }
+            if (!fileIds.isEmpty()) {
+                gridFileService.removeFiles(fileIds);
+            }
+            imageRepository.removeByTargetId(targetId);
+        }
     }
 }

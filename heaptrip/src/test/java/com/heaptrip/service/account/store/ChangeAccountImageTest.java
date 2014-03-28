@@ -30,7 +30,7 @@ public class ChangeAccountImageTest extends AbstractTestNGSpringContextTests {
 
     private static final String IMAGE_NAME = "penguins.jpg";
 
-    private static final String USER_ID = ChangeAccountImageTest.class.getSimpleName();
+    private static final String USER_ID = "userId4ChangeAccountImageTest";
 
     @Autowired
     private ImageService imageService;
@@ -57,7 +57,7 @@ public class ChangeAccountImageTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(resource);
         File file = resource.getFile();
         InputStream is = new FileInputStream(file);
-        image = imageService.addImage(ImageEnum.ACCOUNT_IMAGE, ChangeAccountImageTest.class.getSimpleName(), is);
+        image = imageService.addImage(USER_ID, ImageEnum.ACCOUNT_IMAGE, ChangeAccountImageTest.class.getSimpleName(), is);
         Account user = new User();
         user.setId(USER_ID);
         accountRepository.save(user);

@@ -3,12 +3,17 @@ package com.heaptrip.repository.image;
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.repository.image.ImageRepository;
+import com.heaptrip.domain.service.image.criteria.ImageCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
+import com.heaptrip.repository.helper.QueryHelper;
+import com.heaptrip.repository.helper.QueryHelperFactory;
 import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
+import org.apache.commons.lang.ArrayUtils;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +23,8 @@ public class ImageRepositoryImpl extends CrudRepositoryImpl<Image> implements Im
 
     private static final Logger logger = LoggerFactory.getLogger(ImageRepositoryImpl.class);
 
+    @Autowired
+    private QueryHelperFactory queryHelperFactory;
 
     @Override
     protected Class<Image> getCollectionClass() {
@@ -30,31 +37,41 @@ public class ImageRepositoryImpl extends CrudRepositoryImpl<Image> implements Im
     }
 
     @Override
-    public List<Image> findByTargetId(String targetId) {
+    public List<Image> findByCriteria(ImageCriteria imageCriteria) {
+        QueryHelper queryHelper = queryHelperFactory.getHelperByCriteria(imageCriteria.getClass());
+        String query = queryHelper.getQuery(imageCriteria);
+        Object[] parameters = queryHelper.getParameters(imageCriteria);
+        String projection = queryHelper.getProjection(imageCriteria);
+        String sort = queryHelper.getSort(imageCriteria);
+        int skip = (imageCriteria.getSkip() != null) ? imageCriteria.getSkip().intValue() : 0;
+        int limit = (imageCriteria.getLimit() != null) ? imageCriteria.getLimit().intValue() : 0;
+        String hint = queryHelper.getHint(imageCriteria);
+        if (logger.isDebugEnabled()) {
+            String msg = String
+                    .format("find images\n->queryHelper %s\n->query: %s\n->parameters: %s\n->projection: %s\n->sort: %s\n->skip: %d limit: %d\n->hint: %s",
+                            queryHelper.getClass(), query, ArrayUtils.toString(parameters), projection, sort, skip,
+                            limit, hint);
+            logger.debug(msg);
+        }
         MongoCollection coll = getCollection();
-        String fields = "{name:1, text:1, target: 1, refs: 1, ownerId: 1, uploaded: 1, likes: 1}";
-        String hint = "{target: 1, uploaded: 1}";
-        Iterable<Image> iter = coll.find("{target: #}", targetId).projection(fields).sort("{uploaded: 1}")
+        Iterable<Image> iter = coll.find(query, parameters).projection(projection).sort(sort).skip(skip).limit(limit)
                 .hint(hint).as(getCollectionClass());
         return IteratorConverter.copyIterator(iter.iterator());
     }
 
     @Override
-    public long getCountByTargetId(String targetId) {
+    public long countByCriteria(ImageCriteria imageCriteria) {
+        QueryHelper queryHelper = queryHelperFactory.getHelperByCriteria(imageCriteria.getClass());
+        String query = queryHelper.getQuery(imageCriteria);
+        Object[] parameters = queryHelper.getParameters(imageCriteria);
+        if (logger.isDebugEnabled()) {
+            String msg = String
+                    .format("find images\n->queryHelper %s\n->query: %s\n->parameters: %s", queryHelper.getClass(), query, ArrayUtils.toString(parameters));
+            logger.debug(msg);
+        }
         MongoCollection coll = getCollection();
-        return coll.count("{target: #}", targetId);
+        return coll.count(query, parameters);
     }
-
-    @Override
-    public List<Image> findByTargetId(String targetId, int skip, int limit) {
-        MongoCollection coll = getCollection();
-        String fields = "{name:1, text:1, target: 1, refs: 1, ownerId: 1, uploaded: 1, likes: 1}";
-        String hint = "{target: 1, uploaded: 1}";
-        Iterable<Image> iter = coll.find("{target: #}", targetId).projection(fields).skip(skip).limit(limit)
-                .sort("{uploaded: 1}").hint(hint).as(getCollectionClass());
-        return IteratorConverter.copyIterator(iter.iterator());
-    }
-
 
     @Override
     public void updateNameAndText(String imageId, String name, String text) {

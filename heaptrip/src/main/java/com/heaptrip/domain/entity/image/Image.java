@@ -22,11 +22,9 @@ public class Image extends BaseObject {
     private FileReferences refs;
 
     // image name
-    // TODO konovalov: add multi language text
     private String name;
 
     // image text (description)
-    // TODO konovalov: add multi language text
     private String text;
 
     // date uploaded
