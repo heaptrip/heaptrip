@@ -39,7 +39,7 @@
         <classes>
             <class name="com.heaptrip.service.account.store.InitStoreTest"/>
             <class name="com.heaptrip.service.account.store.AccountStoreTest"/>
-            <class name="com.heaptrip.service.account.store.ChangeAccountImageTest"/>
+            <!--<class name="com.heaptrip.service.account.store.ChangeAccountImageTest"/>-->
         </classes>
     </test>
 

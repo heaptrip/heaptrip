@@ -1,14 +1,22 @@
 package com.heaptrip.service.account.community;
 
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
+import com.heaptrip.domain.repository.solr.SolrAccountRepository;
+import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.community.CommunityService;
+import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.criteria.CheckModeEnum;
+import com.heaptrip.domain.service.criteria.IDListCriteria;
 import com.heaptrip.security.Authenticate;
 import com.heaptrip.security.AuthenticationListener;
 import com.heaptrip.service.account.user.UserDataProvider;
+import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -22,6 +30,8 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 @Listeners(AuthenticationListener.class)
@@ -32,6 +42,9 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
 
     @Autowired
     private RelationRepository relationRepository;
+
+    @Autowired
+    private SolrAccountRepository solrAccountRepository;
 
     // регистрация клуба
     @Test(enabled = true, priority = 1)
@@ -81,14 +94,33 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
 
     // подтверждаем регистрацию клуба
     @Test(enabled = true, priority = 31)
-    public void confirmRegistrationClub() {
-        communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
+    public void confirmRegistrationClub() throws ExecutionException, InterruptedException, IOException, SolrServerException {
+        Future<Void> future = communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
+        future.get();
+
+        solrAccountRepository.commit();
 
         List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
                 CommunityDataProvider.COMMUNITY_ID,
                 TypeRelationEnum.OWNER));
 
         Assert.assertTrue(relations.size() == 1);
+
+        AccountTextCriteria criteria = new AccountTextCriteria();
+        criteria.setQuery(CommunityDataProvider.COMMUNITY_NAME);
+        criteria.setOwners(new IDListCriteria(CheckModeEnum.IN, new String[]{UserDataProvider.EMAIL_USER_ID}));
+        criteria.setSkip(0L);
+        criteria.setLimit(1L);
+
+        SolrAccountSearchReponse response = solrAccountRepository.findByAccountSearchCriteria(criteria);
+        Assert.assertNotNull(response);
+        Assert.assertTrue(response.getNumFound() > 0);
+        Assert.assertNotNull(response.getAccountIds());
+        Assert.assertTrue(response.getAccountIds().length > 0);
+
+        for (String accountId : response.getAccountIds()) {
+            Assert.assertTrue(StringUtils.isNotBlank(accountId));
+        }
     }
 
     // проверяем "левые" вызовы
