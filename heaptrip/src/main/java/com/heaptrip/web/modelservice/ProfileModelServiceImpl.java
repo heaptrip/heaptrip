@@ -49,9 +49,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     @Override
-    public UserInfoModel getUserInformation(String uid) {
-        Assert.notNull(uid, "user id  must not be null");
-        User user = (User) accountService.getAccountById(uid);
+    public UserInfoModel getUserInformation(String userId) {
+        Assert.notNull(userId, "user id  must not be null");
+        User user = (User) accountService.getAccountById(userId);
         return convertUserToUserModel(user);
     }
 
@@ -87,7 +87,11 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Override
     public List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria) {
-        List<Account> accounts = accountStoreService.findByCriteria(accountTextCriteria);
+        List<Account> accounts = new ArrayList<>();// accountStoreService.findByCriteria(accountTextCriteria);
+        accounts.add(accountService.getAccountById("53351da284aea2887e3a89f0"));
+        convertAccountsToAccountModels(accounts);
+
+
         return convertAccountsToAccountModels(accounts);
     }
 

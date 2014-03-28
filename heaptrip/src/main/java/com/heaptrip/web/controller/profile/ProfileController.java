@@ -50,6 +50,13 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
 
+    @RequestMapping(value = "*community", method = RequestMethod.GET)
+    public ModelAndView getCommunityInformation(@RequestParam(required = false) String guid) {
+        ModelAndView mv = new ModelAndView();
+        CommunityInfoModel accountModel = profileModelService.getCommunityInformation(guid);
+        return mv.addObject("account", accountModel);
+    }
+
     @RequestMapping(value = "*profile", method = RequestMethod.GET)
     public ModelAndView getProfileInformation(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
@@ -107,16 +114,12 @@ public class ProfileController extends ExceptionHandlerControler {
 
 
     @RequestMapping(value = "community_modify_info", method = RequestMethod.GET)
-    public ModelAndView getEditCommunityInfo(@RequestParam(required = false) String guid, @RequestParam(required = false) String id) {
+    public ModelAndView getEditCommunityInfo(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
-        guid = guid != null && guid.isEmpty() ? null : guid;
-        if (guid == null) {
-            User currentUser = scopeService.getCurrentUser();
-            if (currentUser != null) {
-                guid = currentUser.getId();
-            }
+        CommunityInfoModel communityModel = null;
+        if (communityModel != null) {
+            profileModelService.getCommunityInformation(guid);
         }
-        CommunityInfoModel communityModel = profileModelService.getCommunityInformation(id);
         return mv.addObject("community", communityModel);
     }
 

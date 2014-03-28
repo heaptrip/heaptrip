@@ -66,8 +66,8 @@
 
     <ul>
         <li class="participants_li community_func12">
-            <div class="list_user_img"><img src="/1_small.jpg"></div>
-            <div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div>
+            <div class="list_user_img"><img src="rest/image/small/{{>image.id}}"></div>
+            <div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
         </li>
     </ul>
 
@@ -83,27 +83,29 @@
 
     var getCommunitiesList = function (paramsJson) {
 
-        var url = 'rest/trips';
+        var url = 'rest/communities';
 
         var communitiesCriteria = {
             skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit,
-            categories: {
+            limit: paramsJson.limit/*,
+            /*categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
             },
             regions: {
                 checkMode: "IN",
                 ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-            }
+            }*/
         };
 
         var callbackSuccess = function (data) {
 
-            $("#user_communities").html($("#communityTemplate").render(data.trips));
-            $("#working_communities").html($("#communityTemplate").render(data.trips));
-            $("#member_communities").html($("#communityTemplate").render(data.trips));
-            $("#subscriber_communities").html($("#communityTemplate").render(data.trips));
+            console.log(data);
+
+            $("#user_communities").html($("#communityTemplate").render(data.accounts));
+            $("#working_communities").html($("#communityTemplate").render(data.accounts));
+            $("#member_communities").html($("#communityTemplate").render(data.accounts));
+            $("#subscriber_communities").html($("#communityTemplate").render(data.accounts));
 
 
             /*$('#paginator1').smartpaginator({

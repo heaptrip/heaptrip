@@ -244,14 +244,24 @@
         <put-attribute name="main_content" value="travelInfoEditCatalogTemplate"/>
     </definition>
 
-    <definition name="accountInfoTemplate" extends="catalogTemplate">
+    <definition name="userTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_info.jsp"/>
+    </definition>
+
+    <definition name="communityTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_info.jsp"/>
     </definition>
 
     <definition name="pf-profile" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
-        <put-attribute name="main_content" value="accountInfoTemplate"/>
+        <put-attribute name="main_content" value="userTemplate"/>
+    </definition>
+
+    <definition name="pf-community" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="communityTemplate"/>
     </definition>
 
     <definition name="accountInfoEditTemplate" extends="catalogTemplate">
