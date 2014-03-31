@@ -10,6 +10,7 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
@@ -36,6 +37,11 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 
     @Autowired
     protected RatingService ratingService;
+
+    @Autowired
+    protected ImageService imageService;
+
+
 
 
     @Override
@@ -64,6 +70,16 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         }
         return result;
     }
+
+    @Override
+    public Image convertImage(ImageModel imageModel) {
+        Image result = null;
+        if(imageModel!=null && imageModel.getId()!=null){
+            return  imageService.getImageById(imageModel.getId());
+        }
+        return result;
+    }
+
 
     @Override
     public PriceModel convertPrice(Price price) {

@@ -18,6 +18,8 @@ public interface BaseModelTypeConverterService {
 
     ImageModel convertImage(Image image);
 
+    Image convertImage(ImageModel imageModel);
+
     PriceModel convertPrice(Price price);
 
     Price convertPriceModel(PriceModel priceModel);

@@ -72,10 +72,15 @@
         if (jsonData.id)
             url = 'rest/security/community_update';
         else
-            url = 'rest/security/community_save';
+            url = 'rest/security/community/registration';
 
         var callbackSuccess = function (data) {
-            window.location = 'pf-communities.html';
+            if (jsonData.id)
+                window.location = 'pf-communities.html';
+            else {
+                var domain = $("#community_email").val().replace(/.*@/, "");
+                window.location = 'confirmation.html?domain=' + domain;
+            }
         };
 
         var callbackError = function (error) {
@@ -126,8 +131,6 @@
                                 <option key="AGENCY"><fmt:message key="account.type.agency"/></option>
                             </select>
                         </div>
-
-
 
                         <div class="my_location"><span><fmt:message key="user.place"/>: </span>
                             <input id="location"

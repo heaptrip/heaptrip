@@ -2,28 +2,30 @@ package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
-import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
-import com.heaptrip.domain.entity.account.user.Knowledge;
-import com.heaptrip.domain.entity.account.user.Practice;
-import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.account.user.UserProfile;
-import com.heaptrip.domain.entity.image.Image;
+import com.heaptrip.domain.entity.account.user.*;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
-import com.heaptrip.domain.service.image.ImageService;
+import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
+import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
+import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+
+import javax.mail.MessagingException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,12 +42,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Autowired
     private CommunityService communityService;
 
-
     @Autowired
     private AccountStoreService accountStoreService;
-
-    @Autowired
-    private ImageService imageService;
 
 
     @Override
@@ -79,7 +77,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Override
     public void updateUserInfo(UserInfoModel userInfoModel) {
         Assert.notNull(userInfoModel, "userInfoModel must not be null");
-        Assert.notNull(userInfoModel.getId(), "account id  must not be null");
+        Assert.notNull(userInfoModel.getId(), "user id  must not be null");
         Profile profile = convertProfileModelToProfile(userInfoModel.getAccountProfile(), userInfoModel.getUserProfile());
         userService.saveProfile(userInfoModel.getId(), profile);
     }
@@ -87,8 +85,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Override
     public List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria) {
-        List<Account> accounts = new ArrayList<>();// accountStoreService.findByCriteria(accountTextCriteria);
-        accounts.add(accountService.getAccountById("53351da284aea2887e3a89f0"));
+        List<Account> accounts = accountStoreService.findByCriteria(accountTextCriteria);
+        // TODO voronenko : dell comment code after test
+        //accounts.add(accountService.getAccountById("53351da284aea2887e3a89f0"));
         convertAccountsToAccountModels(accounts);
 
 
@@ -97,28 +96,17 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Override
     public void updateCommunityInfo(CommunityInfoModel communityInfoModel) {
-        // TODO voronenko: impl updateCommunityInfo
-    }
 
-
-    @Override
-    public Community saveCommunityInfo(CommunityInfoModel communityInfoModel) {
         Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
-        Community community = new Community();
-        community.setTypeAccount(AccountEnum.valueOf(communityInfoModel.getTypeAccount()));
-        community.setName(communityInfoModel.getName());
-        community.setEmail(communityInfoModel.getEmail());
-        community.setStatus(AccountStatusEnum.ACTIVE);
-        // TODO voronenko: community.set...
-        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
-        community = communityService.registration(community, getCurrentLocale());
-        return community;
+        Assert.notNull(communityInfoModel.getId(), "community id  must not be null");
+        Profile profile = convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile());
+        userService.saveProfile(communityInfoModel.getId(), profile);
     }
 
 
     @Override
     public void changeImage(String accountId, String imageId) {
-        accountStoreService.changeImage(accountId,imageService.getImageById(imageId));
+        accountStoreService.changeImage(accountId, imageService.getImageById(imageId));
     }
 
     private AccountModel convertAccountToAccountModel(Account account) {
@@ -342,7 +330,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Profile profile = null;
         if (accountProfileModel != null) {
             if (communityProfileModel != null) {
-                profile = new CommunityProfile();
+                CommunityProfile communityProfile = new CommunityProfile();
+                communityProfile.setSkype(communityProfileModel.getSkype());
             } else {
                 profile = new Profile();
             }
@@ -384,6 +373,70 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             }
         }
         return accountModels;
+    }
+
+
+    @Override
+    public Community registration(CommunityInfoModel communityInfoModel) {
+        Community community = new Community();
+        community.setTypeAccount(AccountEnum.valueOf(communityInfoModel.getTypeAccount()));
+        community.setName(communityInfoModel.getName());
+        community.setEmail(communityInfoModel.getEmail());
+        community.setOwnerAccountId(getCurrentUser().getId());
+        community.setImage(convertImage(communityInfoModel.getImage()));
+        community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
+        community = communityService.registration(community, getCurrentLocale());
+        return community;
+    }
+
+    @Override
+    public User registration(RegistrationInfoModel regInfo) {
+
+        UserRegistration userReg = new UserRegistration();
+
+        String[] roles = {"ROLE_USER"};
+        InputStream photo = null;
+
+        userReg.setEmail(regInfo.getEmail());
+        userReg.setName(regInfo.getFirstName() + " " + regInfo.getSecondName());
+        userReg.setPassword(regInfo.getPassword());
+        userReg.setRoles(roles);
+
+        if (regInfo.getSocNetName() != null && !regInfo.getSocNetName().isEmpty() && regInfo.getSocNetUserUID() != null
+                && !regInfo.getSocNetUserUID().isEmpty()) {
+            photo = new HttpClient().doInputStreamGet(regInfo.getPhotoUrl());
+            userReg.setNet(new SocialNetwork[]{new SocialNetwork(procsessSocNetName(regInfo.getSocNetName()), regInfo
+                    .getSocNetUserUID())});
+        }
+
+        User user = null;
+
+        try {
+            try {
+                user = userService.registration(userReg, photo, getCurrentLocale());
+            } catch (MessagingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (NoSuchAlgorithmException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return user;
+    }
+
+    private SocialNetworkEnum procsessSocNetName(String socNetName) {
+        SocialNetworkEnum result = null;
+        if (socNetName.equals(FaceBookAPIService.SOC_NET_NAME)) {
+            result = SocialNetworkEnum.FB;
+        } else if (socNetName.equals(VKontakteAPIService.SOC_NET_NAME)) {
+            result = SocialNetworkEnum.VK;
+        }
+        return result;
     }
 
 
