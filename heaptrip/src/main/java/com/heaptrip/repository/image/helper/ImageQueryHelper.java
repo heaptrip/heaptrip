@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ImageQueryHelper  extends AbstractQueryHelper<ImageCriteria, Image> {
+public class ImageQueryHelper extends AbstractQueryHelper<ImageCriteria, Image> {
 
     @Override
     public Class<ImageCriteria> getCriteriaClass() {

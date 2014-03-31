@@ -1,6 +1,7 @@
 package com.heaptrip.domain.service.content.event;
 
 import com.heaptrip.domain.entity.content.event.EventMember;
+import com.heaptrip.domain.service.content.event.criteria.EventMemberCriteria;
 
 import java.util.List;
 
@@ -19,22 +20,21 @@ public interface EventUserService {
     public EventMember addEventMember(String eventId, String userId);
 
     /**
-     * Get all members for event
+     * Get event members by criteria
      *
-     * @param eventId event id
+     * @param memberCriteria criteria for search event members
      * @return member list
      */
-    public List<EventMember> getEventMembers(String eventId);
+    public List<EventMember> getMembersByCriteria(EventMemberCriteria memberCriteria);
+
 
     /**
-     * Get limit members for event
+     * Get event members count by criteria
      *
-     * @param eventId event id
-     * @param limit   size of limit
-     * @return members list
+     * @param memberCriteria criteria for search event members
+     * @return count of members
      */
-    // TODO konovalov: add start offset and return total count (maybe total count move to separate method)
-    public List<EventMember> getEventMembers(String eventId, int limit);
+    public long getCountByCriteria(EventMemberCriteria memberCriteria);
 
     /**
      * Check that the user is a the event member

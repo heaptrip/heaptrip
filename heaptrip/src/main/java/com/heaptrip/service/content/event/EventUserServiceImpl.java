@@ -4,6 +4,7 @@ import com.heaptrip.domain.entity.content.event.EventMember;
 import com.heaptrip.domain.repository.content.event.EventMemberRepository;
 import com.heaptrip.domain.repository.content.event.EventRepository;
 import com.heaptrip.domain.service.content.event.EventUserService;
+import com.heaptrip.domain.service.content.event.criteria.EventMemberCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -32,17 +33,17 @@ public class EventUserServiceImpl implements EventUserService {
     }
 
     @Override
-    public List<EventMember> getEventMembers(String eventId) {
-        Assert.notNull(eventId, "eventId must not be null");
-        // TODO konovalov: add sort
-        return eventMemberRepository.findByContentId(eventId);
+    public List<EventMember> getMembersByCriteria(EventMemberCriteria memberCriteria) {
+        Assert.notNull(memberCriteria, "criteria must not be null");
+        Assert.notNull(memberCriteria.getEventId(), "criteria.eventId must not be null");
+        return eventMemberRepository.findByCriteria(memberCriteria);
     }
 
     @Override
-    public List<EventMember> getEventMembers(String eventId, int limit) {
-        Assert.notNull(eventId, "eventId must not be null");
-        // TODO konovalov: add sort
-        return eventMemberRepository.findByContentId(eventId, limit);
+    public long getCountByCriteria(EventMemberCriteria memberCriteria) {
+        Assert.notNull(memberCriteria, "criteria must not be null");
+        Assert.notNull(memberCriteria.getEventId(), "criteria.eventId must not be null");
+        return eventMemberRepository.countByCriteria(memberCriteria);
     }
 
     @Override
