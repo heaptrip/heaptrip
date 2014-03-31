@@ -4,12 +4,11 @@ import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.service.content.criteria.ContentSortCriteria;
 import com.heaptrip.repository.helper.AbstractQueryHelper;
-import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.util.language.LanguageUtils;
 import org.springframework.util.Assert;
 
 public abstract class ContentQueryHelper<T extends ContentSortCriteria, M extends Content>
-        extends AbstractQueryHelper<T, M> implements QueryHelper<T, M> {
+        extends AbstractQueryHelper<T, M> {
 
     @Override
     public String getSort(T criteria) {
