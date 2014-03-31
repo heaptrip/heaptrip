@@ -33,6 +33,5 @@ public interface PostService extends ContentService {
      * @param locale  requested locale
      * @return list of post
      */
-    // TODO konovalov: move to post service
     public List<Post> getPosts(String[] postIds, Locale locale);
 }
