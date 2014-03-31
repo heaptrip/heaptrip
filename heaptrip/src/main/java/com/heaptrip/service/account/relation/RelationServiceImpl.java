@@ -21,7 +21,6 @@ import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
-import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.system.ErrorService;
 

@@ -18,7 +18,6 @@ import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
-import com.heaptrip.domain.service.account.AccountSearchService;
 import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.system.ErrorService;
