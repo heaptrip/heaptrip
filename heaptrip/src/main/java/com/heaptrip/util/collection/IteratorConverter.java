@@ -5,13 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IteratorConverter {
-	public static <T> List<T> copyIterator(Iterator<T> iter) {
-		List<T> copy = new ArrayList<T>();
-		if (iter != null) {
-			while (iter.hasNext()) {
-				copy.add(iter.next());
-			}
-		}
+	public static <T> List<T> copyIterator(Iterator<T> iterator) {
+		List<T> copy = new ArrayList<>();
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				copy.add(iterator.next());
+            }
+        }
 		return copy;
 	}
 }

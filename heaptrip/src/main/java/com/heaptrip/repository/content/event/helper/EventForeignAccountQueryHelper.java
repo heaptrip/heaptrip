@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content.event.helper;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.event.Event;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.event.criteria.EventForeignAccountCriteria;
 import com.heaptrip.repository.content.helper.ContentQueryHelper;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class EventForeignAccountQueryHelper extends ContentQueryHelper<EventForeignAccountCriteria> {
+public class EventForeignAccountQueryHelper extends ContentQueryHelper<EventForeignAccountCriteria, Event> {
 
     @Override
     public String getQuery(EventForeignAccountCriteria criteria) {
@@ -101,5 +102,10 @@ public class EventForeignAccountQueryHelper extends ContentQueryHelper<EventFore
     @Override
     public Class<EventForeignAccountCriteria> getCriteriaClass() {
         return EventForeignAccountCriteria.class;
+    }
+
+    @Override
+    protected Class<Event> getCollectionClass() {
+        return Event.class;
     }
 }

@@ -7,7 +7,6 @@ import com.heaptrip.domain.service.account.criteria.RelationCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
-import com.heaptrip.util.collection.IteratorConverter;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,12 +30,12 @@ public class RelationRepositoryImpl extends CrudRepositoryImpl<Relation> impleme
 
     @Override
     protected String getCollectionName() {
-        return CollectionEnum.RELATION.getName();
+        return CollectionEnum.RELATIONS.getName();
     }
 
     @Override
     public void delete(RelationCriteria criteria) {
-        QueryHelper<RelationCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(RelationCriteria.class);
+        QueryHelper<RelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
 
         MongoCollection coll = getCollection();
         String query = queryHelper.getQuery(criteria);
@@ -47,13 +46,7 @@ public class RelationRepositoryImpl extends CrudRepositoryImpl<Relation> impleme
 
     @Override
     public List<Relation> findByCriteria(RelationCriteria criteria) {
-        QueryHelper<RelationCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(RelationCriteria.class);
-
-        MongoCollection coll = getCollection();
-        String query = queryHelper.getQuery(criteria);
-        Object[] parameters = queryHelper.getParameters(criteria);
-
-        Iterable<Relation> iter = coll.find(query, parameters).as(Relation.class);
-        return IteratorConverter.copyIterator(iter.iterator());
+        QueryHelper<RelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria);
     }
 }

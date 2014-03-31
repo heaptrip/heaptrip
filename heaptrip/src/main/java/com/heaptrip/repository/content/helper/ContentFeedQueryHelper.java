@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria> {
+public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria, Content> {
 
     @Override
     public String getQuery(FeedCriteria criteria) {
@@ -86,4 +86,9 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria> {
     public Class<FeedCriteria> getCriteriaClass() {
         return FeedCriteria.class;
     }
+
+    @Override
+    protected Class<Content> getCollectionClass() {
+        return Content.class;
+   }
 }

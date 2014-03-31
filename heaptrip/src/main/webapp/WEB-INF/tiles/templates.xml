@@ -148,6 +148,7 @@
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
+    <definition name="pf-tidings" extends="ct-tidings"/>
 
     <definition name="ct-travels" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>

@@ -1,17 +1,15 @@
 package com.heaptrip.domain.entity.account.notification;
 
-import java.util.Date;
-
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
 
+import java.util.Date;
+
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
 public class Notification extends BaseObject {
 	
-	public static final String COLLECTION_NAME = "notifications";
-	
-	private String fromId;
+    private String fromId;
 	
 	private String toId;
 	

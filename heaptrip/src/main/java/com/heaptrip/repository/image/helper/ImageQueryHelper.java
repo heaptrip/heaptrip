@@ -1,7 +1,9 @@
 package com.heaptrip.repository.image.helper;
 
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.service.image.criteria.ImageCriteria;
-import com.heaptrip.repository.helper.QueryHelper;
+import com.heaptrip.repository.helper.AbstractQueryHelper;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ImageQueryHelper implements QueryHelper<ImageCriteria> {
+public class ImageQueryHelper  extends AbstractQueryHelper<ImageCriteria, Image> {
 
     @Override
     public Class<ImageCriteria> getCriteriaClass() {
@@ -56,5 +58,15 @@ public class ImageQueryHelper implements QueryHelper<ImageCriteria> {
     @Override
     public String getSort(ImageCriteria criteria) {
         return "{uploaded: 1}";
+    }
+
+    @Override
+    protected Class<Image> getCollectionClass() {
+        return Image.class;
+    }
+
+    @Override
+    protected String getCollectionName() {
+        return CollectionEnum.IMAGES.getName();
     }
 }

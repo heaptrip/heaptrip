@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content.trip.helper;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.repository.content.helper.ContentQueryHelper;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TripMyAccountQueryHelper extends ContentQueryHelper<TripMyAccountCriteria> {
+public class TripMyAccountQueryHelper extends ContentQueryHelper<TripMyAccountCriteria, Trip> {
 
     @Override
     public String getQuery(TripMyAccountCriteria criteria) {
@@ -114,6 +115,11 @@ public class TripMyAccountQueryHelper extends ContentQueryHelper<TripMyAccountCr
     @Override
     public Class<TripMyAccountCriteria> getCriteriaClass() {
         return TripMyAccountCriteria.class;
+    }
+
+    @Override
+    protected Class<Trip> getCollectionClass() {
+        return Trip.class;
     }
 
 }

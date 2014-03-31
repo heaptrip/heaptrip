@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ContentForeignAccountQueryHelper extends ContentQueryHelper<ForeignAccountCriteria> {
+public class ContentForeignAccountQueryHelper extends ContentQueryHelper<ForeignAccountCriteria, Content> {
 
     @Override
     public String getQuery(ForeignAccountCriteria criteria) {
@@ -93,5 +93,10 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
     @Override
     public Class<ForeignAccountCriteria> getCriteriaClass() {
         return ForeignAccountCriteria.class;
+    }
+
+    @Override
+    protected Class<Content> getCollectionClass() {
+        return Content.class;
     }
 }

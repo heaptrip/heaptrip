@@ -1,15 +1,16 @@
 package com.heaptrip.repository.account.helper;
 
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.account.notification.Notification;
+import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
+import com.heaptrip.repository.helper.AbstractQueryHelper;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
-import com.heaptrip.repository.helper.QueryHelper;
-
 @Service
-public class NotificationQueryHelper implements QueryHelper<NotificationCriteria> {
+public class NotificationQueryHelper extends AbstractQueryHelper<NotificationCriteria, Notification> {
 
 	@Override
 	public Class<NotificationCriteria> getCriteriaClass() {
@@ -78,4 +79,14 @@ public class NotificationQueryHelper implements QueryHelper<NotificationCriteria
 	public String getProjection(NotificationCriteria criteria) {
 		return null;
 	}
+
+    @Override
+    protected Class<Notification> getCollectionClass() {
+        return Notification.class;
+    }
+
+    @Override
+    protected String getCollectionName() {
+        return CollectionEnum.NOTIFICATIONS.getName();
+    }
 }

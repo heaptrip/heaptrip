@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content.post;
 
 import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.repository.content.post.PostRepository;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
@@ -16,7 +17,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 
 @Service
 public class PostRepositoryImpl extends CrudRepositoryImpl<Post> implements PostRepository {
@@ -68,12 +72,12 @@ public class PostRepositoryImpl extends CrudRepositoryImpl<Post> implements Post
     @Override
     public List<Post> findByIds(String[] ids, Locale locale) {
         MongoCollection coll = getCollection();
-        QueryHelper<FeedCriteria> queryHelper = queryHelperFactory.getHelperByCriteria(FeedCriteria.class);
+        QueryHelper<FeedCriteria, Content> queryHelper = queryHelperFactory.getHelperByCriteriaClass(FeedCriteria.class);
         FeedCriteria criteria = new FeedCriteria();
         criteria.setLocale(locale);
-        Iterator<Post> iter = coll.find("{_id: {$in: #}}", Arrays.asList(ids))
-                .projection(queryHelper.getProjection(criteria)).as(getCollectionClass()).iterator();
-        return IteratorConverter.copyIterator(iter);
+        Iterable<Post> data = coll.find("{_id: {$in: #}}", Arrays.asList(ids))
+                .projection(queryHelper.getProjection(criteria)).as(getCollectionClass());
+        return IteratorConverter.copyIterator(data.iterator());
     }
 
 }
