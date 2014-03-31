@@ -42,6 +42,7 @@ public class ProfileController extends ExceptionHandlerControler {
         try {
             Map<String, Object> result = new HashMap();
             result.put("accounts", profileModelService.getAccountsModelByCriteria(accountTextCriteria));
+            // TODO voronenko : попросить метод get Accounts COUNT By Criteria
             result.put("count", 100);
             return Ajax.successResponse(result);
         } catch (Throwable e) {
@@ -125,17 +126,7 @@ public class ProfileController extends ExceptionHandlerControler {
         return mv.addObject("account",accountModel);
     }
 
-    @RequestMapping(value = "security/community_save", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    Map<String, ? extends Object> saveCommunityInfo(@RequestBody CommunityInfoModel communityInfoModel) {
-        try {
-            profileModelService.saveCommunityInfo(communityInfoModel);
-        } catch (Throwable e) {
-            throw new RestException(e);
-        }
-        return Ajax.emptyResponse();
-    }
+
 
 
     @RequestMapping(value = "security/community_update", method = RequestMethod.POST)
@@ -149,6 +140,9 @@ public class ProfileController extends ExceptionHandlerControler {
         }
         return Ajax.emptyResponse();
     }
+
+
+
 
 
 }

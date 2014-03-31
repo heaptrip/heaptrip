@@ -37,7 +37,7 @@
 
         $(btn).prop('disabled', true);
 
-        var url = 'rest/registration';
+        var url = 'rest/user/registration';
 
         // registrationInfo
         var jsonData = {
