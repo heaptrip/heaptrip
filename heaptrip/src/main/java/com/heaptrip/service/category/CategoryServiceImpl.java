@@ -24,14 +24,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getCategoriesByUserId(String userId, Locale locale) {
-        Assert.notNull(userId, "userId must not be null");
-        Assert.notNull(locale, "locale must not be null");
-        // TODO konovalov: get categories by userId
-        return categoryRepository.findAll(locale);
-    }
-
-    @Override
     public List<String> getParentsByCategoryId(String categoryId) {
         Assert.notNull(categoryId, "categoryId must not be null");
         List<String> ids = new ArrayList<>();

@@ -28,14 +28,6 @@ public interface CategoryService {
     public List<Category> getCategories(Locale locale);
 
     /**
-     * Get a list of categories for the user
-     *
-     * @param locale requested locale
-     * @return list of categories
-     */
-    public List<Category> getCategoriesByUserId(String userId, Locale locale);
-
-    /**
      * Get list of identifiers of parent categories by categoryId
      *
      * @param categoryId category ID
