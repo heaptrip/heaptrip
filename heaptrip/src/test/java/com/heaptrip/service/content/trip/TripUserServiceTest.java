@@ -312,7 +312,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
 
 
     @Test
-    public void removeTripUser() {
+    public void removeTripMember() {
         // prepare
         TripUser user = tripUserService.addTripRequest(TRIP_ID, TABLE_IDs[2], USER_ID);
         // check before test
