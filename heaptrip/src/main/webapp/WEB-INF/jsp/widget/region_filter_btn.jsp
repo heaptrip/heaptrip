@@ -6,7 +6,7 @@
 	$(function(){
     	$("#regionFilterSave").click(function(){
         	$.doAuthenticationUserAction(function(){
-        		alert('Region filter save for ' + window.user.name + ' clicked!');
+        		alert('Region filter save for ' + window.principal.name + ' clicked!');
         	});
     	});
 	});

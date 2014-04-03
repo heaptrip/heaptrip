@@ -87,8 +87,8 @@
         if($.getParamFromURL().ct ==undefined){
             if ($.getParamFromURL().guid)
                 guid = $.getParamFromURL().guid;
-            else if (window.user) {
-                guid = window.user.id;
+            else if (window.principal) {
+                guid = window.principal.id;
             }
         }
 

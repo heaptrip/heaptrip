@@ -149,8 +149,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
             throws SolrServerException {
         SolrQuery query = new SolrQuery();
 
-        // set q
-        query.set("q", criteria.getQuery());
+
 
         // set fq
         String fq;
@@ -220,6 +219,14 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
 
         // set qf
         query.set("qf", "name");
+
+        if (StringUtils.isEmpty(criteria.getQuery())) {
+            // set q.alt
+            query.set("q.alt", "*");
+        }   else {
+            // set q
+            query.set("q", criteria.getQuery());
+        }
 
         if (logger.isDebugEnabled()) {
             logger.debug("find accounts query: {}", query);

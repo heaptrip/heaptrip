@@ -226,7 +226,7 @@ var onLocaleChange = function (locale) {
 (function ($) {
     $.extend({
         doAuthenticationUserAction: function (callBackFunction) {
-            if (window.user)
+            if (window.principal)
                 callBackFunction();
             else
                 $.alertNoAuthenticationUser();

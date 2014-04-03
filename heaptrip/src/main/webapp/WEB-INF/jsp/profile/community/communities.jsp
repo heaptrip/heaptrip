@@ -66,7 +66,11 @@
 
     <ul>
         <li class="participants_li community_func12">
-            <div class="list_user_img"><img src="rest/image/small/{{>image.id}}"></div>
+            <div class="list_user_img">
+                {{if image}}
+                <img src="rest/image/small/{{>image.id}}">
+                {{/if}}
+            </div>
             <div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
         </li>
     </ul>
@@ -86,21 +90,30 @@
         var url = 'rest/communities';
 
         var communitiesCriteria = {
-            skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit/*,
-            /*categories: {
-                checkMode: "IN",
-                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+
+            owners: {
+                checkMode: 'IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
             },
-            regions: {
-                checkMode: "IN",
-                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-            }*/
+            accountType: 'CLUB'//,
+           // skip: paramsJson.skip ? paramsJson.skip : 0,
+           // limit: paramsJson.limit
+
+
+            /*,
+             /*categories: {
+             checkMode: "IN",
+             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+             },
+             regions: {
+             checkMode: "IN",
+             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+             }*/
         };
 
         var callbackSuccess = function (data) {
 
-            console.log(data);
+            // console.log(data);
 
             $("#user_communities").html($("#communityTemplate").render(data.accounts));
             $("#working_communities").html($("#communityTemplate").render(data.accounts));
@@ -162,7 +175,7 @@
                     <span id="user_communities"></span>
                 </div>
 
-                <div id="list_user_2" class="community"  style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_2" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -187,7 +200,7 @@
                 <%--<div id="paginator2"></div>--%>
                 <%--</div>--%>
 
-                <div id="list_user_3" class="community"  style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_3" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
