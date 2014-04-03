@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -101,25 +102,26 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public void resetPassword(String email, Locale locale) throws MessagingException {
         Assert.notNull(email, "email must not be null");
 
-        Account account = accountRepository.findUserByEmail(email);
+        List<Account> accounts = accountRepository.findUsersByEmail(email, AccountStatusEnum.ACTIVE);
 
-        if (account == null) {
+        if (accounts == null || accounts.size() == 0) {
             String msg = String.format("user not find by email: %s", email);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND_BY_EMAIL);
-        } else if (!account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
-            String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
+        } else if (accounts.size() > 1) {
+            String msg = String.format("more one user have status: %s", AccountStatusEnum.ACTIVE);
             logger.debug(msg);
-            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_MORE_THAN_ONE_USER_HAVE_ACTIVE_STATUS);
         } else {
             MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.RESET_PASSWORD);
 
+            // TODO dikma переделать value на хэш от идентификатора и даты создания аккаунта
             StringBuilder str = new StringBuilder();
             str.append("http://")
                     .append("heaptrip.com")
                     .append("/mail/password/reset?")
-                    .append("uid=").append(account.getId())
-                    .append("&value=").append(account.getId().hashCode());
+                    .append("uid=").append(accounts.get(0).getId())
+                    .append("&value=").append(accounts.get(0).getId().hashCode());
 
             String msg = String.format(mt.getText(locale), str.toString());
             mailService.sendNoreplyMessage(email, mt.getSubject(locale), msg);

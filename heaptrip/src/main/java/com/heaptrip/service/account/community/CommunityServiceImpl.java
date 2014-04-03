@@ -83,20 +83,6 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
             community.setOwnerAccountId(requestScopeService.getCurrentUser().getId());
         }
 
-        Account account = accountRepository.findCommunityByEmail(community.getEmail());
-
-        if (account != null) {
-            if (account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
-                String msg = String.format("account with the email already exists");
-                logger.debug(msg);
-                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WITH_THE_EMAIL_ALREADY_EXISTS);
-            } else {
-                // При совпадении email у не активного аккаунта меняем ее на идентификатор, тем самым добиваемся что email уникален.
-                // Иначе возможна регистрация через email и соц. сеть для одного и того же аккаунта
-                accountRepository.changeEmail(account.getId(), account.getId());
-            }
-        }
-
         community.setRating(AccountRating.getDefaultValue());
         Community com = communityRepository.save(community);
 

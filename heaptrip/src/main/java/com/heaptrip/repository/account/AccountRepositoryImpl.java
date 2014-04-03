@@ -6,11 +6,15 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.repository.CrudRepositoryImpl;
+import com.heaptrip.util.collection.IteratorConverter;
 import com.mongodb.WriteResult;
 import org.jongo.MongoCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Set;
 
 @Repository
 public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implements AccountRepository {
@@ -30,7 +34,7 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
         MongoCollection coll = getCollection();
         String query = "{_id: #}";
         String updateQuery = "{$set: {'status': #}}";
-        WriteResult wr = coll.update(query, accountId).with(updateQuery, accountStatus);
+        WriteResult wr = coll.update(query, accountId).with(updateQuery, accountStatus.toString());
         logger.debug("WriteResult for update account: {}", wr);
     }
 
@@ -62,17 +66,11 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     }
 
     @Override
-    public Account findUserByEmail(String email) {
+    public List<Account> findUsersByEmail(String email, AccountStatusEnum accountStatus) {
         MongoCollection coll = getCollection();
-        String query = "{email: #, typeAccount: #}";
-        return coll.findOne(query, email, AccountEnum.USER).as(Account.class);
-    }
-
-    @Override
-    public Account findCommunityByEmail(String email) {
-        MongoCollection coll = getCollection();
-        String query = "{email: #, {typeAccount: {$ne : #}}";
-        return coll.findOne(query, email, AccountEnum.USER).as(Account.class);
+        String query = "{email: #, typeAccount: #, status: #}";
+        Iterable<Account> iterator = coll.find(query, email, AccountEnum.USER, accountStatus.toString()).as(Account.class);
+        return IteratorConverter.copyIterator(iterator.iterator());
     }
 
     @Override
