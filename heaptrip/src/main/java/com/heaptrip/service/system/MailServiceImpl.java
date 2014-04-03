@@ -35,7 +35,7 @@ public class MailServiceImpl implements MailService {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		try {
-			helper.setFrom(MailSenderEnum.NOREPLY.getAddress());
+			helper.setFrom(MailSenderEnum.NO_REPLY.getAddress());
 			helper.setTo(to);
 			message.setSubject(subject, "UTF-8");
 			message.setContent(text, "text/html; charset=utf-8");
@@ -55,7 +55,7 @@ public class MailServiceImpl implements MailService {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message);
 		try {
-			helper.setFrom(MailSenderEnum.NOREPLY.getAddress());
+			helper.setFrom(MailSenderEnum.NO_REPLY.getAddress());
 			helper.setTo(to);
 			message.setSubject(subject, "UTF-8");
 			message.setContent(text, "text/html; charset=utf-8");

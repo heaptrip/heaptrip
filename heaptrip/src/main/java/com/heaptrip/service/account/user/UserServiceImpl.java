@@ -8,9 +8,9 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserRegistration;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
-import com.heaptrip.domain.entity.mail.MessageEnum;
-import com.heaptrip.domain.entity.mail.MessageTemplate;
-import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.mail.MailEnum;
+import com.heaptrip.domain.entity.mail.MailTemplate;
+import com.heaptrip.domain.entity.mail.MailTemplateStorage;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
@@ -50,7 +50,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     private AccountRepository accountRepository;
 
     @Autowired
-    private MessageTemplateStorage messageTemplateStorage;
+    private MailTemplateStorage mailTemplateStorage;
 
     @Autowired
     @Qualifier("requestScopeService")
@@ -136,7 +136,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         userRegistration.setRating(AccountRating.getDefaultValue());
         UserRegistration user = userRepository.save(userRegistration);
 
-        MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);
+        MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.CONFIRM_REGISTRATION);
 
         StringBuilder str = new StringBuilder();
         str.append(requestScopeService.getCurrentContextPath());

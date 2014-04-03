@@ -1,16 +1,16 @@
 package com.heaptrip.domain.entity.mail;
 
 public enum MailSenderEnum {
-	NOREPLY("noreply@heaptrip.com");
+    NO_REPLY("noreply@heaptrip.com");
 
-	private String address;
+    private String address;
 
-	private MailSenderEnum(String address) {
-		this.address = address;
-	}
+    private MailSenderEnum(String address) {
+        this.address = address;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
 }

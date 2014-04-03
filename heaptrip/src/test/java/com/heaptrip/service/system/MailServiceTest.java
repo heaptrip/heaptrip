@@ -1,8 +1,8 @@
 package com.heaptrip.service.system;
 
-import com.heaptrip.domain.entity.mail.MessageEnum;
-import com.heaptrip.domain.entity.mail.MessageTemplate;
-import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.mail.MailEnum;
+import com.heaptrip.domain.entity.mail.MailTemplate;
+import com.heaptrip.domain.entity.mail.MailTemplateStorage;
 import com.heaptrip.domain.service.system.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,12 +21,12 @@ public class MailServiceTest extends AbstractTestNGSpringContextTests {
     private MailService mailService;
 
     @Autowired
-    private MessageTemplateStorage messageTemplateStorage;
+    private MailTemplateStorage mailTemplateStorage;
 
     @Test(enabled = false, priority = 1)
     public void sendNoreplyMessage() throws MessagingException {
         String to = "support@heaptrip.com";
-        MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.RESET_PASSWORD);
+        MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.RESET_PASSWORD);
         mailService.sendNoreplyMessage(to, mt.getSubject(locale), mt.getText(locale));
     }
 }

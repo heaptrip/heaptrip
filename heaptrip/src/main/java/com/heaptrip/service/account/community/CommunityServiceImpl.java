@@ -1,8 +1,8 @@
 package com.heaptrip.service.account.community;
 
-import com.heaptrip.domain.entity.mail.MessageEnum;
-import com.heaptrip.domain.entity.mail.MessageTemplate;
-import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.mail.MailEnum;
+import com.heaptrip.domain.entity.mail.MailTemplate;
+import com.heaptrip.domain.entity.mail.MailTemplateStorage;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.system.MailService;
@@ -16,8 +16,6 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.community.Community;
-import com.heaptrip.domain.entity.account.community.CommunityProfile;
-import com.heaptrip.domain.entity.account.community.CommunitySetting;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
@@ -37,7 +35,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
     private ErrorService errorService;
 
     @Autowired
-    private MessageTemplateStorage messageTemplateStorage;
+    private MailTemplateStorage mailTemplateStorage;
 
     @Autowired
     @Qualifier("requestScopeService")
@@ -86,7 +84,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
         community.setRating(AccountRating.getDefaultValue());
         Community com = communityRepository.save(community);
 
-        MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.CONFIRM_REGISTRATION);
+        MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.CONFIRM_REGISTRATION);
 
         StringBuilder str = new StringBuilder();
         str.append(requestScopeService.getCurrentContextPath());

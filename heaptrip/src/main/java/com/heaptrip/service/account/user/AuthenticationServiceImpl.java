@@ -6,9 +6,9 @@ import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
-import com.heaptrip.domain.entity.mail.MessageEnum;
-import com.heaptrip.domain.entity.mail.MessageTemplate;
-import com.heaptrip.domain.entity.mail.MessageTemplateStorage;
+import com.heaptrip.domain.entity.mail.MailEnum;
+import com.heaptrip.domain.entity.mail.MailTemplate;
+import com.heaptrip.domain.entity.mail.MailTemplateStorage;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
@@ -51,7 +51,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private ImageService imageService;
 
     @Autowired
-    private MessageTemplateStorage messageTemplateStorage;
+    private MailTemplateStorage mailTemplateStorage;
 
     @Autowired
     private MailService mailService;
@@ -113,7 +113,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_MORE_THAN_ONE_USER_HAVE_ACTIVE_STATUS);
         } else {
-            MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.RESET_PASSWORD);
+            MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.RESET_PASSWORD);
 
             // TODO dikma переделать value на хэш от идентификатора и даты создания аккаунта
             StringBuilder str = new StringBuilder();
@@ -147,7 +147,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             String newPassword = RandomStringUtils.randomAlphanumeric(8);
             userRepository.changePassword(accountId, newPassword);
 
-            MessageTemplate mt = messageTemplateStorage.getMessageTemplate(MessageEnum.SEND_NEW_PASSWORD);
+            MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.SEND_NEW_PASSWORD);
             String msg = String.format(mt.getText(locale), newPassword);
             mailService.sendNoreplyMessage(account.getEmail(), mt.getSubject(locale), msg);
         } else {

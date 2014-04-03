@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="resetPasswordMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="Восстановление забытого пароля HeapTip"/>
+                <entry key="en" value="Forgotten password recovery HeapTip"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+	<p>
+		<strong>Здравствуйте</strong>
+	</p>
+	<p>		
+		Вы получили это письмо, поскольку был сделан запрос на восстановление вашего пароля по адресу <a href="http://heaptrip.com">http://heaptrip.com</a><br>
+		Если вы не делали такой запрос, проигнорируйте это сообщение.<br>
+	    Чтобы установить новый пароль на вашу учетную запись, необходимо перейти по <a href="%s">этой</a> ссылке.<br>
+	    После перехода следуйте инструкциям.
+	</p>
+	<p>
+	    С наилучшими пожеланиями, HeapTip
+	</p>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+    <p>
+		<strong>Hello</strong>
+	</p>
+	<p>
+        You received this message because the request was made to restore your password at <a href="http://heaptrip.com">http://heaptrip.com</a><br>
+        If you did not make such a request, please ignore this message.<br>
+        To set a new password for your account, you must go to <a href="%s">this</a> link.<br>
+        After clicking on the link, follow the instructions.
+    </p>
+	<p>
+	    Regards, HeapTip
+	</p>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="sendNewPasswordMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="Новый пароль HeapTip"/>
+                <entry key="en" value="New password HeapTip"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+	<p>
+		<strong>Здравствуйте</strong>
+	</p>
+	<p>
+		Вы получили это письмо, поскольку Вами был запрошен новый пароль по адресу <a href="http://heaptrip.com">http://heaptrip.com</a><br>
+        Рекомендуем Вам сменить его в своем профиле.
+	</p>
+	<p>
+	    С наилучшими пожеланиями, HeapTip
+	</p>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+    <p>
+		<strong>Hello</strong>
+	</p>
+	<p>
+        You received this email because you requested was new password to <a href="http://heaptrip.com">http://heaptrip.com</a><br>
+        We recommend that you change it in your profile.
+    </p>
+	<p>
+	    Regards, HeapTip
+	</p>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="confirmRegistrationMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="Подтверждение регистрации HeapTip"/>
+                <entry key="en" value="Confirmation of registration HeapTip"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+	<p>
+		<strong>Здравствуйте</strong>
+	</p>
+	<p>
+		Вы получили это письмо, поскольку был сделан запрос на регистрацию по адресу <a href="http://heaptrip.com">http://heaptrip.com</a><br>
+		Если вы не делали такой запрос, проигнорируйте это сообщение.<br>
+	    Чтобы подтвердить регистрацию необходимо перейти по <a href="%s">этой</a> ссылке.<br>
+	    После перехода следуйте инструкциям.
+	</p>
+	<p>
+	    С наилучшими пожеланиями, HeapTip
+	</p>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+    <p>
+		<strong>Hello</strong>
+	</p>
+	<p>
+        You received this message because the request was made for registration at <a href="http://heaptrip.com">http://heaptrip.com</a><br>
+        If you did not make such a request, please ignore this message.<br>
+        To confirm registration through a <a href="%s">this</a> link.<br>
+        After clicking on the link, follow the instructions.
+    </p>
+	<p>
+	    Regards, HeapTip
+	</p>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="inviteMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="наша тема"/>
+                <entry key="en" value="same subject"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru" value="наш текст"/>
+                <entry key="en" value="same text"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="errorMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
+        <property name="subject">
+            <map>
+                <entry key="ru" value="Ошибка на ноде %s"/>
+                <entry key="en" value="Error on the node %s"/>
+            </map>
+        </property>
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+	<p><strong>На ноде %s произошла следующая ошибка:</strong></p>
+	<p>%s</p>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+	<p><strong>At node %s the following error occurred:</strong></p>
+	<p>%s</p>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="mailTemplateStorage" class="com.heaptrip.domain.entity.mail.MailTemplateStorage">
+        <property name="mailTemplates">
+            <map>
+                <entry key="RESET_PASSWORD" value-ref="resetPasswordMailTemplate"/>
+                <entry key="SEND_NEW_PASSWORD" value-ref="sendNewPasswordMailTemplate"/>
+                <entry key="CONFIRM_REGISTRATION" value-ref="confirmRegistrationMailTemplate"/>
+                <entry key="INVITE" value-ref="inviteMailTemplate"/>
+                <entry key="ERROR" value-ref="errorMailTemplate"/>
+            </map>
+        </property>
+    </bean>
+</beans>
