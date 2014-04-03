@@ -66,7 +66,11 @@
 
     <ul>
         <li class="participants_li community_func12">
-            <div class="list_user_img"><img src="rest/image/small/{{>image.id}}"></div>
+            <div class="list_user_img">
+                {{if image}}
+                <img src="rest/image/small/{{>image.id}}">
+                {{/if}}
+            </div>
             <div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
         </li>
     </ul>
@@ -91,9 +95,9 @@
                 checkMode: 'IN',
                 ids: [window.catcher ? window.catcher.id : window.principal.id]
             },
-            accountType: 'CLUB',
-            skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit
+            accountType: 'CLUB'//,
+           // skip: paramsJson.skip ? paramsJson.skip : 0,
+           // limit: paramsJson.limit
 
 
             /*,
