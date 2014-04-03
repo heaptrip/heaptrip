@@ -80,7 +80,7 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
         communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
     }
 
-    @Test(enabled = true, priority = 22, expectedExceptions = AccountException.class)
+    @Test(enabled = true, priority = 22)
     public void repeatRegistrationActiveUser() throws NoSuchAlgorithmException, MessagingException, IOException {
         Locale locale = new Locale("ru");
         communityService.registration(CommunityDataProvider.getActiveClub(), locale);

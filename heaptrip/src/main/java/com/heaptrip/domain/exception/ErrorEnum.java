@@ -39,6 +39,7 @@ public enum ErrorEnum {
     ERROR_USER_PSWD_VALUE_IS_WRONG("error.user.pswd.value.is.wrong"),
     ERROR_USER_EMAIL_IS_NOT_CORRECT("error.user.email.is.not.correct"),
     ERROR_USER_PSWD_IS_NOT_CORRECT("error.user.pswd.is.not.correct"),
+    ERROR_MORE_THAN_ONE_USER_HAVE_ACTIVE_STATUS("error.more.than.one.user.have.status.active"),
 
     ERROR_COMMUNITY_NOT_FOUND("error.community.not.found"),
     ERROR_COMMUNITY_NOT_ACTIVE("error.community.not.active"),

@@ -8,6 +8,8 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.CrudRepository;
 
+import java.util.List;
+
 public interface AccountRepository extends CrudRepository<Account> {
 
     Account findById(String accountId);
@@ -20,9 +22,7 @@ public interface AccountRepository extends CrudRepository<Account> {
 
     void saveProfile(String accountId, Profile profile);
 
-    Account findUserByEmail(String email);
-
-    Account findCommunityByEmail(String email);
+    List<Account> findUsersByEmail(String email, AccountStatusEnum accountStatus);
 
     public AccountRating getRating(String accountId);
 

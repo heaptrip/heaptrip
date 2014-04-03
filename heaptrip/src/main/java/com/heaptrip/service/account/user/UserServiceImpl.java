@@ -33,6 +33,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Locale;
 
 @Service
@@ -92,9 +93,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         Assert.notNull(userRegistration.getEmail(), "email must not be null");
         Assert.isTrue(userRegistration.getEmail().matches(EMAIL_REGEX), "email is not correct");
 
-        Account account = accountRepository.findUserByEmail(userRegistration.getEmail());
+        List<Account> accounts = accountRepository.findUsersByEmail(userRegistration.getEmail(), AccountStatusEnum.ACTIVE);
 
-        if (account != null && account.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+        if (accounts != null && accounts.size() > 0) {
             String msg = String.format("account with the email already exists");
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WITH_THE_EMAIL_ALREADY_EXISTS);
@@ -131,12 +132,6 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
         String[] roles = {"ROLE_USER"};
         userRegistration.setRoles(roles);
-
-        if (account != null) {
-            // При совпадении email у не активного аккаунта меняем ее на идентификатор, тем самым добиваемся что email уникален.
-            // Иначе возможна регистрация через email и соц. сеть для одного и того же аккаунта
-            accountRepository.changeEmail(account.getId(), account.getId());
-        }
 
         userRegistration.setRating(AccountRating.getDefaultValue());
         UserRegistration user = userRepository.save(userRegistration);
