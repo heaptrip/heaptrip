@@ -214,18 +214,18 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
         // set fl
         query.set("fl", "id");
 
+        // set defType
+        query.set("defType", "dismax");
+
+        // set qf
+        query.set("qf", "name");
+
         if (StringUtils.isEmpty(criteria.getQuery())) {
-            // set q
-            query.set("q", "*:*");
+            // set q.alt
+            query.set("q.alt", "*");
         }   else {
             // set q
             query.set("q", criteria.getQuery());
-
-            // set defType
-            query.set("defType", "dismax");
-
-            // set qf
-            query.set("qf", "name");
         }
 
         if (logger.isDebugEnabled()) {
