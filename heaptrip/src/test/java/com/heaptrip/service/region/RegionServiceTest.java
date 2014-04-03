@@ -22,7 +22,7 @@ public class RegionServiceTest extends AbstractTestNGSpringContextTests {
 
     private List<Region> regions;
 
-    @Test(enabled = true, priority = 1)
+    @Test(priority = 0)
     public void getRegionsByName() throws SolrServerException {
         // call
         String name = "Russia Ukraine Belarus";
@@ -41,14 +41,24 @@ public class RegionServiceTest extends AbstractTestNGSpringContextTests {
         }
     }
 
-    @Test(enabled = true, priority = 2)
-    public void getRegionById() throws SolrServerException {
+    @Test(priority = 1)
+    public void getRegionById() {
         for (Region region : regions) {
             // call
             Region persist = regionService.getRegionById(region.getId(), locale);
             // check
             Assert.assertNotNull(persist);
             Assert.assertEquals(persist, region);
+        }
+    }
+
+    @Test(priority = 2)
+    public void getParentsByRegionId() {
+        String regionId = "174296"; // Sarapul
+        List<String> parents = regionService.getParentsByRegionId(regionId);
+        Assert.assertNotNull(parents);
+        for (String parentId : parents) {
+            Assert.assertNotNull(parentId);
         }
     }
 }

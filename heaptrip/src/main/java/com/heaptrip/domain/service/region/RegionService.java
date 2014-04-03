@@ -36,7 +36,6 @@ public interface RegionService {
      * @param regionId region ID
      * @return list of identifiers
      */
-    // TODO konovalov: add test
     public List<String> getParentsByRegionId(String regionId);
 
 }
