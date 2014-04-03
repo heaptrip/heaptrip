@@ -215,6 +215,24 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
     }
 
     @Override
+    public void resetMembers(String tripId) {
+        MongoCollection coll = getCollection();
+        Trip trip = coll.findOne("{_id: #}", tripId)
+                .projection("{_class: 1, 'table._id': 1, 'table.members': 1}").as(getCollectionClass());
+
+        if (trip != null) {
+            if (trip.getTable() != null) {
+                for (TableItem item : trip.getTable()) {
+                    if (item.getMembers() != null) {
+                        WriteResult wr = coll.update("{_id: #, 'table._id': #}", tripId, item.getId()).with("{$set: {'table.$.members': #}}", 0);
+                        logger.debug("WriteResult for reset members: {}", wr);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void setTableStatus(String tripId, String tableId, TableStatus status) {
         MongoCollection coll = getCollection();
         String query = "{_id: #, 'table._id': #}";

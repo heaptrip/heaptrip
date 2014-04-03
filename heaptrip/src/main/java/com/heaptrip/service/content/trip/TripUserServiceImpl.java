@@ -7,6 +7,7 @@ import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.trip.TripUserService;
+import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -33,6 +34,7 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser.setUserId(userId);
         tableUser.setStatus(TableUserStatusEnum.INVITE);
         tripRepository.incTableMembers(tripId, tableId, 1);
+        // TODO konovalov: send notification for user
         return tripMemberRepository.save(tableUser);
     }
 
@@ -60,6 +62,7 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser.setUserId(userId);
         tableUser.setStatus(TableUserStatusEnum.REQUEST);
         tripRepository.incTableMembers(tripId, tableId, 1);
+        // TODO konovalov: send notification to owner
         return tripMemberRepository.save(tableUser);
     }
 
@@ -70,39 +73,30 @@ public class TripUserServiceImpl implements TripUserService {
     }
 
     @Override
+    public boolean isTripUser(String tripId, String userId) {
+        Assert.notNull(tripId, "tripId must not be null");
+        Assert.notNull(userId, "userId must not be null");
+        return tripMemberRepository.existsByTripIdAndUserId(tripId, userId);
+    }
+
+    @Override
     public void setTripUserOrganizer(String memberId, Boolean isOrganizer) {
         Assert.notNull(memberId, "memberId must not be null");
         tripMemberRepository.setOrganizer(memberId, isOrganizer);
     }
 
     @Override
-    public List<TripMember> getTripMembers(String tripId, String tableId, int limit) {
-        Assert.notNull(tripId, "tripId must not be null");
-        Assert.notNull(tableId, "tableId must not be null");
-        // TODO konovalov: add sort
-        return tripMemberRepository.findByTripIdAndTableId(tripId, tableId, limit);
+    public List<TripMember> getMembersByCriteria(TripMemberCriteria tripMemberCriteria) {
+        Assert.notNull(tripMemberCriteria, "criteria must not be null");
+        Assert.notNull(tripMemberCriteria.getTripId(), "criteria.tripId must not be null");
+        return tripMemberRepository.findByCriteria(tripMemberCriteria);
     }
 
     @Override
-    public List<TripMember> getTripMembers(String tripId, String tableId) {
-        Assert.notNull(tripId, "tripId must not be null");
-        Assert.notNull(tableId, "tableId must not be null");
-        // TODO konovalov: add sort
-        return tripMemberRepository.findByTripIdAndTableId(tripId, tableId);
-    }
-
-    @Override
-    public List<TripUser> getTripUsersByUserId(String tripId, String userId) {
-        Assert.notNull(tripId, "tripId must not be null");
-        Assert.notNull(userId, "userId must not be null");
-        return tripMemberRepository.findByUserId(tripId, userId);
-    }
-
-    @Override
-    public boolean isTripUser(String tripId, String userId) {
-        Assert.notNull(tripId, "tripId must not be null");
-        Assert.notNull(userId, "userId must not be null");
-        return tripMemberRepository.existsByTripIdAndUserId(tripId, userId);
+    public long getCountByCriteria(TripMemberCriteria tripMemberCriteria) {
+        Assert.notNull(tripMemberCriteria, "criteria must not be null");
+        Assert.notNull(tripMemberCriteria.getTripId(), "criteria.tripId must not be null");
+        return tripMemberRepository.countByCriteria(tripMemberCriteria);
     }
 
     @Override
@@ -119,6 +113,7 @@ public class TripUserServiceImpl implements TripUserService {
     @Override
     public void removeTripMembers(String tripId) {
         Assert.notNull(tripId, "tripId must not be null");
+        tripRepository.resetMembers(tripId);
         tripMemberRepository.removeByTripId(tripId);
     }
 }

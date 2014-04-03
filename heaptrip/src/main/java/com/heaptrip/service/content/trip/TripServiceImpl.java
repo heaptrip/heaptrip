@@ -13,6 +13,7 @@ import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
+import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.service.content.ContentServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
@@ -100,7 +101,10 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     @Override
     public void remove(String tripId) {
         Assert.notNull(tripId, "tripId must not be null");
-        long members = tripMemberRepository.getCountByTripId(tripId);
+        // check trip members
+        TripMemberCriteria memberCriteria = new TripMemberCriteria();
+        memberCriteria.setTripId(tripId);
+        long members = tripMemberRepository.countByCriteria(memberCriteria);
         if (members > 0) {
             throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_FAILURE);
         }
@@ -264,6 +268,12 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         Assert.notNull(tripId, "tripId must not be null");
         Assert.notNull(postId, "postId must not be null");
         tripRepository.addPostId(tripId, postId);
+    }
+
+    @Override
+    public String[] getPostIds(String tripId) {
+        Assert.notNull(tripId, "tripId must not be null");
+        return tripRepository.getPostIds(tripId);
     }
 
     @Override

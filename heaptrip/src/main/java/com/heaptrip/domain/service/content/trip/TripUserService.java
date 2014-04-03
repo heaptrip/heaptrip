@@ -3,6 +3,7 @@ package com.heaptrip.domain.service.content.trip;
 import com.heaptrip.domain.entity.content.trip.TripInvite;
 import com.heaptrip.domain.entity.content.trip.TripMember;
 import com.heaptrip.domain.entity.content.trip.TripUser;
+import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 
 import java.util.List;
 
@@ -51,6 +52,15 @@ public interface TripUserService {
     public void acceptTripUser(String memberId);
 
     /**
+     * Check that the user is a the trip member
+     *
+     * @param tripId trip id
+     * @param userId user id
+     * @return true or false
+     */
+    public boolean isTripUser(String tripId, String userId);
+
+    /**
      * Set trip organizer
      *
      * @param memberId    table member id
@@ -59,43 +69,20 @@ public interface TripUserService {
     public void setTripUserOrganizer(String memberId, Boolean isOrganizer);
 
     /**
-     * Get all members for table item without limit
+     * Get trip members by criteria
      *
-     * @param tripId  trip id
-     * @param tableId table id
+     * @param tripMemberCriteria criteria for search trip members
      * @return member list
      */
-    public List<TripMember> getTripMembers(String tripId, String tableId);
+    public List<TripMember> getMembersByCriteria(TripMemberCriteria tripMemberCriteria);
 
     /**
-     * Get limit members for table item
+     * Get trip members count by criteria
      *
-     * @param tripId  trip id
-     * @param tableId table id
-     * @param limit   size of limit
-     * @return members list
+     * @param tripMemberCriteria criteria for search trip members
+     * @return count of members
      */
-    // TODO konovalov: add start offset and return total count (maybe total count move to separate method)
-    public List<TripMember> getTripMembers(String tripId, String tableId, int limit);
-
-    /**
-     * Get list of TripUser by tripId and userId. Must be called to determine
-     * the list of possible actions in the schedule of trip.
-     *
-     * @param tripId trip id
-     * @param userId user id
-     * @return list of TableUser
-     */
-    public List<TripUser> getTripUsersByUserId(String tripId, String userId);
-
-    /**
-     * Check that the user is a the trip member
-     *
-     * @param tripId trip id
-     * @param userId user id
-     * @return true or false
-     */
-    public boolean isTripUser(String tripId, String userId);
+    public long getCountByCriteria(TripMemberCriteria tripMemberCriteria);
 
     /**
      * Remove the user or invite from the travel. Needs to be called when the

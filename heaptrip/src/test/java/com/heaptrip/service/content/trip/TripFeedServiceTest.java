@@ -1,10 +1,10 @@
 package com.heaptrip.service.content.trip;
 
-import com.heaptrip.domain.entity.content.ContentStatus;
-import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
@@ -27,59 +27,54 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private ContentRepository contentRepository;
 
-    private Trip trip = null;
+    @Autowired
+    private TripUserService tripUserService;
 
     @BeforeClass
     public void init() {
-        trip = new Trip();
-        trip.setId(TripFeedDataProvider.CONTENT_ID);
-        trip.setOwnerId(TripFeedDataProvider.OWNER_ID);
-        trip.setAllowed(new String[]{TripFeedDataProvider.USER_ID});
-        trip.setCategoryIds(TripFeedDataProvider.CATEGORY_IDS);
-        trip.setRegionIds(TripFeedDataProvider.REGION_IDS);
-        ContentStatus status = new ContentStatus();
-        status.setValue(ContentStatusEnum.PUBLISHED_FRIENDS);
-        trip.setStatus(status);
-        trip.setTable(InitTripTest.getRandomTable());
-        contentRepository.save(trip);
+        contentRepository.save(TripFeedDataProvider.getTrip());
     }
 
     @AfterClass(alwaysRun = true)
     public void release() {
         contentRepository.remove(TripFeedDataProvider.CONTENT_ID);
+        tripUserService.removeTripMembers(TripFeedDataProvider.CONTENT_ID);
     }
 
-    @Test(priority = 0, enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")
+    @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")
     public void getContentsByFeedCriteria(TripFeedCriteria feedCriteria) {
         // call
         List<Trip> contents = tripFeedService.getContentsByFeedCriteria(feedCriteria);
         // check
         Assert.assertNotNull(contents);
         Assert.assertEquals(contents.size(), 1);
-        Assert.assertEquals(contents.get(0), trip);
+        Assert.assertNotNull(contents.get(0));
+        Assert.assertEquals(contents.get(0).getId(), TripFeedDataProvider.CONTENT_ID);
     }
 
-    @Test(priority = 1, enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "myAccountCriteria")
+    @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "myAccountCriteria")
     public void getContentsByMyAccountCriteria(TripMyAccountCriteria myAccountCriteria) {
         // call
         List<Trip> contents = tripFeedService.getContentsByMyAccountCriteria(myAccountCriteria);
         // check
         Assert.assertNotNull(contents);
         Assert.assertEquals(contents.size(), 1);
-        Assert.assertEquals(contents.get(0), trip);
+        Assert.assertNotNull(contents.get(0));
+        Assert.assertEquals(contents.get(0).getId(), TripFeedDataProvider.CONTENT_ID);
     }
 
-    @Test(priority = 2, enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
+    @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
     public void getContentsByForeignAccountCriteria(TripForeignAccountCriteria foreignAccountCriteria) {
         // call
         List<Trip> contents = tripFeedService.getContentsByForeignAccountCriteria(foreignAccountCriteria);
         // check
         Assert.assertNotNull(contents);
         Assert.assertEquals(contents.size(), 1);
-        Assert.assertEquals(contents.get(0), trip);
+        Assert.assertNotNull(contents.get(0));
+        Assert.assertEquals(contents.get(0).getId(), TripFeedDataProvider.CONTENT_ID);
     }
 
-    @Test(priority = 3, enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")
+    @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")
     public void getCountByFeedCriteria(TripFeedCriteria feedCriteria) {
         // call
         long count = tripFeedService.getCountByFeedCriteria(feedCriteria);
@@ -87,7 +82,7 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
     }
 
-    @Test(priority = 4, enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "myAccountCriteria")
+    @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "myAccountCriteria")
     public void getCountByMyAccountCriteria(TripMyAccountCriteria myAccountCriteria) {
         // call
         long count = tripFeedService.getCountByMyAccountCriteria(myAccountCriteria);
@@ -95,11 +90,39 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
     }
 
-    @Test(priority = 5, enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
+    @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "foreignAccountCriteria")
     public void getCountByForeignAccountCriteria(TripForeignAccountCriteria foreignAccountCriteria) {
         // call
         long count = tripFeedService.getCountByForeignAccountCriteria(foreignAccountCriteria);
         // check
         Assert.assertEquals(count, 1);
+    }
+
+    @Test(enabled = true, dataProvider = "memberMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
+    public void getContentsByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
+        // prepare
+        TripUser user = tripUserService.addTripUser(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.TABLE_IDs[1], TripFeedDataProvider.USER_ID);
+        tripUserService.acceptTripUser(user.getId());
+        // call
+        List<Trip> trips = tripFeedService.getContentsByMyAccountCriteria(tripMyAccountCriteria);
+        // check
+        Assert.assertNotNull(trips);
+        Assert.assertEquals(trips.size(), 1);
+        // remove test data
+        tripUserService.removeTripMember(user.getId());
+    }
+
+    @Test(enabled = true, dataProvider = "memberMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
+    public void getCountByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
+        // prepare
+        TripUser user = tripUserService.addTripUser(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.TABLE_IDs[1], TripFeedDataProvider.USER_ID);
+        tripUserService.acceptTripUser(user.getId());
+        // call
+        long count = tripFeedService.getCountByMyAccountCriteria(tripMyAccountCriteria);
+        // check
+        Assert.assertNotNull(count);
+        Assert.assertEquals(count, 1);
+        // remove test data
+        tripUserService.removeTripMember(user.getId());
     }
 }
