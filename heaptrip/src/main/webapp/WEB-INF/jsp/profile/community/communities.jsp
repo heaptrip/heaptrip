@@ -86,8 +86,17 @@
         var url = 'rest/communities';
 
         var communitiesCriteria = {
+
+            owners: {
+                checkMode: 'IN',
+                ids: [window.user.id]
+            },
+            accountType:'CLUB',
             skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit/*,
+            limit: paramsJson.limit
+
+
+            /*,
             /*categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -100,7 +109,7 @@
 
         var callbackSuccess = function (data) {
 
-            console.log(data);
+            // console.log(data);
 
             $("#user_communities").html($("#communityTemplate").render(data.accounts));
             $("#working_communities").html($("#communityTemplate").render(data.accounts));
