@@ -266,10 +266,14 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
     public void addPost() {
         // call
         tripService.addPost(TRIP_ID, POST_ID);
-        // check
+        // check trip object
         Trip trip = tripService.getTripInfo(TRIP_ID, LanguageUtils.getEnglishLocale());
         Assert.assertNotNull(trip);
         Assert.assertTrue(ArrayUtils.isNotEmpty(trip.getPostIds()));
+        // check by getPostIds
+        String[] postIds = tripService.getPostIds(TRIP_ID);
+        Assert.assertNotNull(postIds);
+        Assert.assertEquals(postIds.length, 1);
     }
 
     @Test(priority = 11, enabled = true)

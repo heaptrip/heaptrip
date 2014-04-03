@@ -110,6 +110,15 @@ public interface TripService extends ContentService {
      */
     public void addPost(String tripId, String postId);
 
+
+    /**
+     * Get array of post id by trip id
+     *
+     * @param tripId trip id
+     * @return array of post id
+     */
+    public String[] getPostIds(String tripId);
+
     /**
      * Remove post from trip
      *
