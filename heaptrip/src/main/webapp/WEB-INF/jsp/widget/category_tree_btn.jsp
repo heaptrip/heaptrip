@@ -14,7 +14,7 @@
     	$(function(){
         	$("#categoryFilterSave").click(function(){
         		$.doAuthenticationUserAction(function(){
-        			alert('Category filter save for ' + window.user.name + ' clicked!');
+        			alert('Category filter save for ' + window.principal.name + ' clicked!');
             	});
         	});
     	});

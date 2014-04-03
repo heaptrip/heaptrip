@@ -11,7 +11,7 @@ $(document).ready(function () {
 
                 var methodParams = {
                     imageId: files[0].id,
-                    accountId: $.getParamFromURL().guid ? $.getParamFromURL().guid : window.user.id
+                    accountId: $.getParamFromURL().guid ? $.getParamFromURL().guid : window.principal.id
                 };
 
                 var callbackSuccess = function (data) {
@@ -25,7 +25,7 @@ $(document).ready(function () {
             },
             {
                 imageType: 'ACCOUNT_IMAGE',
-                targetId: $.getParamFromURL().guid ? $.getParamFromURL().guid : window.user.id
+                targetId: $.getParamFromURL().guid ? $.getParamFromURL().guid : window.principal.id
             }
         )
     });
@@ -33,7 +33,7 @@ $(document).ready(function () {
 
     if ($('.global_menu').length) {
         $('.global_menu').bind('click', function () {
-            if (!window.user) {
+            if (!window.principal) {
                 window.location = 'ct-tidings.html';
                 return;
             }

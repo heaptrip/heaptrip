@@ -1,4 +1,4 @@
-<%@page import="com.heaptrip.domain.entity.LangEnum" %>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
@@ -6,17 +6,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<c:set var="curr_locale" scope="request"><fmt:message key="locale.name"/></c:set>
-<c:set var="url" scope="request" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
-<c:set var="lang_values" scope="request" value="<%=LangEnum.getValues()%>"/>
 
-<sec:authorize ifNotGranted="ROLE_ANONYMOUS">
-    <sec:authentication var="principal" scope="request" property="principal"/>
-</sec:authorize>
 
-<c:if test="${not empty param.guid && param.guid ne principal.id}">
-    <c:set var="catcher" scope="request" value="${profileModelService.getAccountInformation(param.guid)}"/>
-</c:if>
 
 <a id="logo"></a>
 

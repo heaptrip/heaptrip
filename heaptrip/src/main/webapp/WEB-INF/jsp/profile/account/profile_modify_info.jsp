@@ -42,7 +42,7 @@
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: window.user.id //$.getParamFromURL().guid ? $.getParamFromURL().guid : null
+            id: window.principal.id //$.getParamFromURL().guid ? $.getParamFromURL().guid : null
         };
 
         jsonData.name = $("#my_name").val();

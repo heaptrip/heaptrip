@@ -89,22 +89,22 @@
 
             owners: {
                 checkMode: 'IN',
-                ids: [window.user.id]
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
             },
-            accountType:'CLUB',
+            accountType: 'CLUB',
             skip: paramsJson.skip ? paramsJson.skip : 0,
             limit: paramsJson.limit
 
 
             /*,
-            /*categories: {
-                checkMode: "IN",
-                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-            },
-            regions: {
-                checkMode: "IN",
-                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-            }*/
+             /*categories: {
+             checkMode: "IN",
+             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+             },
+             regions: {
+             checkMode: "IN",
+             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+             }*/
         };
 
         var callbackSuccess = function (data) {
@@ -171,7 +171,7 @@
                     <span id="user_communities"></span>
                 </div>
 
-                <div id="list_user_2" class="community"  style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_2" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -196,7 +196,7 @@
                 <%--<div id="paginator2"></div>--%>
                 <%--</div>--%>
 
-                <div id="list_user_3" class="community"  style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_3" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
