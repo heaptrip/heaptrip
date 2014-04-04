@@ -21,33 +21,39 @@ import java.util.List;
 @Repository
 public class NotificationRepositoryImpl extends CrudRepositoryImpl<Notification> implements NotificationRepository {
 
-	protected static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
+    protected static final Logger logger = LoggerFactory.getLogger(NotificationServiceImpl.class);
 
-	@Autowired
-	private QueryHelperFactory queryHelperFactory;
+    @Autowired
+    private QueryHelperFactory queryHelperFactory;
 
-	@Override
-	protected String getCollectionName() {
+    @Override
+    protected String getCollectionName() {
         return CollectionEnum.NOTIFICATIONS.getName();
-	}
+    }
 
-	@Override
-	protected Class<Notification> getCollectionClass() {
-		return Notification.class;
-	}
+    @Override
+    protected Class<Notification> getCollectionClass() {
+        return Notification.class;
+    }
 
-	@Override
-	public List<Notification> getNotificationsByCriteria(NotificationCriteria criteria) {
-		QueryHelper<NotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+    @Override
+    public List<Notification> findByNotificationCriteria(NotificationCriteria criteria) {
+        QueryHelper<NotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
         return queryHelper.findByCriteria(criteria);
-	}
+    }
 
-	@Override
-	public void changeStatus(String notificationId, NotificationStatusEnum status) {
-		MongoCollection coll = getCollection();
-		String query = "{_id: #}";
-		String updateQuery = "{$set: {'status': #}}";
-		WriteResult wr = coll.update(query, notificationId).with(updateQuery, status);
-		logger.debug("WriteResult for update account: {}", wr);
-	}
+    @Override
+    public long countByNotificationCriteria(NotificationCriteria criteria) {
+        QueryHelper<NotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.countByCriteria(criteria);
+    }
+
+    @Override
+    public void changeStatus(String notificationId, NotificationStatusEnum status) {
+        MongoCollection coll = getCollection();
+        String query = "{_id: #}";
+        String updateQuery = "{$set: {'status': #}}";
+        WriteResult wr = coll.update(query, notificationId).with(updateQuery, status);
+        logger.debug("WriteResult for update account: {}", wr);
+    }
 }
