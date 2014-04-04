@@ -241,4 +241,10 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
                 .as(getCollectionClass());
         return (contentId == null) ? null : content.getMainLang();
     }
+
+    @Override
+    public boolean haveActiveContent(String ownerId, List<String> statuses) {
+        MongoCollection coll = getCollection();
+        return coll.count("{ownerId: #, status.value: {$in: #}}", ownerId, statuses) > 0;
+    }
 }
