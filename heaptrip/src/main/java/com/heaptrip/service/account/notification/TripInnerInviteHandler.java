@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class TripInnerInviteProcessor implements NotificationProcessor<TripNotification> {
+public class TripInnerInviteHandler implements NotificationHandler<TripNotification> {
 
     @Override
     public NotificationTypeEnum[] getSupportedTypes() {

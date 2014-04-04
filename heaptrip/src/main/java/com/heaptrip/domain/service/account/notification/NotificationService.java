@@ -15,7 +15,7 @@ public interface NotificationService {
      *
      * @param notification notification
      */
-    void addNotification(Notification notification);
+    Notification addNotification(Notification notification);
 
 
     /**

@@ -42,22 +42,22 @@ public class NotificationServiceImpl implements NotificationService {
     private AccountStoreService accountStoreService;
 
     @Autowired
-    private NotificationProcessorFactory notificationProcessorFactory;
+    private NotificationHandlerFactory notificationHandlerFactory;
 
     @Override
-    public void addNotification(Notification notification) {
+    public Notification addNotification(Notification notification) {
         Assert.notNull(notification, "notification must not be null");
         Assert.notNull(notification.getFromId(), "notification.fromId must not be null");
         Assert.notNull(notification.getToId(), "notification.toId must not be null");
         Assert.notNull(notification.getType(), "notification.type must not be null");
 
-        NotificationProcessor notificationProcessor = notificationProcessorFactory.getNotificationProcessor(notification.getType());
+        NotificationHandler notificationProcessor = notificationHandlerFactory.getNotificationHandler(notification.getType());
         if (notificationProcessor != null) {
             MultiLangText text = notificationProcessor.getNotificationText(notification);
             notification.setText(text);
         }
 
-        notificationRepository.save(notification);
+        return notificationRepository.save(notification);
     }
 
     @Override

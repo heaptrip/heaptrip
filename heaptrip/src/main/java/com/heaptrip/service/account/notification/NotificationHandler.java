@@ -4,7 +4,7 @@ import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 
-public interface NotificationProcessor<T extends Notification> {
+public interface NotificationHandler<T extends Notification> {
 
     public NotificationTypeEnum[] getSupportedTypes();
 
