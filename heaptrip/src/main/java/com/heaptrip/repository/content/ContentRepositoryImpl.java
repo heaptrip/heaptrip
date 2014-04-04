@@ -244,11 +244,15 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 
     @Override
     public boolean haveActiveContent(String ownerId) {
-        // TODO исправить!! перевести формирование запроса в стрингбуффер!
         MongoCollection coll = getCollection();
-        return coll.count("{ownerId: #, " +
-                "status.value: {$in: [\"PUBLISHED_FRIENDS\", \"PUBLISHED_ALL\"]}}, " +
-                "_class: {$in: [\"com.heaptrip.domain.entity.content.trip.Trip\", \"com.heaptrip.domain.entity.content.event.Event\"]}}",
-                ownerId) > 0;
+
+        String query = "{ownerId: #, " +
+                "status.value: {$in: [\"" +
+                        ContentStatusEnum.PUBLISHED_FRIENDS.toString() +
+                        "\", \"" +
+                        ContentStatusEnum.PUBLISHED_ALL.toString() + "\"]}, " +
+                "_class: {$in: [\"com.heaptrip.domain.entity.content.trip.Trip\", \"com.heaptrip.domain.entity.content.event.Event\"]}}";
+
+        return coll.count(query, ownerId) > 0;
     }
 }
