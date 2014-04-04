@@ -4,6 +4,7 @@ import com.heaptrip.domain.entity.mail.MailEnum;
 import com.heaptrip.domain.entity.mail.MailTemplate;
 import com.heaptrip.domain.entity.mail.MailTemplateStorage;
 import com.heaptrip.domain.entity.rating.AccountRating;
+import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
@@ -47,10 +48,12 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
     @Autowired
     private AccountStoreService accountStoreService;
 
+    @Autowired
+    private ContentRepository contentRepository;
+
     @Override
     public void delete(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
-        // TODO dikma после реализации сообществ, добавить проверку возможности удаления
 
         Account account = accountRepository.findOne(accountId);
 
@@ -63,6 +66,12 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
         } else {
+            if (contentRepository.haveActiveContent(accountId)) {
+                String msg = String.format("account have active content: %s", accountId);
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_HAVE_ACTIVE_CONTENT);
+            }
+
             accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
             accountStoreService.remove(accountId);
         }

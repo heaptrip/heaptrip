@@ -41,7 +41,7 @@ public class TripUserDataProvider {
         return table;
     }
 
-    static Trip getTrip() {
+    public static Trip getTrip() {
         Trip trip = new Trip();
         trip.setId(TRIP_ID);
         trip.setOwnerId(OWNER_ID);

@@ -16,6 +16,7 @@ import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
+import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -65,10 +66,12 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     @Autowired
     private AccountStoreService accountStoreService;
 
+    @Autowired
+    private ContentRepository contentRepository;
+
     @Override
     public void delete(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
-        // TODO dikma после реализации сообществ, добавть проверку их наличия, если есть, удалить профиль нельзя если пользователь единственныйвладелец
 
         Account account = accountRepository.findOne(accountId);
 
@@ -81,6 +84,14 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
         } else {
+            if (contentRepository.haveActiveContent(accountId)) {
+                String msg = String.format("account have active content: %s", accountId);
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_HAVE_ACTIVE_CONTENT);
+            }
+
+            // TODO dikma удалить профиль нельзя если пользователь единственный владелец не удаленного сообщества
+
             accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
             accountStoreService.remove(accountId);
         }

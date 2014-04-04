@@ -58,6 +58,5 @@ public interface ContentRepository extends CrudRepository<Content> {
 
 	public String getMainLanguage(String contentId);
 
-    public boolean haveActiveContent(String ownerId, List<String> statuses);
-
+    public boolean haveActiveContent(String ownerId);
 }

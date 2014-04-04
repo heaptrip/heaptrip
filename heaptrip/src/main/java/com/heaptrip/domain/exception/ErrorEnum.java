@@ -40,9 +40,11 @@ public enum ErrorEnum {
     ERROR_USER_EMAIL_IS_NOT_CORRECT("error.user.email.is.not.correct"),
     ERROR_USER_PSWD_IS_NOT_CORRECT("error.user.pswd.is.not.correct"),
     ERROR_MORE_THAN_ONE_USER_HAVE_ACTIVE_STATUS("error.more.than.one.user.have.status.active"),
+    ERROR_USER_HAVE_ACTIVE_CONTENT("error.user.have.active.content"),
 
     ERROR_COMMUNITY_NOT_FOUND("error.community.not.found"),
     ERROR_COMMUNITY_NOT_ACTIVE("error.community.not.active"),
+    ERROR_COMMUNITY_HAVE_ACTIVE_CONTENT("error.community.have.active.content"),
 
     ERR_SYSTEM_CREATE("err.system.create.exception"),
     ERR_SYSTEM_DB("err.system.bd"),

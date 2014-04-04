@@ -243,8 +243,11 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
     }
 
     @Override
-    public boolean haveActiveContent(String ownerId, List<String> statuses) {
+    public boolean haveActiveContent(String ownerId) {
         MongoCollection coll = getCollection();
-        return coll.count("{ownerId: #, status.value: {$in: #}}", ownerId, statuses) > 0;
+        return coll.count("{ownerId: #, " +
+                "status.value: {$in: [\"PUBLISHED_FRIENDS\", \"PUBLISHED_ALL\"]}}, " +
+                "_class: {$in: [\"com.heaptrip.domain.entity.content.trip.Trip\", \"com.heaptrip.domain.entity.content.event.Event\"]}}",
+                ownerId) > 0;
     }
 }
