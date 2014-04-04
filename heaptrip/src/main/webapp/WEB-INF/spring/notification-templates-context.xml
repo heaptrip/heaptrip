@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="tripInnerInviteNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> приглашает принять участие в путешествии <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> invites you to take part on travel <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="tripRequestNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> подал запрос на участие в путешествии <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> sent a request to take part on travel <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="notificationTemplateStorage"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplateStorage">
+        <property name="notificationTemplates">
+            <map>
+                <entry key="TRIP_INNER_INVITE" value-ref="tripInnerInviteNotificationTemplate"/>
+                <entry key="TRIP_REQUEST" value-ref="tripRequestNotificationTemplate"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

@@ -94,6 +94,11 @@
             <artifactId>aspectjweaver</artifactId>
             <version>${aspectjrt.version}</version>
         </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2</version>
+        </dependency>
 
         <!-- Jackson JSON Mapper -->
         <dependency>

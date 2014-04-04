@@ -2,7 +2,6 @@ package com.heaptrip.service.account.relations;
 
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
@@ -93,13 +92,13 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
     private void deleteNotifications() {
         NotificationCriteria criteria = new NotificationCriteria();
         criteria.setToId(UserDataProvider.EMAIL_USER_ID);
-        List<Notification> list = notificationService.getNotifications(criteria);
+        List<Notification> list = notificationService.getNotificationsByNotificationCriteria(criteria);
 
         criteria.setToId(UserDataProvider.NET_USER_ID);
-        list.addAll(notificationService.getNotifications(criteria));
+        list.addAll(notificationService.getNotificationsByNotificationCriteria(criteria));
 
         criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
-        list.addAll(notificationService.getNotifications(criteria));
+        list.addAll(notificationService.getNotificationsByNotificationCriteria(criteria));
 
         for (Notification notification : list) {
             notificationRepository.remove(notification.getId());

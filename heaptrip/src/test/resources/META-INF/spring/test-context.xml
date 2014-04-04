@@ -5,5 +5,6 @@
 
     <import resource="file:src/main/webapp/WEB-INF/spring/root-context.xml"/>
     <import resource="file:src/main/webapp/WEB-INF/spring/mail-templates-context.xml"/>
+    <import resource="file:src/main/webapp/WEB-INF/spring/notification-templates-context.xml"/>
 
 </beans>
