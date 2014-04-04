@@ -110,7 +110,7 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
 		criteria.setStatus(NotificationStatusEnum.NEW.toString());
 		criteria.setType(NotificationTypeEnum.FRIEND.toString());
 
-		List<Notification> notifications = notificationService.getNotifications(criteria);
+		List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
 
         // проверим оповещение
 		Assert.assertNotNull(notifications);
@@ -168,7 +168,7 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.MEMBER.toString());
 
-        List<Notification> notifications = notificationService.getNotifications(criteria);
+        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
@@ -226,7 +226,7 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.EMPLOYEE.toString());
 
-        List<Notification> notifications = notificationService.getNotifications(criteria);
+        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
@@ -284,7 +284,7 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.OWNER.toString());
 
-        List<Notification> notifications = notificationService.getNotifications(criteria);
+        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
@@ -322,7 +322,7 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.OWNER.toString());
 
-        List<Notification> notifications = notificationService.getNotifications(criteria);
+        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);

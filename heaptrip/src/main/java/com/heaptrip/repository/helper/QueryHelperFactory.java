@@ -2,9 +2,8 @@ package com.heaptrip.repository.helper;
 
 import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.service.criteria.Criteria;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+import com.heaptrip.util.SpringApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -12,11 +11,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class QueryHelperFactory implements ApplicationContextAware {
+public class QueryHelperFactory {
 
     private Map<String, QueryHelper> queryHelpers = new HashMap<>();
 
-    private ApplicationContext applicationContext;
+    @Autowired
+    private SpringApplicationContext applicationContext;
 
     @PostConstruct
     public void init() {
@@ -37,8 +37,4 @@ public class QueryHelperFactory implements ApplicationContextAware {
         return queryHelpers.get(criteriaClass.getName());
     }
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
 }
