@@ -1,12 +1,12 @@
 package com.heaptrip.domain.service.account.criteria;
 
-import com.heaptrip.domain.service.criteria.Criteria;
+import com.heaptrip.domain.service.criteria.LocaleCriteria;
 
 
 /**
  * Base class for notification criterias
  */
-public abstract class AbstractNotificationCriteria extends Criteria {
+public abstract class AbstractNotificationCriteria extends LocaleCriteria {
 
     // notification type
     private String type;

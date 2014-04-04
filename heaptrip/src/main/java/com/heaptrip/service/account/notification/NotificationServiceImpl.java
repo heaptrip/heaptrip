@@ -63,31 +63,36 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public List<Notification> getNotificationsByNotificationCriteria(NotificationCriteria criteria) {
         Assert.notNull(criteria, "notificationCriteria must not be null");
-        return notificationRepository.getNotificationsByCriteria(criteria);
+        return notificationRepository.findByNotificationCriteria(criteria);
     }
 
     @Override
     public long getCountByNotificationCriteria(NotificationCriteria criteria) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        Assert.notNull(criteria, "notificationCriteria must not be null");
+        return notificationRepository.countByNotificationCriteria(criteria);
     }
 
     @Override
     public List<Notification> getNotificationsByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
+        // TODO dikma
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public long getCountByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
+        // TODO dikma
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public List<Notification> getNotificationsByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+        // TODO dikma
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public long getCountByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+        // TODO dikma
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -98,18 +103,21 @@ public class NotificationServiceImpl implements NotificationService {
         Notification notification = notificationRepository.findOne(notificationId);
 
         if (notification == null) {
-            String msg = String.format("notification not find by id %s", notificationId);
-            logger.debug(msg);
+            logger.debug("notification not find by id " + notificationId);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_NOTIFICATION_NOT_FOUND);
         } else if (!notification.getStatus().equals(NotificationStatusEnum.NEW)) {
-            String msg = String.format("notification status must be: %s", NotificationStatusEnum.NEW);
-            logger.debug(msg);
+            logger.debug("notification status must be: " + NotificationStatusEnum.NEW);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_NOTIFICATION_NOT_NEW);
-        } else {
-            notificationRepository.changeStatus(notificationId, status);
+        }
 
-            if (status.equals(NotificationStatusEnum.ACCEPTED)) {
+        notificationRepository.changeStatus(notificationId, status);
 
+        if (status.equals(NotificationStatusEnum.ACCEPTED)) {
+            NotificationHandler notificationHandler = notificationHandlerFactory.getNotificationHandler(notification.getType());
+            if (notificationHandler != null) {
+                notificationHandler.accept(notification);
+            } else {
+                // TODO dikma: move this codes to notification handlers
                 String userId = null;
 
                 if (notification.getType().equals(NotificationTypeEnum.FRIEND)) {
@@ -129,6 +137,12 @@ public class NotificationServiceImpl implements NotificationService {
                 if (userId != null) {
                     accountStoreService.update(userId);
                 }
+            }
+
+        } else if (status.equals(NotificationStatusEnum.REJECTED)) {
+            NotificationHandler notificationHandler = notificationHandlerFactory.getNotificationHandler(notification.getType());
+            if (notificationHandler != null) {
+                notificationHandler.reject(notification);
             }
         }
     }
