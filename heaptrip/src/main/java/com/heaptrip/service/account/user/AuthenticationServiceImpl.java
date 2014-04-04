@@ -72,8 +72,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User getUserBySocNetUID(String socNetName, String uid, InputStream isImage) throws IOException, NoSuchAlgorithmException {
         Assert.notNull(socNetName, "socNetName must not be null");
-        // TODO dikma: 'equals()' between objects of inconvertible types 'SocialNetworkEnum' and 'String'
-        Assert.isTrue(!socNetName.equals(SocialNetworkEnum.NONE), "socNetName must not be NONE");
+        Assert.isTrue(!socNetName.equals(SocialNetworkEnum.NONE.toString()), "socNetName must not be NONE");
         Assert.notNull(uid, "uid must not be null");
         Assert.notNull(isImage, "isImage must not be null");
 

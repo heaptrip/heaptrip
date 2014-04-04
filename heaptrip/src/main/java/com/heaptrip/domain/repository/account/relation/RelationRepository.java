@@ -11,4 +11,6 @@ public interface RelationRepository extends CrudRepository<Relation> {
     public void delete(RelationCriteria criteria);
 
     public List<Relation> findByCriteria(RelationCriteria criteria);
+
+    public long countByCriteria(RelationCriteria criteria);
 }
