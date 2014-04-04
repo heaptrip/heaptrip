@@ -31,4 +31,6 @@ public interface AccountRepository extends CrudRepository<Account> {
     public Image getImage(String accountId);
 
     public void changeImage(String accountId, Image image);
+
+    public String getName(String accountId);
 }

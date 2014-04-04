@@ -10,14 +10,14 @@
                 <entry key="ru">
                     <value>
                         <![CDATA[
-		<strong>%s</strong> приглашает принять участие в путешествии <strong>%s</strong>
+		<strong>%s</strong> приглашает пользователя <strong>%s</strong> принять участие в путешествии <strong>%s</strong>
 ]]>
                     </value>
                 </entry>
                 <entry key="en">
                     <value>
                         <![CDATA[
-		<strong>%s</strong> invites you to take part on travel <strong>%s</strong>
+		<strong>%s</strong> invites a user <strong>%s</strong> to take part on travel <strong>%s</strong>
 ]]>
                     </value>
                 </entry>

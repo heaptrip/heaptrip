@@ -34,7 +34,7 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser.setUserId(userId);
         tableUser.setStatus(TableUserStatusEnum.INVITE);
         tripRepository.incTableMembers(tripId, tableId, 1);
-        // TODO konovalov: send notification for user
+        // TODO konovalov: send notification for user and verify unique user per table
         return tripMemberRepository.save(tableUser);
     }
 
@@ -62,7 +62,7 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser.setUserId(userId);
         tableUser.setStatus(TableUserStatusEnum.REQUEST);
         tripRepository.incTableMembers(tripId, tableId, 1);
-        // TODO konovalov: send notification to owner
+        // TODO konovalov: send notification to owner and verify unique user per table
         return tripMemberRepository.save(tableUser);
     }
 

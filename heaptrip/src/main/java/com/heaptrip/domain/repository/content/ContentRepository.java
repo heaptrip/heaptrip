@@ -1,10 +1,6 @@
 package com.heaptrip.domain.repository.content;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
@@ -14,49 +10,56 @@ import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
 
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public interface ContentRepository extends CrudRepository<Content> {
 
-	public void setDeleted(String tripId);
+    public void setDeleted(String tripId);
 
-	public String getOwnerId(String contentId);
+    public String getOwnerId(String contentId);
 
-	public boolean isOwner(String contentId, String userId);
+    public boolean isOwner(String contentId, String userId);
 
-	public ContentStatus getStatus(String contentId);
+    public MultiLangText getName(String contentId);
 
-	public void setStatus(String contentId, ContentStatus status, String[] allowed);
+    public ContentStatus getStatus(String contentId);
 
-	public void incViews(String contentId, String userIdOrRemoteIp);
+    public void setStatus(String contentId, ContentStatus status, String[] allowed);
 
-	public List<Content> findByIds(Collection<String> ids, Locale locale);
+    public void incViews(String contentId, String userIdOrRemoteIp);
 
-	public List<Content> findByFeedCriteria(FeedCriteria criteria);
+    public List<Content> findByIds(Collection<String> ids, Locale locale);
 
-	public List<Content> findByMyAccountCriteria(MyAccountCriteria criteria);
+    public List<Content> findByFeedCriteria(FeedCriteria criteria);
 
-	public List<Content> findByForeignAccountCriteria(ForeignAccountCriteria criteria);
+    public List<Content> findByMyAccountCriteria(MyAccountCriteria criteria);
 
-	public long getCountByFeedCriteria(FeedCriteria criteria);
+    public List<Content> findByForeignAccountCriteria(ForeignAccountCriteria criteria);
 
-	public long getCountByMyAccountCriteria(MyAccountCriteria criteria);
+    public long getCountByFeedCriteria(FeedCriteria criteria);
 
-	public long getCountByForeignAccountCriteria(ForeignAccountCriteria criteria);
+    public long getCountByMyAccountCriteria(MyAccountCriteria criteria);
 
-	public Date getDateCreated(String contentId);
+    public long getCountByForeignAccountCriteria(ForeignAccountCriteria criteria);
 
-	public ContentEnum getContentTypeByContentId(String contentId);
+    public Date getDateCreated(String contentId);
 
-	public ContentRating getRating(String contentId);
+    public ContentEnum getContentTypeByContentId(String contentId);
 
-	public void updateRating(String contentId, double ratingValue);
+    public ContentRating getRating(String contentId);
 
-	public void addAllowed(String ownerId, String userId);
+    public void updateRating(String contentId, double ratingValue);
 
-	public void removeAllowed(String ownerId, String userId);
+    public void addAllowed(String ownerId, String userId);
 
-	public long getCountByOwnerIdAndAllowed(String ownerId, String allowedUserId);
+    public void removeAllowed(String ownerId, String userId);
 
-	public String getMainLanguage(String contentId);
+    public long getCountByOwnerIdAndAllowed(String ownerId, String allowedUserId);
+
+    public String getMainLanguage(String contentId);
 
     public boolean haveActiveContent(String ownerId);
 }

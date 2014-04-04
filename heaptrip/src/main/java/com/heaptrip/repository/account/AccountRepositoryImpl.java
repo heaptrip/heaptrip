@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Set;
 
 @Repository
 public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implements AccountRepository {
@@ -109,5 +108,13 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     public void changeImage(String accountId, Image image) {
         MongoCollection coll = getCollection();
         coll.update("{_id: #}", accountId).with("{$set: {image: #}})", image);
+    }
+
+    @Override
+    public String getName(String accountId) {
+        MongoCollection coll = getCollection();
+        Account account = coll.findOne("{_id: #}", accountId).projection("{_class: 1, name: 1}")
+                .as(getCollectionClass());
+        return (account == null) ? null : account.getName();
     }
 }

@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content;
 
 import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
@@ -72,6 +73,14 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
         Content content = coll.findOne("{_id: #, ownerId: #}", contentId, userId)
                 .projection("{_class: 1}").as(getCollectionClass());
         return content != null;
+    }
+
+    @Override
+    public MultiLangText getName(String contentId) {
+        MongoCollection coll = getCollection();
+        Content content = coll.findOne("{_id: #}", contentId).projection("{_class: 1, name: 1}")
+                .as(getCollectionClass());
+        return (content == null) ? null : content.getName();
     }
 
     @Override

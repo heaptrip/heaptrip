@@ -14,4 +14,8 @@ public class NotificationTemplateStorage {
     public void setNotificationTemplates(Map<NotificationTypeEnum, NotificationTemplate> notificationTemplates) {
         this.notificationTemplates = notificationTemplates;
     }
+
+    public NotificationTemplate getNotificationTemplate(NotificationTypeEnum notificationType) {
+        return notificationTemplates.get(notificationType);
+    }
 }
