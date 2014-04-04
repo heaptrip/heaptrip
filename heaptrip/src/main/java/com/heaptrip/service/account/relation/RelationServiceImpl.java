@@ -1,28 +1,27 @@
 package com.heaptrip.service.account.relation;
 
+import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.account.notification.Notification;
+import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
+import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.account.relation.RelationService;
+import com.heaptrip.domain.service.system.ErrorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-
-import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.account.community.Community;
-import com.heaptrip.domain.entity.account.notification.Notification;
-import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
-import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.exception.account.AccountException;
-import com.heaptrip.domain.repository.account.community.CommunityRepository;
-import com.heaptrip.domain.repository.account.user.UserRepository;
-import com.heaptrip.domain.service.account.notification.NotificationService;
-import com.heaptrip.domain.service.system.ErrorService;
 
 @Service
 public class RelationServiceImpl implements RelationService {
@@ -228,7 +227,12 @@ public class RelationServiceImpl implements RelationService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
         } else {
-			// TODO dikma: надо проверить, не единственный ли он сотрудник и есть ли активные путешествия
+            if (relationRepository.countByCriteria(new RelationCriteria(userId, communityId, TypeRelationEnum.OWNER)) == 1) {
+                String msg = String.format("the sole owner %s of the user community active %s", userId, communityId);
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE);
+            }
+
             relationRepository.delete(new RelationCriteria(userId, communityId, TypeRelationEnum.OWNER));
             accountStoreService.update(userId);
 		}		
@@ -292,7 +296,12 @@ public class RelationServiceImpl implements RelationService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
         } else {
-            // TODO dikma: надо проверить, не единственный ли он сотрудник и есть ли активные путешествия
+            if (relationRepository.countByCriteria(new RelationCriteria(userId, communityId, TypeRelationEnum.OWNER)) == 1) {
+                String msg = String.format("the sole owner %s of the user community active %s", userId, communityId);
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE);
+            }
+
             relationRepository.delete(new RelationCriteria(userId, communityId, TypeRelationEnum.EMPLOYEE));
             accountStoreService.update(userId);
 		}

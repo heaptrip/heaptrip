@@ -244,6 +244,7 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 
     @Override
     public boolean haveActiveContent(String ownerId) {
+        // TODO исправить!! перевести формирование запроса в стрингбуффер!
         MongoCollection coll = getCollection();
         return coll.count("{ownerId: #, " +
                 "status.value: {$in: [\"PUBLISHED_FRIENDS\", \"PUBLISHED_ALL\"]}}, " +
