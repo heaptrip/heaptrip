@@ -2,6 +2,8 @@ package com.heaptrip.service.account.user;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
@@ -15,9 +17,12 @@ import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
+import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
@@ -69,6 +74,12 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     @Autowired
     private ContentRepository contentRepository;
 
+    @Autowired
+    private RelationRepository relationRepository;
+
+    @Autowired
+    private RelationService relationService;
+
     @Override
     public void delete(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
@@ -90,7 +101,17 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
                 throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_HAVE_ACTIVE_CONTENT);
             }
 
-            // TODO dikma удалить профиль нельзя если пользователь единственный владелец не удаленного сообщества
+            RelationCriteria criteria = new RelationCriteria();
+            criteria.setFromId(accountId);
+            criteria.setTypeRelation(TypeRelationEnum.OWNER);
+
+            List<Relation> relations = relationRepository.findByCriteria(criteria);
+
+            if (relations.size() > 0) {
+                for (Relation relation : relations) {
+                    relationService.deleteOwner(accountId, relation.getToId());
+                }
+            }
 
             accountRepository.changeStatus(accountId, AccountStatusEnum.DELETED);
             accountStoreService.remove(accountId);
@@ -210,12 +231,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             if (socialNetwork.equals(SocialNetworkEnum.NONE)) {
                 findNet = true;
             } else if (user.getNet() != null) {
-                // TODO dikma: 'for' statement does not loop
                 for (SocialNetwork net : user.getNet()) {
-                    // TODO dikma: Result of 'String.equals()' is ignored. 'equals()' between objects of inconvertible types 'SocialNetworkEnum' and 'String'
-                    net.getId().equals(socialNetwork);
-                    findNet = true;
-                    break;
+                    if (net.getId().equals(socialNetwork.toString())) {
+                        findNet = true;
+                        break;
+                    }
                 }
             }
 

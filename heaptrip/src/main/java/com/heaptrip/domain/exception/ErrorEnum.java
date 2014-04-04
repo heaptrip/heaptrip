@@ -46,6 +46,8 @@ public enum ErrorEnum {
     ERROR_COMMUNITY_NOT_ACTIVE("error.community.not.active"),
     ERROR_COMMUNITY_HAVE_ACTIVE_CONTENT("error.community.have.active.content"),
 
+    ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE("error.sole.owner.of.the.user,community.active"),
+
     ERR_SYSTEM_CREATE("err.system.create.exception"),
     ERR_SYSTEM_DB("err.system.bd"),
     ERR_SYSTEM_SOLR("err.system.solr"),
