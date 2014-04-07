@@ -79,15 +79,15 @@ public class RatingServiceImpl implements RatingService {
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(created);
                 calendar.add(Calendar.MONTH, 6);
-                if (calendar.before(new Date())) {
+                if (calendar.getTime().before(new Date())) {
                     return false;
                 }
             }
         }
 
         if (contentType.equals(ContentEnum.TRIP)) {
-            // trip can rated only members
-            if (!tripUserService.isTripUser(contentId, userId)) {
+            // trip can rated only accepted members
+            if (!tripUserService.isTripAcceptedMember(contentId, userId)) {
                 return false;
             }
             // trip can be rated in six months with the launch of the last

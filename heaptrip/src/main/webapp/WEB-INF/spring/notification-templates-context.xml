@@ -9,16 +9,12 @@
             <map>
                 <entry key="ru">
                     <value>
-                        <![CDATA[
-		<strong>%s</strong> приглашает пользователя <strong>%s</strong> принять участие в путешествии <strong>%s</strong>
-]]>
+                        <![CDATA[<strong>%s</strong> приглашает пользователя <strong>%s</strong> принять участие в путешествии <strong>%s</strong>]]>
                     </value>
                 </entry>
                 <entry key="en">
                     <value>
-                        <![CDATA[
-		<strong>%s</strong> invites a user <strong>%s</strong> to take part on travel <strong>%s</strong>
-]]>
+                        <![CDATA[<strong>%s</strong> invites a user <strong>%s</strong> to take part on travel <strong>%s</strong>]]>
                     </value>
                 </entry>
             </map>
@@ -31,16 +27,12 @@
             <map>
                 <entry key="ru">
                     <value>
-                        <![CDATA[
-		<strong>%s</strong> отпрвил заявку к <strong>%s</strong> на участие в путешествии <strong>%s</strong>
-]]>
+                        <![CDATA[<strong>%s</strong> отпрвил заявку к <strong>%s</strong> на участие в путешествии <strong>%s</strong>]]>
                     </value>
                 </entry>
                 <entry key="en">
                     <value>
-                        <![CDATA[
-		<strong>%s</strong> sent a request to <strong>%s</strong> to take part on travel <strong>%s</strong>
-]]>
+                        <![CDATA[<strong>%s</strong> sent a request to <strong>%s</strong> to take part on travel <strong>%s</strong>]]>
                     </value>
                 </entry>
             </map>

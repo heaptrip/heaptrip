@@ -5,16 +5,13 @@ import com.heaptrip.domain.entity.account.notification.NotificationTemplate;
 import com.heaptrip.domain.entity.account.notification.NotificationTemplateStorage;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.entity.account.notification.TripNotification;
-import com.heaptrip.domain.entity.content.trip.TripMember;
-import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
-import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.List;
 import java.util.Locale;
 
 
@@ -25,13 +22,14 @@ public class TripInnerInviteHandler implements NotificationHandler<TripNotificat
     private NotificationTemplateStorage notificationTemplateStorage;
 
     @Autowired
-    private AccountRepository accountRepository;
-
-    @Autowired
     private ContentRepository contentRepository;
 
     @Autowired
     private TripUserService tripUserService;
+
+    @Autowired
+    private AccountStoreService accountStoreService;
+
 
     @Override
     public NotificationTypeEnum[] getSupportedTypes() {
@@ -49,8 +47,8 @@ public class TripInnerInviteHandler implements NotificationHandler<TripNotificat
         NotificationTemplate notificationTemplate = notificationTemplateStorage.getNotificationTemplate(NotificationTypeEnum.TRIP_INNER_INVITE);
         if (notificationTemplate != null && notificationTemplate.getText() != null) {
 
-            String senderName = accountRepository.getName(notification.getFromId());
-            String receiverName = accountRepository.getName(notification.getToId());
+            String senderName = accountStoreService.findOne(notification.getFromId()).getName();
+            String receiverName = accountStoreService.findOne(notification.getToId()).getName();
             MultiLangText contentName = contentRepository.getName(notification.getContentId());
 
             for (String lang : notificationTemplate.getText().keySet()) {
@@ -68,16 +66,14 @@ public class TripInnerInviteHandler implements NotificationHandler<TripNotificat
         Assert.notNull(notification.getContentId(), "notification.contentId must not be null");
         Assert.notNull(notification.getTableId(), "notification.tableId must not be null");
 
-        TripMemberCriteria tripMemberCriteria = new TripMemberCriteria();
-        tripMemberCriteria.setTripId(notification.getContentId());
-        tripMemberCriteria.setTableId(notification.getTableId());
-        tripMemberCriteria.setUserId(notification.getToId());
+        String tripId = notification.getContentId();
+        String tableId = notification.getTableId();
+        String userId = notification.getToId();
 
-        List<TripMember> members = tripUserService.getMembersByCriteria(tripMemberCriteria);
-        Assert.notNull(members, "trip member is not found");
-        Assert.isTrue(!members.isEmpty(), "trip member is not found");
-        Assert.isTrue(members.size() == 1, "duplicate member per table item");
-        tripUserService.acceptTripUser(members.get(0).getId());
+        boolean isTableUser = tripUserService.isTripTableMember(tripId, tableId, userId);
+        Assert.isTrue(isTableUser, String.format("user:%s not found in trip:%s and table:%s", userId, tripId, tableId));
+
+        tripUserService.acceptTripMember(tripId, tableId, userId);
     }
 
     @Override
@@ -85,15 +81,13 @@ public class TripInnerInviteHandler implements NotificationHandler<TripNotificat
         Assert.notNull(notification.getContentId(), "notification.contentId must not be null");
         Assert.notNull(notification.getTableId(), "notification.tableId must not be null");
 
-        TripMemberCriteria tripMemberCriteria = new TripMemberCriteria();
-        tripMemberCriteria.setTripId(notification.getContentId());
-        tripMemberCriteria.setTableId(notification.getTableId());
-        tripMemberCriteria.setUserId(notification.getToId());
+        String tripId = notification.getContentId();
+        String tableId = notification.getTableId();
+        String userId = notification.getToId();
 
-        List<TripMember> members = tripUserService.getMembersByCriteria(tripMemberCriteria);
-        Assert.notNull(members, "trip member is not found");
-        Assert.isTrue(!members.isEmpty(), "trip member is not found");
-        Assert.isTrue(members.size() == 1, "duplicate member per table item");
-        tripUserService.removeTripMember(members.get(0).getId());
+        boolean isTableUser = tripUserService.isTripTableMember(tripId, tableId, userId);
+        Assert.isTrue(isTableUser, String.format("user:%s not found in trip:%s and table:%s", userId, tripId, tableId));
+
+        tripUserService.removeTripMember(tripId, tableId, userId);
     }
 }

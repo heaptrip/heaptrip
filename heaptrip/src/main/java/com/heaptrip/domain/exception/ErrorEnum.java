@@ -14,6 +14,7 @@ public enum ErrorEnum {
 
     REMOVE_TRIP_FAILURE("err.remove.trip.failure"),
     REMOVE_TRIP_LANGUAGE_FAILURE("err.remove.trip.language.failure"),
+    ERROR_TRIP_USER_ALREADY_ADDED("err.trip.user.already.added"),
 
     REMOVE_EVENT_LANGUAGE_FAILURE("err.remove.event.language.failure"),
 

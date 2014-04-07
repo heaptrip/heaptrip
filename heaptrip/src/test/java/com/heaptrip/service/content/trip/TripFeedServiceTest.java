@@ -1,7 +1,9 @@
 package com.heaptrip.service.content.trip;
 
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.content.trip.TripUser;
+import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
@@ -30,15 +32,32 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private TripUserService tripUserService;
 
+    @Autowired
+    private AccountRepository accountRepository;
+
     @BeforeClass
-    public void init() {
+    public void beforeClass() {
+        // create test trip
         contentRepository.save(TripFeedDataProvider.getTrip());
+        // create test users
+        User[] users = TripFeedDataProvider.getUsers();
+        for (User user : users) {
+            accountRepository.save(user);
+        }
     }
 
     @AfterClass(alwaysRun = true)
-    public void release() {
+    public void afterClass() {
+        // remove test trip
         contentRepository.remove(TripFeedDataProvider.CONTENT_ID);
+        // remove test users
+        User[] users = TripFeedDataProvider.getUsers();
+        for (User user : users) {
+            accountRepository.remove(user);
+        }
+        // remove test members
         tripUserService.removeTripMembers(TripFeedDataProvider.CONTENT_ID);
+        // TODO konovalov: remove notifications by test users
     }
 
     @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")
@@ -101,8 +120,8 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     @Test(enabled = true, dataProvider = "memberMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
     public void getContentsByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
         // prepare
-        TripUser user = tripUserService.addTripUser(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.TABLE_IDs[1], TripFeedDataProvider.USER_ID);
-        tripUserService.acceptTripUser(user.getId());
+        TripUser user = tripUserService.sendInvite(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.TABLE_IDs[1], TripFeedDataProvider.USER_ID);
+        tripUserService.acceptTripMember(user.getId());
         // call
         List<Trip> trips = tripFeedService.getContentsByMyAccountCriteria(tripMyAccountCriteria);
         // check
@@ -115,8 +134,8 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     @Test(enabled = true, dataProvider = "memberMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
     public void getCountByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
         // prepare
-        TripUser user = tripUserService.addTripUser(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.TABLE_IDs[1], TripFeedDataProvider.USER_ID);
-        tripUserService.acceptTripUser(user.getId());
+        TripUser user = tripUserService.sendInvite(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.TABLE_IDs[1], TripFeedDataProvider.USER_ID);
+        tripUserService.acceptTripMember(user.getId());
         // call
         long count = tripFeedService.getCountByMyAccountCriteria(tripMyAccountCriteria);
         // check

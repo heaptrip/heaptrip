@@ -1,5 +1,6 @@
 package com.heaptrip.service.rating;
 
+import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.Content;
@@ -32,15 +33,15 @@ import java.util.concurrent.Future;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
-    private static final String OWNER_ID = "ACCOUNT_FOR_" + RatingServiceTest.class.getName();
+    private static final String OWNER_ID = "ownerId4RatingServiceTest";
 
-    private static final String POST_ID = "POST_FOR_" + RatingServiceTest.class.getName();
+    private static final String USER_ID = "userId4RatingServiceTest";
 
-    private static final String TRIP_ID = "TRIP_FOR_" + RatingServiceTest.class.getName();
+    private static final String POST_ID = "postId4RatingServiceTest";
+
+    private static final String TRIP_ID = "tripId4RatingServiceTest";
 
     private static final String TRIP_TABLE_ID = "1";
-
-    private static final String USER_ID = "1";
 
     @Autowired
     private AccountRepository accountRepository;
@@ -61,13 +62,20 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
     private TripUserService tripUserService;
 
     @BeforeClass
-    public void init() throws Exception {
+    public void beforeClass() throws Exception {
         this.springTestContextPrepareTestInstance();
 
         clearDB();
 
         Account account = new User();
         account.setId(OWNER_ID);
+        account.setName(OWNER_ID);
+        account.setRating(ratingService.getDefaultAccountRating());
+        accountRepository.save(account);
+
+        account = new User();
+        account.setId(USER_ID);
+        account.setName(USER_ID);
         account.setRating(ratingService.getDefaultAccountRating());
         accountRepository.save(account);
 
@@ -80,6 +88,8 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
         Trip trip = new Trip();
         trip.setId(TRIP_ID);
+        trip.setOwnerId(OWNER_ID);
+        trip.setName(new MultiLangText("Test trip"));
         trip.setCreated(new Date());
         TableItem[] table = new TableItem[1];
         TableItem item = new TableItem();
@@ -91,17 +101,19 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @AfterClass
-    public void afterTest() {
+    public void afterClass() {
         clearDB();
     }
 
     private void clearDB() {
         accountRepository.remove(OWNER_ID);
+        accountRepository.remove(USER_ID);
         contentRepository.remove(POST_ID);
         tripRepository.remove(TRIP_ID);
         tripUserService.removeTripMembers(TRIP_ID);
         ratingRepository.removeByTargetId(OWNER_ID);
         ratingRepository.removeByTargetId(POST_ID);
+        // TODO konovalov: remove notifications by test users
     }
 
     @Test(enabled = true, priority = 0)
@@ -121,10 +133,10 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         // if user is not accepted trip member then he can not set rating
         boolean can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
         Assert.assertEquals(can, false);
-        TripUser tableUser = tripUserService.addTripUser(TRIP_ID, TRIP_TABLE_ID, USER_ID);
+        TripUser tableUser = tripUserService.sendInvite(TRIP_ID, TRIP_TABLE_ID, USER_ID);
         can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
         Assert.assertEquals(can, false);
-        tripUserService.acceptTripUser(tableUser.getId());
+        tripUserService.acceptTripMember(tableUser.getId());
         can = ratingService.canSetRating(ContentEnum.TRIP, TRIP_ID, USER_ID);
         Assert.assertEquals(can, true);
         // trip can be rated in six months with the launch of the last schedule
@@ -185,8 +197,15 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 2)
-    public void canNotSetRatingForPost() {
+    public void canSetRating() throws ExecutionException, InterruptedException {
+        // check before set rating
         boolean can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
+        Assert.assertEquals(can, true);
+        // set rating
+        Future<ContentRating> res = ratingService.addContentRating(POST_ID, USER_ID, ratingService.starsToRating(5));
+        res.get();
+        // check after set rating
+        can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
         Assert.assertEquals(can, false);
     }
 
@@ -243,6 +262,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         calendar.set(Calendar.YEAR, 2010);
         Content content = contentRepository.findOne(POST_ID);
         content.setCreated(calendar.getTime());
+        contentRepository.save(content);
         // check
         boolean can = ratingService.canSetRating(ContentEnum.POST, POST_ID, USER_ID);
         Assert.assertEquals(can, false);

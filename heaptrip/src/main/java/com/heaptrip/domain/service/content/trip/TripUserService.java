@@ -20,7 +20,7 @@ public interface TripUserService {
      * @param userId  user id
      * @return table user with status INVITE
      */
-    public TripUser addTripUser(String tripId, String tableId, String userId);
+    public TripUser sendInvite(String tripId, String tableId, String userId);
 
     /**
      * Send an invitation to an external email address
@@ -30,7 +30,7 @@ public interface TripUserService {
      * @param email   users email
      * @return table invite
      */
-    public TripInvite addTripInvite(String tripId, String tableId, String email);
+    public TripInvite sendExternalInvite(String tripId, String tableId, String email);
 
     /**
      * Send a user's request to participate in trip
@@ -40,7 +40,7 @@ public interface TripUserService {
      * @param userId  user id
      * @return table user with status REQUEST
      */
-    public TripUser addTripRequest(String tripId, String tableId, String userId);
+    public TripUser sendRequest(String tripId, String tableId, String userId);
 
     /**
      * Accept user to the members trip. Needs to be called when the user accepts
@@ -49,7 +49,18 @@ public interface TripUserService {
      *
      * @param memberId table member id
      */
-    public void acceptTripUser(String memberId);
+    public void acceptTripMember(String memberId);
+
+    /**
+     * Accept user to the members trip. Needs to be called when the user accepts
+     * the invitation to participate, or when the owner accepts the request from
+     * a user to participate in travel
+     *
+     * @param tripId  trip id
+     * @param tableId table id
+     * @param userId  user id
+     */
+    public void acceptTripMember(String tripId, String tableId, String userId);
 
     /**
      * Check that the user is a the trip member
@@ -58,7 +69,17 @@ public interface TripUserService {
      * @param userId user id
      * @return true or false
      */
-    public boolean isTripUser(String tripId, String userId);
+    public boolean isTripAcceptedMember(String tripId, String userId);
+
+    /**
+     * Check that the user is a the table member
+     *
+     * @param tripId  trip id
+     * @param tableId table id
+     * @param userId  user id
+     * @return true or false
+     */
+    public boolean isTripTableMember(String tripId, String tableId, String userId);
 
     /**
      * Set trip organizer
@@ -66,7 +87,7 @@ public interface TripUserService {
      * @param memberId    table member id
      * @param isOrganizer sign that the member is a trip organizer
      */
-    public void setTripUserOrganizer(String memberId, Boolean isOrganizer);
+    public void setTripMemberOrganizer(String memberId, Boolean isOrganizer);
 
     /**
      * Get trip members by criteria
@@ -93,6 +114,18 @@ public interface TripUserService {
      * @param memberId table member id
      */
     public void removeTripMember(String memberId);
+
+    /**
+     * Remove the user or invite from the travel. Needs to be called when the
+     * user reject the invitation to participate, as well as the when owner
+     * rejects the request from the user to participate in travel, as well as
+     * the when the owner removes user
+     *
+     * @param tripId  trip id
+     * @param tableId table id
+     * @param userId  user id
+     */
+    public void removeTripMember(String tripId, String tableId, String userId);
 
     /**
      * Remove all trips members. It is recommended to use the after trips tests

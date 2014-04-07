@@ -74,9 +74,23 @@ public class TripMemberRepositoryImpl extends CrudRepositoryImpl<TripMember> imp
     }
 
     @Override
-    public boolean existsByTripIdAndUserId(String tripId, String userId) {
+    public boolean existsByTripIdAndUserIdAndStatusOk(String tripId, String userId) {
         MongoCollection coll = getCollection();
         long count = coll.count("{userId: #, contentId: #, status: #}", userId, tripId, TableUserStatusEnum.OK);
+        return count > 0;
+    }
+
+    @Override
+    public boolean existsByTripIdAndTableIdAndUserId(String tripId, String tableId, String userId) {
+        MongoCollection coll = getCollection();
+        long count = coll.count("{userId: #, contentId: #, tableId: #}", userId, tripId, tableId);
+        return count > 0;
+    }
+
+    @Override
+    public boolean existsByTripIdAndTableIdAndEmail(String tripId, String tableId, String email) {
+        MongoCollection coll = getCollection();
+        long count = coll.count("{contentId: #, tableId: #, email: #}", tripId, tableId, email);
         return count > 0;
     }
 
@@ -84,6 +98,13 @@ public class TripMemberRepositoryImpl extends CrudRepositoryImpl<TripMember> imp
     public void setStatus(String memberId, TableUserStatusEnum status) {
         MongoCollection coll = getCollection();
         WriteResult wr = coll.update("{_id: #}", memberId).with("{$set: {status: #}}", status);
+        logger.debug("WriteResult for set status: {}", wr);
+    }
+
+    @Override
+    public void setStatusByTripIdAndTableIdAndUserId(String tripId, String tableId, String userId, TableUserStatusEnum status) {
+        MongoCollection coll = getCollection();
+        WriteResult wr = coll.update("{userId: #, contentId: #, tableId: #}", userId, tripId, tableId).with("{$set: {status: #}}", status);
         logger.debug("WriteResult for set status: {}", wr);
     }
 
@@ -99,5 +120,12 @@ public class TripMemberRepositoryImpl extends CrudRepositoryImpl<TripMember> imp
         MongoCollection coll = getCollection();
         WriteResult wr = coll.remove("{contentId: #}", tripId);
         logger.debug("WriteResult for remove trip member by tripId: {}", wr);
+    }
+
+    @Override
+    public void removeByTripIdAndTableIdAndUserId(String tripId, String tableId, String userId) {
+        MongoCollection coll = getCollection();
+        WriteResult wr = coll.remove("{userId: #, contentId: #, tableId: #}", userId, tripId, tableId);
+        logger.debug("WriteResult for remove trip member by tripId and  tableId and userId: {}", wr);
     }
 }

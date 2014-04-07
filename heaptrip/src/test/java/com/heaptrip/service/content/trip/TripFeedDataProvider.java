@@ -1,5 +1,7 @@
 package com.heaptrip.service.content.trip;
 
+import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.trip.TableItem;
@@ -25,13 +27,13 @@ public class TripFeedDataProvider {
 
     static String[] REGION_IDS = new String[]{"1", "7", "8"};
 
-    static String CONTENT_ID = "CONTENT_FOR_TRIP_FEED_SERVICE_TEST";
+    static String CONTENT_ID = "contentId4TripFeedServiceTest";
 
     static String[] TABLE_IDs = new String[]{"0", "1", "2", "3", "4"};
 
-    static String OWNER_ID = "OWNER_FOR_TRIP_FEED_SERVICE_TEST";
+    static String OWNER_ID = "ownerId4TripFeedServiceTest";
 
-    static String USER_ID = "USER_FOR_TRIP_FEED_SERVICE_TEST";
+    static String USER_ID = "userId4TripFeedServiceTest";
 
     static TableItem[] getTable() {
         TableItem[] table = new TableItem[TABLE_IDs.length];
@@ -63,8 +65,24 @@ public class TripFeedDataProvider {
         ContentStatus status = new ContentStatus();
         status.setValue(ContentStatusEnum.PUBLISHED_FRIENDS);
         trip.setStatus(status);
+        trip.setName(new MultiLangText("Test trip"));
         trip.setTable(getTable());
         return trip;
+    }
+
+    public static User[] getUsers() {
+        User[] users = new User[2];
+        User user = new User();
+        user.setId(OWNER_ID);
+        user.setName(OWNER_ID);
+        users[0] = user;
+
+        user = new User();
+        user.setId(USER_ID);
+        user.setName(USER_ID);
+        users[1] = user;
+
+        return users;
     }
 
 

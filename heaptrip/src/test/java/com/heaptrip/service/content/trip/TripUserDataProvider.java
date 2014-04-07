@@ -1,5 +1,7 @@
 package com.heaptrip.service.content.trip;
 
+import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.entity.content.trip.TableItem;
@@ -49,6 +51,24 @@ public class TripUserDataProvider {
         status.setValue(ContentStatusEnum.PUBLISHED_FRIENDS);
         trip.setStatus(status);
         trip.setTable(getTable());
+        trip.setName(new MultiLangText("Test trip"));
         return trip;
+    }
+
+    public static User[] getUsers() {
+        User[] users = new User[4];
+        User user = new User();
+        user.setId(OWNER_ID);
+        user.setName(OWNER_ID);
+        users[0] = user;
+        int ptr = 1;
+
+        for (String userId : USER_IDs) {
+            user = new User();
+            user.setId(userId);
+            user.setName(userId);
+            users[ptr++] = user;
+        }
+        return users;
     }
 }

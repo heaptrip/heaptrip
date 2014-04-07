@@ -1,13 +1,20 @@
 package com.heaptrip.service.content.trip;
 
+import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
+import com.heaptrip.domain.entity.account.notification.TripNotification;
 import com.heaptrip.domain.entity.content.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.content.trip.TripInvite;
 import com.heaptrip.domain.entity.content.trip.TripMember;
 import com.heaptrip.domain.entity.content.trip.TripUser;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.trip.TripException;
+import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
+import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
+import com.heaptrip.domain.service.system.ErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
@@ -21,66 +28,133 @@ public class TripUserServiceImpl implements TripUserService {
     private TripRepository tripRepository;
 
     @Autowired
+    private ContentRepository contentRepository;
+
+    @Autowired
     private TripMemberRepository tripMemberRepository;
 
+    @Autowired
+    private ErrorService errorService;
+
+    @Autowired
+    private NotificationService notificationService;
+
     @Override
-    public TripUser addTripUser(String tripId, String tableId, String userId) {
+    public TripUser sendInvite(String tripId, String tableId, String userId) {
         Assert.notNull(tripId, "tripId must not be null");
         Assert.notNull(tableId, "tableId must not be null");
         Assert.notNull(userId, "userId must not be null");
+
+        boolean isMember = isTripTableMember(tripId, tableId, userId);
+        if (isMember) {
+            throw errorService.createException(TripException.class, ErrorEnum.ERROR_TRIP_USER_ALREADY_ADDED);
+        }
+
         TripUser tableUser = new TripUser();
         tableUser.setContentId(tripId);
         tableUser.setTableId(tableId);
         tableUser.setUserId(userId);
         tableUser.setStatus(TableUserStatusEnum.INVITE);
+        tableUser = tripMemberRepository.save(tableUser);
+
         tripRepository.incTableMembers(tripId, tableId, 1);
-        // TODO konovalov: send notification for user and verify unique user per table
-        return tripMemberRepository.save(tableUser);
+
+        TripNotification notification = new TripNotification();
+        notification.setFromId(contentRepository.getOwnerId(tripId));
+        notification.setToId(userId);
+        notification.setType(NotificationTypeEnum.TRIP_INNER_INVITE);
+        notification.setContentId(tripId);
+        notification.setTableId(tableId);
+        notificationService.addNotification(notification);
+
+        return tableUser;
     }
 
     @Override
-    public TripInvite addTripInvite(String tripId, String tableId, String email) {
+    public TripInvite sendExternalInvite(String tripId, String tableId, String email) {
         Assert.notNull(tripId, "tripId must not be null");
         Assert.notNull(tableId, "tableId must not be null");
         Assert.notNull(email, "email must not be null");
+
+        boolean isMember = tripMemberRepository.existsByTripIdAndTableIdAndEmail(tripId, tableId, email);
+        if (isMember) {
+            throw errorService.createException(TripException.class, ErrorEnum.ERROR_TRIP_USER_ALREADY_ADDED);
+        }
+
         TripInvite invite = new TripInvite();
         invite.setContentId(tripId);
         invite.setTableId(tableId);
         invite.setEmail(email);
+        invite = tripMemberRepository.save(invite);
+
         tripRepository.incTableMembers(tripId, tableId, 1);
-        return tripMemberRepository.save(invite);
+
+        return invite;
     }
 
     @Override
-    public TripUser addTripRequest(String tripId, String tableId, String userId) {
+    public TripUser sendRequest(String tripId, String tableId, String userId) {
         Assert.notNull(tripId, "tripId must not be null");
         Assert.notNull(tableId, "tableId must not be null");
         Assert.notNull(userId, "userId must not be null");
+
+        boolean isMember = isTripTableMember(tripId, tableId, userId);
+        if (isMember) {
+            throw errorService.createException(TripException.class, ErrorEnum.ERROR_TRIP_USER_ALREADY_ADDED);
+        }
+
         TripUser tableUser = new TripUser();
         tableUser.setContentId(tripId);
         tableUser.setTableId(tableId);
         tableUser.setUserId(userId);
         tableUser.setStatus(TableUserStatusEnum.REQUEST);
+        tableUser = tripMemberRepository.save(tableUser);
+
         tripRepository.incTableMembers(tripId, tableId, 1);
-        // TODO konovalov: send notification to owner and verify unique user per table
-        return tripMemberRepository.save(tableUser);
+
+        TripNotification notification = new TripNotification();
+        notification.setFromId(userId);
+        notification.setToId(contentRepository.getOwnerId(tripId));
+        notification.setType(NotificationTypeEnum.TRIP_REQUEST);
+        notification.setContentId(tripId);
+        notification.setTableId(tableId);
+        notificationService.addNotification(notification);
+
+        return tableUser;
     }
 
     @Override
-    public void acceptTripUser(String memberId) {
+    public void acceptTripMember(String memberId) {
         Assert.notNull(memberId, "memberId must not be null");
         tripMemberRepository.setStatus(memberId, TableUserStatusEnum.OK);
     }
 
     @Override
-    public boolean isTripUser(String tripId, String userId) {
+    public void acceptTripMember(String tripId, String tableId, String userId) {
         Assert.notNull(tripId, "tripId must not be null");
+        Assert.notNull(tableId, "tableId must not be null");
         Assert.notNull(userId, "userId must not be null");
-        return tripMemberRepository.existsByTripIdAndUserId(tripId, userId);
+
+        tripMemberRepository.setStatusByTripIdAndTableIdAndUserId(tripId, tableId, userId, TableUserStatusEnum.OK);
     }
 
     @Override
-    public void setTripUserOrganizer(String memberId, Boolean isOrganizer) {
+    public boolean isTripAcceptedMember(String tripId, String userId) {
+        Assert.notNull(tripId, "tripId must not be null");
+        Assert.notNull(userId, "userId must not be null");
+        return tripMemberRepository.existsByTripIdAndUserIdAndStatusOk(tripId, userId);
+    }
+
+    @Override
+    public boolean isTripTableMember(String tripId, String tableId, String userId) {
+        Assert.notNull(tripId, "tripId must not be null");
+        Assert.notNull(tableId, "tableId must not be null");
+        Assert.notNull(userId, "userId must not be null");
+        return tripMemberRepository.existsByTripIdAndTableIdAndUserId(tripId, tableId, userId);
+    }
+
+    @Override
+    public void setTripMemberOrganizer(String memberId, Boolean isOrganizer) {
         Assert.notNull(memberId, "memberId must not be null");
         tripMemberRepository.setOrganizer(memberId, isOrganizer);
     }
@@ -111,9 +185,19 @@ public class TripUserServiceImpl implements TripUserService {
     }
 
     @Override
+    public void removeTripMember(String tripId, String tableId, String userId) {
+        Assert.notNull(tripId, "tripId must not be null");
+        Assert.notNull(tableId, "tableId must not be null");
+        Assert.notNull(userId, "userId must not be null");
+        tripRepository.incTableMembers(tripId, tableId, -1);
+        tripMemberRepository.removeByTripIdAndTableIdAndUserId(tripId, tableId, userId);
+    }
+
+    @Override
     public void removeTripMembers(String tripId) {
         Assert.notNull(tripId, "tripId must not be null");
         tripRepository.resetMembers(tripId);
         tripMemberRepository.removeByTripId(tripId);
     }
+
 }
