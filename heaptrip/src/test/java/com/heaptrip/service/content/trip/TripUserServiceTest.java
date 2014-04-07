@@ -69,7 +69,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
             accountRepository.remove(user);
         }
         // remove test notifications
-        // TODO konovalov: remove notifications by test users
+        // TODO konovalov & dikma: remove notifications by test user ids
     }
 
     @AfterMethod(alwaysRun = true)

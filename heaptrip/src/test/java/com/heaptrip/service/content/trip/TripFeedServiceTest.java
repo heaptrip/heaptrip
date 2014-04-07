@@ -57,7 +57,7 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         }
         // remove test members
         tripUserService.removeTripMembers(TripFeedDataProvider.CONTENT_ID);
-        // TODO konovalov: remove notifications by test users
+        // TODO konovalov & dikma: remove notifications by test user ids
     }
 
     @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")

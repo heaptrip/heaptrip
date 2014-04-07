@@ -1,5 +1,8 @@
 package com.heaptrip.service.content;
 
+import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
@@ -7,9 +10,12 @@ import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
+import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.region.RegionRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
+import com.heaptrip.domain.service.account.criteria.RelationCriteria;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.ContentService;
@@ -19,8 +25,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Future;
 
@@ -44,6 +53,13 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     protected RegionService regionService;
+
+    @Autowired
+    protected AccountStoreService accountStoreService;
+
+    @Autowired
+    protected RelationRepository relationRepository;
+
 
     protected void updateCategories(Content content) {
         Set<String> categoryIds = new HashSet<>();
@@ -123,9 +139,8 @@ public class ContentServiceImpl implements ContentService {
                 allowed = new String[]{Content.ALLOWED_ALL_USERS};
                 break;
             case PUBLISHED_FRIENDS:
-                // TODO konovalov: add owner friends
-                // String ownerId = contentRepository.getOwnerId(contentId);
-                allowed = new String[]{Content.ALLOWED_ALL_USERS};
+                String ownerId = contentRepository.getOwnerId(contentId);
+                allowed = getAllowed4FriendsByAccountId(ownerId);
                 break;
             default:
                 allowed = new String[0];
@@ -137,6 +152,46 @@ public class ContentServiceImpl implements ContentService {
 
         // update whole content (include allowed field) to Apache Solr
         contentSearchService.saveContent(contentId);
+    }
+
+    private String[] getAllowed4FriendsByAccountId(String accountId) {
+
+        Account account = accountStoreService.findOne(accountId);
+        Assert.notNull(account.getTypeAccount(), "account type must not be null");
+
+        List<String> allowed = new ArrayList<>();
+
+
+        switch (account.getTypeAccount()) {
+            case USER:
+                RelationCriteria relationCriteria = new RelationCriteria();
+                relationCriteria.setFromId(accountId);
+                // TODO dikma: add bidirectional relation for friends
+                relationCriteria.setTypeRelation(TypeRelationEnum.FRIEND);
+                List<Relation> relations = relationRepository.findByCriteria(relationCriteria);
+                if (!CollectionUtils.isEmpty(relations)) {
+                    for (Relation relation : relations) {
+                        allowed.add(relation.getToId());
+                    }
+                }
+                break;
+            case AGENCY:
+            case CLUB:
+            case COMPANY:
+                relationCriteria = new RelationCriteria();
+                relationCriteria.setToId(accountId);
+                // TODO dikma: add PUBLISHER, MEMBER, EMPLOYEE, OWNER
+                relationCriteria.setTypeRelation(TypeRelationEnum.OWNER);
+                relations = relationRepository.findByCriteria(relationCriteria);
+                if (!CollectionUtils.isEmpty(relations)) {
+                    for (Relation relation : relations) {
+                        allowed.add(relation.getFromId());
+                    }
+                }
+                break;
+        }
+
+        return allowed.toArray(new String[allowed.size()]);
     }
 
     @Override

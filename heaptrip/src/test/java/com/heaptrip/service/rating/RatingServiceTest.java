@@ -113,7 +113,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         tripUserService.removeTripMembers(TRIP_ID);
         ratingRepository.removeByTargetId(OWNER_ID);
         ratingRepository.removeByTargetId(POST_ID);
-        // TODO konovalov: remove notifications by test users
+        // TODO konovalov & dikma: remove notifications by test user ids
     }
 
     @Test(enabled = true, priority = 0)
