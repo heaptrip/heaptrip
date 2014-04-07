@@ -116,9 +116,9 @@
             // console.log(data);
 
             $("#user_communities").html($("#communityTemplate").render(data.accounts));
-            $("#working_communities").html($("#communityTemplate").render(data.accounts));
-            $("#member_communities").html($("#communityTemplate").render(data.accounts));
-            $("#subscriber_communities").html($("#communityTemplate").render(data.accounts));
+           // $("#working_communities").html($("#communityTemplate").render(data.accounts));
+           // $("#member_communities").html($("#communityTemplate").render(data.accounts));
+           // $("#subscriber_communities").html($("#communityTemplate").render(data.accounts));
 
 
             /*$('#paginator1').smartpaginator({

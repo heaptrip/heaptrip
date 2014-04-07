@@ -82,6 +82,11 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         userService.saveProfile(userInfoModel.getId(), profile);
     }
 
+    @Override
+    public boolean isUserOwnsCommunity(String userId, String communityId) {
+        Community community = (Community) accountService.getAccountById(communityId);
+        return community.getOwnerAccountId().equals(userId);
+    }
 
     @Override
     public List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria) {

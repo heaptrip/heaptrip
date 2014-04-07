@@ -14,7 +14,13 @@
                 <h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>
 
                 <div class="tags">
-                    <a href="<c:url value="/pf-profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+
+
+                    <a href="<c:url value="/pf-{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+
+
+
+
                 </div>
             </div>
             <div class="right">
@@ -61,17 +67,35 @@
 
 <div id="container">
     <div id="contents">
-        <c:if test='${not empty principal && empty catcher && fn:contains(url, "/my-")}'>
-            <article  id="article" class="deteil">
-                <div class="inf">
-                    <div class="right">
-                        <a href="<c:url value="/travel_modify_info.html"/>"
-                           class="button"><fmt:message
-                                key="page.action.add"/></a>
+
+        <c:if test='${not empty principal}'>
+            <%--Если, это мой--%>
+            <c:if test='${empty catcher && fn:contains(url, "/my-")}'>
+                <article id="article" class="deteil">
+                    <div class="inf">
+                        <div class="right">
+                            <a href="<c:url value="/travel_modify_info.html"/>"
+                               class="button"><fmt:message
+                                    key="page.action.add"/></a>
+                        </div>
                     </div>
-                </div>
-            </article>
+                </article>
+            </c:if>
+            <%--Если, это моего сообщества--%>
+            <c:if test='${not empty catcher && profileModelService.isUserOwnsCommunity(principal.id,catcher.id)}'>
+                <article id="article" class="deteil">
+                    <div class="inf">
+                        <div class="right">
+                            <a href="<c:url value="/travel_modify_info.html?guid=${catcher.id}"/>"
+                               class="button"><fmt:message
+                                    key="page.action.add"/></a>
+                        </div>
+                    </div>
+                </article>
+            </c:if>
         </c:if>
+
+
         <span id="contents_span"></span>
     </div>
     <tiles:insertDefinition name="pagination"/>
@@ -105,7 +129,8 @@
             regions: {
                 checkMode: "IN",
                 ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-            }
+            }//,userId:'522634a1e4b09c828330d059'
+
         };
 
         var callbackSuccess = function (data) {

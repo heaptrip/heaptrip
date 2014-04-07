@@ -7,24 +7,22 @@
 
 <div class="global_menu">
     <ul>
-
         <c:if test="${not empty principal}">
             <li>
-                <a href="<c:url value="/ct-tidings.html"/>" class='${fn:contains(url, "/ct-") ? "active":"" }'> <fmt:message key="content.list.title"/></a>
+                <a href="<c:url value="/ct-tidings.html"/>" class='${mode eq 'CONTENT' ? "active":"" }'> <fmt:message key="content.list.title"/></a>
             </li>
-
             <li>
-                <a href="<c:url value="/pf-profile.html"/>" class='${fn:contains(url, "/pf-") ? "active":"" }'>
+                <a href="<c:url value="/pf-profile.html"/>" class='${mode eq 'PROFILE' ? "active":"" }'>
                     <fmt:message key="accountProfile.title"/>
                 </a>
             </li>
             <li>
-                <a href="<c:url value="/my-travels.html?my=true"/>" class='${fn:contains(url, "/my-") ? "active":"" }'>
+                <a href="<c:url value="/my-travels.html?my=true"/>" class='${mode eq 'MY' ? "active":"" }'>
                     <fmt:message key="accountProfile.my"/>
                 </a>
             </li>
             <li>
-                <a href="<c:url value="/fv-travels.html"/>" class='${fn:contains(url, "/fv-") ? "active":"" }'>
+                <a href="<c:url value="/fv-travels.html"/>" class='${mode eq 'FAVORITE' ? "active":"" }'>
                     <fmt:message key="accountProfile.favorite"/>
                 </a>
             </li>
@@ -33,7 +31,7 @@
 </div>
 
 <ul>
-    <c:if test="${fn:contains(url, 'ct-')}">
+    <c:if test="${mode eq 'CONTENT'}">
         <li>
             <a href="<c:url value="/ct-tidings.html"/>" class="${fn:contains(url, '/ct-tiding') ? 'active':'' }">
                 <fmt:message key="tiding.list.title"/>
@@ -62,7 +60,7 @@
         </li>
     </c:if>
 
-    <c:if test="${fn:contains(url, 'my-')}">
+    <c:if test="${mode eq 'MY'}">
         <li>
             <a href="<c:url value="/my-travels.html"/>" class='${fn:contains(url, "/my-travel") ? "active":"" }'>
                 <fmt:message key="trip.list.title"/>
@@ -86,7 +84,7 @@
         </li>
     </c:if>
 
-    <c:if test="${fn:contains(url, 'fv-')}">
+    <c:if test="${mode eq 'FAVORITE'}">
         <li>
             <a href="<c:url value="/fv-travels.html"/>" class='${fn:contains(url, "/fv-travel") ? "active":"" }'>
                 <fmt:message key="trip.list.title"/>
@@ -111,7 +109,7 @@
     </c:if>
 
     <%--свой аккаунт--%>
-    <c:if test="${fn:contains(url, 'pf-') && empty catcher}">
+    <c:if test="${mode eq 'PROFILE' && empty catcher}">
         <li>
             <a href="<c:url value="/pf-profile.html"/>" class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
                 <fmt:message key="accountProfile.title"/>
@@ -141,7 +139,7 @@
     </c:if>
 
     <%--чужой аккаунт--%>
-    <c:if test="${fn:contains(url, 'pf-') && not empty catcher  }">
+    <c:if test="${mode eq 'PROFILE'&& not empty catcher  }">
 
 
 

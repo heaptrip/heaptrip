@@ -13,23 +13,23 @@
                     <h2 class="people_title"><fmt:message key="accountProfile.title"/></h2>
                 </div>
 
-<%--<c:if test='${not empty principal && empty catcher}'>--%>
+                <c:if test='${not empty catcher && profileModelService.isUserOwnsCommunity(principal.id,catcher.id)}'>
 
                 <div class="right">
                     <a href="<c:url value="/community_modify_info.html?guid=${param.guid}"/>" class="button"><fmt:message
                             key="page.action.edit"/></a>
                 </div>
 
-    <%--</c:if>--%>
+   </c:if>
 
 
 
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="/rest/image/medium/${account.image.id}"/>">
 
-                        <%--<c:if test='${not empty principal && empty catcher}'>--%>
+<c:if test='${not empty catcher && profileModelService.isUserOwnsCommunity(principal.id,catcher.id)}'>
                         <a class="button"><fmt:message key="page.action.uploadPhoto"/></a>
-                            <%--</c:if>--%>
+</c:if>
 
                     </div>
                     <div class="my_inf">

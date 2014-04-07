@@ -3,6 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="com.heaptrip.domain.entity.LangEnum" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <tiles:useAttribute id="script" name="scripts" classname="java.util.List"/>
 
@@ -25,7 +26,24 @@
     <c:set var="catcher" scope="request" value="${profileModelService.getAccountInformation(param.guid)}"/>
 </c:if>
 
+<c:if test="${fn:contains(url, 'ct-')}">
+    <c:set var="mode" scope="request" value="CONTENT"/>
+</c:if>
+<c:if test="${fn:contains(url, 'my-')}">
+    <c:set var="mode" scope="request" value="MY"/>
+</c:if>
+<c:if test="${fn:contains(url, 'fv-')}">
+    <c:set var="mode" scope="request" value="FAVORITE"/>
+</c:if>
+<c:if test="${fn:contains(url, 'pf-')}">
+    <c:set var="mode" scope="request" value="PROFILE"/>
+</c:if>
+
+
 <script type="text/javascript">
+    <c:if test="${not empty mode}">
+        window.mode = '${mode}'
+    </c:if>
     <c:if test="${not empty principal}">
         window.principal = {};
         window.principal.id = '${principal.id}';
@@ -36,4 +54,5 @@
         window.catcher.id = '${catcher.id}';
         window.catcher.name = '${catcher.name}';
     </c:if>
+
 </script>

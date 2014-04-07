@@ -117,7 +117,8 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         Trip trip = new Trip();
         trip.setLangs(new String[]{locale.getLanguage()});
         trip.setId(tripInfoModel.getId());
-        trip.setOwnerId(getCurrentUser().getId());
+        //trip.setOwnerId(getCurrentUser().getId());
+        trip.setOwnerId(tripInfoModel.getOwner().getId());
         trip.setStatus(convertContentStatusModelToContentStatus(tripInfoModel.getStatus()));
         trip.setMainLang(locale.getDisplayLanguage());
         trip.setName(new MultiLangText(tripInfoModel.getName(), locale));

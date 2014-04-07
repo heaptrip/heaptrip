@@ -6,30 +6,30 @@
 
 <script type="text/javascript">
 
-    <%--<c:forEach items="${trip.categories}" var="category" varStatus="stat">--%>
-    <%--<c:set var="categoryIds" value="${categoriesIds },${category.id}" />--%>
-    <%--</c:forEach>--%>
+    <c:forEach items="${trip.categories}" var="category" varStatus="stat">
+    <c:set var="categoryIds" value="${categoriesIds },${category.id}" />
+    </c:forEach>
 
-    <%--<c:forEach items="${trip.regions}" var="region" varStatus="stat">--%>
-    <%--<c:set var="regionIds" value="${regionIds },${region.id}" />--%>
-    <%--</c:forEach>--%>
+    <c:forEach items="${trip.regions}" var="region" varStatus="stat">
+    <c:set var="regionIds" value="${regionIds },${region.id}" />
+    </c:forEach>
 
 
-    $(document).ready(function () {
+    //$(document).ready(function () {
         <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
         <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
-        $.handParamToURL({
-            ct: ct,
-            rg: rg
-        });
-    });
+        //$.handParamToURL({
+        //    ct: ct,
+        //    rg: rg
+        //});
+    //});
 
     var onCommunitySubmit = function (btn) {
 
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id: $.getParamFromURL().guid ? $.getParamFromURL().guid : null
+            id:  window.catcher ? window.catcher.id : null
         };
 
         jsonData.name = $("#community_name").val();
@@ -66,6 +66,8 @@
         if ($("#location").attr('reg_id')) {
             $.extend(accountProfile, {location: {id: $("#location").attr('reg_id')}});
         }
+
+        $.extend(jsonData, {accountProfile: accountProfile});
 
         var url = null;
 

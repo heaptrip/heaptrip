@@ -7,12 +7,14 @@ import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.RegistrationInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
+
 import java.util.List;
 
 public interface ProfileModelService {
 
     /**
      * attention !!! used to jsp (servlet) context webmvc-context.xml
+     *
      * @param accountId - account id
      * @return account model
      */
@@ -21,6 +23,8 @@ public interface ProfileModelService {
     UserInfoModel getUserInformation(String accountId);
 
     CommunityInfoModel getCommunityInformation(String accountId);
+
+    boolean isUserOwnsCommunity(String userId, String communityId);
 
     void updateUserInfo(UserInfoModel userInfoModel);
 
