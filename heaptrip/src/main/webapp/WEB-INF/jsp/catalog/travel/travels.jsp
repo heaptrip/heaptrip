@@ -62,7 +62,7 @@
 <div id="container">
     <div id="contents">
         <c:if test='${not empty principal && empty catcher && fn:contains(url, "/my-")}'>
-            <article  id="article" class="deteil">
+            <article id="article" class="deteil">
                 <div class="inf">
                     <div class="right">
                         <a href="<c:url value="/travel_modify_info.html"/>"
@@ -93,8 +93,6 @@
 
     var getTripsList = function (paramsJson) {
 
-        var url = 'rest/trips';
-
         var tripCriteria = {
             skip: paramsJson.skip ? paramsJson.skip : 0,
             limit: paramsJson.limit,
@@ -107,6 +105,31 @@
                 ids: paramsJson.rg ? paramsJson.rg.split(',') : null
             }
         };
+
+        var url = 'rest/trips';
+
+
+        if (window.principal != null && window.principal.id != null) {
+            alert(window.mode)
+
+            tripCriteria.userId = window.principal.id;
+            if (window.mode == 'MY') {
+                url = 'rest/my/trips';
+                tripCriteria.relation = 'OWN';
+                alert('MY');
+            } else if (window.mode == 'FAVORITE') {
+                url = 'rest/my/trips';
+                tripCriteria.relation = 'FAVORITES';
+                alert('FAVORITES');
+            }
+        }
+
+        if (window.catcher != null && window.catcher.id != null) {
+            url = 'rest/foreign/trips';
+            tripCriteria.accountId = window.catcher.id;
+            tripCriteria.relation = 'OWN';
+            alert('catcher');
+        }
 
         var callbackSuccess = function (data) {
             $("#contents_span").html($("#tripTemplate").render(data.trips));
