@@ -128,17 +128,13 @@
 
 
         if (window.principal != null && window.principal.id != null) {
-            alert(window.mode)
-
             tripCriteria.userId = window.principal.id;
             if (window.mode == 'MY') {
                 url = 'rest/my/trips';
                 tripCriteria.relation = 'OWN';
-                alert('MY');
             } else if (window.mode == 'FAVORITE') {
                 url = 'rest/my/trips';
                 tripCriteria.relation = 'FAVORITES';
-                alert('FAVORITES');
             }
         }
 
@@ -146,7 +142,6 @@
             url = 'rest/foreign/trips';
             tripCriteria.accountId = window.catcher.id;
             tripCriteria.relation = 'OWN';
-            alert('catcher');
         }
 
         var callbackSuccess = function (data) {
