@@ -1,21 +1,27 @@
 package com.heaptrip.web.modelservice;
 
-import java.util.List;
-import java.util.Locale;
-
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 
+import java.util.List;
+import java.util.Locale;
+
 public interface TripModelService {
 
-	List<TripModel> getTripsModelByCriteria(TripFeedCriteria feedTripCriteria);
+    List<TripModel> getTripsModelByFeedCriteria(TripFeedCriteria feedTripCriteria);
 
-	TripInfoModel getTripInfoById(String tripId, Locale locale, boolean isOnlyThisLocale);
+    List<TripModel> getTripsModelByMyAccountCriteria(TripMyAccountCriteria myAccountCriteria);
 
-	Trip saveTripInfo(TripInfoModel tripInfoModel);
+    List<TripModel> getTripsModelByForeignAccountCriteria(TripForeignAccountCriteria foreignAccountCriteria);
 
-	void updateTripInfo(TripInfoModel tripInfoModel);
+    TripInfoModel getTripInfoById(String tripId, Locale locale, boolean isOnlyThisLocale);
+
+    Trip saveTripInfo(TripInfoModel tripInfoModel);
+
+    void updateTripInfo(TripInfoModel tripInfoModel);
 
 }

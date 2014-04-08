@@ -2,6 +2,8 @@ package com.heaptrip.web.controller.content.trip;
 
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -46,22 +48,49 @@ public class TripController extends ExceptionHandlerControler {
     @Autowired
     private CountersService countersService;
 
-    // private static final Logger LOG = LoggerFactory.getLogger(TripController.class);
-
     @RequestMapping(value = "trips", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> getTripsByCriteria(@RequestBody TripFeedCriteria tripFeedCriteria) {
+    Map<String, ? extends Object> getTripsByFeedCriteria(@RequestBody TripFeedCriteria tripFeedCriteria) {
         try {
             Map<String, Object> result = new HashMap();
-            List<TripModel> tripModels = tripModelService.getTripsModelByCriteria(tripFeedCriteria);
+            List<TripModel> tripModels = tripModelService.getTripsModelByFeedCriteria(tripFeedCriteria);
             result.put("trips", tripModels);
             result.put("count", tripFeedService.getCountByFeedCriteria(tripFeedCriteria));
             return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);
         }
+    }
 
+    @RequestMapping(value = "my/trips", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getTripsByMyAccountCriteria(@RequestBody TripMyAccountCriteria tripFeedCriteria) {
+        try {
+            Map<String, Object> result = new HashMap();
+            List<TripModel> tripModels = tripModelService.getTripsModelByMyAccountCriteria(tripFeedCriteria);
+            result.put("trips", tripModels);
+            result.put("count", tripFeedService.getContentsByMyAccountCriteria(tripFeedCriteria));
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
+
+    @RequestMapping(value = "foreign/trips", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getTripsByForeignAccountCriteria(@RequestBody TripForeignAccountCriteria tripFeedCriteria) {
+        try {
+            Map<String, Object> result = new HashMap();
+            List<TripModel> tripModels = tripModelService.getTripsModelByForeignAccountCriteria(tripFeedCriteria);
+            result.put("trips", tripModels);
+            result.put("count", tripFeedService.getContentsByForeignAccountCriteria(tripFeedCriteria));
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
     }
 
     @RequestMapping(value = "travel_info", method = RequestMethod.GET)

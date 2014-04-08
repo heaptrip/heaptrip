@@ -7,6 +7,8 @@ import com.heaptrip.domain.entity.content.trip.*;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
 import com.heaptrip.web.model.content.StatusModel;
 import com.heaptrip.web.model.travel.RouteModel;
 import com.heaptrip.web.model.travel.ScheduleModel;
@@ -29,9 +31,23 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
     private TripFeedService tripFeedService;
 
     @Override
-    public List<TripModel> getTripsModelByCriteria(TripFeedCriteria tripFeedCriteria) {
+    public List<TripModel> getTripsModelByFeedCriteria(TripFeedCriteria tripFeedCriteria) {
         tripFeedCriteria.setLocale(getCurrentLocale());
         List<Trip> trips = tripFeedService.getContentsByFeedCriteria(tripFeedCriteria);
+        return convertTripToTripModel(trips);
+    }
+
+    @Override
+    public List<TripModel> getTripsModelByMyAccountCriteria(TripMyAccountCriteria myAccountCriteria) {
+        myAccountCriteria.setLocale(getCurrentLocale());
+        List<Trip> trips = tripFeedService.getContentsByMyAccountCriteria(myAccountCriteria);
+        return convertTripToTripModel(trips);
+    }
+
+    @Override
+    public List<TripModel> getTripsModelByForeignAccountCriteria(TripForeignAccountCriteria foreignAccountCriteria) {
+        foreignAccountCriteria.setLocale(getCurrentLocale());
+        List<Trip> trips = tripFeedService.getContentsByForeignAccountCriteria(foreignAccountCriteria);
         return convertTripToTripModel(trips);
     }
 

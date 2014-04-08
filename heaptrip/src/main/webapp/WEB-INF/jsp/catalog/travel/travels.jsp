@@ -14,13 +14,7 @@
                 <h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>
 
                 <div class="tags">
-
-
-                    <a href="<c:url value="/pf-{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
-
-
-
-
+                    <a href="<c:url value="/pf-profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
             </div>
             <div class="right">
@@ -117,8 +111,6 @@
 
     var getTripsList = function (paramsJson) {
 
-        var url = 'rest/trips';
-
         var tripCriteria = {
             skip: paramsJson.skip ? paramsJson.skip : 0,
             limit: paramsJson.limit,
@@ -129,9 +121,33 @@
             regions: {
                 checkMode: "IN",
                 ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-            }//,userId:'522634a1e4b09c828330d059'
-
+            }
         };
+
+        var url = 'rest/trips';
+
+
+        if (window.principal != null && window.principal.id != null) {
+            alert(window.mode)
+
+            tripCriteria.userId = window.principal.id;
+            if (window.mode == 'MY') {
+                url = 'rest/my/trips';
+                tripCriteria.relation = 'OWN';
+                alert('MY');
+            } else if (window.mode == 'FAVORITE') {
+                url = 'rest/my/trips';
+                tripCriteria.relation = 'FAVORITES';
+                alert('FAVORITES');
+            }
+        }
+
+        if (window.catcher != null && window.catcher.id != null) {
+            url = 'rest/foreign/trips';
+            tripCriteria.accountId = window.catcher.id;
+            tripCriteria.relation = 'OWN';
+            alert('catcher');
+        }
 
         var callbackSuccess = function (data) {
             $("#contents_span").html($("#tripTemplate").render(data.trips));
