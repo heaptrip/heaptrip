@@ -1,23 +1,23 @@
-<%@ page import="com.heaptrip.domain.entity.LangEnum" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-
-<c:set var="langValues" value="<%=LangEnum.getValues()%>"/>
-
 <c:choose>
     <c:when test="${empty param.ul}">
-        <c:set var="currLocale">
-            ${curr_locale}
-        </c:set>
+        <%--<c:choose>--%>
+            <%--<c:when test="${not empty trip.locale}">--%>
+                <%--<c:set var="currLocale" value="${trip.locale}"/>--%>
+            <%--</c:when>--%>
+            <%--<c:otherwise>--%>
+                <c:set var="currLocale" value="${curr_locale}"/>
+            <%--</c:otherwise>--%>
+        <%--</c:choose>--%>
     </c:when>
     <c:otherwise>
         <c:set var="currLocale">${param.ul}</c:set>
     </c:otherwise>
 </c:choose>
-
 
 <c:set var="tripId" value='${param.id}'/>
 
@@ -219,7 +219,7 @@
                            class="${currLocale} lang"></a></li>
                     <li class="add_list_lang"><a class="add_lang lang" href="/"></a>
                         <ul>
-                            <c:forEach items="${langValues}" var="langValue">
+                            <c:forEach items="${lang_values}" var="langValue">
                                 <c:if test="${currLocale ne langValue}">
                                     <li><a
                                             onClick="$.putGETParamToURL('ul','${langValue}')"
@@ -262,7 +262,7 @@
                                                          href="/"></a>
                                 <ul>
 
-                                    <c:forEach items="${langValues}" var="langValue">
+                                    <c:forEach items="${lang_values}" var="langValue">
                                         <c:if
                                                 test="${fn:contains(joinLangValues, langValue) ne true}">
                                             <li><a

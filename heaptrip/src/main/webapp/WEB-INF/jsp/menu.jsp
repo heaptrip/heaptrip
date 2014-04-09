@@ -17,7 +17,7 @@
                 </a>
             </li>
             <li>
-                <a href="<c:url value="/my-travels.html?my=true"/>" class='${mode eq 'MY' ? "active":"" }'>
+                <a href="<c:url value="/my-travels.html"/>" class='${mode eq 'MY' ? "active":"" }'>
                     <fmt:message key="accountProfile.my"/>
                 </a>
             </li>
