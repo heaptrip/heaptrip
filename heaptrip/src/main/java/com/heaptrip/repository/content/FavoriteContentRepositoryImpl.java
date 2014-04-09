@@ -34,7 +34,7 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
     public void addFavorite(String contentId, String accountId) {
         MongoCollection coll = getCollection();
         WriteResult wr = coll
-                .update("{_id: #, 'favorites.ids': {$not: {$in: #}}}", contentId, Arrays.asList(accountId)).with(
+                .update("{_id: #, 'favorites.ids': {$ne: #}}", contentId, accountId).with(
                         "{$push: {'favorites.ids': #}, $inc: {'favorites.count': 1}}", accountId);
         logger.debug("WriteResult for add favorite: {}", wr);
     }

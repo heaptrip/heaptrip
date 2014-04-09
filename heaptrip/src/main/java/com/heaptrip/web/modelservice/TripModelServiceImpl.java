@@ -109,6 +109,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         appendTripToTripModel(tripInfoModel, trip, locale, isOnlyThisLocale);
         tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
         tripInfoModel.setRoute(convertTripRouteToModel(trip.getRoute(), locale, isOnlyThisLocale));
+        tripInfoModel.setEnableFavorite(isEnableFavorite(trip.getId()));
         return tripInfoModel;
     }
 

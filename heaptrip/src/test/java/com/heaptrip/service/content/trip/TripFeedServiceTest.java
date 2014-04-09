@@ -5,6 +5,7 @@ import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
@@ -35,6 +36,9 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private FavoriteContentService favoriteContentService;
+
     @BeforeClass
     public void beforeClass() {
         // create test trip
@@ -57,6 +61,8 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         }
         // remove test members
         tripUserService.removeTripMembers(TripFeedDataProvider.CONTENT_ID);
+        //remove favorites
+        favoriteContentService.removeFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
         // TODO konovalov & dikma: remove notifications by test user ids
     }
 
@@ -143,5 +149,35 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
         // remove test data
         tripUserService.removeTripMember(user.getId());
+    }
+
+    @Test(enabled = true, dataProvider = "favoriteMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
+    public void getContentsByFavoriteCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
+        // prepare
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        // check that twice can not be added
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        // call
+        List<Trip> trips = tripFeedService.getContentsByMyAccountCriteria(tripMyAccountCriteria);
+        // check
+        Assert.assertNotNull(trips);
+        Assert.assertEquals(trips.size(), 1);
+        // remove test data
+        favoriteContentService.removeFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+    }
+
+    @Test(enabled = true, dataProvider = "favoriteMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
+    public void getCountByFavoriteCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
+        // prepare
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        // check that twice can not be added
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        // call
+        long count = tripFeedService.getCountByMyAccountCriteria(tripMyAccountCriteria);
+        // check
+        Assert.assertNotNull(count);
+        Assert.assertEquals(count, 1);
+        // remove test data
+        favoriteContentService.removeFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
     }
 }

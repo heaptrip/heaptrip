@@ -165,4 +165,16 @@ public class TripFeedDataProvider {
         return new Object[][]{new Object[]{criteria}};
     }
 
+    @DataProvider(name = "favoriteMyAccountCriteria")
+    public static Object[][] getFavoritesMyAccountCriteria() {
+        TripMyAccountCriteria criteria = new TripMyAccountCriteria();
+        criteria.setUserId(USER_ID);
+        criteria.setSkip(0L);
+        criteria.setLimit(10L);
+        criteria.setSort(ContentSortEnum.RATING);
+        criteria.setLocale(Locale.ENGLISH);
+        criteria.setRelation(RelationEnum.FAVORITES);
+        return new Object[][]{new Object[]{criteria}};
+    }
+
 }

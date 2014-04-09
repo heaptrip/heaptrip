@@ -21,6 +21,8 @@ public class ContentModel {
     private String summary;
     private String description;
 
+    private boolean enableFavorite;
+
     public String getName() {
         return name;
     }
@@ -134,4 +136,11 @@ public class ContentModel {
         this.rating = rating;
     }
 
+    public boolean isEnableFavorite() {
+        return enableFavorite;
+    }
+
+    public void setEnableFavorite(boolean enableFavorite) {
+        this.enableFavorite = enableFavorite;
+    }
 }

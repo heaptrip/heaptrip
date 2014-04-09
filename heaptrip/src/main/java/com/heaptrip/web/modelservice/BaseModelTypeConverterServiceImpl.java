@@ -10,6 +10,7 @@ import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.category.CategoryService;
+import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.domain.service.region.RegionService;
@@ -30,10 +31,10 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 
 
     @Autowired
-    CategoryService categoryService;
+    protected CategoryService categoryService;
 
     @Autowired
-    RegionService regionService;
+    protected RegionService regionService;
 
     @Autowired
     protected RatingService ratingService;
@@ -41,6 +42,8 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     @Autowired
     protected ImageService imageService;
 
+    @Autowired
+    protected FavoriteContentService favoriteContentService;
 
     @Override
     public DateModel convertDate(Date date) {
@@ -272,5 +275,13 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         return result;
     }
 
-
+    @Override
+    public boolean isEnableFavorite(String contentId) {
+        boolean result = false;
+        User user = getCurrentUser();
+        if (user != null && user.getId() != null && contentId != null) {
+            result = favoriteContentService.canAddFavorites(contentId, user.getId());
+        }
+        return result;
+    }
 }

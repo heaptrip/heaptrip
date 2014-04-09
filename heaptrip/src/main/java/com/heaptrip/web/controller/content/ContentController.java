@@ -1,8 +1,10 @@
 package com.heaptrip.web.controller.content;
 
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
@@ -56,6 +58,22 @@ public class ContentController extends ExceptionHandlerControler {
 
     @Autowired
     private RequestScopeService requestScopeService;
+
+    @Autowired
+    private FavoriteContentService favoriteContentService;
+
+    @RequestMapping(value = "add_favorite", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> addFavorite(@RequestBody String contentId) {
+        try {
+            User user = requestScopeService.getCurrentUser();
+            favoriteContentService.addFavorites(contentId, user.getId());
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
 
     @RequestMapping(value = "news", method = RequestMethod.POST)
     public

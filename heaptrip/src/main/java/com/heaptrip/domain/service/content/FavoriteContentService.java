@@ -28,13 +28,13 @@ public interface FavoriteContentService {
     public void removeFavorites(String contentId, String accountId);
 
     /**
-     * Checking that the content is a favorite
+     * The method checks whether the user can add content to favorites
      *
      * @param contentId content id
      * @param accountId account id
      * @return true or false
      */
-    public boolean isFavorites(String contentId, String accountId);
+    public boolean canAddFavorites(String contentId, String accountId);
 
     /**
      * Get favorites contents by accountId

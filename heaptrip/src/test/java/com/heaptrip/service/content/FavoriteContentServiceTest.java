@@ -2,14 +2,17 @@ package com.heaptrip.service.content;
 
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
+import com.heaptrip.domain.entity.content.post.Post;
+import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.FavoriteContentService;
-import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
-import com.heaptrip.domain.service.content.feed.ContentFeedService;
 import com.heaptrip.util.language.LanguageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -17,54 +20,86 @@ import java.util.List;
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class FavoriteContentServiceTest extends AbstractTestNGSpringContextTests {
 
+    private String CONTENT_ID = "contentId4FavoriteContentServiceTest";
+
+    private String OWNER_ID = "ownerId4FavoriteContentServiceTest";
+
+    private String USER_ID = "userId4FavoriteContentServiceTest";
+
+    @Autowired
+    private ContentRepository contentRepository;
+
     @Autowired
     private FavoriteContentService favoriteContentService;
 
-    @Autowired
-    private ContentFeedService contentFeedService;
-
-    @Test(priority = 0, enabled = true, dataProviderClass = ContentDataProvider.class, dataProvider = "favoritesMyAccountCriteria")
-    public void addFavorites(MyAccountCriteria myAccountCriteria) {
-        // call
-        favoriteContentService.addFavorites(ContentDataProvider.CONTENT_ID, ContentDataProvider.USER_ID);
-        // check that twice can not be added
-        favoriteContentService.addFavorites(ContentDataProvider.CONTENT_ID, ContentDataProvider.USER_ID);
-        // check
-        long count = contentFeedService.getCountByMyAccountCriteria(myAccountCriteria);
-        Assert.assertEquals(count, 1);
+    @BeforeClass
+    public void beforeClass() {
+        // create test content
+        Content content = new Post();
+        content.setId(CONTENT_ID);
+        content.setOwnerId(OWNER_ID);
+        contentRepository.save(content);
     }
 
-    @Test(priority = 1, enabled = true)
-    public void isFavorites() {
-        // call
-        boolean isFavorite = favoriteContentService.isFavorites(ContentDataProvider.CONTENT_ID,
-                ContentDataProvider.USER_ID);
-        // check
-        Assert.assertTrue(isFavorite);
+    @AfterClass(alwaysRun = true)
+    public void afterClass() {
+        // remove test content
+        contentRepository.remove(CONTENT_ID);
     }
 
-    @Test(priority = 2, enabled = true)
+    @AfterMethod(alwaysRun = true)
+    public void afterMethod() {
+        favoriteContentService.removeFavorites(CONTENT_ID, USER_ID);
+    }
+
+    @Test
+    public void addFavorites() {
+        // check before call test
+        Assert.assertTrue(favoriteContentService.canAddFavorites(CONTENT_ID, USER_ID));
+        // call
+        favoriteContentService.addFavorites(CONTENT_ID, USER_ID);
+        // check
+        Assert.assertFalse(favoriteContentService.canAddFavorites(CONTENT_ID, USER_ID));
+    }
+
+    @Test
+    public void canAddFavorites() {
+        Assert.assertTrue(favoriteContentService.canAddFavorites(CONTENT_ID, USER_ID));
+        Assert.assertFalse(favoriteContentService.canAddFavorites(CONTENT_ID, OWNER_ID));
+        favoriteContentService.addFavorites(CONTENT_ID, USER_ID);
+        Assert.assertFalse(favoriteContentService.canAddFavorites(CONTENT_ID, USER_ID));
+        Assert.assertFalse(favoriteContentService.canAddFavorites(CONTENT_ID, OWNER_ID));
+    }
+
+    @Test
     public void getFavoritesContents() {
-        // call
-        List<Content> list = favoriteContentService.getFavoritesContents(ContentEnum.POST, ContentDataProvider.USER_ID,
-                LanguageUtils.getEnglishLocale());
-        // check
+        // check before add favorite content
+        List<Content> list = favoriteContentService.getFavoritesContents(ContentEnum.POST, USER_ID, LanguageUtils.getEnglishLocale());
         Assert.assertNotNull(list);
-        Assert.assertTrue(list.size() > 0);
-        // call
-        list = favoriteContentService.getFavoritesContents(ContentDataProvider.USER_ID,
-                LanguageUtils.getEnglishLocale());
-        // check
+        Assert.assertTrue(list.isEmpty());
+        list = favoriteContentService.getFavoritesContents(USER_ID, LanguageUtils.getEnglishLocale());
         Assert.assertNotNull(list);
-        Assert.assertTrue(list.size() > 0);
+        Assert.assertTrue(list.isEmpty());
+        // twice add favorite content
+        favoriteContentService.addFavorites(CONTENT_ID, USER_ID);
+        favoriteContentService.addFavorites(CONTENT_ID, USER_ID);
+        // check after added
+        list = favoriteContentService.getFavoritesContents(ContentEnum.POST, USER_ID, LanguageUtils.getEnglishLocale());
+        Assert.assertNotNull(list);
+        Assert.assertEquals(list.size(), 1);
+        list = favoriteContentService.getFavoritesContents(USER_ID, LanguageUtils.getEnglishLocale());
+        Assert.assertNotNull(list);
+        Assert.assertEquals(list.size(), 1);
     }
 
-    @Test(priority = 3, enabled = true, dataProvider = "favoritesMyAccountCriteria", dataProviderClass = ContentDataProvider.class)
-    public void removeFavorites(MyAccountCriteria myAccountCriteria) {
+    @Test
+    public void removeFavorites() {
+        // prepare
+        favoriteContentService.addFavorites(CONTENT_ID, USER_ID);
+        Assert.assertFalse(favoriteContentService.canAddFavorites(CONTENT_ID, USER_ID));
         // call
-        favoriteContentService.removeFavorites(ContentDataProvider.CONTENT_ID, ContentDataProvider.USER_ID);
+        favoriteContentService.removeFavorites(CONTENT_ID, USER_ID);
         // check
-        long count = contentFeedService.getCountByMyAccountCriteria(myAccountCriteria);
-        Assert.assertEquals(count, 0);
+        Assert.assertTrue(favoriteContentService.canAddFavorites(CONTENT_ID, USER_ID));
     }
 }
