@@ -9,7 +9,8 @@
     <ul>
         <c:if test="${not empty principal}">
             <li>
-                <a href="<c:url value="/ct-tidings.html"/>" class='${mode eq 'CONTENT' ? "active":"" }'> <fmt:message key="content.list.title"/></a>
+                <a href="<c:url value="/ct-tidings.html"/>" class='${mode eq 'CONTENT' ? "active":"" }'> <fmt:message
+                        key="content.list.title"/></a>
             </li>
             <li>
                 <a href="<c:url value="/pf-profile.html"/>" class='${mode eq 'PROFILE' ? "active":"" }'>
@@ -139,8 +140,7 @@
     </c:if>
 
     <%--чужой аккаунт--%>
-    <c:if test="${mode eq 'PROFILE'&& not empty catcher  }">
-
+    <c:if test="${mode eq 'PROFILE' && not empty catcher  }">
 
 
         <%--тип чужого аккаунта пользователь--%>

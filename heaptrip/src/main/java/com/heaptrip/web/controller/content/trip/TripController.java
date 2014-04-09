@@ -71,7 +71,7 @@ public class TripController extends ExceptionHandlerControler {
             Map<String, Object> result = new HashMap();
             List<TripModel> tripModels = tripModelService.getTripsModelByMyAccountCriteria(tripFeedCriteria);
             result.put("trips", tripModels);
-            result.put("count", tripFeedService.getContentsByMyAccountCriteria(tripFeedCriteria));
+            result.put("count", tripFeedService.getCountByMyAccountCriteria(tripFeedCriteria));
             return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);
@@ -86,7 +86,7 @@ public class TripController extends ExceptionHandlerControler {
             Map<String, Object> result = new HashMap();
             List<TripModel> tripModels = tripModelService.getTripsModelByForeignAccountCriteria(tripFeedCriteria);
             result.put("trips", tripModels);
-            result.put("count", tripFeedService.getContentsByForeignAccountCriteria(tripFeedCriteria));
+            result.put("count", tripFeedService.getCountByForeignAccountCriteria(tripFeedCriteria));
             return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);

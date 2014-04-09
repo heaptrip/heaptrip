@@ -76,7 +76,7 @@
                 </article>
             </c:if>
             <%--Если, это моего сообщества--%>
-            <c:if test='${not empty catcher && profileModelService.isUserOwnsCommunity(principal.id,catcher.id)}'>
+            <c:if test="${not empty catcher && catcher.typeAccount ne 'USER' && profileModelService.isUserOwnsCommunity(principal.id,catcher.id)}">
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">
@@ -127,7 +127,7 @@
         var url = 'rest/trips';
 
 
-        if (window.principal != null && window.principal.id != null) {
+        if (window.principal) {
             tripCriteria.userId = window.principal.id;
             if (window.mode == 'MY') {
                 url = 'rest/my/trips';
@@ -138,7 +138,7 @@
             }
         }
 
-        if (window.catcher != null && window.catcher.id != null) {
+        if (window.catcher) {
             url = 'rest/foreign/trips';
             tripCriteria.accountId = window.catcher.id;
             tripCriteria.relation = 'OWN';
