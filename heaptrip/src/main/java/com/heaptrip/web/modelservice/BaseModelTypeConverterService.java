@@ -36,8 +36,6 @@ public interface BaseModelTypeConverterService {
 
     SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels, Locale locale);
 
-    String[] convertCategoriesModelsToIdsArray(CategoryModel[] categoryModels, Locale locale);
-
     CategoryModel[] convertCategoriesToModel(SimpleCategory[] categories);
 
     RegionModel convertRegionToModel(SimpleRegion region);
@@ -47,8 +45,4 @@ public interface BaseModelTypeConverterService {
     SimpleRegion convertRegionModelToRegion(RegionModel regionModel, Locale locale);
 
     SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels, Locale locale);
-
-    String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale);
-
-
 }

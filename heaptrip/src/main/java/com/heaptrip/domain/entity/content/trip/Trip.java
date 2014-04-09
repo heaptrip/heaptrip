@@ -1,6 +1,7 @@
 package com.heaptrip.domain.entity.content.trip;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.ContentEnum;
 
 /**
  * Trip
@@ -15,6 +16,11 @@ public class Trip extends Content {
 
     // IDs of trip posts
     private String[] postIds;
+
+    @Override
+    public ContentEnum getContentType() {
+        return ContentEnum.TRIP;
+    }
 
     public TableItem[] getTable() {
         return table;

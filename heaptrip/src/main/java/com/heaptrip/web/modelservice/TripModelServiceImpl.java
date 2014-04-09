@@ -31,6 +31,15 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
     private TripFeedService tripFeedService;
 
     @Override
+    public TripModel convertTrip(Trip trip) {
+        TripInfoModel tripInfoModel = new TripInfoModel();
+        appendTripToTripModel(tripInfoModel, trip, getCurrentLocale(), false);
+        tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
+        tripInfoModel.setRoute(convertTripRouteToModel(trip.getRoute(), getCurrentLocale(), false));
+        return tripInfoModel;
+    }
+
+    @Override
     public List<TripModel> getTripsModelByFeedCriteria(TripFeedCriteria tripFeedCriteria) {
         tripFeedCriteria.setLocale(getCurrentLocale());
         List<Trip> trips = tripFeedService.getContentsByFeedCriteria(tripFeedCriteria);
@@ -133,17 +142,14 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         Trip trip = new Trip();
         trip.setLangs(new String[]{locale.getLanguage()});
         trip.setId(tripInfoModel.getId());
-        //trip.setOwnerId(getCurrentUser().getId());
         trip.setOwnerId(tripInfoModel.getOwner().getId());
         trip.setStatus(convertContentStatusModelToContentStatus(tripInfoModel.getStatus()));
         trip.setMainLang(locale.getDisplayLanguage());
         trip.setName(new MultiLangText(tripInfoModel.getName(), locale));
         trip.setDescription(new MultiLangText(tripInfoModel.getDescription(), locale));
         trip.setSummary(new MultiLangText(tripInfoModel.getSummary(), locale));
-        trip.setCategoryIds(convertCategoriesModelsToIdsArray(tripInfoModel.getCategories(), locale));
         trip.setCategories(convertCategoriesModelsToCategories(tripInfoModel.getCategories(), locale));
         trip.setRoute(convertRouteModelToRoute(tripInfoModel.getRoute(), locale));
-        trip.setRegionIds(convertRegionModelsToIdsArray(tripInfoModel.getRegions(), locale));
         trip.setRegions(convertRegionModelsToRegions(tripInfoModel.getRegions(), locale));
         trip.setTable(convertScheduleModelsToTableItems(tripInfoModel.getSchedule()));
         return trip;

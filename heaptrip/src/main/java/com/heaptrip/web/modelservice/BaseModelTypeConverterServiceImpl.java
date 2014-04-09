@@ -42,8 +42,6 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     protected ImageService imageService;
 
 
-
-
     @Override
     public DateModel convertDate(Date date) {
         DateModel result = new DateModel();
@@ -74,8 +72,8 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     @Override
     public Image convertImage(ImageModel imageModel) {
         Image result = null;
-        if(imageModel!=null && imageModel.getId()!=null){
-            return  imageService.getImageById(imageModel.getId());
+        if (imageModel != null && imageModel.getId() != null) {
+            return imageService.getImageById(imageModel.getId());
         }
         return result;
     }
@@ -166,7 +164,7 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     // TODO : voronenko : переделать, когда появятся звезды 0,5
     // на GUI должны лететь : 0, 0_5, 1, 1_5, ..., 5
     protected String ratingValueToStars(Double value) {
-        Double stars = new Double(Math.round(ratingService.ratingToStars(value)));
+        Double stars = (double) Math.round(ratingService.ratingToStars(value));
         String starsString = stars.toString();
         int index = starsString.indexOf(".0");
         if (index > 0) {
@@ -178,7 +176,13 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 
     @Override
     public SimpleCategory convertCategoryModelToCategory(CategoryModel categoryModel, Locale locale) {
-        return categoryService.getCategoryById(categoryModel.getId(), locale);
+        SimpleCategory simpleCategory = null;
+        if (categoryModel != null) {
+            simpleCategory = new SimpleCategory();
+            simpleCategory.setId(categoryModel.getId());
+            //simpleCategory = categoryService.getCategoryById(categoryModel.getId(), locale);
+        }
+        return simpleCategory;
     }
 
     @Override
@@ -197,8 +201,11 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     @Override
     public SimpleRegion convertRegionModelToRegion(RegionModel regionModel, Locale locale) {
         SimpleRegion result = null;
-        if (regionModel != null)
-            result = regionService.getRegionById(regionModel.getId(), locale);
+        if (regionModel != null) {
+            result = new SimpleRegion();
+            result.setId(regionModel.getId());
+            //result = regionService.getRegionById(regionModel.getId(), locale);
+        }
         return result;
     }
 
@@ -213,28 +220,6 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
             result = regions.toArray(new SimpleRegion[regions.size()]);
         }
         return result;
-    }
-
-    @Override
-    public String[] convertCategoriesModelsToIdsArray(CategoryModel[] categoryModels, Locale locale) {
-        if (categoryModels == null) return null;
-        SimpleCategory[] categories = convertCategoriesModelsToCategories(categoryModels, locale);
-        List<String> ids = new ArrayList<>();
-        for (SimpleCategory category : categories) {
-            ids.add(category.getId());
-        }
-        return ids.toArray(new String[ids.size()]);
-    }
-
-    @Override
-    public String[] convertRegionModelsToIdsArray(RegionModel[] regionModels, Locale locale) {
-        if (regionModels == null) return null;
-        SimpleRegion[] regions = convertRegionModelsToRegions(regionModels, locale);
-        List<String> ids = new ArrayList<>();
-        for (SimpleRegion region : regions) {
-            ids.add(region.getId());
-        }
-        return ids.toArray(new String[ids.size()]);
     }
 
     @Override

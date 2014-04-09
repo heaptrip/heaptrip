@@ -2,6 +2,7 @@ package com.heaptrip.domain.entity.content.event;
 
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.Map;
 
 /**
@@ -23,6 +24,11 @@ public class Event extends Content {
 
     // show map or not
     private boolean showMap;
+
+    @Override
+    public ContentEnum getContentType() {
+        return ContentEnum.EVENT;
+    }
 
     public EventType[] getTypes() {
         return types;

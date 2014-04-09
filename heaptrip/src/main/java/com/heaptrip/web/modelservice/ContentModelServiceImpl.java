@@ -1,24 +1,16 @@
 package com.heaptrip.web.modelservice;
 
-import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.repository.content.ContentRepository;
-import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.feed.ContentFeedService;
 import com.heaptrip.web.model.content.ContentModel;
-import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.content.StatusModel;
-import com.heaptrip.web.model.profile.AccountModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 @Service(ContentModelService.SERVICE_NAME)
@@ -31,12 +23,13 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     protected ContentFeedService contentFeedService;
 
     @Autowired
-    private ContentRepository contentRepository;
-
-    @Autowired
     protected ProfileModelService profileModelService;
 
 
+    @Override
+    public ContentModel convertContent(Content content) {
+        return convertContentToContentModel(content.getContentType(), content, false);
+    }
 
     protected ContentModel convertContentToContentModel(ContentEnum contentType, Content content, boolean isOnlyThisLocale) {
         ContentModel contentModel = new ContentModel();
@@ -97,23 +90,4 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return contentStatus;
     }
 
-    @Override
-    public List<ContentModel> getContentModelsByCriteria(FeedCriteria feedCriteria) {
-        feedCriteria.setLocale(getCurrentLocale());
-        List<Content> contents = contentFeedService.getContentsByFeedCriteria(feedCriteria);
-        List<ContentModel> result = null;
-        if (contents != null) {
-            result = new ArrayList<>(contents.size());
-            for (Content content : contents) {
-                result.add(convertContentToContentModel(feedCriteria.getContentType(), content, false));
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public ContentModel getContentModelByContentId(String contentId, ContentEnum contentType) {
-        Content content = contentRepository.findOne(contentId);
-        return (content == null) ? null : convertContentToContentModel(contentType, content, false);
-    }
 }

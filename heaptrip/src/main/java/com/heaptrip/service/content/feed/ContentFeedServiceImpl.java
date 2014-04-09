@@ -39,7 +39,6 @@ public class ContentFeedServiceImpl implements ContentFeedService {
     @Override
     public List<Content> getContentsByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
         Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
-        Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
         Assert.notNull(foreignAccountCriteria.getRelation(), "relation must not be null");
         Assert.isTrue(!foreignAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
         Assert.isTrue(StringUtils.isNotBlank(foreignAccountCriteria.getAccountId()), "accountId must not be null");
@@ -65,7 +64,6 @@ public class ContentFeedServiceImpl implements ContentFeedService {
     @Override
     public long getCountByForeignAccountCriteria(ForeignAccountCriteria foreignAccountCriteria) {
         Assert.notNull(foreignAccountCriteria, "foreignAccountTripCriteria must not be null");
-        Assert.notNull(foreignAccountCriteria.getContentType(), "contentType must not be null");
         Assert.notNull(foreignAccountCriteria.getRelation(), "relation must not be null");
         Assert.isTrue(!foreignAccountCriteria.getRelation().equals(RelationEnum.MEMBER), "relation must not be MEMBER");
         Assert.isTrue(StringUtils.isNotBlank(foreignAccountCriteria.getAccountId()), "accountId must not be null");
