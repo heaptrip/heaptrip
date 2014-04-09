@@ -1,6 +1,7 @@
 package com.heaptrip.repository.content.helper;
 
 import com.heaptrip.domain.entity.content.Content;
+import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import org.apache.commons.lang.ArrayUtils;
@@ -19,10 +20,16 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
         String query = "{";
         if (criteria.getRelation().equals(RelationEnum.OWN)) {
             // OWNER
-            query += "'ownerId': #, _class: #";
+            query += "'ownerId': #";
         } else {
             // FAVORITES
-            query += "_id: {$in: #}, _class: #";
+            query += "_id: {$in: #}";
+        }
+        if (criteria.getContentType() != null) {
+            query += ", _class: #";
+        } else {
+            // TODO konovalov: check content indexes and remove this condition
+            query += ", _class: {$in: #}";
         }
         query += ", allowed: {$in: #}";
         if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
@@ -41,16 +48,25 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
         if (criteria.getRelation().equals(RelationEnum.OWN)) {
             // owner
             parameters.add(criteria.getAccountId());
-            // clazz
-            parameters.add(criteria.getContentType().getClazz());
+
         } else {
             // FAVORITES || MEMBER
             // id list
             Assert.notNull(objects);
             Assert.notNull(objects[0]);
             parameters.add(objects[0]);
-            // class
+        }
+        // clazz
+        if (criteria.getContentType() != null) {
             parameters.add(criteria.getContentType().getClazz());
+        } else {
+            // class
+            List<String> classes = new ArrayList<>(4);
+            classes.add(ContentEnum.TRIP.getClazz());
+            classes.add(ContentEnum.POST.getClazz());
+            classes.add(ContentEnum.QA.getClazz());
+            classes.add(ContentEnum.EVENT.getClazz());
+            parameters.add(classes);
         }
         // allowed
         List<String> allowed = new ArrayList<>();
@@ -100,3 +116,4 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
         return Content.class;
     }
 }
+

@@ -1,3 +1,4 @@
+// TODO konovalov: check content indexes
 db.contents.ensureIndex({_class: 1, created: 1, allowed: 1});
 db.contents.ensureIndex({_class: 1, 'rating.value': 1, allowed: 1});
 db.contents.ensureIndex({created: 1, allowed: 1});

@@ -11,7 +11,7 @@ public class SimpleCategory extends BaseObject {
     // multilingual name of the category
     protected MultiLangText name;
 
-    protected SimpleCategory() {
+    public SimpleCategory() {
         super();
     }
 

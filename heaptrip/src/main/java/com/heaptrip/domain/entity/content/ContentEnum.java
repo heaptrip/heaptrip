@@ -24,5 +24,4 @@ public enum ContentEnum {
     public String getClazz() {
         return clazz;
     }
-
 }

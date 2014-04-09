@@ -1,6 +1,6 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 
 <script id="tripTemplate" type="text/x-jsrender">
 
@@ -60,53 +60,70 @@
 </script>
 
 <div id="container">
-	<div id="contents"></div>
-    <tiles:insertDefinition name="pagination" />
+    <div id="contents"></div>
+    <tiles:insertDefinition name="pagination"/>
     <div id="paginator"></div>
 </div>
 
 <aside id="sideRight">
-	<tiles:insertDefinition name="categoryTreeWithBtn" />
-	<tiles:insertDefinition name="regionFilterWithBtn" />
+    <tiles:insertDefinition name="categoryTreeWithBtn"/>
+    <tiles:insertDefinition name="regionFilterWithBtn"/>
 </aside>
 
 <script type="text/javascript">
 
-	$(window).bind("onPageReady", function(e, paramsJson) {
-		getTripsList(paramsJson);
-	});
+    $(window).bind("onPageReady", function (e, paramsJson) {
+        getContentsList(paramsJson);
+    });
 
-	var getTripsList = function(paramsJson) {
-		
-		var url = 'rest/trips';
+    var getContentsList = function (paramsJson) {
 
-		var tripCriteria = {
-			skip : paramsJson.skip ? paramsJson.skip : 0,
-			limit : paramsJson.limit,
-			categories : {
-				checkMode : "IN",
-				ids : paramsJson.ct ? paramsJson.ct.split(',') : null
-			},
-			regions : {
-				checkMode : "IN",
-				ids : paramsJson.rg ? paramsJson.rg.split(',') : null
-			} 		
-		};
+        var contentCriteria = {
+            skip: paramsJson.skip ? paramsJson.skip : 0,
+            limit: paramsJson.limit,
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+        };
 
-		var callbackSuccess = function(data) {
-			$("#contents").html($("#tripTemplate").render(data.trips));
-			$('#paginator').smartpaginator({
-				totalrecords : data.count,
-				skip : paramsJson.skip
-			});
-		};
+        var url = 'rest/news';
 
-		var callbackError = function(error) {
-			alert(error);
-		};
 
-		$.postJSON(url, tripCriteria, callbackSuccess, callbackError);
+        if (window.principal != null && window.principal.id != null) {
+            contentCriteria.userId = window.principal.id;
+            if (window.mode == 'MY') {
+                url = 'rest/my/news';
+                contentCriteria.relation = 'OWN';
+            } else if (window.mode == 'FAVORITE') {
+                url = 'rest/my/news';
+                contentCriteria.relation = 'FAVORITES';
+            }
+        }
 
-	};
-	
+        if (window.catcher != null && window.catcher.id != null) {
+            url = 'rest/foreign/news';
+            contentCriteria.accountId = window.catcher.id;
+            contentCriteria.relation = 'OWN';
+        }
+
+        var callbackSuccess = function (data) {
+            $("#contents").html($("#tripTemplate").render(data.contents));
+            $('#paginator').smartpaginator({
+                totalrecords: data.count,
+                skip: paramsJson.skip
+            });
+        };
+
+        var callbackError = function (error) {
+            alert(error);
+        };
+
+        $.postJSON(url, contentCriteria, callbackSuccess, callbackError);
+    };
+
 </script>

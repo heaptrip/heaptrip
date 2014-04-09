@@ -9,13 +9,9 @@ import com.heaptrip.web.controller.base.RestException;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.post.PostModel;
 import com.heaptrip.web.modelservice.CommentModelService;
-import com.heaptrip.web.modelservice.ContentModelService;
 import com.heaptrip.web.modelservice.CountersService;
 import com.heaptrip.web.modelservice.PostModelService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,12 +22,6 @@ import java.util.Map;
 
 @Controller
 public class PostController extends ExceptionHandlerControler {
-
-    private static final Logger logger = LoggerFactory.getLogger(PostController.class);
-
-    @Autowired
-    @Qualifier(ContentModelService.SERVICE_NAME)
-    private ContentModelService contentModelService;
 
     @Autowired
     private ContentFeedService contentFeedService;
@@ -57,7 +47,7 @@ public class PostController extends ExceptionHandlerControler {
         try {
             Map<String, Object> result = new HashMap();
             feedCriteria.setContentType(ContentEnum.POST);
-            List<ContentModel> contentModels = contentModelService.getContentModelsByCriteria(feedCriteria);
+            List<PostModel> contentModels = postModelService.getPostModelsByCriteria(feedCriteria);
             result.put("posts", contentModels);
             result.put("count", contentFeedService.getCountByFeedCriteria(feedCriteria));
             return Ajax.successResponse(result);
@@ -73,7 +63,7 @@ public class PostController extends ExceptionHandlerControler {
         ContentModel postModel = null;
         if (postId != null) {
             countersService.incViews(postId);
-            postModel = contentModelService.getContentModelByContentId(postId, ContentEnum.POST);
+            postModel = postModelService.getPostModelBytId(postId);
             mv.addObject("comments", commentModelService.getComments(postId));
         }
         return mv.addObject("post", postModel);
@@ -86,7 +76,7 @@ public class PostController extends ExceptionHandlerControler {
         ContentModel postModel = null;
         if (postId != null) {
             countersService.incViews(postId);
-            postModel = contentModelService.getContentModelByContentId(postId, ContentEnum.POST);
+            postModel = postModelService.getPostModelBytId(postId);
             mv.addObject("comments", commentModelService.getComments(postId));
         }
         return mv.addObject("post", postModel);

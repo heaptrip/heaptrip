@@ -87,6 +87,8 @@ public abstract class Content extends BaseObject implements Collectionable, Comm
         return COMMENTS_NUMBER_FIELD_NAME;
     }
 
+    public abstract ContentEnum getContentType();
+
     public SimpleCategory[] getCategories() {
         return categories;
     }

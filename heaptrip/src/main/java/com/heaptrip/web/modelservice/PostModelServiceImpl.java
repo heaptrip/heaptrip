@@ -1,19 +1,56 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.post.Post;
+import com.heaptrip.domain.repository.content.post.PostRepository;
+import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.post.PostService;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.post.PostModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class PostModelServiceImpl extends ContentModelServiceImpl implements PostModelService {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Override
+    public PostModel convertPost(Post post) {
+        PostModel postModel = new PostModel();
+        setContentToContentModel(ContentEnum.POST, postModel, post, getCurrentLocale(), false);
+        return postModel;
+    }
+
+    @Override
+    public List<PostModel> getPostModelsByCriteria(FeedCriteria feedCriteria) {
+        feedCriteria.setLocale(getCurrentLocale());
+        feedCriteria.setContentType(ContentEnum.POST);
+        List<Content> contents = contentFeedService.getContentsByFeedCriteria(feedCriteria);
+        List<PostModel> result = null;
+        if (contents != null) {
+            result = new ArrayList<>(contents.size());
+            for (Content content : contents) {
+                result.add(convertPost((Post) content));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public PostModel getPostModelBytId(String contentId) {
+        Post post = postRepository.findOne(contentId);
+        return (post == null) ? null : convertPost(post);
+    }
 
     @Override
     public PostModel savePostModel(PostModel postModel) {
@@ -37,37 +74,8 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
         post.setName(new MultiLangText(contentModel.getName()));
         post.setDescription(new MultiLangText(contentModel.getDescription()));
         post.setSummary(new MultiLangText(contentModel.getSummary()));
-        post.setCategories(convertCategoriesModelsToCategories(contentModel.getCategories(),getCurrentLocale()));
-        post.setRegions(convertRegionModelsToRegions(contentModel.getRegions(),getCurrentLocale()));
+        post.setCategories(convertCategoriesModelsToCategories(contentModel.getCategories(), getCurrentLocale()));
+        post.setRegions(convertRegionModelsToRegions(contentModel.getRegions(), getCurrentLocale()));
         return post;
     }
-
-
-
-
-
-    /*private SimpleCategory[] convertCategoriesModelsToCategories(CategoryModel[] categoryModels) {
-        SimpleCategory[] result = null;
-        if (categoryModels != null) {
-            List<SimpleCategory> categories = new ArrayList<>();
-            for (CategoryModel categoryModel : categoryModels) {
-                categories.add(new SimpleCategory(categoryModel.getId()));
-            }
-            result = categories.toArray(new SimpleCategory[categories.size()]);
-        }
-        return result;
-    }*/
-
-    /*private SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels) {
-        SimpleRegion[] result = null;
-        if (regionModels != null) {
-            List<SimpleRegion> regions = new ArrayList<>();
-            for (RegionModel regionModel : regionModels) {
-                regions.add(new SimpleRegion(regionModel.getId()));
-            }
-            result = regions.toArray(new SimpleRegion[regions.size()]);
-        }
-        return result;
-    }   */
-
 }

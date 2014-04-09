@@ -24,4 +24,5 @@ public interface TripModelService {
 
     void updateTripInfo(TripInfoModel tripInfoModel);
 
+    TripModel convertTrip(Trip trip);
 }
