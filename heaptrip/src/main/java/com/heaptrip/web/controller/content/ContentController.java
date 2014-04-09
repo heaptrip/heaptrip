@@ -68,21 +68,11 @@ public class ContentController extends ExceptionHandlerControler {
             List<Content> contents = contentFeedService.getContentsByFeedCriteria(feedCriteria);
             if (!CollectionUtils.isEmpty(contents)) {
                 for (Content content : contents) {
-                    switch (content.getContentType()) {
-                        case TRIP:
-                            models.add(tripModelService.convertTrip((Trip) content));
-                            break;
-                        case POST:
-                            models.add(postModelService.convertPost((Post) content));
-                            break;
-                        default:
-                            models.add(contentModelService.convertContent(content));
-                            break;
-                    }
+                    models.add(convertContent(content));
                 }
             }
             result.put("contents", models);
-            result.put("count", contentFeedService.getContentsByFeedCriteria(feedCriteria));
+            result.put("count", contentFeedService.getCountByFeedCriteria(feedCriteria));
             return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);
@@ -100,17 +90,7 @@ public class ContentController extends ExceptionHandlerControler {
             List<Content> contents = contentFeedService.getContentsByMyAccountCriteria(myAccountCriteriaa);
             if (!CollectionUtils.isEmpty(contents)) {
                 for (Content content : contents) {
-                    switch (content.getContentType()) {
-                        case TRIP:
-                            models.add(tripModelService.convertTrip((Trip) content));
-                            break;
-                        case POST:
-                            models.add(postModelService.convertPost((Post) content));
-                            break;
-                        default:
-                            models.add(contentModelService.convertContent(content));
-                            break;
-                    }
+                    models.add(convertContent(content));
                 }
             }
             result.put("contents", models);
@@ -132,17 +112,7 @@ public class ContentController extends ExceptionHandlerControler {
             List<Content> contents = contentFeedService.getContentsByForeignAccountCriteria(foreignAccountCriteria);
             if (!CollectionUtils.isEmpty(contents)) {
                 for (Content content : contents) {
-                    switch (content.getContentType()) {
-                        case TRIP:
-                            models.add(tripModelService.convertTrip((Trip) content));
-                            break;
-                        case POST:
-                            models.add(postModelService.convertPost((Post) content));
-                            break;
-                        default:
-                            models.add(contentModelService.convertContent(content));
-                            break;
-                    }
+                    models.add(convertContent(content));
                 }
             }
             result.put("contents", models);
@@ -151,6 +121,24 @@ public class ContentController extends ExceptionHandlerControler {
         } catch (Throwable e) {
             throw new RestException(e);
         }
+    }
+
+    private ContentModel convertContent(Content content) {
+        ContentModel model = null;
+        if (content != null) {
+            switch (content.getContentType()) {
+                case TRIP:
+                    model = tripModelService.convertTrip((Trip) content);
+                    break;
+                case POST:
+                    model = postModelService.convertPost((Post) content);
+                    break;
+                default:
+                    model = contentModelService.convertContent(content);
+                    break;
+            }
+        }
+        return model;
     }
 
     @RequestMapping(value = "security/comment_save", method = RequestMethod.POST)
