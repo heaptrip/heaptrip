@@ -26,8 +26,7 @@
 <c:url var="tripEditUrl" value="travel_modify_info.html">
 	<c:param name='id' value="${tripId}" />
 	<c:param name='tb' value='${fn:contains(url,"info") ? "info":"map" }' />
-	
-	
+    <c:param name='ul' value='${curr_locale}' />
 </c:url>
 
 

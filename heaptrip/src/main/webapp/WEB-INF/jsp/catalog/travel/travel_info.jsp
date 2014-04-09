@@ -57,6 +57,8 @@
 	</div><a class="button"><fmt:message key="content.toFavorit" /></a></div>
 </article>
 
+<br>
+
 <tiles:insertDefinition name="comments" />
 
 
