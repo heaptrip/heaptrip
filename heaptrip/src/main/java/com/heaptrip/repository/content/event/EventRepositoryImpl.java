@@ -108,9 +108,10 @@ public class EventRepositoryImpl extends CrudRepositoryImpl<Event> implements Ev
         String lang = LanguageUtils.getLanguageByLocale(locale);
         String projection = String
                 .format("{_class: 1, ownerId: 1, 'categories._id': 1, 'categories.name.%s': 1, 'regions._id': 1, 'regions.name.%s': 1,"
-                        + " status: 1, 'name.%s': 1, 'name.main': 1, 'summary.%s': 1, 'summary.main': 1, 'description.%s': 1, 'description.main': 1,"
-                        + " created: 1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1, langs: 1,"
-                        + " 'types._id': 1, 'types.name.%s': 1, members: 1, price: 1, map: 1, showMap: 1}", lang, lang,
+                        + "status: 1, 'name.%s': 1, 'name.mainLang': 1, 'name.mainText': 1, 'summary.%s': 1, 'summary.mainLang': 1,"
+                        + "'summary.mainText': 1, 'description.%s': 1, 'description.mainLang': 1, 'description.mainText': 1,"
+                        + "created: 1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1, langs: 1,"
+                        + "'types._id': 1, 'types.name.%s': 1, members: 1, price: 1, map: 1, showMap: 1}", lang, lang,
                         lang, lang, lang, lang);
         if (logger.isDebugEnabled()) {
             String msg = String.format("find event\n->query: %s\n->parameters: %s\n->projection: %s", query, contentId,
@@ -132,8 +133,8 @@ public class EventRepositoryImpl extends CrudRepositoryImpl<Event> implements Ev
 
         if (mainLang.equals(lang)) {
             // update main language
-            updateQuery = "{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.main': #, "
-                    + "'summary.main': #, 'description.main': #, types: #, price: #, map: #, showMap: #}}";
+            updateQuery = "{$addToSet: {langs: #}, $set: {categories: #, categoryIds: #, regions: #, regionIds: #, 'name.mainText': #, "
+                    + "'summary.mainText': #, 'description.mainText': #, types: #, price: #, map: #, showMap: #}}";
 
             parameters.add(lang);
             parameters.add(event.getCategories());

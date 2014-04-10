@@ -1,6 +1,5 @@
 package com.heaptrip.service.content.event;
 
-import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.content.event.EventType;
 import com.heaptrip.domain.repository.content.event.EventTypeRepository;
 import com.heaptrip.domain.service.content.event.EventTypeService;
@@ -29,11 +28,11 @@ public class EventTypeServiceTest extends AbstractTestNGSpringContextTests {
 
     @BeforeClass
     public void init() {
-        eventTypes.add(new EventType("1", new MultiLangText("Семинар", "Trening")));
-        eventTypes.add(new EventType("2", new MultiLangText("Мастер класс", "Master class")));
-        eventTypes.add(new EventType("3", new MultiLangText("Вебинар", "Webinar")));
-        eventTypes.add(new EventType("4", new MultiLangText("Круглый стол", "Round table")));
-        eventTypes.add(new EventType("5", new MultiLangText("Соревнование", "Competition")));
+        eventTypes.add(new EventType("1", "Семинар", "Trening"));
+        eventTypes.add(new EventType("2", "Мастер класс", "Master class"));
+        eventTypes.add(new EventType("3", "Вебинар", "Webinar"));
+        eventTypes.add(new EventType("4", "Круглый стол", "Round table"));
+        eventTypes.add(new EventType("5", "Соревнование", "Competition"));
     }
 
     @Test(priority = 0)
