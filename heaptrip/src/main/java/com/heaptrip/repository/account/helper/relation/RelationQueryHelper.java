@@ -1,8 +1,8 @@
-package com.heaptrip.repository.account.helper;
+package com.heaptrip.repository.account.helper.relation;
 
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.repository.helper.AbstractQueryHelper;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,15 @@ public class RelationQueryHelper extends AbstractQueryHelper<RelationCriteria, R
         }
 
         if (criteria.getToId() != null) {
-            query = ((query == null) ? "{toId: #" : query + ", toId: #");
+            query = ((query == null) ? "{userIds: #" : query + ", userIds: #");
         }
 
-        if (criteria.getTypeRelation() != null) {
-            query = ((query == null) ? "{typeRelation: #" : query + ", typeRelation: #");
+        if (criteria.getRelationTypes() != null) {
+            if (criteria.getRelationTypes().length == 1) {
+                query = ((query == null) ? "{type: #" : query + ", type: #");
+            } else if (criteria.getRelationTypes().length > 1) {
+                query = ((query == null) ? "{type: #" : query + ", type: {$in: #}");
+            }
         }
 
         query = ((query == null) ? "{}" : query + "}");
@@ -45,8 +49,12 @@ public class RelationQueryHelper extends AbstractQueryHelper<RelationCriteria, R
             parameters.add(criteria.getToId());
         }
 
-        if (criteria.getTypeRelation() != null) {
-            parameters.add(criteria.getTypeRelation());
+        if (criteria.getRelationTypes() != null) {
+            if (criteria.getRelationTypes().length == 1) {
+                parameters.add(criteria.getRelationTypes()[0]);
+            } else if (criteria.getRelationTypes().length > 1) {
+                parameters.add(criteria.getRelationTypes());
+            }
         }
 
         return parameters.toArray();
@@ -54,7 +62,7 @@ public class RelationQueryHelper extends AbstractQueryHelper<RelationCriteria, R
 
     @Override
     public String getProjection(RelationCriteria criteria) {
-        return null;
+        return "{_id: 1}";
     }
 
     @Override

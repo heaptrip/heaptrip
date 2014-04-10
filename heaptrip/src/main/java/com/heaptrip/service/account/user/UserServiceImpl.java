@@ -3,7 +3,7 @@ package com.heaptrip.service.account.user;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
@@ -21,7 +21,8 @@ import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
-import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.UserRelationCriteria;
 import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -101,15 +102,14 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
                 throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_HAVE_ACTIVE_CONTENT);
             }
 
-            RelationCriteria criteria = new RelationCriteria();
-            criteria.setFromId(accountId);
-            criteria.setTypeRelation(TypeRelationEnum.OWNER);
+            String[] typeRelations = new String[1];
+            typeRelations[0] = RelationTypeEnum.OWNER.toString();
 
-            List<Relation> relations = relationRepository.findByCriteria(criteria);
+            List<Relation> relations = relationRepository.findByUserRelationCriteria(new UserRelationCriteria(accountId, typeRelations));
 
-            if (relations.size() > 0) {
+            if (relations != null && relations.size() > 0) {
                 for (Relation relation : relations) {
-                    relationService.deleteOwner(accountId, relation.getToId());
+                    relationService.deleteOwner(accountId, relation.getFromId());
                 }
             }
 

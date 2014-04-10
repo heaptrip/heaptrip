@@ -5,7 +5,7 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.image.FileReferences;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
@@ -22,7 +22,8 @@ import com.heaptrip.domain.repository.solr.entity.SolrAccount;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
-import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.AccountRelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -88,10 +89,15 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             }
 
             if (!account.getTypeAccount().equals(AccountEnum.USER)) {
-                RelationCriteria criteria = new RelationCriteria();
-                criteria.setToId(accountId);
-                criteria.setTypeRelation(TypeRelationEnum.OWNER);
-                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+                String[] types = new String[1];
+                types[0] = RelationTypeEnum.OWNER.toString();
+
+                AccountRelationCriteria criteria = new AccountRelationCriteria(accountId, types);
+                List<Relation> relations = relationRepository.findByAccountRelationCriteria(criteria);
+
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setOwners(relations.get(0).getUserIds());
+                }
             }
 
             try {
@@ -152,39 +158,82 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 solrAccount.setRegions(getIds(account.getProfile().getRegions()));
             }
 
-            RelationCriteria criteria = new RelationCriteria();
+            AccountRelationCriteria criteria = new AccountRelationCriteria(accountId);
+            String[] types = new String[1];
+            List<Relation> relations;
 
             if (account.getTypeAccount().equals(AccountEnum.USER)) {
-                criteria.setFromId(accountId);
-                criteria.setTypeRelation(TypeRelationEnum.PUBLISHER);
-                solrAccount.setPublishers(getRelations(criteria, account.getTypeAccount()));
+                types[0] = RelationTypeEnum.PUBLISHER.toString();
+                relations = relationRepository.findByAccountRelationCriteria(criteria);
 
-                criteria.setTypeRelation(TypeRelationEnum.MEMBER);
-                solrAccount.setMembers(getRelations(criteria, account.getTypeAccount()));
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setPublishers(relations.get(0).getUserIds());
+                }
 
-                criteria.setTypeRelation(TypeRelationEnum.EMPLOYEE);
-                solrAccount.setStaff(getRelations(criteria, account.getTypeAccount()));
+                types[0] = RelationTypeEnum.FRIEND.toString();
+                relations = relationRepository.findByAccountRelationCriteria(criteria);
 
-                criteria.setTypeRelation(TypeRelationEnum.OWNER);
-                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setFriends(relations.get(0).getUserIds());
+                }
 
-                criteria.setTypeRelation(TypeRelationEnum.FRIEND);
-                solrAccount.setFriends(getRelations(criteria, account.getTypeAccount()));
+//                criteria.setFromId(accountId);
+//                criteria.setTypeRelation(RelationTypeEnum.PUBLISHER);
+//                solrAccount.setPublishers(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.MEMBER);
+//                solrAccount.setMembers(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.EMPLOYEE);
+//                solrAccount.setStaff(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.OWNER);
+//                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.FRIEND);
+//                solrAccount.setFriends(getRelations(criteria, account.getTypeAccount()));
             } else {
-                criteria.setToId(accountId);
-                criteria.setTypeRelation(TypeRelationEnum.PUBLISHER);
-                solrAccount.setPublishers(getRelations(criteria, account.getTypeAccount()));
+                types[0] = RelationTypeEnum.SUBSCRIBER.toString();
+                relations = relationRepository.findByAccountRelationCriteria(criteria);
 
-                criteria.setTypeRelation(TypeRelationEnum.MEMBER);
-                solrAccount.setMembers(getRelations(criteria, account.getTypeAccount()));
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setPublishers(relations.get(0).getUserIds());
+                }
 
-                criteria.setTypeRelation(TypeRelationEnum.EMPLOYEE);
-                solrAccount.setStaff(getRelations(criteria, account.getTypeAccount()));
+                types[0] = RelationTypeEnum.MEMBER.toString();
+                relations = relationRepository.findByAccountRelationCriteria(criteria);
 
-                criteria.setTypeRelation(TypeRelationEnum.OWNER);
-                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setMembers(relations.get(0).getUserIds());
+                }
+
+                types[0] = RelationTypeEnum.EMPLOYEE.toString();
+                relations = relationRepository.findByAccountRelationCriteria(criteria);
+
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setStaff(relations.get(0).getUserIds());
+                }
+
+                types[0] = RelationTypeEnum.OWNER.toString();
+                relations = relationRepository.findByAccountRelationCriteria(criteria);
+
+                if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                    solrAccount.setOwners(relations.get(0).getUserIds());
+                }
+
+//                criteria.setToId(accountId);
+//                criteria.setTypeRelation(RelationTypeEnum.PUBLISHER);
+//                solrAccount.setPublishers(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.MEMBER);
+//                solrAccount.setMembers(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.EMPLOYEE);
+//                solrAccount.setStaff(getRelations(criteria, account.getTypeAccount()));
+//
+//                criteria.setTypeRelation(RelationTypeEnum.OWNER);
+//                solrAccount.setOwners(getRelations(criteria, account.getTypeAccount()));
             }
-
 
             try {
                 solrAccountRepository.save(solrAccount);
@@ -341,24 +390,23 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         }
     }
 
-    private String[] getRelations(RelationCriteria criteria, AccountEnum typeAccount) {
-        // TODO dikma нет проверки на уникальность связей
-        List<Relation> relations;
-        String[] result;
-
-        relations = relationRepository.findByCriteria(criteria);
-        result = new String[relations.size()];
-
-        if (relations.size() > 0) {
-            for (int i = 0; relations.size() > i; i++) {
-                if (typeAccount.equals(AccountEnum.USER)) {
-                    result[i] = relations.get(i).getToId();
-                } else {
-                    result[i] = relations.get(i).getFromId();
-                }
-            }
-        }
-
-        return result;
-    }
+//    private String[] getRelations(RelationCriteria criteria, AccountEnum typeAccount) {
+//        List<Relation> relations;
+//        String[] result;
+//
+//        relations = relationRepository.findByCriteria(criteria);
+//        result = new String[relations.size()];
+//
+//        if (relations.size() > 0) {
+//            for (int i = 0; relations.size() > i; i++) {
+//                if (typeAccount.equals(AccountEnum.USER)) {
+//                    result[i] = relations.get(i).getToId();
+//                } else {
+//                    result[i] = relations.get(i).getFromId();
+//                }
+//            }
+//        }
+//
+//        return result;
+//    }
 }

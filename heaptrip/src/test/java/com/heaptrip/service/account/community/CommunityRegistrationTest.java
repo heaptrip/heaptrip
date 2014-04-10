@@ -1,15 +1,16 @@
 package com.heaptrip.service.account.community;
 
-import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.solr.SolrAccountRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
-import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.AccountRelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.UserRelationCriteria;
 import com.heaptrip.domain.service.criteria.CheckModeEnum;
 import com.heaptrip.domain.service.criteria.IDListCriteria;
 import com.heaptrip.security.Authenticate;
@@ -25,7 +26,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
-import javax.management.relation.RelationService;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -100,11 +100,11 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
 
         solrAccountRepository.commit();
 
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                CommunityDataProvider.COMMUNITY_ID,
-                TypeRelationEnum.OWNER));
+        String[] typeRelations = new String[1];
+        typeRelations[0] = RelationTypeEnum.OWNER.toString();
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, typeRelations));
 
-        Assert.assertTrue(relations.size() == 1);
+        Assert.assertTrue(count == 1);
 
         AccountTextCriteria criteria = new AccountTextCriteria();
         criteria.setQuery(CommunityDataProvider.COMMUNITY_NAME);

@@ -39,12 +39,104 @@
         </property>
     </bean>
 
+    <bean id="friendRequestNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> предлагает дружить <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> offers friendship <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="memberRequestNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> подал запрос на участие <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> filed a request to participate <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="employeeRequestNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> подал запрос на работу <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> filed a request to work <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="ownerRequestNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> подал запрос на владение <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[
+		<strong>%s</strong> filed a request to hold <strong>%s</strong>
+]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <bean id="notificationTemplateStorage"
           class="com.heaptrip.domain.entity.account.notification.NotificationTemplateStorage">
         <property name="notificationTemplates">
             <map>
                 <entry key="TRIP_INNER_INVITE" value-ref="tripInnerInviteNotificationTemplate"/>
                 <entry key="TRIP_REQUEST" value-ref="tripRequestNotificationTemplate"/>
+                <entry key="FRIEND" value-ref="friendRequestNotificationTemplate"/>
+                <entry key="MEMBER" value-ref="memberRequestNotificationTemplate"/>
+                <entry key="EMPLOYEE" value-ref="employeeRequestNotificationTemplate"/>
+                <entry key="OWNER" value-ref="ownerRequestNotificationTemplate"/>
             </map>
         </property>
     </bean>

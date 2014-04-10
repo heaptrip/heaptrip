@@ -3,6 +3,8 @@ package com.heaptrip.domain.entity.account.notification;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.heaptrip.domain.entity.BaseObject;
+import com.heaptrip.domain.entity.CollectionEnum;
+import com.heaptrip.domain.entity.Collectionable;
 import com.heaptrip.domain.entity.MultiLangText;
 
 import java.util.Date;
@@ -10,14 +12,19 @@ import java.util.Date;
 /**
  * Base notification object
  */
-@JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Notification extends BaseObject {
+public class Notification extends BaseObject implements Collectionable {
 
-    // acount id, which fire notification
+    // acсount id, which fire notification
     private String fromId;
 
-    // account id, which will receive notification
+    // acсount id, which will receive notification
     private String toId;
+
+    // community users: owners, employees and etc.
+    private String[] allowed;
+
+    // search field identifiers stored two users (0 - fromId, 1 - toId)
+    private String[] accountIds;
 
     // date of create
     private Date created;
@@ -83,5 +90,26 @@ public class Notification extends BaseObject {
 
     public void setText(MultiLangText text) {
         this.text = text;
+    }
+
+    public String[] getAccountIds() {
+        return accountIds;
+    }
+
+    public void setAccountIds(String[] accountIds) {
+        this.accountIds = accountIds;
+    }
+
+    public String[] getAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(String[] allowed) {
+        this.allowed = allowed;
+    }
+
+    @Override
+    public String getCollectionName() {
+        return CollectionEnum.NOTIFICATIONS.getName();
     }
 }

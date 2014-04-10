@@ -4,7 +4,9 @@ import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
-import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.repository.CrudRepositoryImpl;
 import com.heaptrip.repository.helper.QueryHelper;
 import com.heaptrip.repository.helper.QueryHelperFactory;
@@ -47,6 +49,30 @@ public class NotificationRepositoryImpl extends CrudRepositoryImpl<Notification>
         QueryHelper<NotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
         return queryHelper.countByCriteria(criteria);
     }
+
+//    @Override
+//    public List<Notification> findNotificationsByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
+//        QueryHelper<AccountNotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+//        return queryHelper.findByCriteria(criteria);
+//    }
+//
+//    @Override
+//    public long countByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
+//        QueryHelper<AccountNotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+//        return queryHelper.countByCriteria(criteria);
+//    }
+//
+//    @Override
+//    public List<Notification> findNotificationsByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+//        QueryHelper<CommunityNotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+//        return queryHelper.findByCriteria(criteria);
+//    }
+//
+//    @Override
+//    public long countByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+//        QueryHelper<CommunityNotificationCriteria, Notification> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+//        return queryHelper.countByCriteria(criteria);
+//    }
 
     @Override
     public void changeStatus(String notificationId, NotificationStatusEnum status) {
