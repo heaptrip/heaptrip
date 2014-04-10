@@ -63,25 +63,6 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
         this.springTestContextPrepareTestInstance();
 
         deleteAll();
-//
-//        Locale locale = new Locale("ru");
-//
-//        userService.registration(UserDataProvider.getEmailUser(), null, locale);
-//        userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
-//
-//        userService.registration(UserDataProvider.getNetUser(), null, locale);
-//        userService.confirmRegistration(UserDataProvider.NET_USER_ID, String.valueOf(UserDataProvider.NET_USER_ID.hashCode()));
-//
-//        userService.registration(UserDataProvider.getNotConfirmedUser(), null, locale);
-//
-//        userRepository.save(UserDataProvider.getDeletedUser());
-//
-//        communityService.registration(CommunityDataProvider.getClub(), locale);
-//        communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
-//
-//        communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
-//
-//        accountRepository.save(CommunityDataProvider.getDeletedClub());
     }
 
     @Test(enabled = true)
@@ -185,36 +166,6 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
                 }
             }
         }
-
-//        RelationCriteria relationCriteria = new RelationCriteria();
-//        relationCriteria.setFromId(UserDataProvider.EMAIL_USER_ID);
-//
-//        List<Relation> relations = relationRepository.findByCriteria(relationCriteria);
-//
-//        for (Relation relation : relations) {
-//            relationRepository.remove(relation.getId());
-//        }
-//
-//
-//        for (Relation relation : relations) {
-//            try {
-//                solrAccountRepository.remove(relation.getFromId());
-//            } catch (SolrServerException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        for (Relation relation : relations) {
-//            try {
-//                solrAccountRepository.remove(relation.getToId());
-//            } catch (SolrServerException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     private void deleteAccounts() {

@@ -3,11 +3,13 @@ package com.heaptrip.service.account.relations;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
-import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
+import com.heaptrip.domain.exception.account.AccountException;
+import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.service.account.community.CommunityDataProvider;
 import com.heaptrip.service.account.user.UserDataProvider;
@@ -16,10 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import com.heaptrip.domain.exception.account.AccountException;
-import com.heaptrip.domain.repository.account.notification.NotificationRepository;
-import com.heaptrip.domain.service.account.notification.NotificationService;
 
 import java.util.List;
 

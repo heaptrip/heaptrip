@@ -2,9 +2,6 @@ package com.heaptrip.domain.service.account.notification;
 
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
-import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
-import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
-import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 
 import java.util.List;
@@ -33,56 +30,6 @@ public interface NotificationService {
      * @return count of notifications
      */
     long countByNotificationCriteria(NotificationCriteria criteria);
-
-//    /**
-//     * Get notifications by notification criteria
-//     *
-//     * @param criteria notification criteria
-//     * @return list of notifications
-//     */
-//    List<Notification> getNotificationsByNotificationCriteria(NotificationCriteria criteria);
-//
-//
-//    /**
-//     * Get count of notifications by notification criteria
-//     *
-//     * @param criteria notification criteria
-//     * @return count of notifications
-//     */
-//    long getCountByNotificationCriteria(NotificationCriteria criteria);
-//
-//    /**
-//     * Get notifications by c notification criteria
-//     *
-//     * @param criteria account notification criteria
-//     * @return list of notifications
-//     */
-//    List<Notification> getNotificationsByAccountNotificationCriteria(AccountNotificationCriteria criteria);
-//
-//
-//    /**
-//     * Get count of notifications by account notification criteria
-//     *
-//     * @param criteria account notification criteria
-//     * @return count of notifications
-//     */
-//    long getCountByAccountNotificationCriteria(AccountNotificationCriteria criteria);
-//
-//    /**
-//     * Get notifications by community notification criteria
-//     *
-//     * @param criteria community notification criteria
-//     * @return list of notifications
-//     */
-//    List<Notification> getNotificationsByCommunityNotificationCriteria(CommunityNotificationCriteria criteria);
-//
-//    /**
-//     * Get count of notifications by community notification criteria
-//     *
-//     * @param criteria community notification criteria
-//     * @return count of notifications
-//     */
-//    long getCountByCommunityNotificationCriteria(CommunityNotificationCriteria criteria);
 
     /**
      * Change notification status

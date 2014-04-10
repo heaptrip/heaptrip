@@ -31,7 +31,7 @@ public class UserRelationQueryHelper extends AbstractQueryHelper<UserRelationCri
         String query = null;
 
         if (criteria.getToId() != null) {
-            query = "{toId: #";
+            query = "{userIds: #";
         }
 
         if (criteria.getRelationTypes() != null) {
@@ -73,7 +73,7 @@ public class UserRelationQueryHelper extends AbstractQueryHelper<UserRelationCri
 
     @Override
     public String getHint(UserRelationCriteria criteria) {
-        return "{toId: 1, type: 1}";
+        return "{userIds: 1, type: 1}";
     }
 
     @Override

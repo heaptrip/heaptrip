@@ -37,17 +37,6 @@ public class RelationRepositoryImpl extends CrudRepositoryImpl<Relation> impleme
         return CollectionEnum.RELATIONS.getName();
     }
 
-//    @Override
-//    public void delete(RelationCriteria criteria) {
-//        QueryHelper<RelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
-//
-//        MongoCollection coll = getCollection();
-//        String query = queryHelper.getQuery(criteria);
-//        Object[] parameters = queryHelper.getParameters(criteria);
-//
-//        coll.remove(query,parameters);
-//    }
-
     @Override
     public void add(String fromId, String toId, RelationTypeEnum typeRelation) {
         MongoCollection coll = getCollection();
@@ -66,11 +55,6 @@ public class RelationRepositoryImpl extends CrudRepositoryImpl<Relation> impleme
             WriteResult wr = coll.update("{_id: #}", relation.getId()).with("{$addToSet :{'userIds' : #}}", toId);
             logger.debug("WriteResult for add toId: ", wr);
         }
-
-//
-//        String query = "{fromId: #, type: #}";
-//        WriteResult wr = coll.update(query, fromId, typeRelation).with(updateQuery, toId);
-//        logger.debug("WriteResult for add toId: ", wr);
     }
 
     @Override
@@ -93,19 +77,6 @@ public class RelationRepositoryImpl extends CrudRepositoryImpl<Relation> impleme
         QueryHelper<UserRelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
         return queryHelper.findByCriteria(criteria);
     }
-
-//    @Override
-//    public Relation findByCommunityRelationCriteria(CommunityRelationCriteria criteria) {
-//        QueryHelper<CommunityRelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
-//        List<Relation> relations = queryHelper.findByCriteria(criteria);
-//        return ((relations != null && relations.size() > 0) ? relations.get(0) : null);
-//    }
-//
-//    @Override
-//    public List<Relation> findByCriteria(RelationCriteria criteria) {
-//        QueryHelper<RelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
-//        return queryHelper.findByCriteria(criteria);
-//    }
 
     @Override
     public long countByRelationCriteria(RelationCriteria criteria) {

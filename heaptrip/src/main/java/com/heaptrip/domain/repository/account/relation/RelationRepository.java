@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface RelationRepository extends CrudRepository<Relation> {
 
-//    public void delete(RelationCriteria criteria);
-
     public void add(String fromId, String toId, RelationTypeEnum typeRelation);
 
     public void remove(String fromId, String toId, RelationTypeEnum typeRelation);
@@ -22,10 +20,4 @@ public interface RelationRepository extends CrudRepository<Relation> {
     public List<Relation> findByUserRelationCriteria(UserRelationCriteria criteria);
 
     public long countByRelationCriteria(RelationCriteria criteria);
-
-//    public Relation findByCommunityRelationCriteria(CommunityRelationCriteria criteria);
-
-//    public List<Relation> findByCriteria(RelationCriteria criteria);
-//
-//    public long countByCriteria(RelationCriteria criteria);
 }

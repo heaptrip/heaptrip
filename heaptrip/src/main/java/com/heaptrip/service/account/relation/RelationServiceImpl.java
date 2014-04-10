@@ -214,23 +214,6 @@ public class RelationServiceImpl implements RelationService {
             notification.setToId(communityId);
             notification.setType(NotificationTypeEnum.OWNER);
             notificationService.addNotification(notification);
-
-//            String[] typeRelations = new String[1];
-//            typeRelations[0] = RelationTypeEnum.OWNER.toString();
-//
-//            List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(communityId, typeRelations));
-//
-//            if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
-//                Notification notification = new Notification();
-//                notification.setFromId(userId);
-//                notification.setAllowed(relations.get(0).getUserIds());
-//                notification.setType(NotificationTypeEnum.OWNER);
-//                notificationService.addNotification(notification);
-//            } else {
-//                String msg = String.format("community not have owner: %s", communityId);
-//                logger.debug(msg);
-//                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_HAVE_OWNER);
-//            }
         }
     }
 
@@ -305,23 +288,6 @@ public class RelationServiceImpl implements RelationService {
             notification.setToId(communityId);
             notification.setType(NotificationTypeEnum.EMPLOYEE);
             notificationService.addNotification(notification);
-
-//            String[] typeRelations = new String[1];
-//            typeRelations[0] = RelationTypeEnum.OWNER.toString();
-//
-//            List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(communityId, typeRelations));
-//
-//            if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
-//                Notification notification = new Notification();
-//                notification.setFromId(userId);
-//                notification.setAllowed(relations.get(0).getUserIds());
-//                notification.setType(NotificationTypeEnum.EMPLOYEE);
-//                notificationService.addNotification(notification);
-//            } else {
-//                String msg = String.format("community not have owner: %s", communityId);
-//                logger.debug(msg);
-//                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_HAVE_OWNER);
-//            }
         }
     }
 
@@ -385,25 +351,6 @@ public class RelationServiceImpl implements RelationService {
             notification.setToId(communityId);
             notification.setType(NotificationTypeEnum.MEMBER);
             notificationService.addNotification(notification);
-
-
-//            String[] typeRelations = new String[2];
-//            typeRelations[0] = RelationTypeEnum.EMPLOYEE.toString();
-//            typeRelations[1] = RelationTypeEnum.OWNER.toString();
-//
-//            List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(communityId, typeRelations));
-//
-//            if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
-//                Notification notification = new Notification();
-//                notification.setFromId(userId);
-//                notification.setAllowed(relations.get(0).getUserIds());
-//                notification.setType(NotificationTypeEnum.MEMBER);
-//                notificationService.addNotification(notification);
-//            } else {
-//                String msg = String.format("community not have owner and employee: %s", communityId);
-//                logger.debug(msg);
-//                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE);
-//            }
         }
     }
 
