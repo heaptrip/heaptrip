@@ -244,7 +244,9 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         if (category != null) {
             result = new CategoryModel();
             result.setId(category.getId());
-            result.setData(category.getName().getValue(getCurrentLocale()));
+            if (category.getName() != null) {
+                result.setData(category.getName().getValue(getCurrentLocale()));
+            }
         }
         return result;
     }
