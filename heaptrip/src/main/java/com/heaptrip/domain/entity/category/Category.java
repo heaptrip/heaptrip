@@ -1,6 +1,7 @@
 package com.heaptrip.domain.entity.category;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.util.language.LanguageUtils;
 
 
 /**
@@ -23,7 +24,10 @@ public class Category extends SimpleCategory {
         this.id = id;
         this.parent = parent;
         this.ancestors = ancestors;
-        this.name = new MultiLangText(nameRu, nameEn);
+        MultiLangText name = new MultiLangText();
+        name.setValue(nameRu, LanguageUtils.getRussianLocale());
+        name.setValue(nameEn, LanguageUtils.getEnglishLocale());
+        this.name = name;
     }
 
     public String getParent() {

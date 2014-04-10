@@ -9,13 +9,10 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
-import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.rating.RatingService;
-import com.heaptrip.domain.service.region.RegionService;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
-import com.heaptrip.util.language.LanguageUtils;
 import com.heaptrip.web.model.content.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,13 +25,6 @@ import java.util.Locale;
 
 @Service
 public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl implements BaseModelTypeConverterService {
-
-
-    @Autowired
-    protected CategoryService categoryService;
-
-    @Autowired
-    protected RegionService regionService;
 
     @Autowired
     protected RatingService ratingService;
@@ -118,8 +108,7 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     public String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale) {
         String result;
         if (isOnlyThisLocale) {
-            text.setMainLanguage(LanguageUtils.getLanguageByLocale(locale));
-            result = text.getValue(locale);
+            result = text.getValueByOnlyThisLocale(locale);
         } else {
             result = text.getValue((locale != null ? locale : getCurrentLocale()));
         }
@@ -183,7 +172,6 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         if (categoryModel != null) {
             simpleCategory = new SimpleCategory();
             simpleCategory.setId(categoryModel.getId());
-            //simpleCategory = categoryService.getCategoryById(categoryModel.getId(), locale);
         }
         return simpleCategory;
     }
@@ -207,7 +195,6 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         if (regionModel != null) {
             result = new SimpleRegion();
             result.setId(regionModel.getId());
-            //result = regionService.getRegionById(regionModel.getId(), locale);
         }
         return result;
     }

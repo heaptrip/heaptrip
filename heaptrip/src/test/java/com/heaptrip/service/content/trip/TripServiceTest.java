@@ -144,6 +144,15 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
         Trip trip = tripService.getTripInfo(TRIP_ID, Locale.ENGLISH);
         // check
         Assert.assertNotNull(trip);
+        Assert.assertNotNull(trip.getName());
+        Assert.assertNotNull(trip.getName().getMainLanguage());
+        Assert.assertNotNull(trip.getName().getValue());
+        Assert.assertNotNull(trip.getSummary());
+        Assert.assertNotNull(trip.getSummary().getMainLanguage());
+        Assert.assertNotNull(trip.getSummary().getValue());
+        Assert.assertNotNull(trip.getDescription());
+        Assert.assertNotNull(trip.getDescription().getMainLanguage());
+        Assert.assertNotNull(trip.getDescription().getValue());
         Assert.assertNotNull(trip.getRoute());
         Assert.assertNotNull(trip.getRoute().getId());
         Assert.assertNotNull(trip.getRoute().getText());

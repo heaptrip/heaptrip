@@ -10,7 +10,9 @@ import java.util.Locale;
  */
 public class MultiLangText extends HashMap<String, String> {
 
-    private static final String MAIN_LANG = "main";
+    private static final String MAIN_LANG = "mainLang";
+
+    private static final String MAIN_TEXT = "mainText";
 
     public MultiLangText() {
         super();
@@ -26,37 +28,46 @@ public class MultiLangText extends HashMap<String, String> {
         setValue(value, locale);
     }
 
-    public MultiLangText(String textRu, String textEn) {
-        super();
-        put(LangEnum.RU.getValue(), textRu);
-        put(LangEnum.EN.getValue(), textEn);
-    }
-
-    public String getValue(Locale locale) {
-        String lang = LanguageUtils.getLanguageByLocale(locale);
-        String value = get(lang);
-        return (value == null) ? get(MAIN_LANG) : value;
-    }
-
     public void setValue(String value, Locale locale) {
         String lang = LanguageUtils.getLanguageByLocale(locale);
         put(lang, value);
     }
 
-    public String getValue() {
-        return get(MAIN_LANG);
+    public String getValue(Locale locale) {
+        String lang = LanguageUtils.getLanguageByLocale(locale);
+        String value = get(lang);
+        return (value == null) ? get(MAIN_TEXT) : value;
+    }
+
+    public String getValueByOnlyThisLocale(Locale locale) {
+        String lang = LanguageUtils.getLanguageByLocale(locale);
+        String mainLang = get(MAIN_LANG);
+        if (lang != null && mainLang != null && mainLang.equals(lang)) {
+            return get(MAIN_TEXT);
+        } else {
+            return get(lang);
+        }
     }
 
     public void setValue(String value) {
-        put(MAIN_LANG, value);
+        put(MAIN_TEXT, value);
+    }
+
+    public String getValue() {
+        return get(MAIN_TEXT);
     }
 
     public void setMainLanguage(String lang) {
-        put(MAIN_LANG, get(lang));
+        put(MAIN_LANG, lang);
+        put(MAIN_TEXT, get(lang));
         remove(lang); // main language stored only in main field
     }
 
+    public String getMainLanguage() {
+        return get(MAIN_LANG);
+    }
+
     public int getCountLanguage() {
-        return size();
+        return containsKey(MAIN_LANG) ? size() - 1 : size();
     }
 }
