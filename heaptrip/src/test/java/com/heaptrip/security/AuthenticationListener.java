@@ -28,7 +28,7 @@ public class AuthenticationListener implements IInvokedMethodListener {
      */
     @Override
     public void beforeInvocation(IInvokedMethod method, ITestResult testResult) {
-        if (method.isTestMethod()) {
+        if (method.isTestMethod() || method.isConfigurationMethod()) {
             ITestNGMethod testMethod = method.getTestMethod();
             Method javaMethod = testMethod.getConstructorOrMethod().getMethod();
             Authenticate userAnnotation = javaMethod.getAnnotation(Authenticate.class);

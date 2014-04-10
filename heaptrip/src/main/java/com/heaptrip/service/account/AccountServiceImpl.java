@@ -3,7 +3,7 @@ package com.heaptrip.service.account;
 import com.heaptrip.domain.entity.account.*;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
@@ -82,8 +82,8 @@ public class AccountServiceImpl implements AccountService {
             // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
 
-            if (!account.getTypeAccount().equals(AccountEnum.USER) && account instanceof Community && (((Community) account).getOwnerAccountId() != null)) {
-                relationRepository.save(Relation.getRelation(((Community) account).getOwnerAccountId(), accountId, TypeRelationEnum.OWNER));
+            if (!account.getTypeAccount().toString().equals(AccountEnum.USER.toString()) && account instanceof Community && (((Community) account).getOwnerAccountId() != null)) {
+                relationRepository.add(account.getId(), ((Community) account).getOwnerAccountId(), RelationTypeEnum.OWNER);
             }
 
             future = accountStoreService.save(account.getId());

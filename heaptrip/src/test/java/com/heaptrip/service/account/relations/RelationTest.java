@@ -4,10 +4,10 @@ import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
-import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
-import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.service.account.community.CommunityDataProvider;
 import com.heaptrip.service.account.user.UserDataProvider;
@@ -62,22 +62,22 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
 	public void addPublisherNetUser() {
 		relationService.addPublisher(UserDataProvider.EMAIL_USER_ID, UserDataProvider.NET_USER_ID);
 
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                                                                                            UserDataProvider.NET_USER_ID,
-                                                                                            TypeRelationEnum.PUBLISHER));
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.PUBLISHER.toString();
 
-        Assert.assertTrue(relations.size() == 1);
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID, UserDataProvider.NET_USER_ID, type));
+        Assert.assertTrue(count == 1);
 	}
 
 	@Test(enabled = true, priority = 6)
 	public void deletePublisherNetUser() {
 		relationService.deletePublisher(UserDataProvider.EMAIL_USER_ID, UserDataProvider.NET_USER_ID);
 
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                                                                                            UserDataProvider.NET_USER_ID,
-                                                                                            TypeRelationEnum.PUBLISHER));
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.PUBLISHER.toString();
 
-        Assert.assertTrue(relations.size() == 0);
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID, UserDataProvider.NET_USER_ID, type));
+        Assert.assertTrue(count == 0);
 	}
 
 	@Test(enabled = true, priority = 11, expectedExceptions = AccountException.class)
@@ -110,32 +110,30 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
 		criteria.setStatus(NotificationStatusEnum.NEW.toString());
 		criteria.setType(NotificationTypeEnum.FRIEND.toString());
 
-		List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
 
         // проверим оповещение
 		Assert.assertNotNull(notifications);
 		Assert.assertTrue(!notifications.isEmpty());
         Assert.assertTrue(notifications.size() == 1);
-
-		String notificationId = notifications.get(0).getId();
-
-        Assert.assertNotNull(notificationId);
+        Assert.assertNotNull(notifications.get(0).getId());
 
         // примем дружбу
-        notificationService.changeStatus(notificationId, NotificationStatusEnum.ACCEPTED);
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
 
         // проверим что оповещение принято
-		Notification notification = notificationRepository.findOne(notificationId);
+		Notification notification = notificationRepository.findOne(notifications.get(0).getId());
 		Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
 
-        // ищем связь
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                                                                                            UserDataProvider.NET_USER_ID,
-                                                                                            TypeRelationEnum.FRIEND));
-        // проверим связь
-        Assert.assertNotNull(relations);
-        Assert.assertTrue(!relations.isEmpty());
-        Assert.assertTrue(relations.size() == 1);
+        // ищем связи
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.FRIEND.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID, UserDataProvider.NET_USER_ID, type));
+        Assert.assertTrue(count == 1);
+
+        count = relationRepository.countByRelationCriteria(new RelationCriteria(UserDataProvider.NET_USER_ID, UserDataProvider.EMAIL_USER_ID, type));
+        Assert.assertTrue(count == 1);
 	}
 
 	@Test(enabled = true, priority = 21, expectedExceptions = AccountException.class)
@@ -168,32 +166,27 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.MEMBER.toString());
 
-        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
         Assert.assertTrue(!notifications.isEmpty());
         Assert.assertTrue(notifications.size() == 1);
-
-        String notificationId = notifications.get(0).getId();
-
-        Assert.assertNotNull(notificationId);
+        Assert.assertNotNull(notifications.get(0).getId());
 
         // примем участника
-        notificationService.changeStatus(notificationId, NotificationStatusEnum.ACCEPTED);
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
 
         // проверим что оповещение принято
-        Notification notification = notificationRepository.findOne(notificationId);
+        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
         Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
 
         // ищем связь
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                                                                                            CommunityDataProvider.COMMUNITY_ID,
-                                                                                            TypeRelationEnum.MEMBER));
-        // проверим связь
-        Assert.assertNotNull(relations);
-        Assert.assertTrue(!relations.isEmpty());
-        Assert.assertTrue(relations.size() == 1);
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.MEMBER.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, type));
+        Assert.assertTrue(count == 1);
 	}
 
 	@Test(enabled = true, priority = 31, expectedExceptions = AccountException.class)
@@ -226,32 +219,27 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.EMPLOYEE.toString());
 
-        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
         Assert.assertTrue(!notifications.isEmpty());
         Assert.assertTrue(notifications.size() == 1);
-
-        String notificationId = notifications.get(0).getId();
-
-        Assert.assertNotNull(notificationId);
+        Assert.assertNotNull(notifications.get(0).getId());
 
         // примем работника
-        notificationService.changeStatus(notificationId, NotificationStatusEnum.ACCEPTED);
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
 
         // проверим что оповещение принято
-        Notification notification = notificationRepository.findOne(notificationId);
+        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
         Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
 
         // ищем связь
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                CommunityDataProvider.COMMUNITY_ID,
-                TypeRelationEnum.EMPLOYEE));
-        // проверим связь
-        Assert.assertNotNull(relations);
-        Assert.assertTrue(!relations.isEmpty());
-        Assert.assertTrue(relations.size() == 1);
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.EMPLOYEE.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, type));
+        Assert.assertTrue(count == 1);
 	}
 
 	@Test(enabled = true, priority = 41, expectedExceptions = AccountException.class)
@@ -284,32 +272,27 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.OWNER.toString());
 
-        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
         Assert.assertTrue(!notifications.isEmpty());
         Assert.assertTrue(notifications.size() == 1);
-
-        String notificationId = notifications.get(0).getId();
-
-        Assert.assertNotNull(notificationId);
+        Assert.assertNotNull(notifications.get(0).getId());
 
         // примем владельца
-        notificationService.changeStatus(notificationId, NotificationStatusEnum.ACCEPTED);
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
 
         // проверим что оповещение принято
-        Notification notification = notificationRepository.findOne(notificationId);
+        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
         Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
 
         // ищем связь
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.EMAIL_USER_ID,
-                CommunityDataProvider.COMMUNITY_ID,
-                TypeRelationEnum.OWNER));
-        // проверим связь
-        Assert.assertNotNull(relations);
-        Assert.assertTrue(!relations.isEmpty());
-        Assert.assertTrue(relations.size() == 1);
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.OWNER.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, type));
+        Assert.assertTrue(count == 1);
 	}
 
 	@Test(enabled = true, priority = 46)
@@ -322,30 +305,26 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.OWNER.toString());
 
-        List<Notification> notifications = notificationService.getNotificationsByNotificationCriteria(criteria);
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);
         Assert.assertTrue(!notifications.isEmpty());
         Assert.assertTrue(notifications.size() == 1);
-
-        String notificationId = notifications.get(0).getId();
-
-        Assert.assertNotNull(notificationId);
+        Assert.assertNotNull(notifications.get(0).getId());
 
         // откажем владельцу
-        notificationService.changeStatus(notificationId, NotificationStatusEnum.REJECTED);
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.REJECTED);
 
         // проверим что оповещение НЕ принято
-        Notification notification = notificationRepository.findOne(notificationId);
+        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
         Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.REJECTED));
 
         // проверим что связи нет
-        List<Relation> relations = relationRepository.findByCriteria(new RelationCriteria(UserDataProvider.NET_USER_ID,
-                CommunityDataProvider.COMMUNITY_ID,
-                TypeRelationEnum.OWNER));
-        // проверим связь
-        Assert.assertNotNull(relations);
-        Assert.assertTrue(relations.isEmpty());
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.OWNER.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.NET_USER_ID, type));
+        Assert.assertTrue(count == 0);
 	}
 }

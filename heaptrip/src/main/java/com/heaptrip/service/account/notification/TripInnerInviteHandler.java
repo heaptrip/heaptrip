@@ -64,6 +64,11 @@ public class TripInnerInviteHandler implements NotificationHandler<TripNotificat
     }
 
     @Override
+    public String[] getAllowed(TripNotification notification) {
+        return new String[0];  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public void accept(TripNotification notification) {
         Assert.notNull(notification.getContentId(), "notification.contentId must not be null");
         Assert.notNull(notification.getTableId(), "notification.tableId must not be null");

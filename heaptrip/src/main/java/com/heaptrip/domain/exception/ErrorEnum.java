@@ -45,6 +45,8 @@ public enum ErrorEnum {
     ERROR_COMMUNITY_NOT_FOUND("error.community.not.found"),
     ERROR_COMMUNITY_NOT_ACTIVE("error.community.not.active"),
     ERROR_COMMUNITY_HAVE_ACTIVE_CONTENT("error.community.have.active.content"),
+    ERROR_COMMUNITY_NOT_HAVE_OWNER("error.community.not.have.owner"),
+    ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE("error.community.not.have.owner.and.employee"),
 
     ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE("error.sole.owner.of.the.user,community.active"),
 

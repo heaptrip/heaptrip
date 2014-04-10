@@ -47,9 +47,6 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    @Autowired
-    private RelationService relationService;
-
     @Test(enabled = true, priority = 1)
     public void saveAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException {
         Future<Void> future = userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
@@ -76,11 +73,6 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
             Assert.assertTrue(StringUtils.isNotBlank(accountId));
         }
     }
-
-//    @Test(enabled = true, priority = 2)
-//    public void acceptFrendship() {
-//        relationService.addPublisher(UserDataProvider.EMAIL_USER_ID, UserDataProvider.ACTIVE_USER_ID);
-//    }
 
     @Test(enabled = true, priority = 2)
     public void updateAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException {

@@ -1,8 +1,8 @@
-package com.heaptrip.repository.account.helper;
+package com.heaptrip.repository.account.helper.notification;
 
 import com.heaptrip.domain.entity.CollectionEnum;
 import com.heaptrip.domain.entity.account.notification.Notification;
-import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.repository.helper.AbstractQueryHelper;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +67,7 @@ public class NotificationQueryHelper extends AbstractQueryHelper<NotificationCri
 
 	@Override
 	public String getHint(NotificationCriteria criteria) {
-		return "{toId: 1, created: -1}";
+        return "{fromId: 1, toId: 1, created: -1}";
 	}
 
 	@Override

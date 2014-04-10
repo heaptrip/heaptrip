@@ -1,6 +1,5 @@
-package com.heaptrip.domain.service.account.criteria;
+package com.heaptrip.domain.service.account.criteria.relation;
 
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.service.criteria.Criteria;
 
 public class RelationCriteria extends Criteria {
@@ -9,23 +8,23 @@ public class RelationCriteria extends Criteria {
 
     private String toId;
 
-    private TypeRelationEnum typeRelation;
+    private String[] types;
 
     public RelationCriteria() {
     }
 
-    public RelationCriteria(String fromId, String toId, TypeRelationEnum typeRelation) {
+    public RelationCriteria(String fromId, String toId, String[] types) {
         this.fromId = fromId;
         this.toId = toId;
-        this.typeRelation = typeRelation;
+        this.types = types;
     }
 
-    public TypeRelationEnum getTypeRelation() {
-        return typeRelation;
+    public String[] getRelationTypes() {
+        return types;
     }
 
-    public void setTypeRelation(TypeRelationEnum typeRelation) {
-        this.typeRelation = typeRelation;
+    public void setRelationTypes(String[] types) {
+        this.types = types;
     }
 
     public String getToId() {

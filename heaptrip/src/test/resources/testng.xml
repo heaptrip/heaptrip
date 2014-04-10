@@ -2,31 +2,31 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="HeapTrip" parallel="false">
 
-    <test name="Security">
-        <classes>
-            <class name="com.heaptrip.security.AuthenticationListenerTest"/>
-        </classes>
-    </test>
+    <!--<test name="Security">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.security.AuthenticationListenerTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="UserTest">
-        <classes>
-            <class name="com.heaptrip.service.account.user.InitUserTest"/>
-            <class name="com.heaptrip.service.account.user.UserRegistrationTest"/>
-            <class name="com.heaptrip.service.account.user.UserAuthenticationTest"/>
-            <class name="com.heaptrip.service.account.user.UserProfileTest"/>
-            <class name="com.heaptrip.service.account.user.UserSettingTest"/>
-            <class name="com.heaptrip.repository.solr.SolrAccountRepositoryTest"/>
-            <class name="com.heaptrip.repository.redis.RedisAccountRepositoryTest"/>
-        </classes>
-    </test>
+    <!--<test name="UserTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.account.user.InitUserTest"/>-->
+            <!--<class name="com.heaptrip.service.account.user.UserRegistrationTest"/>-->
+            <!--<class name="com.heaptrip.service.account.user.UserAuthenticationTest"/>-->
+            <!--<class name="com.heaptrip.service.account.user.UserProfileTest"/>-->
+            <!--<class name="com.heaptrip.service.account.user.UserSettingTest"/>-->
+            <!--<class name="com.heaptrip.repository.solr.SolrAccountRepositoryTest"/>-->
+            <!--<class name="com.heaptrip.repository.redis.RedisAccountRepositoryTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="CommunityTest">
-        <classes>
-            <class name="com.heaptrip.service.account.community.InitCommunityTest"/>
-            <class name="com.heaptrip.service.account.community.CommunityRegistrationTest"/>
-            <class name="com.heaptrip.service.account.community.CommunityDeleteTest"/>
-        </classes>
-    </test>
+    <!--<test name="CommunityTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.account.community.InitCommunityTest"/>-->
+            <!--<class name="com.heaptrip.service.account.community.CommunityRegistrationTest"/>-->
+            <!--<class name="com.heaptrip.service.account.community.CommunityDeleteTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
     <test name="RelationTest">
         <classes>
@@ -35,97 +35,97 @@
         </classes>
     </test>
 
-    <test name="StoreTest">
-        <classes>
-            <class name="com.heaptrip.service.account.store.InitStoreTest"/>
-            <class name="com.heaptrip.service.account.store.AccountStoreTest"/>
-            <!--<class name="com.heaptrip.service.account.store.ChangeAccountImageTest"/>-->
-        </classes>
-    </test>
+    <!--<test name="StoreTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.account.store.InitStoreTest"/>-->
+            <!--<class name="com.heaptrip.service.account.store.AccountStoreTest"/>-->
+            <!--&lt;!&ndash;<class name="com.heaptrip.service.account.store.ChangeAccountImageTest"/>&ndash;&gt;-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="ImageTest">
-        <classes>
-            <class name="com.heaptrip.service.image.GridFileServiceTest"/>
-            <class name="com.heaptrip.service.image.ImageServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="ImageTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.image.GridFileServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.image.ImageServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="RegionTest">
-        <classes>
-            <class name="com.heaptrip.service.region.RegionServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="RegionTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.region.RegionServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="CategoryTest">
-        <classes>
-            <class name="com.heaptrip.service.category.CategoryServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="CategoryTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.category.CategoryServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="ContentTest">
-        <classes>
-            <class name="com.heaptrip.service.content.InitContentTest"/>
-            <class name="com.heaptrip.service.content.ContentServiceTest"/>
-            <class name="com.heaptrip.service.content.ContentSearchServiceTest"/>
-            <class name="com.heaptrip.service.content.FavoriteContentServiceTest"/>
-            <class name="com.heaptrip.service.content.feed.ContentFeedServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="ContentTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.content.InitContentTest"/>-->
+            <!--<class name="com.heaptrip.service.content.ContentServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.ContentSearchServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.FavoriteContentServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.feed.ContentFeedServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="TripTest">
-        <classes>
-            <class name="com.heaptrip.service.content.trip.InitTripTest"/>
-            <class name="com.heaptrip.service.content.trip.TripFeedServiceTest"/>
-            <class name="com.heaptrip.service.content.trip.TripServiceTest"/>
-            <class name="com.heaptrip.service.content.trip.TripUserServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="TripTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.content.trip.InitTripTest"/>-->
+            <!--<class name="com.heaptrip.service.content.trip.TripFeedServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.trip.TripServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.trip.TripUserServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="PostTest">
-        <classes>
-            <class name="com.heaptrip.service.content.post.PostServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="PostTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.content.post.PostServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="EventTypeTest">
-        <classes>
-            <class name="com.heaptrip.service.content.event.EventTypeServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="EventTypeTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.content.event.EventTypeServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="EventTest">
-        <classes>
-            <class name="com.heaptrip.service.content.event.InitEventTest"/>
-            <class name="com.heaptrip.service.content.event.EventFeedServiceTest"/>
-            <class name="com.heaptrip.service.content.event.EventServiceTest"/>
-            <class name="com.heaptrip.service.content.event.EventUserServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="EventTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.content.event.InitEventTest"/>-->
+            <!--<class name="com.heaptrip.service.content.event.EventFeedServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.event.EventServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.event.EventUserServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="QATest">
-        <classes>
-            <class name="com.heaptrip.service.content.qa.QuestionServiceTest"/>
-            <class name="com.heaptrip.service.content.qa.AnswerServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="QATest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.content.qa.QuestionServiceTest"/>-->
+            <!--<class name="com.heaptrip.service.content.qa.AnswerServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="CommentTest">
-        <classes>
-            <class name="com.heaptrip.service.comment.CommentServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="CommentTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.comment.CommentServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="SystemTest">
-        <classes>
-            <class name="com.heaptrip.service.system.ErrorHandlerTest"/>
-            <class name="com.heaptrip.service.system.MailServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="SystemTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.system.ErrorHandlerTest"/>-->
+            <!--<class name="com.heaptrip.service.system.MailServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
-    <test name="RatingTest">
-        <classes>
-            <class name="com.heaptrip.service.rating.RatingServiceTest"/>
-        </classes>
-    </test>
+    <!--<test name="RatingTest">-->
+        <!--<classes>-->
+            <!--<class name="com.heaptrip.service.rating.RatingServiceTest"/>-->
+        <!--</classes>-->
+    <!--</test>-->
 
 </suite>

@@ -3,17 +3,11 @@ package com.heaptrip.service.account.notification;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
-import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
-import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
-import com.heaptrip.domain.service.account.AccountStoreService;
-import com.heaptrip.domain.service.account.criteria.AccountNotificationCriteria;
-import com.heaptrip.domain.service.account.criteria.CommunityNotificationCriteria;
-import com.heaptrip.domain.service.account.criteria.NotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.slf4j.Logger;
@@ -33,22 +27,19 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
 
     @Autowired
-    private RelationRepository relationRepository;
-
-    @Autowired
     private ErrorService errorService;
 
     @Autowired
-    private AccountStoreService accountStoreService;
+    private NotificationHandlerFactory notificationHandlerFactory;
 
     @Autowired
-    private NotificationHandlerFactory notificationHandlerFactory;
+    private RelationRepository relationRepository;
 
     @Override
     public Notification addNotification(Notification notification) {
         Assert.notNull(notification, "notification must not be null");
         Assert.notNull(notification.getFromId(), "notification.fromId must not be null");
-        Assert.notNull(notification.getToId(), "notification.toId must not be null");
+        Assert.notNull(notification.getToId(), "notification.getToId must not be null");
         Assert.notNull(notification.getType(), "notification.type must not be null");
 
         NotificationHandler notificationProcessor = notificationHandlerFactory.getNotificationHandler(notification.getType());
@@ -57,44 +48,99 @@ public class NotificationServiceImpl implements NotificationService {
             notification.setText(text);
         }
 
+        // TODO dikma необходимо заполнять поля соответственно типу оповещения
+
+        String[] ids = new String[2];
+        ids[0] = notification.getFromId();
+        ids[1] = notification.getToId();
+        notification.setAccountIds(ids);
+
         return notificationRepository.save(notification);
     }
 
     @Override
-    public List<Notification> getNotificationsByNotificationCriteria(NotificationCriteria criteria) {
+    public List<Notification> findByNotificationCriteria(NotificationCriteria criteria) {
         Assert.notNull(criteria, "notificationCriteria must not be null");
+        Assert.notNull(criteria.getFromId(), "notification.fromId must not be null");
+        Assert.notNull(criteria.getToId(), "notification.getToId must not be null");
         return notificationRepository.findByNotificationCriteria(criteria);
     }
 
     @Override
-    public long getCountByNotificationCriteria(NotificationCriteria criteria) {
+    public long countByNotificationCriteria(NotificationCriteria criteria) {
         Assert.notNull(criteria, "notificationCriteria must not be null");
+        Assert.notNull(criteria.getFromId(), "notification.fromId must not be null");
+        Assert.notNull(criteria.getToId(), "notification.getToId must not be null");
         return notificationRepository.countByNotificationCriteria(criteria);
     }
 
-    @Override
-    public List<Notification> getNotificationsByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
-        // TODO dikma
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public long getCountByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
-        // TODO dikma
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<Notification> getNotificationsByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
-        // TODO dikma
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public long getCountByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
-        // TODO dikma
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+//    @Override
+//    public List<Notification> getNotificationsByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
+//        Assert.notNull(criteria, "accountNotificationCriteria must not be null");
+//        return notificationRepository.findNotificationsByAccountNotificationCriteria(criteria);
+//    }
+//
+//    @Override
+//    public long getCountByAccountNotificationCriteria(AccountNotificationCriteria criteria) {
+//        Assert.notNull(criteria, "accountNotificationCriteria must not be null");
+//        return notificationRepository.countByAccountNotificationCriteria(criteria);
+//    }
+//
+//    @Override
+//    public List<Notification> getNotificationsByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+//        Assert.notNull(criteria, "communityNotificationCriteria must not be null");
+//
+//        List<String> ids = getCommunityId(criteria.getUserId());
+//
+//        if (ids != null && ids.size() > 0) {
+//            criteria.setToIds((String[]) ids.toArray());
+//            return notificationRepository.findNotificationsByCommunityNotificationCriteria(criteria);
+//        } else {
+//            return new ArrayList<>();
+//        }
+//    }
+//
+//    @Override
+//    public long getCountByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+//        Assert.notNull(criteria, "communityNotificationCriteria must not be null");
+//        Assert.notNull(criteria.getUserId(), "communityNotificationCriteria.getUserId() must not be null");
+//
+//        List<String> ids = getCommunityId(criteria.getUserId());
+//
+//        if (ids != null && ids.size() > 0) {
+//            criteria.setToIds((String[]) ids.toArray());
+//            return notificationRepository.countByCommunityNotificationCriteria(criteria);
+//        } else {
+//            return 0;
+//        }
+//    }
+//
+//    private List<String> getCommunityId(String userId) {
+//        List<String> ids = new ArrayList<>();
+//        List<Relation> relations;
+//
+//        RelationCriteria relationCriteria = new RelationCriteria();
+//        relationCriteria.setFromId(userId);
+//        relationCriteria.setTypeRelation(RelationTypeEnum.OWNER);
+//
+//        relations = relationRepository.findByCriteria(relationCriteria);
+//
+//        if (relations != null && relations.size() > 0) {
+//            for (Relation relation : relations) {
+//                ids.add(relation.getToId());
+//            }
+//        }
+//
+//        relationCriteria.setTypeRelation(RelationTypeEnum.EMPLOYEE);
+//
+//        relations = relationRepository.findByCriteria(relationCriteria);
+//
+//        if (relations != null && relations.size() > 0) {
+//            for (Relation relation : relations) {
+//                ids.add(relation.getToId());
+//            }
+//        }
+//    }
 
     @Override
     public void changeStatus(String notificationId, NotificationStatusEnum status) {
@@ -116,29 +162,7 @@ public class NotificationServiceImpl implements NotificationService {
             NotificationHandler notificationHandler = notificationHandlerFactory.getNotificationHandler(notification.getType());
             if (notificationHandler != null) {
                 notificationHandler.accept(notification);
-            } else {
-                // TODO dikma: move this codes to notification handlers
-                String userId = null;
-
-                if (notification.getType().equals(NotificationTypeEnum.FRIEND)) {
-                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.FRIEND));
-                    userId = notification.getToId();
-                } else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE)) {
-                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.EMPLOYEE));
-                    userId = notification.getFromId();
-                } else if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
-                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.MEMBER));
-                    userId = notification.getFromId();
-                } else if (notification.getType().equals(NotificationTypeEnum.OWNER)) {
-                    relationRepository.save(Relation.getRelation(notification.getFromId(), notification.getToId(), TypeRelationEnum.OWNER));
-                    userId = notification.getFromId();
-                }
-
-                if (userId != null) {
-                    accountStoreService.update(userId);
-                }
             }
-
         } else if (status.equals(NotificationStatusEnum.REJECTED)) {
             NotificationHandler notificationHandler = notificationHandlerFactory.getNotificationHandler(notification.getType());
             if (notificationHandler != null) {

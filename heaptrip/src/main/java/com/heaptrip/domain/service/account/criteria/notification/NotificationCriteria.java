@@ -1,7 +1,7 @@
-package com.heaptrip.domain.service.account.criteria;
+package com.heaptrip.domain.service.account.criteria.notification;
 
 /**
- * Common notification criteria
+ * Common notification criteria, use for testing or get notifications between users
  */
 public class NotificationCriteria extends AbstractNotificationCriteria {
 
