@@ -2,7 +2,7 @@ package com.heaptrip.service.content;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.relation.Relation;
-import com.heaptrip.domain.entity.account.relation.TypeRelationEnum;
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.category.Category;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.Content;
@@ -10,12 +10,14 @@ import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
+import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.region.RegionRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
-import com.heaptrip.domain.service.account.criteria.RelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.AccountRelationCriteria;
 import com.heaptrip.domain.service.category.CategoryService;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.ContentService;
@@ -159,39 +161,34 @@ public class ContentServiceImpl implements ContentService {
         Account account = accountStoreService.findOne(accountId);
         Assert.notNull(account.getTypeAccount(), "account type must not be null");
 
-        List<String> allowed = new ArrayList<>();
-
+        List<Relation> relations = null;
+        Set<String> ids = new HashSet();
 
         switch (account.getTypeAccount()) {
             case USER:
-                RelationCriteria relationCriteria = new RelationCriteria();
-                relationCriteria.setFromId(accountId);
-                // TODO dikma: add bidirectional relation for friends
-                relationCriteria.setTypeRelation(TypeRelationEnum.FRIEND);
-                List<Relation> relations = relationRepository.findByCriteria(relationCriteria);
-                if (!CollectionUtils.isEmpty(relations)) {
-                    for (Relation relation : relations) {
-                        allowed.add(relation.getToId());
-                    }
-                }
+                String[] typeRelations = new String[1];
+                typeRelations[0] = RelationTypeEnum.FRIEND.toString();
+
+                relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(accountId, typeRelations));
                 break;
             case AGENCY:
             case CLUB:
             case COMPANY:
-                relationCriteria = new RelationCriteria();
-                relationCriteria.setToId(accountId);
-                // TODO dikma: add PUBLISHER, MEMBER, EMPLOYEE, OWNER
-                relationCriteria.setTypeRelation(TypeRelationEnum.OWNER);
-                relations = relationRepository.findByCriteria(relationCriteria);
-                if (!CollectionUtils.isEmpty(relations)) {
-                    for (Relation relation : relations) {
-                        allowed.add(relation.getFromId());
-                    }
-                }
+                relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(accountId));
                 break;
         }
 
-        return allowed.toArray(new String[allowed.size()]);
+        if (relations != null && relations.size() > 0) {
+            for (Relation relation : relations) {
+                if (relation.getUserIds() != null && relation.getUserIds().length > 0) {
+                    for (String id : relation.getUserIds()) {
+                        ids.add(id);
+                    }
+                }
+            }
+        }
+
+        return (String[]) ids.toArray();
     }
 
     @Override
