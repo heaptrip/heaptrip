@@ -275,6 +275,15 @@
         <put-attribute name="main_content" value="accountInfoEditTemplate"/>
     </definition>
 
+    <definition name="peopleTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/people.jsp"/>
+    </definition>
+
+    <definition name="pf-people" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="peopleTemplate"/>
+    </definition>
 
     <definition name="communitiesTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>

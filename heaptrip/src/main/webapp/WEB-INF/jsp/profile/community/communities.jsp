@@ -83,6 +83,9 @@
 
     $(window).bind("onPageReady", function (e, paramsJson) {
         getCommunitiesList(paramsJson);
+        getEmployerList(paramsJson);
+        getMemberList(paramsJson);
+        getPublisherList(paramsJson);
     });
 
     var getCommunitiesList = function (paramsJson) {
@@ -95,7 +98,16 @@
                 checkMode: 'IN',
                 ids: [window.catcher ? window.catcher.id : window.principal.id]
             },
-            accountType: 'CLUB'//,
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+
+//            accountType: 'CLUB'//,
            // skip: paramsJson.skip ? paramsJson.skip : 0,
            // limit: paramsJson.limit
 
@@ -139,6 +151,96 @@
 
         $.postJSON(url, communitiesCriteria, callbackSuccess, callbackError);
 
+    };
+
+    var getEmployerList = function (paramsJson) {
+        var url = 'rest/communities';
+
+        var employersCriteria = {
+
+            staff: {
+                checkMode: 'IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
+            },
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+        };
+
+        var callbackSuccess = function (data) {
+            $("#working_communities").html($("#communityTemplate").render(data.accounts));
+        };
+
+        var callbackError = function (error) {
+            alert(error);
+        };
+
+        $.postJSON(url, employersCriteria, callbackSuccess, callbackError);
+    };
+
+    var getMemberList = function (paramsJson) {
+        var url = 'rest/communities';
+
+        var membersCriteria = {
+
+            members: {
+                checkMode: 'IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
+            },
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+        };
+
+        var callbackSuccess = function (data) {
+            $("#member_communities").html($("#communityTemplate").render(data.accounts));
+        };
+
+        var callbackError = function (error) {
+            alert(error);
+        };
+
+        $.postJSON(url, membersCriteria, callbackSuccess, callbackError);
+    };
+
+    var getPublisherList = function (paramsJson) {
+        var url = 'rest/communities';
+
+        var publishersCriteria = {
+
+            publishers: {
+                checkMode: 'IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
+            },
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+        };
+
+        var callbackSuccess = function (data) {
+            $("#subscriber_communities").html($("#communityTemplate").render(data.accounts));
+        };
+
+        var callbackError = function (error) {
+            alert(error);
+        };
+
+        $.postJSON(url, publishersCriteria, callbackSuccess, callbackError);
     };
 
 </script>
