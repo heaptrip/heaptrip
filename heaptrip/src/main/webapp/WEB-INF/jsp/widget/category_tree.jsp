@@ -75,11 +75,12 @@
         var guid = null;
 
         if ($.getParamFromURL().ct == undefined) {
+            if($('#sideRight').attr('filter')!='empty'){
             if (window.catcher)
                 guid = window.catcher.id;
             else if (window.principal) {
                 guid = window.principal.id;
-            }
+            }  }
         }
 
         $.postJSON(url, guid, callbackSuccess, callbackError);

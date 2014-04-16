@@ -171,12 +171,12 @@ $(document).ready(function () {
         $.allowLoading('getInitRegionsIds', {rg: regionIds});
     } else {
         var guid = null;
-        if ($.getParamFromURL().guid)
-            guid = $.getParamFromURL().guid;
+        if (window.catcher)
+            guid = catcher.id;
         else if (window.principal) {
             guid = window.principal.id;
         }
-        if (guid) {
+        if (guid && $('#sideRight').attr('filter')!='empty') {
 
             var callbackSuccess = function (regionIds) {
                 buildRegionsTree(regionIds);

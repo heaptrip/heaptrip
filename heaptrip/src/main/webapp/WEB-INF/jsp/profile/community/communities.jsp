@@ -41,52 +41,54 @@ $(document).ready(function () {
 
     $("#community input[name=text_search]")
 
-    .bind("keydown",function (event) {
-        if (event.keyCode === $.ui.keyCode.TAB && $(this).data("ui-autocomplete").menu.active) {
-            event.preventDefault();
-        }
-    })
-    .autocomplete({
-        source: function (request, response) {
+            .bind("keydown", function (event) {
+                if (event.keyCode === $.ui.keyCode.TAB && $(this).data("ui-autocomplete").menu.active) {
+                    event.preventDefault();
+                }
+            })
+            .autocomplete({
+                source: function (request, response) {
 
-            $.handParamToURL({term:request.term});
+                    $.handParamToURL({term: request.term});
 
 
-        }       ,
-        search: function () {
-            var term = extractLast(this.value);
-            if (term.length < 3) {
-                return false;
-            }
-        },
-        focus: function () {
-         return false;
-        },
-        select: function (event, ui) {
-            console.log(ui.item.value);
-            $("#community input[name=text_search]").val('');
-        return false;
-        }
-    });
+                },
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length < 3) {
+                        return false;
+                    }
+                },
+                focus: function () {
+                    return false;
+                },
+                select: function (event, ui) {
+                    console.log(ui.item.value);
+                    $("#community input[name=text_search]").val('');
+                    return false;
+                }
+            });
+
+
+    getCommunitiesList({});
+    getEmployerList({});
+    getMemberList({});
+    getPublisherList({});
 
 });
 
 
 $(window).bind("onPageReady", function (e, paramsJson) {
 
-           if(paramsJson.term)
-    alert('term' +  paramsJson.term )
 
-    getCommunitiesList(paramsJson);
-    getEmployerList(paramsJson);
-    getMemberList(paramsJson);
-    getPublisherList(paramsJson);
+    //alert('term' +  paramsJson.term )
+
+
     getSearchList(paramsJson);
+
 });
 
 var getCommunitiesList = function (paramsJson) {
-
-
 
 
     var url = 'rest/communities';
@@ -97,14 +99,14 @@ var getCommunitiesList = function (paramsJson) {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
         }/*,
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        } */
+         categories: {
+         checkMode: "IN",
+         ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+         },
+         regions: {
+         checkMode: "IN",
+         ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+         } */
     };
 
     var callbackSuccess = function (data) {
@@ -146,14 +148,14 @@ var getEmployerList = function (paramsJson) {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
         }/*,
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        } */
+         categories: {
+         checkMode: "IN",
+         ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+         },
+         regions: {
+         checkMode: "IN",
+         ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+         } */
     };
 
     var callbackSuccess = function (data) {
@@ -190,14 +192,14 @@ var getMemberList = function (paramsJson) {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
         }/*,
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        } */
+         categories: {
+         checkMode: "IN",
+         ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+         },
+         regions: {
+         checkMode: "IN",
+         ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+         } */
     };
 
     var callbackSuccess = function (data) {
@@ -233,14 +235,14 @@ var getPublisherList = function (paramsJson) {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
         }/*,
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        } */
+         categories: {
+         checkMode: "IN",
+         ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+         },
+         regions: {
+         checkMode: "IN",
+         ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+         } */
     };
 
     var callbackSuccess = function (data) {
@@ -268,15 +270,31 @@ var getPublisherList = function (paramsJson) {
     $.postJSON(url, publishersCriteria, callbackSuccess, callbackError);
 };
 
+//var clearSearchList = function (paramsJson) {
+
+//}
+
 var getSearchList = function (paramsJson) {
+
+    if (!paramsJson.term && !paramsJson.ct && !paramsJson.rg) {
+        if ($("#search_communities").length != 0) {
+            $("#list_user_5").remove();
+        }
+        return;
+    }
+
+    if ($("#search_communities").length == 0) {
+        $("#list_user_5").html('<div class="list_user_inf people_title">SEARCH</div><ul id="search_communities"></ul>')
+    }
+
     var url = 'rest/communities';
 
     var publishersCriteria = {
 
         /*publishers: {
-            checkMode: 'IN',
-            ids: [window.catcher ? window.catcher.id : window.principal.id]
-        }, */
+         checkMode: 'IN',
+         ids: [window.catcher ? window.catcher.id : window.principal.id]
+         }, */
         categories: {
             checkMode: "IN",
             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -332,7 +350,11 @@ var getSearchList = function (paramsJson) {
 
             <div class="description">
 
-                <div id="list_user_1" class="community" >
+                <div id="list_user_5" class="community">
+
+                </div>
+
+                <div id="list_user_1" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -346,7 +368,7 @@ var getSearchList = function (paramsJson) {
                     <ul id="user_communities"></ul>
                 </div>
 
-                <div id="list_user_2" class="community" >
+                <div id="list_user_2" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -359,7 +381,7 @@ var getSearchList = function (paramsJson) {
                     </div>
                     <ul id="working_communities"></ul>
                 </div>
-                <div id="list_user_3" class="community" >
+                <div id="list_user_3" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -387,12 +409,6 @@ var getSearchList = function (paramsJson) {
                     <ul id="subscriber_communities"></ul>
                 </div>
 
-                <div id="list_user_5" class="community">
-                    <div class="list_user_inf people_title">
-                        SEARCH
-                    </div>
-                    <ul id="search_communities"></ul>
-                </div>
 
             </div>
         </article>
@@ -401,7 +417,7 @@ var getSearchList = function (paramsJson) {
 </div>
 <!-- #container-->
 
-<aside id="sideRight">
+<aside id="sideRight" filter="empty">
     <tiles:insertDefinition name="categoryTreeWithBtn"/>
     <tiles:insertDefinition name="regionFilterWithBtn"/>
     <div id="community" class="filtr open">
@@ -417,8 +433,6 @@ var getSearchList = function (paramsJson) {
                 <input type="button" name="go_user_search" value="">
             </div>
         </div>
-
-
 </aside>
 <!-- #sideRight -->
 
