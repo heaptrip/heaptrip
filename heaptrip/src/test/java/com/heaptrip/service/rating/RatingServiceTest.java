@@ -242,7 +242,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 4)
-    public void addManyAccountRating() {
+    public void addManyAccountRating() throws ExecutionException, InterruptedException {
         // read current count of rating objects
         long count = ratingRepository.getCountByTargetId(OWNER_ID);
         // set max count of stored ratings
@@ -250,7 +250,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         account.getRating().setCount(1000);
         accountRepository.save(account);
         // add rating value
-        ratingService.addAccountRating(OWNER_ID, "123", ratingService.starsToRating(5));
+        ratingService.addAccountRating(OWNER_ID, "123", ratingService.starsToRating(5)).get();
         // count of rating objects must not be change
         Assert.assertEquals(ratingRepository.getCountByTargetId(OWNER_ID), count);
     }
