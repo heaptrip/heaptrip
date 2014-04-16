@@ -18,7 +18,7 @@ public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria, 
     public String getQuery(EventFeedCriteria criteria) {
         String query = "{";
         if (criteria.getContentType() != null) {
-            query += "_class: #, allowed: {$in: #}";
+            query += "allowed: {$in: #}, _class: #";
         } else {
             query += "allowed: {$in: #}";
         }
@@ -38,10 +38,6 @@ public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria, 
     @Override
     public Object[] getParameters(EventFeedCriteria criteria, Object... objects) {
         List<Object> parameters = new ArrayList<>();
-        // _class
-        if (criteria.getContentType() != null) {
-            parameters.add(criteria.getContentType().getClazz());
-        }
         // allowed
         List<String> allowed = new ArrayList<>();
         allowed.add(Content.ALLOWED_ALL_USERS);
@@ -49,6 +45,10 @@ public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria, 
             allowed.add(criteria.getUserId());
         }
         parameters.add(allowed);
+        // _class
+        if (criteria.getContentType() != null) {
+            parameters.add(criteria.getContentType().getClazz());
+        }
         // categories
         if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
             parameters.add(criteria.getCategories().getIds());
@@ -62,33 +62,6 @@ public class EventFeedQueryHelper extends ContentQueryHelper<EventFeedCriteria, 
             parameters.add(criteria.getTypes().getIds());
         }
         return parameters.toArray();
-    }
-
-    @Override
-    public String getHint(EventFeedCriteria criteria) {
-        if (criteria.getContentType() != null) {
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{_class: 1, 'rating.value': 1, allowed: 1}";
-                    default:
-                        return "{_class: 1, created: 1, allowed: 1}";
-                }
-            } else {
-                return "{_class: 1, created: 1, allowed: 1}";
-            }
-        } else {
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{'rating.value': 1, allowed: 1}";
-                    default:
-                        return "{created: 1, allowed: 1}";
-                }
-            } else {
-                return "{created: 1, allowed: 1}";
-            }
-        }
     }
 
     @Override

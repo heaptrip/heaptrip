@@ -93,26 +93,6 @@ public class TripMyAccountQueryHelper extends ContentQueryHelper<TripMyAccountCr
     }
 
     @Override
-    public String getHint(TripMyAccountCriteria criteria) {
-        if (criteria.getRelation().equals(RelationEnum.OWN)) {
-            // OWNER
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{'ownerId': 1, _class: 1, 'rating.value': 1}";
-                    default:
-                        return "{'ownerId': 1, _class: 1, created: 1}";
-                }
-            } else {
-                return "{'ownerId': 1, _class: 1, created: 1}";
-            }
-        } else {
-            // FAVORITES || MEMBER
-            return "{_id: 1}";
-        }
-    }
-
-    @Override
     public Class<TripMyAccountCriteria> getCriteriaClass() {
         return TripMyAccountCriteria.class;
     }

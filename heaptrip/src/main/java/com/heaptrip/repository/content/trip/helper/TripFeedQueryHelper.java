@@ -16,7 +16,7 @@ class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria, Trip> {
 
     @Override
     public String getQuery(TripFeedCriteria criteria) {
-        String query = "{_class: #, allowed: {$in: #}";
+        String query = "{allowed: {$in: #}, _class: #";
         if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
             query += ", categoryIds: {$in: #}";
         }
@@ -39,8 +39,6 @@ class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria, Trip> {
     @Override
     public Object[] getParameters(TripFeedCriteria criteria, Object... objects) {
         List<Object> parameters = new ArrayList<>();
-        // _class
-        parameters.add(criteria.getContentType().getClazz());
         // allowed
         List<String> allowed = new ArrayList<>();
         allowed.add(Content.ALLOWED_ALL_USERS);
@@ -48,6 +46,8 @@ class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria, Trip> {
             allowed.add(criteria.getUserId());
         }
         parameters.add(allowed);
+        // _class
+        parameters.add(criteria.getContentType().getClazz());
         // categories
         if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
             parameters.add(criteria.getCategories().getIds());
@@ -66,20 +66,6 @@ class TripFeedQueryHelper extends ContentQueryHelper<TripFeedCriteria, Trip> {
             }
         }
         return parameters.toArray();
-    }
-
-    @Override
-    public String getHint(TripFeedCriteria criteria) {
-        if (criteria.getSort() != null) {
-            switch (criteria.getSort()) {
-                case RATING:
-                    return "{_class: 1, 'rating.value': 1, allowed: 1}";
-                default:
-                    return "{_class: 1, created: 1, allowed: 1}";
-            }
-        } else {
-            return "{_class: 1, created: 1, allowed: 1}";
-        }
     }
 
     @Override

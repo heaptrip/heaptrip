@@ -52,12 +52,12 @@ public class ImageQueryHelper extends AbstractQueryHelper<ImageCriteria, Image> 
 
     @Override
     public String getHint(ImageCriteria criteria) {
-        return "{target: 1, uploaded: 1}";
+        return "{target: 1, uploaded: -1, type: 1}";
     }
 
     @Override
     public String getSort(ImageCriteria criteria) {
-        return "{uploaded: 1}";
+        return "{uploaded: -1}";
     }
 
     @Override
