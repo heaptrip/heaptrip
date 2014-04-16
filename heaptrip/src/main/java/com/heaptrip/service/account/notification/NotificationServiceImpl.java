@@ -6,6 +6,8 @@ import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -42,6 +44,8 @@ public class NotificationServiceImpl implements NotificationService {
         if (notificationProcessor != null) {
             MultiLangText text = notificationProcessor.getNotificationText(notification);
             notification.setText(text);
+            String[] allowed = notificationProcessor.getAllowed(notification);
+            notification.setAllowed(allowed);
         }
 
         String[] ids = new String[2];
@@ -66,6 +70,34 @@ public class NotificationServiceImpl implements NotificationService {
         Assert.notNull(criteria.getFromId(), "notification.fromId must not be null");
         Assert.notNull(criteria.getToId(), "notification.getToId must not be null");
         return notificationRepository.countByNotificationCriteria(criteria);
+    }
+
+    @Override
+    public List<Notification> findByUserNotificationCriteria(AccountNotificationCriteria criteria) {
+        Assert.notNull(criteria, "notificationCriteria must not be null");
+        Assert.notNull(criteria.getAccountId(), "notification.getAccountId must not be null");
+        return notificationRepository.findByUserNotificationCriteria(criteria);
+    }
+
+    @Override
+    public long countByUserNotificationCriteria(AccountNotificationCriteria criteria) {
+        Assert.notNull(criteria, "notificationCriteria must not be null");
+        Assert.notNull(criteria.getAccountId(), "notification.getAccountId must not be null");
+        return notificationRepository.countByUserNotificationCriteria(criteria);
+    }
+
+    @Override
+    public List<Notification> findByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+        Assert.notNull(criteria, "notificationCriteria must not be null");
+        Assert.notNull(criteria.getUserId(), "notification.getUserId must not be null");
+        return notificationRepository.findByCommunityNotificationCriteria(criteria);
+    }
+
+    @Override
+    public long countByCommunityNotificationCriteria(CommunityNotificationCriteria criteria) {
+        Assert.notNull(criteria, "notificationCriteria must not be null");
+        Assert.notNull(criteria.getUserId(), "notification.getUserId must not be null");
+        return notificationRepository.countByCommunityNotificationCriteria(criteria);
     }
 
     @Override

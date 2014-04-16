@@ -30,8 +30,12 @@ public class CommunityNotificationQueryHelper extends AbstractQueryHelper<Commun
     public String getQuery(CommunityNotificationCriteria criteria) {
         String query = null;
 
-        if (criteria.getToIds() != null) {
-            query = "{toId: #}";
+        if (criteria.getUserId() != null) {
+            query = "{allowed: #";
+        }
+
+        if (criteria.getCommunityId() != null) {
+            query = ((query == null) ? "{toId: #" : query + ", toId: #");
         }
 
         if (criteria.getStatus() != null) {
@@ -51,8 +55,12 @@ public class CommunityNotificationQueryHelper extends AbstractQueryHelper<Commun
     public Object[] getParameters(CommunityNotificationCriteria criteria, Object... arguments) {
         List<Object> parameters = new ArrayList<>();
 
-        if (criteria.getToIds() != null) {
-            parameters.add(criteria.getToIds());
+        if (criteria.getUserId() != null) {
+            parameters.add(criteria.getUserId());
+        }
+
+        if (criteria.getCommunityId() != null) {
+            parameters.add(criteria.getCommunityId());
         }
 
         if (criteria.getStatus() != null) {
@@ -73,7 +81,11 @@ public class CommunityNotificationQueryHelper extends AbstractQueryHelper<Commun
 
     @Override
     public String getHint(CommunityNotificationCriteria criteria) {
-        return "{toId: 1, created: -1}";
+        if (criteria.getCommunityId() != null) {
+            return "{allowed: 1, created: -1}";
+        } else {
+            return "{allowed: 1, created: -1}";
+        }
     }
 
     @Override

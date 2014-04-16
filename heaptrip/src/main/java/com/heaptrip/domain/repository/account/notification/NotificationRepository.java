@@ -14,14 +14,14 @@ public interface NotificationRepository extends CrudRepository<Notification> {
     public List<Notification> findByNotificationCriteria(NotificationCriteria criteria);
 
     public long countByNotificationCriteria(NotificationCriteria criteria);
-//
-//    public List<Notification> findNotificationsByAccountNotificationCriteria(AccountNotificationCriteria criteria);
-//
-//    public long countByAccountNotificationCriteria(AccountNotificationCriteria criteria);
-//
-//    public List<Notification> findNotificationsByCommunityNotificationCriteria(CommunityNotificationCriteria criteria);
-//
-//    public long countByCommunityNotificationCriteria(CommunityNotificationCriteria criteria);
+
+    public List<Notification> findByUserNotificationCriteria(AccountNotificationCriteria criteria);
+
+    public long countByUserNotificationCriteria(AccountNotificationCriteria criteria);
+
+    public List<Notification> findByCommunityNotificationCriteria(CommunityNotificationCriteria criteria);
+
+    public long countByCommunityNotificationCriteria(CommunityNotificationCriteria criteria);
 
     public void changeStatus(String notificationId, NotificationStatusEnum status);
 }
