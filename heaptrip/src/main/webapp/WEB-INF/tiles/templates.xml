@@ -322,6 +322,19 @@
         <put-attribute name="main_content" value="communityInfoEditTemplate"/>
     </definition>
 
+    <definition name="notificationTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/notification/notification.jsp"/>
+    </definition>
+
+    <definition name="pf-notification" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="main_content" value="notificationTemplate"/>
+    </definition>
+
+
+
+
     <!-- End Profile -->
 
 
