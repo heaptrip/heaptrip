@@ -16,7 +16,8 @@
         <jackson.version>1.9.5</jackson.version>
         <servlet.version>2.5</servlet.version>
         <mongodb.version>2.11.4</mongodb.version>
-        <jongo.version>1.1-early-20140221-1732</jongo.version>
+        <!--<jongo.version>1.1-early-20140221-1732</jongo.version>-->
+        <jongo.version>0.4</jongo.version>
         <testng.version>6.8</testng.version>
         <solrj.version>4.7.2</solrj.version>
         <javax.mail.version>1.4.7</javax.mail.version>
