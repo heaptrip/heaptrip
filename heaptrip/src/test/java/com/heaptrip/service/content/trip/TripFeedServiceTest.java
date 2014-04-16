@@ -20,6 +20,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
@@ -152,11 +153,11 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, dataProvider = "favoriteMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
-    public void getContentsByFavoriteCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
+    public void getContentsByFavoriteCriteria(TripMyAccountCriteria tripMyAccountCriteria) throws ExecutionException, InterruptedException {
         // prepare
-        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID).get();
         // check that twice can not be added
-        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID).get();
         // call
         List<Trip> trips = tripFeedService.getContentsByMyAccountCriteria(tripMyAccountCriteria);
         // check
@@ -167,11 +168,11 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, dataProvider = "favoriteMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
-    public void getCountByFavoriteCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
+    public void getCountByFavoriteCriteria(TripMyAccountCriteria tripMyAccountCriteria) throws ExecutionException, InterruptedException {
         // prepare
-        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID).get();
         // check that twice can not be added
-        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
+        favoriteContentService.addFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID).get();
         // call
         long count = tripFeedService.getCountByMyAccountCriteria(tripMyAccountCriteria);
         // check
