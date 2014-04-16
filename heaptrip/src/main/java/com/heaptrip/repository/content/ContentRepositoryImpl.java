@@ -101,8 +101,8 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
     @Override
     public void incViews(String contentId, String userIdOrRemoteIp) {
         MongoCollection coll = getCollection();
-        WriteResult wr = coll.update("{_id: #, 'views.ids': {$not: {$in: #}}}", contentId,
-                Arrays.asList(userIdOrRemoteIp)).with("{$push:{'views.ids': #}, $inc: {'views.count': 1}}",
+        WriteResult wr = coll.update("{_id: #, 'views.ids': {$ne: #}}", contentId,
+                userIdOrRemoteIp).with("{$push:{'views.ids': #}, $inc: {'views.count': 1}}",
                 userIdOrRemoteIp);
         logger.debug("WriteResult for inc views: {}", wr);
     }
@@ -257,9 +257,9 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
 
         String query = "{ownerId: #, " +
                 "status.value: {$in: [\"" +
-                        ContentStatusEnum.PUBLISHED_FRIENDS.toString() +
-                        "\", \"" +
-                        ContentStatusEnum.PUBLISHED_ALL.toString() + "\"]}, " +
+                ContentStatusEnum.PUBLISHED_FRIENDS.toString() +
+                "\", \"" +
+                ContentStatusEnum.PUBLISHED_ALL.toString() + "\"]}, " +
                 "_class: {$in: [\"com.heaptrip.domain.entity.content.trip.Trip\", \"com.heaptrip.domain.entity.content.event.Event\"]}}";
 
         return coll.count(query, ownerId) > 0;

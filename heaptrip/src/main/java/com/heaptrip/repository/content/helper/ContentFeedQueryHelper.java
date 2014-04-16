@@ -16,7 +16,7 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria, Con
     public String getQuery(FeedCriteria criteria) {
         String query = "{";
         if (criteria.getContentType() != null) {
-            query += "_class: #, allowed: {$in: #}";
+            query += "allowed: {$in: #}, _class: #";
         } else {
             query += "allowed: {$in: #}";
         }
@@ -33,10 +33,6 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria, Con
     @Override
     public Object[] getParameters(FeedCriteria criteria, Object... objects) {
         List<Object> parameters = new ArrayList<>();
-        // _class
-        if (criteria.getContentType() != null) {
-            parameters.add(criteria.getContentType().getClazz());
-        }
         // allowed
         List<String> allowed = new ArrayList<>();
         allowed.add(Content.ALLOWED_ALL_USERS);
@@ -44,6 +40,10 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria, Con
             allowed.add(criteria.getUserId());
         }
         parameters.add(allowed);
+        // _class
+        if (criteria.getContentType() != null) {
+            parameters.add(criteria.getContentType().getClazz());
+        }
         // categories
         if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
             parameters.add(criteria.getCategories().getIds());
@@ -57,28 +57,15 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria, Con
 
     @Override
     public String getHint(FeedCriteria criteria) {
-        if (criteria.getContentType() != null) {
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{_class: 1, 'rating.value': 1, allowed: 1}";
-                    default:
-                        return "{_class: 1, created: 1, allowed: 1}";
-                }
-            } else {
-                return "{_class: 1, created: 1, allowed: 1}";
+        if (criteria.getSort() != null) {
+            switch (criteria.getSort()) {
+                case RATING:
+                    return "{allowed: 1, 'rating.value': -1, _class: 1}";
+                default:
+                    return "{allowed: 1, created: -1, _class: 1}";
             }
         } else {
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{'rating.value': 1, allowed: 1}";
-                    default:
-                        return "{created: 1, allowed: 1}";
-                }
-            } else {
-                return "{created: 1, allowed: 1}";
-            }
+            return "{allowed: 1, created: -1, _class: 1}";
         }
     }
 
@@ -90,5 +77,5 @@ public class ContentFeedQueryHelper extends ContentQueryHelper<FeedCriteria, Con
     @Override
     protected Class<Content> getCollectionClass() {
         return Content.class;
-   }
+    }
 }

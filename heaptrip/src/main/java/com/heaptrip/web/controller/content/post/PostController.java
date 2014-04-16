@@ -2,7 +2,7 @@ package com.heaptrip.web.controller.content.post;
 
 import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
-import com.heaptrip.domain.service.content.feed.ContentFeedService;
+import com.heaptrip.domain.service.content.ContentFeedService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;

@@ -73,26 +73,6 @@ public class ContentMyAccountQueryHelper extends ContentQueryHelper<MyAccountCri
     }
 
     @Override
-    public String getHint(MyAccountCriteria criteria) {
-        if (criteria.getRelation().equals(RelationEnum.OWN)) {
-            // OWNER
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{'ownerId': 1, _class: 1, 'rating.value': 1}";
-                    default:
-                        return "{'ownerId': 1, _class: 1, created: 1}";
-                }
-            } else {
-                return "{'ownerId': 1, _class: 1, created: 1}";
-            }
-        } else {
-            // FAVORITES
-            return "{_id: 1}";
-        }
-    }
-
-    @Override
     public Class<MyAccountCriteria> getCriteriaClass() {
         return MyAccountCriteria.class;
     }

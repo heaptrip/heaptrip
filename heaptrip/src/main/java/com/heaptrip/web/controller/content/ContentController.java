@@ -8,7 +8,7 @@ import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
-import com.heaptrip.domain.service.content.feed.ContentFeedService;
+import com.heaptrip.domain.service.content.ContentFeedService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;

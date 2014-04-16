@@ -68,7 +68,7 @@
             <class name="com.heaptrip.service.content.ContentServiceTest"/>
             <class name="com.heaptrip.service.content.ContentSearchServiceTest"/>
             <class name="com.heaptrip.service.content.FavoriteContentServiceTest"/>
-            <class name="com.heaptrip.service.content.feed.ContentFeedServiceTest"/>
+            <class name="com.heaptrip.service.content.ContentFeedServiceTest"/>
         </classes>
     </test>
 
