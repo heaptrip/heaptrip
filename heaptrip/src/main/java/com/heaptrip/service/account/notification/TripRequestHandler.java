@@ -1,6 +1,8 @@
 package com.heaptrip.service.account.notification;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.notification.NotificationTemplate;
 import com.heaptrip.domain.entity.account.notification.NotificationTemplateStorage;
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
@@ -80,21 +82,31 @@ public class TripRequestHandler implements NotificationHandler<TripNotification>
     @Override
     public String[] getAllowed(TripNotification notification) {
         String[] ids = null;
-        String[] typeRelations = new String[2];
-        typeRelations[0] = RelationTypeEnum.OWNER.toString();
-        typeRelations[1] = RelationTypeEnum.EMPLOYEE.toString();
+        Account account = accountStoreService.findOne(notification.getToId());
 
-        List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(notification.getToId(), typeRelations));
-
-        if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
-            ids = relations.get(0).getUserIds();
-        } else {
-            String msg = String.format("community not have owner and employee: %s", notification.getToId());
+        if (account == null) {
+            String msg = String.format("account not find by id %s", notification.getToId());
             logger.debug(msg);
-            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE);
-        }
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
+        } else if (!account.getTypeAccount().toString().equals(AccountEnum.USER.toString())) {
+            String[] typeRelations = new String[2];
+            typeRelations[0] = RelationTypeEnum.OWNER.toString();
+            typeRelations[1] = RelationTypeEnum.EMPLOYEE.toString();
 
-        return ids;
+            List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(notification.getToId(), typeRelations));
+
+            if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 0) {
+                ids = relations.get(0).getUserIds();
+            } else {
+                String msg = String.format("community not have owner and employee: %s", notification.getToId());
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE);
+            }
+
+            return ids;
+        } else {
+            return ids;
+        }
     }
 
     @Override

@@ -15,6 +15,8 @@ db.comments.ensureIndex({target: 1, fullSlug: 1});
 db.notifications.ensureIndex({fromId: 1, toId: 1, created: -1});
 db.notifications.ensureIndex({toId: 1, created: -1});
 db.notifications.ensureIndex({accountIds: 1, created: -1});
+db.notifications.ensureIndex({allowed: 1, created: -1});
+db.notifications.ensureIndex({allowed: 1, toId: 1, created: -1});
 db.ratings.ensureIndex({targetId: 1, userId: 1});
 db.ratings.ensureIndex({targetId: 1, created: 1});
 db.relations.ensureIndex({fromId: 1, type: 1});

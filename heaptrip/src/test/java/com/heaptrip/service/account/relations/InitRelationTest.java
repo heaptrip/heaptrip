@@ -79,6 +79,7 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
         userService.registration(UserDataProvider.getNotConfirmedUser(), null, locale);
 
         userRepository.save(UserDataProvider.getDeletedUser());
+        userRepository.save(UserDataProvider.getActiveUser());
 
         communityService.registration(CommunityDataProvider.getClub(), locale);
         communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
@@ -110,6 +111,10 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
         notifications.addAll(notificationService.findByNotificationCriteria(criteria));
 
         criteria.setFromId(UserDataProvider.NET_USER_ID);
+        criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
+        notifications.addAll(notificationService.findByNotificationCriteria(criteria));
+
+        criteria.setFromId(UserDataProvider.ACTIVE_USER_ID);
         criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
         notifications.addAll(notificationService.findByNotificationCriteria(criteria));
 
@@ -169,6 +174,7 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
     }
 
     private void deleteAccounts() {
+        userService.hardRemove(UserDataProvider.ACTIVE_USER_ID);
         userService.hardRemove(UserDataProvider.EMAIL_USER_ID);
         userService.hardRemove(UserDataProvider.NET_USER_ID);
         userService.hardRemove(UserDataProvider.NOT_CONFIRMED_USER_ID);

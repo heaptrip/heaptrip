@@ -52,7 +52,7 @@ public class RelationHandler implements NotificationHandler<Notification> {
         if (notificationTemplate != null && notificationTemplate.getText() != null) {
 
             Account sender = accountStoreService.findOne(notification.getFromId());
-            Account receiver = accountStoreService.findOne(notification.getFromId());
+            Account receiver = accountStoreService.findOne(notification.getToId());
 
             for (String lang : notificationTemplate.getText().keySet()) {
                 String template = notificationTemplate.getText().get(lang);
@@ -69,7 +69,7 @@ public class RelationHandler implements NotificationHandler<Notification> {
         String[] ids = null;
         String[] typeRelations;
 
-        if (notification.getType().toString().equals(NotificationTypeEnum.MEMBER)) {
+        if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
             typeRelations = new String[2];
             typeRelations[0] = RelationTypeEnum.OWNER.toString();
             typeRelations[1] = RelationTypeEnum.EMPLOYEE.toString();
@@ -83,7 +83,7 @@ public class RelationHandler implements NotificationHandler<Notification> {
                 logger.debug(msg);
                 throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE);
             }
-        } else if (notification.getType().toString().equals(NotificationTypeEnum.EMPLOYEE) || notification.getType().toString().equals(NotificationTypeEnum.OWNER)) {
+        } else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE) || notification.getType().equals(NotificationTypeEnum.OWNER)) {
             typeRelations = new String[1];
             typeRelations[0] = RelationTypeEnum.OWNER.toString();
 
@@ -109,12 +109,15 @@ public class RelationHandler implements NotificationHandler<Notification> {
             accountStoreService.update(notification.getFromId());
             accountStoreService.update(notification.getToId());
         } else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE)) {
+            // TODO dikma: если он уже владелец, то отказать, если участник, то заменить тип связи на работник
             relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.EMPLOYEE);
             accountStoreService.update(notification.getFromId());
         } else if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
+            // TODO dikma: если он уже владелец или работник, то отказать
             relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.MEMBER);
             accountStoreService.update(notification.getFromId());
         } else if (notification.getType().equals(NotificationTypeEnum.OWNER)) {
+            // TODO dikma: если он уже участник или работник, то заменить тип связи на владелец
             relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.OWNER);
             accountStoreService.update(notification.getFromId());
         }

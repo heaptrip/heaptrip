@@ -9,18 +9,20 @@ import java.util.List;
  */
 public class CommunityNotificationCriteria extends AbstractNotificationCriteria {
 
+    // who are available
     private String userId;
 
-    private String[] toIds; // мои сообщества
+    // community id, which will receive notification
+    private String communityId;
 
     private List<NotificationTypeEnum> notificationTypes;
 
-    public String[] getToIds() {
-        return toIds;
+    public String getCommunityId() {
+        return communityId;
     }
 
-    public void setToIds(String[] toIds) {
-        this.toIds = toIds;
+    public void setCommunityId(String communityId) {
+        this.communityId = communityId;
     }
 
     public String getUserId() {

@@ -139,9 +139,9 @@ $(document).ready(function() {
       frend_add();
     }
 
-    if($('#community').length){
+    /*if($('#community').length){
       community_add();
-    }
+    }  */
 
     if($('.price a.button').length){
       $(document).on('click','.price a.button',function(e){
@@ -609,55 +609,55 @@ function frend_add(button){
   });
 }        
 
-function community_add(button){
-  $( "#community input[name=text_search]" ).bind( "keydown", function( event ) {
-    if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {
-      event.preventDefault();
-    }
-  }).autocomplete({
-    source: function( request, response ) {
-      // request.term;  это введенные символы для поиска которые должны уйти на сервер
-      $.getJSON( "/community_serch.json",{
-            term: extractLast( request.term )
-          }, function(data){
-
-        if(!$('.description .list_user.search').length){
-          $('.description').append('<div class="list_user search"><ul></ul></div>');
-        }
-        console.log(data);
-        create_list_community_serch(data['resFind'],false,'.list_user.search ul');
-        var commands=Array(Array('Я владею','20'),Array('Я работаю','21'),Array('Я учавствую','22'),Array('Я подписан','23'));
-        participants_menu('.list_user.search ul li',commands);
-        create_list_community_serch(data['vladeyu'],false,'#list_user_1 ul');
-        var commands=Array(Array('Закрыть','24'));
-        participants_menu('#list_user_1 ul li',commands);
-        create_list_community_serch(data['rabotayu'],false,'#list_user_2 ul');
-        var commands=Array(Array('Уволиться','24'));
-        participants_menu('#list_user_2 ul li',commands);
-        create_list_community_serch(data['uchavstvuyu'],false,'#list_user_3 ul');
-        var commands=Array(Array('Выйти','24'));
-        participants_menu('#list_user_3 ul li',commands);
-        create_list_community_serch(data['podpisan'],false,'#list_user_4 ul');
-        var commands=Array(Array('Отписаться','24'));
-        participants_menu('#list_user_4 ul li',commands);
-
-      });
-    },
-    search: function() {
-      // custom minLength
-      var term = extractLast( this.value );
-      if ( term.length < 2 ) {
-        return false;
-      }
-    },
-    focus: function() {
-      // prevent value inserted on focus
-      return false;
-    },
-    select: function( event, ui ) {
-      console.log(ui.item.value);
-      $("#community input[name=text_search]").val('');
-      return false;
-    }
-  });
-}
+//function community_add(button){
+//  $( "#community input[name=text_search]" ).bind( "keydown", function( event ) {
+//    if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "ui-autocomplete" ).menu.active ) {
+//      event.preventDefault();
+//    }
+//  }).autocomplete({
+//    source: function( request, response ) {
+//      // request.term;  это введенные символы для поиска которые должны уйти на сервер
+//      $.getJSON( "/community_serch.json",{
+//            term: extractLast( request.term )
+//          }, function(data){
+//
+//        if(!$('.description .list_user.search').length){
+//          $('.description').append('<div class="list_user search"><ul></ul></div>');
+//        }
+//        console.log(data);
+//        create_list_community_serch(data['resFind'],false,'.list_user.search ul');
+//        var commands=Array(Array('Я владею','20'),Array('Я работаю','21'),Array('Я учавствую','22'),Array('Я подписан','23'));
+//        participants_menu('.list_user.search ul li',commands);
+//        create_list_community_serch(data['vladeyu'],false,'#list_user_1 ul');
+//        var commands=Array(Array('Закрыть','24'));
+//        participants_menu('#list_user_1 ul li',commands);
+//        create_list_community_serch(data['rabotayu'],false,'#list_user_2 ul');
+//        var commands=Array(Array('Уволиться','24'));
+//        participants_menu('#list_user_2 ul li',commands);
+//        create_list_community_serch(data['uchavstvuyu'],false,'#list_user_3 ul');
+//        var commands=Array(Array('Выйти','24'));
+//        participants_menu('#list_user_3 ul li',commands);
+//        create_list_community_serch(data['podpisan'],false,'#list_user_4 ul');
+//        var commands=Array(Array('Отписаться','24'));
+//        participants_menu('#list_user_4 ul li',commands);
+//
+//      });
+//    },
+//    search: function() {
+//      // custom minLength
+//      var term = extractLast( this.value );
+//      if ( term.length < 2 ) {
+//        return false;
+//      }
+//    },
+//    focus: function() {
+//      // prevent value inserted on focus
+//      return false;
+//    },
+//    select: function( event, ui ) {
+//      console.log(ui.item.value);
+//      $("#community input[name=text_search]").val('');
+//      return false;
+//    }
+//  });
+//}
