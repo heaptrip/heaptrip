@@ -4,78 +4,28 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
-<script id="communityTemplate" type="text/x-jsrender">
+<script id="userCommunitiesTemplate" type="text/x-jsrender">
+    <li class="participants_li community_func_user">
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+    </li>
+</script>
 
-    <%--<article id="article">--%>
-    <%--<div class="date">{{>created.text}}--%>
-    <%--<span><fmt:message key="trip.list.title"/></span>--%>
-    <%--</div>--%>
-    <%--<div class="inf">--%>
-    <%--<div class="left">--%>
-    <%--<h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>--%>
+<script id="workingCommunitiesTemplate" type="text/x-jsrender">
+    <li class="participants_li community_func_working">
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+    </li>
+</script>
 
+<script id="memberCommunitiesTemplate" type="text/x-jsrender">
+    <li class="participants_li community_func_member">
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+    </li>
+</script>
 
-    <%--<div class="tags">--%>
-
-
-    <%--<a href="<c:url value="/pf-profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>--%>
-    <%--</div>--%>
-
-
-    <%--</div>--%>
-    <%--<div class="right">--%>
-    <%--{{if begin}}--%>
-    <%--<div>--%>
-    <%--<fmt:message key="page.date.period"/>:--%>
-    <%--<span class="date">--%>
-    <%--<fmt:message key="page.date.from"/> {{>begin.text}} <fmt:message key="page.date.to"/> {{>end.text)}}--%>
-    <%--</span>--%>
-    <%--</div>--%>
-    <%--{{/if}}--%>
-    <%--<div>--%>
-    <%--<fmt:message key="content.place"/>:--%>
-    <%--{{for regions}}--%>
-    <%--<a onclick="$.handParamToURL({rg:'{{>id}}', ct : null, skip : null ,limit : null})">{{>data}}</a>--%>
-    <%--{{/for}}--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--</div>--%>
-    <%--<div class="description">--%>
-    <%--{{:summary}}--%>
-    <%--</div>--%>
-    <%--<div>--%>
-    <%--<div class="tags">--%>
-    <%--{{for categories}}--%>
-    <%--<a onclick="$.handParamToURL({ct:'{{>id}}', rg : null, skip : null ,limit : null})">{{>data}}</a>--%>
-    <%--{{/for}}--%>
-    <%--</div>--%>
-    <%--{{if price}}--%>
-    <%--<div class="price">{{>price}}<fmt:message key="locale.currency"/></div>--%>
-    <%--{{/if}}--%>
-
-    <%--</div>--%>
-    <%--<div>--%>
-    <%--<div class="views"><fmt:message key="content.views"/>:<span>{{>views}}</span></div>--%>
-    <%--<div class="comments"><fmt:message key="content.comments"/>:<span>{{>comments}}</span></div>--%>
-    <%--<div class="wertung"><fmt:message key="content.wertung"/>:--%>
-    <%--<div class="stars star{{>rating.stars}}"></div>--%>
-    <%--<span>({{>rating.count}})</span></div>--%>
-    <%--</div>--%>
-    <%--</article>--%>
-
-
-    <ul>
-        <li class="participants_li community_func12">
-            <div class="list_user_img">
-                {{if image}}
-                <img src="rest/image/small/{{>image.id}}">
-                {{/if}}
-            </div>
-            <div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
-        </li>
-    </ul>
-
-
+<script id="subscriberCommunitiesTemplate" type="text/x-jsrender">
+    <li class="participants_li community_func_subscriber">
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+    </li>
 </script>
 
 
@@ -106,43 +56,28 @@
                 checkMode: "IN",
                 ids: paramsJson.rg ? paramsJson.rg.split(',') : null
             }
-
-//            accountType: 'CLUB'//,
-           // skip: paramsJson.skip ? paramsJson.skip : 0,
-           // limit: paramsJson.limit
-
-
-            /*,
-             /*categories: {
-             checkMode: "IN",
-             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-             },
-             regions: {
-             checkMode: "IN",
-             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-             }*/
         };
 
         var callbackSuccess = function (data) {
 
-            // console.log(data);
+            $("#user_communities").html($("#userCommunitiesTemplate").render(data.accounts));
 
-            $("#user_communities").html($("#communityTemplate").render(data.accounts));
-           // $("#working_communities").html($("#communityTemplate").render(data.accounts));
-           // $("#member_communities").html($("#communityTemplate").render(data.accounts));
-           // $("#subscriber_communities").html($("#communityTemplate").render(data.accounts));
+            if ($('.community_func_user').length) {
+                var commands = Array(Array('Close', '_user'));
+                participants_menu('.community_func_user', commands);
+            }
 
+            $('.community_func_user .participants_menu a').click(function (e) {
+                var community = $(this).parents('.participants_li');
+                alert('community_func_user_call');
+                $(community).remove();
+
+            });
 
             /*$('#paginator1').smartpaginator({
              totalrecords: 100,
              skip: paramsJson.skip
-             });
-
-             $('#paginator2').smartpaginator({
-             totalrecords: 100,
-             skip: paramsJson.skip
-             });   */
-
+             }); */
         };
 
         var callbackError = function (error) {
@@ -173,7 +108,21 @@
         };
 
         var callbackSuccess = function (data) {
-            $("#working_communities").html($("#communityTemplate").render(data.accounts));
+
+            $("#working_communities").html($("#workingCommunitiesTemplate").render(data.accounts));
+
+            if ($('.community_func_working').length) {
+                var commands = Array(Array('Resign', '_working'));
+                participants_menu('.community_func_working', commands);
+            }
+
+            $('.community_func_working .participants_menu a').click(function (e) {
+                var community = $(this).parents('.participants_li');
+                alert('community_func_working_call');
+                $(community).remove();
+
+            });
+
         };
 
         var callbackError = function (error) {
@@ -203,7 +152,20 @@
         };
 
         var callbackSuccess = function (data) {
-            $("#member_communities").html($("#communityTemplate").render(data.accounts));
+            $("#member_communities").html($("#memberCommunitiesTemplate").render(data.accounts));
+
+            if ($('.community_func_member').length) {
+                var commands = Array(Array('Exit', '_member'));
+                participants_menu('.community_func_member', commands);
+            }
+
+            $('.community_func_member .participants_menu a').click(function (e) {
+                var community = $(this).parents('.participants_li');
+                alert('community_func_member_call');
+                $(community).remove();
+
+            });
+
         };
 
         var callbackError = function (error) {
@@ -233,7 +195,21 @@
         };
 
         var callbackSuccess = function (data) {
-            $("#subscriber_communities").html($("#communityTemplate").render(data.accounts));
+            $("#subscriber_communities").html($("#subscriberCommunitiesTemplate").render(data.accounts));
+
+
+            if ($('.community_func_subscriber').length) {
+                var commands = Array(Array('Unsubscribe', '_subscriber'));
+                participants_menu('.community_func_subscriber', commands);
+            }
+
+            $('.community_func_subscriber .participants_menu a').click(function (e) {
+                var community = $(this).parents('.participants_li');
+                alert('community_func_subscriber_call');
+                $(community).remove();
+
+            })
+
         };
 
         var callbackError = function (error) {
@@ -263,7 +239,7 @@
 
             <div class="description">
 
-                <div id="list_user_1" class="community" style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_1" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -274,10 +250,10 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <span id="user_communities"></span>
+                    <ul id="user_communities"></ul>
                 </div>
 
-                <div id="list_user_2" class="community" style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_2" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -288,21 +264,9 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <%--<ul>--%>
-                    <%--<li class="participants_li community_func13">--%>
-                    <%--<div class="list_user_img"><img src="/1_small.jpg"></div>--%>
-                    <%--<div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div>--%>
-                    <%--</li>--%>
-                    <%--</ul>--%>
-                    <span id="working_communities"></span>
+                    <ul id="working_communities"></ul>
                 </div>
-
-
-                <%--<div class="pagination_mini">--%>
-                <%--<div id="paginator2"></div>--%>
-                <%--</div>--%>
-
-                <div id="list_user_3" class="community" style="border-bottom: 1px solid #E2E6E5;">
+                <div id="list_user_3" class="community">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -313,13 +277,7 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <span id="member_communities"></span>
-                    <%--<ul>--%>
-                    <%--<li class="participants_li community_func14">--%>
-                    <%--<div class="list_user_img"><img src="/1_small.jpg"></div>--%>
-                    <%--<div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div>--%>
-                    <%--</li>--%>
-                    <%--</ul>--%>
+                    <ul id="member_communities"></ul>
                 </div>
 
                 <div id="list_user_4" class="community">
@@ -333,18 +291,8 @@
                             </c:otherwise>
                         </c:choose>
                     </div>
-                    <%--<ul>--%>
-                    <%--<li class="participants_li community_func15">--%>
-                    <%--<div class="list_user_img"><img src="/1_small.jpg"></div>--%>
-                    <%--<div class="list_user_name"><a href="/">Alexandr Alexeev Alexeevich</a></div>--%>
-                    <%--</li>--%>
-                    <%--</ul>--%>
-                    <span id="subscriber_communities"></span>
+                    <ul id="subscriber_communities"></ul>
                 </div>
-
-                <%--<div class="pagination_mini">--%>
-                <%--<div id="paginator1"></div>--%>
-                <%--</div>--%>
             </div>
         </article>
     </div>

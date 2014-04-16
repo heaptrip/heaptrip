@@ -94,7 +94,7 @@
         var url = 'rest/news';
 
 
-        if (window.principal != null && window.principal.id != null) {
+        if (window.principal) {
             contentCriteria.userId = window.principal.id;
             if (window.mode == 'MY') {
                 url = 'rest/my/news';
@@ -105,7 +105,7 @@
             }
         }
 
-        if (window.catcher != null && window.catcher.id != null) {
+        if (window.catcher) {
             url = 'rest/foreign/news';
             contentCriteria.accountId = window.catcher.id;
             contentCriteria.relation = 'OWN';

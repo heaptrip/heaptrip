@@ -97,7 +97,7 @@
 </div>
 
 <aside id="sideRight">
-    <c:if test='${ fn:contains(url, "/ct-") }'>
+    <c:if test="${mode eq 'CONTENT' }">
         <tiles:insertDefinition name="categoryTreeWithBtn"/>
         <tiles:insertDefinition name="regionFilterWithBtn"/>
     </c:if>

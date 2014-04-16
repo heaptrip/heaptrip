@@ -206,26 +206,26 @@ $(document).ready(function () {
         participants_menu('.participants_is', commands);
     }
 
-    // надо вот так
-    if ($('.community_func12').length) {
-        var commands = Array(Array('Закрыть', '12'));
-        participants_menu('.community_func12', commands);
-    }
+//    // надо вот так
+//    if ($('.community_func12').length) {
+//        var commands = Array(Array('Закрыть', '12'));
+//        participants_menu('.community_func12', commands);
+//    }
 
-    if ($('.community_func13').length) {
-        var commands = Array(Array('Уволиться', '13'));
-        participants_menu('.community_func13', commands);
-    }
-
-    if ($('.community_func14').length) {
-        var commands = Array(Array('Выйти', '14'));
-        participants_menu('.community_func14', commands);
-    }
-
-    if ($('.community_func15').length) {
-        var commands = Array(Array('Отписаться', '15'));
-        participants_menu('.community_func15', commands);
-    }
+//    if ($('.community_func13').length) {
+//        var commands = Array(Array('Уволиться', '13'));
+//        participants_menu('.community_func13', commands);
+//    }
+//
+//    if ($('.community_func14').length) {
+//        var commands = Array(Array('Выйти', '14'));
+//        participants_menu('.community_func14', commands);
+//    }
+//
+//    if ($('.community_func15').length) {
+//        var commands = Array(Array('Отписаться', '15'));
+//        participants_menu('.community_func15', commands);
+//    }
 
     if ($('#contents').length) {
         alt_input('#contents');

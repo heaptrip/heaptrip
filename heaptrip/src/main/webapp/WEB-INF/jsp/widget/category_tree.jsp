@@ -27,12 +27,9 @@
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
-
-
-
         if (paramsJson.ct) {
             selectCategories(paramsJson.ct.split(','));
-        }else{
+        } else {
             $('#category .tree').jstree("uncheck_all");
         }
     });
@@ -41,8 +38,6 @@
     $.delayLoading('getInitCategoryIds');
 
     $(document).ready(function () {
-
-
 
         var url = 'rest/categories';
 
@@ -56,12 +51,9 @@
 
             }).bind("loaded.jstree", function () {
                         var paramsJson = $.getParamFromURL();
-
-
-
                         if (paramsJson.ct) {
                             selectCategories(paramsJson.ct.split(','));
-                        } else if(data.userCategories) {
+                        } else if (data.userCategories) {
                             selectCategories(data.userCategories);
                         }
                     })
@@ -69,13 +61,11 @@
                         if ($("#categoryFilterSubmit").length == 0) {
 
 
-
                             var checked_ids = getSelectedCategories();
                             $.putLOCALParamToURL({ct: checked_ids.join()});
                         }
                     });
-
-            $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join(): $.getParamFromURL().ct});
+            $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join() : $.getParamFromURL().ct});
         };
 
         var callbackError = function (error) {
@@ -84,9 +74,9 @@
 
         var guid = null;
 
-        if($.getParamFromURL().ct ==undefined){
-            if ($.getParamFromURL().guid)
-                guid = $.getParamFromURL().guid;
+        if ($.getParamFromURL().ct == undefined) {
+            if (window.catcher)
+                guid = window.catcher.id;
             else if (window.principal) {
                 guid = window.principal.id;
             }
@@ -99,7 +89,7 @@
 
 <div id="category" class="filtr">
     <c:choose>
-        <c:when test="${not empty param.guid}">
+        <c:when test="${not empty catcher}">
             <div class="zag"><fmt:message key="content.category"/></div>
         </c:when>
         <c:otherwise>

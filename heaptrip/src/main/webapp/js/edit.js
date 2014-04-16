@@ -383,6 +383,9 @@ function create_list_community_serch(data,block_select,conteiner){
 
 // анимация контекстного меню в участниках
 function participants_menu(name,commands,clas){
+
+    console.log(123321)
+
   var commands_l=commands.length;
   var commands_str='';
   for (var i = 0; i < commands_l; i++) {
@@ -397,42 +400,41 @@ function participants_menu(name,commands,clas){
   if(clas){
     dop_pic='<span class="dop_pic '+clas+'"></span>';
   }
+
   $(name).append('<div class="participants_menu"><span class="participants_menu_show"></span>'+dop_pic+'<div class="participants_list_menu"><ul>'+commands_str+'</ul></div></div>');
-  $(name+' .participants_menu a').click(function(e){
-    var user=$(this).parents('.participants_li');
-    console.log($(this).text());
-    switch ($(this).text()) {
-      case 'Сообщение':
-          
-        break;
-      case 'Организатор':
-        
-        break;
-      case 'Переписка':
-           window.location = "/profile/chat.html"
-        break;
-      case 'Удалить':
-          participants_del_user(user);
-        break;
-      case 'Принять':
-        
-        break;
-      case 'Отказать':
-        
-        break;
-      case 'Отвязать':
-          $(user).remove();
-        break;
-      case 'Отписаться':
-          participants_otpis_user(user);
-        break;        
-      default:
-          //
-        break;
-    }
-
-
-  });
+//  $(name+' .participants_menu a').click(function(e){
+//    var user=$(this).parents('.participants_li');
+//    console.log($(this).text());
+//    switch ($(this).text()) {
+//      case 'Сообщение':
+//        break;
+//      case 'Организатор':
+//        break;
+//      case 'Переписка':
+//           window.location = "/profile/chat.html"
+//        break;
+//      case 'Удалить':
+//          participants_del_user(user);
+//        break;
+//      case 'Принять':
+//
+//        break;
+//      case 'Отказать':
+//
+//        break;
+//      case 'Отвязать':
+//          $(user).remove();
+//        break;
+//      case 'Отписаться':
+//          participants_otpis_user(user);
+//        break;
+//      default:
+//          //
+//        break;
+//    }
+//
+//
+//  });
 
   if(clas){
     $(name).find('.participants_menu').css('display','block');
@@ -444,17 +446,17 @@ function participants_menu(name,commands,clas){
           $(this).find('.participants_menu').css('display','none');
         }
         $(this).find('.participants_menu div').css('display','none');
-        $(this).find('.participants_menu .participants_menu_show').css("background","url('/images/participants_func.jpg') right top no-repeat");
+        $(this).find('.participants_menu .participants_menu_show').css("background","url('images/participants_func.jpg') right top no-repeat");
       }
     );
     $(name+' .participants_menu_show, '+name+' .dop_pic').click(function(e){
       var menu=$(name+' .participants_list_menu');
       if(menu.is(':hidden')){
         menu.css('display','block');
-        $(this).parent().find('.participants_menu_show').css("background","url('/images/participants_func_a.jpg') right top no-repeat");
+        $(this).parent().find('.participants_menu_show').css("background","url('images/participants_func_a.jpg') right top no-repeat");
       }else{
         menu.css('display','none');
-        $(this).parent().find('.participants_menu_show').css("background","url('/images/participants_func.jpg') right top no-repeat");
+        $(this).parent().find('.participants_menu_show').css("background","url('images/participants_func.jpg') right top no-repeat");
       }
     });
 }
@@ -466,10 +468,10 @@ function participants_invite(name){
       var menu=$(this).next();
       if(menu.is(':hidden')){
         menu.css('display','block');
-        $(this).css("background","url('/images/participants_invite_a.jpg') right top no-repeat");
+        $(this).css("background","url('images/participants_invite_a.jpg') right top no-repeat");
       }else{
         menu.css('display','none');
-        $(this).css("background","url('/images/participants_invite.jpg') right top no-repeat");
+        $(this).css("background","url('images/participants_invite.jpg') right top no-repeat");
       }    
   });
 }

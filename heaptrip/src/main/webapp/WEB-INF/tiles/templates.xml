@@ -94,6 +94,13 @@
         </put-list-attribute>
     </definition>
 
+    <definition name="contentScriptsTemplate" extends="jqueryuiScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/jquery.jstree.js"/>
+            <add-attribute value="/js/filtr.js"/>
+        </put-list-attribute>
+    </definition>
+
     <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
             <add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru&amp;libraries=drawing,geometry"/>
@@ -108,6 +115,16 @@
             <add-attribute value="/js/edit.js"/>
         </put-list-attribute>
     </definition>
+
+    <definition name="profileListScriptsTemplate" extends="contentEditScriptsTemplate">
+        <put-list-attribute name="scripts" inherit="true">
+            <add-attribute value="/js/lib/jsrender.js"/>
+        </put-list-attribute>
+    </definition>
+
+
+
+
 
     <definition name="contentEditWithMapScriptsTemplate" extends="contentWithMapScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
@@ -280,7 +297,7 @@
     </definition>
 
     <definition name="pf-people" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="peopleTemplate"/>
     </definition>
@@ -290,7 +307,7 @@
     </definition>
 
     <definition name="pf-communities" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communitiesTemplate"/>
     </definition>
