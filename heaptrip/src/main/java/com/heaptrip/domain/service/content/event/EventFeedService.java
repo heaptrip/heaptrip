@@ -4,7 +4,7 @@ import com.heaptrip.domain.entity.content.event.Event;
 import com.heaptrip.domain.service.content.event.criteria.EventFeedCriteria;
 import com.heaptrip.domain.service.content.event.criteria.EventForeignAccountCriteria;
 import com.heaptrip.domain.service.content.event.criteria.EventMyAccountCriteria;
-import com.heaptrip.domain.service.content.feed.FeedService;
+import com.heaptrip.domain.service.content.FeedService;
 
 /**
  * Service to find events for feed

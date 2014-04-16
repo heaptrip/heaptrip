@@ -1,7 +1,6 @@
 package com.heaptrip.repository.content.helper;
 
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.RelationEnum;
 import org.apache.commons.lang.ArrayUtils;
@@ -27,9 +26,6 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
         }
         if (criteria.getContentType() != null) {
             query += ", _class: #";
-        } else {
-            // TODO konovalov: check content indexes and remove this condition
-            query += ", _class: {$in: #}";
         }
         query += ", allowed: {$in: #}";
         if (criteria.getCategories() != null && ArrayUtils.isNotEmpty(criteria.getCategories().getIds())) {
@@ -59,14 +55,6 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
         // clazz
         if (criteria.getContentType() != null) {
             parameters.add(criteria.getContentType().getClazz());
-        } else {
-            // class
-            List<String> classes = new ArrayList<>(4);
-            classes.add(ContentEnum.TRIP.getClazz());
-            classes.add(ContentEnum.POST.getClazz());
-            classes.add(ContentEnum.QA.getClazz());
-            classes.add(ContentEnum.EVENT.getClazz());
-            parameters.add(classes);
         }
         // allowed
         List<String> allowed = new ArrayList<>();
@@ -84,26 +72,6 @@ public class ContentForeignAccountQueryHelper extends ContentQueryHelper<Foreign
             parameters.add(criteria.getRegions().getIds());
         }
         return parameters.toArray();
-    }
-
-    @Override
-    public String getHint(ForeignAccountCriteria criteria) {
-        if (criteria.getRelation().equals(RelationEnum.OWN)) {
-            // OWNER
-            if (criteria.getSort() != null) {
-                switch (criteria.getSort()) {
-                    case RATING:
-                        return "{'ownerId': 1, _class: 1, 'rating.value': 1}";
-                    default:
-                        return "{'ownerId': 1, _class: 1, created: 1}";
-                }
-            } else {
-                return "{'ownerId': 1, _class: 1, created: 1}";
-            }
-        } else {
-            // FAVORITES
-            return "{_id: 1}";
-        }
     }
 
     @Override

@@ -62,16 +62,12 @@ public class TripMemberQueryHelper extends AbstractQueryHelper<TripMemberCriteri
     }
 
     @Override
-    public String getHint(TripMemberCriteria criteria) {
-        if (StringUtils.isNotEmpty(criteria.getUserId())) {
-            return "{userId: 1, contentId: 1}";
-        } else {
-            return "{contentId: 1, tableId: 1}";
-        }
+    public String getSort(TripMemberCriteria criteria) {
+        return null;
     }
 
     @Override
-    public String getSort(TripMemberCriteria criteria) {
+    public String getHint(TripMemberCriteria criteria) {
         return null;
     }
 }

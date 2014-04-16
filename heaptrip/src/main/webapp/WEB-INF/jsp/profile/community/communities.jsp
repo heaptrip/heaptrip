@@ -239,7 +239,7 @@
 
             <div class="description">
 
-                <div id="list_user_1" class="community">
+                <div id="list_user_1" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -253,7 +253,7 @@
                     <ul id="user_communities"></ul>
                 </div>
 
-                <div id="list_user_2" class="community">
+                <div id="list_user_2" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
@@ -266,7 +266,7 @@
                     </div>
                     <ul id="working_communities"></ul>
                 </div>
-                <div id="list_user_3" class="community">
+                <div id="list_user_3" class="community" style="border-bottom: 1px solid #E2E6E5;">
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">

@@ -5,7 +5,7 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
 import com.heaptrip.domain.service.content.ContentService;
-import com.heaptrip.domain.service.content.feed.ContentFeedService;
+import com.heaptrip.domain.service.content.ContentFeedService;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.StatusModel;
 import org.springframework.beans.factory.annotation.Autowired;
