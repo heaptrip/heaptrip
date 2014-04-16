@@ -96,7 +96,7 @@ var getCommunitiesList = function (paramsJson) {
         owners: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
+        }/*,
         categories: {
             checkMode: "IN",
             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -104,7 +104,7 @@ var getCommunitiesList = function (paramsJson) {
         regions: {
             checkMode: "IN",
             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
+        } */
     };
 
     var callbackSuccess = function (data) {
@@ -145,7 +145,7 @@ var getEmployerList = function (paramsJson) {
         staff: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
+        }/*,
         categories: {
             checkMode: "IN",
             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -153,7 +153,7 @@ var getEmployerList = function (paramsJson) {
         regions: {
             checkMode: "IN",
             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
+        } */
     };
 
     var callbackSuccess = function (data) {
@@ -189,7 +189,7 @@ var getMemberList = function (paramsJson) {
         members: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
+        }/*,
         categories: {
             checkMode: "IN",
             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -197,7 +197,7 @@ var getMemberList = function (paramsJson) {
         regions: {
             checkMode: "IN",
             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
+        } */
     };
 
     var callbackSuccess = function (data) {
@@ -232,7 +232,7 @@ var getPublisherList = function (paramsJson) {
         publishers: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
+        }/*,
         categories: {
             checkMode: "IN",
             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -240,7 +240,7 @@ var getPublisherList = function (paramsJson) {
         regions: {
             checkMode: "IN",
             ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
+        } */
     };
 
     var callbackSuccess = function (data) {
@@ -402,8 +402,8 @@ var getSearchList = function (paramsJson) {
 <!-- #container-->
 
 <aside id="sideRight">
-    <tiles:insertDefinition name="categoryTree"/>
-    <tiles:insertDefinition name="regionFilter"/>
+    <tiles:insertDefinition name="categoryTreeWithBtn"/>
+    <tiles:insertDefinition name="regionFilterWithBtn"/>
     <div id="community" class="filtr open">
         <div class="zag">Community search</div>
         <div class="content">
