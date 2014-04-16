@@ -232,7 +232,7 @@
                 <div class="inf">
                     <div class="right">
                         <a href="<c:url value="/community_modify_info.html"/>" class="button"><fmt:message
-                                key="page.action.add"/></a>
+                                key="page.action.create"/></a>
                     </div>
                 </div>
             </c:if>
