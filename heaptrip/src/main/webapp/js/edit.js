@@ -383,9 +383,6 @@ function create_list_community_serch(data,block_select,conteiner){
 
 // анимация контекстного меню в участниках
 function participants_menu(name,commands,clas){
-
-    console.log(123321)
-
   var commands_l=commands.length;
   var commands_str='';
   for (var i = 0; i < commands_l; i++) {
