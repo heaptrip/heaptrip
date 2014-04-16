@@ -7,6 +7,8 @@ import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
@@ -293,7 +295,81 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(count == 1);
 	}
 
-	@Test(enabled = true, priority = 46)
+    @Test(enabled = true, priority = 46)
+    public void sendOwnerRequestActiveUser() {
+        relationService.sendOwnerRequest(UserDataProvider.ACTIVE_USER_ID, CommunityDataProvider.COMMUNITY_ID);
+        // ищем оповещение
+        NotificationCriteria criteria = new NotificationCriteria();
+        criteria.setFromId(UserDataProvider.ACTIVE_USER_ID);
+        criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
+        criteria.setStatus(NotificationStatusEnum.NEW.toString());
+        criteria.setType(NotificationTypeEnum.OWNER.toString());
+
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
+
+        // проверим оповещение
+        Assert.assertNotNull(notifications);
+        Assert.assertTrue(!notifications.isEmpty());
+        Assert.assertTrue(notifications.size() == 1);
+        Assert.assertNotNull(notifications.get(0).getId());
+
+        // ищем оповещение у пользователя
+        AccountNotificationCriteria accountNotificationCriteria = new AccountNotificationCriteria();
+        accountNotificationCriteria.setAccountId(UserDataProvider.ACTIVE_USER_ID);
+
+        notifications = notificationService.findByUserNotificationCriteria(accountNotificationCriteria);
+
+        // проверим оповещение
+        Assert.assertNotNull(notifications);
+        Assert.assertTrue(!notifications.isEmpty());
+        Assert.assertTrue(notifications.size() == 1);
+        Assert.assertNotNull(notifications.get(0).getId());
+
+        // ищем оповещение по доступности пользователю
+        CommunityNotificationCriteria communityNotificationCriteria = new CommunityNotificationCriteria();
+        communityNotificationCriteria.setUserId(UserDataProvider.EMAIL_USER_ID);
+        communityNotificationCriteria.setStatus(NotificationStatusEnum.NEW.toString());
+        communityNotificationCriteria.setType(NotificationTypeEnum.OWNER.toString());
+
+        notifications = notificationService.findByCommunityNotificationCriteria(communityNotificationCriteria);
+
+        // проверим оповещение
+        Assert.assertNotNull(notifications);
+        Assert.assertTrue(!notifications.isEmpty());
+        Assert.assertTrue(notifications.size() == 1);
+        Assert.assertNotNull(notifications.get(0).getId());
+
+        // ищем оповещение у сообщества по пользователю
+        communityNotificationCriteria = new CommunityNotificationCriteria();
+        communityNotificationCriteria.setUserId(UserDataProvider.EMAIL_USER_ID);
+        communityNotificationCriteria.setCommunityId(CommunityDataProvider.COMMUNITY_ID);
+        communityNotificationCriteria.setStatus(NotificationStatusEnum.NEW.toString());
+        communityNotificationCriteria.setType(NotificationTypeEnum.OWNER.toString());
+
+        notifications = notificationService.findByCommunityNotificationCriteria(communityNotificationCriteria);
+
+        // проверим оповещение
+        Assert.assertNotNull(notifications);
+        Assert.assertTrue(!notifications.isEmpty());
+        Assert.assertTrue(notifications.size() == 1);
+        Assert.assertNotNull(notifications.get(0).getId());
+
+        // примем владельца
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
+
+        // проверим что оповещение принято
+        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
+        Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
+
+        // ищем связь
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.OWNER.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.ACTIVE_USER_ID, type));
+        Assert.assertTrue(count == 1);
+    }
+
+	@Test(enabled = true, priority = 47)
 	public void rejectOwnerRequestNetUser() {
         relationService.sendOwnerRequest(UserDataProvider.NET_USER_ID, CommunityDataProvider.COMMUNITY_ID);
         // ищем оповещение
