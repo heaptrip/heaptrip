@@ -6,11 +6,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-
-
-
 <a id="logo"></a>
-
+<a href="<c:url value='/pf-notification.html'/>" id="alert">0</a>
 <div id="path">
     <div id="path_text">
         <c:if test="${not empty principal}">

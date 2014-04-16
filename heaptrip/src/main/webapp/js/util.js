@@ -20,6 +20,11 @@
     $
         .extend({
             postJSON: function (url, jsonData, callbackSuccess, callbackError, callbackFinally) {
+
+
+                console.log(url);
+                console.log(jsonData);
+
                 var config = {
                     url: url,
                     type: "POST",
@@ -108,18 +113,21 @@
 })(jQuery);
 
 
-var urlParamsJson = {};
+var tmpParamsJson = {};
 
+var paramStore = {};
 
 // Добавляет в url параметры paramsJson и если window.delayLoadingMap[] пуста вызывает $(window).bind("onPageReady")
 (function ($) {
     $.extend({
         handParamToURL: function (paramsJson) {
             if (!window.isInit && $.isEmptyObject(window.delayLoadingMap))
-                paramsJson = $.extend(urlParamsJson, paramsJson);
-            urlParamsJson = {};
+                paramsJson = $.extend(tmpParamsJson, paramsJson);
+            tmpParamsJson = {};
             window.isInit = false;
-            window.location = $.param.fragment(window.location.href, paramsJson);
+            paramStore =  $.extend(paramStore, paramsJson);
+            $.onPageReady()
+            //window.location = $.param.fragment(window.location.href, paramsJson);
         }
     });
 })(jQuery);
@@ -130,10 +138,12 @@ var urlParamsJson = {};
 (function ($) {
     $.extend({
         putLOCALParamToURL: function (paramsJson) {
-            urlParamsJson = $.extend(urlParamsJson, paramsJson);
+            tmpParamsJson = $.extend(tmpParamsJson, paramsJson);
             window.isInit = true;
-            window.location = $.param.fragment(window.location.href, paramsJson);
-            //$.handParamToURL(urlParamsJson);
+            //window.location = $.param.fragment(window.location.href, paramsJson);
+            //$.handParamToURL(tmpParamsJson);
+
+            paramStore =  $.extend(paramStore, paramsJson);
 
         }
     });
@@ -144,8 +154,7 @@ var urlParamsJson = {};
     $.extend({
         getParamFromURL: function () {
             var url = window.location.href;
-            return $.extend($.deparam.fragment(url), $.deparam
-                .querystring(url));
+            return $.extend(paramStore, $.deparam.querystring(url));
         }
     });
 })(jQuery);
@@ -171,7 +180,9 @@ var urlParamsJson = {};
             }
             if ($.isEmptyObject(window.delayLoadingMap)) {
                 $.handParamToURL(paramsJson);
-                $(window).trigger("hashchange");
+                //$(window).trigger("hashchange");
+                //$.onPageReady()
+
             } else {
                 $.putLOCALParamToURL(paramsJson);
             }
@@ -179,16 +190,28 @@ var urlParamsJson = {};
     });
 })(jQuery);
 
-$(function () {
-    $(window).bind("hashchange", function (event) {
-        var localUrlParams = $.deparam.fragment(window.location.href);
-        if (!window.isInit && $.isEmptyObject(window.delayLoadingMap)) {
-            window.isInit = false;
-            $(window).trigger("onPageReady", localUrlParams);
+
+// Удаляет ключь запрещающий загрузку, и при отсутствии других ключей вызывает $(window).bind("onPageReady")
+(function ($) {
+    $.extend({
+        onPageReady: function () {
+                $(window).trigger("onPageReady", $.getParamFromURL());
+
         }
     });
-    $(window).trigger("hashchange");
-});
+})(jQuery);
+
+
+//$(function () {
+//    $(window).bind("hashchange", function (event) {
+//        var localUrlParams = $.deparam.fragment(window.location.href);
+//        if (!window.isInit && $.isEmptyObject(window.delayLoadingMap)) {
+//            window.isInit = false;
+//
+//        }
+//    });
+//    $(window).trigger("hashchange");
+//});
 
 var onLocaleChange = function (locale) {
     $.putGETParamToURL('locale', locale);
