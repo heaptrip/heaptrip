@@ -18,7 +18,7 @@
         <mongodb.version>2.11.4</mongodb.version>
         <jongo.version>1.1-early-20140221-1732</jongo.version>
         <testng.version>6.8</testng.version>
-        <solrj.version>4.5.1</solrj.version>
+        <solrj.version>4.7.2</solrj.version>
         <javax.mail.version>1.4.7</javax.mail.version>
         <jedis.version>2.2.1</jedis.version>
     </properties>
