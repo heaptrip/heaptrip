@@ -39,7 +39,7 @@ public class RatingRepositoryImpl extends CrudRepositoryImpl<Rating> implements 
         calendar.add(Calendar.MONTH, -6);
         List<RatingSum> list = coll.aggregate("{$match : {targetId: #, created: {$gte: #}}}", targetId, calendar.getTime())
                 .and(" {$group: {_id: '', count: {$sum: 1 }, sum: {$sum: '$value'}}} ").as(RatingSum.class);
-        return (list == null) ? null : list.get(0);
+        return (list == null || list.isEmpty()) ? null : list.get(0);
     }
 
     @Override
