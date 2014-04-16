@@ -159,20 +159,20 @@ public class RatingServiceImpl implements RatingService {
             // TODO konovalov: save default value
         }
 
-        Rating rating;
+        Rating rating = null;
         if (accountRating.getCount() >= MAX_ACOUNT_RATING_COUNT) {
             rating = ratingRepository.findOldestByTargetId(accountId);
-            rating.setCreated(new Date());
-            rating.setUserId(userId);
-            rating.setValue(value);
-
-        } else {
-            rating = new Rating();
-            rating.setCreated(new Date());
-            rating.setTargetId(accountId);
-            rating.setUserId(userId);
-            rating.setValue(value);
         }
+
+        if (rating == null) {
+            rating = new Rating();
+        }
+
+        rating.setCreated(new Date());
+        rating.setTargetId(accountId);
+        rating.setUserId(userId);
+        rating.setValue(value);
+
         ratingRepository.save(rating);
 
         RatingSum ratingSum = ratingRepository.getRatingSumByTargetIdAndCreatedLessThenHalfYear(accountId);
