@@ -16,6 +16,9 @@
     };
 
     var selectCategories = function (categoryIdArr) {
+
+        window.block = true;
+
         $('#category .tree').jstree("uncheck_all");
         $.each(categoryIdArr, function (index, val) {
             $('#category .tree').jstree("check_node", "#" + val.replace(/\./g, "\\."));
@@ -24,16 +27,28 @@
         var checked_ids = getSelectedCategories();
         if (checked_ids.length > 0)
             $.putLOCALParamToURL({ct: checked_ids.join()});
+
+        window.block = false;
+
+    };
+
+    var unSelectCategories = function (categoryIdArr) {
+
+        window.block = true;
+
+        $('#category .tree').jstree("uncheck_all");
+
+        window.block = false;
+
     };
 
     $(window).bind("onPageReady", function (e, paramsJson) {
         if (paramsJson.ct) {
             selectCategories(paramsJson.ct.split(','));
         } else {
-            $('#category .tree').jstree("uncheck_all");
+            unSelectCategories();
         }
     });
-
 
     $.delayLoading('getInitCategoryIds');
 
@@ -58,11 +73,17 @@
                         }
                     })
                     .bind("change_state.jstree", function (node, uncheck) {
-                        if ($("#categoryFilterSubmit").length == 0) {
+                        if (!window.block) {
 
+                            console.log('change_state');
 
-                            var checked_ids = getSelectedCategories();
-                            $.putLOCALParamToURL({ct: checked_ids.join()});
+                            if (window.timeout)
+                                clearTimeout(window.timeout);
+                            window.timeout = setTimeout(
+                                    function () {
+                                        $.handParamToURL({ct: getSelectedCategories().join()});
+                                    }
+                                    , 1000);
                         }
                     });
             $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join() : $.getParamFromURL().ct});
@@ -75,12 +96,13 @@
         var guid = null;
 
         if ($.getParamFromURL().ct == undefined) {
-            if($('#sideRight').attr('filter')!='empty'){
-            if (window.catcher)
-                guid = window.catcher.id;
-            else if (window.principal) {
-                guid = window.principal.id;
-            }  }
+            if ($('#sideRight').attr('filter') != 'empty') {
+                if (window.catcher)
+                    guid = window.catcher.id;
+                else if (window.principal) {
+                    guid = window.principal.id;
+                }
+            }
         }
 
         $.postJSON(url, guid, callbackSuccess, callbackError);

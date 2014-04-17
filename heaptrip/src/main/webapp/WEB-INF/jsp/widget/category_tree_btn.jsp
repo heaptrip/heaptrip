@@ -4,12 +4,12 @@
 
     <script type="text/javascript">
 
-    	$(function(){
+    	/*$(function(){
         	$("#categoryFilterSubmit").click(function(){
             	var checked_ids = getSelectedCategories();
             	$.handParamToURL({ct : checked_ids.join()});
         	});
-    	});
+    	});    */
    
     	$(function(){
         	$("#categoryFilterSave").click(function(){
@@ -23,7 +23,7 @@
 
 
             <div class="for_button">
-                <input type="button" id="categoryFilterSubmit" class="button" value="<fmt:message key="page.action.search" />">
+                <%--<input type="button" id="categoryFilterSubmit" class="button" value="<fmt:message key="page.action.search" />">--%>
                 <input type="button" id="categoryFilterSave" class="button" value="<fmt:message key="page.action.save" />">               
             </div>
        
