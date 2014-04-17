@@ -5,15 +5,11 @@
 
 
 <script id="userCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_user">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
-    </li>
+    <li class="participants_li community_func_user"><div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div></li>
 </script>
 
 <script id="workingCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_working">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
-    </li>
+    <li class="participants_li community_func_working"><div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div></li>
 </script>
 
 <script id="memberCommunitiesTemplate" type="text/x-jsrender">
@@ -39,36 +35,18 @@
 
 $(document).ready(function () {
 
-    $("#community input[name=text_search]")
-
-            .bind("keydown", function (event) {
-                if (event.keyCode === $.ui.keyCode.TAB && $(this).data("ui-autocomplete").menu.active) {
-                    event.preventDefault();
-                }
-            })
-            .autocomplete({
-                source: function (request, response) {
-
-                    $.handParamToURL({term: request.term});
-
-
-                },
-                search: function () {
-                    var term = extractLast(this.value);
-                    if (term.length < 3) {
-                        return false;
-                    }
-                },
-                focus: function () {
-                    return false;
-                },
-                select: function (event, ui) {
-                    console.log(ui.item.value);
-                    $("#community input[name=text_search]").val('');
-                    return false;
-                }
-            });
-
+    $("#community input[name=text_search]").autocomplete({
+        deferRequestBy: 200,
+        minLength: 0,
+            search: function () {
+                var term = extractLast(this.value);
+                if (term.length == 0)
+                    $.handParamToURL({term: null});
+                if (term.length >= 3)
+                    $.handParamToURL({term: term});
+                return false;
+            }
+    });
 
     getCommunitiesList({});
     getEmployerList({});
@@ -79,17 +57,11 @@ $(document).ready(function () {
 
 
 $(window).bind("onPageReady", function (e, paramsJson) {
-
-
-    //alert('term' +  paramsJson.term )
-
-
     getSearchList(paramsJson);
 
 });
 
 var getCommunitiesList = function (paramsJson) {
-
 
     var url = 'rest/communities';
 
@@ -204,17 +176,14 @@ var getMemberList = function (paramsJson) {
 
     var callbackSuccess = function (data) {
         $("#member_communities").html($("#memberCommunitiesTemplate").render(data.accounts));
-
         if ($('.community_func_member').length) {
             var commands = Array(Array('Exit', '_member'));
             participants_menu('.community_func_member', commands);
         }
-
         $('.community_func_member .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
             alert('community_func_member_call');
             $(community).remove();
-
         });
 
     };
@@ -295,6 +264,8 @@ var getSearchList = function (paramsJson) {
          checkMode: 'IN',
          ids: [window.catcher ? window.catcher.id : window.principal.id]
          }, */
+
+        query: paramsJson.term,
         categories: {
             checkMode: "IN",
             ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -418,8 +389,6 @@ var getSearchList = function (paramsJson) {
 <!-- #container-->
 
 <aside id="sideRight" filter="empty">
-    <tiles:insertDefinition name="categoryTreeWithBtn"/>
-    <tiles:insertDefinition name="regionFilterWithBtn"/>
     <div id="community" class="filtr open">
         <div class="zag">Community search</div>
         <div class="content">
@@ -433,6 +402,9 @@ var getSearchList = function (paramsJson) {
                 <input type="button" name="go_user_search" value="">
             </div>
         </div>
+        </div>
+    <tiles:insertDefinition name="categoryTreeWithBtn"/>
+    <tiles:insertDefinition name="regionFilterWithBtn"/>
 </aside>
 <!-- #sideRight -->
 
