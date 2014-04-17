@@ -19,5 +19,7 @@ public interface RelationRepository extends CrudRepository<Relation> {
 
     public List<Relation> findByUserRelationCriteria(UserRelationCriteria criteria);
 
+    public List<Relation> findByRelationCriteria(RelationCriteria criteria);
+
     public long countByRelationCriteria(RelationCriteria criteria);
 }

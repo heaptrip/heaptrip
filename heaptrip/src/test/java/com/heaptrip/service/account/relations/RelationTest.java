@@ -156,12 +156,12 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
 		relationService.sendMemberRequest(UserDataProvider.EMAIL_USER_ID, CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
 	}
 
-	@Test(enabled = true, priority = 25)
-	public void sendMemberRequestEmailUser() {
-        relationService.sendMemberRequest(UserDataProvider.EMAIL_USER_ID, CommunityDataProvider.COMMUNITY_ID);
+    @Test(enabled = true, priority = 25)
+    public void sendMemberRequestActiveUser() {
+        relationService.sendMemberRequest(UserDataProvider.ACTIVE_USER_ID, CommunityDataProvider.COMMUNITY_ID);
         // ищем оповещение
         NotificationCriteria criteria = new NotificationCriteria();
-        criteria.setFromId(UserDataProvider.EMAIL_USER_ID);
+        criteria.setFromId(UserDataProvider.ACTIVE_USER_ID);
         criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.MEMBER.toString());
@@ -185,9 +185,9 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         String[] type = new String[1];
         type[0] = RelationTypeEnum.MEMBER.toString();
 
-        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, type));
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.ACTIVE_USER_ID, type));
         Assert.assertTrue(count == 1);
-	}
+    }
 
 	@Test(enabled = true, priority = 31, expectedExceptions = AccountException.class)
 	public void sendEmployeeRequestFakeUser() {
@@ -209,12 +209,12 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
 		relationService.sendEmployeeRequest(UserDataProvider.EMAIL_USER_ID, CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
 	}
 
-	@Test(enabled = true, priority = 35)
-	public void sendEmployeeRequestEmailUser() {
-        relationService.sendEmployeeRequest(UserDataProvider.EMAIL_USER_ID, CommunityDataProvider.COMMUNITY_ID);
+    @Test(enabled = true, priority = 35)
+    public void sendEmployeeRequestActiveUser() {
+        relationService.sendEmployeeRequest(UserDataProvider.ACTIVE_USER_ID, CommunityDataProvider.COMMUNITY_ID);
         // ищем оповещение
         NotificationCriteria criteria = new NotificationCriteria();
-        criteria.setFromId(UserDataProvider.EMAIL_USER_ID);
+        criteria.setFromId(UserDataProvider.ACTIVE_USER_ID);
         criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
         criteria.setStatus(NotificationStatusEnum.NEW.toString());
         criteria.setType(NotificationTypeEnum.EMPLOYEE.toString());
@@ -238,9 +238,9 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         String[] type = new String[1];
         type[0] = RelationTypeEnum.EMPLOYEE.toString();
 
-        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, type));
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.ACTIVE_USER_ID, type));
         Assert.assertTrue(count == 1);
-	}
+    }
 
 	@Test(enabled = true, priority = 41, expectedExceptions = AccountException.class)
 	public void sendOwnerRequestFakeUser() {
@@ -262,40 +262,7 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
 		relationService.sendOwnerRequest(UserDataProvider.EMAIL_USER_ID, CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
 	}
 
-	@Test(enabled = true, priority = 45)
-	public void sendOwnerRequestEmailUser() {
-        relationService.sendOwnerRequest(UserDataProvider.EMAIL_USER_ID, CommunityDataProvider.COMMUNITY_ID);
-        // ищем оповещение
-        NotificationCriteria criteria = new NotificationCriteria();
-        criteria.setFromId(UserDataProvider.EMAIL_USER_ID);
-        criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
-        criteria.setStatus(NotificationStatusEnum.NEW.toString());
-        criteria.setType(NotificationTypeEnum.OWNER.toString());
-
-        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
-
-        // проверим оповещение
-        Assert.assertNotNull(notifications);
-        Assert.assertTrue(!notifications.isEmpty());
-        Assert.assertTrue(notifications.size() == 1);
-        Assert.assertNotNull(notifications.get(0).getId());
-
-        // примем владельца
-        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
-
-        // проверим что оповещение принято
-        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
-        Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
-
-        // ищем связь
-        String[] type = new String[1];
-        type[0] = RelationTypeEnum.OWNER.toString();
-
-        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.EMAIL_USER_ID, type));
-        Assert.assertTrue(count == 1);
-	}
-
-    @Test(enabled = true, priority = 46)
+    @Test(enabled = true, priority = 45)
     public void sendOwnerRequestActiveUser() {
         relationService.sendOwnerRequest(UserDataProvider.ACTIVE_USER_ID, CommunityDataProvider.COMMUNITY_ID);
         // ищем оповещение
@@ -316,6 +283,8 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         // ищем оповещение у пользователя
         AccountNotificationCriteria accountNotificationCriteria = new AccountNotificationCriteria();
         accountNotificationCriteria.setAccountId(UserDataProvider.ACTIVE_USER_ID);
+        accountNotificationCriteria.setStatus(NotificationStatusEnum.NEW.toString());
+        accountNotificationCriteria.setType(NotificationTypeEnum.OWNER.toString());
 
         notifications = notificationService.findByUserNotificationCriteria(accountNotificationCriteria);
 
@@ -347,6 +316,39 @@ public class RelationTest extends AbstractTestNGSpringContextTests {
         communityNotificationCriteria.setType(NotificationTypeEnum.OWNER.toString());
 
         notifications = notificationService.findByCommunityNotificationCriteria(communityNotificationCriteria);
+
+        // проверим оповещение
+        Assert.assertNotNull(notifications);
+        Assert.assertTrue(!notifications.isEmpty());
+        Assert.assertTrue(notifications.size() == 1);
+        Assert.assertNotNull(notifications.get(0).getId());
+
+        // примем владельца
+        notificationService.changeStatus(notifications.get(0).getId(), NotificationStatusEnum.ACCEPTED);
+
+        // проверим что оповещение принято
+        Notification notification = notificationRepository.findOne(notifications.get(0).getId());
+        Assert.assertTrue(notification.getStatus().equals(NotificationStatusEnum.ACCEPTED));
+
+        // ищем связь
+        String[] type = new String[1];
+        type[0] = RelationTypeEnum.OWNER.toString();
+
+        long count = relationRepository.countByRelationCriteria(new RelationCriteria(CommunityDataProvider.COMMUNITY_ID, UserDataProvider.ACTIVE_USER_ID, type));
+        Assert.assertTrue(count == 1);
+    }
+
+    @Test(enabled = true, priority = 46)
+    public void sendRepeatOwnerRequestActiveUser() {
+        relationService.sendOwnerRequest(UserDataProvider.ACTIVE_USER_ID, CommunityDataProvider.COMMUNITY_ID);
+        // ищем оповещение
+        NotificationCriteria criteria = new NotificationCriteria();
+        criteria.setFromId(UserDataProvider.ACTIVE_USER_ID);
+        criteria.setToId(CommunityDataProvider.COMMUNITY_ID);
+        criteria.setStatus(NotificationStatusEnum.NEW.toString());
+        criteria.setType(NotificationTypeEnum.OWNER.toString());
+
+        List<Notification> notifications = notificationService.findByNotificationCriteria(criteria);
 
         // проверим оповещение
         Assert.assertNotNull(notifications);

@@ -49,7 +49,9 @@ public enum ErrorEnum {
     ERROR_COMMUNITY_NOT_HAVE_OWNER("error.community.not.have.owner"),
     ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE("error.community.not.have.owner.and.employee"),
 
-    ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE("error.sole.owner.of.the.user,community.active"),
+    ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE("error.sole.owner.of.the.user.community.active"),
+
+    ERROR_RELATION_ALREADY_EXISTS("error.relation.already.exists"),
 
     ERR_SYSTEM_CREATE("err.system.create.exception"),
     ERR_SYSTEM_DB("err.system.bd"),

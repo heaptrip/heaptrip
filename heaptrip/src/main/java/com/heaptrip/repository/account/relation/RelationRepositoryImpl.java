@@ -79,6 +79,12 @@ public class RelationRepositoryImpl extends CrudRepositoryImpl<Relation> impleme
     }
 
     @Override
+    public List<Relation> findByRelationCriteria(RelationCriteria criteria) {
+        QueryHelper<RelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
+        return queryHelper.findByCriteria(criteria);
+    }
+
+    @Override
     public long countByRelationCriteria(RelationCriteria criteria) {
         QueryHelper<RelationCriteria, Relation> queryHelper = queryHelperFactory.getHelperByCriteria(criteria);
         return queryHelper.findByCriteria(criteria).size();

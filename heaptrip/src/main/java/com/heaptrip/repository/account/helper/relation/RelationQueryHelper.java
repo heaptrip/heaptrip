@@ -62,7 +62,8 @@ public class RelationQueryHelper extends AbstractQueryHelper<RelationCriteria, R
 
     @Override
     public String getProjection(RelationCriteria criteria) {
-        return "{_id: 1}";
+//        return "{_id: 1}";
+        return null;
     }
 
     @Override
