@@ -196,22 +196,19 @@ var paramStore = {};
     $.extend({
         onPageReady: function () {
                 $(window).trigger("onPageReady", $.getParamFromURL());
-
         }
     });
 })(jQuery);
 
-
-//$(function () {
-//    $(window).bind("hashchange", function (event) {
-//        var localUrlParams = $.deparam.fragment(window.location.href);
-//        if (!window.isInit && $.isEmptyObject(window.delayLoadingMap)) {
-//            window.isInit = false;
-//
-//        }
-//    });
-//    $(window).trigger("hashchange");
-//});
+$(function () {
+    $(window).bind("hashchange", function (event) {
+        if (!window.isInit && $.isEmptyObject(window.delayLoadingMap)) {
+            window.isInit = false;
+        }
+        $.onPageReady();
+    });
+    $(window).trigger("hashchange");
+});
 
 var onLocaleChange = function (locale) {
     $.putGETParamToURL('locale', locale);

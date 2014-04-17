@@ -158,6 +158,14 @@
 
         $.postJSON(url, tripCriteria, callbackSuccess, callbackError);
 
+
+       ;
+
+
+
+
     };
+
+
 
 </script>
