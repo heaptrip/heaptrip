@@ -248,7 +248,6 @@ public class RelationServiceImpl implements RelationService {
             List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(communityId, typeRelations));
 
             if (relations != null && relations.size() == 1 && relations.get(0).getUserIds() != null && relations.get(0).getUserIds().length > 1) {
-                // TODO dikma: необходимо удалять пользователя из массива allowed нотификации
                 relationRepository.remove(communityId, userId, RelationTypeEnum.OWNER);
                 accountStoreService.update(userId);
             } else {
@@ -317,7 +316,6 @@ public class RelationServiceImpl implements RelationService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_NOT_ACTIVE);
         } else {
-            // TODO dikma: необходимо удалять пользователя из массива allowed нотификации
             relationRepository.remove(communityId, userId, RelationTypeEnum.EMPLOYEE);
             accountStoreService.update(userId);
         }

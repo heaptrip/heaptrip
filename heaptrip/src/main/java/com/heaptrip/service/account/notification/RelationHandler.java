@@ -13,6 +13,7 @@ import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.relation.AccountRelationCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -103,21 +104,79 @@ public class RelationHandler implements NotificationHandler<Notification> {
 
     @Override
     public void accept(Notification notification) {
+        String[] types;
+        List<Relation> relations;
+
         if (notification.getType().equals(NotificationTypeEnum.FRIEND)) {
             relationRepository.add(notification.getFromId(), notification.getToId(), RelationTypeEnum.FRIEND);
             relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.FRIEND);
             accountStoreService.update(notification.getFromId());
             accountStoreService.update(notification.getToId());
         } else if (notification.getType().equals(NotificationTypeEnum.EMPLOYEE)) {
-            // TODO dikma: если он уже владелец, то отказать, если участник, то заменить тип связи на работник
-            relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.EMPLOYEE);
-            accountStoreService.update(notification.getFromId());
+            // если он уже владелец, то отказать, если участник, то заменить тип связи на работник
+            types = new String[3];
+            types[0] = RelationTypeEnum.OWNER.toString();
+            types[1] = RelationTypeEnum.EMPLOYEE.toString();
+            types[2] = RelationTypeEnum.MEMBER.toString();
+
+            relations = relationRepository.findByRelationCriteria(new RelationCriteria(notification.getToId(), notification.getFromId(), types));
+
+            if (relations != null && relations.size() > 0) {
+                for (Relation relation : relations) {
+                    if (relation.getType().toString().equals(RelationTypeEnum.OWNER.toString()))  {
+                        String msg = String.format("relation already exists");
+                        logger.debug(msg);
+                        throw errorService.createException(AccountException.class, ErrorEnum.ERROR_RELATION_ALREADY_EXISTS);
+                    } else if (relation.getType().toString().equals(RelationTypeEnum.EMPLOYEE.toString())) {
+                        logger.debug("User is already employee");
+                    } else {
+                        relationRepository.remove(notification.getToId(), notification.getFromId() , RelationTypeEnum.MEMBER);
+                        relationRepository.add(notification.getToId(), notification.getFromId() , RelationTypeEnum.EMPLOYEE);
+                        accountStoreService.update(notification.getFromId());
+                    }
+                }
+            } else {
+                relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.EMPLOYEE);
+                accountStoreService.update(notification.getFromId());
+            }
         } else if (notification.getType().equals(NotificationTypeEnum.MEMBER)) {
-            // TODO dikma: если он уже владелец или работник, то отказать
-            relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.MEMBER);
-            accountStoreService.update(notification.getFromId());
+            // если он уже владелец или работник, то отказать
+            types = new String[3];
+            types[0] = RelationTypeEnum.OWNER.toString();
+            types[1] = RelationTypeEnum.EMPLOYEE.toString();
+            types[2] = RelationTypeEnum.MEMBER.toString();
+
+            relations = relationRepository.findByRelationCriteria(new RelationCriteria(notification.getToId(), notification.getFromId(), types));
+
+            if (relations != null && relations.size() > 0) {
+                for (Relation relation : relations) {
+                    if (relation.getType().toString().equals(RelationTypeEnum.OWNER.toString()) || relation.getType().toString().equals(RelationTypeEnum.EMPLOYEE.toString()))  {
+                        String msg = String.format("relation already exists");
+                        logger.debug(msg);
+                        throw errorService.createException(AccountException.class, ErrorEnum.ERROR_RELATION_ALREADY_EXISTS);
+                    } else if (relation.getType().toString().equals(RelationTypeEnum.MEMBER.toString())) {
+                        logger.debug("User is already member");
+                    }
+                }
+            } else {
+                relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.MEMBER);
+                accountStoreService.update(notification.getFromId());
+            }
         } else if (notification.getType().equals(NotificationTypeEnum.OWNER)) {
-            // TODO dikma: если он уже участник или работник, то заменить тип связи на владелец
+            // если он уже участник, работник или владелец удаляем и создаем новую связь
+            types = new String[3];
+            types[0] = RelationTypeEnum.OWNER.toString();
+            types[1] = RelationTypeEnum.EMPLOYEE.toString();
+            types[2] = RelationTypeEnum.MEMBER.toString();
+
+            relations = relationRepository.findByRelationCriteria(new RelationCriteria(notification.getToId(), notification.getFromId(), types));
+
+            if (relations != null && relations.size() > 0) {
+                for (Relation relation : relations) {
+                    relationRepository.remove(relation.getFromId(), notification.getFromId(), relation.getType());
+                }
+            }
+
             relationRepository.add(notification.getToId(), notification.getFromId(), RelationTypeEnum.OWNER);
             accountStoreService.update(notification.getFromId());
         }
