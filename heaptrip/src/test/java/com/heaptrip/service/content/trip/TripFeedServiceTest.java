@@ -1,10 +1,14 @@
 package com.heaptrip.service.content.trip;
 
+import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
@@ -19,6 +23,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -40,6 +45,12 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private FavoriteContentService favoriteContentService;
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
     @BeforeClass
     public void beforeClass() {
         // create test trip
@@ -57,14 +68,22 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         contentRepository.remove(TripFeedDataProvider.CONTENT_ID);
         // remove test users
         User[] users = TripFeedDataProvider.getUsers();
+        AccountNotificationCriteria criteria = new AccountNotificationCriteria();
+        List<Notification> notifications = new ArrayList<>();
         for (User user : users) {
             accountRepository.remove(user);
+
+            criteria.setAccountId(user.getId());
+            notifications.addAll(notificationService.findByUserNotificationCriteria(criteria));
         }
         // remove test members
         tripUserService.removeTripMembers(TripFeedDataProvider.CONTENT_ID);
         //remove favorites
         favoriteContentService.removeFavorites(TripFeedDataProvider.CONTENT_ID, TripFeedDataProvider.USER_ID);
-        // TODO konovalov & dikma: remove notifications by test user ids
+
+        for (Notification notification : notifications) {
+            notificationRepository.remove(notification.getId());
+        }
     }
 
     @Test(enabled = true, dataProviderClass = TripFeedDataProvider.class, dataProvider = "feedCriteria")

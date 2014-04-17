@@ -1,11 +1,15 @@
 package com.heaptrip.service.content.trip;
 
+import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.trip.*;
 import com.heaptrip.domain.exception.trip.TripException;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +49,11 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private TripMemberRepository tripMemberRepository;
 
-    //@Autowired
-    //private NotificationService notificationService;
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @BeforeClass
     public void beforeClass() {
@@ -65,11 +72,19 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         tripRepository.remove(TRIP_ID);
         // remove test users
         User[] users = TripUserDataProvider.getUsers();
+
+        AccountNotificationCriteria criteria = new AccountNotificationCriteria();
+        List<Notification> notifications = new ArrayList<>();
         for (User user : users) {
             accountRepository.remove(user);
+
+            criteria.setAccountId(user.getId());
+            notifications.addAll(notificationService.findByUserNotificationCriteria(criteria));
         }
-        // remove test notifications
-        // TODO konovalov & dikma: remove notifications by test user ids
+
+        for (Notification notification : notifications) {
+            notificationRepository.remove(notification.getId());
+        }
     }
 
     @AfterMethod(alwaysRun = true)

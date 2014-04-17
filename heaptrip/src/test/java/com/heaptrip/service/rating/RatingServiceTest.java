@@ -2,6 +2,7 @@ package com.heaptrip.service.rating;
 
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
@@ -12,9 +13,12 @@ import com.heaptrip.domain.entity.content.trip.TripUser;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.repository.rating.RatingRepository;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.rating.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,7 @@ import org.testng.annotations.Test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -60,6 +65,12 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
     private TripUserService tripUserService;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
 
     @BeforeClass
     public void beforeClass() throws Exception {
@@ -113,7 +124,17 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         tripUserService.removeTripMembers(TRIP_ID);
         ratingRepository.removeByTargetId(OWNER_ID);
         ratingRepository.removeByTargetId(POST_ID);
-        // TODO konovalov & dikma: remove notifications by test user ids
+
+        AccountNotificationCriteria criteria = new AccountNotificationCriteria();
+        criteria.setAccountId(OWNER_ID);
+        List<Notification> notifications = notificationService.findByUserNotificationCriteria(criteria);
+
+        criteria.setAccountId(USER_ID);
+        notifications.addAll(notificationService.findByUserNotificationCriteria(criteria));
+
+        for (Notification notification : notifications) {
+            notificationRepository.remove(notification.getId());
+        }
     }
 
     @Test(enabled = true, priority = 0)
