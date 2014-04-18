@@ -149,14 +149,12 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
             throws SolrServerException {
         SolrQuery query = new SolrQuery();
 
-
-
         // set fq
         String fq;
 
         // set fq for class
         if (criteria.getAccountType() != null) {
-            fq = "class:" + criteria.getAccountType().getClazz();
+            fq = getFilterQuery("class", criteria.getAccountType());
             query.add("fq", fq);
         }
 

@@ -10,7 +10,8 @@ import com.heaptrip.domain.service.criteria.IDListCriteria;
 public class AccountTextCriteria extends CategoryRegionCriteria {
 
     // account type
-    private AccountEnum accountType;
+    private IDListCriteria accountType;
+//    private AccountEnum accountType;
 
     // text to search
     private String query;
@@ -30,11 +31,11 @@ public class AccountTextCriteria extends CategoryRegionCriteria {
     // criteria for members
     private IDListCriteria members;
 
-    public AccountEnum getAccountType() {
+    public IDListCriteria getAccountType() {
         return accountType;
     }
 
-    public void setAccountType(AccountEnum accountType) {
+    public void setAccountType(IDListCriteria accountType) {
         this.accountType = accountType;
     }
 
