@@ -117,13 +117,19 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     private AccountModel convertAccountToAccountModel(Account account) {
         AccountModel accountModel = null;
         if (account != null) {
-            if (account instanceof User) {
-                accountModel = convertUserToUserModel((User) account);
-            } else if (account instanceof Community) {
-                accountModel = convertCommunityToCommunityModel((Community) account);
-            } else {
-                accountModel = new AccountModel();
-                putAccountToAccountModel(accountModel, account);
+            switch (account.getTypeAccount()) {
+                case USER:
+                    accountModel = convertUserToUserModel((User) account);
+                    break;
+                case COMPANY:
+                case CLUB:
+                case AGENCY:
+                    accountModel = convertCommunityToCommunityModel((Community) account);
+                    break;
+                default:
+                    accountModel = new AccountModel();
+                    putAccountToAccountModel(accountModel, account);
+                    break;
             }
         }
         return accountModel;
