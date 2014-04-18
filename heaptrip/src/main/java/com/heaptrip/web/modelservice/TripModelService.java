@@ -24,5 +24,15 @@ public interface TripModelService {
 
     void updateTripInfo(TripInfoModel tripInfoModel);
 
-    TripModel convertTrip(Trip trip);
+    /**
+     * Convert trip to trip model
+     *
+     * @param trip        trip
+     * @param isFullModel if the value is true, then all the data about the content
+     *                    will be converted into the model (including the availability of the rating,
+     *                    the possibility to add to favorites, etc.) Otherwise, the model will
+     *                    include only short information to display in the feeds.
+     * @return trip model
+     */
+    TripModel convertTrip(Trip trip, boolean isFullModel);
 }

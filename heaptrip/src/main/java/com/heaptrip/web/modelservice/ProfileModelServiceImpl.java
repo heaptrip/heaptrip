@@ -119,12 +119,12 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (account != null) {
             switch (account.getTypeAccount()) {
                 case USER:
-                    accountModel = convertUserToUserModel((User) account);
+                    accountModel = convertUserToUserModel(account);
                     break;
                 case COMPANY:
                 case CLUB:
                 case AGENCY:
-                    accountModel = convertCommunityToCommunityModel((Community) account);
+                    accountModel = convertCommunityToCommunityModel(account);
                     break;
                 default:
                     accountModel = new AccountModel();
@@ -136,7 +136,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     }
 
 
-    private UserInfoModel convertUserToUserModel(User user) {
+    private UserInfoModel convertUserToUserModel(Account user) {
         UserInfoModel userInfoModel = null;
         if (user != null) {
             userInfoModel = new UserInfoModel();
@@ -147,7 +147,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     }
 
 
-    private CommunityInfoModel convertCommunityToCommunityModel(Community community) {
+    private CommunityInfoModel convertCommunityToCommunityModel(Account community) {
         CommunityInfoModel communityInfoModel = null;
         if (community != null) {
             communityInfoModel = new CommunityInfoModel();
@@ -199,7 +199,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     private UserProfileModel convertUserProfileToProfileModel(Profile profile) {
         UserProfileModel profileModel = null;
-        if (profile != null && (profile instanceof UserProfile)) {
+        if (profile != null) {
             UserProfile userProfile = (UserProfile) profile;
             profileModel = new UserProfileModel();
             profileModel.setBirthday(convertDate(userProfile.getBirthday()));
@@ -211,7 +211,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     private CommunityProfileModel convertCommunityProfileToProfileModel(Profile profile) {
         CommunityProfileModel profileModel = null;
-        if (profile != null && (profile instanceof CommunityProfile)) {
+        if (profile != null) {
             CommunityProfile communityProfile = (CommunityProfile) profile;
             profileModel = new CommunityProfileModel();
             profileModel.setSkype(communityProfile.getSkype());

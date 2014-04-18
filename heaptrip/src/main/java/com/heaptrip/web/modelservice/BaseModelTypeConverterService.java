@@ -26,9 +26,9 @@ public interface BaseModelTypeConverterService {
 
     String getMultiLangTextValue(MultiLangText text, Locale locale, boolean isOnlyThisLocale);
 
-    RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
+    RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating, boolean isOnlyLocked);
 
-    ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId, TotalRating rating);
+    ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId, TotalRating rating, boolean isOnlyLocked);
 
     CategoryModel convertCategoryToModel(SimpleCategory category);
 

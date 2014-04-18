@@ -1,11 +1,10 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.content.Content;
-import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.ContentFeedService;
+import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.web.model.content.ContentModel;
 import com.heaptrip.web.model.content.StatusModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +26,17 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     @Override
-    public ContentModel convertContent(Content content) {
-        return convertContentToContentModel(content.getContentType(), content, false);
+    public ContentModel convertContent(Content content, boolean isFullModel) {
+        return convertContentToContentModel(content, false, isFullModel);
     }
 
-    protected ContentModel convertContentToContentModel(ContentEnum contentType, Content content, boolean isOnlyThisLocale) {
+    protected ContentModel convertContentToContentModel(Content content, boolean isOnlyThisLocale, boolean isFullModel) {
         ContentModel contentModel = new ContentModel();
-        setContentToContentModel(contentType, contentModel, content, getCurrentLocale(), isOnlyThisLocale);
+        setContentToContentModel(contentModel, content, getCurrentLocale(), isOnlyThisLocale, isFullModel);
         return contentModel;
     }
 
-    protected void setContentToContentModel(ContentEnum contentType, ContentModel contentModel, Content content,
-                                            Locale locale, boolean isOnlyThisLocale) {
+    protected void setContentToContentModel(ContentModel contentModel, Content content, Locale locale, boolean isOnlyThisLocale, boolean isFullModel) {
 
         if (content != null) {
             contentModel.setId(content.getId());
@@ -61,7 +59,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             if (content.getStatus() != null)
                 contentModel.setStatus(convertContentStatusToModel(content.getStatus()));
 
-            contentModel.setRating(convertRatingToRatingModel(contentType, content.getId(), content.getRating()));
+            contentModel.setRating(convertRatingToRatingModel(content.getContentType(), content.getId(), content.getRating(), !isFullModel));
 
             if (content.getViews() == null) {
                 contentModel.setViews(0L);
@@ -70,6 +68,10 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             }
 
             contentModel.setComments(content.getComments());
+
+            if (isFullModel) {
+                contentModel.setEnableFavorite(isEnableFavorite(contentModel.getId()));
+            }
         }
     }
 

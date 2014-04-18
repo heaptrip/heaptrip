@@ -116,23 +116,29 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
     }
 
     @Override
-    public RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating) {
+    public RatingStarsModel convertRatingToRatingModel(ContentEnum contentType, String contentId, TotalRating rating, boolean isOnlyLocked) {
 
         RatingStarsModel result = new RatingStarsModel();
-
-        result.setValue(0D);
-        result.setCount(0);
-        result.setStars("0");
-        result.setLocked(false);
-
-        User user = getCurrentUser();
-        if (user != null)
-            result.setLocked(!ratingService.canSetRating(contentType, contentId, user.getId()));
 
         if (rating != null) {
             result.setValue(rating.getValue());
             result.setStars(ratingValueToStars(rating.getValue()));
             result.setCount(rating.getCount());
+        } else {
+            result.setValue(0D);
+            result.setCount(0);
+            result.setStars("0");
+        }
+
+        if (isOnlyLocked) {
+            result.setLocked(false);
+        } else {
+            User user = getCurrentUser();
+            if (user != null) {
+                result.setLocked(!ratingService.canSetRating(contentType, contentId, user.getId()));
+            } else {
+                result.setLocked(false);
+            }
         }
 
         return result;
@@ -140,9 +146,9 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 
     @Override
     public ContentRatingModel convertRatingToContentRatingModel(ContentEnum contentType, String contentId,
-                                                                TotalRating rating) {
+                                                                TotalRating rating, boolean isOnlyLocked) {
         ContentRatingModel contentRatingModel = new ContentRatingModel();
-        RatingStarsModel ratingModel = convertRatingToRatingModel(contentType, contentId, rating);
+        RatingStarsModel ratingModel = convertRatingToRatingModel(contentType, contentId, rating, isOnlyLocked);
         contentRatingModel.setContentId(contentId);
         contentRatingModel.setContentType(contentType.name());
         contentRatingModel.setCount(ratingModel.getCount());

@@ -25,9 +25,9 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
     private PostRepository postRepository;
 
     @Override
-    public PostModel convertPost(Post post) {
+    public PostModel convertPost(Post post, boolean isFullModel) {
         PostModel postModel = new PostModel();
-        setContentToContentModel(ContentEnum.POST, postModel, post, getCurrentLocale(), false);
+        setContentToContentModel(postModel, post, getCurrentLocale(), false, isFullModel);
         return postModel;
     }
 
@@ -40,7 +40,7 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
         if (contents != null) {
             result = new ArrayList<>(contents.size());
             for (Content content : contents) {
-                result.add(convertPost((Post) content));
+                result.add(convertPost((Post) content, false));
             }
         }
         return result;
@@ -49,14 +49,14 @@ public class PostModelServiceImpl extends ContentModelServiceImpl implements Pos
     @Override
     public PostModel getPostModelBytId(String contentId) {
         Post post = postRepository.findOne(contentId);
-        return (post == null) ? null : convertPost(post);
+        return (post == null) ? null : convertPost(post, true);
     }
 
     @Override
     public PostModel savePostModel(PostModel postModel) {
         Post post = convertContentModelToPost(postModel);
         post = postService.save(post);
-        return (PostModel) convertContentToContentModel(ContentEnum.POST, post, false);
+        return convertPost(post, true);
     }
 
     @Override

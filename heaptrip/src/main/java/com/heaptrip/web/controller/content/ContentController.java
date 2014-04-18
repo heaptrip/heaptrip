@@ -4,11 +4,11 @@ import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.Trip;
+import com.heaptrip.domain.service.content.ContentFeedService;
 import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.content.criteria.FeedCriteria;
 import com.heaptrip.domain.service.content.criteria.ForeignAccountCriteria;
 import com.heaptrip.domain.service.content.criteria.MyAccountCriteria;
-import com.heaptrip.domain.service.content.ContentFeedService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -146,13 +146,13 @@ public class ContentController extends ExceptionHandlerControler {
         if (content != null) {
             switch (content.getContentType()) {
                 case TRIP:
-                    model = tripModelService.convertTrip((Trip) content);
+                    model = tripModelService.convertTrip((Trip) content, false);
                     break;
                 case POST:
-                    model = postModelService.convertPost((Post) content);
+                    model = postModelService.convertPost((Post) content, false);
                     break;
                 default:
-                    model = contentModelService.convertContent(content);
+                    model = contentModelService.convertContent(content, false);
                     break;
             }
         }

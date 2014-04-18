@@ -1,7 +1,6 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.MultiLangText;
-import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.trip.*;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
@@ -31,9 +30,9 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
     private TripFeedService tripFeedService;
 
     @Override
-    public TripModel convertTrip(Trip trip) {
+    public TripModel convertTrip(Trip trip, boolean isFullModel) {
         TripInfoModel tripInfoModel = new TripInfoModel();
-        appendTripToTripModel(tripInfoModel, trip, getCurrentLocale(), false);
+        appendTripToTripModel(tripInfoModel, trip, getCurrentLocale(), false, isFullModel);
         tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
         tripInfoModel.setRoute(convertTripRouteToModel(trip.getRoute(), getCurrentLocale(), false));
         return tripInfoModel;
@@ -88,9 +87,9 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         contentService.setStatus(trip.getId(), contentStatus);
     }
 
-    private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale) {
+    private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale, boolean isFullModel) {
         if (trip != null) {
-            setContentToContentModel(ContentEnum.TRIP, tripModel, trip, locale, isOnlyThisLocale);
+            setContentToContentModel(tripModel, trip, locale, isOnlyThisLocale, isFullModel);
 
             if (trip.getTable() != null && trip.getTable().length > 0) {
                 TableItem tableItem = tripService.getNearestTableItem(trip);
@@ -106,10 +105,9 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
     private TripInfoModel convertTripToTripInfoModel(Trip trip, Locale locale, boolean isOnlyThisLocale) {
         TripInfoModel tripInfoModel = new TripInfoModel();
-        appendTripToTripModel(tripInfoModel, trip, locale, isOnlyThisLocale);
+        appendTripToTripModel(tripInfoModel, trip, locale, isOnlyThisLocale, true);
         tripInfoModel.setSchedule(convertTableItemsToScheduleModels(trip.getTable()));
         tripInfoModel.setRoute(convertTripRouteToModel(trip.getRoute(), locale, isOnlyThisLocale));
-        tripInfoModel.setEnableFavorite(isEnableFavorite(trip.getId()));
         return tripInfoModel;
     }
 
@@ -132,11 +130,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         schedule.setStatus(convertStatus(item.getStatus()));
         schedule.setPrice(convertPrice(item.getPrice()));
         return schedule;
-    }
-
-    private TripModel convertTripToTripModel(Trip trip) {
-        TripModel tripModel = new TripModel();
-        return appendTripToTripModel(tripModel, trip, getCurrentLocale(), false);
     }
 
     private Trip convertTripInfoModelToTrip(TripInfoModel tripInfoModel, Locale locale) {
@@ -224,11 +217,16 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         return result;
     }
 
+    private TripModel convertTripToTripModel(Trip trip, boolean isFullModel) {
+        TripModel tripModel = new TripModel();
+        return appendTripToTripModel(tripModel, trip, getCurrentLocale(), false, isFullModel);
+    }
+
     private List<TripModel> convertTripToTripModel(List<Trip> trips) {
         List<TripModel> tripModels = new ArrayList<>();
         if (trips != null && !trips.isEmpty())
             for (Trip trip : trips) {
-                tripModels.add(convertTripToTripModel(trip));
+                tripModels.add(convertTripToTripModel(trip, false));
             }
         return tripModels;
     }
