@@ -4,8 +4,10 @@ import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.image.FileReferences;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
@@ -23,7 +25,6 @@ import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.criteria.relation.AccountRelationCriteria;
-import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.system.ErrorService;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -329,7 +330,21 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
             return account;
         } else {
-            Account account = new Account();
+            Account account;
+            switch (redisAccount.getAccountType()) {
+                case USER:
+                    account = new User();
+                    break;
+                case AGENCY:
+                case CLUB:
+                case COMPANY:
+                    account = new Community();
+                    break;
+                default:
+                    account = new Account();
+                    break;
+            }
+
             account.setId(redisAccount.getId());
             account.setName(redisAccount.getName());
 
