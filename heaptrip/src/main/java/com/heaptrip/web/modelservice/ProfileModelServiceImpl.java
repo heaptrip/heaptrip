@@ -5,6 +5,7 @@ import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
+import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.user.*;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.service.account.AccountService;
@@ -14,6 +15,8 @@ import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
+import com.heaptrip.util.converter.Converter;
+import com.heaptrip.util.converter.ListConverter;
 import com.heaptrip.util.http.HttpClient;
 import com.heaptrip.web.model.content.RatingModel;
 import com.heaptrip.web.model.profile.*;
@@ -376,14 +379,11 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     }
 
     private List<AccountModel> convertAccountsToAccountModels(List<Account> accounts) {
-        ArrayList<AccountModel> accountModels = new ArrayList<>();
-        if (accounts != null) {
-            for (Account account : accounts) {
-                accountModels.add(convertAccountToAccountModel(account));
-
+        return ListConverter.convertList(accounts, new Converter<Account, AccountModel>() {
+            public AccountModel convert(Account account) {
+                return convertAccountToAccountModel(account);
             }
-        }
-        return accountModels;
+        });
     }
 
 

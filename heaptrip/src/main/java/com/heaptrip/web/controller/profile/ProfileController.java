@@ -6,7 +6,7 @@ import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
-import com.heaptrip.web.controller.cortege.map.AccountTextCriteriaMap;
+import com.heaptrip.web.model.cortege.map.AccountTextCriteriaMap;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
@@ -29,7 +29,6 @@ public class ProfileController extends ExceptionHandlerControler {
     @Autowired
     ProfileModelService profileModelService;
 
-
     @Autowired
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
@@ -37,12 +36,12 @@ public class ProfileController extends ExceptionHandlerControler {
     @RequestMapping(value = "communities", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> getCommunitiesByCriteria(@RequestBody AccountTextCriteriaMap accountTextCriteria) {
+    Map<String, ? extends Object> getCommunitiesByCriteria(@RequestBody AccountTextCriteriaMap accountCriteriaMap) {
         try {
 
             Map<String, Object> result = new HashMap();
 
-            AccountTextCriteria userCommunitiesCriteria = accountTextCriteria.get("userCommunitiesCriteria");
+            AccountTextCriteria userCommunitiesCriteria = accountCriteriaMap.get("userCommunitiesCriteria");
             if (userCommunitiesCriteria != null) {
                 Map<String, Object> userCommunities = new HashMap<>();
                 List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(userCommunitiesCriteria);
@@ -51,7 +50,7 @@ public class ProfileController extends ExceptionHandlerControler {
                 userCommunities.put("count", communities.size());
                 result.put("userCommunities", userCommunities);
             }
-            AccountTextCriteria employerCommunitiesCriteria = accountTextCriteria.get("employerCommunitiesCriteria");
+            AccountTextCriteria employerCommunitiesCriteria = accountCriteriaMap.get("employerCommunitiesCriteria");
             if (employerCommunitiesCriteria != null) {
                 Map<String, Object> employerCommunities = new HashMap<>();
                 List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(employerCommunitiesCriteria);
@@ -60,7 +59,7 @@ public class ProfileController extends ExceptionHandlerControler {
                 employerCommunities.put("count", communities.size());
                 result.put("employerCommunities", employerCommunities);
             }
-            AccountTextCriteria memberCommunitiesCriteria = accountTextCriteria.get("memberCommunitiesCriteria");
+            AccountTextCriteria memberCommunitiesCriteria = accountCriteriaMap.get("memberCommunitiesCriteria");
             if (memberCommunitiesCriteria != null) {
                 Map<String, Object> memberCommunities = new HashMap<>();
                 List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(memberCommunitiesCriteria);
@@ -69,7 +68,7 @@ public class ProfileController extends ExceptionHandlerControler {
                 memberCommunities.put("count", communities.size());
                 result.put("memberCommunities", memberCommunities);
             }
-            AccountTextCriteria publisherCommunitiesCriteria = accountTextCriteria.get("publisherCommunitiesCriteria");
+            AccountTextCriteria publisherCommunitiesCriteria = accountCriteriaMap.get("publisherCommunitiesCriteria");
             if (publisherCommunitiesCriteria != null) {
                 Map<String, Object> publisherCommunities = new HashMap<>();
                 List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(publisherCommunitiesCriteria);
@@ -78,7 +77,7 @@ public class ProfileController extends ExceptionHandlerControler {
                 publisherCommunities.put("count", communities.size());
                 result.put("publisherCommunities", publisherCommunities);
             }
-            AccountTextCriteria searchCommunitiesCriteria = accountTextCriteria.get("searchCommunitiesCriteria");
+            AccountTextCriteria searchCommunitiesCriteria = accountCriteriaMap.get("searchCommunitiesCriteria");
             if (searchCommunitiesCriteria != null) {
                 Map<String, Object> searchCommunities =new HashMap<>();
                 List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(searchCommunitiesCriteria);

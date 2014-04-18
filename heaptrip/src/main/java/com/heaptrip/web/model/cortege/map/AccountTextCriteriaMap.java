@@ -1,4 +1,4 @@
-package com.heaptrip.web.controller.cortege.map;
+package com.heaptrip.web.model.cortege.map;
 
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
 
