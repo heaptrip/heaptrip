@@ -59,7 +59,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
 
         AccountTextCriteria criteria = new AccountTextCriteria();
         criteria.setQuery(UserDataProvider.EMAIL_USER_NAME);
-        criteria.setAccountType(new IDListCriteria(CheckModeEnum.IN, new String[]{AccountEnum.USER.toString()}));
+        criteria.setAccountType(new IDListCriteria(CheckModeEnum.IN, new String[]{AccountEnum.USER.getClazz()}));
         criteria.setSkip(0L);
         criteria.setLimit(1L);
 
@@ -90,7 +90,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
 
         AccountTextCriteria criteria = new AccountTextCriteria();
         criteria.setQuery(UserDataProvider.EMAIL_USER_NAME);
-        criteria.setAccountType(new IDListCriteria(CheckModeEnum.IN, new String[]{AccountEnum.USER.toString()}));
+        criteria.setAccountType(new IDListCriteria(CheckModeEnum.IN, new String[]{AccountEnum.USER.getClazz()}));
         criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[]{id}));
         criteria.setSkip(0L);
         criteria.setLimit(1L);
