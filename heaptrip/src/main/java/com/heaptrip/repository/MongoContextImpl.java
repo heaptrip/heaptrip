@@ -63,7 +63,7 @@ public class MongoContextImpl implements MongoContext {
 				}
 				mongoClient = new MongoClient(saList);
 				mongoClient.setWriteConcern(WriteConcern.SAFE);
-				logger.info("Defoult WriteConcern.SAFE");
+				logger.info("Default WriteConcern.SAFE");
 
 				if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
 					DB db = mongoClient.getDB(ADMIN_DB_NAME);
@@ -79,7 +79,7 @@ public class MongoContextImpl implements MongoContext {
 
 				logger.info("MongoClient successfully initialized");
 			} else {
-				logger.error("MongoClient not initialized: databese urls not defined");
+				logger.error("MongoClient not initialized: database urls not defined");
 			}
 		}
 	}
