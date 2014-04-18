@@ -57,7 +57,6 @@ $(document).ready(function () {
 
 $(window).bind("onPageReady", function (e, paramsJson) {
 
-
     var criteria = {};
 
     var userCommunitiesSuccess = function (data) {
@@ -75,9 +74,18 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         $('.community_func_user .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('Click menu item ' + $(this).attr('name'));
-            $(community).remove();
 
+            var url = 'rest/security/refusal_of_community';
+
+            var callbackSuccess = function (data) {
+                $(community).remove();
+            };
+
+            var callbackError = function (error) {
+                $("#error_message #msg").text(error);
+            };
+
+            $.postJSON(url, '', callbackSuccess, callbackError);
         });
 
     };
@@ -98,8 +106,18 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         $('.community_func_working .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('Click menu item ' + $(this).attr('name'));
-            $(community).remove();
+
+            var url = 'rest/security/resign_from_community';
+
+            var callbackSuccess = function (data) {
+                $(community).remove();
+            };
+
+            var callbackError = function (error) {
+                $("#error_message #msg").text(error);
+            };
+
+            $.postJSON(url, '', callbackSuccess, callbackError);
         });
 
     };
@@ -118,8 +136,18 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         }
         $('.community_func_member .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('Click menu item ' + $(this).attr('name'));
-            $(community).remove();
+
+            var url = 'rest/security/out_of_community';
+
+            var callbackSuccess = function (data) {
+                $(community).remove();
+            };
+
+            var callbackError = function (error) {
+                $("#error_message #msg").text(error);
+            };
+
+            $.postJSON(url, '', callbackSuccess, callbackError);
         });
 
     };
@@ -140,9 +168,18 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         $('.community_func_subscriber .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('Click menu item ' + $(this).attr('name'));
-            $(community).remove();
 
+            var url = 'rest/security/unsubscribe_from_community';
+
+            var callbackSuccess = function (data) {
+                $(community).remove();
+            };
+
+            var callbackError = function (error) {
+                $("#error_message #msg").text(error);
+            };
+
+            $.postJSON(url, '', callbackSuccess, callbackError);
         })
 
     };
@@ -155,17 +192,33 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         if ($('.community_func_search').length) {
             var commands = Array(
-                    Array('todo1', '_search','todo1_item'),
-                    Array('todo2', '_search','todo1_item')
+                    Array('sendRequestOwner', '_search','request_owner'),
+                    Array('sendRequestEmployee', '_search','request_employee'),
+                    Array('sendRequestMember', '_search','request_member'),
+                    Array('sendRequestSubscriber', '_search','request_subscriber')
             );
             participants_menu('.community_func_search', commands);
         }
 
         $('.community_func_search .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('Click menu item ' + $(this).attr('name'));
-            $(community).remove();
 
+            var jsonData = {
+                id:  '',
+                request: $(this).attr('name')
+            };
+
+            var url = 'rest/security/send_request_community';
+
+            var callbackSuccess = function (data) {
+                $(community).remove();
+            };
+
+            var callbackError = function (error) {
+                $("#error_message #msg").text(error);
+            };
+
+//            $.postJSON(url, jsonData, callbackSuccess, callbackError);
         })
 
     };
@@ -173,6 +226,11 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     criteria.userCommunitiesCriteria = {
 
         query: paramsJson.term,
+        accountType: {
+            checkMode: 'NOT_IN',
+            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+
+        },
         owners: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
@@ -190,6 +248,11 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     criteria.employerCommunitiesCriteria = {
 
         query: paramsJson.term,
+        accountType: {
+            checkMode: 'NOT_IN',
+            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+
+        },
         staff: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
@@ -207,6 +270,11 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     criteria.memberCommunitiesCriteria = {
 
         query: paramsJson.term,
+        accountType: {
+            checkMode: 'NOT_IN',
+            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+
+        },
         members: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
@@ -224,6 +292,11 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     criteria.publisherCommunitiesCriteria = {
 
         query: paramsJson.term,
+        accountType: {
+            checkMode: 'NOT_IN',
+            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+
+        },
         publishers: {
             checkMode: 'IN',
             ids: [window.catcher ? window.catcher.id : window.principal.id]
@@ -249,6 +322,22 @@ $(window).bind("onPageReady", function (e, paramsJson) {
             regions: {
                 checkMode: "IN",
                 ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            },
+            owners: {
+                checkMode: 'NOT_IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
+            },
+            staff: {
+                checkMode: 'NOT_IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
+            },
+            members: {
+                checkMode: 'NOT_IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
+            },
+            publishers: {
+                checkMode: 'NOT_IN',
+                ids: [window.catcher ? window.catcher.id : window.principal.id]
             }
         };
     }else{
@@ -281,8 +370,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     };
 
     $.postJSON(url, criteria, callbackSuccess, callbackError);
-
-
 });
 
 

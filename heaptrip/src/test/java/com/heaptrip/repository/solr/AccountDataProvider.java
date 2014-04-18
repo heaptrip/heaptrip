@@ -30,7 +30,7 @@ public class AccountDataProvider {
     @DataProvider(name = "accountSearchCriteria")
     public static Object[][] getAccountSearchCriteria() {
         AccountTextCriteria criteria = new AccountTextCriteria();
-        criteria.setAccountType(AccountEnum.USER);
+        criteria.setAccountType(new IDListCriteria(CheckModeEnum.IN, new String[]{AccountEnum.USER.toString()}));
         criteria.setQuery("иванов");
         criteria.setCategories(new IDListCriteria(CheckModeEnum.IN, new String[]{"1.1", "1.3"}));
         criteria.setRegions(new IDListCriteria(CheckModeEnum.IN, new String[]{"2.2"}));

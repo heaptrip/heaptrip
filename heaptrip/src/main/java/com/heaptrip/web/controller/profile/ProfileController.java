@@ -1,7 +1,9 @@
 package com.heaptrip.web.controller.profile;
 
+import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -29,10 +31,12 @@ public class ProfileController extends ExceptionHandlerControler {
     @Autowired
     ProfileModelService profileModelService;
 
-
     @Autowired
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
+
+    @Autowired
+    RelationService relationService;
 
     @RequestMapping(value = "communities", method = RequestMethod.POST)
     public
@@ -96,7 +100,6 @@ public class ProfileController extends ExceptionHandlerControler {
 
     }
 
-
     @RequestMapping(value = "*community", method = RequestMethod.GET)
     public ModelAndView getCommunityInformation(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
@@ -132,7 +135,6 @@ public class ProfileController extends ExceptionHandlerControler {
         return mv.addObject("account", accountModel);
     }
 
-
     @RequestMapping(value = "security/change_image", method = RequestMethod.POST)
     public
     @ResponseBody
@@ -159,6 +161,53 @@ public class ProfileController extends ExceptionHandlerControler {
         return Ajax.emptyResponse();
     }
 
+    @RequestMapping(value = "security/refusal_of_community", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> refusalOfCommunity(@RequestBody String guid) {
+        try {
+            relationService.deleteOwner(scopeService.getCurrentUser().getId(), guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/resign_from_community", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> resignFromCommunity(@RequestBody String guid) {
+        try {
+            relationService.deleteEmployee(scopeService.getCurrentUser().getId(), guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/out_of_community", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> outOfCommunity(@RequestBody String guid) {
+        try {
+            relationService.deleteMember(scopeService.getCurrentUser().getId(), guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/unsubscribe_from_community", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> unsubscribeFromCommunity(@RequestBody String guid) {
+        try {
+            relationService.deletePublisher(scopeService.getCurrentUser().getId(), guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
 
     @RequestMapping(value = "community_modify_info", method = RequestMethod.GET)
     public ModelAndView getEditCommunityInfo(@RequestParam(required = false) String guid) {
@@ -169,7 +218,6 @@ public class ProfileController extends ExceptionHandlerControler {
         }
         return mv.addObject("account", accountModel);
     }
-
 
     @RequestMapping(value = "security/community_update", method = RequestMethod.POST)
     public
@@ -182,6 +230,4 @@ public class ProfileController extends ExceptionHandlerControler {
         }
         return Ajax.emptyResponse();
     }
-
-
 }
