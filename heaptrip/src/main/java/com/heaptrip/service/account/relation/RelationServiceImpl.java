@@ -29,58 +29,58 @@ import java.util.List;
 @Service
 public class RelationServiceImpl implements RelationService {
 
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private CommunityRepository communityRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
-	private RelationRepository relationRepository;
+    private CommunityRepository communityRepository;
 
-	@Autowired
-	private NotificationService notificationService;
-	
-	@Autowired
-	private ErrorService errorService;
-	
-	@Autowired
-	private AccountStoreService accountStoreService;
-	
-	protected static final Logger logger = LoggerFactory.getLogger(RelationServiceImpl.class);
-	
-	@Override
-	public void sendFriendshipRequest(String userId, String friendId) {
+    @Autowired
+    private RelationRepository relationRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private ErrorService errorService;
+
+    @Autowired
+    private AccountStoreService accountStoreService;
+
+    protected static final Logger logger = LoggerFactory.getLogger(RelationServiceImpl.class);
+
+    @Override
+    public void sendFriendshipRequest(String userId, String friendId) {
         Assert.notNull(userId, "userId must not be null");
-		Assert.notNull(friendId, "friendId must not be null");
+        Assert.notNull(friendId, "friendId must not be null");
 
-		User user = userRepository.findOne(userId);
-		User friend = userRepository.findOne(friendId);
+        User user = userRepository.findOne(userId);
+        User friend = userRepository.findOne(friendId);
 
-		if (user == null) {
-			String msg = String.format("user not find by id %s", userId);
-			logger.debug(msg);
-			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
-		} else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
-			String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
-			logger.debug(msg);
-			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
-		} else if (friend == null) {
-			String msg = String.format("friend not find by id %s", friendId);
-			logger.debug(msg);
-			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
-		} else if (!friend.getStatus().equals(AccountStatusEnum.ACTIVE)) {
-			String msg = String.format("friend status must be: %s", AccountStatusEnum.ACTIVE);
-			logger.debug(msg);
-			throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
-		} else {
-			Notification notification = new Notification();
-			notification.setFromId(userId);
-			notification.setToId(friendId);
-			notification.setType(NotificationTypeEnum.FRIEND);
-			notificationService.addNotification(notification);
-		}
-	}
+        if (user == null) {
+            String msg = String.format("user not find by id %s", userId);
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
+        } else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+            String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
+        } else if (friend == null) {
+            String msg = String.format("friend not find by id %s", friendId);
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
+        } else if (!friend.getStatus().equals(AccountStatusEnum.ACTIVE)) {
+            String msg = String.format("friend status must be: %s", AccountStatusEnum.ACTIVE);
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
+        } else {
+            Notification notification = new Notification();
+            notification.setFromId(userId);
+            notification.setToId(friendId);
+            notification.setType(NotificationTypeEnum.FRIEND);
+            notificationService.addNotification(notification);
+        }
+    }
 
     @Override
     public void deleteFriend(String userId, String friendId) {
@@ -140,7 +140,7 @@ public class RelationServiceImpl implements RelationService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
         } else {
-            if (user.getTypeAccount().toString().equals(AccountEnum.USER.toString())) {
+            if (user.getAccountType().toString().equals(AccountEnum.USER.toString())) {
                 relationRepository.add(userId, publisherId, RelationTypeEnum.PUBLISHER);
             } else {
                 relationRepository.add(publisherId, userId, RelationTypeEnum.SUBSCRIBER);
@@ -175,7 +175,7 @@ public class RelationServiceImpl implements RelationService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
         } else {
-            if (publisher.getTypeAccount().toString().equals(AccountEnum.USER.toString())) {
+            if (publisher.getAccountType().toString().equals(AccountEnum.USER.toString())) {
                 relationRepository.remove(userId, publisherId, RelationTypeEnum.PUBLISHER);
             } else {
                 relationRepository.remove(publisherId, userId, RelationTypeEnum.SUBSCRIBER);

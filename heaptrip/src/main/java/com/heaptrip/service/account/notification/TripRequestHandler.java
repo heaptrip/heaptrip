@@ -88,7 +88,7 @@ public class TripRequestHandler implements NotificationHandler<TripNotification>
             String msg = String.format("account not find by id %s", notification.getToId());
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_FOUND);
-        } else if (!account.getTypeAccount().toString().equals(AccountEnum.USER.toString())) {
+        } else if (!account.getAccountType().toString().equals(AccountEnum.USER.toString())) {
             String[] typeRelations = new String[2];
             typeRelations[0] = RelationTypeEnum.OWNER.toString();
             typeRelations[1] = RelationTypeEnum.EMPLOYEE.toString();

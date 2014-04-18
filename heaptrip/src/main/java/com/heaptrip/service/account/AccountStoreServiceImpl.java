@@ -4,7 +4,9 @@ import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
-import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.account.community.agency.Agency;
+import com.heaptrip.domain.entity.account.community.club.Club;
+import com.heaptrip.domain.entity.account.community.company.Company;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.account.user.User;
@@ -12,6 +14,7 @@ import com.heaptrip.domain.entity.image.FileReferences;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
+import com.heaptrip.domain.exception.SystemException;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.exception.system.RedisException;
 import com.heaptrip.domain.exception.system.SolrException;
@@ -62,7 +65,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
     private ImageService imageService;
 
     @Autowired
-    RelationRepository relationRepository;
+    private RelationRepository relationRepository;
 
     @Async
     @Override
@@ -83,13 +86,13 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             SolrAccount solrAccount = new SolrAccount();
             solrAccount.setId(account.getId());
             solrAccount.setName(account.getName());
-            solrAccount.setClazz(account.getTypeAccount().getClazz());
+            solrAccount.setClazz(account.getAccountType().getClazz());
             if (account.getProfile() != null) {
                 solrAccount.setCategories(getIds(account.getProfile().getCategories()));
                 solrAccount.setRegions(getIds(account.getProfile().getRegions()));
             }
 
-            if (!account.getTypeAccount().equals(AccountEnum.USER)) {
+            if (!account.getAccountType().equals(AccountEnum.USER)) {
                 String[] types = new String[1];
                 types[0] = RelationTypeEnum.OWNER.toString();
 
@@ -112,7 +115,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             redisAccount.setId(account.getId());
             redisAccount.setName(account.getName());
             redisAccount.setEmail(account.getEmail());
-            redisAccount.setAccountType(account.getTypeAccount());
+            redisAccount.setAccountType(account.getAccountType());
             if (account.getRating() != null) {
                 redisAccount.setRating(account.getRating().getValue());
             }
@@ -153,7 +156,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             SolrAccount solrAccount = new SolrAccount();
             solrAccount.setId(account.getId());
             solrAccount.setName(account.getName());
-            solrAccount.setClazz(account.getTypeAccount().getClazz());
+            solrAccount.setClazz(account.getAccountType().getClazz());
             if (account.getProfile() != null) {
                 solrAccount.setCategories(getIds(account.getProfile().getCategories()));
                 solrAccount.setRegions(getIds(account.getProfile().getRegions()));
@@ -163,7 +166,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             String[] types = new String[1];
             List<Relation> relations;
 
-            if (account.getTypeAccount().equals(AccountEnum.USER)) {
+            if (account.getAccountType().equals(AccountEnum.USER)) {
                 types[0] = RelationTypeEnum.PUBLISHER.toString();
                 criteria.setRelationTypes(types);
                 relations = relationRepository.findByAccountRelationCriteria(criteria);
@@ -274,12 +277,11 @@ public class AccountStoreServiceImpl implements AccountStoreService {
     public Account findOne(String accountId) {
         Assert.notNull(accountId, "accountId must not be null");
 
-        // TODO dikma: нужно иметь возможность залогировать исключение не выходя из метода
         RedisAccount redisAccount = redisAccountRepository.findOne(accountId);
 
         if (redisAccount == null) {
-            String msg = String.format("account not exists in Redis: %s", accountId);
-            logger.warn(msg);
+            logger.warn("account not exists in Redis: " + accountId);
+
             Account account = accountRepository.findOne(accountId);
 
             if (account == null) {
@@ -290,7 +292,7 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             redisAccount.setId(account.getId());
             redisAccount.setName(account.getName());
             redisAccount.setEmail(account.getEmail());
-            redisAccount.setAccountType(account.getTypeAccount());
+            redisAccount.setAccountType(account.getAccountType());
             if (account.getRating() != null) {
                 redisAccount.setRating(account.getRating().getValue());
             }
@@ -302,24 +304,28 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 }
             }
 
-            // TODO dikma: нужно иметь возможность залогировать исключение не выходя из метода
             redisAccountRepository.save(redisAccount);
 
             return account;
         } else {
+            Assert.notNull(redisAccount.getAccountType(), "accountType must not be null");
+
             Account account;
             switch (redisAccount.getAccountType()) {
                 case USER:
                     account = new User();
                     break;
                 case AGENCY:
+                    account = new Agency();
+                    break;
                 case CLUB:
+                    account = new Club();
+                    break;
                 case COMPANY:
-                    account = new Community();
+                    account = new Company();
                     break;
                 default:
-                    account = new Account();
-                    break;
+                    throw new SystemException("Error accountType: " + redisAccount.getAccountType());
             }
 
             account.setId(redisAccount.getId());
@@ -328,7 +334,6 @@ public class AccountStoreServiceImpl implements AccountStoreService {
             AccountRating rating = new AccountRating();
             rating.setValue(redisAccount.getRating());
             account.setRating(rating);
-            account.setTypeAccount(redisAccount.getAccountType());
 
             if (redisAccount.getImageId() != null) {
                 Image image = new Image();

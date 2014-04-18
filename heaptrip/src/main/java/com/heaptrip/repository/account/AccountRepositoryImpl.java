@@ -1,7 +1,12 @@
 package com.heaptrip.repository.account;
 
 import com.heaptrip.domain.entity.CollectionEnum;
-import com.heaptrip.domain.entity.account.*;
+import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.AccountStatusEnum;
+import com.heaptrip.domain.entity.account.Profile;
+import com.heaptrip.domain.entity.account.Setting;
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.account.user.UserRegistration;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
@@ -13,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -66,9 +72,15 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
 
     @Override
     public List<Account> findUsersByEmail(String email, AccountStatusEnum accountStatus) {
+        // TODO dikma: remove UserRegistration
+        List<String> classes = new ArrayList<>();
+        classes.add(User.class.getName());
+        classes.add(UserRegistration.class.getName());
+
+        // TODO dikma: add index
         MongoCollection coll = getCollection();
-        String query = "{email: #, typeAccount: #, status: #}";
-        Iterable<Account> iterator = coll.find(query, email, AccountEnum.USER, accountStatus.toString()).as(Account.class);
+        String query = "{email: #, _class: {$in: #}, status: #}";
+        Iterable<Account> iterator = coll.find(query, email, classes, accountStatus.toString()).as(Account.class);
         return IteratorConverter.copyIterator(iterator.iterator());
     }
 
