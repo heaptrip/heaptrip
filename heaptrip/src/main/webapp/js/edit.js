@@ -383,7 +383,7 @@ function participants_menu(name, commands, clas) {
     var commands_str = '';
     for (var i = 0; i < commands_l; i++) {
         if (typeof(commands[i]) === 'object') {
-            commands_str += '<li><a class="punkt" func="' + commands[i][1] + '">' + commands[i][0] + '</a></li>';
+            commands_str += '<li><a name="' + commands[i][2] + '" class="punkt" func="' + commands[i][1] + '">' + commands[i][0] + '</a></li>';
         } else {
             commands_str += '<li><a>' + commands[i] + '</a></li>';
         }

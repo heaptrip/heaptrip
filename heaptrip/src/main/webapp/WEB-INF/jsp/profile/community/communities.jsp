@@ -69,13 +69,13 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#user_communities").html($("#userCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_user').length) {
-            var commands = Array(Array('Close', '_user'));
+            var commands = Array(Array('Close', '_user','close_item'));
             participants_menu('.community_func_user', commands);
         }
 
         $('.community_func_user .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('community_func_user_call');
+            alert('Click menu item ' + $(this).attr('name'));
             $(community).remove();
 
         });
@@ -92,13 +92,13 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#working_communities").html($("#workingCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_working').length) {
-            var commands = Array(Array('Resign', '_working'));
+            var commands = Array(Array('Resign', '_working',"resign_item"));
             participants_menu('.community_func_working', commands);
         }
 
         $('.community_func_working .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('community_func_working_call');
+            alert('Click menu item ' + $(this).attr('name'));
             $(community).remove();
         });
 
@@ -113,12 +113,12 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         $("#member_communities").html($("#memberCommunitiesTemplate").render(data.communities));
         if ($('.community_func_member').length) {
-            var commands = Array(Array('Exit', '_member'));
+            var commands = Array(Array('Exit', '_member','exit_item'));
             participants_menu('.community_func_member', commands);
         }
         $('.community_func_member .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('community_func_member_call');
+            alert('Click menu item ' + $(this).attr('name'));
             $(community).remove();
         });
 
@@ -134,13 +134,13 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#subscriber_communities").html($("#subscriberCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_subscriber').length) {
-            var commands = Array(Array('Unsubscribe', '_subscriber'));
+            var commands = Array(Array('Unsubscribe', '_subscriber','unsubscribe_item'));
             participants_menu('.community_func_subscriber', commands);
         }
 
         $('.community_func_subscriber .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('community_func_subscriber_call');
+            alert('Click menu item ' + $(this).attr('name'));
             $(community).remove();
 
         })
@@ -155,15 +155,15 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         if ($('.community_func_search').length) {
             var commands = Array(
-                    Array('todo1', '_search'),
-                    Array('todo2', '_search')
+                    Array('todo1', '_search','todo1_item'),
+                    Array('todo2', '_search','todo1_item')
             );
             participants_menu('.community_func_search', commands);
         }
 
         $('.community_func_search .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
-            alert('community_func_search_call_' + $(this).text());
+            alert('Click menu item ' + $(this).attr('name'));
             $(community).remove();
 
         })
