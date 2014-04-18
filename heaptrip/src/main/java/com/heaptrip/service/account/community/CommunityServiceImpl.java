@@ -1,28 +1,27 @@
 package com.heaptrip.service.account.community;
 
-import com.heaptrip.domain.entity.mail.MailEnum;
-import com.heaptrip.domain.entity.mail.MailTemplate;
-import com.heaptrip.domain.entity.mail.MailTemplateStorage;
-import com.heaptrip.domain.entity.rating.AccountRating;
-import com.heaptrip.domain.repository.content.ContentRepository;
-import com.heaptrip.domain.service.account.AccountStoreService;
-import com.heaptrip.domain.service.system.MailService;
-import com.heaptrip.domain.service.system.RequestScopeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.community.Community;
+import com.heaptrip.domain.entity.mail.MailEnum;
+import com.heaptrip.domain.entity.mail.MailTemplate;
+import com.heaptrip.domain.entity.mail.MailTemplateStorage;
+import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.ErrorEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.community.CommunityRepository;
+import com.heaptrip.domain.repository.content.ContentRepository;
+import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.domain.service.system.MailService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.service.account.AccountServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.Locale;
 
@@ -81,8 +80,8 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
     public Community registration(Community community, Locale locale) {
         Assert.notNull(community, "account must not be null");
         Assert.notNull(community.getEmail(), "email must not be null");
-        Assert.notNull(community.getTypeAccount(), "type account must not be null");
-        Assert.isTrue(!community.getTypeAccount().equals(AccountEnum.USER), "account must not be type account is user");
+        Assert.notNull(community.getAccountType(), "type account must not be null");
+        Assert.isTrue(!community.getAccountType().equals(AccountEnum.USER), "account must not be type account is user");
         Assert.isTrue(community.getEmail().matches(EMAIL_REGEX), "email is not correct");
 
         // устанавливаем создателя сообщества

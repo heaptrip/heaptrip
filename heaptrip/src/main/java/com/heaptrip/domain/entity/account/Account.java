@@ -9,9 +9,7 @@ import com.heaptrip.domain.entity.rating.AccountRating;
 import java.util.Date;
 
 @JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Account extends BaseObject {
-
-    private String _class;
+public abstract class Account extends BaseObject {
 
     private String name;
 
@@ -25,22 +23,11 @@ public class Account extends BaseObject {
 
     private AccountStatusEnum status;
 
-    private AccountEnum typeAccount;
-
     private AccountRating rating;
 
     private Date created;
 
-    public Account() {
-    }
-
-    public String get_class() {
-        return _class;
-    }
-
-    public void set_class(String _class) {
-        this._class = _class;
-    }
+    public abstract AccountEnum getAccountType();
 
     public String getName() {
         return name;
@@ -64,14 +51,6 @@ public class Account extends BaseObject {
 
     public void setStatus(AccountStatusEnum status) {
         this.status = status;
-    }
-
-    public AccountEnum getTypeAccount() {
-        return typeAccount;
-    }
-
-    public void setTypeAccount(AccountEnum typeAccount) {
-        this.typeAccount = typeAccount;
     }
 
     public Profile getProfile() {

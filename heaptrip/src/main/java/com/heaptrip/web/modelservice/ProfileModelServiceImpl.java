@@ -5,8 +5,12 @@ import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.community.CommunityProfile;
+import com.heaptrip.domain.entity.account.community.agency.Agency;
+import com.heaptrip.domain.entity.account.community.club.Club;
+import com.heaptrip.domain.entity.account.community.company.Company;
 import com.heaptrip.domain.entity.account.user.*;
 import com.heaptrip.domain.entity.rating.AccountRating;
+import com.heaptrip.domain.exception.SystemException;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
@@ -117,7 +121,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     private AccountModel convertAccountToAccountModel(Account account) {
         AccountModel accountModel = null;
         if (account != null) {
-            switch (account.getTypeAccount()) {
+            switch (account.getAccountType()) {
                 case USER:
                     accountModel = convertUserToUserModel(account);
                     break;
@@ -173,8 +177,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             accountModel.setId(account.getId());
             accountModel.setName(account.getName());
             accountModel.setRating(convertAccountRatingToRatingModel(account.getRating()));
-            if (account.getTypeAccount() != null)
-                accountModel.setTypeAccount(account.getTypeAccount().name());
+            if (account.getAccountType() != null)
+                accountModel.setTypeAccount(account.getAccountType().name());
             if (account.getImage() != null && account.getImage().getRefs() != null) {
                 accountModel.setImage(convertImage(account.getImage()));
             }
@@ -389,8 +393,21 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Override
     public Community registration(CommunityInfoModel communityInfoModel) {
-        Community community = new Community();
-        community.setTypeAccount(AccountEnum.valueOf(communityInfoModel.getTypeAccount()));
+        Community community;
+        switch (AccountEnum.valueOf(communityInfoModel.getTypeAccount())) {
+            case COMPANY:
+                community = new Company();
+                break;
+            case CLUB:
+                community = new Club();
+                break;
+            case AGENCY:
+                community = new Agency();
+                break;
+            default:
+                throw new SystemException("Error accountType: " + communityInfoModel.getTypeAccount());
+
+        }
         community.setName(communityInfoModel.getName());
         community.setEmail(communityInfoModel.getEmail());
         community.setOwnerAccountId(getCurrentUser().getId());

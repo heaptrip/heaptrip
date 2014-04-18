@@ -10,8 +10,6 @@ import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.entity.region.Region;
 import com.heaptrip.domain.entity.region.SimpleRegion;
-import com.heaptrip.domain.exception.ErrorEnum;
-import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
@@ -27,9 +25,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -159,12 +155,12 @@ public class ContentServiceImpl implements ContentService {
     private String[] getAllowed4FriendsByAccountId(String accountId) {
 
         Account account = accountStoreService.findOne(accountId);
-        Assert.notNull(account.getTypeAccount(), "account type must not be null");
+        Assert.notNull(account.getAccountType(), "account type must not be null");
 
         List<Relation> relations = null;
         Set<String> ids = new HashSet();
 
-        switch (account.getTypeAccount()) {
+        switch (account.getAccountType()) {
             case USER:
                 String[] typeRelations = new String[1];
                 typeRelations[0] = RelationTypeEnum.FRIEND.toString();

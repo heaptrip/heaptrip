@@ -6,52 +6,55 @@ import com.heaptrip.domain.entity.account.AccountStatusEnum;
 
 public class User extends Account {
 
-	private String[] roles;
-	
-	private SocialNetwork[] net;
-	
-	private String extImageStore;
-	
-	private Byte[] imageCRC;
+    private String[] roles;
 
-	public User() {
-		super();
-		setTypeAccount(AccountEnum.USER);
-		setStatus(AccountStatusEnum.NOTCONFIRMED);
+    private SocialNetwork[] net;
 
-		setProfile(new UserProfile());
-		setSetting(new UserSetting());
-	}
-	
-	public String[] getRoles() {
-		return roles;
-	}
+    private String extImageStore;
 
-	public void setRoles(String[] roles) {
-		this.roles = roles;
-	}
-	
-	public SocialNetwork[] getNet() {
-		return net;
-	}
+    private Byte[] imageCRC;
 
-	public void setNet(SocialNetwork[] net) {
-		this.net = net;
-	}
-	
-	public Byte[] getImageCRC() {
-		return imageCRC;
-	}
+    public User() {
+        super();
+        setStatus(AccountStatusEnum.NOTCONFIRMED);
+        setProfile(new UserProfile());
+        setSetting(new UserSetting());
+    }
 
-	public void setImageCRC(Byte[] imageCRC) {
-		this.imageCRC = imageCRC;
-	}
+    @Override
+    public AccountEnum getAccountType() {
+        return AccountEnum.USER;
+    }
 
-	public String getExternalImageStore() {
-		return extImageStore;
-	}
+    public String[] getRoles() {
+        return roles;
+    }
 
-	public void setExtImageStore(String extImageStore) {
-		this.extImageStore = extImageStore;
-	}
+    public void setRoles(String[] roles) {
+        this.roles = roles;
+    }
+
+    public SocialNetwork[] getNet() {
+        return net;
+    }
+
+    public void setNet(SocialNetwork[] net) {
+        this.net = net;
+    }
+
+    public Byte[] getImageCRC() {
+        return imageCRC;
+    }
+
+    public void setImageCRC(Byte[] imageCRC) {
+        this.imageCRC = imageCRC;
+    }
+
+    public String getExternalImageStore() {
+        return extImageStore;
+    }
+
+    public void setExtImageStore(String extImageStore) {
+        this.extImageStore = extImageStore;
+    }
 }

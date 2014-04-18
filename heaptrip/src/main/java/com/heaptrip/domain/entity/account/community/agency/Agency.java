@@ -5,8 +5,12 @@ import com.heaptrip.domain.entity.account.community.Community;
 
 public class Agency extends Community {
 
-	public Agency() {
-		super();
-		setTypeAccount(AccountEnum.AGENCY);
-	}
+    public Agency() {
+        super();
+    }
+
+    @Override
+    public AccountEnum getAccountType() {
+        return AccountEnum.AGENCY;
+    }
 }
