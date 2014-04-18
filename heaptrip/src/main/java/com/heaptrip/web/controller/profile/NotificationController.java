@@ -1,5 +1,7 @@
 package com.heaptrip.web.controller.profile;
 
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.util.http.Ajax;
@@ -29,15 +31,15 @@ public class NotificationController extends ExceptionHandlerControler {
     private NotificationService notificationService;
 
 
-    @RequestMapping(value = "security/notifications", method = RequestMethod.POST)
+    @RequestMapping(value = "security/notification/user", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> getNotificationByCriteria(@RequestBody NotificationCriteria criteria) {
+    Map<String, ? extends Object> getNotificationByUserCriteria(@RequestBody AccountNotificationCriteria criteria) {
         try {
             Map<String, Object> result = new HashMap();
-            List<NotificationModel> notificationModels = notificationModelService.getNotificationByCriteria(criteria);
+            List<NotificationModel> notificationModels = notificationModelService.getNotificationByUserCriteria(criteria);
             result.put("notifications", notificationModels);
-            result.put("count", notificationService.countByNotificationCriteria(criteria));
+            result.put("count", notificationService.countByUserNotificationCriteria(criteria));
             return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);

@@ -1,5 +1,6 @@
 package com.heaptrip.web.modelservice;
 
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
 import com.heaptrip.web.model.profile.NotificationModel;
 
@@ -14,6 +15,6 @@ import java.util.List;
  */
 public interface NotificationModelService {
 
-    List<NotificationModel> getNotificationByCriteria(NotificationCriteria notificationCriteria);
+    List<NotificationModel> getNotificationByUserCriteria(AccountNotificationCriteria notificationCriteria);
 
 }

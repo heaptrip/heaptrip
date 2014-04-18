@@ -1,7 +1,7 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.notification.Notification;
-import com.heaptrip.domain.service.account.criteria.notification.NotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.util.converter.Converter;
 import com.heaptrip.util.converter.ListConverter;
@@ -28,8 +28,8 @@ public class NotificationModelServiceImpl extends BaseModelTypeConverterServiceI
     private ProfileModelService profileModelService;
 
     @Override
-    public List<NotificationModel> getNotificationByCriteria(NotificationCriteria notificationCriteria) {
-        List<Notification> notifications = notificationService.findByNotificationCriteria(notificationCriteria);
+    public List<NotificationModel> getNotificationByUserCriteria(AccountNotificationCriteria notificationCriteria) {
+        List<Notification> notifications = notificationService.findByUserNotificationCriteria(notificationCriteria);
         return convertNotificationsToNotificationModels(notifications);
     }
 

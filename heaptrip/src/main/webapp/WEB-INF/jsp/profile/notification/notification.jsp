@@ -29,9 +29,12 @@
 
     var getCommunitiesList = function (paramsJson) {
 
-        var url = 'rest/security/notifications';
+        var url = 'rest/security/notification/user';
 
         var criteria = {
+
+
+            accountId: window.principal.id
 
             /*owners: {
              checkMode: 'IN',
