@@ -56,43 +56,17 @@ $(document).ready(function () {
 
 
 $(window).bind("onPageReady", function (e, paramsJson) {
-    getSearchList(paramsJson);
-    getCommunitiesList(paramsJson);
-    getEmployerList(paramsJson);
-    getMemberList(paramsJson);
-    getPublisherList(paramsJson);
 
-});
 
-var getCommunitiesList = function (paramsJson) {
+    var criteria = {};
 
-    var url = 'rest/communities';
-
-    var communitiesCriteria = {
-
-        query: paramsJson.term,
-        owners: {
-            checkMode: 'IN',
-            ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
-    };
-
-    var callbackSuccess = function (data) {
-
-        if(data.accounts && data.accounts.length > 0)
+    var userCommunitiesSuccess = function (data) {
+        if(data.communities && data.communities.length > 0)
             $("#list_user_1").show();
         else
             $("#list_user_1").hide();
 
-        $("#user_communities").html($("#userCommunitiesTemplate").render(data.accounts));
+        $("#user_communities").html($("#userCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_user').length) {
             var commands = Array(Array('Close', '_user'));
@@ -106,48 +80,16 @@ var getCommunitiesList = function (paramsJson) {
 
         });
 
-        /*$('#paginator1').smartpaginator({
-         totalrecords: 100,
-         skip: paramsJson.skip
-         }); */
     };
 
-    var callbackError = function (error) {
-        alert(error);
-    };
+    var employerCommunitiesSuccess = function (data) {
 
-    $.postJSON(url, communitiesCriteria, callbackSuccess, callbackError);
-
-};
-
-var getEmployerList = function (paramsJson) {
-    var url = 'rest/communities';
-
-    var employersCriteria = {
-
-        query: paramsJson.term,
-        staff: {
-            checkMode: 'IN',
-            ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
-    };
-
-    var callbackSuccess = function (data) {
-
-        if(data.accounts && data.accounts.length > 0)
+        if(data.communities && data.communities.length > 0)
             $("#list_user_2").show();
         else
             $("#list_user_2").hide();
 
-        $("#working_communities").html($("#workingCommunitiesTemplate").render(data.accounts));
+        $("#working_communities").html($("#workingCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_working').length) {
             var commands = Array(Array('Resign', '_working'));
@@ -158,46 +100,18 @@ var getEmployerList = function (paramsJson) {
             var community = $(this).parents('.participants_li');
             alert('community_func_working_call');
             $(community).remove();
-
         });
 
     };
 
-    var callbackError = function (error) {
-        alert(error);
-    };
+    var memberCommunitiesSuccess = function (data) {
 
-    $.postJSON(url, employersCriteria, callbackSuccess, callbackError);
-};
-
-var getMemberList = function (paramsJson) {
-    var url = 'rest/communities';
-
-    var membersCriteria = {
-
-        query: paramsJson.term,
-        members: {
-            checkMode: 'IN',
-            ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
-    };
-
-    var callbackSuccess = function (data) {
-
-        if(data.accounts && data.accounts.length > 0)
+        if(data.communities && data.communities.length > 0)
             $("#list_user_3").show();
         else
             $("#list_user_3").hide();
 
-        $("#member_communities").html($("#memberCommunitiesTemplate").render(data.accounts));
+        $("#member_communities").html($("#memberCommunitiesTemplate").render(data.communities));
         if ($('.community_func_member').length) {
             var commands = Array(Array('Exit', '_member'));
             participants_menu('.community_func_member', commands);
@@ -210,43 +124,14 @@ var getMemberList = function (paramsJson) {
 
     };
 
-    var callbackError = function (error) {
-        alert(error);
-    };
+    var publisherCommunitiesSuccess = function (data) {
 
-    $.postJSON(url, membersCriteria, callbackSuccess, callbackError);
-};
-
-var getPublisherList = function (paramsJson) {
-    var url = 'rest/communities';
-
-    var publishersCriteria = {
-
-        query: paramsJson.term,
-        publishers: {
-            checkMode: 'IN',
-            ids: [window.catcher ? window.catcher.id : window.principal.id]
-        },
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
-    };
-
-    var callbackSuccess = function (data) {
-
-        if(data.accounts && data.accounts.length > 0)
+        if(data.communities && data.communities.length > 0)
             $("#list_user_4").show();
         else
             $("#list_user_4").hide();
 
-
-        $("#subscriber_communities").html($("#subscriberCommunitiesTemplate").render(data.accounts));
-
+        $("#subscriber_communities").html($("#subscriberCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_subscriber').length) {
             var commands = Array(Array('Unsubscribe', '_subscriber'));
@@ -262,47 +147,11 @@ var getPublisherList = function (paramsJson) {
 
     };
 
-    var callbackError = function (error) {
-        alert(error);
-    };
+    var  searchCommunitiesSuccess = function (data) {
 
-    $.postJSON(url, publishersCriteria, callbackSuccess, callbackError);
-};
+        $("#list_user_5").show();
 
-var getSearchList = function (paramsJson) {
-
-    if (!paramsJson.term && !paramsJson.ct && !paramsJson.rg) {
-        if ($("#search_communities").length != 0) {
-            $("#list_user_5").hide();
-        }
-        return;
-    }
-
-    $("#list_user_5").show();
-
-    var url = 'rest/communities';
-
-    var publishersCriteria = {
-
-        /*publishers: {
-         checkMode: 'IN',
-         ids: [window.catcher ? window.catcher.id : window.principal.id]
-         }, */
-
-        query: paramsJson.term,
-        categories: {
-            checkMode: "IN",
-            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
-        },
-        regions: {
-            checkMode: "IN",
-            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
-        }
-    };
-
-    var callbackSuccess = function (data) {
-        $("#search_communities").html($("#searchCommunitiesTemplate").render(data.accounts));
-
+        $("#search_communities").html($("#searchCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_search').length) {
             var commands = Array(
@@ -321,12 +170,121 @@ var getSearchList = function (paramsJson) {
 
     };
 
+    criteria.userCommunitiesCriteria = {
+
+        query: paramsJson.term,
+        owners: {
+            checkMode: 'IN',
+            ids: [window.catcher ? window.catcher.id : window.principal.id]
+        },
+        categories: {
+            checkMode: "IN",
+            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+        },
+        regions: {
+            checkMode: "IN",
+            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+        }
+    };
+
+    criteria.employerCommunitiesCriteria = {
+
+        query: paramsJson.term,
+        staff: {
+            checkMode: 'IN',
+            ids: [window.catcher ? window.catcher.id : window.principal.id]
+        },
+        categories: {
+            checkMode: "IN",
+            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+        },
+        regions: {
+            checkMode: "IN",
+            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+        }
+    };
+
+    criteria.memberCommunitiesCriteria = {
+
+        query: paramsJson.term,
+        members: {
+            checkMode: 'IN',
+            ids: [window.catcher ? window.catcher.id : window.principal.id]
+        },
+        categories: {
+            checkMode: "IN",
+            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+        },
+        regions: {
+            checkMode: "IN",
+            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+        }
+    };
+
+    criteria.publisherCommunitiesCriteria = {
+
+        query: paramsJson.term,
+        publishers: {
+            checkMode: 'IN',
+            ids: [window.catcher ? window.catcher.id : window.principal.id]
+        },
+        categories: {
+            checkMode: "IN",
+            ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+        },
+        regions: {
+            checkMode: "IN",
+            ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+        }
+    };
+
+
+    if (paramsJson.term || paramsJson.ct || paramsJson.rg) {
+        criteria.searchCommunitiesCriteria = {
+            query: paramsJson.term,
+            categories: {
+                checkMode: "IN",
+                ids: paramsJson.ct ? paramsJson.ct.split(',') : null
+            },
+            regions: {
+                checkMode: "IN",
+                ids: paramsJson.rg ? paramsJson.rg.split(',') : null
+            }
+        };
+    }else{
+        $("#list_user_5").hide();
+    }
+
+
+    var url = 'rest/communities';
+
+    var callbackSuccess = function (data) {
+        if(data.userCommunities){
+            userCommunitiesSuccess(data.userCommunities);
+        }
+        if(data.employerCommunities){
+            employerCommunitiesSuccess(data.employerCommunities);
+        }
+        if(data.memberCommunities){
+            memberCommunitiesSuccess(data.memberCommunities);
+        }
+        if(data.publisherCommunities){
+            publisherCommunitiesSuccess(data.publisherCommunities)
+        }
+        if(data.searchCommunities){
+            searchCommunitiesSuccess(data.searchCommunities)
+        }
+    };
+
     var callbackError = function (error) {
         alert(error);
     };
 
-    $.postJSON(url, publishersCriteria, callbackSuccess, callbackError);
-};
+    $.postJSON(url, criteria, callbackSuccess, callbackError);
+
+
+});
+
 
 </script>
 

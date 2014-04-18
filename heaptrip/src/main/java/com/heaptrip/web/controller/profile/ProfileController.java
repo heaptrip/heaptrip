@@ -6,6 +6,7 @@ import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
+import com.heaptrip.web.controller.cortege.map.AccountTextCriteriaMap;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
@@ -18,8 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ProfileController extends ExceptionHandlerControler {
@@ -34,17 +34,62 @@ public class ProfileController extends ExceptionHandlerControler {
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
 
-
     @RequestMapping(value = "communities", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> getCommunitiesByCriteria(@RequestBody AccountTextCriteria accountTextCriteria) {
+    Map<String, ? extends Object> getCommunitiesByCriteria(@RequestBody AccountTextCriteriaMap accountTextCriteria) {
         try {
+
             Map<String, Object> result = new HashMap();
-            result.put("accounts", profileModelService.getAccountsModelByCriteria(accountTextCriteria));
-            // TODO voronenko : попросить метод get Accounts COUNT By Criteria
-            result.put("count", 100);
+
+            AccountTextCriteria userCommunitiesCriteria = accountTextCriteria.get("userCommunitiesCriteria");
+            if (userCommunitiesCriteria != null) {
+                Map<String, Object> userCommunities = new HashMap<>();
+                List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(userCommunitiesCriteria);
+                userCommunities.put("communities", communities);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                userCommunities.put("count", communities.size());
+                result.put("userCommunities", userCommunities);
+            }
+            AccountTextCriteria employerCommunitiesCriteria = accountTextCriteria.get("employerCommunitiesCriteria");
+            if (employerCommunitiesCriteria != null) {
+                Map<String, Object> employerCommunities = new HashMap<>();
+                List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(employerCommunitiesCriteria);
+                employerCommunities.put("communities", communities);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                employerCommunities.put("count", communities.size());
+                result.put("employerCommunities", employerCommunities);
+            }
+            AccountTextCriteria memberCommunitiesCriteria = accountTextCriteria.get("memberCommunitiesCriteria");
+            if (memberCommunitiesCriteria != null) {
+                Map<String, Object> memberCommunities = new HashMap<>();
+                List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(memberCommunitiesCriteria);
+                memberCommunities.put("communities", communities);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                memberCommunities.put("count", communities.size());
+                result.put("memberCommunities", memberCommunities);
+            }
+            AccountTextCriteria publisherCommunitiesCriteria = accountTextCriteria.get("publisherCommunitiesCriteria");
+            if (publisherCommunitiesCriteria != null) {
+                Map<String, Object> publisherCommunities = new HashMap<>();
+                List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(publisherCommunitiesCriteria);
+                publisherCommunities.put("communities", communities);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                publisherCommunities.put("count", communities.size());
+                result.put("publisherCommunities", publisherCommunities);
+            }
+            AccountTextCriteria searchCommunitiesCriteria = accountTextCriteria.get("searchCommunitiesCriteria");
+            if (searchCommunitiesCriteria != null) {
+                Map<String, Object> searchCommunities =new HashMap<>();
+                List<AccountModel> communities = profileModelService.getAccountsModelByCriteria(searchCommunitiesCriteria);
+                searchCommunities.put("communities", communities);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                searchCommunities.put("count", communities.size());
+                result.put("searchCommunities", searchCommunities);
+            }
+
             return Ajax.successResponse(result);
+
         } catch (Throwable e) {
             throw new RestException(e);
         }
@@ -115,7 +160,6 @@ public class ProfileController extends ExceptionHandlerControler {
     }
 
 
-
     @RequestMapping(value = "community_modify_info", method = RequestMethod.GET)
     public ModelAndView getEditCommunityInfo(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
@@ -123,10 +167,8 @@ public class ProfileController extends ExceptionHandlerControler {
         if (guid != null) {
             accountModel = profileModelService.getCommunityInformation(guid);
         }
-        return mv.addObject("account",accountModel);
+        return mv.addObject("account", accountModel);
     }
-
-
 
 
     @RequestMapping(value = "security/community_update", method = RequestMethod.POST)
@@ -140,9 +182,6 @@ public class ProfileController extends ExceptionHandlerControler {
         }
         return Ajax.emptyResponse();
     }
-
-
-
 
 
 }
