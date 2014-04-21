@@ -183,7 +183,7 @@
         $('#travel_nav > ul  > li > a').removeClass('active')
         $(tabHeader).addClass('active');
         var showTabId = tabId;
-        hideTabId = (showTabId == 'tab1') ? 'tab2' : 'tab1';
+        var hideTabId = (showTabId == 'tab1') ? 'tab2' : 'tab1';
         $("#" + hideTabId).hide();
         $("#" + showTabId).show();
     }
