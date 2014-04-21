@@ -11,6 +11,7 @@
         </div>
         <div class="list_alert_inf">
             <span>{{>created.text}}</span>
+
             <div class="list_alert_name"><a href="/">{{>text}}</a></div>
             <a href="/" class="button">OK</a><a href="/" class="button">CANCEL</a>
         </div>
@@ -43,20 +44,23 @@
             getUserNotification(paramsJson);
     });
 
-    var getUserNotification = function (paramsJson) {
+    var getUserNotification = function (params) {
 
         var url = 'rest/security/notification/user';
 
         var criteria = {
-            accountId: window.principal.id
+            accountId: window.principal.id,
+            skip:  params.paginator1 ? params.paginator1.skip : 0,
+            limit:params.paginator1 ? params.paginator1.limit : null
         };
 
         var callbackSuccess = function (data) {
             $("#notification_user_list").html($("#notificationsTemplate").render(data.notifications));
-            /*$('#paginator1').smartpaginator({
-             totalrecords: 100,
-             skip: paramsJson.skip
-             }); */
+
+            $('#paginator1').smartpaginator({
+                totalrecords: data.count,
+                skip: params.paginator1 ? params.paginator1.skip : null
+            });
         };
 
         var callbackError = function (error) {
@@ -67,22 +71,24 @@
 
     };
 
-    var getCommunityNotification = function (paramsJson) {
+    var getCommunityNotification = function (params) {
 
         var url = 'rest/security/notification/community';
 
         var criteria = {
-            userId: window.principal.id
+            userId: window.principal.id,
+            skip:  params.paginator2 ? params.paginator2.skip : 0,
+            limit:params.paginator2 ? params.paginator2.limit : null
         };
 
         var callbackSuccess = function (data) {
 
             $("#notification_community_list").html($("#notificationsTemplate").render(data.notifications));
 
-            /*$('#paginator1').smartpaginator({
-             totalrecords: 100,
-             skip: paramsJson.skip
-             }); */
+            $('#paginator2').smartpaginator({
+                totalrecords: data.count,
+                skip:  params.paginator2 ? params.paginator2.skip : null
+            });
         };
 
         var callbackError = function (error) {
@@ -123,6 +129,9 @@
                 </div>
                 <ul id="notification_user_list"></ul>
             </div>
+            <div class="pagination_mini">
+                <div id="paginator1"></div>
+            </div>
         </div>
 
         <div id="tab2" style="display:${fn:contains(param.tb, 'cmt') ? 'true':'none' }">
@@ -135,6 +144,9 @@
                     </ul>
                 </div>
                 <ul id="notification_community_list"></ul>
+            </div>
+            <div class="pagination_mini">
+                <div id="paginator2"></div>
             </div>
         </div>
         <!-- #content-->

@@ -248,15 +248,12 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     private Knowledge[] convertKnowledgiesModelsToKnowledgies(KnowledgeModel[] knowledgeModels) {
-        ArrayList<Knowledge> knowledgeList = new ArrayList<>();
-        if (knowledgeModels != null) {
-            for (KnowledgeModel knowledgeModel : knowledgeModels) {
-                knowledgeList.add(convertKnowledgeModelToKnowledge(knowledgeModel));
+        return ListConverter.convertList(knowledgeModels, new Converter<KnowledgeModel, Knowledge>() {
+            public Knowledge convert(KnowledgeModel practice) {
+                return convertKnowledgeModelToKnowledge(practice);
             }
-        }
-        return knowledgeList.toArray(new Knowledge[knowledgeList.size()]);
+        });
     }
-
 
     private Knowledge convertKnowledgeModelToKnowledge(KnowledgeModel knowledgeModel) {
         Knowledge knowledge = null;
@@ -273,14 +270,12 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     }
 
 
-    private PracticeModel[] convertPracticesToModels(Practice[] knowledgies) {
-        ArrayList<PracticeModel> practiceModelList = new ArrayList<>();
-        if (knowledgies != null) {
-            for (Practice practice : knowledgies) {
-                practiceModelList.add(convertPracticeToModel(practice));
+    private PracticeModel[] convertPracticesToModels(Practice[] practice) {
+        return ListConverter.convertList(practice, new Converter<Practice, PracticeModel>() {
+            public PracticeModel convert(Practice practice) {
+                return convertPracticeToModel(practice);
             }
-        }
-        return practiceModelList.toArray(new PracticeModel[practiceModelList.size()]);
+        });
     }
 
     private PracticeModel convertPracticeToModel(Practice practice) {

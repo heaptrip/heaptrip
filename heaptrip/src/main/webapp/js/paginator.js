@@ -267,10 +267,15 @@
                                             recordStartIndex,
                                             recordsEndIndex);
                                     } else {
-                                        $.handParamToURL({
+                                        var paginatorParams = {};
+                                        paginatorParams[container.attr('id')] = {
                                             skip: recordStartIndex,
                                             limit: recordsEndIndex - recordStartIndex
-                                        });
+                                        }
+                                        $.handParamToURL(paginatorParams);
+
+
+
                                     }
                                 }
 

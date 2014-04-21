@@ -117,8 +117,8 @@
     var getTripsList = function (paramsJson) {
 
         var tripCriteria = {
-            skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit,
+            skip: paramsJson.paginator  ? paramsJson.paginator.skip : 0,
+            limit: paramsJson.paginator ? paramsJson.paginator.limit : null,
             categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -151,9 +151,12 @@
 
         var callbackSuccess = function (data) {
             $("#contents_span").html($("#tripTemplate").render(data.trips));
+
+           // alert(data.count)
+
             $('#paginator').smartpaginator({
                 totalrecords: data.count,
-                skip: paramsJson.skip
+                skip: paramsJson.paginator ? paramsJson.paginator.skip : 0
             });
         };
 
@@ -162,10 +165,6 @@
         };
 
         $.postJSON(url, tripCriteria, callbackSuccess, callbackError);
-
-
-        ;
-
 
     };
 

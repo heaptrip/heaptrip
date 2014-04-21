@@ -74,8 +74,8 @@
         var url = 'rest/posts';
 
         var postCriteria = {
-            skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit,
+            skip: paramsJson.paginator  ? paramsJson.paginator.skip : 0,
+            limit: paramsJson.paginator ? paramsJson.paginator.limit : null,
             categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -90,7 +90,7 @@
             $("#contents").html($("#postTemplate").render(data.posts));
             $('#paginator').smartpaginator({
                 totalrecords: data.count,
-                skip: paramsJson.skip
+                skip: paramsJson.paginator ? paramsJson.paginator.skip : 0
             });
         };
 

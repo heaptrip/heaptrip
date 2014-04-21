@@ -15,4 +15,15 @@ public class ListConverter {
         }
         return result;
     }
+
+    static public <FROM, TO> TO[] convertList(FROM[] fromList, Converter<FROM, TO> converter) {
+        ArrayList<TO> result = new ArrayList<>();
+        if (fromList != null && fromList.length > 0) {
+            for (FROM from : fromList) {
+                result.add(converter.convert(from));
+
+            }
+        }
+        return result.toArray((TO[]) new Object[result.size()]);
+    }
 }

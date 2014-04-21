@@ -84,8 +84,8 @@
     var getContentsList = function (paramsJson) {
 
         var contentCriteria = {
-            skip: paramsJson.skip ? paramsJson.skip : 0,
-            limit: paramsJson.limit,
+            skip: paramsJson.paginator  ? paramsJson.paginator.skip : 0,
+            limit: paramsJson.paginator ? paramsJson.paginator.limit : null,
             categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -120,7 +120,7 @@
             $("#contents").html($("#tripTemplate").render(data.contents));
             $('#paginator').smartpaginator({
                 totalrecords: data.count,
-                skip: paramsJson.skip
+                skip: paramsJson.paginator ? paramsJson.paginator.skip : 0
             });
         };
 

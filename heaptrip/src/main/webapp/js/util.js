@@ -204,8 +204,8 @@ $(function () {
     $(window).bind("hashchange", function (event) {
         if (!window.isInit && $.isEmptyObject(window.delayLoadingMap)) {
             window.isInit = false;
+            $.onPageReady();
         }
-        $.onPageReady();
     });
     $(window).trigger("hashchange");
 });
