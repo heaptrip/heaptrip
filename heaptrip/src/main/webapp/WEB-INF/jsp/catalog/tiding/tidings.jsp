@@ -18,31 +18,36 @@
                 </div>
             </div>
             <div class="right">
-                {{if begin}}
+                {{if begin.text}}
                 <div>
                     <fmt:message key="page.date.period"/>:
 						<span class="date">
-							<fmt:message key="page.date.from"/> {{>begin.text}} <fmt:message key="page.date.to"/> {{>end.text)}}
+                            <fmt:message key="page.date.from"/> {{>begin.text}} {{if end.text}}<fmt:message
+                                key="page.date.to"/> {{>end.text)}}{{/if}}
 						</span>
                 </div>
                 {{/if}}
+                {{if regions}}
                 <div>
                     <fmt:message key="content.place"/>:
                     {{for regions}}
                     <a onclick="$.handParamToURL({rg:'{{>id}}', ct : null, skip : null ,limit : null})">{{>data}}</a>
                     {{/for}}
                 </div>
+                {{/if}}
             </div>
         </div>
         <div class="description">
             {{:summary}}
         </div>
         <div>
+            {{if categories}}
             <div class="tags">
                 {{for categories}}
                 <a onclick="$.handParamToURL({ct:'{{>id}}', rg : null, skip : null ,limit : null})">{{>data}}</a>
                 {{/for}}
             </div>
+            {{/if}}
             {{if price}}
             <div class="price">{{>price}}<fmt:message key="currency.current"/></div>
             {{/if}}
