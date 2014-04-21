@@ -4,21 +4,13 @@ import com.heaptrip.domain.entity.account.Profile;
 
 public class CommunityProfile extends Profile {
 
-	private String skype;
-	
-	public CommunityProfile() {
-		super("1");
-	}
+    private String skype;
 
-	public CommunityProfile(String id) {
-		super(id);
-	}
+    public String getSkype() {
+        return skype;
+    }
 
-	public String getSkype() {
-		return skype;
-	}
-
-	public void setSkype(String skype) {
-		this.skype = skype;
-	}
+    public void setSkype(String skype) {
+        this.skype = skype;
+    }
 }

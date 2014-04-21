@@ -4,7 +4,7 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 
-public class User extends Account {
+public class User extends Account<UserProfile, UserSetting> {
 
     private String[] roles;
 

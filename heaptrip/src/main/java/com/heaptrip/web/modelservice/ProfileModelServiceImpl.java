@@ -8,7 +8,6 @@ import com.heaptrip.domain.entity.account.community.CommunityProfile;
 import com.heaptrip.domain.entity.account.community.agency.Agency;
 import com.heaptrip.domain.entity.account.community.club.Club;
 import com.heaptrip.domain.entity.account.community.company.Company;
-import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.user.*;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.exception.SystemException;
@@ -29,10 +28,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,7 +189,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         AccountProfileModel accountProfileModel = null;
         if (profile != null) {
             accountProfileModel = new AccountProfileModel();
-            accountProfileModel.setId(profile.getId());
             accountProfileModel.setDesc(profile.getDesc());
             accountProfileModel.setCategories(convertCategoriesToModel(profile.getCategories()));
             accountProfileModel.setRegions(convertRegionsToModel(profile.getRegions()));
@@ -325,8 +320,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     }
 
 
-    private Profile convertProfileModelToProfile(AccountProfileModel accountProfileModel, UserProfileModel userProfileModel) {
-        Profile profile = null;
+    private UserProfile convertProfileModelToProfile(AccountProfileModel accountProfileModel, UserProfileModel userProfileModel) {
+        UserProfile profile = null;
         if (accountProfileModel != null) {
             if (userProfileModel != null) {
                 UserProfile userProfile = new UserProfile();
@@ -336,7 +331,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
                 userProfile.setPractices(convertPracticesModelsToPractices(userProfileModel.getPractices()));
                 profile = userProfile;
             } else {
-                profile = new Profile();
+                profile = new UserProfile();
             }
             putProfileModelInfoToProfile(profile, accountProfileModel);
         }
@@ -344,14 +339,14 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     }
 
-    private Profile convertProfileModelToProfile(AccountProfileModel accountProfileModel, CommunityProfileModel communityProfileModel) {
-        Profile profile = null;
+    private CommunityProfile convertProfileModelToProfile(AccountProfileModel accountProfileModel, CommunityProfileModel communityProfileModel) {
+        CommunityProfile profile = null;
         if (accountProfileModel != null) {
             if (communityProfileModel != null) {
                 CommunityProfile communityProfile = new CommunityProfile();
                 communityProfile.setSkype(communityProfileModel.getSkype());
             } else {
-                profile = new Profile();
+                profile = new CommunityProfile();
             }
             putProfileModelInfoToProfile(profile, accountProfileModel);
         }
@@ -378,7 +373,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             profile.setCategories(convertCategoriesModelsToCategories(accountProfileModel.getCategories(), getCurrentLocale()));
             profile.setDesc(accountProfileModel.getDesc());
             profile.setRegions(convertRegionModelsToRegions(accountProfileModel.getRegions(), getCurrentLocale()));
-            profile.setId(accountProfileModel.getId());
         }
     }
 
@@ -440,17 +434,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         User user = null;
 
         try {
-            try {
-                user = userService.registration(userReg, photo, getCurrentLocale());
-            } catch (MessagingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
+            user = userService.registration(userReg, photo, getCurrentLocale());
+        } catch (Exception e) {
+            // TODO voronenko: process exception
             e.printStackTrace();
         }
 

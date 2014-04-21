@@ -1,46 +1,38 @@
 package com.heaptrip.domain.entity.account.user;
 
-import java.util.Date;
-
 import com.heaptrip.domain.entity.account.Profile;
+
+import java.util.Date;
 
 public class UserProfile extends Profile {
 
-	private Date birthday;
-	
-	private Knowledge[] knowledgies;
-	
-	private Practice[] practices;
-	
-	public UserProfile() {
-		super("1");
-	}
+    private Date birthday;
 
-	public UserProfile(String id) {
-		super(id);
-	}
-	
-	public Date getBirthday() {
-		return birthday;
-	}
+    private Knowledge[] knowledgies;
 
-	public void setBirthday(Date birthday) {
-		this.birthday = birthday;
-	}
+    private Practice[] practices;
 
-	public Knowledge[] getKnowledgies() {
-		return knowledgies;
-	}
+    public Date getBirthday() {
+        return birthday;
+    }
 
-	public void setKnowledgies(Knowledge[] knowledgies) {
-		this.knowledgies = knowledgies;
-	}
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
-	public Practice[] getPractices() {
-		return practices;
-	}
+    public Knowledge[] getKnowledgies() {
+        return knowledgies;
+    }
 
-	public void setPractices(Practice[] practices) {
-		this.practices = practices;
-	}
+    public void setKnowledgies(Knowledge[] knowledgies) {
+        this.knowledgies = knowledgies;
+    }
+
+    public Practice[] getPractices() {
+        return practices;
+    }
+
+    public void setPractices(Practice[] practices) {
+        this.practices = practices;
+    }
 }

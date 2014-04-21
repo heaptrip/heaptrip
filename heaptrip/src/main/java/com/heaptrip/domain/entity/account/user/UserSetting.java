@@ -3,42 +3,34 @@ package com.heaptrip.domain.entity.account.user;
 import com.heaptrip.domain.entity.account.Setting;
 
 public class UserSetting extends Setting {
-	
-	private Boolean adsFromClub;
-	
-	private Boolean adsFromCompany;
-	
-	private Boolean adsFromAgency;
 
-	public UserSetting() {
-		super("1");
-	}
+    private Boolean adsFromClub;
 
-	public UserSetting(String id) {
-		super(id);
-	}
-	
-	public Boolean getAdsFromClub() {
-		return adsFromClub;
-	}
+    private Boolean adsFromCompany;
 
-	public void setAdsFromClub(Boolean adsFromClub) {
-		this.adsFromClub = adsFromClub;
-	}
+    private Boolean adsFromAgency;
 
-	public Boolean getAdsFromCompany() {
-		return adsFromCompany;
-	}
+    public Boolean getAdsFromClub() {
+        return adsFromClub;
+    }
 
-	public void setAdsFromCompany(Boolean adsFromCompany) {
-		this.adsFromCompany = adsFromCompany;
-	}
+    public void setAdsFromClub(Boolean adsFromClub) {
+        this.adsFromClub = adsFromClub;
+    }
 
-	public Boolean getAdsFromAgency() {
-		return adsFromAgency;
-	}
+    public Boolean getAdsFromCompany() {
+        return adsFromCompany;
+    }
 
-	public void setAdsFromAgency(Boolean adsFromAgency) {
-		this.adsFromAgency = adsFromAgency;
-	}
+    public void setAdsFromCompany(Boolean adsFromCompany) {
+        this.adsFromCompany = adsFromCompany;
+    }
+
+    public Boolean getAdsFromAgency() {
+        return adsFromAgency;
+    }
+
+    public void setAdsFromAgency(Boolean adsFromAgency) {
+        this.adsFromAgency = adsFromAgency;
+    }
 }

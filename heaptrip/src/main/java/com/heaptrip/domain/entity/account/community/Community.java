@@ -3,7 +3,7 @@ package com.heaptrip.domain.entity.account.community;
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 
-public abstract class Community extends Account {
+public abstract class Community extends Account<CommunityProfile, CommunitySetting> {
 
     protected String ownerAccountId;
 

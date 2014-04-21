@@ -1,71 +1,62 @@
 package com.heaptrip.domain.entity.account;
 
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import com.heaptrip.domain.entity.BaseObject;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.region.SimpleRegion;
 
-@JsonTypeInfo(use = Id.CLASS, property = "_class")
-public class Profile extends BaseObject {
-	
-	private SimpleRegion location;
-	
-	private String[] langs;
-	
-	private String desc;
+public abstract class Profile {
 
-	private SimpleCategory[] categories;
-	
-	private SimpleRegion[] regions;
-	
-	public Profile() {
-		super();
-	}
+    private SimpleRegion location;
 
-	public Profile(String id) {
-		super();
-		this.id = id;
-	}
+    private String[] langs;
 
-	public SimpleRegion getLocation() {
-		return location;
-	}
+    private String desc;
 
-	public void setLocation(SimpleRegion location) {
-		this.location = location;
-	}
+    private SimpleCategory[] categories;
 
-	public String[] getLangs() {
-		return langs;
-	}
+    private SimpleRegion[] regions;
 
-	public void setLangs(String[] langs) {
-		this.langs = langs;
-	}
+    public Profile() {
+        super();
+    }
 
-	public String getDesc() {
-		return desc;
-	}
+    public SimpleRegion getLocation() {
+        return location;
+    }
 
-	public void setDesc(String desc) {
-		this.desc = desc;
-	}
+    public void setLocation(SimpleRegion location) {
+        this.location = location;
+    }
 
-	public SimpleCategory[] getCategories() {
-		return categories;
-	}
+    public String[] getLangs() {
+        return langs;
+    }
 
-	public void setCategories(SimpleCategory[] categories) {
-		this.categories = categories;
-	}
+    public void setLangs(String[] langs) {
+        this.langs = langs;
+    }
 
-	public SimpleRegion[] getRegions() {
-		return regions;
-	}
+    public String getDesc() {
+        return desc;
+    }
 
-	public void setRegions(SimpleRegion[] regions) {
-		this.regions = regions;
-	}
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public SimpleCategory[] getCategories() {
+        return categories;
+    }
+
+    public void setCategories(SimpleCategory[] categories) {
+        this.categories = categories;
+    }
+
+    public SimpleRegion[] getRegions() {
+        return regions;
+    }
+
+    public void setRegions(SimpleRegion[] regions) {
+        this.regions = regions;
+    }
 }
