@@ -88,11 +88,18 @@ public interface ContentService {
     public ContentRating getContentRating(String contentId);
 
     /**
+     * Set content rating
+     *
+     * @param contentId     content id
+     * @param contentRating content rating
+     */
+    public void setContentRating(String contentId, ContentRating contentRating);
+
+    /**
      * Update content rating value by content id
      *
      * @param contentId   content id
      * @param ratingValue new value for content rating
      */
     public void updateContentRatingValue(String contentId, double ratingValue);
-
 }

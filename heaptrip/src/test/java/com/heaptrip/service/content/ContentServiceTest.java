@@ -3,8 +3,10 @@ package com.heaptrip.service.content;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
+import com.heaptrip.domain.entity.rating.ContentRating;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.content.ContentService;
+import com.heaptrip.domain.service.rating.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,6 +29,9 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private ContentRepository contentRepository;
 
+    @Autowired
+    private RatingService ratingService;
+
     @Test(priority = 0, enabled = true)
     public void setStatus() {
         // prepare
@@ -36,7 +41,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(status.getValue(), ContentStatusEnum.DRAFT);
         // call
         status.setValue(ContentStatusEnum.PUBLISHED_ALL);
-        status.setText("pablished for all");
+        status.setText("published for all");
         contentService.setStatus(ContentDataProvider.CONTENT_ID, status);
         // status is not changed
         contentService.setStatus(ContentDataProvider.CONTENT_ID, status);
@@ -46,7 +51,7 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(status.getValue());
         Assert.assertEquals(status.getValue(), ContentStatusEnum.PUBLISHED_ALL);
         Assert.assertNotNull(status.getText());
-        Assert.assertEquals(status.getText(), "pablished for all");
+        Assert.assertEquals(status.getText(), "published for all");
     }
 
     @Test(priority = 1, enabled = true)
@@ -98,5 +103,34 @@ public class ContentServiceTest extends AbstractTestNGSpringContextTests {
         // check
         long count = contentRepository.getCountByOwnerIdAndAllowed(ContentDataProvider.OWNER_ID, ALLOWED_USER_ID);
         Assert.assertEquals(count, 0);
+    }
+
+    @Test(priority = 5, enabled = true)
+    public void setContentRating() {
+        // check before call
+        Content content = contentRepository.findOne(ContentDataProvider.CONTENT_ID);
+        Assert.assertNotNull(content);
+        Assert.assertNull(content.getRating());
+        // call
+        ContentRating contentRating = ratingService.getDefaultContentRating();
+        contentService.setContentRating(ContentDataProvider.CONTENT_ID, contentRating);
+        // check
+        content = contentRepository.findOne(ContentDataProvider.CONTENT_ID);
+        Assert.assertNotNull(content);
+        Assert.assertNotNull(content.getRating());
+        Assert.assertEquals(content.getRating().getCount(), contentRating.getCount());
+        Assert.assertEquals(content.getRating().getValue(), contentRating.getValue());
+    }
+
+    @Test(priority = 6, enabled = true)
+    public void updateContentRatingValue() {
+        // call
+        double rating = 0.5;
+        contentService.updateContentRatingValue(ContentDataProvider.CONTENT_ID, rating);
+        // check
+        Content content = contentRepository.findOne(ContentDataProvider.CONTENT_ID);
+        Assert.assertNotNull(content);
+        Assert.assertNotNull(content.getRating());
+        Assert.assertEquals(content.getRating().getValue(), rating);
     }
 }

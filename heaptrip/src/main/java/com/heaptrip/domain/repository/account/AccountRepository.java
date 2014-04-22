@@ -26,6 +26,8 @@ public interface AccountRepository extends CrudRepository<Account> {
 
     public AccountRating getRating(String accountId);
 
+    public void setRating(String accountId, AccountRating accountRating);
+
     public void updateRating(String accountId, double ratingValue);
 
     public Image getImage(String accountId);

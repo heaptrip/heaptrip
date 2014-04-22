@@ -202,6 +202,12 @@ public class ContentRepositoryImpl extends CrudRepositoryImpl<Content> implement
     }
 
     @Override
+    public void setRating(String contentId, ContentRating contentRating) {
+        MongoCollection coll = getCollection();
+        coll.update("{_id: #}", contentId).with("{$set: {rating: #}}", contentRating);
+    }
+
+    @Override
     public void updateRating(String contentId, double ratingValue) {
         MongoCollection coll = getCollection();
         coll.update("{_id: #}", contentId).with("{$set: {rating.value: #}, $inc: {'rating.count': 1}}", ratingValue);

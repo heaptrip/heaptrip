@@ -217,6 +217,13 @@ public class ContentServiceImpl implements ContentService {
     }
 
     @Override
+    public void setContentRating(String contentId, ContentRating contentRating) {
+        Assert.notNull(contentId, "contentId must not be null");
+        Assert.notNull(contentRating, "contentRating must not be null");
+        contentRepository.setRating(contentId, contentRating);
+    }
+
+    @Override
     public void updateContentRatingValue(String contentId, double ratingValue) {
         Assert.notNull(contentId, "contentId must not be null");
         Assert.notNull(ratingValue, "ratingValue must not be null");

@@ -229,15 +229,13 @@ public class AccountStoreServiceImpl implements AccountStoreService {
 
     @Async
     @Override
-    public Future<Void> updateRating(String accountId, double ratingValue) {
+    public void updateRating(String accountId, double ratingValue) {
         Assert.notNull(accountId, "accountId must not be null");
         try {
             redisAccountRepository.updateRating(accountId, ratingValue);
         } catch (Exception e) {
             throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
         }
-
-        return new AsyncResult<>(null);
     }
 
     @Async

@@ -178,11 +178,20 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Future<Void> updateAccountRatingValue(String accountId, double ratingValue) {
+    public void setAccountRating(String accountId, AccountRating accountRating) {
+        Assert.notNull(accountId, "accountId must not be null");
+        Assert.notNull(accountRating, "accountRating must not be null");
+        Assert.notNull(accountRating.getK(), "accountRating.K must not be null");
+        accountRepository.setRating(accountId, accountRating);
+        accountStoreService.updateRating(accountId, accountRating.getValue());
+    }
+
+    @Override
+    public void updateAccountRatingValue(String accountId, double ratingValue) {
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(ratingValue, "ratingValue must not be null");
         accountRepository.updateRating(accountId, ratingValue);
-        return accountStoreService.updateRating(accountId, ratingValue);
+        accountStoreService.updateRating(accountId, ratingValue);
     }
 
     @Override
