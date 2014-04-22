@@ -271,16 +271,13 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     private PracticeModel[] convertPracticesToModels(Practice[] practice) {
-        if (practice == null) {
-            return null;
-            // TODO voronenko иначе падает если practice is null
-        } else {
-            return ListConverter.convertList(practice, new Converter<Practice, PracticeModel>() {
-                public PracticeModel convert(Practice practice) {
-                    return convertPracticeToModel(practice);
-                }
-            });
+        ArrayList<PracticeModel> practicModelList = new ArrayList<>();
+        if (practice != null) {
+            for (Practice practic : practice) {
+                practicModelList.add(convertPracticeToModel(practic));
+            }
         }
+        return practicModelList.toArray(new PracticeModel[practicModelList.size()]);
     }
 
     private PracticeModel convertPracticeToModel(Practice practice) {
