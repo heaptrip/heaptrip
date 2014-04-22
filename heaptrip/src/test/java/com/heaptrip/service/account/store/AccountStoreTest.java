@@ -4,6 +4,8 @@ import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.category.SimpleCategory;
+import com.heaptrip.domain.entity.rating.AccountRating;
+import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.category.CategoryRepository;
 import com.heaptrip.domain.repository.redis.RedisAccountRepository;
 import com.heaptrip.domain.repository.redis.entity.RedisAccount;
@@ -11,10 +13,10 @@ import com.heaptrip.domain.repository.solr.SolrAccountRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
-import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.criteria.CheckModeEnum;
 import com.heaptrip.domain.service.criteria.IDListCriteria;
+import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.service.account.user.UserDataProvider;
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -45,7 +47,14 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
     private RedisAccountRepository redisAccountRepository;
 
     @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
     private CategoryRepository categoryRepository;
+
+    @Autowired
+    private RatingService ratingService;
+
 
     @Test(enabled = true, priority = 1)
     public void saveAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException {
@@ -107,30 +116,52 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 4)
+    public void setAccountRating() {
+        // call
+        AccountRating accountRating = ratingService.getDefaultAccountRating();
+        userService.setAccountRating(UserDataProvider.EMAIL_USER_ID, accountRating);
+        // check
+        Account account = accountRepository.findOne(UserDataProvider.EMAIL_USER_ID);
+        Assert.assertNotNull(account);
+        Assert.assertNotNull(account.getRating());
+        Assert.assertEquals(account.getRating().getCount(), accountRating.getCount());
+        Assert.assertEquals(account.getRating().getValue(), accountRating.getValue());
+        Assert.assertEquals(account.getRating().getK(), accountRating.getK());
+
+        RedisAccount redisAccount = redisAccountRepository.findOne(UserDataProvider.EMAIL_USER_ID);
+        Assert.assertNotNull(redisAccount);
+        Assert.assertTrue(redisAccount.getRating() == accountRating.getValue());
+    }
+
+    @Test(enabled = true, priority = 5)
     public void updateRating() throws IOException, ExecutionException, InterruptedException {
         double rating = 10d;
-        Future<Void> future = userService.updateAccountRatingValue(UserDataProvider.EMAIL_USER_ID, rating);
+        userService.updateAccountRatingValue(UserDataProvider.EMAIL_USER_ID, rating);
 
-        future.get();
+        // check
+        Account account = accountRepository.findOne(UserDataProvider.EMAIL_USER_ID);
+        Assert.assertNotNull(account);
+        Assert.assertNotNull(account.getRating());
+        Assert.assertEquals(account.getRating().getValue(), rating);
 
         RedisAccount redisAccount = redisAccountRepository.findOne(UserDataProvider.EMAIL_USER_ID);
         Assert.assertNotNull(redisAccount);
         Assert.assertTrue(redisAccount.getRating() == rating);
     }
 
-    @Test(enabled = true, priority = 5)
+    @Test(enabled = true, priority = 6)
     public void findActiveUser() {
         Account account = accountStoreService.findOne(UserDataProvider.ACTIVE_USER_ID);
         Assert.assertNotNull(account);
     }
 
-    @Test(enabled = true, priority = 6)
+    @Test(enabled = true, priority = 7)
     public void findEmailUser() {
         Account account = accountStoreService.findOne(UserDataProvider.EMAIL_USER_ID);
         Assert.assertNotNull(account);
     }
 
-    @Test(enabled = true, priority = 7)
+    @Test(enabled = true, priority = 8)
     public void findByCriteria() throws SolrServerException {
         AccountTextCriteria criteria = new AccountTextCriteria();
         criteria.setQuery(UserDataProvider.EMAIL_USER_NAME);
@@ -143,7 +174,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(accounts.get(0).getId().equals(UserDataProvider.EMAIL_USER_ID));
     }
 
-    @Test(enabled = true, priority = 10)
+    @Test(enabled = true, priority = 9)
     public void removeEmailUser() throws SolrServerException, ExecutionException, InterruptedException, IOException {
         Future<Void> future = accountStoreService.remove(UserDataProvider.EMAIL_USER_ID);
         future.get();

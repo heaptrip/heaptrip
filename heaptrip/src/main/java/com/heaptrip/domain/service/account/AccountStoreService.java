@@ -13,7 +13,7 @@ public interface AccountStoreService {
 
     public Future<Void> update(String accountId);
 
-    public Future<Void> updateRating(String accountId, double ratingValue);
+    public void updateRating(String accountId, double ratingValue);
 
     public Future<Void> changeImage(String accountId, Image image);
 

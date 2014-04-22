@@ -103,6 +103,12 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     }
 
     @Override
+    public void setRating(String accountId, AccountRating accountRating) {
+        MongoCollection coll = getCollection();
+        coll.update("{_id: #}", accountId).with("{$set: {rating: #}}", accountRating);
+    }
+
+    @Override
     public void updateRating(String accountId, double ratingValue) {
         MongoCollection coll = getCollection();
         coll.update("{_id: #}", accountId).with("{$set: {rating.value: #}, $inc: {'rating.count': 1}}", ratingValue);

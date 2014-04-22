@@ -115,7 +115,7 @@ public class RatingServiceImpl implements RatingService {
         ContentRating contentRating = contentService.getContentRating(contentId);
         if (contentRating == null) {
             contentRating = getDefaultContentRating();
-            // TODO konovalov: save default value
+            contentService.setContentRating(contentId, contentRating);
         }
 
         ContentEnum contentType = contentRepository.getContentTypeByContentId(contentId);
@@ -133,9 +133,8 @@ public class RatingServiceImpl implements RatingService {
 
             String ownerId = contentRepository.getOwnerId(contentId);
             if (ownerId != null) {
-                Future<AccountRating> res = addAccountRating(ownerId, userId, value);
                 try {
-                    res.get();
+                    addAccountRating(ownerId, userId, value).get();
                 } catch (InterruptedException | ExecutionException e) {
                     throw errorService.createException(RatingException.class, e, ErrorEnum.ERROR_RATING_CALCULATION);
                 }
@@ -156,7 +155,7 @@ public class RatingServiceImpl implements RatingService {
         AccountRating accountRating = accountService.getAccountRating(accountId);
         if (accountRating == null) {
             accountRating = getDefaultAccountRating();
-            // TODO konovalov: save default value
+            accountService.setAccountRating(accountId, accountRating);
         }
 
         Rating rating = null;
