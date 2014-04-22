@@ -3,33 +3,32 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-
 <script id="userCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_user">
+    <li class="participants_li community_func_user" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="workingCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_working">
+    <li class="participants_li community_func_working" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="memberCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_member">
+    <li class="participants_li community_func_member" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="subscriberCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_subscriber">
+    <li class="participants_li community_func_subscriber" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="searchCommunitiesTemplate" type="text/x-jsrender">
-    <li class="participants_li community_func_search">
+    <li class="participants_li community_func_search" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
@@ -85,7 +84,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-            $.postJSON(url, '', callbackSuccess, callbackError);
+            $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         });
 
     };
@@ -117,7 +116,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-            $.postJSON(url, '', callbackSuccess, callbackError);
+            $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         });
 
     };
@@ -147,7 +146,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-            $.postJSON(url, '', callbackSuccess, callbackError);
+            $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         });
 
     };
@@ -179,7 +178,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-            $.postJSON(url, '', callbackSuccess, callbackError);
+            $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         })
 
     };
@@ -204,7 +203,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
             var community = $(this).parents('.participants_li');
 
             var jsonData = {
-                id:  '',
+                id: community.attr('id'),
                 request: $(this).attr('name')
             };
 
@@ -218,7 +217,9 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-//            $.postJSON(url, jsonData, callbackSuccess, callbackError);
+//            alert(community.attr('id'));
+
+            $.postJSON(url, jsonData, callbackSuccess, callbackError);
         })
 
     };
