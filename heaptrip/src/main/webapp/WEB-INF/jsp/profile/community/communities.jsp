@@ -217,8 +217,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-//            alert(community.attr('id'));
-
             $.postJSON(url, jsonData, callbackSuccess, callbackError);
         })
 
@@ -229,7 +227,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         query: paramsJson.term,
         accountType: {
             checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+            ids: ['com.heaptrip.domain.entity.account.user.User']
 
         },
         owners: {
@@ -251,7 +249,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         query: paramsJson.term,
         accountType: {
             checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+            ids: ['com.heaptrip.domain.entity.account.user.User']
 
         },
         staff: {
@@ -273,7 +271,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         query: paramsJson.term,
         accountType: {
             checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+            ids: ['com.heaptrip.domain.entity.account.user.User']
 
         },
         members: {
@@ -295,7 +293,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         query: paramsJson.term,
         accountType: {
             checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
+            ids: ['com.heaptrip.domain.entity.account.user.User']
 
         },
         publishers: {
