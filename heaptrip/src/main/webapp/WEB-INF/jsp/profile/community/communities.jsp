@@ -191,10 +191,10 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         if ($('.community_func_search').length) {
             var commands = Array(
-                    Array('sendRequestOwner', '_search','request_owner'),
-                    Array('sendRequestEmployee', '_search','request_employee'),
-                    Array('sendRequestMember', '_search','request_member'),
-                    Array('sendRequestSubscriber', '_search','request_subscriber')
+                    Array('sendRequestOwner', '_search','request_community_owner'),
+                    Array('sendRequestEmployee', '_search','request_community_employee'),
+                    Array('sendRequestMember', '_search','request_community_member'),
+                    Array('addPublisher', '_search','add_publisher')
             );
             participants_menu('.community_func_search', commands);
         }
@@ -202,12 +202,12 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_search .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var jsonData = {
-                id: community.attr('id'),
-                request: $(this).attr('name')
-            };
+//            var jsonData = {
+//                id: community.attr('id'),
+//                request: $(this).attr('name')
+//            };
 
-            var url = 'rest/security/send_request_community';
+            var url = 'rest/security/' + $(this).attr('name');
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -217,7 +217,10 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-            $.postJSON(url, jsonData, callbackSuccess, callbackError);
+
+//            alert('Click menu item ' + $(this).attr('name'));
+
+            $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         })
 
     };

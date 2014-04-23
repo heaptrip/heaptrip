@@ -1,9 +1,7 @@
 package com.heaptrip.web.controller.profile;
 
-import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
-import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
@@ -21,7 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProfileController extends ExceptionHandlerControler {
@@ -29,14 +29,11 @@ public class ProfileController extends ExceptionHandlerControler {
     private static final Logger LOG = LoggerFactory.getLogger(ProfileController.class);
 
     @Autowired
-    ProfileModelService profileModelService;
+    private ProfileModelService profileModelService;
 
     @Autowired
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
-
-    @Autowired
-    RelationService relationService;
 
     @RequestMapping(value = "communities", method = RequestMethod.POST)
     public
@@ -155,54 +152,6 @@ public class ProfileController extends ExceptionHandlerControler {
     Map<String, ? extends Object> updateUserInfo(@RequestBody UserInfoModel userInfoModel) {
         try {
             profileModelService.updateUserInfo(userInfoModel);
-        } catch (Throwable e) {
-            throw new RestException(e);
-        }
-        return Ajax.emptyResponse();
-    }
-
-    @RequestMapping(value = "security/refusal_of_community", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    Map<String, ? extends Object> refusalOfCommunity(@RequestBody String guid) {
-        try {
-            relationService.deleteOwner(scopeService.getCurrentUser().getId(), guid);
-        } catch (Throwable e) {
-            throw new RestException(e);
-        }
-        return Ajax.emptyResponse();
-    }
-
-    @RequestMapping(value = "security/resign_from_community", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    Map<String, ? extends Object> resignFromCommunity(@RequestBody String guid) {
-        try {
-            relationService.deleteEmployee(scopeService.getCurrentUser().getId(), guid);
-        } catch (Throwable e) {
-            throw new RestException(e);
-        }
-        return Ajax.emptyResponse();
-    }
-
-    @RequestMapping(value = "security/out_of_community", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    Map<String, ? extends Object> outOfCommunity(@RequestBody String guid) {
-        try {
-            relationService.deleteMember(scopeService.getCurrentUser().getId(), guid);
-        } catch (Throwable e) {
-            throw new RestException(e);
-        }
-        return Ajax.emptyResponse();
-    }
-
-    @RequestMapping(value = "security/unsubscribe_from_community", method = RequestMethod.POST)
-    public
-    @ResponseBody
-    Map<String, ? extends Object> unsubscribeFromCommunity(@RequestBody String guid) {
-        try {
-            relationService.deletePublisher(scopeService.getCurrentUser().getId(), guid);
         } catch (Throwable e) {
             throw new RestException(e);
         }
