@@ -97,6 +97,50 @@ public class ProfileController extends ExceptionHandlerControler {
 
     }
 
+    @RequestMapping(value = "people", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getPeopleByCriteria(@RequestBody AccountTextCriteriaMap accountCriteriaMap) {
+        try {
+
+            Map<String, Object> result = new HashMap();
+
+            AccountTextCriteria friendsCriteria = accountCriteriaMap.get("friendsCriteria");
+            if (friendsCriteria != null) {
+                Map<String, Object> friends = new HashMap<>();
+                List<AccountModel> users = profileModelService.getAccountsModelByCriteria(friendsCriteria);
+                friends.put("users", users);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                friends.put("count", users.size());
+                result.put("userFriends", friends);
+            }
+            AccountTextCriteria publishersCriteria = accountCriteriaMap.get("publishersCriteria");
+            if (publishersCriteria != null) {
+                Map<String, Object> publishers = new HashMap<>();
+                List<AccountModel> users = profileModelService.getAccountsModelByCriteria(publishersCriteria);
+                publishers.put("users", users);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                publishers.put("count", users.size());
+                result.put("userPublishers", publishers);
+            }
+            AccountTextCriteria searchPeopleCriteria = accountCriteriaMap.get("searchPeopleCriteria");
+            if (searchPeopleCriteria != null) {
+                Map<String, Object> searchPeople = new HashMap<>();
+                List<AccountModel> users = profileModelService.getAccountsModelByCriteria(searchPeopleCriteria);
+                searchPeople.put("users", users);
+                // TODO : voronenko сервис кол-во AccountsModelByCriteria
+                searchPeople.put("count", users.size());
+                result.put("searchPeople", searchPeople);
+            }
+
+            return Ajax.successResponse(result);
+
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+
+    }
+
     @RequestMapping(value = "*community", method = RequestMethod.GET)
     public ModelAndView getCommunityInformation(@RequestParam(required = false) String guid) {
         ModelAndView mv = new ModelAndView();
