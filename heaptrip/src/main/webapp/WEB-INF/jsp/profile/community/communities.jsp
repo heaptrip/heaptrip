@@ -168,7 +168,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_subscriber .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/unsubscribe_from_community';
+            var url = 'rest/security/unsubscribe_from_publisher';
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -202,11 +202,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_search .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-//            var jsonData = {
-//                id: community.attr('id'),
-//                request: $(this).attr('name')
-//            };
-
             var url = 'rest/security/' + $(this).attr('name');
 
             var callbackSuccess = function (data) {
@@ -217,12 +212,14 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-
-//            alert('Click menu item ' + $(this).attr('name'));
+//            var cb = $("#community input[name=ttt]");
+//
+//            if (cb.checked) {
+//                alert("boom");
+//            }
 
             $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         })
-
     };
 
     criteria.userCommunitiesCriteria = {
@@ -313,7 +310,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         }
     };
 
-
     if (paramsJson.term || paramsJson.ct || paramsJson.rg) {
         criteria.searchCommunitiesCriteria = {
             query: paramsJson.term,
@@ -345,7 +341,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     }else{
         $("#list_user_5").hide();
     }
-
 
     var url = 'rest/communities';
 
@@ -454,8 +449,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                     </div>
                     <ul id="subscriber_communities"></ul>
                 </div>
-
-
             </div>
         </article>
     </div>
@@ -468,6 +461,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         <div class="zag"><fmt:message key="page.action.searchCommunity"/></div>
         <div class="content">
             <ul>
+                <%--<li><input type="checkbox" name="ttt"><label><fmt:message key="account.type.club"/></label></li>--%>
                 <li><input type="checkbox"><label><fmt:message key="account.type.club"/></label></li>
                 <li><input type="checkbox"><label><fmt:message key="account.type.company"/></label></li>
                 <li><input type="checkbox"><label><fmt:message key="account.type.agency"/></label></li>

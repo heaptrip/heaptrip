@@ -61,12 +61,24 @@ public class ActionAccountController extends ExceptionHandlerControler {
         return Ajax.emptyResponse();
     }
 
-    @RequestMapping(value = "security/unsubscribe_from_community", method = RequestMethod.POST)
+    @RequestMapping(value = "security/unsubscribe_from_publisher", method = RequestMethod.POST)
     public
     @ResponseBody
-    Map<String, ? extends Object> unsubscribeFromCommunity(@RequestBody String guid) {
+    Map<String, ? extends Object> unsubscribeFromPublisher(@RequestBody String guid) {
         try {
             relationService.deletePublisher(scopeService.getCurrentUser().getId(), guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/refusal_of_friendship", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> refusalOfFriendship(@RequestBody String guid) {
+        try {
+            relationService.deleteFriend(scopeService.getCurrentUser().getId(), guid);
         } catch (Throwable e) {
             throw new RestException(e);
         }
@@ -103,6 +115,18 @@ public class ActionAccountController extends ExceptionHandlerControler {
     Map<String, ? extends Object> sendMemberRequest(@RequestBody String guid) {
         try {
             relationService.sendMemberRequest(scopeService.getCurrentUser().getId(), guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/request_friendship", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> sendFriendshipRequest(@RequestBody String guid) {
+        try {
+            relationService.sendFriendshipRequest(scopeService.getCurrentUser().getId(), guid);
         } catch (Throwable e) {
             throw new RestException(e);
         }

@@ -4,13 +4,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <script id="friendTemplate" type="text/x-jsrender">
-    <li class="participants_li func_request_friendship" id="{{>id}}">
+    <li class="participants_li func_refusal_friendship" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-people.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="publisherTemplate" type="text/x-jsrender">
-    <li class="participants_li func_add_publisher" id="{{>id}}">
+    <li class="participants_li func_unsubscribe_publisher" id="{{>id}}">
         <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-people.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
@@ -43,22 +43,22 @@
         var criteria = {};
 
         var friendSuccess = function (data) {
-//            if(data.users && data.users.length > 0)
-//                $("#list_user_1").show();
-//            else
-//                $("#list_user_1").hide();
+            if(data.users && data.users.length > 0)
+                $("#list_user_1").show();
+            else
+                $("#list_user_1").hide();
 
             $("#friends").html($("#friendTemplate").render(data.users));
 
             if ($('.func_request_friendship').length) {
-                var commands = Array(Array('Send friendship', '_user','request_friendship'));
-                participants_menu('.func_request_friendship', commands);
+                var commands = Array(Array('Refusal friendship', '_user','refusal_friendship'));
+                participants_menu('.func_refusal_friendship', commands);
             }
 
             $('.func_request_friendship .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
-                var url = 'rest/security/request_friendship';
+                var url = 'rest/security/refusal_of_friendship';
 
                 var callbackSuccess = function (data) {
                     $(user).remove();
@@ -74,22 +74,22 @@
         };
 
         var publisherSuccess = function (data) {
-//            if(data.users && data.users.length > 0)
-//                $("#list_user_2").show();
-//            else
-//                $("#list_user_2").hide();
+            if(data.users && data.users.length > 0)
+                $("#list_user_2").show();
+            else
+                $("#list_user_2").hide();
 
             $("#publishers").html($("#publisherTemplate").render(data.users));
 
             if ($('.func_add_publisher').length) {
-                var commands = Array(Array('Add publisher', '_user','add_publisher'));
-                participants_menu('.func_add_publisher', commands);
+                var commands = Array(Array('Unsubscribe', '_user','unsubscribe_from_publisher'));
+                participants_menu('.func_unsubscribe_publisher', commands);
             }
 
             $('.func_add_publisher .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
-                var url = 'rest/security/add_publisher';
+                var url = 'rest/security/unsubscribe_from_publisher';
 
                 var callbackSuccess = function (data) {
                     $(user).remove();
