@@ -50,12 +50,12 @@
 
             $("#friends").html($("#friendTemplate").render(data.users));
 
-            if ($('.func_request_friendship').length) {
+            if ($('.func_refusal_friendship').length) {
                 var commands = Array(Array('Refusal friendship', '_user','refusal_friendship'));
                 participants_menu('.func_refusal_friendship', commands);
             }
 
-            $('.func_request_friendship .participants_menu a').click(function (e) {
+            $('.func_refusal_friendship .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
                 var url = 'rest/security/refusal_of_friendship';
@@ -81,12 +81,12 @@
 
             $("#publishers").html($("#publisherTemplate").render(data.users));
 
-            if ($('.func_add_publisher').length) {
+            if ($('.func_unsubscribe_publisher').length) {
                 var commands = Array(Array('Unsubscribe', '_user','unsubscribe_from_publisher'));
                 participants_menu('.func_unsubscribe_publisher', commands);
             }
 
-            $('.func_add_publisher .participants_menu a').click(function (e) {
+            $('.func_unsubscribe_publisher .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
                 var url = 'rest/security/unsubscribe_from_publisher';
@@ -183,6 +183,11 @@
         if (paramsJson.term || paramsJson.ct || paramsJson.rg) {
             criteria.searchPeopleCriteria = {
                 query: paramsJson.term,
+                accountType: {
+                    checkMode: 'IN',
+                    ids: ['com.heaptrip.domain.entity.account.user.User']
+
+                },
                 categories: {
                     checkMode: "IN",
                     ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -242,10 +247,10 @@
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
-                                <fmt:message key="user.owner"/>
+                                <fmt:message key="user.friends"/>
                             </c:when>
                             <c:otherwise>
-                                <fmt:message key="user.i.owner"/>
+                                <fmt:message key="user.i.friends"/>
                             </c:otherwise>
                         </c:choose>
                     </div>
@@ -256,10 +261,10 @@
                     <div class="list_user_inf people_title">
                         <c:choose>
                             <c:when test="${not empty catcher}">
-                                <fmt:message key="user.owner"/>
+                                <fmt:message key="user.subscriber"/>
                             </c:when>
                             <c:otherwise>
-                                <fmt:message key="user.i.owner"/>
+                                <fmt:message key="user.i.subscriber"/>
                             </c:otherwise>
                         </c:choose>
                     </div>

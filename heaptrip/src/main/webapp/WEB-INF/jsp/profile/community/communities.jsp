@@ -331,6 +331,11 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     if (paramsJson.term || paramsJson.ct || paramsJson.rg) {
         criteria.searchCommunitiesCriteria = {
             query: paramsJson.term,
+            accountType: {
+                checkMode: 'NOT_IN',
+                ids: ['com.heaptrip.domain.entity.account.user.User']
+
+            },
             categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
