@@ -36,6 +36,21 @@
 
 <script type="text/javascript">
 
+function onFilterCheckClick(cb) {
+    var checkedTypes = [];
+    $.each($('#community_type_check_panel >li> input'), function( index, value ) {
+        if(value.checked){
+            checkedTypes.push($(value).attr('key'));
+        }
+    });
+    if(checkedTypes.length > 0)
+        $.handParamToURL({type: checkedTypes});
+    else
+        $.handParamToURL({type: null});
+
+}
+
+
 $(document).ready(function () {
 
     $("#community input[name=text_search]").autocomplete({
@@ -55,6 +70,9 @@ $(document).ready(function () {
 
 
 $(window).bind("onPageReady", function (e, paramsJson) {
+
+    console.log(paramsJson.type);
+
 
     var criteria = {};
 
@@ -460,11 +478,12 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     <div id="community" class="filtr open">
         <div class="zag"><fmt:message key="page.action.searchCommunity"/></div>
         <div class="content">
-            <ul>
+            <ul id="community_type_check_panel"  >
+
                 <%--<li><input type="checkbox" name="ttt"><label><fmt:message key="account.type.club"/></label></li>--%>
-                <li><input type="checkbox"><label><fmt:message key="account.type.club"/></label></li>
-                <li><input type="checkbox"><label><fmt:message key="account.type.company"/></label></li>
-                <li><input type="checkbox"><label><fmt:message key="account.type.agency"/></label></li>
+                <li><input type="checkbox" key="CLUB" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.club"/></label></li>
+                <li><input type="checkbox" key="COMPANY" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.company"/></label></li>
+                <li><input type="checkbox" key="AGENCY" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.agency"/></label></li>
             </ul>
             <div class="search">
                 <input type="text" name="text_search">

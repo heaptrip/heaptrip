@@ -11,15 +11,26 @@
         </div>
         <div class="list_alert_inf">
             <span>{{>created.text}}</span>
-
             <div class="list_alert_name"><a href="/">{{>text}}</a></div>
-            <a href="/" class="button">OK</a><a href="/" class="button">CANCEL</a>
+            <a key='reject' onclick="onNotificationClick($(this))" class="button">Reject</a>
+            <a key='accept' onclick="onNotificationClick($(this))" class="button">Accept</a>
+
         </div>
     </li>
 </script>
 
 
 <script type="text/javascript">
+
+
+    var onNotificationClick = function (btn) {
+
+        var notificationId = btn.parent().parent()[0].id;
+        var action = btn.attr('key');
+
+        alert('notificationId : ' + notificationId + ' action : ' + action);
+
+    }
 
     var onTabClick = function (tabHeader, tabId) {
         $('#travel_nav > ul  > li > a').removeClass('active')
@@ -50,8 +61,8 @@
 
         var criteria = {
             accountId: window.principal.id,
-            skip:  params.paginator1 ? params.paginator1.skip : 0,
-            limit:params.paginator1 ? params.paginator1.limit : null
+            skip: params.paginator1 ? params.paginator1.skip : 0,
+            limit: params.paginator1 ? params.paginator1.limit : null
         };
 
         var callbackSuccess = function (data) {
@@ -77,8 +88,8 @@
 
         var criteria = {
             userId: window.principal.id,
-            skip:  params.paginator2 ? params.paginator2.skip : 0,
-            limit:params.paginator2 ? params.paginator2.limit : null
+            skip: params.paginator2 ? params.paginator2.skip : 0,
+            limit: params.paginator2 ? params.paginator2.limit : null
         };
 
         var callbackSuccess = function (data) {
@@ -87,7 +98,7 @@
 
             $('#paginator2').smartpaginator({
                 totalrecords: data.count,
-                skip:  params.paginator2 ? params.paginator2.skip : null
+                skip: params.paginator2 ? params.paginator2.skip : null
             });
         };
 
