@@ -1,5 +1,6 @@
 package com.heaptrip.web.controller.profile;
 
+import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
 import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
@@ -29,6 +30,21 @@ public class NotificationController extends ExceptionHandlerControler {
     @Autowired
     private NotificationService notificationService;
 
+
+    @RequestMapping(value = "security/notification/change_status", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> changeNotificationStatus(@RequestBody HashMap<String, String> params) {
+        try {
+            String notificationId = params.get("notificationId");
+            NotificationStatusEnum status = NotificationStatusEnum.valueOf(params.get("status"));
+            notificationService.changeStatus(notificationId, status);
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+
+    }
 
     @RequestMapping(value = "security/notification/user", method = RequestMethod.POST)
     public

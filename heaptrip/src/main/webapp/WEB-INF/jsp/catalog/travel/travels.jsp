@@ -81,7 +81,7 @@
                 </article>
             </c:if>
             <%--Если, это моего сообщества--%>
-            <c:if test="${not empty catcher && catcher.typeAccount ne 'USER' && profileModelService.isUserOwnsCommunity(principal.id,catcher.id)}">
+            <c:if test="${not empty catcher && catcher.typeAccount ne 'USER' && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}">
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">

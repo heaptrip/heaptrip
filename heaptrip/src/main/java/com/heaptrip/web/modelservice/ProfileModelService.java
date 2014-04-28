@@ -12,12 +12,7 @@ import java.util.List;
 
 public interface ProfileModelService {
 
-    /**
-     * attention !!! used to jsp (servlet) context webmvc-context.xml
-     *
-     * @param accountId - account id
-     * @return account model
-     */
+
     AccountModel getAccountInformation(String accountId);
 
     UserInfoModel getUserInformation(String accountId);
