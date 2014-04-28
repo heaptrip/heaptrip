@@ -230,23 +230,27 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-//            var cb = $("#community input[name=ttt]");
-//
-//            if (cb.checked) {
-//                alert("boom");
-//            }
-
             $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         })
     };
+
+    var accountMode;
+    var accountValue;
+
+    if (paramsJson.type && paramsJson.type.length > 0) {
+        accountMode = 'IN';
+        accountValue = paramsJson.type;
+    } else {
+        accountMode = 'NOT_IN';
+        accountValue = ['com.heaptrip.domain.entity.account.user.User'];
+    }
 
     criteria.userCommunitiesCriteria = {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.account.user.User']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         owners: {
             checkMode: 'IN',
@@ -266,9 +270,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.account.user.User']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         staff: {
             checkMode: 'IN',
@@ -288,9 +291,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.account.user.User']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         members: {
             checkMode: 'IN',
@@ -310,9 +312,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.account.user.User']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         publishers: {
             checkMode: 'IN',
@@ -328,13 +329,13 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         }
     };
 
-    if (paramsJson.term || paramsJson.ct || paramsJson.rg) {
+    if (paramsJson.term || paramsJson.type || paramsJson.ct || paramsJson.rg) {
+
         criteria.searchCommunitiesCriteria = {
             query: paramsJson.term,
             accountType: {
-                checkMode: 'NOT_IN',
-                ids: ['com.heaptrip.domain.entity.account.user.User']
-
+                checkMode: accountMode,
+                ids: accountValue
             },
             categories: {
                 checkMode: "IN",
@@ -484,11 +485,9 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         <div class="zag"><fmt:message key="page.action.searchCommunity"/></div>
         <div class="content">
             <ul id="community_type_check_panel"  >
-
-                <%--<li><input type="checkbox" name="ttt"><label><fmt:message key="account.type.club"/></label></li>--%>
-                <li><input type="checkbox" key="CLUB" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.club"/></label></li>
-                <li><input type="checkbox" key="COMPANY" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.company"/></label></li>
-                <li><input type="checkbox" key="AGENCY" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.agency"/></label></li>
+                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.club.Club" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.club"/></label></li>
+                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.company.Company" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.company"/></label></li>
+                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.agency.Agency" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.agency"/></label></li>
             </ul>
             <div class="search">
                 <input type="text" name="text_search">
