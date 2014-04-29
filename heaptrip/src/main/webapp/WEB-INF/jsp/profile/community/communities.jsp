@@ -495,8 +495,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
             </div>
         </div>
     </div>
-    <tiles:insertDefinition name="categoryTreeWithBtn"/>
-    <tiles:insertDefinition name="regionFilterWithBtn"/>
+    <tiles:insertDefinition name="categoryTree"/>
+    <tiles:insertDefinition name="regionFilter"/>
 </aside>
 <!-- #sideRight -->
 

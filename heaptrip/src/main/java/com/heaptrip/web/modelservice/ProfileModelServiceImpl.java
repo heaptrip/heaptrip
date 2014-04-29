@@ -249,8 +249,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     private Knowledge[] convertKnowledgiesModelsToKnowledgies(KnowledgeModel[] knowledgeModels) {
         return ListConverter.convertList(knowledgeModels, new Converter<KnowledgeModel, Knowledge>() {
-            public Knowledge convert(KnowledgeModel practice) {
-                return convertKnowledgeModelToKnowledge(practice);
+            public Knowledge convert(KnowledgeModel knowledgeModel) {
+                return convertKnowledgeModelToKnowledge(knowledgeModel);
             }
         });
     }

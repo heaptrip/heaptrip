@@ -279,7 +279,7 @@
 
 <aside id="sideRight" filter="empty">
     <div id="people" class="filtr open">
-        <div class="zag"><fmt:message key="page.action.searchCommunity"/></div>
+        <div class="zag"><fmt:message key="page.action.searchPeople"/></div>
         <div class="content">
             <div class="search">
                 <input type="text" name="text_search">
@@ -287,8 +287,8 @@
             </div>
         </div>
     </div>
-    <tiles:insertDefinition name="categoryTreeWithBtn"/>
-    <tiles:insertDefinition name="regionFilterWithBtn"/>
+    <tiles:insertDefinition name="categoryTree"/>
+    <tiles:insertDefinition name="regionFilter"/>
 </aside>
 <!-- #sideRight -->
 
