@@ -1,5 +1,27 @@
 package com.heaptrip.domain.entity.account.notification;
 
 public enum NotificationTypeEnum {
-    MSG, EMPLOYEE, FRIEND, MEMBER, OWNER, TRIP_INNER_INVITE, TRIP_REQUEST
+
+    MSG(false),
+    EMPLOYEE(true),
+    FRIEND(true),
+    MEMBER(true),
+    OWNER(true),
+    TRIP_INNER_INVITE(true),
+    TRIP_REQUEST(true);
+
+    private boolean needAccept;
+
+    NotificationTypeEnum(boolean needAccept) {
+        setNeedAccept(needAccept);
+    }
+
+    public boolean isNeedAccept() {
+        return needAccept;
+    }
+
+    public void setNeedAccept(boolean needAccept) {
+        this.needAccept = needAccept;
+    }
+
 }

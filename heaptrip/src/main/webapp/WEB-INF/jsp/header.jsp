@@ -7,7 +7,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <a id="logo"></a>
-<a href="<c:url value='/pf-notification.html'/>" id="alert">${notificationServiceWrapper.getUnreadNotificationFromUsers()}/${notificationServiceWrapper.getUnreadNotificationFromCommunities()}</a>
+
+<c:if test="${not empty principal}">
+
+<a href="<c:url value='/pf-notification-security.html'/>" id="alert">${notificationServiceWrapper.getUnreadNotificationFromUsers()}/${notificationServiceWrapper.getUnreadNotificationFromCommunities()}</a>
+
+</c:if>
+
 <div id="path">
     <div id="path_text">
         <c:if test="${not empty principal}">

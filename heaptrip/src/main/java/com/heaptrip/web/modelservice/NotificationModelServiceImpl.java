@@ -2,6 +2,7 @@ package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
+import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
@@ -58,11 +59,8 @@ public class NotificationModelServiceImpl extends BaseModelTypeConverterServiceI
     }
 
     private boolean calculateIsNotificationAwaitingAction(Notification notification) {
-
-        boolean result = notification.getStatus().equals(NotificationStatusEnum.NEW);
-
-        // TODO voronenko : calculateIsNotificationAwaitingAction();
-
+        boolean result = notification.getStatus().equals(NotificationStatusEnum.NEW)
+                && notification.getType().isNeedAccept();
         return result;
     }
 
