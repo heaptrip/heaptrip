@@ -17,12 +17,10 @@
     <li id="${comment.id}">
         <div class="comment_content">
             <div class="comment_info">
-                <span class="connemt_name">${comment.author.name}</span>
-                <span class="connemt_date">${comment.created.text}</span>
+                <span class="comment_name">${comment.author.name}</span>
+                <span class="comment_date">${comment.created.text}</span>
             </div>
-            <div class="comment_avatar">
-                <img src="<c:url value="/rest/image/small/${comment.author.image.id}"/>">
-            </div>
+            <div class="comment_avatar"><img src="<c:url value="/rest/image/small/${comment.author.image.id}"/>"></div>
             <div class="comment_text">${comment.text}</div>
         </div>
         <c:if test="${fn:length(comment.children) > 0}">

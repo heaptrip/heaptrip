@@ -50,11 +50,11 @@ flightPlanCoordinates = [
 $(window).bind("onPageReady", function(e, paramsJson) {
 	initializeMap();
 	$('#google_map_canvas').onShow(function() {
-		initializeMap();
+		initializeMap(this);
 	});
 });
 
-var initializeMap = function() {
+var initializeMap = function(el) {
     var mapCanvas = $('#google_map_canvas');
     mapCanvas.width('98%');
     mapCanvas.height(300);

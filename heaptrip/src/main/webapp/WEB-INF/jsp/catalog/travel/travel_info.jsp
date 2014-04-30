@@ -7,7 +7,7 @@
 <script type="text/javascript">
     var tripId = '${tripId}';
 
-    var onFavoritSubmit = function (btn) {
+    var onFavoriteSubmit = function (btn) {
 
         $(btn).prop('disabled', true);
 
@@ -32,33 +32,36 @@
     ${trip.description}
 </div>
 
-<div class="table_inf">
-    <table>
-        <thead>
-        <tr>
-            <th><fmt:message key="trip.status"/></th>
-            <th><fmt:message key="trip.period"/></th>
-            <th><fmt:message key="trip.cost"/></th>
-            <th><fmt:message key="trip.minmax"/></th>
-            <th><fmt:message key="trip.enrolled"/></th>
-            <th><fmt:message key="page.action"/></th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${trip.route.map}" var="map">
+<c:if test="${not empty trip.schedule}">
+
+    <div class="table_inf">
+        <table>
+            <thead>
             <tr>
-                <td><fmt:message key="trip.status.${scheduleItem.status.value}"/> ${scheduleItem.status.text}</td>
-                <td><fmt:message key="page.date.from"/> ${scheduleItem.begin.text}<br/><fmt:message
-                        key="page.date.to"/> ${scheduleItem.end.text}</td>
-                <td>${scheduleItem.price.value} ${scheduleItem.price.currency}</td>
-                <td>${scheduleItem.min} / ${scheduleItem.max}</td>
-                <td>${scheduleItem.members}</td>
-                <td><a class="button">todo</a></td>
+                <th><fmt:message key="trip.status"/></th>
+                <th><fmt:message key="trip.period"/></th>
+                <th><fmt:message key="trip.cost"/></th>
+                <th><fmt:message key="trip.minmax"/></th>
+                <th><fmt:message key="trip.enrolled"/></th>
+                <th><fmt:message key="page.action"/></th>
             </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+            <c:forEach items="${trip.schedule}" var="scheduleItem">
+                <tr>
+                    <td><fmt:message key="trip.status.${scheduleItem.status.value}"/> ${scheduleItem.status.text}</td>
+                    <td><fmt:message key="page.date.from"/> ${scheduleItem.begin.text}<br/><fmt:message
+                            key="page.date.to"/> ${scheduleItem.end.text}</td>
+                    <td>${scheduleItem.price.value} ${scheduleItem.price.currency}</td>
+                    <td>${scheduleItem.min} / ${scheduleItem.max}</td>
+                    <td>${scheduleItem.members}</td>
+                    <td><a class="button">todo</a></td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</c:if>
 <div class="dop_inf">
     <div class="views">
         <fmt:message key="content.views"/>
@@ -83,7 +86,7 @@
         <span>(${trip.rating.count})</span>
     </div>
     <c:if test='${not empty principal && trip.enableFavorite}'>
-        <a onClick="onFavoritSubmit(this)" class="button"><fmt:message key="content.toFavorit"/></a>
+        <a onClick="onFavoriteSubmit(this)" class="button"><fmt:message key="content.toFavorit"/></a>
     </c:if>
 </div>
 </article>

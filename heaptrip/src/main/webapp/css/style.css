@@ -813,6 +813,7 @@ span.for_frends{
 .table_inf table{
 	border-collapse: 0;
 	color: #2C2C2C;
+
 	border-top: 1px solid #AAAAAA;
 	padding-top: 5px;
 	margin-bottom: 5px;
@@ -847,11 +848,12 @@ span.for_frends{
 .table_inf table th{
 	border-left: 1px dashed #AAA;
 	margin-top: 5px;
+    font-size: 8pt;
 	font-weight: normal;
 	color: #AAA;
 	line-height: 12px;
 	vertical-align: middle;
-	padding: 5px 0 5px;
+	padding: 5px 3px 5px 3px;
 	/*width: 18%;*/
 	height: 40px;
 }
@@ -891,14 +893,14 @@ article .table_inf th:first-child {
 	position: relative;
 }
 
-.connemt_name{
+.comment_name{
 	font-size: 12px;
 	font-weight: bold;
 	color: #254463;
 	margin-right: 5px;
 }
 
-.connemt_date{
+.comment_date{
 	font-size: 11px;
 	color: #A9A9A9;
 }
