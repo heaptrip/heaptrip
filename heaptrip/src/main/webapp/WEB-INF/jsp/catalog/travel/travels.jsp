@@ -20,8 +20,8 @@
             <div class="right">
                 <%--Если, это мои избранные--%>
                 <c:if test='${empty catcher && mode eq "FAVORITE"}'>
-                    <a href="<c:url value="/travel_info.html?id={{>id}}"/>"
-                       class="button"><fmt:message key="page.action.delete"/></a>
+                    <a tripId="{{>id}}" onclick="onRemoveFavoriteSubmit($(this))" class="button"><fmt:message
+                            key="page.action.delete"/></a>
                 </c:if>
                 {{if begin.text}}
                 <div>
@@ -171,6 +171,26 @@
 
         $.postJSON(url, tripCriteria, callbackSuccess, callbackError);
 
+    };
+
+    var onRemoveFavoriteSubmit = function (btn) {
+
+        var tripId = btn.attr('tripId');
+
+        $(btn).prop('disabled', true);
+
+        var url = 'rest/remove_favorite';
+
+        var callbackSuccess = function (data) {
+            location.reload();
+            alert("Success");
+        };
+
+        var callbackError = function (error) {
+            alert("ERROR");
+        };
+
+        $.postJSON(url, tripId, callbackSuccess, callbackError);
     };
 
 

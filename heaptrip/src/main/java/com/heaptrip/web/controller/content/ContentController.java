@@ -75,6 +75,19 @@ public class ContentController extends ExceptionHandlerControler {
         }
     }
 
+    @RequestMapping(value = "remove_favorite", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> removeFavorite(@RequestBody String contentId) {
+        try {
+            User user = requestScopeService.getCurrentUser();
+            favoriteContentService.removeFavorites(contentId, user.getId());
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
+
     @RequestMapping(value = "news", method = RequestMethod.POST)
     public
     @ResponseBody

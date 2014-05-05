@@ -14,13 +14,12 @@
         var url = 'rest/add_favorite';
 
         var callbackSuccess = function (data) {
-            $(".error_message").html('<p class="green">' + locale.action.successEdit + '</p>');
+            location.reload();
             alert("Success");
         };
 
         var callbackError = function (error) {
             $(btn).prop('disabled', false);
-            $(".error_message").html('<p class="red">' + error + '</p>');
             alert("ERROR");
         };
 
