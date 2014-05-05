@@ -19,8 +19,8 @@ public class CommunityDataProvider {
     public static String ACTIVE_COMMUNITY_ID = "active";
     public static String ACTIVE_COMMUNITY_EMAIL = "activeClub@heaptrip.com";
 
-    public static String DELETED_COMMUNITY_ID = "deleted";
-    public static String DELETED_COMMUNITY_EMAIL = "deletedClub@heaptrip.com";
+//    public static String DELETED_COMMUNITY_ID = "deleted";
+//    public static String DELETED_COMMUNITY_EMAIL = "deletedClub@heaptrip.com";
 
     public static Club getClub() {
         Club club = new Club();
@@ -51,16 +51,16 @@ public class CommunityDataProvider {
         club.setId(ACTIVE_COMMUNITY_ID);
         club.setName(ACTIVE_COMMUNITY_ID);
         club.setEmail(ACTIVE_COMMUNITY_EMAIL);
-        club.setStatus(AccountStatusEnum.ACTIVE);
+//        club.setStatus(AccountStatusEnum.ACTIVE);
         return club;
     }
 
-    public static Club getDeletedClub() {
-        Club club = new Club();
-        club.setId(DELETED_COMMUNITY_ID);
-        club.setName(DELETED_COMMUNITY_ID);
-        club.setEmail(DELETED_COMMUNITY_EMAIL);
-        club.setStatus(AccountStatusEnum.DELETED);
-        return club;
-    }
+//    public static Club getDeletedClub() {
+//        Club club = new Club();
+//        club.setId(DELETED_COMMUNITY_ID);
+//        club.setName(DELETED_COMMUNITY_ID);
+//        club.setEmail(DELETED_COMMUNITY_EMAIL);
+//        club.setStatus(AccountStatusEnum.DELETED);
+//        return club;
+//    }
 }

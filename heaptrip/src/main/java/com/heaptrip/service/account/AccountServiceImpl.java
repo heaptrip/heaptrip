@@ -77,8 +77,7 @@ public class AccountServiceImpl implements AccountService {
             String msg = String.format("account status must be: %s", AccountStatusEnum.NOTCONFIRMED);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_ALREADY_CONFIRM);
-        } else if (account.getId().hashCode() == Integer.valueOf(value)) {
-            // TODO dikma: не очень круто генерить хеш по идентификатору, да и присылаемое значение может быть не числом (получим NumberFormatException) ;)
+        } else if (account.getSendValue().equals(value)) {
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
 
             if (!account.getAccountType().toString().equals(AccountEnum.USER.toString()) && account instanceof Community && (((Community) account).getOwnerAccountId() != null)) {

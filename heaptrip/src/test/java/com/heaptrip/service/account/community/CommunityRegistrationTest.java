@@ -1,5 +1,6 @@
 package com.heaptrip.service.account.community;
 
+import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.exception.account.AccountException;
@@ -46,56 +47,16 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
     @Autowired
     private SolrAccountRepository solrAccountRepository;
 
-    // регистрация клуба
+    private Community notConfirmedCommunity;
+
     @Test(enabled = true, priority = 1)
     @Authenticate(userid = "email", username = "Email User", roles = "ROLE_USER")
-    public void registrationСlub() throws NoSuchAlgorithmException, MessagingException, IOException {
+    public void registrationСlub() throws ExecutionException, InterruptedException, IOException, SolrServerException {
         Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getClub(), locale);
-    }
 
-    // регистрация "3 акробатов"
-    @Test(enabled = true, priority = 11)
-    public void registrationNotConfirmedClub() throws NoSuchAlgorithmException, MessagingException, IOException {
-        Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
-    }
+        Community community = communityService.registration(CommunityDataProvider.getClub(), locale);
 
-    @Test(enabled = true, priority = 12)
-    public void registrationActiveClub() throws NoSuchAlgorithmException, MessagingException, IOException {
-        Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getActiveClub(), locale);
-    }
-
-    @Test(enabled = true, priority = 13)
-    public void registrationDeletedClub() throws NoSuchAlgorithmException, MessagingException, IOException {
-        Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getDeletedClub(), locale);
-    }
-
-    // повторная регистрация через email "3 акробатов"
-    @Test(enabled = true, priority = 21)
-    public void repeatRegistrationNotConfirmedUser() throws NoSuchAlgorithmException, MessagingException, IOException {
-        Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
-    }
-
-    @Test(enabled = true, priority = 22)
-    public void repeatRegistrationActiveUser() throws NoSuchAlgorithmException, MessagingException, IOException {
-        Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getActiveClub(), locale);
-    }
-
-    @Test(enabled = true, priority = 23)
-    public void repeatRegistrationDeletedUser() throws NoSuchAlgorithmException, MessagingException, IOException {
-        Locale locale = new Locale("ru");
-        communityService.registration(CommunityDataProvider.getDeletedClub(), locale);
-    }
-
-    // подтверждаем регистрацию клуба
-    @Test(enabled = true, priority = 31)
-    public void confirmRegistrationClub() throws ExecutionException, InterruptedException, IOException, SolrServerException {
-        Future<Void> future = communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
+        Future<Void> future = communityService.confirmRegistration(community.getId(), community.getSendValue());
         future.get();
 
         solrAccountRepository.commit();
@@ -123,24 +84,19 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
         }
     }
 
-    // проверяем "левые" вызовы
-    @Test(enabled = true, priority = 33, expectedExceptions = AccountException.class)
-    public void confirmRegistrationFakeUser() {
-        communityService.confirmRegistration(CommunityDataProvider.FAKE_COMMUNITY_ID, String.valueOf(CommunityDataProvider.FAKE_COMMUNITY_ID.hashCode()));
+    @Test(enabled = true, priority = 2)
+    public void registrationNotConfirmedClub() throws NoSuchAlgorithmException, MessagingException, IOException {
+        Locale locale = new Locale("ru");
+        notConfirmedCommunity = communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
     }
 
-    @Test(enabled = true, priority = 34, expectedExceptions = AccountException.class)
-    public void confirmRegistrationActiveUser() {
-        communityService.confirmRegistration(CommunityDataProvider.ACTIVE_COMMUNITY_ID, String.valueOf(CommunityDataProvider.ACTIVE_COMMUNITY_ID.hashCode()));
+    @Test(enabled = true, priority = 5, expectedExceptions = AccountException.class)
+    public void confirmWrongCommunityId() {
+        communityService.confirmRegistration(CommunityDataProvider.FAKE_COMMUNITY_ID, notConfirmedCommunity.getSendValue());
     }
 
-    @Test(enabled = true, priority = 35, expectedExceptions = AccountException.class)
-    public void confirmRegistrationDeletedUser() {
-        communityService.confirmRegistration(CommunityDataProvider.DELETED_COMMUNITY_ID, String.valueOf(CommunityDataProvider.DELETED_COMMUNITY_ID.hashCode()));
-    }
-
-    @Test(enabled = true, priority = 36, expectedExceptions = AccountException.class)
-    public void confirmRegistrationWrongHash() {
-        communityService.confirmRegistration(CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID, "12345");
+    @Test(enabled = true, priority = 6, expectedExceptions = AccountException.class)
+    public void confirmWrongSendValue() {
+        communityService.confirmRegistration(notConfirmedCommunity.getId(), notConfirmedCommunity.getId());
     }
 }

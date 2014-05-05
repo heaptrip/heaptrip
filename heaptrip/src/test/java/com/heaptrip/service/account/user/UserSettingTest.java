@@ -40,15 +40,6 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
         userService.saveSetting(UserDataProvider.NOT_CONFIRMED_USER_ID, setting);
     }
 
-    @Test(enabled = true, priority = 3, expectedExceptions = AccountException.class)
-    public void saveSettingDeletedUser() {
-        UserSetting setting = new UserSetting();
-        setting.setAdsFromClub(true);
-        setting.setAdsFromAgency(false);
-        setting.setAdsFromCompany(false);
-        userService.saveSetting(UserDataProvider.DELETED_USER_ID, setting);
-    }
-
     @Test(enabled = true, priority = 4)
     public void saveSetting() {
         User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
@@ -63,9 +54,9 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
 
         Assert.assertNotNull(user);
         Assert.assertNotNull(user.getSetting());
-        Assert.assertFalse(((UserSetting) user.getSetting()).getAdsFromAgency());
-        Assert.assertTrue(((UserSetting) user.getSetting()).getAdsFromClub());
-        Assert.assertFalse(((UserSetting) user.getSetting()).getAdsFromCompany());
+        Assert.assertFalse((user.getSetting()).getAdsFromAgency());
+        Assert.assertTrue((user.getSetting()).getAdsFromClub());
+        Assert.assertFalse((user.getSetting()).getAdsFromCompany());
     }
 
     @Test(enabled = true, priority = 11, expectedExceptions = {AccountException.class, MessagingException.class})
@@ -82,39 +73,11 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
                                     UserDataProvider.NOT_CONFIRMED_USER_PSWD);
     }
 
-    @Test(enabled = true, priority = 13, expectedExceptions = {AccountException.class, MessagingException.class})
-    public void changePasswordDeletedUser() {
-        userService.changePassword(UserDataProvider.DELETED_USER_ID,
-                                    UserDataProvider.NOT_CONFIRMED_USER_PSWD,
-                                    UserDataProvider.NOT_CONFIRMED_USER_PSWD);
-    }
-
-    @Test(enabled = true, priority = 14, expectedExceptions = {AccountException.class, MessagingException.class})
-    public void changePasswordEmptyNewPassword() {
-        userService.changePassword(UserDataProvider.EMAIL_USER_ID, UserDataProvider.EMAIL_USER_PSWD, "");
-    }
-
-    @Test(enabled = true, priority = 15, expectedExceptions = {AccountException.class, MessagingException.class})
-    public void changePasswordWorngCurrentPassword() {
-        userService.changePassword(UserDataProvider.EMAIL_USER_ID, "", UserDataProvider.EMAIL_USER_PSWD_NEW);
-    }
-
-    @Test(enabled = true, priority = 16, expectedExceptions = {AccountException.class})
-    public void changePasswordIncorrectNewPassword() {
-        UserRegistration user = (UserRegistration) userRepository.findOne(UserDataProvider.EMAIL_USER_ID);
-
-        userService.changePassword(UserDataProvider.EMAIL_USER_ID,
-                                    user.getPassword(),
-                                    UserDataProvider.INCORRECT_EMAIL);
-    }
-
-    @Test(enabled = true, priority = 17)
-    public void changePassword() {
-        UserRegistration user = (UserRegistration) userRepository.findOne(UserDataProvider.EMAIL_USER_ID);
-
-        userService.changePassword(UserDataProvider.EMAIL_USER_ID,
-                                    user.getPassword(),
-                                    UserDataProvider.EMAIL_USER_PSWD_NEW);
+    @Test(enabled = true, priority = 13)
+    public void changePasswordActiveUser() {
+        userService.changePassword(UserDataProvider.ACTIVE_USER_ID,
+                                    UserDataProvider.ACTIVE_USER_PSWD,
+                                    UserDataProvider.ACTIVE_USER_PSWD_NEW);
     }
 
     @Test(enabled = true, priority = 21, expectedExceptions = {AccountException.class, MessagingException.class})
@@ -131,28 +94,21 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
                                 UserDataProvider.NOT_CONFIRMED_USER_EMAIL);
     }
 
-    @Test(enabled = true, priority = 23, expectedExceptions = {AccountException.class, MessagingException.class})
-    public void changeEmailDeletedUser() {
-        userService.changeEmail(UserDataProvider.NOT_CONFIRMED_USER_ID,
-                                UserDataProvider.NOT_CONFIRMED_USER_EMAIL,
-                                UserDataProvider.NOT_CONFIRMED_USER_EMAIL);
-    }
-
-    @Test(enabled = true, priority = 24, expectedExceptions = {AccountException.class})
+    @Test(enabled = true, priority = 23, expectedExceptions = {AccountException.class})
     public void changeEmailIncorrectNewEmail() {
         userService.changeEmail(UserDataProvider.EMAIL_USER_ID,
                                 UserDataProvider.EMAIL_USER_EMAIL,
                                 UserDataProvider.INCORRECT_EMAIL);
     }
 
-    @Test(enabled = true, priority = 25, expectedExceptions = {AccountException.class})
+    @Test(enabled = true, priority = 24, expectedExceptions = {AccountException.class})
     public void changeEmailWrongCurrentEmail() {
         userService.changeEmail(UserDataProvider.EMAIL_USER_ID,
                                 UserDataProvider.EMAIL_USER_EMAIL_NEW,
                                 UserDataProvider.EMAIL_USER_EMAIL_NEW);
     }
 
-    @Test(enabled = true, priority = 26)
+    @Test(enabled = true, priority = 25)
     public void changeEmail() {
         userService.changeEmail(UserDataProvider.EMAIL_USER_ID,
                                 UserDataProvider.EMAIL_USER_EMAIL,
@@ -165,21 +121,16 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 32, expectedExceptions = AccountException.class)
-    public void profileImageFromDeletedUser() {
-        userService.profileImageFrom(UserDataProvider.DELETED_USER_ID, SocialNetworkEnum.VK);
-    }
-
-    @Test(enabled = true, priority = 33, expectedExceptions = AccountException.class)
     public void profileImageFromNotConfirmedUser() {
         userService.profileImageFrom(UserDataProvider.NOT_CONFIRMED_USER_ID, SocialNetworkEnum.VK);
     }
 
-    @Test(enabled = true, priority = 34, expectedExceptions = AccountException.class)
+    @Test(enabled = true, priority = 33, expectedExceptions = AccountException.class)
     public void profileImageFromEmailUser() {
         userService.profileImageFrom(UserDataProvider.EMAIL_USER_ID, SocialNetworkEnum.VK);
     }
 
-    @Test(enabled = true, priority = 35)
+    @Test(enabled = true, priority = 34)
     public void profileImageFrom() {
         userService.profileImageFrom(UserDataProvider.NET_USER_ID, SocialNetworkEnum.NONE);
         User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
@@ -197,30 +148,25 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
     }
 
     @Test(enabled = true, priority = 43, expectedExceptions = AccountException.class)
-    public void unlinkSocialNetworkDeletedUser() {
-        userService.unlinkSocialNetwork(UserDataProvider.DELETED_USER_ID, SocialNetworkEnum.FB);
-    }
-
-    @Test(enabled = true, priority = 44, expectedExceptions = AccountException.class)
     public void unlinkSocialNetworkEmailUser() {
         userService.unlinkSocialNetwork(UserDataProvider.EMAIL_USER_ID, SocialNetworkEnum.FB);
     }
 
-    @Test(enabled = true, priority = 45, expectedExceptions = AccountException.class)
+    @Test(enabled = true, priority = 44, expectedExceptions = AccountException.class)
     public void unlinkSocialNetworkWrongSocialNetwork() {
         userService.unlinkSocialNetwork(UserDataProvider.NET_USER_ID, SocialNetworkEnum.FB);
     }
 
-    @Test(enabled = true, priority = 46, expectedExceptions = AccountException.class)
+    @Test(enabled = true, priority = 45, expectedExceptions = AccountException.class)
     public void unlinkSocialNetworkEmptyPassword() {
         userService.unlinkSocialNetwork(UserDataProvider.NET_USER_ID, SocialNetworkEnum.FB);
     }
 
-    @Test(enabled = true, priority = 47)
-    public void unlinkSocialNetworkOk() {
+    @Test(enabled = true, priority = 46)
+    public void unlinkSocialNetwork() {
         userService.changePassword(UserDataProvider.NET_USER_ID, "", UserDataProvider.NET_USER_PSWD);
         userService.unlinkSocialNetwork(UserDataProvider.NET_USER_ID, SocialNetworkEnum.VK);
-        User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
+        User user = userRepository.findOne(UserDataProvider.NET_USER_ID);
         if (user.getNet() != null) {
             SocialNetwork[] nets = user.getNet();
 
@@ -240,15 +186,10 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
         userService.linkSocialNetwork(UserDataProvider.NOT_CONFIRMED_USER_ID, UserDataProvider.getFB());
     }
 
-    @Test(enabled = true, priority = 53, expectedExceptions = AccountException.class)
-    public void linkSocialDeletedUser() {
-        userService.linkSocialNetwork(UserDataProvider.DELETED_USER_ID, UserDataProvider.getFB());
-    }
-
-    @Test(enabled = true, priority = 54)
+    @Test(enabled = true, priority = 53)
     public void linkSocialNetwork() {
         userService.linkSocialNetwork(UserDataProvider.NET_USER_ID, UserDataProvider.getFB());
-        User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
+        User user = userRepository.findOne(UserDataProvider.NET_USER_ID);
         if (user.getNet() != null) {
             SocialNetwork[] nets = user.getNet();
 
@@ -258,7 +199,7 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
         }
     }
 
-    @Test(enabled = true, priority = 55, expectedExceptions = AccountException.class)
+    @Test(enabled = true, priority = 54, expectedExceptions = AccountException.class)
     public void linkSocialNetworkExists() {
         userService.linkSocialNetwork(UserDataProvider.NET_USER_ID, UserDataProvider.getFB());
     }
@@ -273,12 +214,7 @@ public class UserSettingTest extends AbstractTestNGSpringContextTests {
         userService.delete(UserDataProvider.NOT_CONFIRMED_USER_ID);
     }
 
-    @Test(enabled = true, priority = 63, expectedExceptions = AccountException.class)
-    public void deleteUserDeletedUser() {
-        userService.delete(UserDataProvider.DELETED_USER_ID);
-    }
-
-    @Test(enabled = true, priority = 64)
+    @Test(enabled = true, priority = 63)
     public void deleteUser() {
         userService.delete(UserDataProvider.NET_USER_ID);
         User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);

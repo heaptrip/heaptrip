@@ -43,38 +43,30 @@ public class UserProfileTest extends AbstractTestNGSpringContextTests {
 		userService.saveProfile(UserDataProvider.NOT_CONFIRMED_USER_ID, profile);
 	}
 
-    @Test(enabled = true, priority = 3, expectedExceptions = AccountException.class)
-    public void saveProfileDeletedUser() {
-        UserProfile profile = new UserProfile();
-        profile.setDesc("description");
-
-        userService.saveProfile(UserDataProvider.DELETED_USER_ID, profile);
-    }
-	
-	@Test(enabled = true, priority = 4)
+	@Test(enabled = true, priority = 3)
 	public void saveProfile() {
-		User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
-		((UserProfile) user.getProfile()).setDesc("description");
+		User user = userRepository.findOne(UserDataProvider.NET_USER_ID);
+		(user.getProfile()).setDesc("description");
 		
 		userService.saveProfile(UserDataProvider.NET_USER_ID, (UserProfile) user.getProfile());
-		user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
+		user = userRepository.findOne(UserDataProvider.NET_USER_ID);
 
 		Assert.assertNotNull(user);
 		Assert.assertNotNull(user.getProfile());
 		Assert.assertNotNull(user.getProfile().getDesc());
 	}
 	
-	@Test(enabled = true, priority = 5)
+	@Test(enabled = true, priority = 4)
 	public void updateProfile() {
-		User user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
-		((UserProfile) user.getProfile()).setBirthday(new Date());
+		User user = userRepository.findOne(UserDataProvider.NET_USER_ID);
+		(user.getProfile()).setBirthday(new Date());
 		
-		userService.saveProfile(UserDataProvider.NET_USER_ID, (UserProfile) user.getProfile());
-		user = (User) userRepository.findOne(UserDataProvider.NET_USER_ID);
+		userService.saveProfile(UserDataProvider.NET_USER_ID, user.getProfile());
+		user = userRepository.findOne(UserDataProvider.NET_USER_ID);
 
 		Assert.assertNotNull(user);
 		Assert.assertNotNull(user.getProfile());
 		Assert.assertNotNull(user.getProfile().getDesc());
-		Assert.assertNotNull(((UserProfile) user.getProfile()).getBirthday());
+		Assert.assertNotNull((user.getProfile()).getBirthday());
 	}
 }

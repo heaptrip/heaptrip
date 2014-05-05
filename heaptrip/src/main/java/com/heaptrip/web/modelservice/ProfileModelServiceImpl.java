@@ -411,33 +411,32 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Override
     public User registration(RegistrationInfoModel regInfo) {
 
-        UserRegistration userReg = new UserRegistration();
+        User user = new User();
 
         String[] roles = {"ROLE_USER"};
         InputStream photo = null;
 
-        userReg.setEmail(regInfo.getEmail());
-        userReg.setName(regInfo.getFirstName() + " " + regInfo.getSecondName());
-        userReg.setPassword(regInfo.getPassword());
-        userReg.setRoles(roles);
+        user.setEmail(regInfo.getEmail());
+        user.setName(regInfo.getFirstName() + " " + regInfo.getSecondName());
+        user.setRoles(roles);
 
         if (regInfo.getSocNetName() != null && !regInfo.getSocNetName().isEmpty() && regInfo.getSocNetUserUID() != null
                 && !regInfo.getSocNetUserUID().isEmpty()) {
             photo = new HttpClient().doInputStreamGet(regInfo.getPhotoUrl());
-            userReg.setNet(new SocialNetwork[]{new SocialNetwork(procsessSocNetName(regInfo.getSocNetName()), regInfo
+            user.setNet(new SocialNetwork[]{new SocialNetwork(procsessSocNetName(regInfo.getSocNetName()), regInfo
                     .getSocNetUserUID())});
         }
 
-        User user = null;
+        User savedUser = null;
 
         try {
-            user = userService.registration(userReg, photo, getCurrentLocale());
+            savedUser = userService.registration(user, regInfo.getPassword(), photo, getCurrentLocale());
         } catch (Exception e) {
             // TODO voronenko: process exception
             e.printStackTrace();
         }
 
-        return user;
+        return savedUser;
     }
 
     private SocialNetworkEnum procsessSocNetName(String socNetName) {

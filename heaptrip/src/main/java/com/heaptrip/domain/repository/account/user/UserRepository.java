@@ -1,13 +1,14 @@
 package com.heaptrip.domain.repository.account.user;
 
+import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<User> {
+import java.util.List;
 
-	User findByEmailAndPassword(String email, String password);
+public interface UserRepository extends CrudRepository<User> {
 
 	User findUserBySocNetUID(String socNetName, String uid);
 
@@ -21,4 +22,7 @@ public interface UserRepository extends CrudRepository<User> {
 
 	void linkSocialNetwork(String userId, SocialNetwork socialNetwork);
 
+    List<User> findUsersByEmail(String email);
+
+    List<User> findUsersByEmailAndStatus(String email, AccountStatusEnum accountStatus);
 }

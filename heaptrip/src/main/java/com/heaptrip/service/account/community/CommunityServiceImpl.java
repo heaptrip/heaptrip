@@ -14,6 +14,7 @@ import com.heaptrip.domain.repository.account.community.CommunityRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
+import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.domain.service.system.MailService;
 import com.heaptrip.domain.service.system.RequestScopeService;
@@ -23,6 +24,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
 @Service
@@ -49,6 +51,9 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
 
     @Autowired
     private ContentRepository contentRepository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public void delete(String accountId) {
@@ -90,6 +95,13 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
         }
 
         community.setRating(AccountRating.getDefaultValue());
+        try {
+            community.setSendValue(userService.byteToBase64(userService.generateSalt()));
+        } catch (NoSuchAlgorithmException e) {
+            String msg = String.format("Error salt generation: %s", e.getMessage());
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_CREATE);
+        }
         Community com = communityRepository.save(community);
 
         MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.CONFIRM_REGISTRATION);
@@ -98,7 +110,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
         str.append(requestScopeService.getCurrentContextPath());
         str.append("/mail/registration/confirm?");
         str.append("uid=").append(com.getId());
-        str.append("&value=").append(com.getId().hashCode());
+        str.append("&value=").append(community.getSendValue());
 
         String msg = String.format(mt.getText(locale), str.toString());
         mailService.sendNoreplyMessage(com.getEmail(), mt.getSubject(locale), msg);

@@ -27,6 +27,9 @@ public abstract class Account<P extends Profile, S extends Setting> extends Base
 
     private Date created;
 
+    // value is sent to e-mail confirmation of registration, etc.
+    private String sendValue;
+
     public abstract AccountEnum getAccountType();
 
     public String getName() {
@@ -91,5 +94,13 @@ public abstract class Account<P extends Profile, S extends Setting> extends Base
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getSendValue() {
+        return sendValue;
+    }
+
+    public void setSendValue(String sendValue) {
+        this.sendValue = sendValue;
     }
 }
