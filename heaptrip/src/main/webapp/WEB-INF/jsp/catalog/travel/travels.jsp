@@ -18,6 +18,11 @@
                 </div>
             </div>
             <div class="right">
+                <%--Если, это мои избранные--%>
+                <c:if test='${empty catcher && mode eq "FAVORITE"}'>
+                    <a href="<c:url value="/travel_info.html?id={{>id}}"/>"
+                       class="button"><fmt:message key="page.action.delete"/></a>
+                </c:if>
                 {{if begin.text}}
                 <div>
                     <fmt:message key="page.date.period"/>:
@@ -117,7 +122,7 @@
     var getTripsList = function (paramsJson) {
 
         var tripCriteria = {
-            skip: paramsJson.paginator  ? paramsJson.paginator.skip : 0,
+            skip: paramsJson.paginator ? paramsJson.paginator.skip : 0,
             limit: paramsJson.paginator ? paramsJson.paginator.limit : null,
             categories: {
                 checkMode: "IN",
@@ -152,7 +157,7 @@
         var callbackSuccess = function (data) {
             $("#contents_span").html($("#tripTemplate").render(data.trips));
 
-           // alert(data.count)
+            // alert(data.count)
 
             $('#paginator').smartpaginator({
                 totalrecords: data.count,
