@@ -117,7 +117,7 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-notification.html"/>"
+            <a href="<c:url value="/pf-notification-security.html"/>"
                class='${fn:contains(url, "/pf-notification") ? "active":"" }'>
                 <fmt:message key="accountProfile.notification"/>
             </a>

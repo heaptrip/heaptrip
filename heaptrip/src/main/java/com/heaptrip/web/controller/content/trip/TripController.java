@@ -96,16 +96,22 @@ public class TripController extends ExceptionHandlerControler {
     @RequestMapping(value = "travel_info", method = RequestMethod.GET)
     public ModelAndView getTripInfo(@RequestParam(value = "id", required = false) String tripId,
                                     @RequestParam(value = "ul", required = false) String userLocale) {
-        return buildTripInfoResponse(tripId, userLocale);
+        return buildTripInfoResponse(tripId, userLocale, true);
     }
 
     @RequestMapping(value = "travel_maps", method = RequestMethod.GET)
     public ModelAndView getTripMaps(@RequestParam(value = "id", required = false) String tripId,
                                     @RequestParam(value = "ul", required = false) String userLocale) {
-        return buildTripInfoResponse(tripId, userLocale);
+        return buildTripInfoResponse(tripId, userLocale, true);
     }
 
-    private ModelAndView buildTripInfoResponse(String tripId, String userLocale) {
+    @RequestMapping(value = "travel_participants", method = RequestMethod.GET)
+    public ModelAndView getTripParticipants(@RequestParam(value = "id", required = false) String tripId,
+                                            @RequestParam(value = "ul", required = false) String userLocale) {
+        return buildTripInfoResponse(tripId, userLocale, false);
+    }
+
+    private ModelAndView buildTripInfoResponse(String tripId, String userLocale, boolean withComments) {
         ModelAndView mv = new ModelAndView();
         TripInfoModel tripModel = null;
         if (tripId != null) {
@@ -115,7 +121,8 @@ public class TripController extends ExceptionHandlerControler {
             } else {
                 tripModel = tripModelService.getTripInfoById(tripId, new Locale(userLocale), false);
             }
-            mv.addObject("comments", commentModelService.getComments(tripId));
+            if (withComments)
+                mv.addObject("comments", commentModelService.getComments(tripId));
         }
         return mv.addObject("trip", tripModel);
     }

@@ -18,6 +18,7 @@ public class NotificationModel {
     private String type;
     private AccountModel accountFrom;
     private AccountModel accountTo;
+    private String isAwaitingAction;
 
     public String getId() {
         return id;
@@ -73,5 +74,13 @@ public class NotificationModel {
 
     public void setAccountTo(AccountModel accountTo) {
         this.accountTo = accountTo;
+    }
+
+    public String getIsAwaitingAction() {
+        return isAwaitingAction;
+    }
+
+    public void setIsAwaitingAction(String awaitingAction) {
+        isAwaitingAction = awaitingAction;
     }
 }

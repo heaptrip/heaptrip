@@ -454,7 +454,7 @@
                         <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                 -->
-                        <ul>
+                        </ul>
                 </div>
             </li>
             <!--

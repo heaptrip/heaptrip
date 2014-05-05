@@ -71,6 +71,8 @@
                         } else if (data.userCategories) {
                             selectCategories(data.userCategories);
                         }
+                        $('.tree').css("height", "auto")
+
                     })
                     .bind("change_state.jstree", function (node, uncheck) {
                         if (!window.block) {
@@ -120,7 +122,7 @@
         </c:otherwise>
     </c:choose>
     <div class="content" style="display: block;">
-        <div class="tree"></div>
+        <div class="tree" style="height:205px;"></div>
         <tiles:insertAttribute name="category_tree_btn"/>
     </div>
 </div>

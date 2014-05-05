@@ -326,7 +326,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/notification/notification.jsp"/>
     </definition>
 
-    <definition name="pf-notification" extends="mainContentTemplate">
+    <definition name="pf-notification-security" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="notificationTemplate"/>

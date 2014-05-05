@@ -5,21 +5,80 @@
 
 
 <script id="notificationsTemplate" type="text/x-jsrender">
-    <li id="{{>id}}">
+
+    {{if status == 'NEW'}}
+    <li id="{{>id}}" onclick="onNotificationView($(this))">
+    {{/if}}
+
+    {{if status != 'NEW'}}
+    <li id="{{>id}}" class="old">
+    {{/if}}
+
+
         <div class="list_alert_img">
-            <img src="/TODO.jpg">
+            <img src="<c:url value="/rest/image/small/{{>accountFrom.image.id}}"/>">
         </div>
         <div class="list_alert_inf">
             <span>{{>created.text}}</span>
 
-            <div class="list_alert_name"><a href="/">{{>text}}</a></div>
-            <a href="/" class="button">OK</a><a href="/" class="button">CANCEL</a>
+            <div class="list_alert_name"><a>{{>text}}</a></div>
+
+            {{if isAwaitingAction == 'true'}}
+            <a key='REJECTED' onclick="onNotificationClick(event,$(this))" class="button">Reject</a>
+            <a key='ACCEPTED' onclick="onNotificationClick(event,$(this))" class="button">Accept</a>
+            {{/if}}
+
+            {{if isAwaitingAction != 'true'}}
+            {{>status}}
+            {{/if}}
+
         </div>
     </li>
 </script>
 
 
 <script type="text/javascript">
+
+
+    var changeNotificationStatus = function (notificationId, status) {
+        var url = 'rest/security/notification/change_status';
+
+        var callbackSuccess = function (data) {
+            $('#' + notificationId).toggleClass("old")
+        };
+
+        var callbackError = function (error) {
+           alert(error);
+        };
+
+        var params = { notificationId:notificationId,status:status};
+
+        $.postJSON(url, params, callbackSuccess, callbackError);
+
+
+    }
+
+    var onNotificationView = function (msg) {
+
+        var notificationId = msg[0].id;
+        if($('#' + notificationId).find('.button').length >0 ) return;
+        changeNotificationStatus(notificationId,'READED');
+        //alert(' I View Notification notificationId : ' + notificationId);
+
+    }
+
+    var onNotificationClick = function (e, btn) {
+        var notificationId = btn.parent().parent()[0].id;
+        var action = btn.attr('key');
+        //alert('notificationId : ' + notificationId + ' action : ' + action);
+        changeNotificationStatus(notificationId,action);
+        if (e.stopPropagation)
+            e.stopPropagation();
+        else
+            e.cancelBubble = true;
+
+
+    }
 
     var onTabClick = function (tabHeader, tabId) {
         $('#travel_nav > ul  > li > a').removeClass('active')
@@ -50,8 +109,8 @@
 
         var criteria = {
             accountId: window.principal.id,
-            skip:  params.paginator1 ? params.paginator1.skip : 0,
-            limit:params.paginator1 ? params.paginator1.limit : null
+            skip: params.paginator1 ? params.paginator1.skip : 0,
+            limit: params.paginator1 ? params.paginator1.limit : null
         };
 
         var callbackSuccess = function (data) {
@@ -77,8 +136,8 @@
 
         var criteria = {
             userId: window.principal.id,
-            skip:  params.paginator2 ? params.paginator2.skip : 0,
-            limit:params.paginator2 ? params.paginator2.limit : null
+            skip: params.paginator2 ? params.paginator2.skip : 0,
+            limit: params.paginator2 ? params.paginator2.limit : null
         };
 
         var callbackSuccess = function (data) {
@@ -87,7 +146,7 @@
 
             $('#paginator2').smartpaginator({
                 totalrecords: data.count,
-                skip:  params.paginator2 ? params.paginator2.skip : null
+                skip: params.paginator2 ? params.paginator2.skip : null
             });
         };
 
@@ -110,10 +169,12 @@
             <ul>
                 <li><a onClick="onTabClick(this,'tab1')"
                        class="active"><fmt:message
-                        key="account.type.user"/><span></span></a></li>
+                        key="account.type.user"/>
+                    (${notificationServiceWrapper.getUnreadNotificationFromUsers()})<span></span></a></li>
 
                 <li><a onClick="onTabClick(this,'tab2')"><fmt:message
-                        key="community.title"/><span></span></a></li>
+                        key="community.title"/>
+                    (${notificationServiceWrapper.getUnreadNotificationFromCommunities()})<span></span></a></li>
             </ul>
         </nav>
 

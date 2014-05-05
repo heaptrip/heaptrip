@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ListConverter {
 
-    static public <FROM, TO> List<TO> convertList(List<FROM> fromList, Converter<FROM, TO> converter) {
+    public static <FROM, TO> List<TO> convertList(List<FROM> fromList, Converter<FROM, TO> converter) {
         ArrayList<TO> result = new ArrayList<>();
         if (fromList != null && !fromList.isEmpty()) {
             for (FROM from : fromList) {
@@ -16,14 +16,25 @@ public class ListConverter {
         return result;
     }
 
-    static public <FROM, TO> TO[] convertList(FROM[] fromList, Converter<FROM, TO> converter) {
+    public static <FROM, TO> TO[] convertList(FROM[] fromList, Converter<FROM, TO> converter) {
         ArrayList<TO> result = new ArrayList<>();
         if (fromList != null && fromList.length > 0) {
             for (FROM from : fromList) {
                 result.add(converter.convert(from));
-
             }
         }
-        return result.toArray((TO[]) new Object[result.size()]);
+        return ListConverter.toArray(result);
+    }
+
+
+    private static <T> T[] toArray(List<T> fromList) {
+        T[] toArray = (T[]) new Object[0];
+        if (fromList != null && !fromList.isEmpty()) {
+            toArray = (T[]) java.lang.reflect.Array.newInstance(fromList.get(0).getClass(), fromList.size());
+            for (int i = 0; i < fromList.size(); i++) {
+                toArray[i] = fromList.get(i);
+            }
+        }
+        return toArray;
     }
 }

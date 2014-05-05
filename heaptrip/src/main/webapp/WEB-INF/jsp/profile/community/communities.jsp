@@ -36,6 +36,21 @@
 
 <script type="text/javascript">
 
+function onFilterCheckClick(cb) {
+    var checkedTypes = [];
+    $.each($('#community_type_check_panel >li> input'), function( index, value ) {
+        if(value.checked){
+            checkedTypes.push($(value).attr('key'));
+        }
+    });
+    if(checkedTypes.length > 0)
+        $.handParamToURL({type: checkedTypes});
+    else
+        $.handParamToURL({type: null});
+
+}
+
+
 $(document).ready(function () {
 
     $("#community input[name=text_search]").autocomplete({
@@ -55,6 +70,9 @@ $(document).ready(function () {
 
 
 $(window).bind("onPageReady", function (e, paramsJson) {
+
+    console.log(paramsJson.type);
+
 
     var criteria = {};
 
@@ -168,7 +186,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_subscriber .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/unsubscribe_from_community';
+            var url = 'rest/security/unsubscribe_from_publisher';
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -191,10 +209,10 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         if ($('.community_func_search').length) {
             var commands = Array(
-                    Array('sendRequestOwner', '_search','request_owner'),
-                    Array('sendRequestEmployee', '_search','request_employee'),
-                    Array('sendRequestMember', '_search','request_member'),
-                    Array('sendRequestSubscriber', '_search','request_subscriber')
+                    Array('sendRequestOwner', '_search','request_community_owner'),
+                    Array('sendRequestEmployee', '_search','request_community_employee'),
+                    Array('sendRequestMember', '_search','request_community_member'),
+                    Array('addPublisher', '_search','add_publisher')
             );
             participants_menu('.community_func_search', commands);
         }
@@ -202,12 +220,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_search .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var jsonData = {
-                id: community.attr('id'),
-                request: $(this).attr('name')
-            };
-
-            var url = 'rest/security/send_request_community';
+            var url = 'rest/security/' + $(this).attr('name');
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -217,20 +230,27 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 $("#error_message #msg").text(error);
             };
 
-//            alert(community.attr('id'));
-
-            $.postJSON(url, jsonData, callbackSuccess, callbackError);
+            $.postJSON(url, community.attr('id'), callbackSuccess, callbackError);
         })
-
     };
+
+    var accountMode;
+    var accountValue;
+
+    if (paramsJson.type && paramsJson.type.length > 0) {
+        accountMode = 'IN';
+        accountValue = paramsJson.type;
+    } else {
+        accountMode = 'NOT_IN';
+        accountValue = ['com.heaptrip.domain.entity.account.user.User'];
+    }
 
     criteria.userCommunitiesCriteria = {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         owners: {
             checkMode: 'IN',
@@ -250,9 +270,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         staff: {
             checkMode: 'IN',
@@ -272,9 +291,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         members: {
             checkMode: 'IN',
@@ -294,9 +312,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         query: paramsJson.term,
         accountType: {
-            checkMode: 'NOT_IN',
-            ids: ['com.heaptrip.domain.entity.user.UserRegistration']
-
+            checkMode: accountMode,
+            ids: accountValue
         },
         publishers: {
             checkMode: 'IN',
@@ -312,10 +329,14 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         }
     };
 
+    if (paramsJson.term || paramsJson.type || paramsJson.ct || paramsJson.rg) {
 
-    if (paramsJson.term || paramsJson.ct || paramsJson.rg) {
         criteria.searchCommunitiesCriteria = {
             query: paramsJson.term,
+            accountType: {
+                checkMode: accountMode,
+                ids: accountValue
+            },
             categories: {
                 checkMode: "IN",
                 ids: paramsJson.ct ? paramsJson.ct.split(',') : null
@@ -344,7 +365,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     }else{
         $("#list_user_5").hide();
     }
-
 
     var url = 'rest/communities';
 
@@ -453,8 +473,6 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                     </div>
                     <ul id="subscriber_communities"></ul>
                 </div>
-
-
             </div>
         </article>
     </div>
@@ -466,10 +484,10 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     <div id="community" class="filtr open">
         <div class="zag"><fmt:message key="page.action.searchCommunity"/></div>
         <div class="content">
-            <ul>
-                <li><input type="checkbox"><label><fmt:message key="account.type.club"/></label></li>
-                <li><input type="checkbox"><label><fmt:message key="account.type.company"/></label></li>
-                <li><input type="checkbox"><label><fmt:message key="account.type.agency"/></label></li>
+            <ul id="community_type_check_panel"  >
+                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.club.Club" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.club"/></label></li>
+                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.company.Company" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.company"/></label></li>
+                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.agency.Agency" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.agency"/></label></li>
             </ul>
             <div class="search">
                 <input type="text" name="text_search">
@@ -477,8 +495,8 @@ $(window).bind("onPageReady", function (e, paramsJson) {
             </div>
         </div>
     </div>
-    <tiles:insertDefinition name="categoryTreeWithBtn"/>
-    <tiles:insertDefinition name="regionFilterWithBtn"/>
+    <tiles:insertDefinition name="categoryTree"/>
+    <tiles:insertDefinition name="regionFilter"/>
 </aside>
 <!-- #sideRight -->
 

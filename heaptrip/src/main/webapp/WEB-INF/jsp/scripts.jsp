@@ -23,7 +23,7 @@
 </sec:authorize>
 
 <c:if test="${not empty param.guid && param.guid ne principal.id}">
-    <c:set var="catcher" scope="request" value="${profileModelService.getAccountInformation(param.guid)}"/>
+    <c:set var="catcher" scope="request" value="${profileServiceWrapper.getAccountInformation(param.guid)}"/>
 </c:if>
 
 <c:if test="${fn:contains(url, 'ct-')}">
