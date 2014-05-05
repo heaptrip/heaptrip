@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -38,7 +37,7 @@ public class FavoriteContentRepositoryImpl extends BaseRepositoryImpl implements
     @Override
     public void removeFavorite(String contentId, String accountId) {
         MongoCollection coll = getCollection();
-        WriteResult wr = coll.update("{_id: #, 'favorites.ids': #}", contentId, Arrays.asList(accountId)).with(
+        WriteResult wr = coll.update("{_id: #, 'favorites.ids': #}", contentId, accountId).with(
                 "{$pull: {'favorites.ids': #}, $inc: {'favorites.count': -1}}", accountId);
         logger.debug("WriteResult for remove favorite: {}", wr);
     }
