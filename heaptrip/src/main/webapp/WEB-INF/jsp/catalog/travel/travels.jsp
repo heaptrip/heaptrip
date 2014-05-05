@@ -20,7 +20,7 @@
             <div class="right">
                 <%--Если, это мои избранные--%>
                 <c:if test='${empty catcher && mode eq "FAVORITE"}'>
-                    <a tripId="{{>id}}" onclick="onRemoveFavoriteSubmit($(this))" class="button"><fmt:message
+                    <a onclick="onRemoveFavoriteSubmit('{{>id}}', $(this))" class="button"><fmt:message
                             key="page.action.delete"/></a>
                 </c:if>
                 {{if begin.text}}
@@ -173,9 +173,7 @@
 
     };
 
-    var onRemoveFavoriteSubmit = function (btn) {
-
-        var tripId = btn.attr('tripId');
+    var onRemoveFavoriteSubmit = function (tripId, btn) {
 
         $(btn).prop('disabled', true);
 

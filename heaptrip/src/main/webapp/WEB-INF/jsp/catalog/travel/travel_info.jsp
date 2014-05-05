@@ -14,7 +14,7 @@
         var url = 'rest/add_favorite';
 
         var callbackSuccess = function (data) {
-            location.reload();
+            $(btn).remove();
             alert("Success");
         };
 
