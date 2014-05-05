@@ -6,7 +6,6 @@ import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
 import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.account.user.UserRegistration;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.AccountRating;
 import com.heaptrip.domain.repository.account.AccountRepository;
@@ -44,6 +43,15 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     }
 
     @Override
+    public void changeSendValue(String accountId, String sendValue) {
+        MongoCollection coll = getCollection();
+        String query = "{_id: #}";
+        String updateQuery = "{$set: {'sendValue': #}}";
+        WriteResult wr = coll.update(query, accountId).with(updateQuery, sendValue);
+        logger.debug("WriteResult for update account: {}", wr);
+    }
+
+    @Override
     public void changeEmail(String accountId, String newEmail) {
         MongoCollection coll = getCollection();
         String query = "{_id: #}";
@@ -71,18 +79,22 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     }
 
     @Override
-    public List<Account> findUsersByEmail(String email, AccountStatusEnum accountStatus) {
-        // TODO dikma: remove UserRegistration
-        List<String> classes = new ArrayList<>();
-        classes.add(User.class.getName());
-        classes.add(UserRegistration.class.getName());
-
+    public List<Account> findAccountsByEmailAndStatus(String email, AccountStatusEnum accountStatus) {
         // TODO dikma: add index
         MongoCollection coll = getCollection();
-        String query = "{email: #, _class: {$in: #}, status: #}";
-        Iterable<Account> iterator = coll.find(query, email, classes, accountStatus.toString()).as(Account.class);
+        String query = "{email: #, status: #}";
+        Iterable<Account> iterator = coll.find(query, email, accountStatus.toString()).as(Account.class);
         return IteratorConverter.copyIterator(iterator.iterator());
     }
+
+//    @Override
+//    public List<User> findUsersByEmail(String email) {
+//        // TODO dikma: add index
+//        MongoCollection coll = getCollection();
+//        String query = "{email: #, _class: #}";
+//        Iterable<User> iterator = coll.find(query, email, User.class.getName()).as(User.class);
+//        return IteratorConverter.copyIterator(iterator.iterator());
+//    }
 
     @Override
     protected String getCollectionName() {

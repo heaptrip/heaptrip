@@ -1,7 +1,9 @@
 package com.heaptrip.service.account.relations;
 
+import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.notification.Notification;
 import com.heaptrip.domain.entity.account.relation.Relation;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.repository.account.AccountRepository;
 import com.heaptrip.domain.repository.account.notification.NotificationRepository;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
@@ -18,16 +20,22 @@ import com.heaptrip.service.account.community.CommunityDataProvider;
 import com.heaptrip.service.account.user.UserDataProvider;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Future;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 @Listeners(AuthenticationListener.class)
@@ -70,23 +78,21 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
     public void prepare() throws Exception {
         Locale locale = new Locale("ru");
 
-        userService.registration(UserDataProvider.getEmailUser(), null, locale);
-        userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
+        User user = userService.registration(UserDataProvider.getEmailUser(), UserDataProvider.EMAIL_USER_PSWD, null, locale);
+        userService.confirmRegistration(user.getId(), user.getSendValue());
 
-        userService.registration(UserDataProvider.getNetUser(), null, locale);
-        userService.confirmRegistration(UserDataProvider.NET_USER_ID, String.valueOf(UserDataProvider.NET_USER_ID.hashCode()));
+        user = userService.registration(UserDataProvider.getNetUser(), null, null, locale);
+        userService.confirmRegistration(user.getId(), user.getSendValue());
 
-        userService.registration(UserDataProvider.getNotConfirmedUser(), null, locale);
+        user = userService.registration(UserDataProvider.getActiveUser(), UserDataProvider.ACTIVE_USER_PSWD, null, locale);
+        userService.confirmRegistration(user.getId(), user.getSendValue());
 
-        userRepository.save(UserDataProvider.getDeletedUser());
-        userRepository.save(UserDataProvider.getActiveUser());
+        userService.registration(UserDataProvider.getNotConfirmedUser(), UserDataProvider.NOT_CONFIRMED_USER_PSWD, null, locale);
 
-        communityService.registration(CommunityDataProvider.getClub(), locale);
-        communityService.confirmRegistration(CommunityDataProvider.COMMUNITY_ID, String.valueOf(CommunityDataProvider.COMMUNITY_ID.hashCode()));
+        Community community = communityService.registration(CommunityDataProvider.getClub(), locale);
+        communityService.confirmRegistration(community.getId(), community.getSendValue());
 
         communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
-
-        accountRepository.save(CommunityDataProvider.getDeletedClub());
     }
 
     @AfterTest
@@ -178,10 +184,8 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
         userService.hardRemove(UserDataProvider.EMAIL_USER_ID);
         userService.hardRemove(UserDataProvider.NET_USER_ID);
         userService.hardRemove(UserDataProvider.NOT_CONFIRMED_USER_ID);
-        userService.hardRemove(UserDataProvider.DELETED_USER_ID);
 
         communityService.hardRemove(CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
         communityService.hardRemove(CommunityDataProvider.COMMUNITY_ID);
-        communityService.hardRemove(CommunityDataProvider.DELETED_COMMUNITY_ID);
     }
 }

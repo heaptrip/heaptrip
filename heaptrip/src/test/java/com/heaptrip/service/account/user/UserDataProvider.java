@@ -3,7 +3,7 @@ package com.heaptrip.service.account.user;
 import com.heaptrip.domain.entity.account.AccountStatusEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
-import com.heaptrip.domain.entity.account.user.UserRegistration;
+import com.heaptrip.domain.entity.account.user.User;
 
 public class UserDataProvider {
 
@@ -15,6 +15,7 @@ public class UserDataProvider {
     public static String EMAIL_USER_EMAIL = "emailUser@heaptrip.com";
     public static String EMAIL_USER_EMAIL_NEW = "noreply@heaptrip.com";
     public static String EMAIL_USER_PSWD = "Qwerty2013";
+    public static String EMAIL_USER_INCORRECT_PSWD = "short";
     public static String EMAIL_USER_PSWD_NEW = "new_Qwerty2013";
 
     public static String NET_USER_ID = "net";
@@ -32,11 +33,13 @@ public class UserDataProvider {
     public static String FAKE_USER_PSWD = "nopassword";
 
     public static String ACTIVE_USER_ID = "active";
+    public static String ACTIVE_USER_PSWD = "activeUser";
+    public static String ACTIVE_USER_PSWD_NEW = "activeUserNew";
 
-    public static String DELETED_USER_ID = "deleted";
-    public static String DELETED_USER_NAME = "Deleted User";
-    public static String DELETED_USER_EMAIL = "deletedUser@heaptrip.com";
-    public static String DELETED_USER_PSWD = "nopassword";
+//    public static String DELETED_USER_ID = "deleted";
+//    public static String DELETED_USER_NAME = "Deleted User";
+//    public static String DELETED_USER_EMAIL = "deletedUser@heaptrip.com";
+//    public static String DELETED_USER_PSWD = "nopassword";
 
     public static String INCORRECT_EMAIL = "!@#$%";
 
@@ -56,17 +59,16 @@ public class UserDataProvider {
         return new SocialNetwork(SocialNetworkEnum.VK, "fake");
     }
 
-    public static UserRegistration getEmailUser() {
-        UserRegistration user = new UserRegistration();
+    public static User getEmailUser() {
+        User user = new User();
         user.setId(EMAIL_USER_ID);
         user.setName(EMAIL_USER_NAME);
-        user.setPassword(EMAIL_USER_PSWD);
         user.setEmail(EMAIL_USER_EMAIL);
         return user;
     }
 
-    public static UserRegistration getNetUser() {
-        UserRegistration user = new UserRegistration();
+    public static User getNetUser() {
+        User user = new User();
         user.setId(NET_USER_ID);
         user.setName(NET_USER_NAME);
         user.setEmail(NET_USER_EMAIL);
@@ -74,40 +76,26 @@ public class UserDataProvider {
         return user;
     }
 
-    public static UserRegistration getFakeUser() {
-        UserRegistration user = new UserRegistration();
-        user.setId(FAKE_USER_ID);
-        user.setPassword(FAKE_USER_PSWD);
-        user.setEmail(FAKE_USER_EMAIL);
-        return user;
-    }
+//    public static User getFakeUser() {
+//        User user = new User();
+//        user.setId(FAKE_USER_ID);
+//        user.setEmail(FAKE_USER_EMAIL);
+//        return user;
+//    }
 
-    public static UserRegistration getNotConfirmedUser() {
-        UserRegistration user = new UserRegistration();
+    public static User getNotConfirmedUser() {
+        User user = new User();
         user.setId(NOT_CONFIRMED_USER_ID);
         user.setName(NOT_CONFIRMED_USER_NAME);
-        user.setPassword(NOT_CONFIRMED_USER_PSWD);
         user.setEmail(NOT_CONFIRMED_USER_EMAIL);
         return user;
     }
 
-    public static UserRegistration getActiveUser() {
-        UserRegistration user = new UserRegistration();
+    public static User getActiveUser() {
+        User user = new User();
         user.setId(ACTIVE_USER_ID);
         user.setName("Active User");
-        user.setPassword("ActiveUser");
         user.setEmail("ActiveUser@heaptrip.com");
-        user.setStatus(AccountStatusEnum.ACTIVE);
-        return user;
-    }
-
-    public static UserRegistration getDeletedUser() {
-        UserRegistration user = new UserRegistration();
-        user.setId(DELETED_USER_ID);
-        user.setName(DELETED_USER_NAME);
-        user.setPassword(DELETED_USER_PSWD);
-        user.setEmail(DELETED_USER_EMAIL);
-        user.setStatus(AccountStatusEnum.DELETED);
         return user;
     }
 }

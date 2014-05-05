@@ -26,9 +26,9 @@ public class InitStoreTest extends AbstractTestNGSpringContextTests {
 
         deleteAccounts();
 
-        Locale locale = new Locale("ru");
+//        Locale locale = new Locale("ru");
 
-        userService.registration(UserDataProvider.getEmailUser(), null, locale);
+//        userService.registration(UserDataProvider.getEmailUser(), UserDataProvider.EMAIL_USER_PSWD, null, locale);
         userRepository.save(UserDataProvider.getActiveUser());
     }
 

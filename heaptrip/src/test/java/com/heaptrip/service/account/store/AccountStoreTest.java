@@ -2,6 +2,7 @@ package com.heaptrip.service.account.store;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.account.AccountEnum;
+import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.entity.account.user.UserProfile;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.rating.AccountRating;
@@ -26,8 +27,11 @@ import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.mail.MessagingException;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -57,8 +61,11 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
 
 
     @Test(enabled = true, priority = 1)
-    public void saveAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException {
-        Future<Void> future = userService.confirmRegistration(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()));
+    public void saveAccount() throws SolrServerException, IOException, ExecutionException, InterruptedException, MessagingException, NoSuchAlgorithmException {
+        Locale locale = new Locale("ru");
+
+        User user = userService.registration(UserDataProvider.getEmailUser(), UserDataProvider.EMAIL_USER_PSWD, null, locale);
+        Future<Void> future = userService.confirmRegistration(user.getId(), user.getSendValue());
         future.get();
 
         solrAccountRepository.commit();

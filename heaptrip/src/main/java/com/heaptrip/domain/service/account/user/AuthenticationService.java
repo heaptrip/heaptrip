@@ -13,7 +13,7 @@ public interface AuthenticationService {
 	
 	/**
 	 * Get user by email
-	 * 
+	 *
 	 * @param email
 	 * @param password
 	 * @return user
@@ -34,7 +34,7 @@ public interface AuthenticationService {
 	 * 
 	 * @param email
 	 */
-	void resetPassword(String email, Locale locale) throws MessagingException;
+	void resetPassword(String email, Locale locale);
 	
 	/**
 	 * Send new password

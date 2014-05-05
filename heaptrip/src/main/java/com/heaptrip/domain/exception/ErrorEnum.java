@@ -42,12 +42,16 @@ public enum ErrorEnum {
     ERROR_USER_PSWD_IS_NOT_CORRECT("error.user.pswd.is.not.correct"),
     ERROR_MORE_THAN_ONE_USER_HAVE_ACTIVE_STATUS("error.more.than.one.user.have.status.active"),
     ERROR_USER_HAVE_ACTIVE_CONTENT("error.user.have.active.content"),
+    ERROR_USER_RESET_PASSWORD("error.user.reset.password"),
+    ERROR_USER_CHECK_PASSWORD("error.user.check.password"),
+    ERROR_USER_CHANGE_PASSWORD("error.user.change.password"),
 
     ERROR_COMMUNITY_NOT_FOUND("error.community.not.found"),
     ERROR_COMMUNITY_NOT_ACTIVE("error.community.not.active"),
     ERROR_COMMUNITY_HAVE_ACTIVE_CONTENT("error.community.have.active.content"),
     ERROR_COMMUNITY_NOT_HAVE_OWNER("error.community.not.have.owner"),
     ERROR_COMMUNITY_NOT_HAVE_OWNER_AND_EMPLOYEE("error.community.not.have.owner.and.employee"),
+    ERROR_COMMUNITY_CREATE("error.community.create"),
 
     ERROR_SOLE_OWNER_OF_THE_USER_COMMUNITY_ACTIVE("error.sole.owner.of.the.user.community.active"),
 

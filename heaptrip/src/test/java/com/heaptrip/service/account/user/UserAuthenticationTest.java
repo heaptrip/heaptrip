@@ -9,6 +9,8 @@ import java.util.Locale;
 
 import javax.mail.MessagingException;
 
+import com.heaptrip.domain.repository.account.AccountRepository;
+import com.heaptrip.domain.repository.account.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -31,31 +33,36 @@ public class UserAuthenticationTest extends AbstractTestNGSpringContextTests {
 	
 	@Autowired
 	private AuthenticationService authenticationService;
-	
-	@Test(enabled = true, priority = 1)
-	public void getUserByEmail() {
-		User user;
-		
-		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.EMAIL_USER_EMAIL, UserDataProvider.EMAIL_USER_PSWD);
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Test(enabled = true, priority = 1)
+	public void getEmailUserByEmail() {
+        User user = authenticationService.getUserByEmailAndPassword(UserDataProvider.EMAIL_USER_EMAIL, UserDataProvider.EMAIL_USER_PSWD);
 		Assert.assertNotNull(user);
 		Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.ACTIVE));
-		
-		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.NOT_CONFIRMED_USER_EMAIL, UserDataProvider.NOT_CONFIRMED_USER_PSWD);
-		Assert.assertNotNull(user);
-		Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED));
+    }
 
-        user = authenticationService.getUserByEmailAndPassword(UserDataProvider.DELETED_USER_EMAIL, UserDataProvider.DELETED_USER_PSWD);
+    @Test(enabled = true, priority = 2, expectedExceptions = {AccountException.class})
+    public void getNetUserByEmail() {
+        authenticationService.getUserByEmailAndPassword(UserDataProvider.NET_USER_EMAIL, UserDataProvider.NET_USER_PSWD);
+    }
+
+    @Test(enabled = true, priority = 3)
+    public void getNotConfirmedUserByEmail() {
+        User user = authenticationService.getUserByEmailAndPassword(UserDataProvider.NOT_CONFIRMED_USER_EMAIL, UserDataProvider.NOT_CONFIRMED_USER_PSWD);
         Assert.assertNotNull(user);
-        Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.DELETED));
-		
-		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.NET_USER_EMAIL, UserDataProvider.NET_USER_PSWD);
-		Assert.assertNull(user);
-		
-		user = authenticationService.getUserByEmailAndPassword(UserDataProvider.FAKE_USER_EMAIL, UserDataProvider.FAKE_USER_PSWD);
+        Assert.assertTrue(user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED));
+    }
+
+    @Test(enabled = true, priority = 4)
+    public void getFakeUserByEmail() {
+        User user = authenticationService.getUserByEmailAndPassword(UserDataProvider.FAKE_USER_EMAIL, UserDataProvider.FAKE_USER_PSWD);
 		Assert.assertNull(user);
 	}
 	
-	@Test(enabled = true, priority = 11)
+	@Test(enabled = true, priority = 5)
 	public void getUserBySocNetUID() throws IOException, NoSuchAlgorithmException {
 		
 		User user;
@@ -99,24 +106,18 @@ public class UserAuthenticationTest extends AbstractTestNGSpringContextTests {
 		Assert.assertFalse(user.getImageCRC().equals(imageCRC));
 	}
 	
-	@Test(enabled = true, priority = 11, expectedExceptions = {AccountException.class, MessagingException.class})
+	@Test(enabled = true, priority = 12, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void resetPasswordFakeUser() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.resetPassword(UserDataProvider.FAKE_USER_EMAIL, locale);
 	}
 	
-	@Test(enabled = true, priority = 12, expectedExceptions = {AccountException.class, MessagingException.class})
+	@Test(enabled = true, priority = 13, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void resetPasswordNotConfirmedUser() throws MessagingException {
 		Locale locale = new Locale("ru");
 		authenticationService.resetPassword(UserDataProvider.NOT_CONFIRMED_USER_EMAIL, locale);
 	}
 
-    @Test(enabled = true, priority = 13, expectedExceptions = {AccountException.class, MessagingException.class})
-    public void resetPasswordDeletedUser() throws MessagingException {
-        Locale locale = new Locale("ru");
-        authenticationService.resetPassword(UserDataProvider.DELETED_USER_EMAIL, locale);
-    }
-	
 	@Test(enabled = true, priority = 14)
 	public void resetPasswordEmailUser() throws MessagingException {
 		Locale locale = new Locale("ru");
@@ -126,30 +127,27 @@ public class UserAuthenticationTest extends AbstractTestNGSpringContextTests {
 	@Test(enabled = true, priority = 21, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordFakeUser() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(UserDataProvider.FAKE_USER_ID, String.valueOf(UserDataProvider.FAKE_USER_ID.hashCode()), locale);
+		authenticationService.sendNewPassword(UserDataProvider.FAKE_USER_ID, UserDataProvider.FAKE_USER_ID, locale);
 	}
 	
 	@Test(enabled = true, priority = 22, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordNotConfirmedUser() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(UserDataProvider.NOT_CONFIRMED_USER_ID, String.valueOf(UserDataProvider.NOT_CONFIRMED_USER_ID.hashCode()), locale);
+		authenticationService.sendNewPassword(UserDataProvider.NOT_CONFIRMED_USER_ID, UserDataProvider.NOT_CONFIRMED_USER_ID, locale);
 	}
 
-    @Test(enabled = true, priority = 23, expectedExceptions = {AccountException.class, MessagingException.class})
-    public void sendNewPasswordDeletedUser() throws MessagingException {
-        Locale locale = new Locale("ru");
-        authenticationService.sendNewPassword(UserDataProvider.DELETED_USER_ID, String.valueOf(UserDataProvider.DELETED_USER_ID.hashCode()), locale);
-    }
-	
 	@Test(enabled = true, priority = 24, expectedExceptions = {AccountException.class, MessagingException.class})
 	public void sendNewPasswordWrongValue() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(UserDataProvider.EMAIL_USER_ID, "1234567890", locale);
+		authenticationService.sendNewPassword(UserDataProvider.EMAIL_USER_ID, UserDataProvider.EMAIL_USER_ID, locale);
 	}
 	
 	@Test(enabled = true, priority = 25)
 	public void sendNewPassword() throws MessagingException {
 		Locale locale = new Locale("ru");
-		authenticationService.sendNewPassword(UserDataProvider.EMAIL_USER_ID, String.valueOf(UserDataProvider.EMAIL_USER_ID.hashCode()), locale);
+
+        User user = userRepository.findOne(UserDataProvider.EMAIL_USER_ID);
+        Assert.assertNotNull(user);
+		authenticationService.sendNewPassword(user.getId(), user.getSendValue(), locale);
 	}
 }

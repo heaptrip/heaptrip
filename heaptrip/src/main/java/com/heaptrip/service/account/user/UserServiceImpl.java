@@ -7,7 +7,6 @@ import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.account.user.SocialNetwork;
 import com.heaptrip.domain.entity.account.user.SocialNetworkEnum;
 import com.heaptrip.domain.entity.account.user.User;
-import com.heaptrip.domain.entity.account.user.UserRegistration;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.image.ImageEnum;
 import com.heaptrip.domain.entity.mail.MailEnum;
@@ -21,7 +20,6 @@ import com.heaptrip.domain.repository.account.relation.RelationRepository;
 import com.heaptrip.domain.repository.account.user.UserRepository;
 import com.heaptrip.domain.repository.content.ContentRepository;
 import com.heaptrip.domain.service.account.AccountStoreService;
-import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.account.criteria.relation.UserRelationCriteria;
 import com.heaptrip.domain.service.account.relation.RelationService;
 import com.heaptrip.domain.service.account.user.UserService;
@@ -33,13 +31,19 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Locale;
 
@@ -49,6 +53,9 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     static String PASSWORD_REGEX = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z]))";
     static int PASSWORD_MIN_LENGTH = 8;
     static int PASSWORD_MAX_LENGTH = 32;
+
+    @Value("${global.salt:m9vbmxudSbDcM/f8yCqbng==}")
+    private String globalSalt;
 
     @Autowired
     private UserRepository userRepository;
@@ -119,13 +126,13 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     }
 
     @Override
-    public User registration(UserRegistration userRegistration, InputStream isImage, Locale locale) throws IOException,
+    public User registration(User user, String password, InputStream isImage, Locale locale) throws IOException,
             NoSuchAlgorithmException, MessagingException {
-        Assert.notNull(userRegistration, "userRegistration must not be null");
-        Assert.notNull(userRegistration.getEmail(), "email must not be null");
-        Assert.isTrue(userRegistration.getEmail().matches(EMAIL_REGEX), "email is not correct");
+        Assert.notNull(user, "userRegistration must not be null");
+        Assert.notNull(user.getEmail(), "email must not be null");
+        Assert.isTrue(user.getEmail().matches(EMAIL_REGEX), "email is not correct");
 
-        List<Account> accounts = accountRepository.findUsersByEmail(userRegistration.getEmail(), AccountStatusEnum.ACTIVE);
+        List<Account> accounts = accountRepository.findAccountsByEmailAndStatus(user.getEmail(), AccountStatusEnum.ACTIVE);
 
         if (accounts != null && accounts.size() > 0) {
             String msg = String.format("account with the email already exists");
@@ -133,82 +140,94 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WITH_THE_EMAIL_ALREADY_EXISTS);
         }
 
-        if (userRegistration.getNet() == null) {
-            Assert.notNull(userRegistration.getPassword(), "password must not be null");
-            Assert.isTrue(userRegistration.getPassword().length() >= PASSWORD_MIN_LENGTH,
+        String[] roles = {"ROLE_USER"};
+        user.setRoles(roles);
+        user.setRating(AccountRating.getDefaultValue());
+        user.setSendValue(byteToBase64(generateSalt()));
+        byte[] salt = generateSalt();
+        user.setSalt(byteToBase64(salt));
+
+        if (user.getNet() == null) {
+            Assert.notNull(password, "password must not be null");
+            Assert.isTrue(password.length() >= PASSWORD_MIN_LENGTH,
                     "length password must be at least 8 characters and maximum length of 32");
-            Assert.isTrue(userRegistration.getPassword().length() <= PASSWORD_MAX_LENGTH,
+            Assert.isTrue(password.length() <= PASSWORD_MAX_LENGTH,
                     "length password must be at least 8 characters and maximum length of 32");
-            Assert.isTrue(!userRegistration.getPassword().matches(PASSWORD_REGEX),
+            Assert.isTrue(!password.matches(PASSWORD_REGEX),
                     "password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
-            userRegistration.setExtImageStore(SocialNetworkEnum.NONE.toString());
+
+            user.setPwd(byteToBase64(generatePassword(password, salt)));
+            user.setExtImageStore(SocialNetworkEnum.NONE.toString());
         } else {
-            Assert.notEmpty(userRegistration.getNet(), "the array social network must have one element");
-            SocialNetwork[] net = userRegistration.getNet();
+            Assert.notEmpty(user.getNet(), "the array social network must have one element");
+            SocialNetwork[] net = user.getNet();
             Assert.isTrue(net.length == 1, "the array social network must have one element");
             Assert.notNull(net[0].getId(), "id network must not be null");
             Assert.notNull(net[0].getUid(), "uid must not be null");
 
             if (isImage != null) {
 
-                Image image = imageService.addImage(userRegistration.getId(), ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
-                userRegistration.setImage(image);
+                Image image = imageService.addImage(user.getId(), ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
+                user.setImage(image);
 
                 byte[] d = DigestUtils.md5(isImage);
                 Byte[] digest = ArrayUtils.toObject(d);
 
-                userRegistration.setImageCRC(digest);
-                userRegistration.setExtImageStore(net[0].getId());
+                user.setImageCRC(digest);
+                user.setExtImageStore(net[0].getId());
             }
         }
 
-        String[] roles = {"ROLE_USER"};
-        userRegistration.setRoles(roles);
-
-        userRegistration.setRating(AccountRating.getDefaultValue());
-        UserRegistration user = userRepository.save(userRegistration);
+        User savedUser = userRepository.save(user);
 
         MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.CONFIRM_REGISTRATION);
 
         StringBuilder str = new StringBuilder();
         str.append(requestScopeService.getCurrentContextPath());
         str.append("/mail/registration/confirm?");
-        str.append("uid=").append(user.getId());
-        str.append("&value=").append(user.getId().hashCode());
+        str.append("uid=").append(savedUser.getId());
+        str.append("&value=").append(user.getSendValue());
 
         String msg = String.format(mt.getText(locale), str.toString());
-        mailService.sendNoreplyMessage(user.getEmail(), mt.getSubject(locale), msg);
+        mailService.sendNoreplyMessage(savedUser.getEmail(), mt.getSubject(locale), msg);
 
-        return user;
+        return savedUser;
     }
 
     @Override
     public void changePassword(String userId, String currentPassword, String newPassword) {
         Assert.notNull(userId, "userId must not be null");
         Assert.notNull(newPassword, "password must not be null");
+        Assert.isTrue(newPassword.length() >= PASSWORD_MIN_LENGTH, "length password must be at least 8 characters and maximum length of 32");
+        Assert.isTrue(newPassword.length() <= PASSWORD_MAX_LENGTH, "length password must be at least 8 characters and maximum length of 32");
+        Assert.isTrue(!newPassword.matches(PASSWORD_REGEX), "password must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
 
-        if (newPassword.length() < PASSWORD_MIN_LENGTH || newPassword.length() > PASSWORD_MAX_LENGTH || newPassword.matches(PASSWORD_REGEX)) {
-            String msg = String.format("password is not correct");
-            logger.debug(msg);
-            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_PSWD_IS_NOT_CORRECT);
-        }
-
-        UserRegistration user = (UserRegistration) accountRepository.findOne(userId);
+        User user = userRepository.findOne(userId);
 
         if (user == null) {
             String msg = String.format("user not find by id %s", userId);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_FOUND);
-        } else if (user.getPassword() != null && !user.getPassword().equals(currentPassword)) {
-            String msg = String.format("wrong current password");
-            logger.debug(msg);
-            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_CURRENT_PSWD_WRONG);
         } else if (!user.getStatus().equals(AccountStatusEnum.ACTIVE)) {
             String msg = String.format("user status must be: %s", AccountStatusEnum.ACTIVE);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_NOT_ACTIVE);
+        } else if (user.getPwd() != null && !checkPassword(currentPassword, user)) {
+            String msg = String.format("wrong current password");
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_CURRENT_PSWD_WRONG);
         } else {
-            userRepository.changePassword(userId, newPassword);
+            String pwd;
+
+            try {
+                pwd = byteToBase64(generatePassword(newPassword, base64ToByte(user.getSalt())));
+            } catch (Exception e) {
+                String msg = String.format("Error password generation: %s", e.getMessage());
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_CHANGE_PASSWORD);
+            }
+
+            userRepository.changePassword(userId, pwd);
         }
     }
 
@@ -329,5 +348,61 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
                 userRepository.linkSocialNetwork(userId, socialNetwork);
             }
         }
+    }
+
+    @Override
+    public boolean checkPassword(String password, User user) {
+        String temp;
+        try {
+            temp = byteToBase64(generatePassword(password, base64ToByte(user.getSalt())));
+        } catch (Exception e) {
+            String msg = String.format("Error password validation: %s", e.getMessage());
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_CHECK_PASSWORD);
+        }
+        return user.getPwd().equals(temp);
+    }
+
+    @Override
+    public byte[] generatePassword(String password, byte[] salt) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        digest.reset();
+        digest.update(globalSalt.getBytes("UTF-8"));
+        byte[] temp = digest.digest(password.getBytes("UTF-8"));
+
+        digest.reset();
+        digest.update(salt);
+        return digest.digest(temp);
+    }
+
+    @Override
+    public byte[] generateSalt() throws NoSuchAlgorithmException {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+    }
+
+    /**
+     * From a base 64 representation, returns the corresponding byte[]
+     * @param data String The base64 representation
+     * @return byte[]
+     * @throws IOException
+     */
+    @Override
+    public byte[] base64ToByte(String data) throws IOException {
+        BASE64Decoder decoder = new BASE64Decoder();
+        return decoder.decodeBuffer(data);
+    }
+
+    /**
+     * From a byte[] returns a base 64 representation
+     * @param data byte[]
+     * @return String
+     */
+    @Override
+    public String byteToBase64(byte[] data) {
+        BASE64Encoder encoder = new BASE64Encoder();
+        return encoder.encode(data);
     }
 }

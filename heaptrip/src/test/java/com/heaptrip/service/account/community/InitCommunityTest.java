@@ -47,7 +47,6 @@ public class InitCommunityTest  extends AbstractTestNGSpringContextTests {
         communityService.hardRemove(CommunityDataProvider.NOT_CONFIRMED_COMMUNITY_ID);
         communityService.hardRemove(CommunityDataProvider.COMMUNITY_ID);
         communityService.hardRemove(CommunityDataProvider.ACTIVE_COMMUNITY_ID);
-        communityService.hardRemove(CommunityDataProvider.DELETED_COMMUNITY_ID);
     }
 
     private void deleteRelation() {

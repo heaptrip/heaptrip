@@ -14,6 +14,12 @@ public class User extends Account<UserProfile, UserSetting> {
 
     private Byte[] imageCRC;
 
+    // user salt
+    private String salt;
+
+    // hash
+    private String pwd;
+
     public User() {
         super();
         setStatus(AccountStatusEnum.NOTCONFIRMED);
@@ -56,5 +62,21 @@ public class User extends Account<UserProfile, UserSetting> {
 
     public void setExtImageStore(String extImageStore) {
         this.extImageStore = extImageStore;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
     }
 }
