@@ -132,6 +132,18 @@
                                 <option key="COMPANY"><fmt:message key="account.type.company"/></option>
                                 <option key="AGENCY"><fmt:message key="account.type.agency"/></option>
                             </select>
+
+                            <div class="select" id="community_type2">
+                                <div class="select_selected" value="CLUB"><fmt:message key="account.type.club"/></div>
+                                <ul style="display: none;">
+                                    <li><a href="/" value="CLUB"><fmt:message key="account.type.club"/></a></li>
+                                    <li><a href="/" value="COMPANY"><fmt:message key="account.type.company"/></a></li>
+                                    <li><a href="/" value="AGENCY"><fmt:message key="account.type.agency"/></a></li>
+                                </ul>
+                            </div>
+
+
+
                         </div>
 
                         <div class="my_location"><span><fmt:message key="user.place"/>: </span>

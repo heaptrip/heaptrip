@@ -343,6 +343,7 @@ input[type=checkbox]{
 
 #article .description img{
 	margin: 5px;
+    max-width: 100%;
 }
 
 #article .tags, 
@@ -1520,6 +1521,7 @@ article.edit textarea{
 
 article.edit .inf{
 	margin-bottom: 10px;
+    min-height: 21px;
 }
 
 article.edit .table_inf{

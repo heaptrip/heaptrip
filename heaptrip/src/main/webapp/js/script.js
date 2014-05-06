@@ -75,7 +75,10 @@ $(document).ready(function () {
         });
 
         $('.select li a').click(function (e) {
+            var val=$(this).attr('value');
+            console.log(val);
             $(this).parents('.select').find('.select_selected').text($(this).text());
+            $(this).parents('.select').find('.select_selected').attr('value',val);
             $(this).parents('ul').slideUp(100);
             return false;
         });

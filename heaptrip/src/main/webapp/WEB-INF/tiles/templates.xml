@@ -29,7 +29,7 @@
 
     <definition name="jqueryuiStylesTemplate" extends="mainStylesTemplate">
         <put-list-attribute name="styles" inherit="true">
-            <add-attribute value="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css"/>
+            <add-attribute value="/css/jquery-ui.css"/>
         </put-list-attribute>
     </definition>
 
