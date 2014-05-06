@@ -6,10 +6,12 @@ import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
 import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
 import com.heaptrip.domain.service.account.notification.NotificationService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.converter.Converter;
 import com.heaptrip.util.converter.ListConverter;
 import com.heaptrip.web.model.profile.NotificationModel;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,6 +31,10 @@ public class NotificationModelServiceImpl extends BaseModelTypeConverterServiceI
 
     @Autowired
     private ProfileModelService profileModelService;
+
+    @Autowired
+    @Qualifier("requestScopeService")
+    private RequestScopeService requestScopeService;
 
     @Override
     public List<NotificationModel> getNotificationByUserCriteria(AccountNotificationCriteria criteria) {
@@ -60,7 +66,7 @@ public class NotificationModelServiceImpl extends BaseModelTypeConverterServiceI
 
     private boolean calculateIsNotificationAwaitingAction(Notification notification) {
         boolean result = notification.getStatus().equals(NotificationStatusEnum.NEW)
-                && notification.getType().isNeedAccept();
+                && notification.getType().isNeedAccept() && !notification.getFromId().equals(requestScopeService.getCurrentUser().getId());
         return result;
     }
 

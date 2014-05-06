@@ -2152,8 +2152,12 @@ article.edit .tabs input[type="text"] {
 	color: #092749;
 	text-decoration: none;
 	line-height: 12px;
-	font-weight: bold;
+	/*font-weight: bold;*/
 }
+
+/*.list_alert .list_alert_name strong{*/
+    /*font-weight: bold;*/
+/*}*/
 
 .list_alert ul li.old .list_alert_name a{
 	color: #ACACAC;

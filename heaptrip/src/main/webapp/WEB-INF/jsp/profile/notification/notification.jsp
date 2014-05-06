@@ -13,15 +13,13 @@
     {{if status != 'NEW'}}
     <li id="{{>id}}" class="old">
     {{/if}}
-
-
         <div class="list_alert_img">
             <img src="<c:url value="/rest/image/small/{{>accountFrom.image.id}}"/>">
         </div>
         <div class="list_alert_inf">
             <span>{{>created.text}}</span>
 
-            <div class="list_alert_name"><a>{{>text}}</a></div>
+            <div class="list_alert_name"><a>{{:text}}</a></div>
 
             {{if isAwaitingAction == 'true'}}
             <a key='REJECTED' onclick="onNotificationClick(event,$(this))" class="button">Reject</a>
@@ -38,8 +36,6 @@
 
 
 <script type="text/javascript">
-
-
     var changeNotificationStatus = function (notificationId, status) {
         var url = 'rest/security/notification/change_status';
 
@@ -181,13 +177,13 @@
 
         <div id="tab1" style="display:${fn:contains(param.tb, 'usr') || empty param.tb ? 'cmt':'none'}">
             <div class="list_alert">
-                <div class="select">
-                    <div class="select_selected">BY NEW</div>
-                    <ul>
-                        <li><a href="/">BY NEW</a></li>
-                        <li><a href="/">BY OLD</a></li>
-                    </ul>
-                </div>
+                <%--<div class="select">--%>
+                    <%--<div class="select_selected">BY NEW</div>--%>
+                    <%--<ul>--%>
+                        <%--<li><a href="/">BY NEW</a></li>--%>
+                        <%--<li><a href="/">BY OLD</a></li>--%>
+                    <%--</ul>--%>
+                <%--</div>--%>
                 <ul id="notification_user_list"></ul>
             </div>
             <div class="pagination_mini">
@@ -197,23 +193,25 @@
 
         <div id="tab2" style="display:${fn:contains(param.tb, 'cmt') ? 'true':'none' }">
             <div class="list_alert">
-                <div class="select">
-                    <div class="select_selected">BY NEW</div>
-                    <ul>
-                        <li><a href="/">BY NEW</a></li>
-                        <li><a href="/">BY OLD</a></li>
-                    </ul>
-                </div>
+                <%--<div class="select">--%>
+                    <%--<div class="select_selected">BY NEW</div>--%>
+                    <%--<ul>--%>
+                        <%--<li><a href="/">BY NEW</a></li>--%>
+                        <%--<li><a href="/">BY OLD</a></li>--%>
+                    <%--</ul>--%>
+                <%--</div>--%>
                 <ul id="notification_community_list"></ul>
             </div>
             <div class="pagination_mini">
                 <div id="paginator2"></div>
             </div>
         </div>
-        <!-- #content-->
+    <!-- #content-->
     </div>
-    <!-- #container-->
+<!-- #container-->
+</div>
 
-    <aside id="sideRight">
 
-    </aside>
+
+<aside id="sideRight">
+</aside>
