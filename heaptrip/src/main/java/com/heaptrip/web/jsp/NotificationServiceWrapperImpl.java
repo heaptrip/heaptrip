@@ -1,25 +1,40 @@
 package com.heaptrip.web.jsp;
 
+import com.heaptrip.domain.entity.account.notification.NotificationStatusEnum;
+import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
+import com.heaptrip.domain.service.account.criteria.notification.AccountNotificationCriteria;
+import com.heaptrip.domain.service.account.criteria.notification.CommunityNotificationCriteria;
+import com.heaptrip.domain.service.account.notification.NotificationService;
+import com.heaptrip.domain.service.system.RequestScopeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-/**
- * Created with IntelliJ IDEA.
- * User: user
- * Date: 28.04.14
- * Time: 12:13
- * To change this template use File | Settings | File Templates.
- */
 @Service
 public class NotificationServiceWrapperImpl implements NotificationServiceWrapper {
 
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    @Qualifier("requestScopeService")
+    private RequestScopeService requestScopeService;
 
     @Override
     public int getUnreadNotificationFromUsers() {
-        return 1;  //To change body of implemented methods use File | Settings | File Templates.
+        AccountNotificationCriteria criteria = new AccountNotificationCriteria();
+        criteria.setAccountId(requestScopeService.getCurrentUser().getId());
+        criteria.setStatus(NotificationStatusEnum.NEW.toString());
+
+        return (int) notificationService.countByUserNotificationCriteria(criteria);
     }
 
     @Override
     public int getUnreadNotificationFromCommunities() {
-        return 2;  //To change body of implemented methods use File | Settings | File Templates.
+        CommunityNotificationCriteria criteria = new CommunityNotificationCriteria();
+        criteria.setUserId(requestScopeService.getCurrentUser().getId());
+        criteria.setStatus(NotificationStatusEnum.NEW.toString());
+
+        return (int) notificationService.countByCommunityNotificationCriteria(criteria);
     }
 }
