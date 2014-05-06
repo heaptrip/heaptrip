@@ -29,6 +29,7 @@ public enum ErrorEnum {
 
     ERROR_NOTIFICATION_NOT_FOUND("error.notification.not.found"),
     ERROR_NOTIFICATION_NOT_NEW("error.notification.not.new"),
+    ERROR_NOTIFICATION_INCORRECT_STATUS("error.notification.incorrect.status"),
 
     ERROR_USER_NOT_FOUND("error.user.not.found"),
     ERROR_USER_NOT_FOUND_BY_EMAIL("error.user.not.found.by.email"),
