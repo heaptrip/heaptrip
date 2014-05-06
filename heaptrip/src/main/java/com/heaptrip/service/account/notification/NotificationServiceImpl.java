@@ -112,6 +112,11 @@ public class NotificationServiceImpl implements NotificationService {
         } else if (!notification.getStatus().equals(NotificationStatusEnum.NEW)) {
             logger.debug("notification status must be: " + NotificationStatusEnum.NEW);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_NOTIFICATION_NOT_NEW);
+        } else if (notification.getType().isNeedAccept()) {
+            if ((status.equals(NotificationStatusEnum.ACCEPTED) || status.equals(NotificationStatusEnum.REJECTED)) != Boolean.TRUE) {
+                logger.debug("notification is not message, id: " + notificationId);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_NOTIFICATION_INCORRECT_STATUS);
+            }
         }
 
         notificationRepository.changeStatus(notificationId, status);
