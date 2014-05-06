@@ -5,14 +5,13 @@ import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.trip.*;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.criteria.IDCriteria;
 import com.heaptrip.web.model.content.StatusModel;
-import com.heaptrip.web.model.travel.RouteModel;
-import com.heaptrip.web.model.travel.ScheduleModel;
-import com.heaptrip.web.model.travel.TripInfoModel;
-import com.heaptrip.web.model.travel.TripModel;
+import com.heaptrip.web.model.travel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +27,9 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
     @Autowired
     private TripFeedService tripFeedService;
+
+    @Autowired
+    private TripUserService tripUserService;
 
     @Override
     public TripModel convertTrip(Trip trip, boolean isFullModel) {
@@ -69,9 +71,6 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         Trip trip = convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale()));
         trip = tripService.save(trip, new Locale(tripInfoModel.getLocale()));
         ContentStatus contentStatus = convertContentStatusModelToContentStatus(tripInfoModel.getStatus());
-        // TODO : voronenko : убедиться, что есть проверка предидущего статуса в
-        // методе contentService.setStatus()
-        // if (!trip.getStatus().getValue().equals(contentStatus.getValue()))
         contentService.setStatus(trip.getId(), contentStatus);
         return trip;
     }
@@ -81,10 +80,26 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         Trip trip = convertTripInfoModelToTrip(tripInfoModel, new Locale(tripInfoModel.getLocale()));
         tripService.updateTripInfo(trip, new Locale(tripInfoModel.getLocale()));
         ContentStatus contentStatus = convertContentStatusModelToContentStatus(tripInfoModel.getStatus());
-        // TODO : voronenko : убедиться, что есть проверка предидущего статуса в
-        // методе contentService.setStatus()
-        // if (!trip.getStatus().getValue().equals(contentStatus.getValue()))
         contentService.setStatus(trip.getId(), contentStatus);
+    }
+
+    @Override
+    public List<ScheduleParticipantModel> getTripScheduleParticipants(IDCriteria criteria) {
+        List<ScheduleParticipantModel> scheduleParticipants = new ArrayList<>();
+        String tripId = criteria.getId();
+        if (tripId != null && !tripId.isEmpty()) {
+            List<TableItem> tableItems = tripService.getTableItems(tripId);
+            if (tableItems != null && !tableItems.isEmpty()) {
+                for (TableItem tableItem : tableItems) {
+                    ScheduleParticipantModel scheduleParticipantModel = new ScheduleParticipantModel();
+
+                    scheduleParticipantModel.setSchedule(convertTableItemToScheduleModel(tableItem));
+
+                    scheduleParticipants.add(scheduleParticipantModel);
+                }
+            }
+        }
+        return scheduleParticipants;
     }
 
     private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale, boolean isFullModel) {

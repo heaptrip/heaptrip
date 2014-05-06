@@ -4,6 +4,8 @@ import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.criteria.IDCriteria;
+import com.heaptrip.web.model.travel.ScheduleParticipantModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 
@@ -35,4 +37,7 @@ public interface TripModelService {
      * @return trip model
      */
     TripModel convertTrip(Trip trip, boolean isFullModel);
+
+    List<ScheduleParticipantModel> getTripScheduleParticipants(IDCriteria criteria);
+
 }

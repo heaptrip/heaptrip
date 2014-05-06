@@ -4,10 +4,12 @@ import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.domain.service.criteria.IDCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
+import com.heaptrip.web.model.travel.ScheduleParticipantModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
 import com.heaptrip.web.modelservice.CommentModelService;
@@ -47,6 +49,23 @@ public class TripController extends ExceptionHandlerControler {
 
     @Autowired
     private CountersService countersService;
+
+
+    @RequestMapping(value = "trip/schedule_participants", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getTripScheduleParticipants(@RequestBody IDCriteria criteria) {
+        try {
+            Map<String, Object> result = new HashMap();
+            List<ScheduleParticipantModel> scheduleParticipants = tripModelService.getTripScheduleParticipants(criteria);
+            result.put("schedules", scheduleParticipants);
+            result.put("count", scheduleParticipants.size());
+            return Ajax.successResponse(result);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
+
 
     @RequestMapping(value = "trips", method = RequestMethod.POST)
     public

@@ -4,7 +4,7 @@ package com.heaptrip.domain.service.criteria;
 /**
  * Criteria for finding a field from the list of identifiers
  */
-public class IDListCriteria {
+public class IDListCriteria extends Criteria {
 
     // check mode
     private CheckModeEnum checkMode;

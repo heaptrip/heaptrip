@@ -6,90 +6,90 @@ import com.heaptrip.web.model.content.StatusModel;
 
 public class ScheduleModel {
 
-	private String id;
+    private String id;
 
-	// begin date
-	private DateModel begin;
+    // begin date
+    private DateModel begin;
 
-	// end date
-	private DateModel end;
+    // end date
+    private DateModel end;
 
-	// minimum number of members
-	private Long min;
+    // minimum number of members
+    private Long min;
 
-	// maximum number of members
-	private Long max;
+    // maximum number of members
+    private Long max;
 
-	// the cost of participation
-	private PriceModel price;
+    // the cost of participation
+    private PriceModel price;
 
-	// trip status
-	private StatusModel status;
+    // trip status
+    private StatusModel status;
 
-	// The number of members
-	private Long members;
+    // The number of members
+    private Long members;
 
-	public DateModel getBegin() {
-		return begin;
-	}
+    public DateModel getBegin() {
+        return begin;
+    }
 
-	public void setBegin(DateModel begin) {
-		this.begin = begin;
-	}
+    public void setBegin(DateModel begin) {
+        this.begin = begin;
+    }
 
-	public DateModel getEnd() {
-		return end;
-	}
+    public DateModel getEnd() {
+        return end;
+    }
 
-	public void setEnd(DateModel end) {
-		this.end = end;
-	}
+    public void setEnd(DateModel end) {
+        this.end = end;
+    }
 
-	public PriceModel getPrice() {
-		return price;
-	}
+    public PriceModel getPrice() {
+        return price;
+    }
 
-	public void setPrice(PriceModel price) {
-		this.price = price;
-	}
+    public void setPrice(PriceModel price) {
+        this.price = price;
+    }
 
-	public StatusModel getStatus() {
-		return status;
-	}
+    public StatusModel getStatus() {
+        return status;
+    }
 
-	public void setStatus(StatusModel status) {
-		this.status = status;
-	}
+    public void setStatus(StatusModel status) {
+        this.status = status;
+    }
 
-	public Long getMin() {
-		return min;
-	}
+    public Long getMin() {
+        return min;
+    }
 
-	public void setMin(Long min) {
-		this.min = min;
-	}
+    public void setMin(Long min) {
+        this.min = min;
+    }
 
-	public Long getMax() {
-		return max;
-	}
+    public Long getMax() {
+        return max;
+    }
 
-	public void setMax(Long max) {
-		this.max = max;
-	}
+    public void setMax(Long max) {
+        this.max = max;
+    }
 
-	public Long getMembers() {
-		return members;
-	}
+    public Long getMembers() {
+        return members;
+    }
 
-	public void setMembers(Long members) {
-		this.members = members;
-	}
+    public void setMembers(Long members) {
+        this.members = members;
+    }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 }
