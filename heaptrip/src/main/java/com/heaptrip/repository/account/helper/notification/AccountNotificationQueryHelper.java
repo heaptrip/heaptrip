@@ -78,6 +78,6 @@ public class AccountNotificationQueryHelper extends AbstractQueryHelper<AccountN
 
     @Override
     public String getSort(AccountNotificationCriteria criteria) {
-        return "{created: 1}";
+        return "{created: -1}";
     }
 }

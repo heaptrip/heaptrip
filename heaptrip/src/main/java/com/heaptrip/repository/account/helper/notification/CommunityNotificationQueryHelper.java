@@ -90,6 +90,6 @@ public class CommunityNotificationQueryHelper extends AbstractQueryHelper<Commun
 
     @Override
     public String getSort(CommunityNotificationCriteria criteria) {
-        return "{created: 1}";
+        return "{created: -1}";
     }
 }
