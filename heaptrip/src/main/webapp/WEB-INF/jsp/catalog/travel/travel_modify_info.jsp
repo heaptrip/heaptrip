@@ -6,12 +6,12 @@
 <c:choose>
     <c:when test="${empty param.ul}">
         <%--<c:choose>--%>
-            <%--<c:when test="${not empty trip.locale}">--%>
-                <%--<c:set var="currLocale" value="${trip.locale}"/>--%>
-            <%--</c:when>--%>
-            <%--<c:otherwise>--%>
-                <c:set var="currLocale" value="${curr_locale}"/>
-            <%--</c:otherwise>--%>
+        <%--<c:when test="${not empty trip.locale}">--%>
+        <%--<c:set var="currLocale" value="${trip.locale}"/>--%>
+        <%--</c:when>--%>
+        <%--<c:otherwise>--%>
+        <c:set var="currLocale" value="${curr_locale}"/>
+        <%--</c:otherwise>--%>
         <%--</c:choose>--%>
     </c:when>
     <c:otherwise>
@@ -163,11 +163,11 @@
         var callbackSuccess = function (data) {
             //var domain =  $("#email").val().replace(/.*@/, "");
             //window.location = 'confirmation.html?domain=' + domain;
+            if (!tripId) {
+                $.putGETParamToURL("id", data.tripId);
+            }
             $(btn).prop('disabled', false);
             $(".error_message").html('<p class="green">' + locale.action.successEdit + '</p>');
-
-            //alert("Success");
-
         };
 
         var callbackError = function (error) {
@@ -454,7 +454,7 @@
                         <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                 -->
-                        </ul>
+                    </ul>
                 </div>
             </li>
             <!--
