@@ -223,4 +223,9 @@ public class EventRepositoryImpl extends CrudRepositoryImpl<Event> implements Ev
         logger.debug("WriteResult for reset event members: {}", wr);
     }
 
+    @Override
+    public Event getMainLanguage(String contentId) {
+        MongoCollection coll = getCollection();
+        return coll.findOne("{_id: #}", contentId).projection("{_class: 1, mainLang: 1}").as(getCollectionClass());
+    }
 }

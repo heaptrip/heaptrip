@@ -192,7 +192,8 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
         // set lang
         String lang = LanguageUtils.getLanguageByLocale(locale);
-        String mainLang = trip.getMainLang();
+        String mainLang = tripRepository.getMainLanguage(trip.getId()).getMainLang();
+        trip.setMainLang(mainLang);
 
         if (mainLang.equals(lang)) {
             trip.getName().setMainLanguage(mainLang);

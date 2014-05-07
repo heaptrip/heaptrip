@@ -1,5 +1,6 @@
 package com.heaptrip.web.controller.content.trip;
 
+import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
@@ -166,11 +167,13 @@ public class TripController extends ExceptionHandlerControler {
     @ResponseBody
     Map<String, ? extends Object> saveTripInfo(@RequestBody TripInfoModel tripInfoModel) {
         try {
-            tripModelService.saveTripInfo(tripInfoModel);
+            Trip trip = tripModelService.saveTripInfo(tripInfoModel);
+            Map<String, Object> result = new HashMap();
+            result.put("tripId", trip.getId());
+            return Ajax.successResponse(result);
         } catch (Throwable e) {
             throw new RestException(e);
         }
-        return Ajax.emptyResponse();
     }
 
     @RequestMapping(value = "security/travel_update", method = RequestMethod.POST)

@@ -110,7 +110,8 @@ public class EventServiceImpl extends ContentServiceImpl implements EventService
 
         // set lang
         String lang = LanguageUtils.getLanguageByLocale(locale);
-        String mainLang = event.getMainLang();
+        String mainLang = eventRepository.getMainLanguage(event.getId()).getMainLang();
+        event.setMainLang(mainLang);
 
         if (mainLang.equals(lang)) {
             event.getName().setMainLanguage(mainLang);
