@@ -240,13 +240,13 @@
     </definition>
 
     <definition name="travel_participants" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelParticipantsCatalogTemplate"/>
     </definition>
 
     <definition name="travel_posts" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelPostsCatalogTemplate"/>
     </definition>

@@ -48,7 +48,7 @@ $(document).ready(function () {
     }
 
 
-    if ($('.participants_func').length) {
+    /*if ($('.participants_func').length) {
         var commands = Array('Сообщение', 'Организатор', 'Переписка', 'Удалить');
         participants_menu('.participants_func', commands);
     }
@@ -86,9 +86,9 @@ $(document).ready(function () {
     if ($('.options_od').length) {
         var commands = Array('Отвязать', '<nobr>Использовать аватарку</nobr>');
         participants_menu('.options_od', commands, 'od');
-    }
+    }  */
 
-    if ($('.soc_list').length) {
+   /* if ($('.soc_list').length) {
         $('.soc_list li').bind('click', function (e) {
             var new_ac = $(this);
             switch (new_ac.attr('class')) {
@@ -114,26 +114,26 @@ $(document).ready(function () {
                     break;
             }
         });
-    }
+    }     */
 
 
-    if ($('.participants_invite').length) {
+    /*if ($('.participants_invite').length) {
         participants_invite('.participants_invite');
-    }
+    }*/
 
-    if ($('.participants_add').length) {
+    /*if ($('.participants_add').length) {
         $('.participants_add').bind('click', function (e) {
             participants_add(this);
         });
-    }
+    }*/
 
-    if ($('.posts_find').length) {
+    /*if ($('.posts_find').length) {
         posts_add();
-    }
+    }*/
 
-    if ($('#people').length) {
+    /*if ($('#people').length) {
         frend_add();
-    }
+    }*/
 
     /*if($('#community').length){
      community_add();
@@ -268,7 +268,7 @@ $(document).ready(function () {
 });
 
 
-function participants_add(button) {
+/*function participants_add(button) {
     $(button).text('Отменить');
     $(button).unbind();
     var block_select = $(button).parents('.list_user');
@@ -332,10 +332,10 @@ function participants_add(button) {
                 return false;
             }
         });
-}
+}*/
 
 
-function create_list_community_serch2(data, block_select, conteiner) {
+/*function create_list_community_serch2(data, block_select, conteiner) {
     var l = data.length;
     var str = '';
     for (var i = 0; i < l; i++) {
@@ -354,9 +354,9 @@ function create_list_community_serch2(data, block_select, conteiner) {
             $(li).remove();
         }
     });
-}
+}*/
 
-function create_list_community_serch(data, block_select, conteiner) {
+/*function create_list_community_serch(data, block_select, conteiner) {
     var l = data.length;
     var str = '';
     for (var i = 0; i < l; i++) {
@@ -375,7 +375,7 @@ function create_list_community_serch(data, block_select, conteiner) {
             $(li).remove();
         }
     });
-}
+}*/
 
 // анимация контекстного меню в участниках
 function participants_menu(name, commands, clas) {
@@ -454,7 +454,7 @@ function participants_menu(name, commands, clas) {
     });
 }
 
-function participants_invite(name) {
+/*function participants_invite(name) {
     $(name).append('<div class="participants_invite_show"><span>Введите E-mail:</span><input type="text" class="invite_mail"><a class="button" class="go_invite">Отправить</a></div>');
     $(name + ' a.participants_invite_button').click(function (e) {
         var menu = $(this).next();
@@ -466,9 +466,9 @@ function participants_invite(name) {
             $(this).css("background", "url('images/participants_invite.jpg') right top no-repeat");
         }
     });
-}
+}/*
 
-function participants_del_user(user) {
+/*function participants_del_user(user) {
     if ($('.list_user.search ul').length) {
         $('.list_user.search ul').append(user);
         user.find('.participants_menu').remove();
@@ -477,7 +477,7 @@ function participants_del_user(user) {
     } else {
         user.remove();
     }
-}
+}*/
 
 function participants_otpis_user(user) {
     if ($('.list_user.search ul').length) {
@@ -490,7 +490,9 @@ function participants_otpis_user(user) {
     }
 }
 
-function posts_add(button) {
+/*function posts_add(button) {
+
+
 
     $(".posts_find input[type=text]").bind("keydown",function (event) {
         if (event.keyCode === $.ui.keyCode.TAB && $(this).data("ui-autocomplete").menu.active) {
@@ -522,9 +524,9 @@ function posts_add(button) {
                 return false;
             }
         });
-}
+} */
 
-function create_list_posts_serch(data, block_select) {
+/*function create_list_posts_serch(data, block_select) {
     //console.log(data);
     var l = data.length;
     var str = '';//data[i].id
@@ -553,9 +555,9 @@ function create_list_posts_serch(data, block_select) {
     });
 
 
-}
+}   */
 
-function frend_add(button) {
+/*function frend_add(button) {
     $("#people input[name=text_search]").bind("keydown",function (event) {
         if (event.keyCode === $.ui.keyCode.TAB && $(this).data("ui-autocomplete").menu.active) {
             event.preventDefault();
@@ -598,7 +600,7 @@ function frend_add(button) {
                 return false;
             }
         });
-}
+} */
 
 //function community_add(button){
 //  $( "#community input[name=text_search]" ).bind( "keydown", function( event ) {
