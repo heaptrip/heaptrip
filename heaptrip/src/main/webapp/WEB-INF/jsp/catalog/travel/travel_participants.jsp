@@ -10,6 +10,20 @@
         <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>todo
             status
         </div>
+
+
+        {{if participants.length > 0 }}
+            <ul>
+                {{for participants}}
+                <li><div class="list_user_img"><img src="rest/image/small/{{>account.image.id}}"></div>
+                    <div class="list_user_name">
+                        <a href="pf-profile.html?guid={{>account.id}}">{{>account.name}}</a>
+
+                        <span>{{if isOrganizer === true}} Org {{else}} NO Org {{/if}} ({{>status}})</span></div></li>
+                {{/for}}
+            </ul>
+        {{/if}}
+
         <div class="list_user_button"><input type="button" class="button" value="ADD"></div>
     </div>
 </script>
@@ -46,7 +60,7 @@
         var renderPeople = function () {
             if ($('.func_search_people').length) {
                 var commands = Array(
-                        Array('addTripMember', '_search', 'add_trip_member')
+                        Array('addTripMember', '_search', 'send_invite_trip_participant')
                 );
                 participants_menu('.func_search_people', commands);
             }
@@ -56,15 +70,23 @@
 
                 var url = 'rest/security/trip/' + $(this).attr('name');
 
+                var params = {};
+                params.userId = user.attr('id');
+                params.tripId = $.getParamFromURL().id;
+                // TODO : voronenko not first element, do search
+                params.scheduleId = $('.list_user')[0].id;
+
                 var callbackSuccess = function (data) {
-                    $(user).remove();
+                    //$(user).remove();
+                    // TODO : voronenko refresh
+                    window.location = window.location.href
                 };
 
                 var callbackError = function (error) {
                     $("#error_message #msg").text(error);
                 };
 
-                $.postJSON(url, user.attr('id'), callbackSuccess, callbackError);
+                $.postJSON(url,params, callbackSuccess, callbackError);
             })
         }
 

@@ -5,19 +5,19 @@
 
 <script id="friendTemplate" type="text/x-jsrender">
     <li class="participants_li func_refusal_friendship" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-people.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="publisherTemplate" type="text/x-jsrender">
     <li class="participants_li func_unsubscribe_publisher" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-people.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="searchPeopleTemplate" type="text/x-jsrender">
     <li class="participants_li func_search_people" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-people.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 

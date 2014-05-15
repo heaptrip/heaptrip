@@ -9,6 +9,8 @@ import com.heaptrip.web.model.profile.AccountModel;
  * Time: 12:01
  * To change this template use File | Settings | File Templates.
  */
-public class ParticipantModel {
+public class ParticipantInviteModel extends ParticipantModel {
+
+
 
 }
