@@ -126,7 +126,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
             ParticipantUserModel model = new ParticipantUserModel();
             model.setAccount(profileModelService.getAccountInformation(tripUser.getUserId()));
             if (tripUser.getIsOrganizer() != null)
-                model.setOrganizer(tripUser.getIsOrganizer());
+                model.setIsOrganizer(tripUser.getIsOrganizer());
             model.setStatus(tripUser.getStatus().name());
             return model;
         } else if (tripMember instanceof TripInvite) {
