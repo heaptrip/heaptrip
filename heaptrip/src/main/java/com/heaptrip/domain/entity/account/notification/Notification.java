@@ -12,6 +12,7 @@ import java.util.Date;
 /**
  * Base notification object
  */
+@JsonTypeInfo(use = Id.CLASS, property = "_class")
 public class Notification extends BaseObject implements Collectionable {
 
     // acсount id, which fire notification
