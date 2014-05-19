@@ -6,8 +6,8 @@
     <bean id="resetPasswordMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
         <property name="subject">
             <map>
-                <entry key="ru" value="Восстановление забытого пароля HeapTip"/>
-                <entry key="en" value="Forgotten password recovery HeapTip"/>
+                <entry key="ru" value="Восстановление забытого пароля HeapTrip"/>
+                <entry key="en" value="Forgotten password recovery HeapTrip"/>
             </map>
         </property>
         <property name="text">
@@ -25,7 +25,7 @@
 	    После перехода следуйте инструкциям.
 	</p>
 	<p>
-	    С наилучшими пожеланиями, HeapTip
+	    С наилучшими пожеланиями, HeapTrip
 	</p>
 ]]>
                     </value>
@@ -43,7 +43,7 @@
         After clicking on the link, follow the instructions.
     </p>
 	<p>
-	    Regards, HeapTip
+	    Regards, HeapTrip
 	</p>
 ]]>
                     </value>
@@ -55,8 +55,8 @@
     <bean id="sendNewPasswordMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
         <property name="subject">
             <map>
-                <entry key="ru" value="Новый пароль HeapTip"/>
-                <entry key="en" value="New password HeapTip"/>
+                <entry key="ru" value="Новый пароль HeapTrip"/>
+                <entry key="en" value="New password HeapTrip"/>
             </map>
         </property>
         <property name="text">
@@ -72,7 +72,7 @@
         Рекомендуем Вам сменить его в своем профиле.
 	</p>
 	<p>
-	    С наилучшими пожеланиями, HeapTip
+	    С наилучшими пожеланиями, HeapTrip
 	</p>
 ]]>
                     </value>
@@ -88,7 +88,7 @@
         We recommend that you change it in your profile.
     </p>
 	<p>
-	    Regards, HeapTip
+	    Regards, HeapTrip
 	</p>
 ]]>
                     </value>
@@ -100,8 +100,8 @@
     <bean id="confirmRegistrationMailTemplate" class="com.heaptrip.domain.entity.mail.MailTemplate">
         <property name="subject">
             <map>
-                <entry key="ru" value="Подтверждение регистрации HeapTip"/>
-                <entry key="en" value="Confirmation of registration HeapTip"/>
+                <entry key="ru" value="Подтверждение регистрации HeapTrip"/>
+                <entry key="en" value="Confirmation of registration HeapTrip"/>
             </map>
         </property>
         <property name="text">
@@ -119,7 +119,7 @@
 	    После перехода следуйте инструкциям.
 	</p>
 	<p>
-	    С наилучшими пожеланиями, HeapTip
+	    С наилучшими пожеланиями, HeapTrip
 	</p>
 ]]>
                     </value>
@@ -137,7 +137,7 @@
         After clicking on the link, follow the instructions.
     </p>
 	<p>
-	    Regards, HeapTip
+	    Regards, HeapTrip
 	</p>
 ]]>
                     </value>
