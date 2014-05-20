@@ -26,8 +26,8 @@
             {{else}}
             class="participants_li func_manage_people"
             {{/if}}
-            memberId="{{>memberId}}"
-            userId="{{>account.id}}"
+            member_id="{{>memberId}}"
+            user_id="{{>account.id}}"
             >
             <div class=" list_user_img">{{if account.image}}<img src="rest/image/small/{{>account.image.id}}">{{/if}}
             </div>
@@ -43,6 +43,31 @@
         {{/if}}
 
         <div class="list_user_button"><input type="button" class="button" value="ADD"></div>
+    </div>
+</script>
+
+<script id="scheduleParticipantsTemplateView" type="text/x-jsrender">
+    <div id="{{>schedule.id}}" class="list_user">
+        <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>todo
+            status
+        </div>
+
+        {{if participants.length > 0 }}
+        <ul>
+            {{for participants}}
+            <li class="participants_li func_" member_id="{{>memberId}}" user_id="{{>account.id}}">
+                <div class=" list_user_img">{{if account.image}}<img src="rest/image/small/{{>account.image.id}}">{{/if}}
+                </div>
+                <div class="list_user_name"><a href="pf-profile.html?guid={{>account.id}}">{{>account.name}}
+                    {{if isOrganizer}} ({{:~locale.participant.status.organizer}}) {{/if}} </a></div>
+                <span style="font-size:10px">{{:~locale.participant.status[status]}}</span>
+
+            </li>
+
+            {{/for}}
+        </ul>
+        {{/if}}
+        <div class="list_user_button"><input type="button" class="button" value="REQUEST"></div>
     </div>
 </script>
 
@@ -225,10 +250,13 @@ var getTripScheduleParticipants = function (paramsJson) {
     var renderScheduleParticipants = function () {
 
         var setTripParticipantOrganizer = function (e, isOrganizer) {
-            var participant = $(this).parents('.participants_li');
-            var url = 'rest/security/trip/' + $(this).attr('name');
+            var participant = $(e).parents('.participants_li');
+
+            console.log(participant)
+
+            var url = 'rest/security/trip/' + $(e).attr('name');
             var params = {};
-            params.memberId = participant.attr('memberId');
+            params.memberId = participant.attr('member_id');
             params.isOrganizer = "" + isOrganizer;
             var callbackSuccess = function (data) {
                 // TODO : voronenko refresh
@@ -257,11 +285,11 @@ var getTripScheduleParticipants = function (paramsJson) {
         }
 
         $('.func_manage_people .participants_menu a').click(function (e) {
-            setTripParticipantOrganizer(e, true);
+            setTripParticipantOrganizer(this, true);
         })
 
         $('.func_organizer_manage_people .participants_menu a').click(function (e) {
-            setTripParticipantOrganizer(e, false);
+            setTripParticipantOrganizer(this, false);
         })
 
     }
@@ -275,13 +303,22 @@ var getTripScheduleParticipants = function (paramsJson) {
     var url = 'rest/trip/schedule_participants';
 
     var callbackSuccess = function (data) {
-        $("#scheduleParticipants").html($("#scheduleParticipantsTemplate").render(data.schedules, {locale: locale}));
+
+        trip_owner_id
+
+        if (window.principal && window.principal.id == $('#trip_owner_id').attr('key')) {
+            $("#scheduleParticipants").html($("#scheduleParticipantsTemplate").render(data.schedules, {locale: locale}));
+            renderScheduleParticipants();
+        }
+        else
+            $("#scheduleParticipants").html($("#scheduleParticipantsTemplateView").render(data.schedules, {locale: locale}));
+
         $('#paginator').smartpaginator({
             totalrecords: data.count,
             skip: paramsJson.paginator ? paramsJson.paginator.skip : 0
         });
 
-        renderScheduleParticipants();
+
     };
 
     var callbackError = function (error) {
@@ -297,7 +334,7 @@ var getTripScheduleParticipants = function (paramsJson) {
 
 <div class="description">
 
-<article id="article" class="deteil edit">
+    <article id="article" class="deteil edit">
 
 
         <span id="scheduleParticipants"></span>
@@ -344,10 +381,10 @@ var getTripScheduleParticipants = function (paramsJson) {
         <%--</div>--%>
 
 
-</article>
+    </article>
 
 
-    </div>
+</div>
 
 <div id="paginator"></div>
 
