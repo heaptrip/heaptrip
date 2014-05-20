@@ -15,10 +15,10 @@ public class ParticipantUserModel extends ParticipantModel {
     // a sign that the user is the organizer
     private boolean isOrganizer;
 
+    AccountModel account;
+
     // user status
     private String status;
-
-    AccountModel account;
 
     public AccountModel getAccount() {
         return account;
@@ -43,4 +43,6 @@ public class ParticipantUserModel extends ParticipantModel {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 }

@@ -121,16 +121,23 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
     }
 
     private ParticipantModel convertTripMemberToParticipantModel(TripMember tripMember) {
+
+
+
         if (tripMember instanceof TripUser) {
             TripUser tripUser = (TripUser) tripMember;
             ParticipantUserModel model = new ParticipantUserModel();
+            model.setMemberId(tripUser.getId());
             model.setAccount(profileModelService.getAccountInformation(tripUser.getUserId()));
             if (tripUser.getIsOrganizer() != null)
                 model.setIsOrganizer(tripUser.getIsOrganizer());
             model.setStatus(tripUser.getStatus().name());
+
             return model;
         } else if (tripMember instanceof TripInvite) {
             ParticipantInviteModel model = new ParticipantInviteModel();
+            TripInvite tripInvite = (TripInvite) tripMember;
+            model.setMemberId(tripInvite.getId());
             // TODO : voronenko not yet implemented
             return model;
         } else {
