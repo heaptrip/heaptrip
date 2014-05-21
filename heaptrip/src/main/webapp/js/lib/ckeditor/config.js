@@ -13,7 +13,7 @@ CKEDITOR.editorConfig = function (config) {
     //config.language = 'fr';
     //config.height = '100%';
 
-    config.extraPlugins = 'fileUpload,autogrow,preview,justify';
+    config.extraPlugins = 'fileUpload,autogrow,preview,justify,image2,widget,lineutils';
     config.autoGrow_onStartup = true;
 
 
