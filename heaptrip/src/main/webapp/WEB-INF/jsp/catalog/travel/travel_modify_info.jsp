@@ -286,7 +286,7 @@
 <div class="error_message"></div>
 
 
-<nav id="travel_nav">
+<nav id="travel_nav" class="travel_nav">
     <a onClick="onTripSubmit(this)" class="button"><fmt:message
             key="page.action.save"/></a>
     <ul>
