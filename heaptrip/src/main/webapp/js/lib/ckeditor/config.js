@@ -32,7 +32,7 @@ CKEDITOR.editorConfig = function (config) {
                     // enable only heaptrip image
                     return element.attributes['src'].indexOf("/rest/image/") > 0;
                 }
-                return true;
+                return false;
             }
         },
         'figcaption caption': true,
