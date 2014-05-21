@@ -16,6 +16,31 @@ CKEDITOR.editorConfig = function (config) {
     config.extraPlugins = 'fileUpload,autogrow,preview,justify,image2,widget,lineutils';
     config.autoGrow_onStartup = true;
 
+    config.allowedContent = {
+        'b i s u ul ol big small': true,
+        'h1 h2 h3 p li': {
+            styles: 'text-align'
+        },
+        a: { attributes: '!href,target' },
+
+        img: {
+            attributes: '!src,alt,width,height',
+            styles: 'float,width,height',
+            classes: 'left,right',
+            match: function (element) {
+                if (element.attributes['src']) {
+                    // enable only heaptrip image
+                    return element.attributes['src'].indexOf("/rest/image/") > 0;
+                }
+                return true;
+            }
+        },
+        'figcaption caption': true,
+        table: {
+            attributes: 'border, cellpadding, cellspacing, align',
+            styles: 'width,height'
+        }
+    };
 
     config.toolbar =
         [
