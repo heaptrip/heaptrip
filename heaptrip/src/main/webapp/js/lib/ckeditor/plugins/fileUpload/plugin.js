@@ -1,12 +1,14 @@
 CKEDITOR.plugins.add('fileUpload',
     {
+        icons: 'fileUpload.png',
         init: function (editor) {
             // editor.addCommand( 'OpenDialog',new CKEDITOR.dialogCommand( 'OpenDialog' ) );
             editor.ui.addButton('FileUpload',
                 {
                     label: 'Upload images',
-                    command: 'OpenDialog',
-                    icon: CKEDITOR.plugins.getPath('fileUpload') + '/icons/icon.png'
+                    command: 'OpenDialog'
+                    //icon: CKEDITOR.plugins.getPath('fileUpload') + 'icons/icon.png'
+                    //icon: '/icon.png'
                 });
 
             editor.addCommand('OpenDialog', { exec: function () {
