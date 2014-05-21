@@ -45,6 +45,10 @@ jQuery(function ($) {
         isRTL: false,
         showMonthAfterYear: false,
         yearSuffix: ''};
+
     $.datepicker.setDefaults($.datepicker.regional[locale.name]);
-    CKEDITOR.config.language = 'ru';
+
+    if (typeof(CKEDITOR) !== "undefined") {
+        CKEDITOR.config.language = 'ru';
+    }
 });
