@@ -1,6 +1,7 @@
 CKEDITOR.plugins.add('fileUpload',
     {
-        icons: 'fileUpload.png',
+        icons: 'fileUpload',
+
         init: function (editor) {
             // editor.addCommand( 'OpenDialog',new CKEDITOR.dialogCommand( 'OpenDialog' ) );
             editor.ui.addButton('FileUpload',
