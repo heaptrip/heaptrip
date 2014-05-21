@@ -22,6 +22,9 @@ locale.participant.status.OK = 'Участвует';
 locale.participant.status.REQUEST = 'Отправлено приглашение';
 locale.participant.status.INVITE = 'Отправлено приглашение';
 locale.participant.status.organizer = 'Организатор';
+locale.participant.btn = {};
+locale.participant.btn.add = 'Добавить участника';
+locale.participant.btn.request = 'Отправить запрос на участие';
 
 
 jQuery(function ($) {

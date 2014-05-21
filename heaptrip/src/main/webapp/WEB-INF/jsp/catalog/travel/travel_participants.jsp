@@ -37,7 +37,8 @@
         </ul>
         {{/if}}
 
-        <div class="list_user_button add_participant_btn"><input type="button" class="button" value="ADD"></div>
+        <div class="list_user_button add_participant_btn"><input type="button" class="button"
+                                                                 value="{{:~locale.participant.btn.add}}"></div>
     </div>
 </script>
 
@@ -62,7 +63,8 @@
             {{/for}}
         </ul>
         {{/if}}
-        <div class="list_user_button"><input type="button" class="button" value="REQUEST"></div>
+        <div class="list_user_button request_participant_btn"><input type="button" class="button"
+                                                                     value="{{:~locale.participant.btn.request}}"></div>
     </div>
 </script>
 
@@ -78,6 +80,7 @@
 <script type="text/javascript">
 
 $(document).ready(function () {
+
 
 });
 
@@ -326,8 +329,15 @@ var getTripScheduleParticipants = function (paramsJson) {
             $("#scheduleParticipants").html($("#scheduleParticipantsTemplateOrganizer").render(data.schedules, {locale: locale}));
             renderScheduleParticipants();
         }
-        else
+        else {
             $("#scheduleParticipants").html($("#scheduleParticipantsTemplateView").render(data.schedules, {locale: locale}));
+            $('.request_participant_btn input').click(function () {
+                $.doAuthenticationUserAction(function () {
+                    alert('request_participant_btn for ' + window.principal.name + ' clicked!');
+                });
+            });
+        }
+
 
         $('#paginator').smartpaginator({
             totalrecords: data.count,

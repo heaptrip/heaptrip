@@ -22,6 +22,9 @@ locale.participant.status.OK = 'Participates';
 locale.participant.status.REQUEST = 'An invitation';
 locale.participant.status.INVITE = 'An invitation'
 locale.participant.status.organizer = 'Organizer';
+locale.participant.btn = {};
+locale.participant.btn.add = 'Add participant';
+locale.participant.btn.request = 'Send request participant';
 
 
 /* English/UK initialisation for the jQuery UI date picker plugin. */
