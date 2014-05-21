@@ -11,6 +11,18 @@ locale.pagingEmpty = 'there are no records that meet your criteria';
 locale.action = {};
 locale.action.successEdit = 'Change operation is completed successfully';
 
+locale.menu = {};
+locale.menu.addTripParticipant = 'Add trip member';
+locale.menu.setTripOrganazer = 'Make an organizer';
+locale.menu.cancelTripOrganazer = 'Cancel organizer';
+
+locale.participant = {};
+locale.participant.status = {};
+locale.participant.status.OK = 'Participates';
+locale.participant.status.REQUEST = 'An invitation';
+locale.participant.status.INVITE = 'An invitation'
+locale.participant.status.organizer = 'Organizer';
+
 
 /* English/UK initialisation for the jQuery UI date picker plugin. */
 /* Written by Stuart. */

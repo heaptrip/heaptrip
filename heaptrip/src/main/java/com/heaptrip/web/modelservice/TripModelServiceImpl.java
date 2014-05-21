@@ -1,6 +1,8 @@
 package com.heaptrip.web.modelservice;
 
 import com.heaptrip.domain.entity.MultiLangText;
+import com.heaptrip.domain.entity.account.Profile;
+import com.heaptrip.domain.entity.account.user.Knowledge;
 import com.heaptrip.domain.entity.content.ContentStatus;
 import com.heaptrip.domain.entity.content.trip.*;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
@@ -8,8 +10,12 @@ import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
+import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.util.converter.Converter;
+import com.heaptrip.util.converter.ListConverter;
 import com.heaptrip.web.model.content.StatusModel;
+import com.heaptrip.web.model.profile.KnowledgeModel;
 import com.heaptrip.web.model.travel.criteria.TripParticipantsCriteria;
 import com.heaptrip.web.model.travel.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +36,10 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
     @Autowired
     private TripUserService tripUserService;
+
+    @Autowired
+    private ProfileModelService profileModelService;
+
 
     @Override
     public TripModel convertTrip(Trip trip, boolean isFullModel) {
@@ -91,22 +101,59 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
             List<TableItem> tableItems = tripService.getTableItems(tripId);
             if (tableItems != null && !tableItems.isEmpty()) {
                 for (TableItem tableItem : tableItems) {
+
                     ScheduleParticipantModel scheduleParticipantModel = new ScheduleParticipantModel();
                     scheduleParticipantModel.setSchedule(convertTableItemToScheduleModel(tableItem));
                     scheduleParticipants.add(scheduleParticipantModel);
 
-
-                    //TripMemberCriteria memberCriteria =
-
-                    //tripUserService.getMembersByCriteria();
-
-
-
+                    TripMemberCriteria memberCriteria = new TripMemberCriteria();
+                    memberCriteria.setTableId(tableItem.getId());
+                    memberCriteria.setTripId(tripId);
+                    // TODO : voronenko  memberCriteria.setLimit & memberCriteria.setSkip for list
+                    // memberCriteria.setLimit( criteria.getParticipantsCriteria().get(0).getLimit());
+                    // memberCriteria.setSkip(criteria.getParticipantsCriteria().get(0).getSkip());
+                    List<TripMember> tripMembers = tripUserService.getMembersByCriteria(memberCriteria);
+                    scheduleParticipantModel.setParticipants(convertTripMembersToParticipantModels(tripMembers));
                 }
             }
         }
         return scheduleParticipants;
     }
+
+    private ParticipantModel convertTripMemberToParticipantModel(TripMember tripMember) {
+
+
+
+        if (tripMember instanceof TripUser) {
+            TripUser tripUser = (TripUser) tripMember;
+            ParticipantUserModel model = new ParticipantUserModel();
+            model.setMemberId(tripUser.getId());
+            model.setAccount(profileModelService.getAccountInformation(tripUser.getUserId()));
+            if (tripUser.getIsOrganizer() != null)
+                model.setIsOrganizer(tripUser.getIsOrganizer());
+            model.setStatus(tripUser.getStatus().name());
+
+            return model;
+        } else if (tripMember instanceof TripInvite) {
+            ParticipantInviteModel model = new ParticipantInviteModel();
+            TripInvite tripInvite = (TripInvite) tripMember;
+            model.setMemberId(tripInvite.getId());
+            // TODO : voronenko not yet implemented
+            return model;
+        } else {
+            throw new RuntimeException("tripMember not instanceof TripUser OR TripInvite");
+        }
+
+    }
+
+    private List<ParticipantModel> convertTripMembersToParticipantModels(List<TripMember> tripMember) {
+        return ListConverter.convertList(tripMember, new Converter<TripMember, ParticipantModel>() {
+            public ParticipantModel convert(TripMember tripMember) {
+                return convertTripMemberToParticipantModel(tripMember);
+            }
+        });
+    }
+
 
     private TripModel appendTripToTripModel(TripModel tripModel, Trip trip, Locale locale, boolean isOnlyThisLocale, boolean isFullModel) {
         if (trip != null) {

@@ -50,7 +50,7 @@
 								<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
 							</c:if>
 
-							<div><fmt:message key="content.author" />:<a href="<c:url value="/pf-${trip.owner.typeAccount eq 'USER' ?  'profile' :'community'}.html?guid=${trip.owner.id}"/>"><span >${trip.owner.name} (${trip.owner.rating.value})</span></a></div>
+							<div id="trip_owner_id" key="${trip.owner.id}"><fmt:message key="content.author" />:<a href="<c:url value="/pf-${trip.owner.typeAccount eq 'USER' ?  'profile' :'community'}.html?guid=${trip.owner.id}"/>"><span >${trip.owner.name} (${trip.owner.rating.value})</span></a></div>
 							<div><fmt:message key="content.category" />:
 								<c:forEach items="${trip.categories}" var="category">
 									<span>${category.data}</span>

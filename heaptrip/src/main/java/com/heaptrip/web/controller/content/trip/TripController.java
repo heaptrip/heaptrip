@@ -2,6 +2,7 @@ package com.heaptrip.web.controller.content.trip;
 
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
@@ -19,13 +20,11 @@ import com.heaptrip.web.modelservice.TripModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Web контроллер, обработка данных о Путешествиях
@@ -50,6 +49,45 @@ public class TripController extends ExceptionHandlerControler {
 
     @Autowired
     private CountersService countersService;
+
+    @Autowired
+    private TripUserService tripUserService;
+
+
+    @RequestMapping(value = "security/trip/set_trip_participant_organizer", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> setTripParticipantOrganizer(@RequestBody LinkedHashMap<String, String> params) {
+        try {
+            Assert.notNull(params, "set trip participant organizer must not be null");
+            String memberId = params.get("memberId");
+            Boolean isOrganizer = params.get("isOrganizer") != null && params.get("isOrganizer").equals("true");
+            Assert.notNull(memberId, "set trip participant organizer memberId must not be null");
+            tripUserService.setTripMemberOrganizer(memberId, isOrganizer);
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
+
+    @RequestMapping(value = "security/trip/send_invite_trip_participant", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> sendInviteTripParticipant(@RequestBody LinkedHashMap<String, String> params) {
+        try {
+            Assert.notNull(params, "add trip participant params must not be null");
+            String tripId = params.get("tripId");
+            String scheduleId = params.get("scheduleId");
+            String userId = params.get("userId");
+            Assert.notNull(tripId, "add trip participant tripId must not be null");
+            Assert.notNull(scheduleId, "add trip participant scheduleId must not be null");
+            Assert.notNull(userId, "add trip participant userId must not be null");
+            tripUserService.sendInvite(tripId, scheduleId, userId);
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
 
 
     @RequestMapping(value = "trip/schedule_participants", method = RequestMethod.POST)

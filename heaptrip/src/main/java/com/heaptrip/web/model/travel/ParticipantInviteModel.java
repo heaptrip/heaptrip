@@ -9,19 +9,8 @@ import com.heaptrip.web.model.profile.AccountModel;
  * Time: 12:01
  * To change this template use File | Settings | File Templates.
  */
-public class ParticipantModel {
+public class ParticipantInviteModel extends ParticipantModel {
 
-    // this not userId
-    private String memberId;
-
-
-    public String getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(String memberId) {
-        this.memberId = memberId;
-    }
 
 
 }
