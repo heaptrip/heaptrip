@@ -73,7 +73,7 @@
 							</ul>
 						</div>
 					</div>
-					<nav id="travel_nav">
+					<nav id="travel_nav" class="travel_nav">
 
                     <c:if test='${principal.id eq trip.owner.id }'>
 						<input type="button" onClick="window.location = '${tripEditUrl}'" value="<fmt:message key="page.action.edit" />" class="button">

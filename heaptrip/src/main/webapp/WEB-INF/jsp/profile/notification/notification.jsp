@@ -161,7 +161,7 @@
 
 <div id="container">
     <div id="contents">
-        <nav id="travel_nav">
+        <nav id="travel_nav" class="travel_nav">
             <ul>
                 <li><a onClick="onTabClick(this,'tab1')"
                        class="active"><fmt:message

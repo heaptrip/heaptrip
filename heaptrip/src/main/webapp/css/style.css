@@ -959,7 +959,7 @@ article .table_inf th:first-child {
 	padding: 10px 24% 10px 10px;
 	height: 17px;
 	border: 1px solid #DEE5EB;
-	color: #AAAAAA;
+    emptycolor: #AAAAAA;
 	font-style: italic;
 }
 
@@ -972,7 +972,7 @@ article .table_inf th:first-child {
 /* Меню детального описания путешествия
 ---------------------------------------------------------------------------*/
 
-#travel_nav{
+.travel_nav{
 	height: 45px;
 	border-top: 1px solid #E2E6E5;
 	border-bottom: 1px solid #E2E6E5;
@@ -981,13 +981,13 @@ article .table_inf th:first-child {
 	margin-top: 15px;
 }
 
-#travel_nav ul{
+.travel_nav ul{
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-#travel_nav ul li{
+.travel_nav ul li{
     margin: 0 17px 0 0;
     padding: 0;
     display: -moz-inline-stack;
@@ -997,7 +997,7 @@ article .table_inf th:first-child {
     *display: inline;
 }
 
-#travel_nav ul li a{
+.travel_nav ul li a{
     display: block;
     height: 45px;
     line-height: 45px;
@@ -1011,23 +1011,23 @@ article .table_inf th:first-child {
     position: relative;
 }
 
-#travel_nav ul li:last-child{
+.travel_nav ul li:last-child{
 	margin-right: 0px;
 }
 
-#travel_nav ul li a:hover{
+.travel_nav ul li a:hover{
     color: #062748;
 }
 
-#travel_nav ul li a:active{
+.travel_nav ul li a:active{
     color: #062748;
 }
 
-#travel_nav ul li a.active{
+.travel_nav ul li a.active{
     color: #062748;
 }
 
-#travel_nav ul li a span{
+.travel_nav ul li a span{
 	position: absolute;
 	width: 11px;
 	height: 7px;
@@ -1038,11 +1038,11 @@ article .table_inf th:first-child {
 	background-position: 0px -7px;
 }
 
-#travel_nav ul li a.active span{
+.travel_nav ul li a.active span{
 	background-position: 0px 0px;
 }
 
-#travel_nav .button{
+.travel_nav .button{
 	position: absolute;
 	left: 0px;
 	top: 13px;

@@ -5,8 +5,8 @@
 <tiles:insertDefinition name="pagination"/>
 
 
-<script id="scheduleParticipantsTemplate" type="text/x-jsrender">
-    <div id="{{>schedule.id}}" class="list_user">
+<script id="scheduleParticipantsTemplateOrganizer" type="text/x-jsrender">
+    <div id="{{>schedule.id}}" class="list_user" name="schedule_item">
         <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>todo
             status
         </div>
@@ -14,11 +14,6 @@
         {{if participants.length > 0 }}
         <ul>
             {{for participants}}
-            <%--<li><div class="list_user_img"><img src="rest/image/small/{{>account.image.id}}"></div>--%>
-            <%--<div class="participants_li func_manage_people"  >--%>
-            <%--<a href="pf-profile.html?guid={{>account.id}}">{{>account.name}}</a>--%>
-
-            <%--<span>({{>status}})</span></div></li>--%>
 
             <li
             {{if isOrganizer}}
@@ -42,7 +37,7 @@
         </ul>
         {{/if}}
 
-        <div class="list_user_button"><input type="button" class="button" value="ADD"></div>
+        <div class="list_user_button add_participant_btn"><input type="button" class="button" value="ADD"></div>
     </div>
 </script>
 
@@ -81,24 +76,13 @@
 
 
 <script type="text/javascript">
+
 $(document).ready(function () {
-    $(".posts_find input[type=text]").autocomplete({
-        deferRequestBy: 200,
-        minLength: 0,
-        search: function () {
-            var term = extractLast(this.value);
-            if (term.length == 0)
-                searchPeople({term: null});
-            if (term.length > 1)
-                searchPeople({term: term});
-            return false;
-        }
-    });
+
 });
 
 
 var searchPeople = function (paramsJson) {
-
 
     var renderPeople = function () {
         if ($('.func_search_people').length) {
@@ -116,9 +100,7 @@ var searchPeople = function (paramsJson) {
             var params = {};
             params.userId = user.attr('id');
             params.tripId = $.getParamFromURL().id;
-            // TODO : voronenko not first element, do search
-            params.scheduleId = $('.list_user')[0].id;
-
+            params.scheduleId = $(this).closest('[name="schedule_item"]')[0].id;
             var callbackSuccess = function (data) {
                 //$(user).remove();
                 // TODO : voronenko refresh
@@ -161,7 +143,7 @@ var searchPeople = function (paramsJson) {
 
     var searchPeopleSuccess = function (data) {
 
-        $("#list_user_5").show();
+        $("#list_user_3").show();
 
         $("#searchPeople").html($("#searchPeopleTemplate").render(data.users));
 
@@ -215,7 +197,7 @@ var searchPeople = function (paramsJson) {
             }
         };
     } else {
-        $("#list_user_5").hide();
+        $("#list_user_3").hide();
     }
 
     var url = 'rest/people';
@@ -248,6 +230,41 @@ var getTripScheduleParticipants = function (paramsJson) {
 
 
     var renderScheduleParticipants = function () {
+
+
+        $('.add_participant_btn input').click(function (e) {
+
+            $(".posts_find input[type=text]").val(null);
+
+            $("#search_container").hide();
+
+            $("#list_user_1").hide();
+            $('#searchPeople').children().remove()
+            $("#list_user_2").hide();
+            $('#friends').children().remove()
+            $("#list_user_3").hide();
+            $('#publishers').children().remove()
+
+            $('#search_container').appendTo($(this).parent().parent());
+
+            //     $(this).parent().parent().append('');
+            $(".posts_find input[type=text]").autocomplete({
+                deferRequestBy: 200,
+                minLength: 0,
+                search: function () {
+                    var term = extractLast(this.value);
+                    if (term.length == 0)
+                        searchPeople({term: null});
+                    if (term.length > 1)
+                        searchPeople({term: term});
+                    return false;
+                }
+            });
+
+            $("#search_container").show();
+
+        })
+
 
         var setTripParticipantOrganizer = function (e, isOrganizer) {
             var participant = $(e).parents('.participants_li');
@@ -304,10 +321,9 @@ var getTripScheduleParticipants = function (paramsJson) {
 
     var callbackSuccess = function (data) {
 
-        trip_owner_id
 
         if (window.principal && window.principal.id == $('#trip_owner_id').attr('key')) {
-            $("#scheduleParticipants").html($("#scheduleParticipantsTemplate").render(data.schedules, {locale: locale}));
+            $("#scheduleParticipants").html($("#scheduleParticipantsTemplateOrganizer").render(data.schedules, {locale: locale}));
             renderScheduleParticipants();
         }
         else
@@ -336,17 +352,17 @@ var getTripScheduleParticipants = function (paramsJson) {
 
     <article id="article" class="deteil edit">
 
-
         <span id="scheduleParticipants"></span>
 
 
-        <div class="list_posts_button"><input type="button" class="button" value="Search">
+           <span id=search_container style="display: none;">
 
-            <div class="posts_find"><input type="text" alt="..."></div>
-        </div>
+               <div class="list_posts_button"><input type="button" class="button" value="Search">
 
+                   <div class="posts_find"><input type="text" alt="..."></div>
+               </div>
 
-        <div id="list_user_5" class="list_user" style="display: none;">
+        <div id="list_user_3" class="list_user" style="display: none;">
             <div class="list_user_inf people_title"><fmt:message key="page.action.searchResults"/></div>
             <ul id="searchPeople"></ul>
         </div>
@@ -378,6 +394,8 @@ var getTripScheduleParticipants = function (paramsJson) {
             </div>
             <ul id="publishers"></ul>
         </div>
+
+               </span>
         <%--</div>--%>
 
 
