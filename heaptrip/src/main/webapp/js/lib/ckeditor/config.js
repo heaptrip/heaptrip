@@ -1,20 +1,34 @@
 /**
- * @license Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.html or http://ckeditor.com/license
+ * CKEditor 4.4.0 standard
  */
+CKEDITOR.on('dialogDefinition', function (ev) {
+    // Take the dialog name and its definition from the event data.
+    var dialogName = ev.data.name;
+    var dialogDefinition = ev.data.definition;
 
+    // customize 'Link' dialog
+    if (dialogName == 'link') {
+        // Remove the 'Target' tab from the 'Link' dialog
+        dialogDefinition.removeContents('target');
+        // remove “link to anchor” from the “Link” dialog
+        var infoTab = dialogDefinition.getContents('info');
+        var linktypeField = infoTab.get('linkType');
+        linktypeField['items'].splice(1, 1);
+    }
+});
 
 CKEDITOR.editorConfig = function (config) {
-    // Define changes to default configuration here.
-    // For complete reference see:
-    // http://docs.ckeditor.com/#!/api/CKEDITOR.config
-
     config.uiColor = '#FFFFFF';
-    //config.language = 'fr';
-    //config.height = '100%';
 
     config.extraPlugins = 'fileUpload,autogrow,preview,justify,image2,widget,lineutils';
+
     config.autoGrow_onStartup = true;
+
+    // Set the most common block elements.
+    config.format_tags = 'p;h1;h2;h3;pre';
+
+    // remove status bar plugin
+    config.removePlugins = 'elementspath';
 
 
     config.allowedContent = {
@@ -23,7 +37,6 @@ CKEDITOR.editorConfig = function (config) {
             styles: 'text-align'
         },
         a: { attributes: '!href,target' },
-
         img: {
             attributes: '!src,alt,width,height',
             styles: 'float,width,height',
@@ -37,11 +50,11 @@ CKEDITOR.editorConfig = function (config) {
                 }
             }
         },
-        'figcaption caption': true,
         table: {
             attributes: 'border, cellpadding, cellspacing, align',
             styles: 'width,height'
-        }
+        },
+        'figcaption caption': true
     };
 
 
@@ -56,17 +69,4 @@ CKEDITOR.editorConfig = function (config) {
             { name: 'document', items: [ 'Source', '-', 'Preview' ] },
             { name: 'tools', items: [ 'Maximize' ] }
         ];
-
-    // Remove some buttons provided by the standard plugins, which are
-    // not needed in the Standard(s) toolbar.
-    //config.removeButtons = 'Underline,Subscript,Superscript';
-
-    // Set the most common block elements.
-    config.format_tags = 'p;h1;h2;h3;pre';
-
-    // Simplify the dialog windows.
-    config.removeDialogTabs = 'image:advanced;link:advanced';
-
-    // remove status bar plugin
-    config.removePlugins = 'elementspath';
 };
