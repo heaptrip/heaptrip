@@ -72,7 +72,11 @@
 
                         try {
 
-                            if (jqXHR.status == 401) {
+                            if (jqXHR.status == 0) {
+                                // canceled
+                                return;
+
+                            } else if (jqXHR.status == 401) {
                                 // unauthorized
                                 errorThrown = jqXHR.responseText;
 
