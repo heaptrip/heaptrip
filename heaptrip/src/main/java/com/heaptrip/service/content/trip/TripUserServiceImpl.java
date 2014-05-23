@@ -77,7 +77,6 @@ public class TripUserServiceImpl implements TripUserService {
             notificationService.addNotification(notification);
         }
 
-        tripRepository.incTableMembers(tripId, tableId, 1);
         return tableUser;
     }
 
@@ -97,8 +96,6 @@ public class TripUserServiceImpl implements TripUserService {
         invite.setTableId(tableId);
         invite.setEmail(email);
         invite = tripMemberRepository.save(invite);
-
-        tripRepository.incTableMembers(tripId, tableId, 1);
 
         return invite;
     }
@@ -134,13 +131,22 @@ public class TripUserServiceImpl implements TripUserService {
             notificationService.addNotification(notification);
         }
 
-        tripRepository.incTableMembers(tripId, tableId, 1);
         return tableUser;
     }
 
     @Override
     public void acceptTripMember(String memberId) {
         Assert.notNull(memberId, "memberId must not be null");
+
+        // inc counter of members
+        TripMember tripMember = tripMemberRepository.findOne(memberId);
+        if (tripMember.getMemberType().equals(MemberEnum.TRIP_USER)) {
+            TripUser tripUser = (TripUser) tripMember;
+            tripRepository.incTableMembers(tripUser.getContentId(), tripUser.getTableId(), 1);
+
+        }
+
+        // change member status
         tripMemberRepository.setStatus(memberId, TableUserStatusEnum.OK);
     }
 
@@ -150,6 +156,10 @@ public class TripUserServiceImpl implements TripUserService {
         Assert.notNull(tableId, "tableId must not be null");
         Assert.notNull(userId, "userId must not be null");
 
+        // inc counter of members
+        tripRepository.incTableMembers(tripId, tableId, 1);
+
+        // change member status
         tripMemberRepository.setStatusByTripIdAndTableIdAndUserId(tripId, tableId, userId, TableUserStatusEnum.OK);
     }
 

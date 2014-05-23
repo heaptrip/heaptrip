@@ -45,7 +45,7 @@ public interface TripUserService {
     /**
      * Accept user to the members trip. Needs to be called when the user accepts
      * the invitation to participate, or when the owner accepts the request from
-     * a user to participate in travel
+     * a user to participate in travel. This method increments the members travel.
      *
      * @param memberId table member id
      */
@@ -54,7 +54,7 @@ public interface TripUserService {
     /**
      * Accept user to the members trip. Needs to be called when the user accepts
      * the invitation to participate, or when the owner accepts the request from
-     * a user to participate in travel
+     * a user to participate in travel. This method increments the members travel.
      *
      * @param tripId  trip id
      * @param tableId table id
