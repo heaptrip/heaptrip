@@ -8,7 +8,9 @@ public enum NotificationTypeEnum {
     MEMBER(true),
     OWNER(true),
     TRIP_INNER_INVITE(true),
-    TRIP_REQUEST(true);
+    TRIP_REQUEST(true),
+    TRIP_REMOVE_MEMBER(false),
+    TRIP_MEMBER_REFUSE(false);
 
     private boolean needAccept;
 

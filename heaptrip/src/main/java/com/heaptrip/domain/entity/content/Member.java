@@ -15,6 +15,8 @@ public abstract class Member extends BaseObject implements Collectionable {
     // content id
     private String contentId;
 
+    public abstract MemberEnum getMemberType();
+
     @Override
     public String getCollectionName() {
         return CollectionEnum.MEMBERS.getName();

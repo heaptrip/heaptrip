@@ -12,6 +12,7 @@ import com.heaptrip.domain.service.account.criteria.notification.AccountNotifica
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
+import com.heaptrip.security.Authenticate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -390,6 +391,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
     }
 
+    @Authenticate
     @Test
     public void removeTripMemberByMemberId() {
         // prepare
@@ -413,6 +415,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(trip.getTable()[2].getMembers().equals(0L));
     }
 
+    @Authenticate
     @Test
     public void removeTripMemberByTripIdAndTableIdAndUserId() {
         // prepare

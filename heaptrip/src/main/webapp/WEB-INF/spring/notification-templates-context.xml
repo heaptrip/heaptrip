@@ -39,6 +39,42 @@
         </property>
     </bean>
 
+    <bean id="tripRemoveMemberNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[<strong>%s</strong> удален из списка участников в путешествии <strong>%s</strong>]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[<strong>%s</strong> removed from the list members in the travel <strong>%s</strong>]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="tripMemberRefuseNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[<strong>%s</strong> отказался от участия в путешествии <strong>%s</strong>]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[<strong>%s</strong> refused to take part in the travel <strong>%s</strong>]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <bean id="friendRequestNotificationTemplate"
           class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
         <property name="text">
@@ -133,6 +169,8 @@
             <map>
                 <entry key="TRIP_INNER_INVITE" value-ref="tripInnerInviteNotificationTemplate"/>
                 <entry key="TRIP_REQUEST" value-ref="tripRequestNotificationTemplate"/>
+                <entry key="TRIP_REMOVE_MEMBER" value-ref="tripRemoveMemberNotificationTemplate"/>
+                <entry key="TRIP_MEMBER_REFUSE" value-ref="tripMemberRefuseNotificationTemplate"/>
                 <entry key="FRIEND" value-ref="friendRequestNotificationTemplate"/>
                 <entry key="MEMBER" value-ref="memberRequestNotificationTemplate"/>
                 <entry key="EMPLOYEE" value-ref="employeeRequestNotificationTemplate"/>

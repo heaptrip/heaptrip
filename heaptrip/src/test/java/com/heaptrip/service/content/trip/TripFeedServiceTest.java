@@ -15,6 +15,7 @@ import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripMyAccountCriteria;
+import com.heaptrip.security.Authenticate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -143,6 +144,7 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
     }
 
+    @Authenticate
     @Test(enabled = true, dataProvider = "memberMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
     public void getContentsByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
         // prepare
@@ -157,6 +159,7 @@ public class TripFeedServiceTest extends AbstractTestNGSpringContextTests {
         tripUserService.removeTripMember(user.getId());
     }
 
+    @Authenticate
     @Test(enabled = true, dataProvider = "memberMyAccountCriteria", dataProviderClass = TripFeedDataProvider.class)
     public void getCountByMemberCriteria(TripMyAccountCriteria tripMyAccountCriteria) {
         // prepare

@@ -153,7 +153,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
 
         RedisAccount redisAccount = redisAccountRepository.findOne(UserDataProvider.EMAIL_USER_ID);
         Assert.assertNotNull(redisAccount);
-        Assert.assertTrue(redisAccount.getRating() == rating);
+        Assert.assertEquals(redisAccount.getRating(), rating);
     }
 
     @Test(enabled = true, priority = 6)

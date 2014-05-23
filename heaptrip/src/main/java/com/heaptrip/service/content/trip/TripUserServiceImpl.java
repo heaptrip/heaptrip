@@ -2,6 +2,8 @@ package com.heaptrip.service.content.trip;
 
 import com.heaptrip.domain.entity.account.notification.NotificationTypeEnum;
 import com.heaptrip.domain.entity.account.notification.TripNotification;
+import com.heaptrip.domain.entity.account.user.User;
+import com.heaptrip.domain.entity.content.MemberEnum;
 import com.heaptrip.domain.entity.content.trip.TableUserStatusEnum;
 import com.heaptrip.domain.entity.content.trip.TripInvite;
 import com.heaptrip.domain.entity.content.trip.TripMember;
@@ -15,7 +17,9 @@ import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -38,6 +42,10 @@ public class TripUserServiceImpl implements TripUserService {
 
     @Autowired
     private NotificationService notificationService;
+
+    @Autowired
+    @Qualifier("requestScopeService")
+    private RequestScopeService requestScopeService;
 
     @Override
     public TripUser sendInvite(String tripId, String tableId, String userId) {
@@ -178,9 +186,32 @@ public class TripUserServiceImpl implements TripUserService {
         Assert.notNull(memberId, "memberId must not be null");
         TripMember member = tripMemberRepository.findOne(memberId);
         Assert.notNull(member, "error memberId: " + memberId);
+
+        // change counter of members
         if (member.getContentId() != null && member.getTableId() != null) {
             tripRepository.incTableMembers(member.getContentId(), member.getTableId(), -1);
         }
+
+        // send notification
+        if (member.getMemberType().equals(MemberEnum.TRIP_USER)) {
+            TripUser tripUser = (TripUser) member;
+            TripNotification notification = new TripNotification();
+            notification.setFromId(tripUser.getUserId());
+            notification.setToId(contentRepository.getOwnerId(tripUser.getContentId()));
+
+            User currentUser = requestScopeService.getCurrentUser();
+            if (currentUser.getId().equals(tripUser.getUserId())) {
+                notification.setType(NotificationTypeEnum.TRIP_MEMBER_REFUSE);
+            } else {
+                notification.setType(NotificationTypeEnum.TRIP_REMOVE_MEMBER);
+            }
+
+            notification.setContentId(tripUser.getContentId());
+            notification.setTableId(tripUser.getTableId());
+            notificationService.addNotification(notification);
+        }
+
+        // remove member entity
         tripMemberRepository.remove(memberId);
     }
 
@@ -189,7 +220,27 @@ public class TripUserServiceImpl implements TripUserService {
         Assert.notNull(tripId, "tripId must not be null");
         Assert.notNull(tableId, "tableId must not be null");
         Assert.notNull(userId, "userId must not be null");
+
+        // change counter of members
         tripRepository.incTableMembers(tripId, tableId, -1);
+
+        // send notification
+        TripNotification notification = new TripNotification();
+        notification.setFromId(userId);
+        notification.setToId(contentRepository.getOwnerId(tripId));
+
+        User currentUser = requestScopeService.getCurrentUser();
+        if (currentUser.getId().equals(userId)) {
+            notification.setType(NotificationTypeEnum.TRIP_MEMBER_REFUSE);
+        } else {
+            notification.setType(NotificationTypeEnum.TRIP_REMOVE_MEMBER);
+        }
+
+        notification.setContentId(tripId);
+        notification.setTableId(tableId);
+        notificationService.addNotification(notification);
+
+        // remove member entity
         tripMemberRepository.removeByTripIdAndTableIdAndUserId(tripId, tableId, userId);
     }
 

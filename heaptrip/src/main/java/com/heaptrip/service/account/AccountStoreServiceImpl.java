@@ -227,7 +227,6 @@ public class AccountStoreServiceImpl implements AccountStoreService {
         return new AsyncResult<>(null);
     }
 
-    @Async
     @Override
     public void updateRating(String accountId, double ratingValue) {
         Assert.notNull(accountId, "accountId must not be null");

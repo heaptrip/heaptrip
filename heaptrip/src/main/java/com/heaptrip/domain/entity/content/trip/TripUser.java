@@ -1,5 +1,7 @@
 package com.heaptrip.domain.entity.content.trip;
 
+import com.heaptrip.domain.entity.content.MemberEnum;
+
 /**
  * Trip user
  */
@@ -16,6 +18,11 @@ public class TripUser extends TripMember {
 
     public TripUser() {
         super();
+    }
+
+    @Override
+    public MemberEnum getMemberType() {
+        return MemberEnum.TRIP_USER;
     }
 
     public Boolean getIsOrganizer() {
