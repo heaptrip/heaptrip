@@ -21,6 +21,7 @@ import com.heaptrip.domain.service.account.criteria.notification.AccountNotifica
 import com.heaptrip.domain.service.account.notification.NotificationService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.rating.RatingService;
+import com.heaptrip.security.Authenticate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -149,6 +150,7 @@ public class RatingServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(can, false);
     }
 
+    @Authenticate
     @Test(enabled = true, priority = 0)
     public void canSetRatingForTrip() {
         // if user is not accepted trip member then he can not set rating

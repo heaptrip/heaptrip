@@ -58,6 +58,7 @@ public class TripUserServiceImpl implements TripUserService {
             throw errorService.createException(TripException.class, ErrorEnum.ERROR_TRIP_USER_ALREADY_ADDED);
         }
 
+        // save trip member
         TripUser tableUser = new TripUser();
         tableUser.setContentId(tripId);
         tableUser.setTableId(tableId);
@@ -65,16 +66,18 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser.setStatus(TableUserStatusEnum.INVITE);
         tableUser = tripMemberRepository.save(tableUser);
 
+        // send notification only if the user adds another user (not itself)
+        if (requestScopeService.getCurrentUser().getId().equals(userId)) {
+            TripNotification notification = new TripNotification();
+            notification.setFromId(contentRepository.getOwnerId(tripId));
+            notification.setToId(userId);
+            notification.setType(NotificationTypeEnum.TRIP_INNER_INVITE);
+            notification.setContentId(tripId);
+            notification.setTableId(tableId);
+            notificationService.addNotification(notification);
+        }
+
         tripRepository.incTableMembers(tripId, tableId, 1);
-
-        TripNotification notification = new TripNotification();
-        notification.setFromId(contentRepository.getOwnerId(tripId));
-        notification.setToId(userId);
-        notification.setType(NotificationTypeEnum.TRIP_INNER_INVITE);
-        notification.setContentId(tripId);
-        notification.setTableId(tableId);
-        notificationService.addNotification(notification);
-
         return tableUser;
     }
 
@@ -111,6 +114,7 @@ public class TripUserServiceImpl implements TripUserService {
             throw errorService.createException(TripException.class, ErrorEnum.ERROR_TRIP_USER_ALREADY_ADDED);
         }
 
+        // save trip member
         TripUser tableUser = new TripUser();
         tableUser.setContentId(tripId);
         tableUser.setTableId(tableId);
@@ -118,16 +122,19 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser.setStatus(TableUserStatusEnum.REQUEST);
         tableUser = tripMemberRepository.save(tableUser);
 
+        // send notification only if the user is not trip owner (not itself)
+        String ownerId = contentRepository.getOwnerId(tripId);
+        if (requestScopeService.getCurrentUser().getId().equals(ownerId)) {
+            TripNotification notification = new TripNotification();
+            notification.setFromId(userId);
+            notification.setToId(ownerId);
+            notification.setType(NotificationTypeEnum.TRIP_REQUEST);
+            notification.setContentId(tripId);
+            notification.setTableId(tableId);
+            notificationService.addNotification(notification);
+        }
+
         tripRepository.incTableMembers(tripId, tableId, 1);
-
-        TripNotification notification = new TripNotification();
-        notification.setFromId(userId);
-        notification.setToId(contentRepository.getOwnerId(tripId));
-        notification.setType(NotificationTypeEnum.TRIP_REQUEST);
-        notification.setContentId(tripId);
-        notification.setTableId(tableId);
-        notificationService.addNotification(notification);
-
         return tableUser;
     }
 

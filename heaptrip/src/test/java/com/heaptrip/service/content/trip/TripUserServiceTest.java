@@ -93,6 +93,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         tripUserService.removeTripMembers(TRIP_ID);
     }
 
+    @Authenticate
     @Test
     public void sendInvite() {
         // check before test
@@ -149,6 +150,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(trip.getTable()[1].getMembers(), Long.valueOf(1));
     }
 
+    @Authenticate
     @Test
     public void sendRequest() {
         // check before test
@@ -177,6 +179,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(trip.getTable()[3].getMembers(), Long.valueOf(1));
     }
 
+    @Authenticate
     @Test(expectedExceptions = TripException.class)
     public void sendTwiceInvite() {
         tripUserService.sendInvite(TRIP_ID, TABLE_IDs[2], USER_ID);
@@ -189,12 +192,14 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         tripUserService.sendExternalInvite(TRIP_ID, TABLE_IDs[1], USER_EMAIL);
     }
 
+    @Authenticate
     @Test(expectedExceptions = TripException.class)
     public void sendTwiceRequest() {
         tripUserService.sendRequest(TRIP_ID, TABLE_IDs[3], USER_ID);
         tripUserService.sendRequest(TRIP_ID, TABLE_IDs[3], USER_ID);
     }
 
+    @Authenticate
     @Test
     public void acceptTripMemberByTripIdAndTableIdAndUserId() {
         // prepare
@@ -213,6 +218,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
     }
 
 
+    @Authenticate
     @Test
     public void acceptTripMemberByMemberIdAfterSendInvite() {
         // prepare
@@ -230,6 +236,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(user.getStatus(), TableUserStatusEnum.OK);
     }
 
+    @Authenticate
     @Test
     public void acceptTripMemberByMemberIdAfterSendRequest() {
         // prepare
@@ -247,6 +254,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(user.getStatus(), TableUserStatusEnum.OK);
     }
 
+    @Authenticate
     @Test
     public void setTripMemberOrganizer() {
         // prepare
@@ -262,6 +270,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(user.getIsOrganizer());
     }
 
+    @Authenticate
     @Test
     public void getByCriteriaWithTripId() {
         // add test data
@@ -299,6 +308,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 2);
     }
 
+    @Authenticate
     @Test
     public void getByCriteriaWithTripIdAndTableId() {
         // add test data
@@ -329,6 +339,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
     }
 
+    @Authenticate
     @Test
     public void getByCriteriaWithTripIdAndUserId() {
         // add test data
@@ -359,6 +370,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(count, 1);
     }
 
+    @Authenticate
     @Test
     public void getByCriteriaWithTripIdAndTableIdAndUserId() {
         // add test data
@@ -441,6 +453,7 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertTrue(trip.getTable()[2].getMembers().equals(0L));
     }
 
+    @Authenticate
     @Test
     public void removeTripMembers() {
         // prepare
