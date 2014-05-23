@@ -199,23 +199,28 @@ public class TripUserServiceImpl implements TripUserService {
             tripRepository.incTableMembers(member.getContentId(), member.getTableId(), -1);
         }
 
-        // send notification
+        // send notification only if the owner does not remove itself
         if (member.getMemberType().equals(MemberEnum.TRIP_USER)) {
             TripUser tripUser = (TripUser) member;
-            TripNotification notification = new TripNotification();
-            notification.setFromId(tripUser.getUserId());
-            notification.setToId(contentRepository.getOwnerId(tripUser.getContentId()));
+            String userId = tripUser.getUserId();
+            String ownerId = contentRepository.getOwnerId(tripUser.getContentId());
 
-            User currentUser = requestScopeService.getCurrentUser();
-            if (currentUser.getId().equals(tripUser.getUserId())) {
-                notification.setType(NotificationTypeEnum.TRIP_MEMBER_REFUSE);
-            } else {
-                notification.setType(NotificationTypeEnum.TRIP_REMOVE_MEMBER);
+            if (!ownerId.equals(userId)) {
+                TripNotification notification = new TripNotification();
+                notification.setFromId(userId);
+                notification.setToId(ownerId);
+
+                User currentUser = requestScopeService.getCurrentUser();
+                if (currentUser.getId().equals(userId)) {
+                    notification.setType(NotificationTypeEnum.TRIP_MEMBER_REFUSE);
+                } else {
+                    notification.setType(NotificationTypeEnum.TRIP_REMOVE_MEMBER);
+                }
+
+                notification.setContentId(tripUser.getContentId());
+                notification.setTableId(tripUser.getTableId());
+                notificationService.addNotification(notification);
             }
-
-            notification.setContentId(tripUser.getContentId());
-            notification.setTableId(tripUser.getTableId());
-            notificationService.addNotification(notification);
         }
 
         // remove member entity
@@ -231,21 +236,24 @@ public class TripUserServiceImpl implements TripUserService {
         // change counter of members
         tripRepository.incTableMembers(tripId, tableId, -1);
 
-        // send notification
-        TripNotification notification = new TripNotification();
-        notification.setFromId(userId);
-        notification.setToId(contentRepository.getOwnerId(tripId));
+        // send notification only if the owner does not remove itself
+        String ownerId = contentRepository.getOwnerId(tripId);
+        if (!ownerId.equals(userId)) {
+            TripNotification notification = new TripNotification();
+            notification.setFromId(userId);
+            notification.setToId(ownerId);
 
-        User currentUser = requestScopeService.getCurrentUser();
-        if (currentUser.getId().equals(userId)) {
-            notification.setType(NotificationTypeEnum.TRIP_MEMBER_REFUSE);
-        } else {
-            notification.setType(NotificationTypeEnum.TRIP_REMOVE_MEMBER);
+            User currentUser = requestScopeService.getCurrentUser();
+            if (currentUser.getId().equals(userId)) {
+                notification.setType(NotificationTypeEnum.TRIP_MEMBER_REFUSE);
+            } else {
+                notification.setType(NotificationTypeEnum.TRIP_REMOVE_MEMBER);
+            }
+
+            notification.setContentId(tripId);
+            notification.setTableId(tableId);
+            notificationService.addNotification(notification);
         }
-
-        notification.setContentId(tripId);
-        notification.setTableId(tableId);
-        notificationService.addNotification(notification);
 
         // remove member entity
         tripMemberRepository.removeByTripIdAndTableIdAndUserId(tripId, tableId, userId);
