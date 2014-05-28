@@ -248,11 +248,15 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     private Knowledge[] convertKnowledgiesModelsToKnowledgies(KnowledgeModel[] knowledgeModels) {
-        return ListConverter.convertList(knowledgeModels, new Converter<KnowledgeModel, Knowledge>() {
-            public Knowledge convert(KnowledgeModel knowledgeModel) {
-                return convertKnowledgeModelToKnowledge(knowledgeModel);
-            }
-        });
+        if (knowledgeModels == null || knowledgeModels.length == 0) {
+            return null;
+        } else {
+            return ListConverter.convertList(knowledgeModels, new Converter<KnowledgeModel, Knowledge>() {
+                public Knowledge convert(KnowledgeModel knowledgeModel) {
+                    return convertKnowledgeModelToKnowledge(knowledgeModel);
+                }
+            });
+        }
     }
 
     private Knowledge convertKnowledgeModelToKnowledge(KnowledgeModel knowledgeModel) {
@@ -294,13 +298,23 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
 
     private Practice[] convertPracticesModelsToPractices(PracticeModel[] practiceModels) {
-        ArrayList<Practice> practiceList = new ArrayList<>();
-        if (practiceModels != null) {
-            for (PracticeModel practiceModel : practiceModels) {
-                practiceList.add(convertPracticeModelToPractice(practiceModel));
-            }
+        if (practiceModels == null || practiceModels.length == 0) {
+            return null;
+        } else {
+            return ListConverter.convertList(practiceModels, new Converter<PracticeModel, Practice>() {
+                public Practice convert(PracticeModel practiceModel) {
+                    return convertPracticeModelToPractice(practiceModel);
+                }
+            });
         }
-        return practiceList.toArray(new Practice[practiceList.size()]);
+
+//        ArrayList<Practice> practiceList = new ArrayList<>();
+//        if (practiceModels != null) {
+//            for (PracticeModel practiceModel : practiceModels) {
+//                practiceList.add(convertPracticeModelToPractice(practiceModel));
+//            }
+//        }
+//        return practiceList.toArray(new Practice[practiceList.size()]);
     }
 
 

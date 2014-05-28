@@ -49,9 +49,13 @@
                     </div>
                 </div>
             </div>
-            <div class="description">
-                ${account.accountProfile.desc}
-            </div>
+            <c:if test='${not empty account.accountProfile.desc}'>
+                <div class="description">
+                    <h2 class="people_title"><fmt:message key="user.aboutMe"/>:</h2>
+                    ${account.accountProfile.desc}
+                </div>
+            </c:if>
+            <c:if test='${fn:length(account.userProfile.knowledgies) > 0}'>
             <div class="table_inf">
                 <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
                 <table>
@@ -79,8 +83,10 @@
                     </tbody>
                 </table>
             </div>
+            </c:if>
+            <c:if test='${fn:length(account.userProfile.practices) > 0}'>
             <div class="table_inf">
-                <h2 class="people_title"><fmt:message key="user.experience"/></h2>
+                <h2 class="people_title"><fmt:message key="user.experience"/>:</h2>
                 <table class="experience">
                     <thead>
                     <tr>
@@ -102,6 +108,7 @@
                     </tbody>
                 </table>
             </div>
+            </c:if>
         </article>
     </div>
     <!-- #content-->

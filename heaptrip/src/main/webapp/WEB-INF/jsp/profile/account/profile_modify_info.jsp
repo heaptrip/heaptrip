@@ -141,7 +141,10 @@
                                     practice.end.value = $("#" + cellInps[1].id).datepicker('getDate').getTime();
                                 break;
                             case 1:
-                                practice.desc = $(this).children('textarea')[0].value;
+                                var textarea = $(this).children('textarea');
+                                if (textarea[0]) {
+                                    practice.desc = $(this).children('textarea')[0].value;
+                                }
                                 break;
                         }
                     });
@@ -231,18 +234,14 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="description">
-                <textarea id="my_desc"
-                          alt="<fmt:message key="user.aboutMe"/>:">${account.accountProfile.desc}</textarea>
+                <h2 class="people_title"><fmt:message key="user.aboutMe"/>:</h2>
+                <textarea id="my_desc">${account.accountProfile.desc}</textarea>
+                          <%--alt="<fmt:message key="user.aboutMe"/>:">${account.accountProfile.desc}</textarea>--%>
             </div>
-
-
             <div class="table_inf">
                 <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
-
-
                 <table id="knowledge_table">
                     <thead>
                     <tr>
@@ -292,10 +291,8 @@
                 </table>
                 <a class="button" func="10"><fmt:message key="page.action.add"/></a>
             </div>
-
-
             <div class="table_inf">
-                <h2 class="people_title"><fmt:message key="user.experience"/></h2>
+                <h2 class="people_title"><fmt:message key="user.experience"/>:</h2>
                 <table id="practices_table" class="experience">
                     <thead>
                     <tr>
