@@ -405,6 +405,77 @@ var getTripScheduleParticipants = function (paramsJson) {
             <ul id="publishers"></ul>
         </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+               <div class="tabs tabs_interactiv">
+                   <ul><!--
+
+    						-->
+                       <li><span class="activ"><fmt:message key="content.googleMaps"/></span>
+
+                           <div class="tabs_content">
+                               <div id="google_map_canvas" style="height:100px; width:100px;">
+
+                               </div>
+                           </div>
+                       </li>
+                       <!--
+                                                   -->
+                       <li><span><fmt:message key="content.maps"/></span>
+
+                           <div class="tabs_content">
+                               <ul><!--
+    										-->
+                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                                   <!--
+                                                                               -->
+                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                                   <!--
+                                                                               -->
+                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                                   <!--
+                                                                               -->
+                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                                   <!--
+                                                                               -->
+                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                                   <!--
+                                                                               -->
+                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                                   <!--
+                                                                           -->
+                               </ul>
+                           </div>
+                       </li>
+                       <!--
+                                               --></ul>
+               </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                </span>
         <%--</div>--%>
 

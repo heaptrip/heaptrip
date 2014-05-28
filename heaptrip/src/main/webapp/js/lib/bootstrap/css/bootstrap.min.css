@@ -668,6 +668,9 @@ pre code {
     padding-left: 15px;
     margin-right: auto;
     margin-left: auto
+
+
+
 }
 
 .container:before, .container:after {
@@ -1420,14 +1423,12 @@ th {
 
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th {
     background-color: #f9f9f9;
-    font-family: verdana;
-    font-size: 12px;
+
 }
 
 .table-hover>tbody>tr:hover>td, .table-hover>tbody>tr:hover>th {
     background-color: #f5f5f5;
-    font-family: verdana;
-    font-size: 12px;
+
 }
 
 table col[class*="col-"] {

@@ -1,28 +1,59 @@
 CKEDITOR.plugins.add('fileUpload',
     {
-        icons: 'fileUpload',
-
         init: function (editor) {
-            // editor.addCommand( 'OpenDialog',new CKEDITOR.dialogCommand( 'OpenDialog' ) );
+
+            editor.addCommand('fileUploadDialog', new CKEDITOR.dialogCommand('fileUploadDialog'));
+
             editor.ui.addButton('FileUpload',
                 {
                     label: 'Upload images',
-                    command: 'OpenDialog'
-                    //icon: CKEDITOR.plugins.getPath('fileUpload') + 'icons/icon.png'
-                    //icon: '/icon.png'
+                    command: 'fileUploadDialog',
+                    icon: CKEDITOR.plugins.getPath('fileUpload') + 'icons/fileUpload.png'
                 });
 
-            editor.addCommand('OpenDialog', { exec: function () {
-                var callBackFunction = function (files) {
-                    if (files) {
-                        $.each(files, function (index, value) {
-                            editor.insertHtml('<br/>');
-                            editor.insertHtml('<img src="' + value.url + '" />');
-                        });
+            CKEDITOR.dialog.add('fileUploadDialog', function (editor) {
+                return {
+                    title: 'Upload images',
+                    minWidth: 800,
+                    minHeight: 250,
+                    contents: [
+                        {
+                            id: 'general',
+                            label: 'Settings',
+                            elements: [
+                                {
+                                    type: 'html',
+                                    html: '<iframe id="UPLOADER_CONTAINER" frameborder="0" onLoad="calculateIframeHeight();" marginwidth="0" marginheight="0" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" ></iframe>'
+                                }
+                            ]
+                        }
+                    ],
+                    onOk: function () {
+                        var files = null;
+                        var filesDiv = $("#UPLOADER_CONTAINER").contents().find('#FILES_RESULT')
+                        if (filesDiv) {
+                            var filesString = filesDiv.text();
+                            if (filesString) {
+                                files = jQuery.parseJSON(filesString);
+                                if (files) {
+                                    var insertHtml = '';
+                                    $.each(files, function (index, value) {
+                                        insertHtml = insertHtml + '<br/>';
+                                        insertHtml = insertHtml + '<p style="text-align:center"><img width="550" src="' + value.url + '" /></p>';
+                                    });
+                                    editor.insertHtml(insertHtml);
+                                }
+                            }
+                        }
+                        $('#UPLOADER_CONTAINER').attr("src", "");
+                    },
+                    onShow: function () {
+                        $('#UPLOADER_CONTAINER').height($($('[role="presentation"]')[0]).height());
+                        $('#UPLOADER_CONTAINER').attr("src", './upload.jsp?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
                     }
                 };
-                uploader.show(callBackFunction,{imageType:'CONTENT_IMAGE',targetId:$.getParamFromURL().id});
-            }
             });
+
+
         }
     });
