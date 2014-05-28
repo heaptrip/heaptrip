@@ -12,7 +12,6 @@ import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.trip.TripService;
-import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
 import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -39,9 +38,10 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     @Autowired
     private ContentSearchService solrContentService;
 
-    @Autowired
-    private TripUserService tripUserService;
+    //@Autowired
+    //private TripUserService tripUserService;
 
+    /*
     private void setOrganizers(Trip trip) {
         if (trip.getTable() != null) {
             for (TableItem item : trip.getTable()) {
@@ -55,6 +55,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         }
 
     }
+    */
 
     @Override
     public Trip save(Trip trip, Locale locale) {
@@ -114,7 +115,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         solrContentService.saveContent(trip.getId());
 
         // set trip organizers
-        setOrganizers(trip);
+        //setOrganizers(trip);
 
         return trip;
     }
@@ -235,7 +236,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         solrContentService.saveContent(trip.getId());
 
         // set trip organizers
-        setOrganizers(trip);
+        //setOrganizers(trip);
     }
 
     @Override
