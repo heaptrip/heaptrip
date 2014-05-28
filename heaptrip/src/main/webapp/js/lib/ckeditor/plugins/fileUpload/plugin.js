@@ -12,10 +12,14 @@ CKEDITOR.plugins.add('fileUpload',
                 });
 
             CKEDITOR.dialog.add('fileUploadDialog', function (editor) {
+
+
+               console.log (editor.name);
+
                 return {
                     title: 'Upload images',
                     minWidth: 800,
-                    minHeight: 250,
+                    minHeight: 320,
                     contents: [
                         {
                             id: 'general',
@@ -23,14 +27,14 @@ CKEDITOR.plugins.add('fileUpload',
                             elements: [
                                 {
                                     type: 'html',
-                                    html: '<iframe id="UPLOADER_CONTAINER" frameborder="0" onLoad="calculateIframeHeight();" marginwidth="0" marginheight="0" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" ></iframe>'
+                                    html: '<iframe id="UPLOADER_CONTAINER' + editor.name + '" frameborder="0" marginwidth="0" marginheight="0" frameborder="0" style="overflow:hidden;height:100%;width:100%" height="100%" width="100%" ></iframe>'
                                 }
                             ]
                         }
                     ],
                     onOk: function () {
                         var files = null;
-                        var filesDiv = $("#UPLOADER_CONTAINER").contents().find('#FILES_RESULT')
+                        var filesDiv = $("#UPLOADER_CONTAINER" + editor.name ).contents().find('#FILES_RESULT')
                         if (filesDiv) {
                             var filesString = filesDiv.text();
                             if (filesString) {
@@ -48,8 +52,8 @@ CKEDITOR.plugins.add('fileUpload',
                         $('#UPLOADER_CONTAINER').attr("src", "");
                     },
                     onShow: function () {
-                        $('#UPLOADER_CONTAINER').height($($('[role="presentation"]')[0]).height());
-                        $('#UPLOADER_CONTAINER').attr("src", './upload.jsp?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
+                        $('#UPLOADER_CONTAINER' + editor.name).height(320);
+                        $('#UPLOADER_CONTAINER' + editor.name).attr("src", './upload.jsp?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
                     }
                 };
             });
