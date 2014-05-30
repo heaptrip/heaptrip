@@ -90,6 +90,26 @@ public class TripController extends ExceptionHandlerControler {
     }
 
 
+    @RequestMapping(value = "security/trip/send_request_trip_participant", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> sendRequestTripParticipant(@RequestBody LinkedHashMap<String, String> params) {
+        try {
+            Assert.notNull(params, "add trip participant params must not be null");
+            String tripId = params.get("tripId");
+            String scheduleId = params.get("scheduleId");
+            String userId = params.get("userId");
+            Assert.notNull(tripId, "add trip participant tripId must not be null");
+            Assert.notNull(scheduleId, "add trip participant scheduleId must not be null");
+            Assert.notNull(userId, "add trip participant userId must not be null");
+            tripUserService.sendRequest(tripId, scheduleId, userId);
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+    }
+
+
     @RequestMapping(value = "trip/schedule_participants", method = RequestMethod.POST)
     public
     @ResponseBody

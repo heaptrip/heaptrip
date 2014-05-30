@@ -49,11 +49,15 @@ CKEDITOR.plugins.add('fileUpload',
                                 }
                             }
                         }
-                        $('#UPLOADER_CONTAINER').attr("src", "");
+                        $('#UPLOADER_CONTAINER' + editor.name).attr("src", "");
                     },
                     onShow: function () {
                         $('#UPLOADER_CONTAINER' + editor.name).height(320);
                         $('#UPLOADER_CONTAINER' + editor.name).attr("src", './upload.jsp?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
+                    },
+                    onClose: function () {
+                        alert('CLOSE')
+                        $('#UPLOADER_CONTAINER' + editor.name).attr("src", "");
                     }
                 };
             });

@@ -25,6 +25,34 @@
 
         $.postJSON(url, tripId, callbackSuccess, callbackError);
     };
+
+    $(document).ready(function () {
+
+        $('.request_participant_btn').click(function () {
+            var btn = $(this);
+            $.doAuthenticationUserAction(function () {
+
+                var url = 'rest/security/trip/send_request_trip_participant';
+
+                var params = {};
+                params.userId = window.principal.id;
+                params.tripId = $.getParamFromURL().id;
+                params.scheduleId = $(btn).closest('[name="schedule_item"]')[0].id;
+
+                var callbackSuccess = function (data) {
+                    // TODO : voronenko refresh
+                    window.location = window.location.href
+                };
+
+                var callbackError = function (error) {
+                    $.alert(error)
+                };
+
+                $.postJSON(url, params, callbackSuccess, callbackError);
+
+            });
+        });
+    });
 </script>
 
 <div class="description">
@@ -47,14 +75,14 @@
             </thead>
             <tbody>
             <c:forEach items="${trip.schedule}" var="scheduleItem">
-                <tr>
+                <tr id="${scheduleItem.id}" name="schedule_item">
                     <td><fmt:message key="trip.status.${scheduleItem.status.value}"/> ${scheduleItem.status.text}</td>
                     <td><fmt:message key="page.date.from"/> ${scheduleItem.begin.text}<br/><fmt:message
                             key="page.date.to"/> ${scheduleItem.end.text}</td>
                     <td>${scheduleItem.price.value} ${scheduleItem.price.currency}</td>
                     <td>${scheduleItem.min} / ${scheduleItem.max}</td>
                     <td>${scheduleItem.members}</td>
-                    <td><a class="button">todo</a></td>
+                    <td><a class="button request_participant_btn">send request trip participant</a></td>
                 </tr>
             </c:forEach>
             </tbody>

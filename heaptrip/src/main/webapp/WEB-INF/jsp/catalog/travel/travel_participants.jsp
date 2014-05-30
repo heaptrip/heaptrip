@@ -7,8 +7,8 @@
 
 <script id="scheduleParticipantsTemplateOrganizer" type="text/x-jsrender">
     <div id="{{>schedule.id}}" class="list_user" name="schedule_item">
-        <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>todo
-            status
+        <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>
+            {{>schedule.status}}
         </div>
 
         {{if participants.length > 0 }}
@@ -43,9 +43,9 @@
 </script>
 
 <script id="scheduleParticipantsTemplateView" type="text/x-jsrender">
-    <div id="{{>schedule.id}}" class="list_user">
-        <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>todo
-            status
+    <div id="{{>schedule.id}}" class="list_user" name="schedule_item">
+        <div class="list_user_inf"><span class="list_user_date">{{>schedule.begin.text}} - {{>schedule.end.text}}</span>
+            {{>schedule.status}}
         </div>
 
         {{if participants.length > 0 }}
@@ -218,7 +218,7 @@ var searchPeople = function (paramsJson) {
     };
 
     var callbackError = function (error) {
-        alert(error);
+        $.alert(error);
     };
 
     $.postJSON(url, criteria, callbackSuccess, callbackError);
@@ -332,12 +332,30 @@ var getTripScheduleParticipants = function (paramsJson) {
         else {
             $("#scheduleParticipants").html($("#scheduleParticipantsTemplateView").render(data.schedules, {locale: locale}));
             $('.request_participant_btn input').click(function () {
+                var btn = $(this);
                 $.doAuthenticationUserAction(function () {
-                    alert('request_participant_btn for ' + window.principal.name + ' clicked!');
+
+                    var url = 'rest/security/trip/send_request_trip_participant';
+
+                    var params = {};
+                    params.userId = window.principal.id;
+                    params.tripId = $.getParamFromURL().id;
+                    params.scheduleId = $(btn).closest('[name="schedule_item"]')[0].id;
+
+                    var callbackSuccess = function (data) {
+                        // TODO : voronenko refresh
+                        window.location = window.location.href
+                    };
+
+                    var callbackError = function (error) {
+                        $.alert(error)
+                    };
+
+                    $.postJSON(url, params, callbackSuccess, callbackError);
+
                 });
             });
         }
-
 
         $('#paginator').smartpaginator({
             totalrecords: data.count,
@@ -348,7 +366,7 @@ var getTripScheduleParticipants = function (paramsJson) {
     };
 
     var callbackError = function (error) {
-        alert(error);
+        $.alert(error);
     };
 
     $.postJSON(url, criteria, callbackSuccess, callbackError);
@@ -419,49 +437,49 @@ var getTripScheduleParticipants = function (paramsJson) {
 
 
 
-               <div class="tabs tabs_interactiv">
-                   <ul><!--
+               <%--<div class="tabs tabs_interactiv">--%>
+                   <%--<ul><!----%>
 
-    						-->
-                       <li><span class="activ"><fmt:message key="content.googleMaps"/></span>
+    						<%---->--%>
+                       <%--<li><span class="activ"><fmt:message key="content.googleMaps"/></span>--%>
 
-                           <div class="tabs_content">
-                               <div id="google_map_canvas" style="height:100px; width:100px;">
+                           <%--<div class="tabs_content">--%>
+                               <%--<div id="google_map_canvas" style="height:100px; width:100px;">--%>
 
-                               </div>
-                           </div>
-                       </li>
-                       <!--
-                                                   -->
-                       <li><span><fmt:message key="content.maps"/></span>
+                               <%--</div>--%>
+                           <%--</div>--%>
+                       <%--</li>--%>
+                       <%--<!----%>
+                                                   <%---->--%>
+                       <%--<li><span><fmt:message key="content.maps"/></span>--%>
 
-                           <div class="tabs_content">
-                               <ul><!--
-    										-->
-                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
-                                   <!--
-                                                                               -->
-                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
-                                   <!--
-                                                                               -->
-                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
-                                   <!--
-                                                                               -->
-                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
-                                   <!--
-                                                                               -->
-                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
-                                   <!--
-                                                                               -->
-                                   <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
-                                   <!--
-                                                                           -->
-                               </ul>
-                           </div>
-                       </li>
-                       <!--
-                                               --></ul>
-               </div>
+                           <%--<div class="tabs_content">--%>
+                               <%--<ul><!----%>
+    										<%---->--%>
+                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<!----%>
+                                                                               <%---->--%>
+                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<!----%>
+                                                                               <%---->--%>
+                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<!----%>
+                                                                               <%---->--%>
+                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<!----%>
+                                                                               <%---->--%>
+                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<!----%>
+                                                                               <%---->--%>
+                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<!----%>
+                                                                           <%---->--%>
+                               <%--</ul>--%>
+                           <%--</div>--%>
+                       <%--</li>--%>
+                       <%--<!----%>
+                                               <%----></ul>--%>
+               <%--</div>--%>
 
 
 
