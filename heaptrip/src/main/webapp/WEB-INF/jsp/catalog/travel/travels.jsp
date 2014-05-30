@@ -157,7 +157,7 @@
         var callbackSuccess = function (data) {
             $("#contents_span").html($("#tripTemplate").render(data.trips));
 
-            // alert(data.count)
+            // $.alert(data.count)
 
             $('#paginator').smartpaginator({
                 totalrecords: data.count,
@@ -166,7 +166,7 @@
         };
 
         var callbackError = function (error) {
-            alert(error);
+            $.alert(error);
         };
 
         $.postJSON(url, tripCriteria, callbackSuccess, callbackError);
@@ -181,11 +181,11 @@
 
         var callbackSuccess = function (data) {
             location.reload();
-            alert("Success");
+            $.alert("Success");
         };
 
         var callbackError = function (error) {
-            alert("ERROR");
+            $.alert("ERROR");
         };
 
         $.postJSON(url, tripId, callbackSuccess, callbackError);

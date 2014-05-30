@@ -92,7 +92,7 @@
         };
 
         var callbackError = function (error) {
-            alert(error);
+            $.alert(error);
         };
 
         var guid = null;

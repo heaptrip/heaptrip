@@ -15,12 +15,12 @@
 
         var callbackSuccess = function (data) {
             $(btn).remove();
-            alert("Success");
+            $.alert("Success");
         };
 
         var callbackError = function (error) {
             $(btn).prop('disabled', false);
-            alert("ERROR");
+            $.alert("ERROR");
         };
 
         $.postJSON(url, tripId, callbackSuccess, callbackError);

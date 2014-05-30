@@ -44,7 +44,7 @@
         };
 
         var callbackError = function (error) {
-           alert(error);
+            $.alert(error);
         };
 
         var params = { notificationId:notificationId,status:status};
@@ -119,7 +119,7 @@
         };
 
         var callbackError = function (error) {
-            alert(error);
+            $.alert(error);
         };
 
         $.postJSON(url, criteria, callbackSuccess, callbackError);
@@ -147,7 +147,7 @@
         };
 
         var callbackError = function (error) {
-            alert(error);
+            $.alert(error);
         };
 
         $.postJSON(url, criteria, callbackSuccess, callbackError);

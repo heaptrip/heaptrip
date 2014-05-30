@@ -30,7 +30,7 @@
             var url = 'rest/security/comment_save';
 
             var callbackSuccess = function (data) {
-                //alert(data);
+                //$.alert(data);
                 // TODO:
                 window.location = window.location.href;
 
@@ -38,7 +38,7 @@
 
             var callbackError = function (error) {
                 //$("#error_message #msg").text(error);
-                alert(error);
+                $.alert(error);
             };
 
             $.postJSON(url, jsonData, callbackSuccess, callbackError);

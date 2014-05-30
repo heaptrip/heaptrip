@@ -387,7 +387,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     };
 
     var callbackError = function (error) {
-        alert(error);
+        $.alert(error);
     };
 
     $.postJSON(url, criteria, callbackSuccess, callbackError);

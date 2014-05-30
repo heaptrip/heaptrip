@@ -95,7 +95,7 @@
         };
 
         var callbackError = function (error) {
-            alert(error);
+            $.alert(error);
         };
 
         $.postJSON(url, postCriteria, callbackSuccess, callbackError);

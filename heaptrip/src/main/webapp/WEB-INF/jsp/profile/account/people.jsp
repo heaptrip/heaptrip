@@ -224,7 +224,7 @@
         };
 
         var callbackError = function (error) {
-            alert(error);
+            $.alert(error);
         };
 
         $.postJSON(url, criteria, callbackSuccess, callbackError);
@@ -341,7 +341,7 @@
         <%--};--%>
 
         <%--var callbackError = function (error) {--%>
-            <%--alert(error);--%>
+            <%--$.alert(error);--%>
         <%--};--%>
 
         <%--$.postJSON(url, friendsCriteria, callbackSuccess, callbackError);--%>
@@ -371,7 +371,7 @@
         <%--};--%>
 
         <%--var callbackError = function (error) {--%>
-            <%--alert(error);--%>
+            <%--$.alert(error);--%>
         <%--};--%>
 
         <%--$.postJSON(url, publishersCriteria, callbackSuccess, callbackError);--%>

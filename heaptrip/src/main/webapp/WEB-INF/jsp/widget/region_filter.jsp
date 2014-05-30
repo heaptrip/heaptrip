@@ -57,7 +57,7 @@ function buildRegionsTree(regionsDataArr) {
     };
 
     var callbackError = function (error) {
-        alert(error);
+        $.alert(error);
     };
 
 
@@ -108,7 +108,7 @@ $(document).ready(function () {
                     };
 
                     var callbackError = function (error) {
-                        alert(error);
+                        $.alert(error);
                     };
 
                     $.postJSON(url, request.term, callbackSuccess, callbackError);
@@ -184,7 +184,7 @@ $(document).ready(function () {
             };
 
             var callbackError = function (error) {
-                alert(error);
+                $.alert(error);
             };
 
             $.postJSON('rest/get_user_regions', guid, callbackSuccess, callbackError);

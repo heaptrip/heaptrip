@@ -129,7 +129,7 @@ var paramStore = {};
                 paramsJson = $.extend(tmpParamsJson, paramsJson);
             tmpParamsJson = {};
             window.isInit = false;
-            paramStore =  $.extend(paramStore, paramsJson);
+            paramStore = $.extend(paramStore, paramsJson);
             $.onPageReady()
             //window.location = $.param.fragment(window.location.href, paramsJson);
         }
@@ -147,7 +147,7 @@ var paramStore = {};
             //window.location = $.param.fragment(window.location.href, paramsJson);
             //$.handParamToURL(tmpParamsJson);
 
-            paramStore =  $.extend(paramStore, paramsJson);
+            paramStore = $.extend(paramStore, paramsJson);
 
         }
     });
@@ -199,7 +199,7 @@ var paramStore = {};
 (function ($) {
     $.extend({
         onPageReady: function () {
-                $(window).trigger("onPageReady", $.getParamFromURL());
+            $(window).trigger("onPageReady", $.getParamFromURL());
         }
     });
 })(jQuery);
@@ -242,7 +242,15 @@ var onLocaleChange = function (locale) {
 (function ($) {
     $.extend({
         alert: function (text) {
-            $('<div>' + text + '</div>').dialog();
+            $('<div>' + text + '</div>').dialog(
+                {
+                    maxWidth: 600,
+                    maxHeight: 500,
+                    width: 500,
+                    height: 200,
+                    modal: true
+                }
+            );
         }
     });
 })(jQuery);
@@ -313,7 +321,7 @@ function stringMarker(term, path) {
 
 
 var uploader = {
-    show: function (callBackFunction,params) {
+    show: function (callBackFunction, params) {
 
         var iframe = $('<iframe id="UPLOADER_CONTAINER" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen></iframe>');
         var dialog = $("<div id='UPLOADER_DIALOG'></div>").append(iframe).appendTo("body").dialog({
@@ -344,7 +352,7 @@ var uploader = {
             }
         });
 
-        var src = './upload.jsp?image_type='+ params.imageType + '&target_id=' + params.targetId ;
+        var src = './upload.jsp?image_type=' + params.imageType + '&target_id=' + params.targetId;
         var title = 'UPLOADER';
         var width = 800;
         var height = 350;
