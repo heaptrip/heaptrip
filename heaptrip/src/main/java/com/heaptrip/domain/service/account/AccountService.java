@@ -56,7 +56,7 @@ public interface AccountService {
      * @param accountId
      * @param profile
      */
-    Future<Void> saveProfile(String accountId, Profile profile);
+    Future<Void> saveProfile(String accountId, String name, Profile profile);
 
     /**
      * Soft delete account

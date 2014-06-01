@@ -99,7 +99,7 @@ public class AccountStoreTest extends AbstractTestNGSpringContextTests {
         simpleCategorys[0] = categoryRepository.findOne(id);
         profile.setCategories(simpleCategorys);
 
-        Future<Void> future = userService.saveProfile(UserDataProvider.EMAIL_USER_ID, profile);
+        Future<Void> future = userService.saveProfile(UserDataProvider.EMAIL_USER_ID, UserDataProvider.EMAIL_USER_NAME, profile);
         future.get();
 
         solrAccountRepository.commit();

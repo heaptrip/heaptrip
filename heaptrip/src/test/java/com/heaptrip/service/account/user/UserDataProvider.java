@@ -29,6 +29,7 @@ public class UserDataProvider {
     public static String NOT_CONFIRMED_USER_PSWD = "notConfirmed";
 
     public static String FAKE_USER_ID = "fake";
+    public static String FAKE_USER_NAME = "Fake User";
     public static String FAKE_USER_EMAIL = "fakeUser@heaptrip.com";
     public static String FAKE_USER_PSWD = "nopassword";
 

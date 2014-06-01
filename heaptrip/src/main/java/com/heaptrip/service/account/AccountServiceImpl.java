@@ -145,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Future<Void> saveProfile(String accountId, Profile profile) {
+    public Future<Void> saveProfile(String accountId, String name, Profile profile) {
         Future<Void> future;
 
         Assert.notNull(accountId, "accountId must not be null");
@@ -162,7 +162,7 @@ public class AccountServiceImpl implements AccountService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
-            accountRepository.saveProfile(accountId, profile);
+            accountRepository.saveProfile(accountId, name, profile);
             future = accountStoreService.update(accountId);
         }
 

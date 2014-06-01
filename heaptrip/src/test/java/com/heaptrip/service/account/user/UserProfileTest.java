@@ -32,7 +32,7 @@ public class UserProfileTest extends AbstractTestNGSpringContextTests {
 		UserProfile profile = new UserProfile();
 		profile.setDesc("description");
 		
-		userService.saveProfile(UserDataProvider.FAKE_USER_ID, profile);
+		userService.saveProfile(UserDataProvider.FAKE_USER_ID, UserDataProvider.FAKE_USER_NAME, profile);
 	}
 	
 	@Test(enabled = true, priority = 2, expectedExceptions = AccountException.class)
@@ -40,7 +40,7 @@ public class UserProfileTest extends AbstractTestNGSpringContextTests {
 		UserProfile profile = new UserProfile();
 		profile.setDesc("description");
 		
-		userService.saveProfile(UserDataProvider.NOT_CONFIRMED_USER_ID, profile);
+		userService.saveProfile(UserDataProvider.NOT_CONFIRMED_USER_ID, UserDataProvider.NOT_CONFIRMED_USER_NAME, profile);
 	}
 
 	@Test(enabled = true, priority = 3)
@@ -48,7 +48,7 @@ public class UserProfileTest extends AbstractTestNGSpringContextTests {
 		User user = userRepository.findOne(UserDataProvider.NET_USER_ID);
 		(user.getProfile()).setDesc("description");
 		
-		userService.saveProfile(UserDataProvider.NET_USER_ID, (UserProfile) user.getProfile());
+		userService.saveProfile(UserDataProvider.NET_USER_ID, UserDataProvider.NET_USER_NAME, user.getProfile());
 		user = userRepository.findOne(UserDataProvider.NET_USER_ID);
 
 		Assert.assertNotNull(user);
@@ -61,7 +61,7 @@ public class UserProfileTest extends AbstractTestNGSpringContextTests {
 		User user = userRepository.findOne(UserDataProvider.NET_USER_ID);
 		(user.getProfile()).setBirthday(new Date());
 		
-		userService.saveProfile(UserDataProvider.NET_USER_ID, user.getProfile());
+		userService.saveProfile(UserDataProvider.NET_USER_ID, UserDataProvider.NET_USER_NAME, user.getProfile());
 		user = userRepository.findOne(UserDataProvider.NET_USER_ID);
 
 		Assert.assertNotNull(user);

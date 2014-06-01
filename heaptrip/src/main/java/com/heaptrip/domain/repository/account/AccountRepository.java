@@ -23,7 +23,7 @@ public interface AccountRepository extends CrudRepository<Account> {
 
     void saveSetting(String accountId, Setting setting);
 
-    void saveProfile(String accountId, Profile profile);
+    void saveProfile(String accountId, String name, Profile profile);
 
     List<Account> findAccountsByEmailAndStatus(String email, AccountStatusEnum accountStatus);
 

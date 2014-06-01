@@ -70,11 +70,11 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
     }
 
     @Override
-    public void saveProfile(String accountId, Profile profile) {
+    public void saveProfile(String accountId, String name, Profile profile) {
         MongoCollection coll = getCollection();
         String query = "{_id: #}";
-        String updateQuery = "{$set: {'profile': #}}";
-        WriteResult wr = coll.update(query, accountId).with(updateQuery, profile);
+        String updateQuery = "{$set: {'name': #, 'profile': #}}";
+        WriteResult wr = coll.update(query, accountId).with(updateQuery, name, profile);
         logger.debug("WriteResult for update account: {}", wr);
     }
 
@@ -86,15 +86,6 @@ public class AccountRepositoryImpl extends CrudRepositoryImpl<Account> implement
         Iterable<Account> iterator = coll.find(query, email, accountStatus.toString()).as(Account.class);
         return IteratorConverter.copyIterator(iterator.iterator());
     }
-
-//    @Override
-//    public List<User> findUsersByEmail(String email) {
-//        // TODO dikma: add index
-//        MongoCollection coll = getCollection();
-//        String query = "{email: #, _class: #}";
-//        Iterable<User> iterator = coll.find(query, email, User.class.getName()).as(User.class);
-//        return IteratorConverter.copyIterator(iterator.iterator());
-//    }
 
     @Override
     protected String getCollectionName() {
