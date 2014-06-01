@@ -129,6 +129,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
     public User registration(User user, String password, InputStream isImage, Locale locale) throws IOException,
             NoSuchAlgorithmException, MessagingException {
         Assert.notNull(user, "userRegistration must not be null");
+        nameIsCorrectly(user.getName());
         Assert.notNull(user.getEmail(), "email must not be null");
         Assert.isTrue(user.getEmail().matches(EMAIL_REGEX), "email is not correct");
 

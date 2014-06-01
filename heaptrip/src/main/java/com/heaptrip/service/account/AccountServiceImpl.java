@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.concurrent.Future;
+import java.util.regex.Pattern;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
@@ -26,6 +27,9 @@ public class AccountServiceImpl implements AccountService {
     protected static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     public static String EMAIL_REGEX = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
+
+    static int NAME_MIN_LENGTH = 3;
+    static int NAME_MAX_LENGTH = 100;
 
     @Autowired
     protected AccountRepository accountRepository;
@@ -149,6 +153,7 @@ public class AccountServiceImpl implements AccountService {
         Future<Void> future;
 
         Assert.notNull(accountId, "accountId must not be null");
+        nameIsCorrectly(name);
         Assert.notNull(profile, "profile must not be null");
 
         Account account = accountRepository.findOne(accountId);
@@ -195,5 +200,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void delete(String accountId) {
 
+    }
+
+    protected void nameIsCorrectly(String name) {
+        Assert.notNull(name, "name must not be null");
+        Assert.isTrue(name.length() >= NAME_MIN_LENGTH,
+                "length name must be at least 3 characters and maximum length of 100");
+        Assert.isTrue(name.length() <= NAME_MAX_LENGTH,
+                "length name must be at least 3 characters and maximum length of 100");
     }
 }

@@ -84,6 +84,7 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
     @Override
     public Community registration(Community community, Locale locale) {
         Assert.notNull(community, "account must not be null");
+        nameIsCorrectly(community.getName());
         Assert.notNull(community.getEmail(), "email must not be null");
         Assert.notNull(community.getAccountType(), "type account must not be null");
         Assert.isTrue(!community.getAccountType().equals(AccountEnum.USER), "account must not be type account is user");
