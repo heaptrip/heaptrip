@@ -1,12 +1,6 @@
 package com.heaptrip.web.model.profile;
 
-import com.heaptrip.domain.entity.account.user.Knowledge;
-import com.heaptrip.domain.entity.account.user.Practice;
-import com.heaptrip.web.model.content.CategoryModel;
 import com.heaptrip.web.model.content.DateModel;
-import com.heaptrip.web.model.content.RegionModel;
-
-import java.util.Date;
 
 public class UserProfileModel {
 

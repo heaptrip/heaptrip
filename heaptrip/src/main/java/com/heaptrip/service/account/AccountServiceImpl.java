@@ -162,7 +162,6 @@ public class AccountServiceImpl implements AccountService {
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_NOT_ACTIVE);
         } else {
-            // TODO dikma: set regions and categories name. Maybe need set there parent IDs.
             accountRepository.saveProfile(accountId, profile);
             future = accountStoreService.update(accountId);
         }
