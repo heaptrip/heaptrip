@@ -263,9 +263,9 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         if (region != null) {
             result = new RegionModel();
             result.setId(region.getId());
-            if (region.getName() != null)
+            if (region.getName() != null) {
                 result.setData(region.getName().getValue(getCurrentLocale()));
-
+            }
         }
         return result;
     }

@@ -21,7 +21,9 @@ import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
 import com.heaptrip.util.converter.Converter;
 import com.heaptrip.util.converter.ListConverter;
 import com.heaptrip.util.http.HttpClient;
+import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.model.content.RatingModel;
+import com.heaptrip.web.model.content.RegionModel;
 import com.heaptrip.web.model.profile.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,6 +50,8 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Autowired
     private AccountStoreService accountStoreService;
 
+    @Autowired
+    private FilterModelService filterModelService;
 
     @Override
     public UserInfoModel getUserInformation(String userId) {
@@ -62,7 +66,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Community community = (Community) accountService.getAccountById(communityId);
         return convertCommunityToCommunityModel(community);
     }
-
 
     @Override
     public AccountModel getAccountInformation(String uid) {
@@ -104,13 +107,11 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
     @Override
     public void updateCommunityInfo(CommunityInfoModel communityInfoModel) {
-
         Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
         Assert.notNull(communityInfoModel.getId(), "community id  must not be null");
         Profile profile = convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile());
         userService.saveProfile(communityInfoModel.getId(), profile);
     }
-
 
     @Override
     public void changeImage(String accountId, String imageId) {
@@ -138,7 +139,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return accountModel;
     }
 
-
     private UserInfoModel convertUserToUserModel(Account user) {
         UserInfoModel userInfoModel = null;
         if (user != null) {
@@ -148,7 +148,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         }
         return userInfoModel;
     }
-
 
     private CommunityInfoModel convertCommunityToCommunityModel(Account community) {
         CommunityInfoModel communityInfoModel = null;
@@ -160,7 +159,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return communityInfoModel;
     }
 
-
     private AccountInfoModel putAccountToAccountInfoModel(AccountInfoModel accountInfoModel, Account account) {
         if (accountInfoModel != null && account != null) {
             putAccountToAccountModel(accountInfoModel, account);
@@ -169,7 +167,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         }
         return accountInfoModel;
     }
-
 
     private AccountModel putAccountToAccountModel(AccountModel accountModel, Account account) {
         if (accountModel != null && account != null) {
@@ -194,10 +191,17 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             accountProfileModel.setRegions(convertRegionsToModel(profile.getRegions()));
             accountProfileModel.setLangs(profile.getLangs());
             accountProfileModel.setLocation(convertRegionToModel(profile.getLocation()));
+            if (accountProfileModel.getLocation() != null && accountProfileModel.getLocation().getId() != null) {
+                TreObject<RegionModel, RegionModel, RegionModel> regions = filterModelService.getRegionHierarchy(accountProfileModel.getLocation().getId());
+                StringBuilder region = new StringBuilder();
+                region.append(regions.getUno() == null ? "" : regions.getUno().getData());
+                region.append(regions.getDue() == null ? "" : ", " + regions.getDue().getData());
+                region.append(regions.getTre() == null ? "" : ", " + regions.getTre().getData());
+                accountProfileModel.getLocation().setData(region.toString());
+            }
         }
         return accountProfileModel;
     }
-
 
     private UserProfileModel convertUserProfileToProfileModel(Profile profile) {
         UserProfileModel profileModel = null;
@@ -220,7 +224,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         }
         return profileModel;
     }
-
 
     private KnowledgeModel[] convertKnowledgiesToModels(Knowledge[] knowledgies) {
         ArrayList<KnowledgeModel> knowledgeModelList = new ArrayList<>();
@@ -245,7 +248,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         }
         return knowledgeModel;
     }
-
 
     private Knowledge[] convertKnowledgiesModelsToKnowledgies(KnowledgeModel[] knowledgeModels) {
         if (knowledgeModels == null || knowledgeModels.length == 0) {
@@ -273,7 +275,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return knowledge;
     }
 
-
     private PracticeModel[] convertPracticesToModels(Practice[] practice) {
         ArrayList<PracticeModel> practicModelList = new ArrayList<>();
         if (practice != null) {
@@ -296,7 +297,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return practiceModel;
     }
 
-
     private Practice[] convertPracticesModelsToPractices(PracticeModel[] practiceModels) {
         if (practiceModels == null || practiceModels.length == 0) {
             return null;
@@ -307,16 +307,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
                 }
             });
         }
-
-//        ArrayList<Practice> practiceList = new ArrayList<>();
-//        if (practiceModels != null) {
-//            for (PracticeModel practiceModel : practiceModels) {
-//                practiceList.add(convertPracticeModelToPractice(practiceModel));
-//            }
-//        }
-//        return practiceList.toArray(new Practice[practiceList.size()]);
     }
-
 
     private Practice convertPracticeModelToPractice(PracticeModel practiceModel) {
         Practice practice = null;
@@ -330,12 +321,14 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         return practice;
     }
 
-
     private UserProfile convertProfileModelToProfile(AccountProfileModel accountProfileModel, UserProfileModel userProfileModel) {
         UserProfile profile = null;
         if (accountProfileModel != null) {
             if (userProfileModel != null) {
                 UserProfile userProfile = new UserProfile();
+                if (accountProfileModel.getLocation() != null) {
+                    userProfile.setLocation(convertRegionModelToRegion(accountProfileModel.getLocation(), getCurrentLocale()));
+                }
                 if (userProfileModel.getBirthday() != null)
                     userProfile.setBirthday(userProfileModel.getBirthday().getValue());
                 userProfile.setKnowledgies(convertKnowledgiesModelsToKnowledgies(userProfileModel.getKnowledgies()));
@@ -355,6 +348,9 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         if (accountProfileModel != null) {
             if (communityProfileModel != null) {
                 CommunityProfile communityProfile = new CommunityProfile();
+                if (accountProfileModel.getLocation() != null) {
+                    communityProfile.setLocation(convertRegionModelToRegion(accountProfileModel.getLocation(), getCurrentLocale()));
+                }
                 communityProfile.setSkype(communityProfileModel.getSkype());
             } else {
                 profile = new CommunityProfile();
@@ -363,7 +359,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         }
         return profile;
     }
-
 
     private RatingModel convertAccountRatingToRatingModel(AccountRating accountRating) {
         RatingModel ratingModel = new RatingModel();
@@ -394,7 +389,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             }
         });
     }
-
 
     @Override
     public Community registration(CommunityInfoModel communityInfoModel) {
@@ -462,6 +456,4 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         }
         return result;
     }
-
-
 }
