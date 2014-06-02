@@ -190,7 +190,7 @@ $(document).ready(function () {
         .autocomplete({
             source: function (request, response) {
 
-                var url = 'rest/search_regions';
+                var url = '../rest/search_regions';
 
                 var callbackSuccess = function (data) {
                     response(

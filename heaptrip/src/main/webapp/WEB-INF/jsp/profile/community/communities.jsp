@@ -5,31 +5,31 @@
 
 <script id="userCommunitiesTemplate" type="text/x-jsrender">
     <li class="participants_li community_func_user" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/community?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="workingCommunitiesTemplate" type="text/x-jsrender">
     <li class="participants_li community_func_working" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/community?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="memberCommunitiesTemplate" type="text/x-jsrender">
     <li class="participants_li community_func_member" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/community?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="subscriberCommunitiesTemplate" type="text/x-jsrender">
     <li class="participants_li community_func_subscriber" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/community?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="searchCommunitiesTemplate" type="text/x-jsrender">
     <li class="participants_li community_func_search" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-community.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/community?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
@@ -92,7 +92,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_user .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/refusal_of_community';
+            var url = '../rest/security/refusal_of_community';
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -124,7 +124,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_working .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/resign_from_community';
+            var url = '../rest/security/resign_from_community';
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -154,7 +154,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_member .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/out_of_community';
+            var url = '../rest/security/out_of_community';
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -186,7 +186,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_subscriber .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/unsubscribe_from_publisher';
+            var url = '../rest/security/unsubscribe_from_publisher';
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -220,7 +220,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $('.community_func_search .participants_menu a').click(function (e) {
             var community = $(this).parents('.participants_li');
 
-            var url = 'rest/security/' + $(this).attr('name');
+            var url = '../rest/security/' + $(this).attr('name');
 
             var callbackSuccess = function (data) {
                 $(community).remove();
@@ -366,7 +366,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#list_user_5").hide();
     }
 
-    var url = 'rest/communities';
+    var url = '../rest/communities';
 
     var callbackSuccess = function (data) {
         if(data.userCommunities){
@@ -406,7 +406,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
             <c:if test='${not empty principal && empty catcher}'>
                 <div class="inf">
                     <div class="right">
-                        <a href="<c:url value="/community_modify_info.html"/>" class="button"><fmt:message
+                        <a href="<c:url value="/community_modify_info"/>" class="button"><fmt:message
                                 key="page.action.create"/></a>
                     </div>
                 </div>

@@ -7,7 +7,7 @@
 
 <c:set var="postId" value='${param.id}'/>
 
-<c:url var="postEditUrl" value="post_modify_info.html">
+<c:url var="postEditUrl" value="../ht/post_modify_info">
     <c:param name='id' value="${postId}"/>
 </c:url>
 
@@ -31,7 +31,7 @@
                     </c:if>
 
                     <div><fmt:message key="content.author"/>:<a
-                            href="<c:url value="/pf-profile.html?guid=${post.owner.id}"/>"><span>${post.owner.name} (${post.owner.rating.value})</span></a>
+                            href="<c:url value="../pf/profile?guid=${post.owner.id}"/>"><span>${post.owner.name} (${post.owner.rating.value})</span></a>
                     </div>
                     <div><fmt:message key="content.category"/>:
                         <c:forEach items="${post.categories}" var="category">

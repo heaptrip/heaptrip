@@ -10,7 +10,7 @@
 
 <c:if test="${not empty principal}">
 
-<a href="<c:url value='/pf-notification-security.html'/>" id="alert">${notificationServiceWrapper.getUnreadNotificationFromUsers()}/${notificationServiceWrapper.getUnreadNotificationFromCommunities()}</a>
+<a href="<c:url value='/pf/notification-security'/>" id="alert">${notificationServiceWrapper.getUnreadNotificationFromUsers()}/${notificationServiceWrapper.getUnreadNotificationFromCommunities()}</a>
 
 </c:if>
 
@@ -60,7 +60,7 @@
 <div id="account">
     <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
         <div id="account_name" class="login">
-            <a href="<c:url value="/login.html"/>">
+            <a href="<c:url value="../pf/login"/>">
                 <fmt:message key="user.action.login"/>
             </a>
         </div>

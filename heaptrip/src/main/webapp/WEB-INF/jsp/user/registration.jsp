@@ -37,7 +37,7 @@
 
         $(btn).prop('disabled', true);
 
-        var url = 'rest/user/registration';
+        var url = '../rest/user/registration';
 
         // registrationInfo
         var jsonData = {
@@ -52,7 +52,7 @@
 
         var callbackSuccess = function (data) {
             var domain = $("#email").val().replace(/.*@/, "");
-            window.location = 'confirmation.html?domain=' + domain;
+            window.location = 'confirmation?domain=' + domain;
         };
 
         var callbackError = function (error) {
@@ -67,8 +67,8 @@
 
 <nav id="nav">
     <ul>
-        <li><a href="<c:url value="/login.html"/>"><fmt:message key="user.action.login"/></a></li>
-        <li><a href="<c:url value="/registration.html"/>" class="active"><fmt:message
+        <li><a href="<c:url value="../ht/login"/>"><fmt:message key="user.action.login"/></a></li>
+        <li><a href="<c:url value="../ht/registration"/>" class="active"><fmt:message
                 key="user.action.registration"/></a></li>
     </ul>
 </nav>

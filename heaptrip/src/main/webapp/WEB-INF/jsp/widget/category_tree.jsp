@@ -54,7 +54,7 @@
 
     $(document).ready(function () {
 
-        var url = 'rest/categories';
+        var url = '../rest/categories';
 
         var callbackSuccess = function (data) {
 

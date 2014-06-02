@@ -5,39 +5,33 @@
 
 
 <script id="notificationsTemplate" type="text/x-jsrender">
-
     {{if status == 'NEW'}}
-    <li id="{{>id}}" onclick="onNotificationView($(this))">
+        <li id="{{>id}}" onclick="onNotificationView($(this))">
+    {{else}}
+        <li id="{{>id}}" class="old">
     {{/if}}
-
-    {{if status != 'NEW'}}
-    <li id="{{>id}}" class="old">
-    {{/if}}
-        <div class="list_alert_img">
-            <img src="<c:url value="/rest/image/small/{{>accountFrom.image.id}}"/>">
-        </div>
-        <div class="list_alert_inf">
-            <span>{{>created.text}}</span>
-
-            <div class="list_alert_name"><a>{{:text}}</a></div>
-
-            {{if isAwaitingAction == 'true'}}
-            <a key='REJECTED' onclick="onNotificationClick(event,$(this))" class="button">Reject</a>
-            <a key='ACCEPTED' onclick="onNotificationClick(event,$(this))" class="button">Accept</a>
-            {{/if}}
-
-            {{if isAwaitingAction != 'true'}}
-            {{>status}}
-            {{/if}}
-
-        </div>
-    </li>
+            <div class="list_alert_img">
+                <img src="<c:url value="../rest/image/small/{{>accountFrom.image.id}}"/>">
+            </div>
+            <div class="list_alert_inf">
+                <span>{{>created.text}}</span>
+                <div class="list_alert_name"><a>{{:text}}</a></div>
+                {{if isAwaitingAction == 'true'}}
+                    <a key='REJECTED' onclick="onNotificationClick(event,$(this))" class="button">Reject</a>
+                    <a key='ACCEPTED' onclick="onNotificationClick(event,$(this))" class="button">Accept</a>
+                {{else}}
+                    {{>status}}
+                {{/if}}
+            </div>
+        </li>
 </script>
 
 
 <script type="text/javascript">
+
     var changeNotificationStatus = function (notificationId, status) {
-        var url = 'rest/security/notification/change_status';
+
+        var url = '../rest/security/notification/change_status';
 
         var callbackSuccess = function (data) {
             $('#' + notificationId).toggleClass("old")
@@ -47,7 +41,7 @@
             $.alert(error);
         };
 
-        var params = { notificationId:notificationId,status:status};
+        var params = { notificationId: notificationId, status: status};
 
         $.postJSON(url, params, callbackSuccess, callbackError);
 
@@ -57,8 +51,8 @@
     var onNotificationView = function (msg) {
 
         var notificationId = msg[0].id;
-        if($('#' + notificationId).find('.button').length >0 ) return;
-        changeNotificationStatus(notificationId,'READED');
+        if ($('#' + notificationId).find('.button').length > 0) return;
+        changeNotificationStatus(notificationId, 'READED');
         //alert(' I View Notification notificationId : ' + notificationId);
 
     }
@@ -67,7 +61,7 @@
         var notificationId = btn.parent().parent()[0].id;
         var action = btn.attr('key');
         //alert('notificationId : ' + notificationId + ' action : ' + action);
-        changeNotificationStatus(notificationId,action);
+        changeNotificationStatus(notificationId, action);
         if (e.stopPropagation)
             e.stopPropagation();
         else
@@ -101,7 +95,7 @@
 
     var getUserNotification = function (params) {
 
-        var url = 'rest/security/notification/user';
+        var url = '../rest/security/notification/user';
 
         var criteria = {
             accountId: window.principal.id,
@@ -128,7 +122,7 @@
 
     var getCommunityNotification = function (params) {
 
-        var url = 'rest/security/notification/community';
+        var url = '../rest/security/notification/community';
 
         var criteria = {
             userId: window.principal.id,
@@ -178,11 +172,11 @@
         <div id="tab1" style="display:${fn:contains(param.tb, 'usr') || empty param.tb ? 'cmt':'none'}">
             <div class="list_alert">
                 <%--<div class="select">--%>
-                    <%--<div class="select_selected">BY NEW</div>--%>
-                    <%--<ul>--%>
-                        <%--<li><a href="/">BY NEW</a></li>--%>
-                        <%--<li><a href="/">BY OLD</a></li>--%>
-                    <%--</ul>--%>
+                <%--<div class="select_selected">BY NEW</div>--%>
+                <%--<ul>--%>
+                <%--<li><a href="/">BY NEW</a></li>--%>
+                <%--<li><a href="/">BY OLD</a></li>--%>
+                <%--</ul>--%>
                 <%--</div>--%>
                 <ul id="notification_user_list"></ul>
             </div>
@@ -194,11 +188,11 @@
         <div id="tab2" style="display:${fn:contains(param.tb, 'cmt') ? 'true':'none' }">
             <div class="list_alert">
                 <%--<div class="select">--%>
-                    <%--<div class="select_selected">BY NEW</div>--%>
-                    <%--<ul>--%>
-                        <%--<li><a href="/">BY NEW</a></li>--%>
-                        <%--<li><a href="/">BY OLD</a></li>--%>
-                    <%--</ul>--%>
+                <%--<div class="select_selected">BY NEW</div>--%>
+                <%--<ul>--%>
+                <%--<li><a href="/">BY NEW</a></li>--%>
+                <%--<li><a href="/">BY OLD</a></li>--%>
+                <%--</ul>--%>
                 <%--</div>--%>
                 <ul id="notification_community_list"></ul>
             </div>
@@ -206,11 +200,10 @@
                 <div id="paginator2"></div>
             </div>
         </div>
-    <!-- #content-->
+        <!-- #content-->
     </div>
-<!-- #container-->
+    <!-- #container-->
 </div>
-
 
 
 <aside id="sideRight">

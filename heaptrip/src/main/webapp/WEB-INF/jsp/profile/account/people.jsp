@@ -5,19 +5,19 @@
 
 <script id="friendTemplate" type="text/x-jsrender">
     <li class="participants_li func_refusal_friendship" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/profile?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="publisherTemplate" type="text/x-jsrender">
     <li class="participants_li func_unsubscribe_publisher" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/profile?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
 <script id="searchPeopleTemplate" type="text/x-jsrender">
     <li class="participants_li func_search_people" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div><div class="list_user_name"><a href="../pf/profile?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
@@ -58,7 +58,7 @@
             $('.func_refusal_friendship .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
-                var url = 'rest/security/refusal_of_friendship';
+                var url = '../rest/security/refusal_of_friendship';
 
                 var callbackSuccess = function (data) {
                     $(user).remove();
@@ -89,7 +89,7 @@
             $('.func_unsubscribe_publisher .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
-                var url = 'rest/security/unsubscribe_from_publisher';
+                var url = '../rest/security/unsubscribe_from_publisher';
 
                 var callbackSuccess = function (data) {
                     $(user).remove();
@@ -121,7 +121,7 @@
             $('.func_search_people .participants_menu a').click(function (e) {
                 var user = $(this).parents('.participants_li');
 
-                var url = 'rest/security/' + $(this).attr('name');
+                var url = '../rest/security/' + $(this).attr('name');
 
                 var callbackSuccess = function (data) {
                     $(user).remove();
@@ -209,7 +209,7 @@
             $("#list_user_5").hide();
         }
 
-        var url = 'rest/people';
+        var url = '../rest/people';
 
         var callbackSuccess = function (data) {
             if(data.userFriends){
@@ -301,10 +301,10 @@
         <%--<li class="participants_li people_func">--%>
             <%--<div class="list_user_img">--%>
                 <%--{{if image}}--%>
-                <%--<img src="rest/image/small/{{>image.id}}">--%>
+                <%--<img src="../rest/image/small/{{>image.id}}">--%>
                 <%--{{/if}}--%>
             <%--</div>--%>
-            <%--<div class="list_user_name"><a href="pf-people.html?guid={{>id}}">{{>name}}</a></div>--%>
+            <%--<div class="list_user_name"><a href="pf-people?guid={{>id}}">{{>name}}</a></div>--%>
         <%--</li>--%>
     <%--</ul>--%>
 <%--</script>--%>
@@ -318,7 +318,7 @@
     <%--});--%>
 
     <%--var getFriendList = function (paramsJson) {--%>
-        <%--var url = 'rest/communities';--%>
+        <%--var url = '../rest/communities';--%>
 
         <%--var friendsCriteria = {--%>
 
@@ -348,7 +348,7 @@
     <%--};--%>
 
     <%--var getPublisherList = function (paramsJson) {--%>
-        <%--var url = 'rest/communities';--%>
+        <%--var url = '../rest/communities';--%>
 
         <%--var publishersCriteria = {--%>
 
@@ -389,7 +389,7 @@
             <%--&lt;%&ndash;<c:if test='${not empty principal && empty catcher}'>&ndash;%&gt;--%>
                 <%--&lt;%&ndash;<div class="inf">&ndash;%&gt;--%>
                     <%--&lt;%&ndash;<div class="right">&ndash;%&gt;--%>
-                        <%--&lt;%&ndash;<a href="<c:url value="/community_modify_info.html"/>" class="button"><fmt:message&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<a href="<c:url value="/community_modify_info"/>" class="button"><fmt:message&ndash;%&gt;--%>
                                 <%--&lt;%&ndash;key="page.action.add"/></a>&ndash;%&gt;--%>
                     <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
                 <%--&lt;%&ndash;</div>&ndash;%&gt;--%>

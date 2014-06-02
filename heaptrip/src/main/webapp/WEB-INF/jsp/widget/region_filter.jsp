@@ -63,7 +63,7 @@ function buildRegionsTree(regionsDataArr) {
 
 
 
-    $.postJSON('rest/get_region_hierarchy', regionsDataArr.join(), callbackSuccess, callbackError);
+    $.postJSON('../rest/get_region_hierarchy', regionsDataArr.join(), callbackSuccess, callbackError);
 }
 
 $(window).bind("onPageReady", function (e, paramsJson) {
@@ -91,7 +91,7 @@ $(document).ready(function () {
             .autocomplete({
                 source: function (request, response) {
 
-                    var url = 'rest/search_regions';
+                    var url = '../rest/search_regions';
 
                     var callbackSuccess = function (data) {
                         response(
@@ -187,7 +187,7 @@ $(document).ready(function () {
                 $.alert(error);
             };
 
-            $.postJSON('rest/get_user_regions', guid, callbackSuccess, callbackError);
+            $.postJSON('../rest/get_user_regions', guid, callbackSuccess, callbackError);
         } else {
             $.allowLoading('getInitRegionsIds', {rg: null});
         }

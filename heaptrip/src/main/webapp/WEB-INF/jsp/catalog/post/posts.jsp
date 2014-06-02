@@ -10,13 +10,13 @@
         </div>
         <div class="inf">
             <div class="left">
-                <h2><a href="<c:url value="/post.html?id={{>id}}"/>">{{>name}}</a></h2>
+                <h2><a href="<c:url value="../ht/post?id={{>id}}"/>">{{>name}}</a></h2>
 
 
                 <div class="tags">
 
 
-                    <a href="<c:url value="/pf-profile.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+                    <a href="<c:url value="pf/profile?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
 
 
@@ -71,7 +71,7 @@
 
     var getPostsList = function (paramsJson) {
 
-        var url = 'rest/posts';
+        var url = '../rest/posts';
 
         var postCriteria = {
             skip: paramsJson.paginator  ? paramsJson.paginator.skip : 0,

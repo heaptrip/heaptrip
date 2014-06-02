@@ -21,22 +21,22 @@
             <div class="tabs_content">
                 <ul><!--
     										-->
-                    <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                    <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                     <!--
                                                                 -->
-                    <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                    <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                     <!--
                                                                 -->
-                    <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                    <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                     <!--
                                                                 -->
-                    <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                    <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                     <!--
                                                                 -->
-                    <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                    <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                     <!--
                                                                 -->
-                    <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                    <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                     <!--
                                                             -->
                     </ul>

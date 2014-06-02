@@ -13,9 +13,9 @@
         <security:intercept-url pattern="/.*security.*" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/.*" access="permitAll"/>
 
-        <security:form-login login-page="/rest/login-page"
-                             authentication-failure-url="/rest/authentication-failure"
-                             default-target-url="/rest/default-target"
+        <security:form-login login-page="/../rest/login-page"
+                             authentication-failure-url="/../rest/authentication-failure"
+                             default-target-url="/../rest/default-target"
                              always-use-default-target="true"/>
         <security:logout/>
 
@@ -33,11 +33,11 @@
 
 
         <!-- Override default login and lsogout pages -->
-        <security:form-login login-page="/login.html"
+        <security:form-login login-page="/pf/login"
                              login-processing-url="/loginProcess"
-                             default-target-url="/ct-tidings.html"
+                             default-target-url="/ct/tidings"
                              authentication-failure-url="/login.html?login_error=true"/>
-        <security:logout logout-url="/logout" logout-success-url="/ct-tidings.html"/>
+        <security:logout logout-url="/logout" logout-success-url="/ct/tidings"/>
 
         <!-- reference to the shared request cache -->
         <security:request-cache ref="requestCache"/>

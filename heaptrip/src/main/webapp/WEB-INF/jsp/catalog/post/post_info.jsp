@@ -25,7 +25,7 @@
 	}
 
 	function formatFileDisplay(file) {
-		var fileUrl = '${pageContext.request.contextPath}/image.html?imageId=' + file.id;
+		var fileUrl = '${pageContext.request.contextPath}/image?imageId=' + file.id;
 		var link = '<img src="' + fileUrl + '"/><br/>';
 
 		var size = '<span style="font-style:italic">' + (file.size / 1000).toFixed(2) + 'K</span>';

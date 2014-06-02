@@ -10,7 +10,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                 elements: [
                     {
                         type: 'html',
-                        html: '<div class="uploadImgServer"><form action="rest/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="загрузить" class="button"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div></div><div class="image"/></div><div class="status"></div>'
+                        html: '<div class="uploadImgServer"><form action="../rest/image/upload" method="POST" enctype="multipart/form-data"><input type="file" name="myfile"><br><input type="submit" value="загрузить" class="button"></form><div class="progress"><div class="bar"></div><div class="percent">0%</div></div><div class="image"/></div><div class="status"></div>'
                     }
                 ]
             }
@@ -42,7 +42,7 @@ CKEDITOR.dialog.add( 'abbrDialog', function( editor ) {
                         bar.width(percentVal)
                         percent.html(percentVal);
                         //$('#image').html('');
-                        $(".image").html("<img id='upload-image' src='rest/image?imageId=" + result.fileId + "'/>");
+                        $(".image").html("<img id='upload-image' src='../rest/image?imageId=" + result.fileId + "'/>");
                     },
                     complete: function (xhr) {
                         status.html(xhr.responseText);

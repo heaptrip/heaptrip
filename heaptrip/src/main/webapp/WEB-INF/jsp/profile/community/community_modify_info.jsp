@@ -72,16 +72,16 @@
         var url = null;
 
         if (jsonData.id)
-            url = 'rest/security/community_update';
+            url = '../rest/security/community_update';
         else
-            url = 'rest/security/community/registration';
+            url = '../rest/security/community/registration';
 
         var callbackSuccess = function (data) {
             if (jsonData.id)
-                window.location = 'pf-communities.html';
+                window.location = '../pf/communities';
             else {
                 var domain = $("#community_email").val().replace(/.*@/, "");
-                window.location = 'confirmation.html?domain=' + domain;
+                window.location = 'confirmation?domain=' + domain;
             }
         };
 
@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image/medium/${account.image.id}"/>"><a
+                    <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>"><a
                             class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">

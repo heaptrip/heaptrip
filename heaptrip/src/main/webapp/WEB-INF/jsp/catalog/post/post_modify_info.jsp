@@ -77,8 +77,8 @@
             });
         }
 
-        var url = (postId ? 'rest/security/post_update'
-                : 'rest/security/post_save');
+        var url = (postId ? '../rest/security/post_update'
+                : '../rest/security/post_save');
 
         var callbackSuccess = function (data) {
             $(btn).prop('disabled', false);

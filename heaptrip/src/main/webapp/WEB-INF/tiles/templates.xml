@@ -160,21 +160,19 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp"/>
     </definition>
 
-    <definition name="ct-tidings" extends="mainContentTemplate">
+    <definition name="tidings" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
-    <definition name="pf-tidings" extends="ct-tidings"/>
 
-    <definition name="ct-travels" extends="mainContentTemplate">
+
+    <definition name="travels" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
     </definition>
-    <definition name="my-travels" extends="ct-travels"/>
-    <definition name="fv-travels" extends="ct-travels"/>
-    <definition name="pf-travels" extends="ct-travels"/>
+
 
 
 
@@ -270,13 +268,13 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_info.jsp"/>
     </definition>
 
-    <definition name="pf-profile" extends="mainContentTemplate">
+    <definition name="profile" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="userTemplate"/>
     </definition>
 
-    <definition name="pf-community" extends="mainContentTemplate">
+    <definition name="community" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communityTemplate"/>
@@ -296,7 +294,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/people.jsp"/>
     </definition>
 
-    <definition name="pf-people" extends="mainContentTemplate">
+    <definition name="people" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="peopleTemplate"/>
@@ -306,7 +304,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
     </definition>
 
-    <definition name="pf-communities" extends="mainContentTemplate">
+    <definition name="communities" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communitiesTemplate"/>
@@ -326,7 +324,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/notification/notification.jsp"/>
     </definition>
 
-    <definition name="pf-notification-security" extends="mainContentTemplate">
+    <definition name="notification-security" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="notificationTemplate"/>
@@ -355,5 +353,7 @@
     <definition name="pagination" template="/WEB-INF/jsp/widget/pagination.jsp"/>
 
     <definition name="comments" template="/WEB-INF/jsp/widget/comments_tree.jsp"/>
+
+    <definition name="upload_page" template="/WEB-INF/jsp/upload.jsp"/>
 
 </tiles-definitions>

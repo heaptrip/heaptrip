@@ -7,23 +7,23 @@
 <c:set var="tripId"
 	value='${param.id}' />
 
-<c:url var="infoUrl" value="travel_info.html">
+<c:url var="infoUrl" value="../ht/travel_info">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="mapsUrl" value="travel_maps.html">
+<c:url var="mapsUrl" value="../ht/travel_maps">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="photosUrl" value="travel_photos.html">
+<c:url var="photosUrl" value="../ht/travel_photos">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="participantsUrl" value="travel_participants.html">
+<c:url var="participantsUrl" value="../ht/travel_participants">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="postsUrl" value="travel_posts.html">
+<c:url var="postsUrl" value="../ht/travel_posts">
 	<c:param name='id' value="${tripId}" />
 </c:url>
 
-<c:url var="tripEditUrl" value="travel_modify_info.html">
+<c:url var="tripEditUrl" value="../ht/travel_modify_info">
 	<c:param name='id' value="${tripId}" />
 	<c:param name='tb' value='${fn:contains(url,"info") ? "info":"map" }' />
     <c:param name='ul' value='${curr_locale}' />
@@ -50,7 +50,7 @@
 								<h2 class="chernovik"><a href="/"><fmt:message key="content.draft" /> ${trip.name}</a></h2>
 							</c:if>
 
-							<div id="trip_owner_id" key="${trip.owner.id}"><fmt:message key="content.author" />:<a href="<c:url value="/pf-${trip.owner.typeAccount eq 'USER' ?  'profile' :'community'}.html?guid=${trip.owner.id}"/>"><span >${trip.owner.name} (${trip.owner.rating.value})</span></a></div>
+							<div id="trip_owner_id" key="${trip.owner.id}"><fmt:message key="content.author" />:<a href="<c:url value="../pf/${trip.owner.typeAccount eq 'USER' ?  'profile' :'community'}?guid=${trip.owner.id}"/>"><span >${trip.owner.name} (${trip.owner.rating.value})</span></a></div>
 							<div><fmt:message key="content.category" />:
 								<c:forEach items="${trip.categories}" var="category">
 									<span>${category.data}</span>

@@ -24,9 +24,9 @@
             member_id="{{>memberId}}"
             user_id="{{>account.id}}"
             >
-            <div class=" list_user_img">{{if account.image}}<img src="rest/image/small/{{>account.image.id}}">{{/if}}
+            <div class=" list_user_img">{{if account.image}}<img src="../rest/image/small/{{>account.image.id}}">{{/if}}
             </div>
-            <div class="list_user_name"><a href="pf-profile.html?guid={{>account.id}}">{{>account.name}}
+            <div class="list_user_name"><a href="../pf/profile?guid={{>account.id}}">{{>account.name}}
                 {{if isOrganizer}} ({{:~locale.participant.status.organizer}}) {{/if}} </a></div>
             <span style="font-size:10px">{{:~locale.participant.status[status]}}</span>
 
@@ -52,9 +52,9 @@
         <ul>
             {{for participants}}
             <li class="participants_li func_" member_id="{{>memberId}}" user_id="{{>account.id}}">
-                <div class=" list_user_img">{{if account.image}}<img src="rest/image/small/{{>account.image.id}}">{{/if}}
+                <div class=" list_user_img">{{if account.image}}<img src="../rest/image/small/{{>account.image.id}}">{{/if}}
                 </div>
-                <div class="list_user_name"><a href="pf-profile.html?guid={{>account.id}}">{{>account.name}}
+                <div class="list_user_name"><a href="../pf/profile?guid={{>account.id}}">{{>account.name}}
                     {{if isOrganizer}} ({{:~locale.participant.status.organizer}}) {{/if}} </a></div>
                 <span style="font-size:10px">{{:~locale.participant.status[status]}}</span>
 
@@ -71,8 +71,8 @@
 
 <script id="searchPeopleTemplate" type="text/x-jsrender">
     <li class="participants_li func_search_people" id="{{>id}}">
-        <div class="list_user_img">{{if image}}<img src="rest/image/small/{{>image.id}}">{{/if}}</div>
-        <div class="list_user_name"><a href="pf-profile.html?guid={{>id}}">{{>name}}</a></div>
+        <div class="list_user_img">{{if image}}<img src="../rest/image/small/{{>image.id}}">{{/if}}</div>
+        <div class="list_user_name"><a href="../pf/profile?guid={{>id}}">{{>name}}</a></div>
     </li>
 </script>
 
@@ -98,7 +98,7 @@ var searchPeople = function (paramsJson) {
         $('.func_search_people .participants_menu a').click(function (e) {
             var user = $(this).parents('.participants_li');
 
-            var url = 'rest/security/trip/' + $(this).attr('name');
+            var url = '../rest/security/trip/' + $(this).attr('name');
 
             var params = {};
             params.userId = user.attr('id');
@@ -203,7 +203,7 @@ var searchPeople = function (paramsJson) {
         $("#list_user_3").hide();
     }
 
-    var url = 'rest/people';
+    var url = '../rest/people';
 
     var callbackSuccess = function (data) {
         if (data.userFriends) {
@@ -274,7 +274,7 @@ var getTripScheduleParticipants = function (paramsJson) {
 
             console.log(participant)
 
-            var url = 'rest/security/trip/' + $(e).attr('name');
+            var url = '../rest/security/trip/' + $(e).attr('name');
             var params = {};
             params.memberId = participant.attr('member_id');
             params.isOrganizer = "" + isOrganizer;
@@ -320,7 +320,7 @@ var getTripScheduleParticipants = function (paramsJson) {
         tripId: paramsJson.id
     };
 
-    var url = 'rest/trip/schedule_participants';
+    var url = '../rest/trip/schedule_participants';
 
     var callbackSuccess = function (data) {
 
@@ -335,7 +335,7 @@ var getTripScheduleParticipants = function (paramsJson) {
                 var btn = $(this);
                 $.doAuthenticationUserAction(function () {
 
-                    var url = 'rest/security/trip/send_request_trip_participant';
+                    var url = '../rest/security/trip/send_request_trip_participant';
 
                     var params = {};
                     params.userId = window.principal.id;
@@ -456,22 +456,22 @@ var getTripScheduleParticipants = function (paramsJson) {
                            <%--<div class="tabs_content">--%>
                                <%--<ul><!----%>
     										<%---->--%>
-                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<li><a href="/map"><img src="/map/map1.jpg"></a></li>--%>
                                    <%--<!----%>
                                                                                <%---->--%>
-                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<li><a href="/map"><img src="/map/map1.jpg"></a></li>--%>
                                    <%--<!----%>
                                                                                <%---->--%>
-                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<li><a href="/map"><img src="/map/map1.jpg"></a></li>--%>
                                    <%--<!----%>
                                                                                <%---->--%>
-                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<li><a href="/map"><img src="/map/map1.jpg"></a></li>--%>
                                    <%--<!----%>
                                                                                <%---->--%>
-                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<li><a href="/map"><img src="/map/map1.jpg"></a></li>--%>
                                    <%--<!----%>
                                                                                <%---->--%>
-                                   <%--<li><a href="/map.html"><img src="/map/map1.jpg"></a></li>--%>
+                                   <%--<li><a href="/map"><img src="/map/map1.jpg"></a></li>--%>
                                    <%--<!----%>
                                                                            <%---->--%>
                                <%--</ul>--%>

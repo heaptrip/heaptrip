@@ -11,7 +11,7 @@
 
         $(btn).prop('disabled', true);
 
-        var url = 'rest/add_favorite';
+        var url = '../rest/add_favorite';
 
         var callbackSuccess = function (data) {
             $(btn).remove();
@@ -32,7 +32,7 @@
             var btn = $(this);
             $.doAuthenticationUserAction(function () {
 
-                var url = 'rest/security/trip/send_request_trip_participant';
+                var url = '../rest/security/trip/send_request_trip_participant';
 
                 var params = {};
                 params.userId = window.principal.id;

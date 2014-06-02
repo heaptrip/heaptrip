@@ -274,7 +274,7 @@ var addContentRating = function (value) {
         $('.stars').unbind('click', null);
         $('.stars').unbind('mousemove', null);
 
-        var url = 'rest/security/add_content_rating';
+        var url = '../rest/security/add_content_rating';
 
         var contentRating = {
             contentType: $(".stars")[0].getAttribute('contentType'),
@@ -352,7 +352,7 @@ var uploader = {
             }
         });
 
-        var src = './upload.jsp?image_type=' + params.imageType + '&target_id=' + params.targetId;
+        var src = './upload_page.html?image_type=' + params.imageType + '&target_id=' + params.targetId;
         var title = 'UPLOADER';
         var width = 800;
         var height = 350;

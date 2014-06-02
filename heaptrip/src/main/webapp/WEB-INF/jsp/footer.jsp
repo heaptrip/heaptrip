@@ -6,7 +6,7 @@
 	<ul>
 		<li>
 			<ul>
-				<li><a href="<c:url value="/ct-travels.html"/>" class="zag"><fmt:message key="trip.list.title" /></a></li>
+				<li><a href="<c:url value="/ct/travels"/>" class="zag"><fmt:message key="trip.list.title" /></a></li>
 				<li><a href="/"><fmt:message key="trip.rank.upcoming" /></a></li>
 				<li><a href="/"><fmt:message key="trip.rank.current" /></a></li>
 				<li><a href="/"><fmt:message key="trip.rank.past" /></a></li>
@@ -14,7 +14,7 @@
 		</li>
 		<li>
 			<ul>
-				<li><a href="<c:url value="/ct-posts.html"/>" class="zag"><fmt:message key="post.list.title" /></a></li>
+				<li><a href="<c:url value="/ct/posts"/>" class="zag"><fmt:message key="post.list.title" /></a></li>
 				<li><a href="/"><fmt:message key="post.rank.last" /></a></li>
 				<li><a href="/"><fmt:message key="post.rank.best" /></a></li>
 			</ul>

@@ -90,15 +90,29 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/pf/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/ct/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/fv/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/my/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/ht/*</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/mail/*</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>*.html</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>/image/upload/*</url-pattern>
     </servlet-mapping>
 
     <!-- Spring Сontext ConfigLocation -->
@@ -121,7 +135,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/notfound.html</location>
+        <location>/pg/notfound</location>
     </error-page>
 
 </web-app>

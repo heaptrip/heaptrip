@@ -158,11 +158,11 @@
         $.extend(jsonData, {accountProfile: accountProfile});
         $.extend(jsonData, {userProfile: userProfile});
 
-        var url = 'rest/security/account_update';
+        var url = '../rest/security/account_update';
 
 
         var callbackSuccess = function (data) {
-            window.location = 'pf-profile.html?guid=' + $.getParamFromURL().guid;
+            window.location = '../pf/profile?guid=' + $.getParamFromURL().guid;
         };
 
         var callbackError = function (error) {
@@ -193,7 +193,7 @@
                 </div>
 
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image/medium/${account.image.id}"/>"><a
+                    <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>"><a
                             class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">

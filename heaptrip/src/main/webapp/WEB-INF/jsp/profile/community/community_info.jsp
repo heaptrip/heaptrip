@@ -16,7 +16,7 @@
                 <c:if test='${not empty catcher && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}'>
 
                 <div class="right">
-                    <a href="<c:url value="/community_modify_info.html?guid=${param.guid}"/>" class="button"><fmt:message
+                    <a href="<c:url value="../ht/community_modify_info?guid=${param.guid}"/>" class="button"><fmt:message
                             key="page.action.edit"/></a>
                 </div>
 
@@ -25,7 +25,7 @@
 
 
                 <div class="accountProfile">
-                    <div class="my_avatar"><img src="<c:url value="/rest/image/medium/${account.image.id}"/>">
+                    <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>">
 
 <c:if test='${not empty catcher && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}'>
                         <a class="button"><fmt:message key="page.action.uploadPhoto"/></a>

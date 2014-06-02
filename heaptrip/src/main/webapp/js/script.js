@@ -7,7 +7,7 @@ $(document).ready(function () {
 
                 $('.my_avatar img').attr('src', files[0].url);
 
-                var url = 'rest/security/change_image';
+                var url = '../rest/security/change_image';
 
                 var methodParams = {
                     imageId: files[0].id,
@@ -34,7 +34,7 @@ $(document).ready(function () {
     if ($('.global_menu').length) {
         $('.global_menu').bind('click', function () {
             if (!window.principal) {
-                window.location = 'ct-tidings.html';
+                window.location = '../ct/tidings';
                 return;
             }
             if ($('.global_menu ul').is(':hidden')) {

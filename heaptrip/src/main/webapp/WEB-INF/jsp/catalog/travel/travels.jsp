@@ -11,10 +11,10 @@
         </div>
         <div class="inf">
             <div class="left">
-                <h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>
+                <h2><a href="<c:url value="../ht/travel_info?id={{>id}}"/>">{{>name}}</a></h2>
 
                 <div class="tags">
-                    <a href="<c:url value="/pf-{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+                    <a href="<c:url value="../pf/{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
             </div>
             <div class="right">
@@ -78,7 +78,7 @@
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">
-                            <a href="<c:url value="/travel_modify_info.html"/>"
+                            <a href="<c:url value="../ht/travel_modify_info"/>"
                                class="button"><fmt:message
                                     key="page.action.add"/></a>
                         </div>
@@ -90,7 +90,7 @@
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">
-                            <a href="<c:url value="/travel_modify_info.html?guid=${catcher.id}"/>"
+                            <a href="<c:url value="../ht/travel_modify_info?guid=${catcher.id}"/>"
                                class="button"><fmt:message
                                     key="page.action.add"/></a>
                         </div>
@@ -134,22 +134,22 @@
             }
         };
 
-        var url = 'rest/trips';
+        var url = '../rest/trips';
 
 
         if (window.principal) {
             tripCriteria.userId = window.principal.id;
             if (window.mode == 'MY') {
-                url = 'rest/my/trips';
+                url = '../rest/my/trips';
                 tripCriteria.relation = 'OWN';
             } else if (window.mode == 'FAVORITE') {
-                url = 'rest/my/trips';
+                url = '../rest/my/trips';
                 tripCriteria.relation = 'FAVORITES';
             }
         }
 
         if (window.catcher) {
-            url = 'rest/foreign/trips';
+            url = '../rest/foreign/trips';
             tripCriteria.accountId = window.catcher.id;
             tripCriteria.relation = 'OWN';
         }
@@ -177,7 +177,7 @@
 
         $(btn).prop('disabled', true);
 
-        var url = 'rest/remove_favorite';
+        var url = '../rest/remove_favorite';
 
         var callbackSuccess = function (data) {
             location.reload();

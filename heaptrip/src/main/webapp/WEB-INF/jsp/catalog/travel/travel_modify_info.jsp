@@ -157,12 +157,12 @@
 
         jsonData.schedule = schedule;
 
-        var url = (tripId ? 'rest/security/travel_update'
-                : 'rest/security/travel_save');
+        var url = (tripId ? '../rest/security/travel_update'
+                : '../rest/security/travel_save');
 
         var callbackSuccess = function (data) {
             //var domain =  $("#email").val().replace(/.*@/, "");
-            //window.location = 'confirmation.html?domain=' + domain;
+            //window.location = 'confirmation?domain=' + domain;
             if (!tripId) {
                 $.putGETParamToURL("id", data.tripId);
             }
@@ -301,15 +301,15 @@
                 key="trip.route"/><span></span></a></li>
         <!--
             -->
-        <li><a href="/travel_edit_photo.html"><fmt:message
+        <li><a href="/travel_edit_photo"><fmt:message
                 key="content.photo"/><span></span></a></li>
         <!--
             -->
-        <li><a href="/travel_edit_participants.html"><fmt:message
+        <li><a href="/travel_edit_participants"><fmt:message
                 key="content.participants"/><span></span></a></li>
         <!--
             -->
-        <li><a href="/travel_edit_posts.html"><fmt:message
+        <li><a href="/travel_edit_posts"><fmt:message
                 key="post.list.title"/><span></span></a></li>
         <!--
         -->
@@ -436,22 +436,22 @@
                 <div class="tabs_content">
                     <ul><!--
     										-->
-                        <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                        <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                     -->
-                        <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                        <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                     -->
-                        <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                        <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                     -->
-                        <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                        <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                     -->
-                        <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                        <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                     -->
-                        <li><a href="/map.html"><img src="/map/map1.jpg"></a></li>
+                        <li><a href="/map"><img src="/map/map1.jpg"></a></li>
                         <!--
                                                                 -->
                     </ul>

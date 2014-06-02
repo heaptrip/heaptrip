@@ -10,11 +10,11 @@
         </div>
         <div class="inf">
             <div class="left">
-                <h2><a href="<c:url value="/travel_info.html?id={{>id}}"/>">{{>name}}</a></h2>
+                <h2><a href="<c:url value="../ht/travel_info?id={{>id}}"/>">{{>name}}</a></h2>
 
                 <div class="tags">
 
-                    <a href="<c:url value="/pf-{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}.html?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+                    <a href="<c:url value="../pf/{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
             </div>
             <div class="right">
@@ -96,22 +96,22 @@
             }
         };
 
-        var url = 'rest/news';
+        var url = '../rest/news';
 
 
         if (window.principal) {
             contentCriteria.userId = window.principal.id;
             if (window.mode == 'MY') {
-                url = 'rest/my/news';
+                url = '../rest/my/news';
                 contentCriteria.relation = 'OWN';
             } else if (window.mode == 'FAVORITE') {
-                url = 'rest/my/news';
+                url = '../rest/my/news';
                 contentCriteria.relation = 'FAVORITES';
             }
         }
 
         if (window.catcher) {
-            url = 'rest/foreign/news';
+            url = '../rest/foreign/news';
             contentCriteria.accountId = window.catcher.id;
             contentCriteria.relation = 'OWN';
         }

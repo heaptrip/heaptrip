@@ -27,7 +27,7 @@
             };
 
 
-            var url = 'rest/security/comment_save';
+            var url = '../rest/security/comment_save';
 
             var callbackSuccess = function (data) {
                 //$.alert(data);

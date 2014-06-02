@@ -9,21 +9,21 @@
     <ul>
         <c:if test="${not empty principal}">
             <li>
-                <a href="<c:url value="/ct-tidings.html"/>" class='${mode eq 'CONTENT' ? "active":"" }'> <fmt:message
+                <a href="<c:url value="/ct/tidings"/>" class='${mode eq 'CONTENT' ? "active":"" }'> <fmt:message
                         key="content.list.title"/></a>
             </li>
             <li>
-                <a href="<c:url value="/pf-profile.html"/>" class='${mode eq 'PROFILE' ? "active":"" }'>
+                <a href="<c:url value="../pf/profile"/>" class='${mode eq 'PROFILE' ? "active":"" }'>
                     <fmt:message key="accountProfile.title"/>
                 </a>
             </li>
             <li>
-                <a href="<c:url value="/my-travels.html"/>" class='${mode eq 'MY' ? "active":"" }'>
+                <a href="<c:url value="/my/travels"/>" class='${mode eq 'MY' ? "active":"" }'>
                     <fmt:message key="accountProfile.my"/>
                 </a>
             </li>
             <li>
-                <a href="<c:url value="/fv-travels.html"/>" class='${mode eq 'FAVORITE' ? "active":"" }'>
+                <a href="<c:url value="/fv/travels"/>" class='${mode eq 'FAVORITE' ? "active":"" }'>
                     <fmt:message key="accountProfile.favorite"/>
                 </a>
             </li>
@@ -34,28 +34,28 @@
 <ul>
     <c:if test="${mode eq 'CONTENT'}">
         <li>
-            <a href="<c:url value="/ct-tidings.html"/>" class="${fn:contains(url, '/ct-tiding') ? 'active':'' }">
+            <a href="<c:url value="/ct/tidings"/>" class="${fn:contains(url, '//ct//tiding') ? 'active':'' }">
                 <fmt:message key="tiding.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/ct-travels.html"/>" class='${fn:contains(url, "/ct-travel") ? "active":"" }'>
+            <a href="<c:url value="/ct/travels"/>" class='${fn:contains(url, "/ct/travel") ? "active":"" }'>
                 <fmt:message key="trip.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/ct-posts.html"/>" class='${fn:contains(url, "/ct-post") ? "active":"" }'>
+            <a href="<c:url value="/ct/posts"/>" class='${fn:contains(url, "/ct/post") ? "active":"" }'>
                 <fmt:message key="post.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/ct-questions.html"/>"
+            <a href="<c:url value="/ct/questions"/>"
                class='${fn:contains(url, "/ct-questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/ct-events.html"/>" class='${fn:contains(url, "/ct-events") ? "active":"" }'>
+            <a href="<c:url value="/ct/events"/>" class='${fn:contains(url, "/ct/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
@@ -63,23 +63,23 @@
 
     <c:if test="${mode eq 'MY'}">
         <li>
-            <a href="<c:url value="/my-travels.html"/>" class='${fn:contains(url, "/my-travel") ? "active":"" }'>
+            <a href="<c:url value="/my/travels"/>" class='${fn:contains(url, "/my/travel") ? "active":"" }'>
                 <fmt:message key="trip.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/my-posts.html"/>" class='${fn:contains(url, "/my-post") ? "active":"" }'>
+            <a href="<c:url value="/my/posts"/>" class='${fn:contains(url, "/my/post") ? "active":"" }'>
                 <fmt:message key="post.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/my-questions.html"/>"
+            <a href="<c:url value="/my/questions"/>"
                class='${fn:contains(url, "/my-questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/my-events.html"/>" class='${fn:contains(url, "/my-events") ? "active":"" }'>
+            <a href="<c:url value="/my/events"/>" class='${fn:contains(url, "/my/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
@@ -87,23 +87,23 @@
 
     <c:if test="${mode eq 'FAVORITE'}">
         <li>
-            <a href="<c:url value="/fv-travels.html"/>" class='${fn:contains(url, "/fv-travel") ? "active":"" }'>
+            <a href="<c:url value="/fv/travels"/>" class='${fn:contains(url, "/fv/travel") ? "active":"" }'>
                 <fmt:message key="trip.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/fv-posts.html"/>" class='${fn:contains(url, "/fv-post") ? "active":"" }'>
+            <a href="<c:url value="/fv/posts"/>" class='${fn:contains(url, "/fv/post") ? "active":"" }'>
                 <fmt:message key="post.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/fv-questions.html"/>"
-               class='${fn:contains(url, "/fv-questions") ? "active":"" }'>
+            <a href="<c:url value="/fv/questions"/>"
+               class='${fn:contains(url, "/fv/questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/fv-events.html"/>" class='${fn:contains(url, "/fv-events") ? "active":"" }'>
+            <a href="<c:url value="/fv/events"/>" class='${fn:contains(url, "/fv/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
@@ -112,28 +112,28 @@
     <%--свой аккаунт--%>
     <c:if test="${mode eq 'PROFILE' && empty catcher}">
         <li>
-            <a href="<c:url value="/pf-profile.html"/>" class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
+            <a href="<c:url value="/pf/profile"/>" class='${fn:contains(url, "/pf/profile") ? "active":"" }'>
                 <fmt:message key="accountProfile.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-notification-security.html"/>"
-               class='${fn:contains(url, "/pf-notification") ? "active":"" }'>
+            <a href="<c:url value="/pf/notification-security"/>"
+               class='${fn:contains(url, "../pf/notification") ? "active":"" }'>
                 <fmt:message key="accountProfile.notification"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-people.html"/>" class='${fn:contains(url, "/pf-people") ? "active":"" }'>
+            <a href="<c:url value="/pf/people"/>" class='${fn:contains(url, "/pf/people") ? "active":"" }'>
                 <fmt:message key="accountProfile.people"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-communities.html"/>" class='${fn:contains(url, "/pf-communit") ? "active":"" }'>
+            <a href="<c:url value="/pf/communities"/>" class='${fn:contains(url, "/pf/communit") ? "active":"" }'>
                 <fmt:message key="accountProfile.community"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-options.html"/>" class='${fn:contains(url, "/pf-options") ? "active":"" }'>
+            <a href="<c:url value="/pf/options"/>" class='${fn:contains(url, "/pf/options") ? "active":"" }'>
                 <fmt:message key="accountProfile.options"/>
             </a>
         </li>
@@ -149,15 +149,15 @@
 
 
             <li>
-                <a href="<c:url value="/pf-profile.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-profile") ? "active":"" }'>
+                <a href="<c:url value="../pf/profile?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "../pf/profile") ? "active":"" }'>
                     <fmt:message key="accountProfile.title"/>
                 </a>
             </li>
 
             <li>
-                <a href="<c:url value="/pf-communities.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-communit") ? "active":"" }'>
+                <a href="<c:url value="../pf/communities?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "../pf/communit") ? "active":"" }'>
                     <fmt:message key="accountProfile.community"/>
                 </a>
             </li>
@@ -168,15 +168,15 @@
 
 
             <li>
-                <a href="<c:url value="/pf-community.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-community") ? "active":"" }'>
+                <a href="<c:url value="../pf/community?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "../pf/community") ? "active":"" }'>
                     <fmt:message key="accountProfile.title"/>
                 </a>
             </li>
 
             <li>
-                <a href="<c:url value="/pf-tidings.html?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf-tidings") ? "active":"" }'>
+                <a href="<c:url value="../pf/tidings?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "../pf/tidings") ? "active":"" }'>
                     <fmt:message key="tiding.list.title"/>
                 </a>
             </li>
@@ -185,26 +185,26 @@
 
 
         <li>
-            <a href="<c:url value="/pf-travels.html?guid=${catcher.id}"/>"
-               class='${fn:contains(url, "/pf-travel") ? "active":"" }'>
+            <a href="<c:url value="../pf/travels?guid=${catcher.id}"/>"
+               class='${fn:contains(url, "../pf/travel") ? "active":"" }'>
                 <fmt:message key="trip.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-posts.html?guid=${catcher.id}"/>"
-               class='${fn:contains(url, "/pf-post") ? "active":"" }'>
+            <a href="<c:url value="../pf/posts?guid=${catcher.id}"/>"
+               class='${fn:contains(url, "../pf/post") ? "active":"" }'>
                 <fmt:message key="post.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-questions.html?guid=${catcher.id}"/>"
-               class='${fn:contains(url, "/pf-questions") ? "active":"" }'>
+            <a href="<c:url value="../pf/questions?guid=${catcher.id}"/>"
+               class='${fn:contains(url, "../pf/questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf-events.html?guid=${catcher.id}"/>"
-               class='${fn:contains(url, "/pf-events") ? "active":"" }'>
+            <a href="<c:url value="../pf/events?guid=${catcher.id}"/>"
+               class='${fn:contains(url, "../pf/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>

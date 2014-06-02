@@ -51,11 +51,11 @@
     <h1>jQuery File Upload Demo</h1>
     <h2 class="lead">Basic Plus version</h2>
     <ul class="nav nav-tabs">
-        <li><a href="basic.html">Basic</a></li>
+        <li><a href="basic">Basic</a></li>
         <li class="active"><a href="basic-plus.jsp">Basic Plus</a></li>
-        <li><a href="index.html">Basic Plus UI</a></li>
-        <li><a href="angularjs.html">AngularJS</a></li>
-        <li><a href="jquery-ui.html">jQuery UI</a></li>
+        <li><a href="index">Basic Plus UI</a></li>
+        <li><a href="angularjs">AngularJS</a></li>
+        <li><a href="jquery-ui">jQuery UI</a></li>
     </ul>
     <br>
     <blockquote>

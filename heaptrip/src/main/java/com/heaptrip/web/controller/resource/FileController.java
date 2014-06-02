@@ -80,10 +80,10 @@ public class FileController extends ExceptionHandlerControler {
                 fileMeta.setName(mpf.getOriginalFilename());
                 fileMeta.setSize(mpf.getSize() / 1024 + " Kb");
                 fileMeta.setType(mpf.getContentType());
-                fileMeta.setThumbnailUrl("./rest/image/small/" + image.getId());
-                fileMeta.setUrl("./rest/image/medium/" + image.getId());
+                fileMeta.setThumbnailUrl("../rest/image/small/" + image.getId());
+                fileMeta.setUrl("../rest/image/medium/" + image.getId());
                 fileMeta.setHighResolutionUrl("./rest/image/full/" + image.getId());
-                fileMeta.setDeleteUrl("./rest/del/" + image.getId());
+                fileMeta.setDeleteUrl("../rest/del/" + image.getId());
                 fileMeta.setDeleteType("DELETE");
                 fileMeta.setId(image.getId());
 
@@ -128,10 +128,10 @@ public class FileController extends ExceptionHandlerControler {
             fileMeta.setName(id);
             fileMeta.setSize(1000 / 1024 + " Kb");
             fileMeta.setType("none");
-            fileMeta.setThumbnailUrl("./rest/image/small/" + image.getId());
-            fileMeta.setUrl("./rest/image/medium/" + image.getId());
-            fileMeta.setHighResolutionUrl("./rest/image/full/" + image.getId());
-            fileMeta.setDeleteUrl("./rest/del/" + image.getId());
+            fileMeta.setThumbnailUrl("../rest/image/small/" + image.getId());
+            fileMeta.setUrl("../rest/image/medium/" + image.getId());
+            fileMeta.setHighResolutionUrl("../rest/image/full/" + image.getId());
+            fileMeta.setDeleteUrl("../rest/del/" + image.getId());
             fileMeta.setDeleteType("DELETE");
 
             fileMeta.setId(id);

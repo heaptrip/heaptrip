@@ -5,32 +5,32 @@
 <html lang="en">
 <head>
 
-    <link rel="stylesheet" href="./js/lib/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload.css"/>
-    <link rel="stylesheet" href="./js/lib/jquery-fileupload/css/jquery.fileupload-ui.css"/>
+    <link rel="stylesheet" href="../js/lib/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../js/lib/jquery-fileupload/css/jquery.fileupload.css"/>
+    <link rel="stylesheet" href="../js/lib/jquery-fileupload/css/jquery.fileupload-ui.css"/>
 
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-    <script src="./js/lib/jquery-fileupload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/vendor/jquery.ui.widget.js"></script>
     <!-- The Templates plugin is included to render the upload/download listings -->
-    <script src="./js/lib/jquery-fileupload/js/add/tmpl.min.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/add/tmpl.min.js"></script>
     <!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-    <script src="./js/lib/jquery-fileupload/js/add/load-image.min.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/add/load-image.min.js"></script>
     <!-- Bootstrap JS is not required, but included for the responsive demo navigation -->
-    <script src="./js/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../js/lib/bootstrap/js/bootstrap.min.js"></script>
     <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-    <script src="./js/lib/jquery-fileupload/js/jquery.iframe-transport.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/jquery.iframe-transport.js"></script>
     <!-- The basic File Upload plugin -->
-    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/jquery.fileupload.js"></script>
     <!-- The File Upload processing plugin -->
-    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-process.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/jquery.fileupload-process.js"></script>
     <!-- The File Upload image preview & resize plugin -->
-    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-image.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/jquery.fileupload-image.js"></script>
     <!-- The File Upload validation plugin -->
-    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-validate.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/jquery.fileupload-validate.js"></script>
     <!-- The File Upload user interface plugin -->
-    <script src="./js/lib/jquery-fileupload/js/jquery.fileupload-ui.js"></script>
+    <script src="../js/lib/jquery-fileupload/js/jquery.fileupload-ui.js"></script>
 
 </head>
 <body>
@@ -41,7 +41,7 @@
     <br/>
 
     <!-- The file upload form used as target for the file upload widget -->
-    <form id="fileupload" action="./rest/upload/" method="POST" enctype="multipart/form-data">
+    <form id="fileupload" action="./../rest/upload/" method="POST" enctype="multipart/form-data">
 
 
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -50,20 +50,20 @@
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span class="btn btn-success fileinput-button">
                     <i class="glyphicon glyphicon-plus"></i>
-                    <span>Add files...</span>
+                    <span><fmt:message key="page.file.addFile"/></span>
                     <input type="file" name="files[]" multiple>
                 </span>
                 <button type="submit" class="btn btn-primary start">
                     <i class="glyphicon glyphicon-upload"></i>
-                    <span>Start upload</span>
+                    <span><fmt:message key="page.file.startUpload"/></span>
                 </button>
                 <button type="reset" class="btn btn-warning cancel">
                     <i class="glyphicon glyphicon-ban-circle"></i>
-                    <span>Cancel upload</span>
+                    <span><fmt:message key="page.file.cancelUpload"/></span>
                 </button>
                 <button type="button" class="btn btn-danger delete">
                     <i class="glyphicon glyphicon-trash"></i>
-                    <span>Delete</span>
+                    <span><fmt:message key="page.file.deleteFile"/></span>
                 </button>
                 <input type="checkbox" class="toggle">
                 <!-- The global file processing state -->
@@ -105,7 +105,7 @@
             <strong class="error text-danger"></strong>
         </td>
         <td>
-            <p class="size">Processing...</p>
+            <p class="size"><fmt:message key="page.action.processing"/>...</p>
 
             <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100"
                  aria-valuenow="0">
@@ -116,13 +116,13 @@
             {% if (!i && !o.options.autoUpload) { %}
             <button class="btn btn-primary start" disabled>
                 <i class="glyphicon glyphicon-upload"></i>
-                <span>Start</span>
+                <span><fmt:message key="page.action.start"/></span>
             </button>
             {% } %}
             {% if (!i) { %}
             <button class="btn btn-warning cancel">
                 <i class="glyphicon glyphicon-ban-circle"></i>
-                <span>Cancel</span>
+                <span><fmt:message key="page.action.cancel"/></span>
             </button>
             {% } %}
         </td>
@@ -162,13 +162,13 @@
             <button class="btn btn-danger delete" data-type="{%=file.deleteType%}" data-url="{%=file.deleteUrl%}"
             {% if (file.deleteWithCredentials) { %} data-xhr-fields='{"withCredentials":true}'{% } %}>
             <i class="glyphicon glyphicon-trash"></i>
-            <span>Delete</span>
+            <span><fmt:message key="page.action.delete"/></span>
             </button>
             <input type="checkbox" name="delete" value="1" class="toggle">
             {% } else { %}
             <button class="btn btn-warning cancel">
                 <i class="glyphicon glyphicon-ban-circle"></i>
-                <span>Cancel</span>
+                <span><fmt:message key="page.action.cancel"/></span>
             </button>
             {% } %}
         </td>
@@ -186,8 +186,8 @@
         $('#fileupload').fileupload({
             // Uncomment the following to send cross-domain cookies:
             //xhrFields: {withCredentials: true},
-            url: 'rest/upload?ids=${param.ids}',
-            formData: {imageType: '${param.image_type}',targetId:'${param.target_id}'}
+            url: '../rest/upload?ids=${param.ids}',
+            formData: {imageType: '${param.image_type}', targetId: '${param.target_id}'}
         });
 
 

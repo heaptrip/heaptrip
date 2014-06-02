@@ -13,7 +13,7 @@
 
 <c:set var="curr_locale" scope="request"><fmt:message key="locale.name"/></c:set>
 
-<script type="text/javascript" src="js/locale/locale_${curr_locale}.js"></script>
+<script type="text/javascript" src="../js/locale/locale_${curr_locale}.js"></script>
 
 <c:set var="url" scope="request" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
 <c:set var="lang_values" scope="request" value="<%=LangEnum.getValues()%>"/>
@@ -26,16 +26,16 @@
     <c:set var="catcher" scope="request" value="${profileServiceWrapper.getAccountInformation(param.guid)}"/>
 </c:if>
 
-<c:if test="${fn:contains(url, 'ct-')}">
+<c:if test="${fn:contains(url, '/ct')}">
     <c:set var="mode" scope="request" value="CONTENT"/>
 </c:if>
-<c:if test="${fn:contains(url, 'my-')}">
+<c:if test="${fn:contains(url, '/my')}">
     <c:set var="mode" scope="request" value="MY"/>
 </c:if>
-<c:if test="${fn:contains(url, 'fv-')}">
+<c:if test="${fn:contains(url, '/fv')}">
     <c:set var="mode" scope="request" value="FAVORITE"/>
 </c:if>
-<c:if test="${fn:contains(url, 'pf-')}">
+<c:if test="${fn:contains(url, '/pf')}">
     <c:set var="mode" scope="request" value="PROFILE"/>
 </c:if>
 
