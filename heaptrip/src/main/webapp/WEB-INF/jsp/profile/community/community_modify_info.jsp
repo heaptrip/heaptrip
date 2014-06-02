@@ -34,7 +34,7 @@
 
         jsonData.name = $("#community_name").val();
         jsonData.email = $("#community_email").val();
-        jsonData.typeAccount = $("#community_type option:selected")[0].getAttribute('key');
+        jsonData.typeAccount = $('.select_selected').attr('value');
 
         var accountProfile = {};
 
@@ -127,14 +127,8 @@
 
 
                         <div class="my_location"><span><fmt:message key="account.type"/>: </span>
-                            <select id="community_type">
-                                <option key="CLUB"><fmt:message key="account.type.club"/></option>
-                                <option key="COMPANY"><fmt:message key="account.type.company"/></option>
-                                <option key="AGENCY"><fmt:message key="account.type.agency"/></option>
-                            </select>
-
                             <div class="select" id="community_type2">
-                                <div class="select_selected" value="CLUB"><fmt:message key="account.type.club"/></div>
+                                <div class="select_selected" value="${account.typeAccount}"><fmt:message key="account.type.club"/></div>
                                 <ul style="display: none;">
                                     <li><a href="/" value="CLUB"><fmt:message key="account.type.club"/></a></li>
                                     <li><a href="/" value="COMPANY"><fmt:message key="account.type.company"/></a></li>
