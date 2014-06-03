@@ -17,15 +17,11 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/post/post_modify_info.jsp"/>
     </definition>
 
-    <definition name="ct-posts" extends="mainContentTemplate">
+    <definition name="posts" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="postsTemplate"/>
     </definition>
-    <definition name="my-posts" extends="ct-posts"/>
-    <definition name="fv-posts" extends="ct-posts"/>
-    <definition name="pf-posts" extends="ct-posts"/>
-
 
     <definition name="post" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
