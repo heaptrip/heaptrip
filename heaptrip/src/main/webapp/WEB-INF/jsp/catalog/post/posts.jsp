@@ -10,7 +10,7 @@
         </div>
         <div class="inf">
             <div class="left">
-                <h2><a href="<c:url value="../ht/post?id={{>id}}"/>">{{>name}}</a></h2>
+                <h2><a href="<c:url value="/ct/post?id={{>id}}"/>">{{>name}}</a></h2>
 
 
                 <div class="tags">

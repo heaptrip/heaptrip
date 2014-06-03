@@ -16,7 +16,7 @@
                 <c:if test='${not empty principal && empty catcher}'>
 
                     <div class="right">
-                        <a href="<c:url value="../ht/profile_modify_info?guid=${param.guid}"/>"
+                        <a href="<c:url value="../pf/profile_modify_info?guid=${param.guid}"/>"
                            class="button"><fmt:message
                                 key="page.action.edit"/></a>
                     </div>

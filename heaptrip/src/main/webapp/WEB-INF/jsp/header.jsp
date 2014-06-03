@@ -60,7 +60,7 @@
 <div id="account">
     <sec:authorize ifAnyGranted="ROLE_ANONYMOUS">
         <div id="account_name" class="login">
-            <a href="<c:url value="../pf/login"/>">
+            <a href="<c:url value="/pf/login"/>">
                 <fmt:message key="user.action.login"/>
             </a>
         </div>

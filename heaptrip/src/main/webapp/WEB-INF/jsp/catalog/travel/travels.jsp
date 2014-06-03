@@ -11,10 +11,10 @@
         </div>
         <div class="inf">
             <div class="left">
-                <h2><a href="<c:url value="../ht/travel_info?id={{>id}}"/>">{{>name}}</a></h2>
+                <h2><a href="<c:url value="/ct/travel_info?id={{>id}}"/>">{{>name}}</a></h2>
 
                 <div class="tags">
-                    <a href="<c:url value="../pf/{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
+                    <a href="<c:url value="/pf/{{if owner.typeAccount == 'USER'}}profile{{else}}community{{/if}}?guid={{>owner.id}}"/>">{{>owner.name}}<span>({{>owner.rating.value}})</span></a>
                 </div>
             </div>
             <div class="right">
@@ -78,7 +78,7 @@
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">
-                            <a href="<c:url value="../ht/travel_modify_info"/>"
+                            <a href="<c:url value="/ct/travel_modify_info"/>"
                                class="button"><fmt:message
                                     key="page.action.add"/></a>
                         </div>
@@ -90,7 +90,7 @@
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">
-                            <a href="<c:url value="../ht/travel_modify_info?guid=${catcher.id}"/>"
+                            <a href="<c:url value="/ct/travel_modify_info?guid=${catcher.id}"/>"
                                class="button"><fmt:message
                                     key="page.action.add"/></a>
                         </div>

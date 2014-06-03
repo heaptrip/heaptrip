@@ -12,10 +12,6 @@ CKEDITOR.plugins.add('fileUpload',
                 });
 
             CKEDITOR.dialog.add('fileUploadDialog', function (editor) {
-
-
-               console.log (editor.name);
-
                 return {
                     title: 'Upload images',
                     minWidth: 800,
@@ -34,7 +30,7 @@ CKEDITOR.plugins.add('fileUpload',
                     ],
                     onOk: function () {
                         var files = null;
-                        var filesDiv = $("#UPLOADER_CONTAINER" + editor.name ).contents().find('#FILES_RESULT')
+                        var filesDiv = $("#UPLOADER_CONTAINER" + editor.name).contents().find('#FILES_RESULT')
                         if (filesDiv) {
                             var filesString = filesDiv.text();
                             if (filesString) {

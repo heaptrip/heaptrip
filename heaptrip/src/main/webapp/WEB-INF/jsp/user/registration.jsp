@@ -67,8 +67,8 @@
 
 <nav id="nav">
     <ul>
-        <li><a href="<c:url value="../ht/login"/>"><fmt:message key="user.action.login"/></a></li>
-        <li><a href="<c:url value="../ht/registration"/>" class="active"><fmt:message
+        <li><a href="<c:url value="/pf/login"/>"><fmt:message key="user.action.login"/></a></li>
+        <li><a href="<c:url value="/pf/registration"/>" class="active"><fmt:message
                 key="user.action.registration"/></a></li>
     </ul>
 </nav>

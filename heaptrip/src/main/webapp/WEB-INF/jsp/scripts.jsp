@@ -15,7 +15,7 @@
 
 <script type="text/javascript" src="../js/locale/locale_${curr_locale}.js"></script>
 
-<c:set var="url" scope="request" value="${requestScope['javax.servlet.forward.servlet_path']}"/>
+<c:set var="url" scope="request" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <c:set var="lang_values" scope="request" value="<%=LangEnum.getValues()%>"/>
 
 <sec:authorize ifNotGranted="ROLE_ANONYMOUS">

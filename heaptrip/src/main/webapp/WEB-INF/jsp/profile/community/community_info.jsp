@@ -16,7 +16,7 @@
                 <c:if test='${not empty catcher && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}'>
 
                 <div class="right">
-                    <a href="<c:url value="../ht/community_modify_info?guid=${param.guid}"/>" class="button"><fmt:message
+                    <a href="<c:url value="../pf/community_modify_info?guid=${param.guid}"/>" class="button"><fmt:message
                             key="page.action.edit"/></a>
                 </div>
 

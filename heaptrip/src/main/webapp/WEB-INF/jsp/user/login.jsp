@@ -34,8 +34,8 @@
 
 <nav id="nav">
 	<ul>
-		<li><a href="<c:url value="/ht/login"/>" class="active"><fmt:message key="user.action.login" /></a></li>
-		<li><a href="<c:url value="/ht/registration"/>"><fmt:message key="user.action.registration" /></a></li>
+		<li><a href="<c:url value="/pf/login"/>" class="active"><fmt:message key="user.action.login" /></a></li>
+		<li><a href="<c:url value="/pf/registration"/>"><fmt:message key="user.action.registration" /></a></li>
 	</ul>
 </nav>
 
@@ -94,7 +94,7 @@
 						<a href="${vkUrl}" class="vk"></a>
 				</div>
 				<div id="link">
-					<a href="<c:url value="/ht/registration"/>" id="reg_link"><fmt:message key="user.action.registration" /></a> <a
+					<a href="<c:url value="/pf/registration"/>" id="reg_link"><fmt:message key="user.action.registration" /></a> <a
 						href="/" id="forgot_password"><fmt:message key="user.action.pswRecover" /></a>
 				</div>
 			</div>

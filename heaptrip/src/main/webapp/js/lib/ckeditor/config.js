@@ -34,7 +34,7 @@ CKEDITOR.editorConfig = function (config) {
             match: function (element) {
                 if (element.attributes['src']) {
                     // enable only heaptrip image
-                    return element.attributes['src'].indexOf("/../rest/image/") >= 0 || element.attributes['src'] == "cke-test";
+                    return element.attributes['src'].indexOf("../rest/image/") >= 0 || element.attributes['src'] == "cke-test";
                 } else {
                     return true;
                 }

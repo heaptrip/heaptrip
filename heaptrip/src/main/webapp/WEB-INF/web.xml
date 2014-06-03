@@ -104,10 +104,6 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/my/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>/ht/*</url-pattern>
-    </servlet-mapping>
 
 
     <servlet-mapping>

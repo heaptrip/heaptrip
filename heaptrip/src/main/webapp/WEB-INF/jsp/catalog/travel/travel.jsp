@@ -7,23 +7,23 @@
 <c:set var="tripId"
 	value='${param.id}' />
 
-<c:url var="infoUrl" value="../ht/travel_info">
+<c:url var="infoUrl" value="/ct/travel_info">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="mapsUrl" value="../ht/travel_maps">
+<c:url var="mapsUrl" value="/ct/travel_maps">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="photosUrl" value="../ht/travel_photos">
+<c:url var="photosUrl" value="/ct/travel_photos">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="participantsUrl" value="../ht/travel_participants">
+<c:url var="participantsUrl" value="/ct/travel_participants">
 	<c:param name='id' value="${tripId}" />
 </c:url>
-<c:url var="postsUrl" value="../ht/travel_posts">
+<c:url var="postsUrl" value="/ct/travel_posts">
 	<c:param name='id' value="${tripId}" />
 </c:url>
 
-<c:url var="tripEditUrl" value="../ht/travel_modify_info">
+<c:url var="tripEditUrl" value="/ct/travel_modify_info">
 	<c:param name='id' value="${tripId}" />
 	<c:param name='tb' value='${fn:contains(url,"info") ? "info":"map" }' />
     <c:param name='ul' value='${curr_locale}' />
