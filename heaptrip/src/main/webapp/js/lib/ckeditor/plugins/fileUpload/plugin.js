@@ -13,7 +13,7 @@ CKEDITOR.plugins.add('fileUpload',
 
             CKEDITOR.dialog.add('fileUploadDialog', function (editor) {
                 return {
-                    title: 'Upload images',
+                    title: locale.window.uploadImage,
                     minWidth: 800,
                     minHeight: 320,
                     contents: [
@@ -49,7 +49,7 @@ CKEDITOR.plugins.add('fileUpload',
                     },
                     onShow: function () {
                         $('#UPLOADER_CONTAINER' + editor.name).height(320);
-                        $('#UPLOADER_CONTAINER' + editor.name).attr("src", './upload_page.html?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
+                        $('#UPLOADER_CONTAINER' + editor.name).attr("src", './upload_page?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
                     },
                     onClose: function () {
                         $('#UPLOADER_CONTAINER' + editor.name).attr("src", "");

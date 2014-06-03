@@ -14,6 +14,7 @@
 <c:set var="curr_locale" scope="request"><fmt:message key="locale.name"/></c:set>
 
 <script type="text/javascript" src="../js/locale/locale_${curr_locale}.js"></script>
+<script type="text/javascript" src="../script/script_locale.js"></script>
 
 <c:set var="url" scope="request" value="${requestScope['javax.servlet.forward.request_uri']}"/>
 <c:set var="lang_values" scope="request" value="<%=LangEnum.getValues()%>"/>

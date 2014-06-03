@@ -439,17 +439,17 @@ function participants_menu(name, commands, clas) {
                 $(this).find('.participants_menu').css('display', 'none');
             }
             $(this).find('.participants_menu div').css('display', 'none');
-            $(this).find('.participants_menu .participants_menu_show').css("background", "url('images/participants_func.jpg') right top no-repeat");
+            $(this).find('.participants_menu .participants_menu_show').css("background", "url('../images/participants_func.jpg') right top no-repeat");
         }
     );
     $(name + ' .participants_menu_show, ' + name + ' .dop_pic').click(function (e) {
         var menu = $(name + ' .participants_list_menu');
         if (menu.is(':hidden')) {
             menu.css('display', 'block');
-            $(this).parent().find('.participants_menu_show').css("background", "url('images/participants_func_a.jpg') right top no-repeat");
+            $(this).parent().find('.participants_menu_show').css("background", "url('../images/participants_func_a.jpg') right top no-repeat");
         } else {
             menu.css('display', 'none');
-            $(this).parent().find('.participants_menu_show').css("background", "url('images/participants_func.jpg') right top no-repeat");
+            $(this).parent().find('.participants_menu_show').css("background", "url('../images/participants_func.jpg') right top no-repeat");
         }
     });
 }

@@ -1,31 +1,5 @@
 var locale = {};
-
 locale.name = 'ru';
-
-locale.pagingText = 'cтраница';
-locale.pagingGo = 'выб.';
-locale.pagingOf = 'из';
-locale.pagingEmpty = 'нет записей, удовлетворяющих вашим условиям';
-
-
-locale.action = {};
-locale.action.successEdit = 'Операция изменения данных успешно завершена';
-
-locale.menu = {};
-locale.menu.addTripParticipant = 'Добавить участника';
-locale.menu.setTripOrganazer = 'Назначить организатором';
-locale.menu.cancelTripOrganazer = 'Отменить роль организатор';
-
-locale.participant = {};
-locale.participant.status = {};
-locale.participant.status.OK = 'Участвует';
-locale.participant.status.REQUEST = 'Отправлено приглашение';
-locale.participant.status.INVITE = 'Отправлено приглашение';
-locale.participant.status.organizer = 'Организатор';
-locale.participant.btn = {};
-locale.participant.btn.add = 'Добавить участника';
-locale.participant.btn.request = 'Отправить запрос на участие';
-
 
 jQuery(function ($) {
     $.datepicker.regional[locale.name] = {
@@ -49,6 +23,6 @@ jQuery(function ($) {
     $.datepicker.setDefaults($.datepicker.regional[locale.name]);
 
     if (typeof(CKEDITOR) !== "undefined") {
-        CKEDITOR.config.language = 'ru';
+        CKEDITOR.config.language = locale.name;
     }
 });

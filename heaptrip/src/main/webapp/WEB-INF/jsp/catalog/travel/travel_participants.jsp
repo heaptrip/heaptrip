@@ -203,7 +203,7 @@ var searchPeople = function (paramsJson) {
         $("#list_user_3").hide();
     }
 
-    var url = '../rest/people';
+    var url = '../rest/find_people';
 
     var callbackSuccess = function (data) {
         if (data.userFriends) {
@@ -292,14 +292,14 @@ var getTripScheduleParticipants = function (paramsJson) {
 
         if ($('.func_organizer_manage_people').length) {
             var commands = Array(
-                    Array(locale.menu.cancelTripOrganazer, 'cancelParticipantOrganizer', 'set_trip_participant_organizer')
+                    Array(locale.menu.cancelTripOrganizer, 'cancelParticipantOrganizer', 'set_trip_participant_organizer')
             );
             participants_menu('.func_organizer_manage_people', commands);
         }
 
         if ($('.func_manage_people').length) {
             var commands = Array(
-                    Array(locale.menu.setTripOrganazer, 'setParticipantOrganizer', 'set_trip_participant_organizer')
+                    Array(locale.menu.setTripOrganizer, 'setParticipantOrganizer', 'set_trip_participant_organizer')
             );
             participants_menu('.func_manage_people', commands);
         }

@@ -352,8 +352,8 @@ var uploader = {
             }
         });
 
-        var src = './upload_page.html?image_type=' + params.imageType + '&target_id=' + params.targetId;
-        var title = 'UPLOADER';
+        var src = './upload_page?image_type=' + params.imageType + '&target_id=' + params.targetId;
+        var title = locale.window.uploadImage;
         var width = 800;
         var height = 350;
         iframe.attr({

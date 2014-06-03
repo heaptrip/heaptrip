@@ -356,4 +356,8 @@
 
     <definition name="upload_page" template="/WEB-INF/jsp/upload.jsp"/>
 
+    <definition name="script_locale" template="/WEB-INF/jsp/locale/script_locale.jsp"/>
+
+
+
 </tiles-definitions>

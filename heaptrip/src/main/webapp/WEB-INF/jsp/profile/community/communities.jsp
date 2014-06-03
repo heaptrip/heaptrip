@@ -366,7 +366,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#list_user_5").hide();
     }
 
-    var url = '../rest/communities';
+    var url = '../rest/find_communities';
 
     var callbackSuccess = function (data) {
         if(data.userCommunities){

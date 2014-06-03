@@ -35,7 +35,7 @@ public class ProfileController extends ExceptionHandlerControler {
     @Qualifier("requestScopeService")
     private RequestScopeService scopeService;
 
-    @RequestMapping(value = "communities", method = RequestMethod.POST)
+    @RequestMapping(value = "find_communities", method = RequestMethod.POST)
     public
     @ResponseBody
     Map<String, ? extends Object> getCommunitiesByCriteria(@RequestBody AccountTextCriteriaMap accountCriteriaMap) {
@@ -97,7 +97,7 @@ public class ProfileController extends ExceptionHandlerControler {
 
     }
 
-    @RequestMapping(value = "people", method = RequestMethod.POST)
+    @RequestMapping(value = "find_people", method = RequestMethod.POST)
     public
     @ResponseBody
     Map<String, ? extends Object> getPeopleByCriteria(@RequestBody AccountTextCriteriaMap accountCriteriaMap) {

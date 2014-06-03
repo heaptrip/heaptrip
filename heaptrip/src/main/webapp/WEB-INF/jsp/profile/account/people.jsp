@@ -209,7 +209,7 @@
             $("#list_user_5").hide();
         }
 
-        var url = '../rest/people';
+        var url = '../rest/find_people';
 
         var callbackSuccess = function (data) {
             if(data.userFriends){

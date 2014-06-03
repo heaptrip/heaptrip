@@ -104,6 +104,11 @@
         <servlet-name>mvc-dispatcher</servlet-name>
         <url-pattern>/my/*</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/script/*</url-pattern>
+    </servlet-mapping>
+
 
 
     <servlet-mapping>
@@ -131,7 +136,7 @@
 
     <error-page>
         <error-code>404</error-code>
-        <location>/pg/notfound</location>
+        <location>/ct/notfound</location>
     </error-page>
 
 </web-app>
