@@ -51,24 +51,18 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
         categories.add(new Category("2.4.6", "2.4", new String[]{"2", "2.4"}, "Серфинг", "Surfing"));
         categories.add(new Category("2.4.7", "2.4", new String[]{"2", "2.4"}, "Яхтинг", "Yachting"));
         categories.add(new Category("2.5", "2", new String[]{"2"}, "Горный туризм", "Mountain tourism"));
+        categories.add(new Category("2.5.1", "2.5", new String[]{"2", "2.5"}, "Альпинизм", "Alpinism"));
+        categories.add(new Category("2.5.2", "2.5", new String[]{"2", "2.5"}, "Скалолазание ", "Rock climbing"));
         categories.add(new Category("2.6", "2", new String[]{"2"}, "Спелеология", "Speleology"));
-        categories.add(new Category("2.7", "2", new String[]{"2"}, "Пешеходный", "Hiking"));
         categories.add(new Category("2.8", "2", new String[]{"2"}, "Лыжный", "Skiing"));
-        categories.add(new Category("2.9", "2", new String[]{"2"}, "Горнолыжный", "Downhill skiing"));
+        categories.add(new Category("2.9", "2", new String[]{"2"}, "Горные лыжи & Сноуборд", "Skiing & Snowboarding"));
         categories.add(new Category("2.10", "2", new String[]{"2"}, "Конный туризм", "Horse riding"));
-        categories.add(new Category("2.11", "2", new String[]{"2"}, "Охота & Рыбалка", "Hunting & Fishing"));
         categories.add(new Category("2.12", "2", new String[]{"2"}, "Спортивное ориентирование", "Orienteering"));
         categories.add(new Category("3", null, null, "Круизы", "Cruises"));
         categories.add(new Category("3.1", "3", new String[]{"3"}, "Морские круизы", "Sea cruises"));
         categories.add(new Category("3.2", "3", new String[]{"3"}, "Речные круизы", "River cruises"));
-        categories.add(new Category("4", null, null, "Пляжный отдых", "Beach"));
-        categories.add(new Category("5", null, null, "Шопинг", "Shopping"));
         categories.add(new Category("6", null, null, "Оздоровительные туры", "Health tours"));
         categories.add(new Category("7", null, null, "Автостоп", "hitch-hiking"));
-        categories.add(new Category("8", null, null, "Обучающие туры", "Study tours"));
-        categories.add(new Category("9", null, null, "Событийные туры", "Event tours"));
-        categories.add(new Category("10", null, null, "Паломнические туры", "Pilgrimage tours"));
-        categories.add(new Category("11", null, null, "Самостоятельная поездка", "Self drive"));
     }
 
     @Test(priority = 0)
