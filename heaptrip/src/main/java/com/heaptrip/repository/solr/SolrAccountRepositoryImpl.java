@@ -95,7 +95,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
 
         logger.debug("Prepare document for add to solr: {}", doc);
 
-        SolrServer core = solrContext.getCore(SolrContext.ACCOUNTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.ACCOUNTS);
 
         UpdateResponse response = core.add(doc);
         logger.debug("Response to adding a document: {}", response);
@@ -105,7 +105,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
     public void remove(String accountId) throws SolrServerException, IOException {
         Assert.notNull(accountId, "accountId must not be null");
 
-        SolrServer core = solrContext.getCore(SolrContext.ACCOUNTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.ACCOUNTS);
 
         UpdateResponse response = core.deleteById(accountId);
         logger.debug("Response to removing a document with id={}: {}", accountId, response);
@@ -113,7 +113,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
 
     @Override
     public void commit() throws IOException, SolrServerException {
-        SolrServer core = solrContext.getCore(SolrContext.ACCOUNTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.ACCOUNTS);
 
         UpdateResponse response = core.commit();
         logger.debug("Response to committing: {}", response);
@@ -131,7 +131,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
             logger.debug("find account query: {}", query);
         }
 
-        SolrServer core = solrContext.getCore(SolrContext.ACCOUNTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.ACCOUNTS);
         QueryResponse response = core.query(query);
         SolrDocumentList results = response.getResults();
 
@@ -221,7 +221,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
         if (StringUtils.isEmpty(criteria.getQuery())) {
             // set q.alt
             query.set("q.alt", "*");
-        }   else {
+        } else {
             // set q
             query.set("q", criteria.getQuery());
         }
@@ -230,7 +230,7 @@ public class SolrAccountRepositoryImpl implements SolrAccountRepository {
             logger.debug("find accounts query: {}", query);
         }
 
-        SolrServer core = solrContext.getCore(SolrContext.ACCOUNTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.ACCOUNTS);
         QueryResponse response = core.query(query);
         SolrDocumentList results = response.getResults();
 

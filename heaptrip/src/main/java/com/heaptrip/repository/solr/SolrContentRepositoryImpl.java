@@ -94,7 +94,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 
         logger.debug("Prepare document for add to solr: {}", doc);
 
-        SolrServer core = solrContext.getCore(SolrContext.CONTENTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.CONTENTS);
 
         UpdateResponse response = core.add(doc);
         logger.debug("Response to adding a document: {}", response);
@@ -102,7 +102,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 
     @Override
     public void remove(String contentId) throws SolrServerException, IOException {
-        SolrServer core = solrContext.getCore(SolrContext.CONTENTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.CONTENTS);
 
         UpdateResponse response = core.deleteById(contentId);
         logger.debug("Response to removing a document with id={}: {}", contentId, response);
@@ -110,7 +110,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
 
     @Override
     public void commit() throws IOException, SolrServerException {
-        SolrServer core = solrContext.getCore(SolrContext.CONTENTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.CONTENTS);
 
         UpdateResponse response = core.commit();
         logger.debug("Response to committing: {}", response);
@@ -200,7 +200,7 @@ public class SolrContentRepositoryImpl implements SolrContentRepository {
             logger.debug("find contents query: {}", query);
         }
 
-        SolrServer core = solrContext.getCore(SolrContext.CONTENTS_CORE);
+        SolrServer core = solrContext.getCore(SolrCoreEnum.CONTENTS);
         QueryResponse response = core.query(query);
         SolrDocumentList results = response.getResults();
 
