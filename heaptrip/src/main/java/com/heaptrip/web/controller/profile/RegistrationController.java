@@ -77,7 +77,7 @@ public class RegistrationController extends ExceptionHandlerControler {
     public String confirmRegistration(@RequestParam String uid, @RequestParam String value) {
         accountService.confirmRegistration(uid, value);
         // authenticationProvider.authenticateInternal(user);
-        return "redirect:" + scopeService.getCurrentContextPath() + "/login.html";
+        return "redirect:" + scopeService.getCurrentContextPath() + "/pf/login";
     }
 
 }

@@ -36,7 +36,7 @@
         <security:form-login login-page="/pf/login"
                              login-processing-url="/loginProcess"
                              default-target-url="/ct/tidings"
-                             authentication-failure-url="/login.html?login_error=true"/>
+                             authentication-failure-url="/pf/login?login_error=true"/>
         <security:logout logout-url="/logout" logout-success-url="/ct/tidings"/>
 
         <!-- reference to the shared request cache -->

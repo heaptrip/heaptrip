@@ -14,107 +14,109 @@ import com.heaptrip.util.json.JsonConverter;
 
 /**
  * Documentation
- * 
+ * <p/>
  * http://developers.facebook.com/docs/guides/web/
  */
 @Service
 public class FaceBookAPIServiceImpl implements FaceBookAPIService {
 
-	private static final Logger LOG = LoggerFactory.getLogger(FaceBookAPIServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(FaceBookAPIServiceImpl.class);
 
-	@Value("${socnet.fb.client_id}")
-	private String CLIENT_ID;
+    @Value("${socnet.fb.client_id}")
+    private String CLIENT_ID;
 
-	@Value("${socnet.fb.client_secret}")
-	private String CLIENT_SECRET;
+    @Value("${socnet.fb.client_secret}")
+    private String CLIENT_SECRET;
 
-	@Value("${socnet.fb.access_token_url}")
-	private String URL_ACCESS_TOKEN;
+    @Value("${socnet.fb.access_token_url}")
+    private String URL_ACCESS_TOKEN;
 
-	@Value("${socnet.fb.method_url}")
-	private String URL_METHOD;
+    @Value("${socnet.fb.method_url}")
+    private String URL_METHOD;
 
-	@Override
-	public FBAccessToken getAccessTokenByClientCode(String code, String redirectUrl) {
+    @Override
+    public FBAccessToken getAccessTokenByClientCode(String code, String redirectUrl) {
 
-		FBAccessToken token = new FBAccessToken();
+        FBAccessToken token = new FBAccessToken();
 
-		StringBuilder url = new StringBuilder();
+        StringBuilder url = new StringBuilder();
 
-		url.append(URL_ACCESS_TOKEN);
-		url.append("?");
-		url.append("client_id").append("=").append(CLIENT_ID);
-		url.append("&");
-		url.append("client_secret").append("=").append(CLIENT_SECRET);
-		url.append("&");
-		url.append("code").append("=").append(code);
-		url.append("&");
-		url.append("redirect_uri").append("=").append(redirectUrl);
+        url.append(URL_ACCESS_TOKEN);
+        url.append("?");
+        url.append("client_id").append("=").append(CLIENT_ID);
+        url.append("&");
+        url.append("client_secret").append("=").append(CLIENT_SECRET);
+        url.append("&");
+        url.append("code").append("=").append(code);
+        url.append("&");
+        url.append("redirect_uri").append("=").append(redirectUrl);
 
-		String responseStr = executeMethod(url.toString());
+        String responseStr = executeMethod(url.toString());
 
-		// parse responseStr
-		// access_token=AAAGyxc7cwpMBAD8TOOJXhqIXSDNbobFWD07Ar35bh7aIKcALL34JlHQ0zZBiDZCAKQVccw0B7hGCRdtQFzB4KqwJZBI072NDBeOZAibcrwZDZD&expires=5183999
+        // parse responseStr
+        // access_token=AAAGyxc7cwpMBAD8TOOJXhqIXSDNbobFWD07Ar35bh7aIKcALL34JlHQ0zZBiDZCAKQVccw0B7hGCRdtQFzB4KqwJZBI072NDBeOZAibcrwZDZD&expires=5183999
 
-		String[] tokenResponseArr = responseStr.split("&");
+        String[] tokenResponseArr = responseStr.split("&");
 
-		for (String tokenResponse : tokenResponseArr) {
+        for (String tokenResponse : tokenResponseArr) {
 
-			String[] param = tokenResponse.split("=");
+            String[] param = tokenResponse.split("=");
 
-			String paramName = param[0];
-			String paramValue = param[1];
+            String paramName = param[0];
+            String paramValue = param[1];
 
-			if (paramName.equals("access_token")) {
-				token.setAccess_token(paramValue);
-			} else if (paramName.equals("expires")) {
-				token.setExpires(new Long(paramValue));
-			}
+            if (paramName.equals("access_token")) {
+                token.setAccess_token(paramValue);
+            } else if (paramName.equals("expires")) {
+                token.setExpires(new Long(paramValue));
+            }
 
-		}
+        }
 
-		return token;
+        return token;
 
-	}
+    }
 
-	@Override
-	public FBUser getUser(FBAccessToken accessToken) {
+    @Override
+    public FBUser getUser(FBAccessToken accessToken) {
 
-		FBUser user = null;
+        FBUser user = null;
 
-		StringBuilder url = new StringBuilder();
+        StringBuilder url = new StringBuilder();
 
-		url.append(URL_METHOD).append("/me");
-		url.append("?");
-		url.append("access_token").append("=").append(accessToken.getAccess_token());
+        url.append(URL_METHOD).append("/me");
+        url.append("?");
+        url.append("access_token").append("=").append(accessToken.getAccess_token());
 
-		String responseJson = executeMethod(url.toString());
+        String responseJson = executeMethod(url.toString());
 
-		user = new JsonConverter().JSONToObject(responseJson, FBUser.class);
+        user = new JsonConverter().JSONToObject(responseJson, FBUser.class);
 
-		user.setPicture(URL_METHOD + "/" + user.getId() + "/picture");
-		user.setPicture_large(URL_METHOD + "/" + user.getId() + "/picture?type=large");
+        user.setPicture(URL_METHOD + "/" + user.getId() + "/picture");
+        user.setPicture_large(URL_METHOD + "/" + user.getId() + "/picture?type=large");
 
-		return user;
+        return user;
 
-	}
+    }
 
-	private String executeMethod(String url) {
+    private String executeMethod(String url) {
 
-		String responseStr = new HttpClient().doStringGet(url.toString());
+        String responseStr = new HttpClient().doStringGet(url.toString());
 
-		if (responseStr == null) {
-			return null;
-		}
+        logger.debug("FaceBook request url : " + url + "\n FaceBook responseStr : " + responseStr);
 
-		if (responseStr.indexOf("error") > 0 && responseStr.indexOf("code") > 0) {
-			FBErrorResponse errorResponse = new JsonConverter().JSONToObject(responseStr, FBErrorResponse.class);
-			throw new RuntimeException("FaceBook request error : " + errorResponse.getError().getCode() + " "
-					+ errorResponse.getError().getMessage());
-		}
+        if (responseStr == null) {
+            return null;
+        }
 
-		return responseStr;
+        if (responseStr.indexOf("error") > 0 && responseStr.indexOf("code") > 0) {
+            FBErrorResponse errorResponse = new JsonConverter().JSONToObject(responseStr, FBErrorResponse.class);
+            throw new RuntimeException("FaceBook request error : " + errorResponse.getError().getCode() + " "
+                    + errorResponse.getError().getMessage());
+        }
 
-	}
+        return responseStr;
+
+    }
 
 }
