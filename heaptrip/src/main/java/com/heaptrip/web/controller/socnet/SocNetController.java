@@ -194,7 +194,7 @@ public class SocNetController extends ExceptionHandlerControler {
 	public String handleSocnetAuthorizeException(SocnetAuthorizeException e) {
 		try {
 			LOG.error("Social network authorize error", e);
-			return "redirect:" + scopeService.getCurrentContextPath() + "/login.html?login_error="
+			return "redirect:" + scopeService.getCurrentContextPath() + "/pf/login?login_error="
 					+ URLEncoder.encode(e.getLocalizedMessage(), "UTF-8");
 		} catch (UnsupportedEncodingException exp) {
 			throw new RuntimeException(e);
