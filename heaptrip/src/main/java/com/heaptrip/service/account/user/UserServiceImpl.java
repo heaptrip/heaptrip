@@ -148,7 +148,6 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         byte[] salt = generateSalt();
         user.setSalt(byteToBase64(salt));
 
-
         if (user.getNet() == null) {
             Assert.notNull(password, "password must not be null");
             Assert.isTrue(password.length() >= PASSWORD_MIN_LENGTH,
@@ -167,29 +166,20 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             Assert.notNull(net[0].getId(), "id network must not be null");
             Assert.notNull(net[0].getUid(), "uid must not be null");
 
-            if(isImage!=null){
+            if (isImage != null) {
+
+                Image image = imageService.addImage(user.getId(), ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
+                user.setImage(image);
+
                 byte[] d = DigestUtils.md5(isImage);
                 Byte[] digest = ArrayUtils.toObject(d);
+
                 user.setImageCRC(digest);
                 user.setExtImageStore(net[0].getId());
             }
-
         }
 
         User savedUser = userRepository.save(user);
-
-        if (isImage != null) {
-            Image image = imageService.addImage(savedUser.getId(), ImageEnum.ACCOUNT_IMAGE, savedUser.getId() + ImageEnum.ACCOUNT_IMAGE.name(), isImage);
-            accountStoreService.changeImage(savedUser.getId(), image);
-
-            user.setImage(image);
-
-
-
-        } else {
-            // TODO voronenko : картинку надо сетить не только если сс, но дефаултовую, если нет никакой
-        }
-
 
         MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.CONFIRM_REGISTRATION);
 
@@ -396,7 +386,6 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
     /**
      * From a base 64 representation, returns the corresponding byte[]
-     *
      * @param data String The base64 representation
      * @return byte[]
      * @throws IOException
@@ -409,7 +398,6 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
     /**
      * From a byte[] returns a base 64 representation
-     *
      * @param data byte[]
      * @return String
      */
