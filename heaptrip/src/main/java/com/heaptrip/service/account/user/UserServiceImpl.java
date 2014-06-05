@@ -166,6 +166,14 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             Assert.isTrue(net.length == 1, "the array social network must have one element");
             Assert.notNull(net[0].getId(), "id network must not be null");
             Assert.notNull(net[0].getUid(), "uid must not be null");
+
+            if(isImage!=null){
+                byte[] d = DigestUtils.md5(isImage);
+                Byte[] digest = ArrayUtils.toObject(d);
+                user.setImageCRC(digest);
+                user.setExtImageStore(net[0].getId());
+            }
+
         }
 
         User savedUser = userRepository.save(user);
@@ -173,6 +181,11 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         if (isImage != null) {
             Image image = imageService.addImage(savedUser.getId(), ImageEnum.ACCOUNT_IMAGE, savedUser.getId() + ImageEnum.ACCOUNT_IMAGE.name(), isImage);
             accountStoreService.changeImage(savedUser.getId(), image);
+
+            user.setImage(image);
+
+
+
         } else {
             // TODO voronenko : картинку надо сетить не только если сс, но дефаултовую, если нет никакой
         }
