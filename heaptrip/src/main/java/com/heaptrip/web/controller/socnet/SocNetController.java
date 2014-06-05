@@ -80,7 +80,7 @@ public class SocNetController extends ExceptionHandlerControler {
 				if (user.getStatus().equals(AccountStatusEnum.NOTCONFIRMED)) {
 					// если пользователь есть но не подтвердил регистрацию, на
 					// страницу с сылкой на почту
-					return "redirect:" + scopeService.getCurrentContextPath() + "/confirmation.html?domain="
+					return "redirect:" + scopeService.getCurrentContextPath() + "/pf/confirmation?domain="
 							+ user.getEmail().substring(user.getEmail().indexOf("@"));
 				} else {
 					// если пользователь есть регистрация подтверждена,
