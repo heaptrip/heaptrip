@@ -68,7 +68,7 @@ public class SocNetController extends ExceptionHandlerControler {
 			if (user == null) {
 				// если пользователя нет, на страницу регистрации
 				StringBuilder url = new StringBuilder(scopeService.getCurrentContextPath());
-				url.append("/registration.html");
+				url.append("/pf/registration");
 				url.append("?");
 				url.append("snn").append("=").append(VKontakteAPIService.SOC_NET_NAME);
 				url.append("&");
@@ -142,7 +142,7 @@ public class SocNetController extends ExceptionHandlerControler {
 
 			StringBuilder url = new StringBuilder(scopeService.getCurrentContextPath());
 
-			url.append("/registration.html");
+			url.append("/pf/registration");
 			url.append("?");
 			url.append("snn").append("=").append(FaceBookAPIService.SOC_NET_NAME);
 			url.append("&");
