@@ -74,7 +74,7 @@
 
         <c:if test='${not empty principal}'>
             <%--Если, это мой--%>
-            <c:if test='${empty catcher && fn:contains(url, "/my-")}'>
+            <c:if test='${empty catcher && fn:contains(url, "/my")}'>
                 <article id="article" class="deteil">
                     <div class="inf">
                         <div class="right">
