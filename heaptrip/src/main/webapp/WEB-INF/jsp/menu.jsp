@@ -183,7 +183,6 @@
 
         </c:if>
 
-
         <li>
             <a href="<c:url value="/pf/travels?guid=${catcher.id}"/>"
                class='${fn:contains(url, "/pf/travel") ? "active":"" }'>
