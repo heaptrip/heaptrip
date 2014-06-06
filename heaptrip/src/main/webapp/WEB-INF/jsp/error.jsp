@@ -11,10 +11,10 @@
 					<div id="message">"${message}"</div>
 				</p>
 	
-				<img src="<c:url value="/images/error.jpg"/>"><br /> 
-				<a href="/"><fmt:message key="page.action.refresh" /></a><br /> 
-				<a href="<c:url value="/"/>"><fmt:message key="page.action.home" /></a><br /> 
-				<a href="/"><fmt:message key="page.action.support" /></a><br />
+				<img src="<c:url value="/images/error.jpg"/>"><br />
+                <a href="<c:url value="/"/>"><fmt:message key="page.action.refresh" /></a><br />
+				<a href="<c:url value="/"/>"><fmt:message key="page.action.home" /></a><br />
+                <a href="<c:url value="/"/>"><fmt:message key="page.action.support" /></a><br />
 				
 			</div><!-- #content-->
 		</div><!-- #container-->

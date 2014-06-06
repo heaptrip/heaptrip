@@ -13,11 +13,21 @@
 
     <mvc:annotation-driven/>
 
+    <!-- expose specific properties to application  -->
+    <bean id="applicationProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="singleton" value="true"/>
+        <property name="properties">
+            <props>
+                <prop key="socnet.vk.client_id">${socnet.vk.client_id}</prop>
+                <prop key="socnet.vk.authorize_url">${socnet.vk.authorize_url}</prop>
+                <prop key="socnet.vk.scope">${socnet.vk.scope}</prop>
+                <prop key="socnet.fb.client_id">${socnet.fb.client_id}</prop>
+                <prop key="socnet.fb.authorize_url">${socnet.fb.authorize_url}</prop>
+            </props>
+        </property>
+    </bean>
+
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
-
-
-
-
         <property name="definitions">
             <list>
                 <value>/WEB-INF/tiles/templates.xml</value>
@@ -27,10 +37,6 @@
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
-
-
-
-
         <property name="viewClass">
             <value>
                 org.springframework.web.servlet.view.tiles2.TilesView
@@ -52,8 +58,12 @@
     <bean class="org.springframework.web.context.support.ServletContextAttributeExporter">
         <property name="attributes">
             <map>
-                <entry key="profileServiceWrapper"> <ref bean="profileServiceWrapperImpl"/> </entry>
-                <entry key="notificationServiceWrapper"> <ref bean="notificationServiceWrapperImpl"/> </entry>
+                <entry key="profileServiceWrapper">
+                    <ref bean="profileServiceWrapperImpl"/>
+                </entry>
+                <entry key="notificationServiceWrapper">
+                    <ref bean="notificationServiceWrapperImpl"/>
+                </entry>
             </map>
         </property>
     </bean>

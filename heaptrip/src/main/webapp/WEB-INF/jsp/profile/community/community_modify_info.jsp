@@ -16,12 +16,12 @@
 
 
     //$(document).ready(function () {
-        <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
-        <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
-        //$.handParamToURL({
-        //    ct: ct,
-        //    rg: rg
-        //});
+    <%--var ct = "${fn:substring(categoryIds,1,1000)}";--%>
+    <%--var rg = "${fn:substring(regionIds,1,1000)}";--%>
+    //$.handParamToURL({
+    //    ct: ct,
+    //    rg: rg
+    //});
     //});
 
     var onCommunitySubmit = function (btn) {
@@ -29,7 +29,7 @@
         $(btn).prop('disabled', true);
 
         var jsonData = {
-            id:  window.catcher ? window.catcher.id : null
+            id: window.catcher ? window.catcher.id : null
         };
 
         jsonData.name = $("#community_name").val();
@@ -127,15 +127,26 @@
 
 
                         <div class="my_location"><span><fmt:message key="account.type"/>: </span>
+
                             <div class="select" id="community_type2">
-                                <div class="select_selected" value="${account.typeAccount}"><fmt:message key="account.type.club"/></div>
+
+
+                                <c:choose>
+                                    <c:when test='${empty account.typeAccount}'>
+                                        <div class="select_selected" value="CLUB"><fmt:message key="account.type.club"/></div>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="select_selected" value="${ account.typeAccount }"><fmt:message
+                                                key="account.type.club"/></div>
+                                    </c:otherwise>
+                                </c:choose>
+
                                 <ul style="display: none;">
                                     <li><a href="/" value="CLUB"><fmt:message key="account.type.club"/></a></li>
                                     <li><a href="/" value="COMPANY"><fmt:message key="account.type.company"/></a></li>
                                     <li><a href="/" value="AGENCY"><fmt:message key="account.type.agency"/></a></li>
                                 </ul>
                             </div>
-
 
 
                         </div>

@@ -35,7 +35,7 @@ public class ExceptionHandlerControler {
 	@ExceptionHandler(Exception.class)
 	public RedirectView handleException(Exception exception) {
 
-		RedirectView redirectView = new RedirectView(scopeService.getCurrentContextPath() + "/error.html");
+		RedirectView redirectView = new RedirectView(scopeService.getCurrentContextPath() + "/ct/error");
 
 		String message = null;
 
