@@ -64,6 +64,12 @@
                     <c:when test='${fn:contains(url, "peopl")}'>
                         <fmt:message key="accountProfile.people"/>
                     </c:when>
+                    <c:when test='${fn:contains(url, "error")}'>
+                        <fmt:message key="page.action.error"/>
+                    </c:when>
+                    <c:otherwise>
+
+                    </c:otherwise>
                 </c:choose>
             </span>
     </div>
