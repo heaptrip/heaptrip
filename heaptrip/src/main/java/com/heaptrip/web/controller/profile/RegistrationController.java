@@ -1,5 +1,6 @@
 package com.heaptrip.web.controller.profile;
 
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.exception.ErrorEnum;
@@ -7,9 +8,11 @@ import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.RequestScopeService;
+import com.heaptrip.security.AuthenticationProvider;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
+import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.RegistrationInfoModel;
 import com.heaptrip.web.modelservice.ProfileModelService;
@@ -18,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,8 +36,7 @@ public class RegistrationController extends ExceptionHandlerControler {
     private AccountService accountService;
 
     @Autowired
-    ProfileModelService profileModelService;
-
+    private ProfileModelService profileModelService;
 
     @RequestMapping(value = "user/registration", method = RequestMethod.POST)
     public
@@ -75,9 +78,21 @@ public class RegistrationController extends ExceptionHandlerControler {
 
     @RequestMapping(value = "registration/confirm", method = RequestMethod.GET)
     public String confirmRegistration(@RequestParam String uid, @RequestParam String value) {
+
+        Assert.notNull(uid, "registration confirm uid must not be null");
+        Assert.notNull(value, "registration confirm uid must not be null");
+
         accountService.confirmRegistration(uid, value);
-        // authenticationProvider.authenticateInternal(user);
-        return "redirect:" + scopeService.getCurrentContextPath() + "/pf/login";
+
+        AccountModel account = profileModelService.getAccountInformation(uid);
+
+        if (account.getTypeAccount().equals(AccountEnum.USER.name())) {
+            return "redirect:" + scopeService.getCurrentContextPath() + "/pf/login";
+        } else {
+            return "redirect:" + scopeService.getCurrentContextPath() + "/pf/community?guid=" + uid;
+        }
+
+
     }
 
 }
