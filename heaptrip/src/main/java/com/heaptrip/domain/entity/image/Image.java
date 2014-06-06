@@ -33,6 +33,9 @@ public class Image extends BaseObject {
     // the number of likes
     private Long likes;
 
+    // image CRC
+    private byte[] CRC;
+
     public ImageEnum getType() {
         return type;
     }
@@ -95,5 +98,13 @@ public class Image extends BaseObject {
 
     public void setLikes(Long likes) {
         this.likes = likes;
+    }
+
+    public byte[] getCRC() {
+        return CRC;
+    }
+
+    public void setCRC(byte[] CRC) {
+        this.CRC = CRC;
     }
 }

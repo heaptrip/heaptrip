@@ -12,6 +12,7 @@ import com.heaptrip.domain.service.image.criteria.ImageCriteria;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.stream.StreamUtils;
 import net.coobird.thumbnailator.Thumbnails;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,6 +51,7 @@ public class ImageServiceImpl implements ImageService {
         Assert.notNull(is, "input stream must not be null");
 
         FileReferences refs = saveImage(fileName, imageType, is);
+
         User owner = requestScopeService.getCurrentUser();
 
         Image image = new Image();
@@ -61,6 +63,11 @@ public class ImageServiceImpl implements ImageService {
         image.setName(fileName);
         image.setUploaded(new Date());
         image.setRefs(refs);
+
+        if (imageType.isUseCRC()) {
+            byte[] CRC = DigestUtils.md5(is);
+            image.setCRC(CRC);
+        }
 
         return imageRepository.save(image);
     }

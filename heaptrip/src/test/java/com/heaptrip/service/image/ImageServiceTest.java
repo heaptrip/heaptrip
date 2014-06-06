@@ -7,6 +7,7 @@ import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.image.criteria.ImageCriteria;
 import com.heaptrip.security.Authenticate;
 import com.heaptrip.security.AuthenticationListener;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.junit.BeforeClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -67,6 +68,11 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         return new FileInputStream(file);
     }
 
+    private byte[] CRC(InputStream is) throws IOException {
+        byte[] CRC = DigestUtils.md5(is);
+        return CRC;
+    }
+
     @Authenticate(userid = OWNER_ID)
     @Test(enabled = true)
     public void addImageWithAuthenticate() throws IOException {
@@ -104,6 +110,8 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNull(image.getRefs().getFull());
         Assert.assertNotNull(image.getUploaded());
         Assert.assertNull(image.getLikes());
+        Assert.assertNotNull(image.getCRC());
+        //Assert.assertEquals(image.getCRC(), CRC(testInputStream()));
     }
 
     @Test(enabled = true)
