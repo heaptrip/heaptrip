@@ -2,19 +2,20 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <c:set var="domain_url"
        value="${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}"/>
 
-<fmt:bundle basename="socnet">
-    <!-- VKontakte properties -->
-    <fmt:message key="socnet.vk.client_id" var="vk_client_id"/>
-    <fmt:message key="socnet.vk.scope" var="vk_scope"/>
-    <fmt:message key="socnet.vk.authorize_url" var="vk_authorize_url"/>
-    <!-- FaceBook properties -->
-    <fmt:message key="socnet.fb.client_id" var="fb_client_id"/>
-    <fmt:message key="socnet.fb.authorize_url" var="fb_authorize_url"/>
-</fmt:bundle>
+<%--<!-- VKontakte properties -->--%>
+<c:set var="vk_client_id"><spring:eval expression="@applicationProperties.getProperty('socnet.vk.client_id')"/></c:set>
+<c:set var="vk_authorize_url"><spring:eval expression="@applicationProperties.getProperty('socnet.vk.authorize_url')"/></c:set>
+<c:set var="vk_scope"><spring:eval expression="@applicationProperties.getProperty('socnet.vk.scope')"/></c:set>
+<%--<!-- FaceBook properties -->--%>
+<c:set var="socnet.fb.client_id"><spring:eval
+        expression="@applicationProperties.getProperty('socnet.fb.client_id')"/></c:set>
+<c:set var="fb_authorize_url"><spring:eval expression="@applicationProperties.getProperty('socnet.fb.authorize_url')"/></c:set>
+
 
 <c:url var="vkUrl" value="${vk_authorize_url}">
     <c:param name="client_id" value="${vk_client_id}"/>
@@ -23,6 +24,9 @@
     <c:param name="display" value="page"/>
     <c:param name="response_type" value="code"/>
 </c:url>
+
+
+
 
 <c:url var="fbUrl" value="${fb_authorize_url}">
     <c:param name="client_id" value="${fb_client_id}"/>
