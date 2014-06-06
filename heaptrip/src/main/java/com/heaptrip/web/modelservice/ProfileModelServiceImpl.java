@@ -410,7 +410,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         community.setName(communityInfoModel.getName());
         community.setEmail(communityInfoModel.getEmail());
         community.setOwnerAccountId(getCurrentUser().getId());
-        community.setImage(convertImage(communityInfoModel.getImage()));
         community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
         community = communityService.registration(community, getCurrentLocale());
         return community;
