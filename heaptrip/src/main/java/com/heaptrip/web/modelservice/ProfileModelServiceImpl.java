@@ -85,7 +85,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Assert.notNull(userInfoModel, "userInfoModel must not be null");
         Assert.notNull(userInfoModel.getId(), "user id  must not be null");
         Profile profile = convertProfileModelToProfile(userInfoModel.getAccountProfile(), userInfoModel.getUserProfile());
-        userService.saveProfile(userInfoModel.getId(), userInfoModel.getName(), profile);
+        accountService.saveProfile(userInfoModel.getId(), userInfoModel.getName(), profile);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
         Assert.notNull(communityInfoModel.getId(), "community id  must not be null");
         Profile profile = convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile());
-        userService.saveProfile(communityInfoModel.getId(), communityInfoModel.getName(), profile);
+        accountService.saveProfile(communityInfoModel.getId(), communityInfoModel.getName(), profile);
     }
 
     @Override
