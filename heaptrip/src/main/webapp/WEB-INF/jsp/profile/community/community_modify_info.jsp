@@ -120,13 +120,13 @@
                             <input id="community_name" type="text" value="${account.name}"
                                    alt="<fmt:message key="community.name"/>">
                         </div>
-                        // TODO dikma изменение email только в настройках через подтверждение
+                        <%--// TODO dikma изменение email только в настройках через подтверждение--%>
                         <%--<div class="my_name">--%>
                             <%--<input id="community_email" type="text" value="${account.email}"--%>
                                    <%--alt="<fmt:message key="accountProfile.email"/>">--%>
                         <%--</div>--%>
 
-                        // TODO dikma изменение типа сообщества необходимо обсудить, т.к. в перспективе они будут иметь разный функционал
+                        <%--// TODO dikma изменение типа сообщества необходимо обсудить, т.к. в перспективе они будут иметь разный функционал--%>
                         <%--<div class="my_location"><span><fmt:message key="account.type"/>: </span>--%>
                             <%--<div class="select" id="community_type2">--%>
                                 <%--<c:choose>--%>

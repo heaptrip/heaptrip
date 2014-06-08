@@ -267,7 +267,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             knowledge = new Knowledge();
             knowledge.setId(knowledgeModel.getId());
             knowledge.setBegin(knowledgeModel.getBegin().getValue());
-            knowledge.setEnd(knowledgeModel.getBegin().getValue());
+            knowledge.setEnd(knowledgeModel.getEnd().getValue());
             knowledge.setDocument(knowledgeModel.getDocument());
             knowledge.setLocation(knowledgeModel.getLocation());
             knowledge.setSpecialist(knowledgeModel.getSpecialist());
@@ -315,7 +315,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             practice = new Practice();
             practice.setId(practiceModel.getId());
             practice.setBegin(practiceModel.getBegin().getValue());
-            practice.setEnd(practiceModel.getBegin().getValue());
+            practice.setEnd(practiceModel.getEnd().getValue());
             practice.setDesc(practiceModel.getDesc());
         }
         return practice;
