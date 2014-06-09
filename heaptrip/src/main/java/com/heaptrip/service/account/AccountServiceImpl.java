@@ -17,7 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
@@ -71,7 +76,15 @@ public class AccountServiceImpl implements AccountService {
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(value, "value must not be null");
 
-        Account account = accountRepository.findOne(accountId);
+        Account account = null;
+        String receiveValue = null;
+
+        try {
+            account = accountRepository.findOne(URLDecoder.decode(accountId, "UTF-8"));
+            receiveValue = URLDecoder.decode(value, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         if (account == null) {
             String msg = String.format("account not find by id %s", accountId);
@@ -81,7 +94,7 @@ public class AccountServiceImpl implements AccountService {
             String msg = String.format("account status must be: %s", AccountStatusEnum.NOTCONFIRMED);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_ALREADY_CONFIRM);
-        } else if (account.getSendValue().equals(value)) {
+        } else if (account.getSendValue().equals(receiveValue)) {
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
 
             if (!account.getAccountType().toString().equals(AccountEnum.USER.toString()) && account instanceof Community && (((Community) account).getOwnerAccountId() != null)) {
