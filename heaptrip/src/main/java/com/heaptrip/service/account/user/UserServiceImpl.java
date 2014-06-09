@@ -41,6 +41,7 @@ import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -148,6 +149,8 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
         byte[] salt = generateSalt();
         user.setSalt(byteToBase64(salt));
 
+        User savedUser;
+
         if (user.getNet() == null) {
             Assert.notNull(password, "password must not be null");
             Assert.isTrue(password.length() >= PASSWORD_MIN_LENGTH,
@@ -159,6 +162,7 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
 
             user.setPwd(byteToBase64(generatePassword(password, salt)));
             user.setExtImageStore(SocialNetworkEnum.NONE.toString());
+            savedUser = userRepository.save(user);
         } else {
             Assert.notEmpty(user.getNet(), "the array social network must have one element");
             SocialNetwork[] net = user.getNet();
@@ -166,28 +170,28 @@ public class UserServiceImpl extends AccountServiceImpl implements UserService {
             Assert.notNull(net[0].getId(), "id network must not be null");
             Assert.notNull(net[0].getUid(), "uid must not be null");
 
-            if (isImage != null) {
+            savedUser = userRepository.save(user);
 
-                Image image = imageService.addImage(user.getId(), ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
-                user.setImage(image);
+            if (isImage != null) {
+                Image image = imageService.addImage(savedUser.getId(), ImageEnum.ACCOUNT_IMAGE, net[0].getId() + net[0].getUid(), isImage);
 
                 byte[] d = DigestUtils.md5(isImage);
                 Byte[] digest = ArrayUtils.toObject(d);
 
-                user.setImageCRC(digest);
-                user.setExtImageStore(net[0].getId());
+                savedUser.setImageCRC(digest);
+                savedUser.setExtImageStore(net[0].getId());
+                savedUser.setImage(image);
+                savedUser = userRepository.save(savedUser);
             }
         }
-
-        User savedUser = userRepository.save(user);
 
         MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.CONFIRM_REGISTRATION);
 
         StringBuilder str = new StringBuilder();
         str.append(requestScopeService.getCurrentContextPath());
         str.append("/mail/registration/confirm?");
-        str.append("uid=").append(savedUser.getId());
-        str.append("&value=").append(user.getSendValue());
+        str.append("uid=").append(URLEncoder.encode(savedUser.getId(), "UTF-8"));
+        str.append("&value=").append(URLEncoder.encode(user.getSendValue(), "UTF-8"));
 
         String msg = String.format(mt.getText(locale), str.toString());
         mailService.sendNoreplyMessage(savedUser.getEmail(), mt.getSubject(locale), msg);

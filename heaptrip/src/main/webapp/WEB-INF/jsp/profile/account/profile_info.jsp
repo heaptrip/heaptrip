@@ -72,8 +72,10 @@
                         <tr>
                             <td>
                                 <fmt:message key="page.date.from"/> ${knowledge.begin.text}
-                                <br/>
-                                <fmt:message key="page.date.to"/> ${knowledge.end.text}
+                                <c:if test='${not empty knowledge.end.text}'>
+                                    <br/>
+                                    <fmt:message key="page.date.to"/> ${knowledge.end.text}
+                                </c:if>
                             </td>
                             <td>${knowledge.specialist}</td>
                             <td>${knowledge.location}</td>
@@ -99,8 +101,10 @@
                         <tr>
                             <td>
                                 <fmt:message key="page.date.from"/> ${practice.begin.text}
-                                <br/>
-                                <fmt:message key="page.date.to"/> ${practice.end.text}
+                                <c:if test='${not empty practice.end.text}'>
+                                    <br/>
+                                    <fmt:message key="page.date.to"/> ${practice.end.text}
+                                </c:if>
                             </td>
                             <td>${practice.desc}</td>
                         </tr>

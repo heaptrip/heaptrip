@@ -85,7 +85,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Assert.notNull(userInfoModel, "userInfoModel must not be null");
         Assert.notNull(userInfoModel.getId(), "user id  must not be null");
         Profile profile = convertProfileModelToProfile(userInfoModel.getAccountProfile(), userInfoModel.getUserProfile());
-        userService.saveProfile(userInfoModel.getId(), userInfoModel.getName(), profile);
+        accountService.saveProfile(userInfoModel.getId(), userInfoModel.getName(), profile);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         Assert.notNull(communityInfoModel, "communityInfoModel must not be null");
         Assert.notNull(communityInfoModel.getId(), "community id  must not be null");
         Profile profile = convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile());
-        userService.saveProfile(communityInfoModel.getId(), communityInfoModel.getName(), profile);
+        accountService.saveProfile(communityInfoModel.getId(), communityInfoModel.getName(), profile);
     }
 
     @Override
@@ -267,7 +267,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             knowledge = new Knowledge();
             knowledge.setId(knowledgeModel.getId());
             knowledge.setBegin(knowledgeModel.getBegin().getValue());
-            knowledge.setEnd(knowledgeModel.getBegin().getValue());
+            knowledge.setEnd(knowledgeModel.getEnd().getValue());
             knowledge.setDocument(knowledgeModel.getDocument());
             knowledge.setLocation(knowledgeModel.getLocation());
             knowledge.setSpecialist(knowledgeModel.getSpecialist());
@@ -315,7 +315,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
             practice = new Practice();
             practice.setId(practiceModel.getId());
             practice.setBegin(practiceModel.getBegin().getValue());
-            practice.setEnd(practiceModel.getBegin().getValue());
+            practice.setEnd(practiceModel.getEnd().getValue());
             practice.setDesc(practiceModel.getDesc());
         }
         return practice;
@@ -410,7 +410,6 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         community.setName(communityInfoModel.getName());
         community.setEmail(communityInfoModel.getEmail());
         community.setOwnerAccountId(getCurrentUser().getId());
-        community.setImage(convertImage(communityInfoModel.getImage()));
         community.setProfile(convertProfileModelToProfile(communityInfoModel.getAccountProfile(), communityInfoModel.getCommunityProfile()));
         community = communityService.registration(community, getCurrentLocale());
         return community;

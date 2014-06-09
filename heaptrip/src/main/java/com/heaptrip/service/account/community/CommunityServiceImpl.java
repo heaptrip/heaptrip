@@ -118,5 +118,4 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
 
         return com;
     }
-
 }
