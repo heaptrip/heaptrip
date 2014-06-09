@@ -55,7 +55,7 @@ public class CategoryServiceTest extends AbstractTestNGSpringContextTests {
         categories.add(new Category("2.5.2", "2.5", new String[]{"2", "2.5"}, "Скалолазание ", "Rock climbing"));
         categories.add(new Category("2.6", "2", new String[]{"2"}, "Спелеология", "Speleology"));
         categories.add(new Category("2.8", "2", new String[]{"2"}, "Лыжный", "Skiing"));
-        categories.add(new Category("2.9", "2", new String[]{"2"}, "Горные лыжи & Сноуборд", "Skiing & Snowboarding"));
+        categories.add(new Category("2.9", "2", new String[]{"2"}, "Горные лыжи & Сноуборд", "Downhill skiing & Snowboarding"));
         categories.add(new Category("2.10", "2", new String[]{"2"}, "Конный туризм", "Horse riding"));
         categories.add(new Category("2.12", "2", new String[]{"2"}, "Спортивное ориентирование", "Orienteering"));
         categories.add(new Category("3", null, null, "Круизы", "Cruises"));
