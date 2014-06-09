@@ -82,14 +82,14 @@
                 <entry key="ru">
                     <value>
                         <![CDATA[
-		<strong>%s</strong> предлагает дружить <strong>%s</strong>
+		<strong>%s</strong> предлагает дружить пользователю <strong>%s</strong>
 ]]>
                     </value>
                 </entry>
                 <entry key="en">
                     <value>
                         <![CDATA[
-		<strong>%s</strong> offers friendship <strong>%s</strong>
+		<strong>%s</strong> offers friendship to <strong>%s</strong>
 ]]>
                     </value>
                 </entry>
