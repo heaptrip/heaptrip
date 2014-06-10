@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
@@ -56,7 +57,7 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
 
         Community community = communityService.registration(CommunityDataProvider.getClub(), locale);
 
-        Future<Void> future = communityService.confirmRegistration(community.getId(), community.getSendValue());
+        Future<Void> future = communityService.confirmRegistration(URLEncoder.encode(community.getId(), "UTF-8"), URLEncoder.encode(community.getSendValue(), "UTF-8"));
         future.get();
 
         solrAccountRepository.commit();
@@ -91,12 +92,12 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
     }
 
     @Test(enabled = true, priority = 5, expectedExceptions = AccountException.class)
-    public void confirmWrongCommunityId() {
-        communityService.confirmRegistration(CommunityDataProvider.FAKE_COMMUNITY_ID, notConfirmedCommunity.getSendValue());
+    public void confirmWrongCommunityId() throws IOException {
+        communityService.confirmRegistration(URLEncoder.encode(CommunityDataProvider.FAKE_COMMUNITY_ID, "UTF-8"), URLEncoder.encode(notConfirmedCommunity.getSendValue(), "UTF-8"));
     }
 
     @Test(enabled = true, priority = 6, expectedExceptions = AccountException.class)
-    public void confirmWrongSendValue() {
-        communityService.confirmRegistration(notConfirmedCommunity.getId(), notConfirmedCommunity.getId());
+    public void confirmWrongSendValue() throws IOException {
+        communityService.confirmRegistration(URLEncoder.encode(notConfirmedCommunity.getId(), "UTF-8"), URLEncoder.encode(notConfirmedCommunity.getId(), "UTF-8"));
     }
 }
