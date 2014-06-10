@@ -23,6 +23,7 @@ import sun.misc.BASE64Encoder;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.concurrent.Future;
 import java.util.regex.Pattern;
 
@@ -83,7 +84,9 @@ public class AccountServiceImpl implements AccountService {
             account = accountRepository.findOne(URLDecoder.decode(accountId, "UTF-8"));
             receiveValue = URLDecoder.decode(value, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            String msg = String.format("Error confirm registration : %s", e.getMessage());
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WRONG_CONFIRM_VALUE);
         }
 
         if (account == null) {

@@ -5,6 +5,7 @@ import com.heaptrip.domain.entity.account.Profile;
 import com.heaptrip.domain.entity.account.Setting;
 import com.heaptrip.domain.entity.rating.AccountRating;
 
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.Future;
 
 

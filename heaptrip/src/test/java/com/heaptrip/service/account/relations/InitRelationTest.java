@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Future;
@@ -79,18 +80,18 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
         Locale locale = new Locale("ru");
 
         User user = userService.registration(UserDataProvider.getEmailUser(), UserDataProvider.EMAIL_USER_PSWD, null, locale);
-        userService.confirmRegistration(user.getId(), user.getSendValue());
+        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
 
         user = userService.registration(UserDataProvider.getNetUser(), null, null, locale);
-        userService.confirmRegistration(user.getId(), user.getSendValue());
+        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
 
         user = userService.registration(UserDataProvider.getActiveUser(), UserDataProvider.ACTIVE_USER_PSWD, null, locale);
-        userService.confirmRegistration(user.getId(), user.getSendValue());
+        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
 
         userService.registration(UserDataProvider.getNotConfirmedUser(), UserDataProvider.NOT_CONFIRMED_USER_PSWD, null, locale);
 
         Community community = communityService.registration(CommunityDataProvider.getClub(), locale);
-        communityService.confirmRegistration(community.getId(), community.getSendValue());
+        communityService.confirmRegistration(URLEncoder.encode(community.getId(), "UTF-8"), URLEncoder.encode(community.getSendValue(), "UTF-8"));
 
         communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
     }
