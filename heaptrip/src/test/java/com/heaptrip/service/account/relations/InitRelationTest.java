@@ -20,23 +20,16 @@ import com.heaptrip.service.account.community.CommunityDataProvider;
 import com.heaptrip.service.account.user.UserDataProvider;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.Future;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 @Listeners(AuthenticationListener.class)
@@ -80,18 +73,18 @@ public class InitRelationTest extends AbstractTestNGSpringContextTests {
         Locale locale = new Locale("ru");
 
         User user = userService.registration(UserDataProvider.getEmailUser(), UserDataProvider.EMAIL_USER_PSWD, null, locale);
-        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(user.getId(), user.getSendValue());
 
         user = userService.registration(UserDataProvider.getNetUser(), null, null, locale);
-        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(user.getId(), user.getSendValue());
 
         user = userService.registration(UserDataProvider.getActiveUser(), UserDataProvider.ACTIVE_USER_PSWD, null, locale);
-        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(user.getId(), user.getSendValue());
 
         userService.registration(UserDataProvider.getNotConfirmedUser(), UserDataProvider.NOT_CONFIRMED_USER_PSWD, null, locale);
 
         Community community = communityService.registration(CommunityDataProvider.getClub(), locale);
-        communityService.confirmRegistration(URLEncoder.encode(community.getId(), "UTF-8"), URLEncoder.encode(community.getSendValue(), "UTF-8"));
+        communityService.confirmRegistration(community.getId(), community.getSendValue());
 
         communityService.registration(CommunityDataProvider.getNotConfirmedClub(), locale);
     }

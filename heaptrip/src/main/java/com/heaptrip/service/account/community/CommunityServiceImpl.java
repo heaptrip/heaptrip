@@ -24,6 +24,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 
@@ -110,8 +113,15 @@ public class CommunityServiceImpl extends AccountServiceImpl implements Communit
         StringBuilder str = new StringBuilder();
         str.append(requestScopeService.getCurrentContextPath());
         str.append("/mail/registration/confirm?");
-        str.append("uid=").append(com.getId());
-        str.append("&value=").append(community.getSendValue());
+        try {
+            str.append("uid=").append(URLEncoder.encode(com.getId(), "UTF-8"));
+            str.append("&value=").append(URLEncoder.encode(community.getSendValue(), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            String msg = String.format("Error url generation: %s", e.getMessage());
+            logger.debug(msg);
+            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_COMMUNITY_CREATE);
+        }
+
 
         String msg = String.format(mt.getText(locale), str.toString());
         mailService.sendNoreplyMessage(com.getEmail(), mt.getSubject(locale), msg);

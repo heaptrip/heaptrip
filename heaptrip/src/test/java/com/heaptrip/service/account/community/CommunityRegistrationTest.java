@@ -1,7 +1,6 @@
 package com.heaptrip.service.account.community;
 
 import com.heaptrip.domain.entity.account.community.Community;
-import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.exception.account.AccountException;
 import com.heaptrip.domain.repository.account.relation.RelationRepository;
@@ -9,9 +8,7 @@ import com.heaptrip.domain.repository.solr.SolrAccountRepository;
 import com.heaptrip.domain.repository.solr.entity.SolrAccountSearchReponse;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
-import com.heaptrip.domain.service.account.criteria.relation.AccountRelationCriteria;
 import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
-import com.heaptrip.domain.service.account.criteria.relation.UserRelationCriteria;
 import com.heaptrip.domain.service.criteria.CheckModeEnum;
 import com.heaptrip.domain.service.criteria.IDListCriteria;
 import com.heaptrip.security.Authenticate;
@@ -28,9 +25,7 @@ import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -57,7 +52,7 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
 
         Community community = communityService.registration(CommunityDataProvider.getClub(), locale);
 
-        Future<Void> future = communityService.confirmRegistration(URLEncoder.encode(community.getId(), "UTF-8"), URLEncoder.encode(community.getSendValue(), "UTF-8"));
+        Future<Void> future = communityService.confirmRegistration(community.getId(), community.getSendValue());
         future.get();
 
         solrAccountRepository.commit();
@@ -93,11 +88,11 @@ public class CommunityRegistrationTest extends AbstractTestNGSpringContextTests 
 
     @Test(enabled = true, priority = 5, expectedExceptions = AccountException.class)
     public void confirmWrongCommunityId() throws IOException {
-        communityService.confirmRegistration(URLEncoder.encode(CommunityDataProvider.FAKE_COMMUNITY_ID, "UTF-8"), URLEncoder.encode(notConfirmedCommunity.getSendValue(), "UTF-8"));
+        communityService.confirmRegistration(CommunityDataProvider.FAKE_COMMUNITY_ID, notConfirmedCommunity.getSendValue());
     }
 
     @Test(enabled = true, priority = 6, expectedExceptions = AccountException.class)
     public void confirmWrongSendValue() throws IOException {
-        communityService.confirmRegistration(URLEncoder.encode(notConfirmedCommunity.getId(), "UTF-8"), URLEncoder.encode(notConfirmedCommunity.getId(), "UTF-8"));
+        communityService.confirmRegistration(notConfirmedCommunity.getId(), notConfirmedCommunity.getId());
     }
 }

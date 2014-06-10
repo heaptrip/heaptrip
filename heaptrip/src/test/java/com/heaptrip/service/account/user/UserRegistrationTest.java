@@ -13,11 +13,8 @@ import org.testng.annotations.Test;
 
 import javax.mail.MessagingException;
 import java.io.*;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
-import java.util.concurrent.Future;
 
 @ContextConfiguration("classpath*:META-INF/spring/test-context.xml")
 public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
@@ -35,7 +32,7 @@ public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
         Locale locale = new Locale("ru");
 
         User user = userService.registration(UserDataProvider.getEmailUser(), UserDataProvider.EMAIL_USER_PSWD, null, locale);
-        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(user.getId(), user.getSendValue());
     }
 
     @Test(enabled = true, priority = 2)
@@ -50,7 +47,7 @@ public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
         InputStream is = new FileInputStream(file);
 
         User user = userService.registration(netUser, null, is, locale);
-        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(user.getId(), user.getSendValue());
     }
 
     @Test(enabled = true, priority = 3)
@@ -58,7 +55,7 @@ public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
         Locale locale = new Locale("ru");
 
         User user = userService.registration(UserDataProvider.getActiveUser(), UserDataProvider.ACTIVE_USER_PSWD, null, locale);
-        userService.confirmRegistration(URLEncoder.encode(user.getId(), "UTF-8"), URLEncoder.encode(user.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(user.getId(), user.getSendValue());
     }
 
     @Test(enabled = true, priority = 4)
@@ -69,11 +66,11 @@ public class UserRegistrationTest extends AbstractTestNGSpringContextTests {
 
     @Test(enabled = true, priority = 5, expectedExceptions = AccountException.class)
     public void confirmWrongUserId() throws UnsupportedEncodingException {
-        userService.confirmRegistration(URLEncoder.encode(UserDataProvider.FAKE_USER_ID, "UTF-8"), URLEncoder.encode(notConfirmedUser.getSendValue(), "UTF-8"));
+        userService.confirmRegistration(UserDataProvider.FAKE_USER_ID, notConfirmedUser.getSendValue());
     }
 
     @Test(enabled = true, priority = 6, expectedExceptions = AccountException.class)
     public void confirmWrongSendValue() throws UnsupportedEncodingException {
-        userService.confirmRegistration(URLEncoder.encode(notConfirmedUser.getId(), "UTF-8"), URLEncoder.encode(notConfirmedUser.getId(), "UTF-8"));
+        userService.confirmRegistration(notConfirmedUser.getId(), notConfirmedUser.getId());
     }
 }

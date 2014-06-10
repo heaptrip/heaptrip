@@ -33,6 +33,8 @@ import org.springframework.util.Assert;
 import javax.mail.MessagingException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
@@ -149,11 +151,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.RESET_PASSWORD);
 
             StringBuilder str = new StringBuilder();
-            str.append("http://")
-                    .append("heaptrip.com")
-                    .append("/mail/password/reset?")
-                    .append("uid=").append(users.get(0).getId())
-                    .append("&value=").append(users.get(0).getSendValue());
+
+            try {
+                str.append("http://")
+                        .append("heaptrip.com")
+                        .append("/mail/password/reset?")
+                        .append("uid=").append(URLEncoder.encode(users.get(0).getId(), "UTF-8"))
+                        .append("&value=").append(URLEncoder.encode(users.get(0).getSendValue(), "UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                String msg = String.format("Error url generation: %s", e.getMessage());
+                logger.debug(msg);
+                throw errorService.createException(AccountException.class, ErrorEnum.ERROR_USER_RESET_PASSWORD);
+            }
 
             String msg = String.format(mt.getText(locale), str.toString());
             mailService.sendNoreplyMessage(email, mt.getSubject(locale), msg);
