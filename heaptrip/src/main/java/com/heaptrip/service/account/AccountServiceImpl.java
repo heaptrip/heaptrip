@@ -77,17 +77,19 @@ public class AccountServiceImpl implements AccountService {
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(value, "value must not be null");
 
-        Account account = null;
-        String receiveValue = null;
+//        Account account = null;
+//        String receiveValue = null;
 
-        try {
-            account = accountRepository.findOne(URLDecoder.decode(accountId, "UTF-8"));
-            receiveValue = URLDecoder.decode(value, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            String msg = String.format("Error confirm registration : %s", e.getMessage());
-            logger.debug(msg);
-            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WRONG_CONFIRM_VALUE);
-        }
+        Account account = accountRepository.findOne(accountId);
+
+//        try {
+//            account = accountRepository.findOne(URLDecoder.decode(accountId, "UTF-8"));
+//            receiveValue = URLDecoder.decode(value, "UTF-8");
+//        } catch (UnsupportedEncodingException e) {
+//            String msg = String.format("Error confirm registration : %s", e.getMessage());
+//            logger.debug(msg);
+//            throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_WRONG_CONFIRM_VALUE);
+//        }
 
         if (account == null) {
             String msg = String.format("account not find by id %s", accountId);
@@ -97,7 +99,7 @@ public class AccountServiceImpl implements AccountService {
             String msg = String.format("account status must be: %s", AccountStatusEnum.NOTCONFIRMED);
             logger.debug(msg);
             throw errorService.createException(AccountException.class, ErrorEnum.ERROR_ACCOUNT_ALREADY_CONFIRM);
-        } else if (account.getSendValue().equals(receiveValue)) {
+        } else if (account.getSendValue().equals(value)) {
             accountRepository.changeStatus(account.getId(), AccountStatusEnum.ACTIVE);
 
             if (!account.getAccountType().toString().equals(AccountEnum.USER.toString()) && account instanceof Community && (((Community) account).getOwnerAccountId() != null)) {
