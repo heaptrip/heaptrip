@@ -14,7 +14,7 @@ public class TripDataProvider {
 
     static String USER_ID = "USER_FOR_TRIP_SERVICES_TESTS";
 
-    static String[] CONTENT_IDS = new String[]{"0", "1", "2", "3", "4"};
+    static String[] CONTENT_IDS = new String[]{"tripForTest0", "tripForTest1", "tripForTest2", "tripForTest3", "tripForTest4"};
 
     static String[] CATEGORY_IDS = new String[]{"1.2", "1.3"};
 

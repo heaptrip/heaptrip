@@ -269,7 +269,8 @@ public class TripUserServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(trip.getTable()[2].getMembers(), Long.valueOf(1));
     }
 
-    @Authenticate
+    // login by OWNER_ID for send notification inside setTripMemberOrganizer
+    @Authenticate(userid = "ownerId4TripUserServiceTest")
     @Test
     public void setTripMemberOrganizer() {
         // prepare
