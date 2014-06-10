@@ -12,6 +12,7 @@ import com.heaptrip.domain.repository.content.trip.TripMemberRepository;
 import com.heaptrip.domain.repository.content.trip.TripRepository;
 import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.trip.TripService;
+import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
 import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
@@ -38,24 +39,17 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     @Autowired
     private ContentSearchService solrContentService;
 
-    //@Autowired
-    //private TripUserService tripUserService;
+    @Autowired
+    private TripUserService tripUserService;
 
-    /*
-    private void setOrganizers(Trip trip) {
-        if (trip.getTable() != null) {
-            for (TableItem item : trip.getTable()) {
-                if (item.getStatus().getValue().equals(TableStatusEnum.OK)
-                        && (item.getMembers() == null || item.getMembers().equals(0L))) {
-                    TripUser tripUser = tripUserService.sendInvite(trip.getId(), item.getId(), trip.getOwnerId());
-                    tripUserService.acceptTripMember(tripUser.getId());
-                    tripUserService.setTripMemberOrganizer(tripUser.getId(), true);
-                }
-            }
+    private void setOrganizers(Trip trip, LinkedList<String> tableIds) {
+        for (String tableId : tableIds) {
+            TripUser tripUser = tripUserService.sendInvite(trip.getId(), tableId, trip.getOwnerId());
+            tripUserService.acceptTripMember(tripUser.getId());
+            tripUserService.setTripMemberOrganizer(tripUser.getId(), true);
         }
-
     }
-    */
+
 
     @Override
     public Trip save(Trip trip, Locale locale) {
@@ -71,15 +65,6 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
 
         // update regions and regionIds
         updateRegions(trip);
-
-        if (trip.getTable() != null) {
-            for (TableItem item : trip.getTable()) {
-                if (item.getId() == null) {
-                    item.setId(UUID.randomUUID().toString());
-                }
-                item.setStatus(new TableStatus(TableStatusEnum.OK));
-            }
-        }
 
         // set route
         Route route = new Route();
@@ -108,14 +93,28 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         if (trip.getPostIds() == null)
             trip.setPostIds(new String[0]);
 
+        LinkedList<String> tableIds = null;
+        if (trip.getTable() != null && trip.getTable().length > 0) {
+            tableIds = new LinkedList<>();
+            for (TableItem item : trip.getTable()) {
+                if (item.getId() == null) {
+                    item.setId(UUID.randomUUID().toString());
+                }
+                item.setStatus(new TableStatus(TableStatusEnum.OK));
+                tableIds.add(item.getId());
+            }
+        }
+
         // save to db
         tripRepository.save(trip);
 
+        // set trip organizers
+        if (tableIds != null && !tableIds.isEmpty()) {
+            setOrganizers(trip, tableIds);
+        }
+
         // save to solr
         solrContentService.saveContent(trip.getId());
-
-        // set trip organizers
-        //setOrganizers(trip);
 
         return trip;
     }
@@ -201,17 +200,6 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         // update regions and regionIds
         updateRegions(trip);
 
-        if (trip.getTable() != null) {
-            for (TableItem item : trip.getTable()) {
-                if (item.getId() == null) {
-                    item.setId(UUID.randomUUID().toString());
-                }
-                if (item.getStatus() == null) {
-                    item.setStatus(new TableStatus(TableStatusEnum.OK));
-                }
-            }
-        }
-
         // set lang
         String lang = LanguageUtils.getLanguageByLocale(locale);
         String mainLang = tripRepository.getMainLanguage(trip.getId()).getMainLang();
@@ -229,14 +217,30 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
         if (trip.getPostIds() == null)
             trip.setPostIds(new String[0]);
 
+        LinkedList<String> tableIds = null;
+        if (trip.getTable() != null && trip.getTable().length > 0) {
+            tableIds = new LinkedList<>();
+            for (TableItem item : trip.getTable()) {
+                if (item.getId() == null) {
+                    item.setId(UUID.randomUUID().toString());
+                    tableIds.add(item.getId());
+                }
+                if (item.getStatus() == null) {
+                    item.setStatus(new TableStatus(TableStatusEnum.OK));
+                }
+            }
+        }
+
         // update to db
         tripRepository.updateInfo(trip, locale);
 
+        // set trip organizers
+        if (tableIds != null && !tableIds.isEmpty()) {
+            setOrganizers(trip, tableIds);
+        }
+
         // save to solr
         solrContentService.saveContent(trip.getId());
-
-        // set trip organizers
-        //setOrganizers(trip);
     }
 
     @Override

@@ -3,6 +3,24 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <bean id="tripSetOrganizerNotificationTemplate"
+          class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
+        <property name="text">
+            <map>
+                <entry key="ru">
+                    <value>
+                        <![CDATA[<strong>%s</strong> назначил пользователя <strong>%s</strong> организатором в путешествии <strong>%s</strong>]]>
+                    </value>
+                </entry>
+                <entry key="en">
+                    <value>
+                        <![CDATA[<strong>%s</strong> set a user <strong>%s</strong> as organizer in travel <strong>%s</strong>]]>
+                    </value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
     <bean id="tripInnerInviteNotificationTemplate"
           class="com.heaptrip.domain.entity.account.notification.NotificationTemplate">
         <property name="text">
@@ -167,6 +185,7 @@
           class="com.heaptrip.domain.entity.account.notification.NotificationTemplateStorage">
         <property name="notificationTemplates">
             <map>
+                <entry key="TRIP_SET_ORGANIZER" value-ref="tripSetOrganizerNotificationTemplate"/>
                 <entry key="TRIP_INNER_INVITE" value-ref="tripInnerInviteNotificationTemplate"/>
                 <entry key="TRIP_REQUEST" value-ref="tripRequestNotificationTemplate"/>
                 <entry key="TRIP_REMOVE_MEMBER" value-ref="tripRemoveMemberNotificationTemplate"/>

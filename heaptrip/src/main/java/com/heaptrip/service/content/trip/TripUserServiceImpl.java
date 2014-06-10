@@ -67,7 +67,8 @@ public class TripUserServiceImpl implements TripUserService {
         tableUser = tripMemberRepository.save(tableUser);
 
         // send notification only if the user adds another user (not itself)
-        if (requestScopeService.getCurrentUser().getId().equals(userId)) {
+        User currentUser = requestScopeService.getCurrentUser();
+        if (currentUser != null && !currentUser.getId().equals(userId)) {
             TripNotification notification = new TripNotification();
             notification.setFromId(contentRepository.getOwnerId(tripId));
             notification.setToId(userId);
@@ -121,7 +122,8 @@ public class TripUserServiceImpl implements TripUserService {
 
         // send notification only if the user is not trip owner (not itself)
         String ownerId = contentRepository.getOwnerId(tripId);
-        if (requestScopeService.getCurrentUser().getId().equals(ownerId)) {
+        User currentUser = requestScopeService.getCurrentUser();
+        if (currentUser != null && !currentUser.getId().equals(ownerId)) {
             TripNotification notification = new TripNotification();
             notification.setFromId(userId);
             notification.setToId(ownerId);
@@ -182,6 +184,24 @@ public class TripUserServiceImpl implements TripUserService {
     public void setTripMemberOrganizer(String memberId, Boolean isOrganizer) {
         Assert.notNull(memberId, "memberId must not be null");
         tripMemberRepository.setOrganizer(memberId, isOrganizer);
+
+        if (isOrganizer != null && isOrganizer) {
+            // send notification only if the user set organizer another user (not itself)
+            TripMember tripMember = tripMemberRepository.findOne(memberId);
+            if (tripMember != null && tripMember.getMemberType().equals(MemberEnum.TRIP_USER)) {
+                TripUser tripUser = (TripUser) tripMember;
+                User currentUser = requestScopeService.getCurrentUser();
+                if (currentUser != null && !currentUser.getId().equals(tripUser.getUserId())) {
+                    TripNotification notification = new TripNotification();
+                    notification.setFromId(currentUser.getId());
+                    notification.setToId(tripUser.getUserId());
+                    notification.setType(NotificationTypeEnum.TRIP_SET_ORGANIZER);
+                    notification.setContentId(tripUser.getContentId());
+                    notification.setTableId(tripUser.getTableId());
+                    notificationService.addNotification(notification);
+                }
+            }
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ public enum NotificationTypeEnum {
     FRIEND(true),
     MEMBER(true),
     OWNER(true),
+    TRIP_SET_ORGANIZER(false),
     TRIP_INNER_INVITE(true),
     TRIP_REQUEST(true),
     TRIP_REMOVE_MEMBER(false),

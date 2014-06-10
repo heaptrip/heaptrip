@@ -113,7 +113,7 @@ public class InitTripTest extends AbstractTestNGSpringContextTests {
         }
     }
 
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void afterTest() {
         for (Trip trip : trips) {
             tripService.hardRemove(trip.getId());
