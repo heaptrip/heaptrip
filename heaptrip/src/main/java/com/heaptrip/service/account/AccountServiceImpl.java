@@ -33,6 +33,7 @@ public class AccountServiceImpl implements AccountService {
     protected static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     public static String EMAIL_REGEX = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
+    public static String NAME_REGEX = "([\\w\\s])*";
 
     static int NAME_MIN_LENGTH = 3;
     static int NAME_MAX_LENGTH = 100;
@@ -214,5 +215,7 @@ public class AccountServiceImpl implements AccountService {
                 "length name must be at least 3 characters and maximum length of 100");
         Assert.isTrue(name.length() <= NAME_MAX_LENGTH,
                 "length name must be at least 3 characters and maximum length of 100");
+        Assert.isTrue(name.matches(NAME_REGEX),
+                "name must contains 0-9, lowercase characters a-z and uppercase characters A-Z");
     }
 }
