@@ -17,15 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.concurrent.Future;
-import java.util.regex.Pattern;
 
 @Service("accountService")
 public class AccountServiceImpl implements AccountService {
@@ -33,7 +26,7 @@ public class AccountServiceImpl implements AccountService {
     protected static final Logger logger = LoggerFactory.getLogger(AccountServiceImpl.class);
 
     public static String EMAIL_REGEX = "^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\\.[a-zA-Z](-?[a-zA-Z0-9])*)+$";
-    public static String NAME_REGEX = "([\\w\\s])*";
+    public static String NAME_REGEX = "([\\W\\S])*";
 
     static int NAME_MIN_LENGTH = 3;
     static int NAME_MAX_LENGTH = 100;
