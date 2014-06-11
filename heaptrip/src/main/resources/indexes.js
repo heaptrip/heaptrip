@@ -22,3 +22,4 @@ db.ratings.ensureIndex({targetId: 1, created: 1});
 db.relations.ensureIndex({fromId: 1, type: 1});
 db.relations.ensureIndex({fromId: 1, userIds: 1, type: 1});
 db.relations.ensureIndex({userIds: 1, type: 1});
+db.mails.ensureIndex({node: 1, created: -1});

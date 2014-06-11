@@ -24,9 +24,10 @@ public class MailServiceTest extends AbstractTestNGSpringContextTests {
     private MailTemplateStorage mailTemplateStorage;
 
     @Test(enabled = false, priority = 1)
-    public void sendNoreplyMessage() throws MessagingException {
+    public void sendNoreplyMessage() throws MessagingException, InterruptedException {
         String to = "support@heaptrip.com";
         MailTemplate mt = mailTemplateStorage.getMailTemplate(MailEnum.RESET_PASSWORD);
         mailService.sendNoreplyMessage(to, mt.getSubject(locale), mt.getText(locale));
+        Thread.sleep(5000); // wait because mail will be send by separate thread
     }
 }
