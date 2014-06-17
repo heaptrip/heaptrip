@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<a id="logo"></a>
+<a href="/" id="logo"></a>
 
 <c:if test="${not empty principal}">
 
@@ -23,8 +23,6 @@
             <span style="color: #ffee2f"> ${catcher.name} - </span>
         </c:if>
             <span style="color: #2abeff">
-
-
 
                 <c:if test='${fn:contains(url, "/my")}'>
                     <fmt:message key="accountProfile.my"/>
