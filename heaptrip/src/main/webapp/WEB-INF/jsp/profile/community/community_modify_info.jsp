@@ -34,7 +34,8 @@
 
         jsonData.name = $("#community_name").val();
 //        jsonData.email = $("#community_email").val();
-        jsonData.typeAccount = $('.select_selected').attr('value');
+//        jsonData.typeAccount = $('.select_selected').attr('value');
+        jsonData.typeAccount = "CLUB";
 
         var accountProfile = {};
 
