@@ -231,7 +231,7 @@ var onLocaleChange = function (locale) {
 (function ($) {
     $.extend({
         alertNoAuthenticationUser: function () {
-            $.alert('Вы не залогинены.'
+            $.alert('Вы не зарегистрированы.'
                 + ' Пожалуйста '
                 + '<a onClick="$.putGETParamToURL(\'need_login\',\'true\')">войдите</a>'
                 + ' для завершения действия.');
