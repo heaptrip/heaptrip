@@ -74,4 +74,12 @@ CKEDITOR.on('dialogDefinition', function (ev) {
         var linktypeField = infoTab.get('linkType');
         linktypeField['items'].splice(1, 1);
     }
+
+    // customize 'Image Properties' dialog
+    if (dialogName == 'image2') {
+        var infoTab = dialogDefinition.getContents('info');
+        //infoTab.remove('hasCaption'); //Removing the "add caption" functionality
+        //infoTab.remove('alt'); //Removing the "alternative text" functionality
+        infoTab.remove('src'); //Removing the "change URL" functionality
+    }
 });
