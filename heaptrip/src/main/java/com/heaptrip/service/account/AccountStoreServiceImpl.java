@@ -222,6 +222,13 @@ public class AccountStoreServiceImpl implements AccountStoreService {
                 // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
                 throw errorService.createException(SolrException.class, e, ErrorEnum.ERR_SYSTEM_SOLR);
             }
+
+            try {
+                // TODO: dikma нужно иметь возможность залогировать исключение не выходя из метода
+                redisAccountRepository.updateName(accountId, account.getName());
+            } catch (Exception e) {
+                throw errorService.createException(RedisException.class, e, ErrorEnum.ERR_SYSTEM_REDIS);
+            }
         }
 
         return new AsyncResult<>(null);

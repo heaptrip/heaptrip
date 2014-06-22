@@ -8,6 +8,8 @@ public interface RedisAccountRepository {
 
     public void updateRating(String accountId, double ratingValue);
 
+    public void updateName(String accountId, String name);
+
     public void updateImages(String accountId, String imageId, String smallId, String mediumId);
 
     public void remove(String accountId);

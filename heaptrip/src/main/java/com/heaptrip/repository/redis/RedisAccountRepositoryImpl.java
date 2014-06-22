@@ -85,6 +85,28 @@ public class RedisAccountRepositoryImpl implements RedisAccountRepository {
         }
     }
 
+    @Override
+    public void updateName(String accountId, String name) {
+        Assert.notNull(accountId, "accountId must not be null");
+
+        String key = "account:" + accountId;
+
+        Jedis jedis = redisContext.getConnection();
+        try {
+            jedis.hset(key, "name", name);
+        } catch (Exception e) {
+            if (jedis != null) {
+                redisContext.returnBrokenConnection(jedis);
+                jedis = null;
+            }
+            throw e;
+        } finally {
+            if (jedis != null) {
+                redisContext.returnConnection(jedis);
+            }
+        }
+    }
+
 
     @Override
     public void updateImages(String accountId, String imageId, String smallId, String mediumId) {
