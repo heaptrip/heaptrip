@@ -65,6 +65,13 @@
         <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
     </definition>
 
+    <!--<definition name="community_registration" extends="mainTemplate">-->
+        <!--<put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate"/>-->
+        <!--<put-attribute name="styles_ins" value="registrationStylesTemplate"/>-->
+        <!--<put-attribute name="main_content" value="/WEB-INF/jsp/profile/community/community_registration.jsp"/>-->
+        <!--<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>-->
+    <!--</definition>-->
+
     <definition name="confirmation" extends="mainTemplate">
         <put-attribute name="styles_ins" value="errorStylesTemplate"/>
         <put-attribute name="main_content" value="/WEB-INF/jsp/user/confirmation.jsp"/>
@@ -85,7 +92,6 @@
         <put-attribute name="styles_ins" value="errorStylesTemplate"/>
         <put-attribute name="main_content" value="/WEB-INF/jsp/notfound.jsp"/>
     </definition>
-
 
     <definition name="contentScriptsTemplate" extends="jqueryuiScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
@@ -122,10 +128,6 @@
         </put-list-attribute>
     </definition>
 
-
-
-
-
     <definition name="contentEditWithMapScriptsTemplate" extends="contentWithMapScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
             <add-attribute value="/js/lib/ckeditor/ckeditor.js"/>
@@ -139,7 +141,6 @@
             <add-attribute value="/js/lib/jsrender.js"/>
         </put-list-attribute>
     </definition>
-
 
     <definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
         <put-list-attribute name="styles" inherit="true">
@@ -166,17 +167,11 @@
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
 
-
     <definition name="travels" extends="mainContentTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
     </definition>
-
-
-
-
-
 
     <!-- Trip page -->
 
@@ -249,7 +244,6 @@
         <put-attribute name="main_content" value="travelPostsCatalogTemplate"/>
     </definition>
 
-
     <definition name="travelInfoEditCatalogTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travel_modify_info.jsp"/>
     </definition>
@@ -320,6 +314,16 @@
         <put-attribute name="main_content" value="communityInfoEditTemplate"/>
     </definition>
 
+    <definition name="communityRegistrationTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_registration.jsp"/>
+    </definition>
+
+    <definition name="community_registration" extends="mainContentTemplate">
+        <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="registrationStylesTemplate"/>
+        <put-attribute name="main_content" value="communityRegistrationTemplate"/>
+    </definition>
+
     <definition name="notificationTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/notification/notification.jsp"/>
     </definition>
@@ -330,11 +334,7 @@
         <put-attribute name="main_content" value="notificationTemplate"/>
     </definition>
 
-
-
-
     <!-- End Profile -->
-
 
     <definition name="categoryTree" template="/WEB-INF/jsp/widget/category_tree.jsp">
         <put-attribute name="category_tree_btn" value=""/>
@@ -357,7 +357,5 @@
     <definition name="upload_page" template="/WEB-INF/jsp/upload.jsp"/>
 
     <definition name="script_locale" template="/WEB-INF/jsp/locale/script_locale.jsp"/>
-
-
 
 </tiles-definitions>

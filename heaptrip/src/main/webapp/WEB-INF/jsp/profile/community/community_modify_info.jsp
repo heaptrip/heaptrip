@@ -97,7 +97,6 @@
 
 </script>
 
-
 <div id="container">
     <div id="contents">
         <article id="article" class="deteil edit">
