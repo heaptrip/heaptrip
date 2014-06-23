@@ -11,7 +11,11 @@
         <li id="{{>id}}" class="old">
     {{/if}}
             <div class="list_alert_img">
-                <img src="<c:url value="../rest/image/small/{{>accountFrom.image.id}}"/>">
+                {{if accountFrom && accountFrom.image && accountFrom.image.id}}
+                <img src="<c:url value="/rest/image/small/{{>accountFrom.image.id}}"/>">
+                    {{else}}
+                <img src="<c:url value="/images/user_mail.png"/>">
+                    {{/if}}
             </div>
             <div class="list_alert_inf">
                 <span>{{>created.text}}</span>
