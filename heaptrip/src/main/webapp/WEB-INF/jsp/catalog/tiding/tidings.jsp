@@ -18,11 +18,11 @@
                 </div>
             </div>
             <div class="right">
-                {{if begin.text}}
+                {{if begin && begin.text}}
                 <div>
                     <fmt:message key="page.date.period"/>:
 						<span class="date">
-                            <fmt:message key="page.date.from"/> {{>begin.text}} {{if end.text}}<fmt:message
+                            <fmt:message key="page.date.from"/> {{>begin.text}} {{if end && end.text}}<fmt:message
                                 key="page.date.to"/> {{>end.text)}}{{/if}}
 						</span>
                 </div>
