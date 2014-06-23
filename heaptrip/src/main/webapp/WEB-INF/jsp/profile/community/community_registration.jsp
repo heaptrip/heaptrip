@@ -34,6 +34,12 @@
 
 </script>
 
+
+
+
+
+
+
 <section id="middle">
     <div id="container">
         <div id="contents">
@@ -43,7 +49,10 @@
             </div>
 
             <div id="registration">
-                <div id="form">
+
+                <form:form name="form">
+
+
                     <dl>
                         <dt>
                             <label><fmt:message key="community.name"/></label>
@@ -62,15 +71,16 @@
                         </dd>
                     </dl>
 
-                    <dl  id="soglashenie">
+                    <dl id="soglashenie">
                         <dt>
                             <label><input type="checkbox">
-                                <a href="/"><fmt:message key="user.action.acceptTerms"/> <fmt:message key="user.action.agreement"/> </a>
+                                <a href="/"><fmt:message key="user.action.acceptTerms"/> <fmt:message
+                                        key="user.action.agreement"/> </a>
                             </label>
                         </dt>
                         <dd><a id="go" onClick="onCommunitySubmit(this)"><fmt:message key="page.action.save"/></a></dd>
                     </dl>
-                </div>
+                </form:form>
             </div>
         </div>
     </div>

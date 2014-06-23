@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<a href="/" id="logo"></a>
+<a  id="logo" href="<c:url value="/"/>"  ></a>
 
 <c:if test="${not empty principal}">
 
@@ -13,6 +13,9 @@
        id="alert">${notificationServiceWrapper.getUnreadNotificationFromUsers()}/${notificationServiceWrapper.getUnreadNotificationFromCommunities()}</a>
 
 </c:if>
+
+
+
 
 <div id="path">
     <div id="path_text">
@@ -22,6 +25,11 @@
         <c:if test="${not empty catcher}">
             <span style="color: #ffee2f"> ${catcher.name} - </span>
         </c:if>
+
+
+
+        <c:if test="${not empty principal || not empty catcher}">
+
             <span style="color: #2abeff">
 
                 <c:if test='${fn:contains(url, "/my")}'>
@@ -70,6 +78,11 @@
                     </c:otherwise>
                 </c:choose>
             </span>
+
+
+            </c:if>
+
+
     </div>
 </div>
 

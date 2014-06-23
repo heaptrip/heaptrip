@@ -27,8 +27,10 @@
                 <div>
                     <fmt:message key="page.date.period"/>:
 						<span class="date">
-                            <fmt:message key="page.date.from"/> {{>begin.text}}   {{if end.text}}<fmt:message
-                                key="page.date.to"/> {{>end.text)}} {{/if}}
+                            <fmt:message key="page.date.from"/>
+                            {{>begin.text}}
+                            {{if end.text}}<fmt:message key="page.date.to"/> {{>end.text)}}
+                            {{/if}}
                         </span>
                 </div>
                 {{/if}}

@@ -41,10 +41,6 @@
         <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
     </definition>
 
-    <definition name="mainContentTemplate" extends="mainTemplate">
-
-    </definition>
-
     <definition name="registrationStylesTemplate" extends="mainStylesTemplate">
         <put-list-attribute name="styles" inherit="true">
             <add-attribute value="/css/reg.css"/>
@@ -64,13 +60,6 @@
         <put-attribute name="main_content" value="/WEB-INF/jsp/user/registration.jsp"/>
         <put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>
     </definition>
-
-    <!--<definition name="community_registration" extends="mainTemplate">-->
-        <!--<put-attribute name="scripts_ins" value="jqueryuiScriptsTemplate"/>-->
-        <!--<put-attribute name="styles_ins" value="registrationStylesTemplate"/>-->
-        <!--<put-attribute name="main_content" value="/WEB-INF/jsp/profile/community/community_registration.jsp"/>-->
-        <!--<put-attribute name="footer" value="/WEB-INF/jsp/footer.jsp"/>-->
-    <!--</definition>-->
 
     <definition name="confirmation" extends="mainTemplate">
         <put-attribute name="styles_ins" value="errorStylesTemplate"/>
@@ -100,16 +89,11 @@
         </put-list-attribute>
     </definition>
 
-    <definition name="contentScriptsTemplate" extends="jqueryuiScriptsTemplate">
-        <put-list-attribute name="scripts" inherit="true">
-            <add-attribute value="/js/jquery.jstree.js"/>
-            <add-attribute value="/js/filtr.js"/>
-        </put-list-attribute>
-    </definition>
 
     <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
-            <add-attribute value="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru&amp;libraries=drawing,geometry"/>
+            <add-attribute
+                    value="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru&amp;libraries=drawing,geometry"/>
             <add-attribute value="/js/map.js"/>
         </put-list-attribute>
     </definition>
@@ -161,13 +145,13 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/tiding/tidings.jsp"/>
     </definition>
 
-    <definition name="tidings" extends="mainContentTemplate">
+    <definition name="tidings" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="tidingsTemplate"/>
     </definition>
 
-    <definition name="travels" extends="mainContentTemplate">
+    <definition name="travels" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="catalogScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelsTemplate"/>
@@ -214,31 +198,31 @@
         <put-attribute name="catalog_content" value="travelPostsTemplate"/>
     </definition>
 
-    <definition name="travel_info" extends="mainContentTemplate">
+    <definition name="travel_info" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelInfoCatalogTemplate"/>
     </definition>
 
-    <definition name="travel_maps" extends="mainContentTemplate">
+    <definition name="travel_maps" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentWithMapScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelMapsCatalogTemplate"/>
     </definition>
 
-    <definition name="travel_photos" extends="mainContentTemplate">
+    <definition name="travel_photos" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelPhorosCatalogTemplate"/>
     </definition>
 
-    <definition name="travel_participants" extends="mainContentTemplate">
+    <definition name="travel_participants" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelParticipantsCatalogTemplate"/>
     </definition>
 
-    <definition name="travel_posts" extends="mainContentTemplate">
+    <definition name="travel_posts" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelPostsCatalogTemplate"/>
@@ -248,7 +232,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/catalog/travel/travel_modify_info.jsp"/>
     </definition>
 
-    <definition name="travel_modify_info" extends="mainContentTemplate">
+    <definition name="travel_modify_info" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentEditWithMapScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="travelInfoEditCatalogTemplate"/>
@@ -262,13 +246,13 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_info.jsp"/>
     </definition>
 
-    <definition name="profile" extends="mainContentTemplate">
+    <definition name="profile" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="userTemplate"/>
     </definition>
 
-    <definition name="community" extends="mainContentTemplate">
+    <definition name="community" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communityTemplate"/>
@@ -278,7 +262,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_modify_info.jsp"/>
     </definition>
 
-    <definition name="profile_modify_info" extends="mainContentTemplate">
+    <definition name="profile_modify_info" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="accountInfoEditTemplate"/>
@@ -288,7 +272,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/people.jsp"/>
     </definition>
 
-    <definition name="people" extends="mainContentTemplate">
+    <definition name="people" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="peopleTemplate"/>
@@ -298,7 +282,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
     </definition>
 
-    <definition name="communities" extends="mainContentTemplate">
+    <definition name="communities" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communitiesTemplate"/>
@@ -308,19 +292,26 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_modify_info.jsp"/>
     </definition>
 
-    <definition name="community_modify_info" extends="mainContentTemplate">
+    <definition name="community_modify_info" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communityInfoEditTemplate"/>
+    </definition>
+
+
+    <definition name="registrationCommunityStylesTemplate" extends="catalogStylesTemplate">
+        <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="/css/reg.css"/>
+        </put-list-attribute>
     </definition>
 
     <definition name="communityRegistrationTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_registration.jsp"/>
     </definition>
 
-    <definition name="community_registration" extends="mainContentTemplate">
-        <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="registrationStylesTemplate"/>
+    <definition name="community_registration_security" extends="mainTemplate">
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="registrationCommunityStylesTemplate"/>
         <put-attribute name="main_content" value="communityRegistrationTemplate"/>
     </definition>
 
@@ -328,7 +319,7 @@
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/notification/notification.jsp"/>
     </definition>
 
-    <definition name="notification-security" extends="mainContentTemplate">
+    <definition name="notification-security" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="notificationTemplate"/>

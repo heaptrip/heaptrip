@@ -406,7 +406,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
             <c:if test='${not empty principal && empty catcher}'>
                 <div class="inf">
                     <div class="right">
-                        <a href="<c:url value="/pf/community_registration"/>" class="button"><fmt:message key="page.action.create"/></a>
+                        <a href="<c:url value="/pf/community_registration_security"/>" class="button"><fmt:message key="page.action.create"/></a>
                     </div>
                 </div>
             </c:if>

@@ -5,6 +5,8 @@
 
 <nav id="nav">
 
+
+
 <div class="global_menu">
     <ul>
         <c:if test="${not empty principal}">
