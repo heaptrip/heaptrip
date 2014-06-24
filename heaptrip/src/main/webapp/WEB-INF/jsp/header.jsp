@@ -5,28 +5,22 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<a  id="logo" href="<c:url value="/"/>"  ></a>
+<a id="logo" href="<c:url value="/"/>"></a>
 
 <c:if test="${not empty principal}">
-
     <a href="<c:url value='/pf/notification-security'/>"
        id="alert">${notificationServiceWrapper.getUnreadNotificationFromUsers()}/${notificationServiceWrapper.getUnreadNotificationFromCommunities()}</a>
-
 </c:if>
-
-
 
 
 <div id="path">
     <div id="path_text">
         <c:if test="${not empty principal}">
-            ${principal.name} -
+            <a style="color:#CFCFCF;text-decoration: none;" href="<c:url value="/pf/profile"/>"> ${principal.name}</a> -
         </c:if>
         <c:if test="${not empty catcher}">
-            <span style="color: #ffee2f"> ${catcher.name} - </span>
+            <a style="color:#ffee2f;text-decoration: none;" href="<c:url value="/pf/${catcher.typeAccount ne 'USER' ? 'community':'profile'}?guid=${catcher.id}"/>"> ${catcher.name}</a> -
         </c:if>
-
-
 
         <c:if test="${not empty principal || not empty catcher}">
 
@@ -35,6 +29,10 @@
                 <c:if test='${fn:contains(url, "/my")}'>
                     <fmt:message key="accountProfile.my"/>
                 </c:if>
+
+                 <c:if test='${fn:contains(url, "/fv")}'>
+                     <fmt:message key="accountProfile.favorite"/>
+                 </c:if>
 
                 <c:choose>
                     <c:when test='${fn:contains(url, "tidings")}'>
@@ -80,7 +78,7 @@
             </span>
 
 
-            </c:if>
+        </c:if>
 
 
     </div>

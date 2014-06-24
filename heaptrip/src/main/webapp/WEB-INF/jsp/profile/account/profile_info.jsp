@@ -52,6 +52,7 @@
             <c:if test='${not empty account.accountProfile.desc}'>
                 <div class="description">
                     <h2 class="people_title"><fmt:message key="user.aboutMe"/>:</h2>
+                    <br>
                     ${account.accountProfile.desc}
                 </div>
             </c:if>
