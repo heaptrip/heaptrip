@@ -16,9 +16,12 @@ function getSelectedRegionsIds() {
             }
         });
     });
+
+
+    //$('#52b181a0e4b093e45104d67a').click(function(){return false})
+
     return (idArr.length > 0 ? idArr : []);
 }
-
 
 
 function create_tree(n) {
@@ -52,6 +55,16 @@ function buildRegionsTree(regionsDataArr) {
             if (city) arr.push({id: city.id, data: city.data});
 
             create_tree(arr);
+
+
+            if ($('#sideRight').attr('filter') == 'read_only') {
+                $.each($('#region').find('li'), function (index, item) {
+                    $('#' + $(item).attr('id')).click(function () {
+                        return false
+                    })
+                });
+            }
+
         }
 
     };
@@ -59,8 +72,6 @@ function buildRegionsTree(regionsDataArr) {
     var callbackError = function (error) {
         $.alert(error);
     };
-
-
 
 
     $.postJSON('../rest/get_region_hierarchy', regionsDataArr.join(), callbackSuccess, callbackError);
@@ -71,7 +82,9 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     if (paramsJson.rg) {
         $('#region .tree').empty();
         buildRegionsTree(paramsJson.rg.split(','));
-    }else{
+
+
+    } else {
         $('#region .tree').empty();
     }
 
@@ -80,6 +93,12 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 $.delayLoading('getInitRegionsIds');
 
 $(document).ready(function () {
+
+    if ($('#sideRight').attr('filter') == 'read_only') {
+        $("#region_zag").text(locale.wgt.regions);
+        $("#region_search").hide();
+    } else
+        $("#region_zag").text(locale.wgt.regionSelect);
 
     $("#region input[type=text]")
 
@@ -135,9 +154,7 @@ $(document).ready(function () {
                 select: function (event, ui) {
 
 
-
                     var regId = ui.item.value;
-
 
 
                     var regIds = getSelectedRegionsIds();
@@ -176,7 +193,7 @@ $(document).ready(function () {
         else if (window.principal) {
             guid = window.principal.id;
         }
-        if (guid && $('#sideRight').attr('filter')!='empty') {
+        if (guid && $('#sideRight').attr('filter') != 'empty') {
 
             var callbackSuccess = function (regionIds) {
                 buildRegionsTree(regionIds);
@@ -198,16 +215,9 @@ $(document).ready(function () {
 </script>
 
 <div id="region" class="filtr">
-    <c:choose>
-        <c:when test="${not empty param.guid}">
-            <div class="zag"><fmt:message key="content.region"/></div>
-        </c:when>
-        <c:otherwise>
-            <div class="zag"><fmt:message key="wgt.region.select"/></div>
-        </c:otherwise>
-    </c:choose>
+    <div id="region_zag" class="zag"><fmt:message key="content.region"/></div>
     <div class="content" style="display: block;">
-        <div class="search">
+        <div id="region_search" class="search">
             <input type="text" name="text_search"> <input type="button" name="go_region_search" value="">
         </div>
         <div class="tree"></div>

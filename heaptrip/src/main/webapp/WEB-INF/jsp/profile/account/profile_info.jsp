@@ -119,7 +119,7 @@
 </div>
 <!-- #container-->
 
-<aside id="sideRight">
+<aside id="sideRight" filter="read_only">
     <tiles:insertDefinition name="categoryTree"/>
     <tiles:insertDefinition name="regionFilter"/>
 </aside>
