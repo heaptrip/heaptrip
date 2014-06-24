@@ -42,6 +42,8 @@
                 </div>
             </div>
             <div class="description">
+                <h2 class="people_title"><fmt:message key="community.about"/>:</h2>
+                <br>
                 ${account.accountProfile.desc}
             </div>
 
