@@ -29,7 +29,7 @@ CKEDITOR.editorConfig = function (config) {
         a: { attributes: '!href,target' },
         img: {
             attributes: '!src,alt,width,height',
-            styles: 'float,width,height',
+            styles: 'float,width,height,margin',
             classes: 'left,right',
             match: function (element) {
                 if (element.attributes['src']) {

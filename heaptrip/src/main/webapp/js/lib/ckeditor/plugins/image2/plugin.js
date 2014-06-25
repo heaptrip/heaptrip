@@ -936,6 +936,9 @@
 						styles[ 'float' ] = align;
 				}
 
+
+                styles[ 'margin' ] = "2px 10px 2px 10px";
+
 				// Update element styles.
 				if ( !alignClasses && !CKEDITOR.tools.isEmpty( styles ) )
 					attrs.style = CKEDITOR.tools.writeCssText( styles );

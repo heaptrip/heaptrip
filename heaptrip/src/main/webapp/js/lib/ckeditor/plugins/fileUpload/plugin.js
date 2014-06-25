@@ -39,7 +39,7 @@ CKEDITOR.plugins.add('fileUpload',
                                     var insertHtml = '';
                                     $.each(files, function (index, value) {
                                         insertHtml = insertHtml + '<br/>';
-                                        insertHtml = insertHtml + '<p style="text-align:center"><img width="550" src="' + value.url + '" /></p>';
+                                        insertHtml = insertHtml + '<p><img width="550" style="style=text-align:center; margin:2px 10px 2px 10px" src="' + value.url + '" /></p>';
                                     });
                                     editor.insertHtml(insertHtml);
                                 }
@@ -50,6 +50,7 @@ CKEDITOR.plugins.add('fileUpload',
                     onShow: function () {
                         $('#UPLOADER_CONTAINER' + editor.name).height(320);
                         $('#UPLOADER_CONTAINER' + editor.name).attr("src", './upload_page?image_type=CONTENT_IMAGE&amp;target_id=' + $.getParamFromURL().id);
+
                     },
                     onClose: function () {
                         $('#UPLOADER_CONTAINER' + editor.name).attr("src", "");
