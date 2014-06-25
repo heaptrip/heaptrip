@@ -78,8 +78,9 @@ CKEDITOR.on('dialogDefinition', function (ev) {
     // customize 'Image Properties' dialog
     if (dialogName == 'image2') {
         var infoTab = dialogDefinition.getContents('info');
-        //infoTab.remove('hasCaption'); //Removing the "add caption" functionality
+        infoTab.remove('hasCaption'); //Removing the "add caption" functionality
         //infoTab.remove('alt'); //Removing the "alternative text" functionality
         infoTab.remove('src'); //Removing the "change URL" functionality
+
     }
 });
