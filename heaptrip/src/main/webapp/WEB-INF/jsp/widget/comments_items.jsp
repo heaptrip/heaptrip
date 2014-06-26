@@ -17,10 +17,10 @@
     <li id="${comment.id}">
         <div class="comment_content">
             <div class="comment_info">
-                <span class="comment_name">${comment.author.name}</span>
+                <a  style="text-decoration: none;"  href="<c:url value="/pf/profile?guid=${comment.author.id}"/>"><span class="comment_name">${comment.author.name}</span></a>
                 <span class="comment_date">${comment.created.text}</span>
             </div>
-            <div class="comment_avatar"><img src="<c:url value="../rest/image/small/${comment.author.image.id}"/>"></div>
+            <div class="comment_avatar"><a href="<c:url value="/pf/profile?guid=${comment.author.id}"/>"><img src="<c:url value="../rest/image/small/${comment.author.image.id}"/>"></a> </div>
             <div class="comment_text">${comment.text}</div>
         </div>
         <c:if test="${fn:length(comment.children) > 0}">

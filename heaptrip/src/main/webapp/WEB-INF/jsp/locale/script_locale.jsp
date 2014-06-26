@@ -8,6 +8,7 @@ locale.pagingEmpty = '<fmt:message key="locale.pagingEmpty"/>';
 
 locale.action = {};
 locale.action.successEdit = '<fmt:message key="locale.action.successEdit"/>';
+locale.action.reply = '<fmt:message key="page.action.reply"/>';
 
 locale.menu = {};
 locale.menu.addTripParticipant = '<fmt:message key="locale.menu.addTripParticipant"/>';

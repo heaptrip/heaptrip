@@ -23,6 +23,9 @@ public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     @Autowired
     private AccountStoreService accountStoreService;
 
+    @Autowired
+    private  ProfileModelService profileModelService;
+
     @Override
     public List<CommentModel> getComments(String targetId) {
 
@@ -44,18 +47,8 @@ public class CommentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         commentModel.setText(comment.getText());
         commentModel.setCreated(convertDate(comment.getCreated()));
         commentModel.setTarget(comment.getTarget());
-        commentModel.setAuthor(convertCommentAuthorToUserModel(comment.getAuthorId()));
+        commentModel.setAuthor(profileModelService.getAccountInformation(comment.getAuthorId()));
         return commentModel;
-    }
-
-    private AccountModel convertCommentAuthorToUserModel(String authorId) {
-        AccountModel userModel = new AccountModel();
-        Account account = accountStoreService.findOne(authorId);
-        if (account != null) {
-            userModel.setImage(convertImage(account.getImage()));
-            userModel.setName(account.getName());
-        }
-        return userModel;
     }
 
     @Override
