@@ -20,7 +20,7 @@ public class TripMyAccountQueryHelper extends ContentQueryHelper<TripMyAccountCr
         String query = "{";
         if (criteria.getRelation().equals(RelationEnum.OWN)) {
             // OWNER
-            query += "'ownerId': #, _class: #";
+            query += "'ownerId': #, _class: #, deleted: null";
             if (ArrayUtils.isNotEmpty(criteria.getStatus())) {
                 query += ", 'status.value': {$in: #}";
             }

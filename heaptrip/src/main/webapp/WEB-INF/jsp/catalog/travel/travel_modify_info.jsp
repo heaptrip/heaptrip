@@ -3,6 +3,10 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
+<!-- add boostrap for nice alert -->
+<link href="<c:url value="/js/lib/bootstrap/css/bootstrap.css" />" rel="stylesheet">
+<link href="<c:url value="/js/lib/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
+
 <c:choose>
     <c:when test="${empty param.ul}">
         <%--<c:choose>--%>
@@ -48,6 +52,41 @@
             rg: rg
         });
     });
+
+    var onTripRemoveSubmit = function (btn) {
+
+        $(btn).prop('disabled', true);
+
+        var url = '../rest/security/travel_remove';
+
+        bootstrap_alert = function (message) {
+
+        }
+
+        bootstrap_alert.success = function (message) {
+            $('#delete_alert_placeholder').html(
+                    '<div class="alert alert-success" role="alert"><span>' + message + ' </span>' +
+                            '<a href=<c:url value="/my/travels"/> class="alert-link">Go to <fmt:message key="accountProfile.my"/></a></div>')
+        }
+
+        bootstrap_alert.danger = function (message) {
+            $('#delete_alert_placeholder').html(
+                    '<div class="alert alert-danger" role="alert"><span>' + message + ' </span>' +
+                            '<a href=<c:url value="/my/travels"/> class="alert-link">Go to <fmt:message key="accountProfile.my"/></a></div>')
+        }
+
+        var callbackSuccess = function (data) {
+            $(btn).prop('disabled', false);
+            bootstrap_alert.success(locale.action.successEdit);
+        };
+
+        var callbackError = function (error) {
+            $(btn).prop('disabled', false);
+            bootstrap_alert.danger(error);
+        };
+
+        $.postJSON(url, tripId, callbackSuccess, callbackError);
+    };
 
     var onTripSubmit = function (btn) {
 
@@ -468,12 +507,17 @@
 
 </article>
 
-<c:if test="${not empty param.id}">
+<!-- c:if test="${not empty param.id}" -->
 
-    <div class="del_article">
-        <a class="button"><fmt:message key="trip.action.delete"/></a>
-    </div>
-</c:if>
+<div class="del_article">
+    <a onclick="onTripRemoveSubmit($(this))" class="button"><fmt:message key="trip.action.delete"/></a>
+
+    <p/>
+
+    <div id="delete_alert_placeholder"></div>
+</div>
+
+<!-- /c:if -->
 
 </article>
 </div>

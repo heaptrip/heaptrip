@@ -14,7 +14,6 @@ import com.heaptrip.domain.service.content.ContentSearchService;
 import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
-import com.heaptrip.domain.service.content.trip.criteria.TripMemberCriteria;
 import com.heaptrip.domain.service.system.ErrorService;
 import com.heaptrip.service.content.ContentServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
@@ -122,13 +121,15 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     @Override
     public void remove(String tripId) {
         Assert.notNull(tripId, "tripId must not be null");
-        // check trip members
+        // TODO konovalov: check trip members
+        /*
         TripMemberCriteria memberCriteria = new TripMemberCriteria();
         memberCriteria.setTripId(tripId);
         long members = tripMemberRepository.countByCriteria(memberCriteria);
         if (members > 0) {
             throw errorService.createException(TripException.class, ErrorEnum.REMOVE_TRIP_FAILURE);
         }
+        */
         // remove from solr
         solrContentService.removeContent(tripId);
         super.remove(tripId);

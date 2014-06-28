@@ -2,6 +2,7 @@ package com.heaptrip.web.controller.content.trip;
 
 import com.heaptrip.domain.entity.content.trip.Trip;
 import com.heaptrip.domain.service.content.trip.TripFeedService;
+import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.TripFeedCriteria;
 import com.heaptrip.domain.service.content.trip.criteria.TripForeignAccountCriteria;
@@ -10,10 +11,10 @@ import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
-import com.heaptrip.web.model.travel.criteria.TripParticipantsCriteria;
 import com.heaptrip.web.model.travel.ScheduleParticipantModel;
 import com.heaptrip.web.model.travel.TripInfoModel;
 import com.heaptrip.web.model.travel.TripModel;
+import com.heaptrip.web.model.travel.criteria.TripParticipantsCriteria;
 import com.heaptrip.web.modelservice.CommentModelService;
 import com.heaptrip.web.modelservice.CountersService;
 import com.heaptrip.web.modelservice.TripModelService;
@@ -52,6 +53,9 @@ public class TripController extends ExceptionHandlerControler {
 
     @Autowired
     private TripUserService tripUserService;
+
+    @Autowired
+    private TripService tripService;
 
 
     @RequestMapping(value = "security/trip/set_trip_participant_organizer", method = RequestMethod.POST)
@@ -244,6 +248,18 @@ public class TripController extends ExceptionHandlerControler {
             throw new RestException(e);
         }
         return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/travel_remove", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> removeTripInfo(@RequestBody String tripId) {
+        try {
+            tripService.remove(tripId);
+            return Ajax.emptyResponse();
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
     }
 
 }
