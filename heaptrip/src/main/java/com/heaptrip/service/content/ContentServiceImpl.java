@@ -1,6 +1,7 @@
 package com.heaptrip.service.content;
 
 import com.heaptrip.domain.entity.account.Account;
+import com.heaptrip.domain.entity.account.AccountEnum;
 import com.heaptrip.domain.entity.account.relation.Relation;
 import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.category.Category;
@@ -26,6 +27,7 @@ import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +59,6 @@ public class ContentServiceImpl implements ContentService {
 
     @Autowired
     protected RelationRepository relationRepository;
-
 
     protected void updateCategories(Content content) {
         Set<String> categoryIds = new HashSet<>();
@@ -158,7 +159,7 @@ public class ContentServiceImpl implements ContentService {
         Assert.notNull(account.getAccountType(), "account type must not be null");
 
         List<Relation> relations = null;
-        Set<String> ids = new HashSet();
+        HashSet ids = new HashSet();
 
         switch (account.getAccountType()) {
             case USER:
@@ -177,9 +178,7 @@ public class ContentServiceImpl implements ContentService {
         if (relations != null && relations.size() > 0) {
             for (Relation relation : relations) {
                 if (relation.getUserIds() != null && relation.getUserIds().length > 0) {
-                    for (String id : relation.getUserIds()) {
-                        ids.add(id);
-                    }
+                    Collections.addAll(ids, relation.getUserIds());
                 }
             }
         }
@@ -228,5 +227,38 @@ public class ContentServiceImpl implements ContentService {
         Assert.notNull(contentId, "contentId must not be null");
         Assert.notNull(ratingValue, "ratingValue must not be null");
         contentRepository.updateRating(contentId, ratingValue);
+    }
+
+    @Override
+    public boolean canEditContent(String contentId, String userId) {
+        Assert.notNull(contentId, "contentId must not be null");
+        Assert.notNull(userId, "userId must not be null");
+        String ownerId = contentRepository.getOwnerId(contentId);
+        if (ownerId.equals(userId)) {
+            return true;
+        } else {
+            Account account = accountStoreService.findOne(ownerId);
+            if (!account.getAccountType().equals(AccountEnum.CLUB)) {
+                return false;
+            } else {
+                String[] typeRelations = new String[2];
+                typeRelations[0] = RelationTypeEnum.OWNER.toString();
+                typeRelations[1] = RelationTypeEnum.EMPLOYEE.toString();
+
+                List<Relation> relations = relationRepository.findByAccountRelationCriteria(new AccountRelationCriteria(account.getId(), typeRelations));
+                if (relations != null) {
+                    for (Relation relation : relations) {
+                        if (relation.getUserIds() != null) {
+                            for (String id : relation.getUserIds()) {
+                                if (id.equals(userId)) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
     }
 }

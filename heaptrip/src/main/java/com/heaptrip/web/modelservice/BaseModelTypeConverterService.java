@@ -47,4 +47,6 @@ public interface BaseModelTypeConverterService {
     SimpleRegion[] convertRegionModelsToRegions(RegionModel[] regionModels, Locale locale);
 
     boolean isEnableFavorite(String contentId);
+
+    boolean isEnableEdit(String contentId);
 }

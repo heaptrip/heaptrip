@@ -21,6 +21,7 @@ public class ContentModel {
     private String summary;
     private String description;
 
+    private boolean enableEdit;
     private boolean enableFavorite;
 
     public String getName() {
@@ -142,5 +143,13 @@ public class ContentModel {
 
     public void setEnableFavorite(boolean enableFavorite) {
         this.enableFavorite = enableFavorite;
+    }
+
+    public boolean isEnableEdit() {
+        return enableEdit;
+    }
+
+    public void setEnableEdit(boolean enableEdit) {
+        this.enableEdit = enableEdit;
     }
 }

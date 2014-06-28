@@ -71,6 +71,7 @@ public class ContentModelServiceImpl extends BaseModelTypeConverterServiceImpl i
 
             if (isFullModel) {
                 contentModel.setEnableFavorite(isEnableFavorite(contentModel.getId()));
+                contentModel.setEnableEdit(isEnableEdit(contentModel.getId()));
             }
         }
     }

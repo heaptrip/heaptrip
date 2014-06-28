@@ -102,4 +102,12 @@ public interface ContentService {
      * @param ratingValue new value for content rating
      */
     public void updateContentRatingValue(String contentId, double ratingValue);
+
+    /**
+     * Check that user can edit content
+     *
+     * @param contentId content id
+     * @param userId    user id
+     */
+    public boolean canEditContent(String contentId, String userId);
 }

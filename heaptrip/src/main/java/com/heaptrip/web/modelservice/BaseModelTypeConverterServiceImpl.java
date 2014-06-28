@@ -9,12 +9,14 @@ import com.heaptrip.domain.entity.content.ContentEnum;
 import com.heaptrip.domain.entity.image.Image;
 import com.heaptrip.domain.entity.rating.TotalRating;
 import com.heaptrip.domain.entity.region.SimpleRegion;
+import com.heaptrip.domain.service.content.ContentService;
 import com.heaptrip.domain.service.content.FavoriteContentService;
 import com.heaptrip.domain.service.image.ImageService;
 import com.heaptrip.domain.service.rating.RatingService;
 import com.heaptrip.service.system.RequestScopeServiceImpl;
 import com.heaptrip.web.model.content.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -34,6 +36,10 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
 
     @Autowired
     protected FavoriteContentService favoriteContentService;
+
+    @Autowired
+    @Qualifier(ContentService.SERVICE_NAME)
+    protected ContentService contentService;
 
     @Override
     public DateModel convertDate(Date date) {
@@ -276,6 +282,16 @@ public class BaseModelTypeConverterServiceImpl extends RequestScopeServiceImpl i
         User user = getCurrentUser();
         if (user != null && user.getId() != null && contentId != null) {
             result = favoriteContentService.canAddFavorites(contentId, user.getId());
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isEnableEdit(String contentId) {
+        boolean result = false;
+        User user = getCurrentUser();
+        if (user != null && user.getId() != null && contentId != null) {
+            result = contentService.canEditContent(contentId, user.getId());
         }
         return result;
     }

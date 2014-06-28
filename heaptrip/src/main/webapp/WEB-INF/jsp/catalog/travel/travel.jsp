@@ -42,7 +42,7 @@
 					</div>
 					<div class="inf">
 						<div class="left">
-							
+
 							<c:if test = "${trip.status.value != 'DRAFT'}">
 								<h2>${trip.name}</h2>
 							</c:if>
@@ -60,7 +60,7 @@
 								<c:forEach items="${trip.regions}" var="region">
 									<span>${region.data}</span>
 								</c:forEach>
-							</div>						
+							</div>
 						</div>
 						<div class="right">
 							<div><fmt:message key="content.available" />:</div>
@@ -75,10 +75,10 @@
 					</div>
 					<nav id="travel_nav" class="travel_nav">
 
-                    <c:if test='${principal.id eq trip.owner.id }'>
+                    <c:if test='${not empty principal && trip.enableEdit}'>
 						<input type="button" onClick="window.location = '${tripEditUrl}'" value="<fmt:message key="page.action.edit" />" class="button">
                     </c:if>
-						
+
     					<ul><!--
     					    --><li><a href="${infoUrl}" class='${fn:contains(url, "info") ? "active":"" }'><fmt:message key="content.information" /><span></span></a></li><!--
     					    --><li><a href="${mapsUrl}" class='${fn:contains(url, "map") ? "active":"" }'><fmt:message key="trip.route" /><span></span></a></li><!--
@@ -87,10 +87,10 @@
     					    --><li><a href="${postsUrl}" class='${fn:contains(url, "post") ? "active":"" }'><fmt:message key="post.list.title" /><span></span></a></li><!--
     					--></ul>
 					</nav>
-					
-					
+
+
 <tiles:insertAttribute name="travel_content" />
-				
+
 			</div><!-- #content-->
 		</div><!-- #container-->
 
@@ -107,8 +107,8 @@
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
 	    		    	<div class="name_post"><a href="/">todo</a></div>
 	    		    	<div class="date">todo 23.03.13</div>
-	    		    </li>	    		    
-   				</ul>				
+	    		    </li>
+   				</ul>
     		</div>
 			<div id="widget2" class="widget">
 				<div class="zag">TODO</div>
@@ -120,8 +120,8 @@
 	    		  <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
 	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
-	    		    </li>    		    
-   				</ul>				
+	    		    </li>
+   				</ul>
     		</div>
 			<div id="widget3" class="widget">
 				<div class="zag">TODO</div>
@@ -149,8 +149,8 @@
 	    		    <li>
 	    		    	<div class="autor"><a href="/">Alexander Alexeev</a> (4,7)</div>
 	    		    	<div class="name_post"><a href="/">todo 0111</a><span class="comments">12</span></div>
-	    		    </li>	    		    
-   				</ul>				
-    		</div>      				
+	    		    </li>
+   				</ul>
+    		</div>
 		</aside><!-- #sideRight -->
 
