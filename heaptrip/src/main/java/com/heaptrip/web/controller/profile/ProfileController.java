@@ -1,7 +1,9 @@
 package com.heaptrip.web.controller.profile;
 
+import com.heaptrip.domain.entity.account.relation.RelationTypeEnum;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
@@ -12,6 +14,7 @@ import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
 import com.heaptrip.web.model.profile.criteria.AccountTextCriteriaMap;
+import com.heaptrip.web.model.profile.criteria.RelationCriteriaMap;
 import com.heaptrip.web.modelservice.ProfileModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,7 +146,69 @@ public class ProfileController extends ExceptionHandlerControler {
         } catch (Throwable e) {
             throw new RestException(e);
         }
+    }
 
+    @RequestMapping(value = "find_comm_people", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> getCommunityPeoplesByCriteria(@RequestBody RelationCriteriaMap relationCriteriaMap) {
+        try {
+
+            Map<String, Object> result = new HashMap();
+
+            RelationCriteria ownersCriteria = relationCriteriaMap.get("ownersCriteria");
+            if (ownersCriteria != null) {
+                String[] typeRelations = new String[1];
+                typeRelations[0] = RelationTypeEnum.OWNER.toString();
+                ownersCriteria.setRelationTypes(typeRelations);
+                Map<String, Object> owners = new HashMap<>();
+                List<AccountModel> ownersModel = profileModelService.getAccountsModelByRelationCriteria(ownersCriteria);
+                owners.put("users", ownersModel);
+                owners.put("count", ownersModel.size());
+                result.put("owners", owners);
+            }
+
+            RelationCriteria employeesCriteria = relationCriteriaMap.get("employeesCriteria");
+            if (employeesCriteria != null) {
+                String[] typeRelations = new String[1];
+                typeRelations[0] = RelationTypeEnum.EMPLOYEE.toString();
+                employeesCriteria.setRelationTypes(typeRelations);
+                Map<String, Object> employees = new HashMap<>();
+                List<AccountModel> employeesModel = profileModelService.getAccountsModelByRelationCriteria(employeesCriteria);
+                employees.put("users", employeesModel);
+                employees.put("count", employeesModel.size());
+                result.put("employees", employees);
+            }
+
+            RelationCriteria membersCriteria = relationCriteriaMap.get("membersCriteria");
+            if (membersCriteria != null) {
+                String[] typeRelations = new String[1];
+                typeRelations[0] = RelationTypeEnum.MEMBER.toString();
+                membersCriteria.setRelationTypes(typeRelations);
+                Map<String, Object> members = new HashMap<>();
+                List<AccountModel> membersModel = profileModelService.getAccountsModelByRelationCriteria(membersCriteria);
+                members.put("users", membersModel);
+                members.put("count", membersModel.size());
+                result.put("members", members);
+            }
+
+            RelationCriteria subscribersCriteria = relationCriteriaMap.get("subscribersCriteria");
+            if (subscribersCriteria != null) {
+                String[] typeRelations = new String[1];
+                typeRelations[0] = RelationTypeEnum.SUBSCRIBER.toString();
+                subscribersCriteria.setRelationTypes(typeRelations);
+                Map<String, Object> subscribers = new HashMap<>();
+                List<AccountModel> subscribersModel = profileModelService.getAccountsModelByRelationCriteria(subscribersCriteria);
+                subscribers.put("users", subscribersModel);
+                subscribers.put("count", subscribersModel.size());
+                result.put("subscribers", subscribers);
+            }
+
+            return Ajax.successResponse(result);
+
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
     }
 
     @RequestMapping(value = "*community", method = RequestMethod.GET)

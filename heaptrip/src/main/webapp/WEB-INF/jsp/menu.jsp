@@ -209,6 +209,12 @@
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
+
+        <li>
+            <a href="<c:url value="/pf/comm_people?guid=${catcher.id}"/>" class='${fn:contains(url, "/pf/comm_people") ? "active":"" }'>
+                <fmt:message key="accountProfile.people"/>
+            </a>
+        </li>
     </c:if>
 
 </ul>

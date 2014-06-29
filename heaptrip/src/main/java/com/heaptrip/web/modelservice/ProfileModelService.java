@@ -3,6 +3,7 @@ package com.heaptrip.web.modelservice;
 import com.heaptrip.domain.entity.account.community.Community;
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.RegistrationInfoModel;
@@ -30,6 +31,8 @@ public interface ProfileModelService {
     void updateCommunityInfo(CommunityInfoModel communityInfoModel);
 
     List<AccountModel> getAccountsModelByCriteria(AccountTextCriteria accountTextCriteria);
+
+    List<AccountModel> getAccountsModelByRelationCriteria(RelationCriteria relationCriteria);
 
     void changeImage(String accountId, String imageId);
 

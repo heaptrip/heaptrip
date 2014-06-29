@@ -15,6 +15,7 @@ import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.AccountStoreService;
 import com.heaptrip.domain.service.account.community.CommunityService;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.account.criteria.relation.RelationCriteria;
 import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.socnet.fb.FaceBookAPIService;
 import com.heaptrip.domain.service.socnet.vk.VKontakteAPIService;
@@ -101,6 +102,15 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
         //accounts.add(accountService.getAccountById("53351da284aea2887e3a89f0"));
         convertAccountsToAccountModels(accounts);
 
+
+        return convertAccountsToAccountModels(accounts);
+    }
+
+    @Override
+    public List<AccountModel> getAccountsModelByRelationCriteria(RelationCriteria relationCriteria) {
+        List<Account> accounts = new ArrayList<>();//  accountStoreService.findByCriteria(accountTextCriteria);
+        accounts.add(accountStoreService.findOne("53959373a09ee8af6c75aebd"));
+        convertAccountsToAccountModels(accounts);
 
         return convertAccountsToAccountModels(accounts);
     }
