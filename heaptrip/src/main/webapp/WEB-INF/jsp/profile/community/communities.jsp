@@ -483,11 +483,12 @@ $(window).bind("onPageReady", function (e, paramsJson) {
     <div id="community" class="filtr open">
         <div class="zag"><fmt:message key="page.action.searchCommunity"/></div>
         <div class="content">
-            <ul id="community_type_check_panel"  >
-                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.club.Club" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.club"/></label></li>
-                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.company.Company" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.company"/></label></li>
-                    <li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.agency.Agency" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.agency"/></label></li>
-            </ul>
+            <%--TODO dikma скрываем типы сообществ до появления функционала Агенств и Компаний--%>
+            <%--<ul id="community_type_check_panel"  >--%>
+                    <%--<li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.club.Club" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.club"/></label></li>--%>
+                    <%--<li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.company.Company" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.company"/></label></li>--%>
+                    <%--<li><input type="checkbox" key="com.heaptrip.domain.entity.account.community.agency.Agency" onclick="onFilterCheckClick(this)"><label><fmt:message key="account.type.agency"/></label></li>--%>
+            <%--</ul>--%>
             <div class="search">
                 <input type="text" name="text_search">
                 <input type="button" name="go_user_search" value="">
