@@ -100,6 +100,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void changeEmail(String accountId, String currentEmail, String newEmail) {
+        // TODO dikma необходимо изменение email делать через подтверждение владения новым email
         Assert.notNull(accountId, "accountId must not be null");
         Assert.notNull(newEmail, "email must not be null");
 
