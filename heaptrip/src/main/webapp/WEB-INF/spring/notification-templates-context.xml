@@ -45,7 +45,7 @@
             <map>
                 <entry key="ru">
                     <value>
-                        <![CDATA[<strong>%s</strong> отпрвил заявку к <strong>%s</strong> на участие в путешествии <strong>%s</strong>]]>
+                        <![CDATA[<strong>%s</strong> отправил заявку к <strong>%s</strong> на участие в путешествии <strong>%s</strong>]]>
                     </value>
                 </entry>
                 <entry key="en">
