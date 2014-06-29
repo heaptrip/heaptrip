@@ -2,10 +2,12 @@ package com.heaptrip.web.controller.profile;
 
 import com.heaptrip.domain.entity.account.user.User;
 import com.heaptrip.domain.service.account.criteria.AccountTextCriteria;
+import com.heaptrip.domain.service.account.user.UserService;
 import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.util.http.Ajax;
 import com.heaptrip.web.controller.base.ExceptionHandlerControler;
 import com.heaptrip.web.controller.base.RestException;
+import com.heaptrip.web.model.profile.AccountChangeParamModel;
 import com.heaptrip.web.model.profile.AccountModel;
 import com.heaptrip.web.model.profile.CommunityInfoModel;
 import com.heaptrip.web.model.profile.UserInfoModel;
@@ -30,6 +32,9 @@ public class ProfileController extends ExceptionHandlerControler {
 
     @Autowired
     private ProfileModelService profileModelService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     @Qualifier("requestScopeService")
@@ -218,6 +223,42 @@ public class ProfileController extends ExceptionHandlerControler {
     Map<String, ? extends Object> updateCommunityInfo(@RequestBody CommunityInfoModel communityInfoModel) {
         try {
             profileModelService.updateCommunityInfo(communityInfoModel);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/user_delete", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> deleteUser(@RequestBody String guid) {
+        try {
+            userService.delete(guid);
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/change_password", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> changePassword(@RequestBody AccountChangeParamModel accountChangeParamModel) {
+        try {
+            userService.changePassword(accountChangeParamModel.getId(), accountChangeParamModel.getCurrentValue(), accountChangeParamModel.getNewValue());
+        } catch (Throwable e) {
+            throw new RestException(e);
+        }
+        return Ajax.emptyResponse();
+    }
+
+    @RequestMapping(value = "security/change_email", method = RequestMethod.POST)
+    public
+    @ResponseBody
+    Map<String, ? extends Object> changeEmail(@RequestBody AccountChangeParamModel accountChangeParamModel) {
+        try {
+            userService.changeEmail(accountChangeParamModel.getId(), accountChangeParamModel.getCurrentValue(), accountChangeParamModel.getNewValue());
         } catch (Throwable e) {
             throw new RestException(e);
         }

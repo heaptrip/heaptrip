@@ -278,6 +278,16 @@
         <put-attribute name="main_content" value="peopleTemplate"/>
     </definition>
 
+    <definition name="userSettingTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/options.jsp"/>
+    </definition>
+
+    <definition name="options" extends="mainTemplate">
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="registrationCommunityStylesTemplate"/>
+        <put-attribute name="main_content" value="userSettingTemplate"/>
+    </definition>
+
     <definition name="communitiesTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/communities.jsp"/>
     </definition>

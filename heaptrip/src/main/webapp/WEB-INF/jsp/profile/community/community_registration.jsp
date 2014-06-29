@@ -34,12 +34,6 @@
 
 </script>
 
-
-
-
-
-
-
 <section id="middle">
     <div id="container">
         <div id="contents">
