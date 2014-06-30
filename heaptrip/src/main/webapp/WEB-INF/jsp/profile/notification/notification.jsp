@@ -21,14 +21,16 @@
                 <span>{{>created.text}}</span>
                 <div class="list_alert_name"><a>{{:text}}</a></div>
                 {{if isAwaitingAction == 'true'}}
-                    <a key='REJECTED' onclick="onNotificationClick(event,$(this))" class="button">Reject</a>
-                    <a key='ACCEPTED' onclick="onNotificationClick(event,$(this))" class="button">Accept</a>
+                    <a key='REJECTED' onclick="onNotificationClick(event,$(this))" class="button">{{:~locale.action.accept}}</a>
+                    <a key='ACCEPTED' onclick="onNotificationClick(event,$(this))" class="button">{{:~locale.action.reject}}</a>
                 {{else}}
-                    {{>status}}
+                    {{:~locale.notification.status[status]}}
                 {{/if}}
             </div>
         </li>
 </script>
+
+
 
 
 <script type="text/javascript">
@@ -108,7 +110,7 @@
         };
 
         var callbackSuccess = function (data) {
-            $("#notification_user_list").html($("#notificationsTemplate").render(data.notifications));
+            $("#notification_user_list").html($("#notificationsTemplate").render(data.notifications, {locale: locale}));
 
             $('#paginator1').smartpaginator({
                 totalrecords: data.count,
@@ -136,7 +138,7 @@
 
         var callbackSuccess = function (data) {
 
-            $("#notification_community_list").html($("#notificationsTemplate").render(data.notifications));
+            $("#notification_community_list").html($("#notificationsTemplate").render(data.notifications,{locale: locale}));
 
             $('#paginator2').smartpaginator({
                 totalrecords: data.count,

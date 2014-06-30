@@ -10,6 +10,10 @@ locale.action = {};
 locale.action.successEdit = '<fmt:message key="locale.action.successEdit"/>';
 locale.action.reply = '<fmt:message key="page.action.reply"/>';
 
+locale.action.reject = '<fmt:message key="page.action.reject"/>';
+locale.action.accept = '<fmt:message key="page.action.accept"/>';
+
+
 locale.menu = {};
 locale.menu.addTripParticipant = '<fmt:message key="locale.menu.addTripParticipant"/>';
 locale.menu.setTripOrganizer = '<fmt:message key="locale.menu.setTripOrganizer"/>';
@@ -24,6 +28,18 @@ locale.participant.status.organizer = '<fmt:message key="locale.participant.stat
 locale.participant.btn = {};
 locale.participant.btn.add = '<fmt:message key="locale.participant.btn.add"/>';
 locale.participant.btn.request = '<fmt:message key="locale.participant.btn.request"/>';
+
+
+locale.notification = {};
+locale.notification.status = {};
+locale.notification.status.NEW = '<fmt:message key="notification.status.NEW"/>';
+locale.notification.status.READED = '<fmt:message key="notification.status.READED"/>';
+locale.notification.status.ACCEPTED = '<fmt:message key="notification.status.ACCEPTED"/>';
+locale.notification.status.REJECTED = '<fmt:message key="notification.status.REJECTED"/>';
+
+
+
+
 
 locale.window = {};
 locale.window.uploadImage = '<fmt:message key="locale.window.uploadImage"/>';
