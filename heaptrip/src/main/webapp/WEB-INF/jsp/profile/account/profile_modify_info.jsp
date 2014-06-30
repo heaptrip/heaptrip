@@ -194,7 +194,7 @@
 
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>"><a
-                            class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
+                            id = "my_avatar_btn" class="button"><fmt:message key="page.action.uploadPhoto"/></a></div>
                     <div class="my_inf">
                         <div class="my_name">
                             <input id="my_name" type="text" value="${account.name}"

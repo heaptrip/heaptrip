@@ -15,26 +15,23 @@
 
                 <c:if test='${not empty catcher && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}'>
 
-                <div class="right">
-                    <a href="<c:url value="../pf/community_modify_info?guid=${param.guid}"/>" class="button"><fmt:message
-                            key="page.action.edit"/></a>
-                </div>
+                    <div class="right">
+                        <a href="<c:url value="../pf/community_modify_info?guid=${param.guid}"/>"
+                           class="button"><fmt:message
+                                key="page.action.edit"/></a>
+                    </div>
 
-   </c:if>
-
+                </c:if>
 
 
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>">
-
-<c:if test='${not empty catcher && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}'>
-                        <a class="button"><fmt:message key="page.action.uploadPhoto"/></a>
-</c:if>
-
+                        <c:if test='${not empty catcher && profileServiceWrapper.isUserOwnsCommunity(principal.id,catcher.id)}'>
+                            <a id = "my_avatar_btn" class="button"><fmt:message key="page.action.uploadPhoto"/></a>
+                        </c:if>
                     </div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
-
 
 
                         <table border="0">

@@ -82,7 +82,8 @@
                     <td>${scheduleItem.price.value} ${scheduleItem.price.currency}</td>
                     <td>${scheduleItem.min} / ${scheduleItem.max}</td>
                     <td>${scheduleItem.members}</td>
-                    <td><a class="button request_participant_btn"><fmt:message key="trip.action.participationRequest"/></a></td>
+                    <td><a class="button request_participant_btn"><fmt:message
+                            key="trip.action.participationRequest"/></a></td>
                 </tr>
             </c:forEach>
             </tbody>

@@ -23,14 +23,21 @@
 
                 </c:if>
 
-
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>">
-
-                        <c:if test='${not empty principal && empty catcher}'>
-                            <a class="button"><fmt:message key="page.action.uploadPhoto"/></a>
-                        </c:if>
-
+                        <c:choose>
+                            <c:when test="${not empty principal && empty catcher}">
+                                <a id = "my_avatar_btn" class="button"><fmt:message key="page.action.uploadPhoto"/></a>
+                            </c:when>
+                            <c:otherwise>
+                                <c:if test="${not empty principal && not empty catcher}">
+                                    <div>
+                                        <a class="button" onclick="$.alert('not implement yet')"><fmt:message key="people.menu.SendRequestFriendship"/></a>
+                                        <a class="button" onclick="$.alert('not implement yet')"><fmt:message key="people.menu.AddPublisher"/></a>
+                                    </div>
+                                </c:if>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>

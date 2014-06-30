@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
 
-    $(".my_avatar a").click(function () {
+    $("#my_avatar_btn").click(function () {
         uploader.show(
             function (files) {
 

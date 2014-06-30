@@ -411,7 +411,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
                 </div>
             </c:if>
 
-            <div class="description">
+            <div >
 
                 <div id="list_user_5" class="community" style="display: none;">
                     <div class="list_user_inf people_title"><fmt:message key="page.action.searchResults"/></div>
