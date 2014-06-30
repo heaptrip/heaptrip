@@ -2054,9 +2054,9 @@ article.edit .tabs input[type="text"] {
 -----------------------------------------------------*/
 .list_alert{
 	text-align: right;
-	border-bottom: 1px solid #E2E6E5;
-	margin-bottom: 15px;
-	margin-left: -15px;
+	/*border-bottom: 1px solid #E2E6E5;*/
+	/*margin-bottom: 15px;
+	margin-left: -15px;*/
 }
 
 .list_alert ul{
