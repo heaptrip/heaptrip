@@ -34,17 +34,40 @@
                     </div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
-                        <div class="my_location"><span><fmt:message
-                                key="user.place"/>: </span>${account.accountProfile.location.data}</div>
-                        <div class="my_date"><span><fmt:message
-                                key="user.birthday"/>: </span>${account.userProfile.birthday.text}</div>
+                        <table border="0">
+                            <tr>
+                                <td valign="top">
+                                    <div class="my_location"><span><fmt:message key="user.place"/>: </span></div>
+                                </td>
+                                <td valign="top">
+                                    <div class="my_location">${account.accountProfile.location.data}</div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td valign="top">
+                                    <div class="my_date"><span><fmt:message key="user.birthday"/>:</span></div>
+                                </td>
+                                <td valign="top">
+                                    <div class="my_date">${account.userProfile.birthday.text}</div>
+                                </td>
+                            </tr>
+                        </table>
+
                         <div class="my_lang">
-                            <fmt:message key="user.languages"/>:
-                            <ul>
-                                <c:forEach items="${account.accountProfile.langs}" var="lang" varStatus="stat">
-                                    <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
-                                </c:forEach>
-                            </ul>
+
+                            <table>
+                                <tr>
+                                    <td valign="center"><fmt:message key="user.languages"/>:</td>
+                                    <td valign="center">
+                                        <ul>
+                                            <c:forEach items="${account.accountProfile.langs}" var="lang"
+                                                       varStatus="stat">
+                                                <li class="${lang}"><fmt:message key="locale.${lang}"/></li>
+                                            </c:forEach>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -53,66 +76,66 @@
                 <div class="description">
                     <h2 class="people_title"><fmt:message key="user.aboutMe"/>:</h2>
                     <br>
-                    ${account.accountProfile.desc}
+                        ${account.accountProfile.desc}
                 </div>
             </c:if>
             <c:if test='${fn:length(account.userProfile.knowledgies) > 0}'>
-            <div class="table_inf">
-                <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
-                <table>
-                    <thead>
-                    <tr>
-                        <th><fmt:message key="page.date.period"/></th>
-                        <th><fmt:message key="user.specialty"/></th>
-                        <th><fmt:message key="user.specialty.placeOf"/></th>
-                        <th><fmt:message key="user.specialty.document"/></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${account.userProfile.knowledgies}" var="knowledge">
+                <div class="table_inf">
+                    <h2 class="people_title"><fmt:message key="user.knowledge"/>:</h2>
+                    <table>
+                        <thead>
                         <tr>
-                            <td>
-                                <fmt:message key="page.date.from"/> ${knowledge.begin.text}
-                                <c:if test='${not empty knowledge.end.text}'>
-                                    <br/>
-                                    <fmt:message key="page.date.to"/> ${knowledge.end.text}
-                                </c:if>
-                            </td>
-                            <td>${knowledge.specialist}</td>
-                            <td>${knowledge.location}</td>
-                            <td>${knowledge.document}</td>
+                            <th><fmt:message key="page.date.period"/></th>
+                            <th><fmt:message key="user.specialty"/></th>
+                            <th><fmt:message key="user.specialty.placeOf"/></th>
+                            <th><fmt:message key="user.specialty.document"/></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${account.userProfile.knowledgies}" var="knowledge">
+                            <tr>
+                                <td>
+                                    <fmt:message key="page.date.from"/> ${knowledge.begin.text}
+                                    <c:if test='${not empty knowledge.end.text}'>
+                                        <br/>
+                                        <fmt:message key="page.date.to"/> ${knowledge.end.text}
+                                    </c:if>
+                                </td>
+                                <td>${knowledge.specialist}</td>
+                                <td>${knowledge.location}</td>
+                                <td>${knowledge.document}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </c:if>
             <c:if test='${fn:length(account.userProfile.practices) > 0}'>
-            <div class="table_inf">
-                <h2 class="people_title"><fmt:message key="user.experience"/>:</h2>
-                <table class="experience">
-                    <thead>
-                    <tr>
-                        <th><fmt:message key="page.date.period"/></th>
-                        <th><fmt:message key="content.description"/></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${account.userProfile.practices}" var="practice">
+                <div class="table_inf">
+                    <h2 class="people_title"><fmt:message key="user.experience"/>:</h2>
+                    <table class="experience">
+                        <thead>
                         <tr>
-                            <td>
-                                <fmt:message key="page.date.from"/> ${practice.begin.text}
-                                <c:if test='${not empty practice.end.text}'>
-                                    <br/>
-                                    <fmt:message key="page.date.to"/> ${practice.end.text}
-                                </c:if>
-                            </td>
-                            <td>${practice.desc}</td>
+                            <th><fmt:message key="page.date.period"/></th>
+                            <th><fmt:message key="content.description"/></th>
                         </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${account.userProfile.practices}" var="practice">
+                            <tr>
+                                <td>
+                                    <fmt:message key="page.date.from"/> ${practice.begin.text}
+                                    <c:if test='${not empty practice.end.text}'>
+                                        <br/>
+                                        <fmt:message key="page.date.to"/> ${practice.end.text}
+                                    </c:if>
+                                </td>
+                                <td>${practice.desc}</td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
             </c:if>
         </article>
     </div>
