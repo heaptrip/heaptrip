@@ -34,9 +34,20 @@
                     </div>
                     <div class="my_inf">
                         <div class="my_name">${account.name}<span>(${account.rating.value})</span></div>
-                        <div class="my_location"><span><fmt:message
-                                key="user.place"/>: </span>${account.accountProfile.location.data}</div>
 
+
+
+                        <table border="0">
+                            <tr>
+                                <td valign="top">
+                                    <div class="my_location"><span><fmt:message key="user.place"/>: </span></div>
+                                </td>
+                                <td valign="top">
+                                    <div class="my_location">${account.accountProfile.location.data}</div>
+                                </td>
+                            </tr>
+
+                        </table>
 
                     </div>
                 </div>
