@@ -15,9 +15,11 @@ import com.heaptrip.domain.service.content.trip.TripService;
 import com.heaptrip.domain.service.content.trip.TripUserService;
 import com.heaptrip.domain.service.content.trip.criteria.SearchPeriod;
 import com.heaptrip.domain.service.system.ErrorService;
+import com.heaptrip.domain.service.system.RequestScopeService;
 import com.heaptrip.service.content.ContentServiceImpl;
 import com.heaptrip.util.language.LanguageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -41,9 +43,13 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     @Autowired
     private TripUserService tripUserService;
 
+    @Autowired
+    @Qualifier("requestScopeService")
+    private RequestScopeService requestScopeService;
+
     private void setOrganizers(Trip trip, LinkedList<String> tableIds) {
         for (String tableId : tableIds) {
-            TripUser tripUser = tripUserService.sendInvite(trip.getId(), tableId, trip.getOwnerId());
+            TripUser tripUser = tripUserService.sendInvite(trip.getId(), tableId, requestScopeService.getCurrentUser().getId());
             tripUserService.acceptTripMember(tripUser.getId());
             tripUserService.setTripMemberOrganizer(tripUser.getId(), true);
         }
