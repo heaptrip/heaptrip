@@ -48,8 +48,9 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     private RequestScopeService requestScopeService;
 
     private void setOrganizers(Trip trip, LinkedList<String> tableIds) {
+        String userId = (requestScopeService.getCurrentUser() != null) ? requestScopeService.getCurrentUser().getId() : trip.getOwnerId();
         for (String tableId : tableIds) {
-            TripUser tripUser = tripUserService.sendInvite(trip.getId(), tableId, requestScopeService.getCurrentUser().getId());
+            TripUser tripUser = tripUserService.sendInvite(trip.getId(), tableId, userId);
             tripUserService.acceptTripMember(tripUser.getId());
             tripUserService.setTripMemberOrganizer(tripUser.getId(), true);
         }
