@@ -127,7 +127,7 @@ public class TripRepositoryImpl extends CrudRepositoryImpl<Trip> implements Trip
                         + " status: 1, 'name.%s': 1, 'name.mainLang': 1, 'name.mainText': 1, 'summary.%s': 1, 'summary.mainLang': 1," +
                         "'summary.mainText': 1, 'description.%s': 1, 'description.mainLang': 1, 'description.mainText': 1,"
                         + " 'table._id': 1, 'table.begin': 1, 'table.end': 1, 'table.min': 1, 'table.max': 1, 'table.status': 1, 'table.users': 1,"
-                        + " 'table.price': 1, created: 1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1, langs: 1,"
+                        + " 'table.price': 1, 'table.members': 1, created: 1, 'views.count': 1, mainLang: 1, rating: 1, comments: 1, langs: 1,"
                         + " 'route._id': 1, 'route.text.%s': 1, 'route.text.mainLang': 1, 'route.text.mainText': 1, 'route.map': 1, postIds: 1}",
                         lang, lang, lang, lang, lang, lang);
         if (logger.isDebugEnabled()) {
