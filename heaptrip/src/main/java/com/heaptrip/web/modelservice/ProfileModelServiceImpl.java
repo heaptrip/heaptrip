@@ -32,6 +32,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -373,7 +375,7 @@ public class ProfileModelServiceImpl extends BaseModelTypeConverterServiceImpl i
     private RatingModel convertAccountRatingToRatingModel(AccountRating accountRating) {
         RatingModel ratingModel = new RatingModel();
         if (accountRating != null) {
-            ratingModel.setValue(accountRating.getValue());
+            ratingModel.setValue(new BigDecimal(accountRating.getValue()).setScale(2, RoundingMode.UP).doubleValue());
             ratingModel.setCount(accountRating.getCount());
         } else {
             ratingModel.setValue(0D);
