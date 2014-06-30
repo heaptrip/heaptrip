@@ -25,13 +25,12 @@
     var postId = '${postId}';
     var lang = '${curr_locale}';
 
-    $(document).ready(function () {
-        var ct = "${fn:substring(categoryIds,1,1000)}";
-        var rg = "${fn:substring(regionIds,1,1000)}";
-        $.handParamToURL({
-            ct: ct,
-            rg: rg
-        });
+    var ct = "${fn:substring(categoryIds,1,1000)}";
+    var rg = "${fn:substring(regionIds,1,1000)}";
+
+    $.putLOCALParamToURL({
+        ct: ct,
+        rg: rg
     });
 
     var onPostSubmit = function (btn) {

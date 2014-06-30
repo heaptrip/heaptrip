@@ -3,9 +3,7 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-<!-- add boostrap for nice alert -->
-<link href="<c:url value="/js/lib/bootstrap/css/bootstrap.css" />" rel="stylesheet">
-<link href="<c:url value="/js/lib/bootstrap/css/bootstrap.min.css" />" rel="stylesheet">
+
 
 <c:choose>
     <c:when test="${empty param.ul}">
@@ -37,20 +35,16 @@
 <c:set var="isDraft" value="${trip.status.value eq 'DRAFT'}"/>
 
 <script type="text/javascript">
+
     var tripId = '${tripId}';
     var lang = '${currLocale}';
 
-    //$("#is_draft")
+    var ct = "${fn:substring(categoryIds,1,1000)}";
+    var rg = "${fn:substring(regionIds,1,1000)}";
 
-    $(document).ready(function () {
-
-
-        var ct = "${fn:substring(categoryIds,1,1000)}";
-        var rg = "${fn:substring(regionIds,1,1000)}";
-        $.handParamToURL({
-            ct: ct,
-            rg: rg
-        });
+    $.putLOCALParamToURL({
+        ct: ct,
+        rg: rg
     });
 
     var onTripRemoveSubmit = function (btn) {
@@ -59,30 +53,30 @@
 
         var url = '../rest/security/travel_remove';
 
-        bootstrap_alert = function (message) {
+        custom_alert =  {
 
         }
 
-        bootstrap_alert.success = function (message) {
-            $('#delete_alert_placeholder').html(
+        custom_alert.success = function (message) {
+            $.alert(
                     '<div class="alert alert-success" role="alert"><span>' + message + ' </span>' +
                             '<a href=<c:url value="/my/travels"/> class="alert-link">Go to <fmt:message key="accountProfile.my"/></a></div>')
         }
 
-        bootstrap_alert.danger = function (message) {
-            $('#delete_alert_placeholder').html(
+        custom_alert.danger = function (message) {
+            $.alert(
                     '<div class="alert alert-danger" role="alert"><span>' + message + ' </span>' +
                             '<a href=<c:url value="/my/travels"/> class="alert-link">Go to <fmt:message key="accountProfile.my"/></a></div>')
         }
 
         var callbackSuccess = function (data) {
             $(btn).prop('disabled', false);
-            bootstrap_alert.success(locale.action.successEdit);
+            custom_alert.success(locale.action.successEdit);
         };
 
         var callbackError = function (error) {
             $(btn).prop('disabled', false);
-            bootstrap_alert.danger(error);
+            custom_alert.danger(error);
         };
 
         $.postJSON(url, tripId, callbackSuccess, callbackError);
@@ -231,6 +225,7 @@
 
 <div id="container">
 <div id="contents">
+
 <article id="article" class="deteil edit">
 <div class="date">
     ${trip.created.text}<span><fmt:message key="trip.title"/></span>
@@ -520,16 +515,22 @@
 <!-- /c:if -->
 
 </article>
+
+
 </div>
 <!-- #content-->
+
+
+
 </div>
 <!-- #container-->
-
 
 <aside id="sideRight">
     <tiles:insertDefinition name="categoryTree"/>
     <tiles:insertDefinition name="regionFilter"/>
 </aside>
+
+
 <!-- #sideRight -->
 
 

@@ -21,10 +21,6 @@
         .extend({
             postJSON: function (url, jsonData, callbackSuccess, callbackError, callbackFinally) {
 
-
-                console.log(url);
-                console.log(jsonData);
-
                 var config = {
                     url: url,
                     type: "POST",
