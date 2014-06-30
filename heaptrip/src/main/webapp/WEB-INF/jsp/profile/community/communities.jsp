@@ -85,7 +85,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#user_communities").html($("#userCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_user').length) {
-            var commands = Array(Array('Close', '_user','close_item'));
+            var commands = Array(Array(locale.community.menu.Close, '_user','close_item'));
             participants_menu('.community_func_user', commands);
         }
 
@@ -117,7 +117,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#working_communities").html($("#workingCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_working').length) {
-            var commands = Array(Array('Resign', '_working',"resign_item"));
+            var commands = Array(Array(locale.community.menu.Resign, '_working',"resign_item"));
             participants_menu('.community_func_working', commands);
         }
 
@@ -148,7 +148,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         $("#member_communities").html($("#memberCommunitiesTemplate").render(data.communities));
         if ($('.community_func_member').length) {
-            var commands = Array(Array('Exit', '_member','exit_item'));
+            var commands = Array(Array(locale.community.menu.Exit, '_member','exit_item'));
             participants_menu('.community_func_member', commands);
         }
         $('.community_func_member .participants_menu a').click(function (e) {
@@ -179,7 +179,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         $("#subscriber_communities").html($("#subscriberCommunitiesTemplate").render(data.communities));
 
         if ($('.community_func_subscriber').length) {
-            var commands = Array(Array('Unsubscribe', '_subscriber','unsubscribe_item'));
+            var commands = Array(Array(locale.community.menu.Unsubscribe, '_subscriber','unsubscribe_item'));
             participants_menu('.community_func_subscriber', commands);
         }
 
@@ -209,10 +209,10 @@ $(window).bind("onPageReady", function (e, paramsJson) {
 
         if ($('.community_func_search').length) {
             var commands = Array(
-                    Array('sendRequestOwner', '_search','request_community_owner'),
-                    Array('sendRequestEmployee', '_search','request_community_employee'),
-                    Array('sendRequestMember', '_search','request_community_member'),
-                    Array('addPublisher', '_search','add_publisher')
+                    Array(locale.community.menu.SendRequestOwner, '_search','request_community_owner'),
+                    Array(locale.community.menu.SendRequestEmployee, '_search','request_community_employee'),
+                    Array(locale.community.menu.SendRequestMember, '_search','request_community_member'),
+                    Array(locale.community.menu.AddPublisher, '_search','add_publisher')
             );
             participants_menu('.community_func_search', commands);
         }

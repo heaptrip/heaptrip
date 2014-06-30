@@ -19,6 +19,26 @@ locale.menu.addTripParticipant = '<fmt:message key="locale.menu.addTripParticipa
 locale.menu.setTripOrganizer = '<fmt:message key="locale.menu.setTripOrganizer"/>';
 locale.menu.cancelTripOrganizer = '<fmt:message key="locale.menu.cancelTripOrganizer"/>';
 
+
+locale.community= {};
+locale.community.menu = {};
+locale.community.menu.Close = '<fmt:message key="community.menu.Close"/>';
+locale.community.menu.Resign   = '<fmt:message key="community.menu.Resign"/>';
+locale.community.menu.Exit  = '<fmt:message key="community.menu.Exit"/>';
+locale.community.menu.Unsubscribe     = '<fmt:message key="community.menu.Unsubscribe"/>';
+locale.community.menu.SendRequestOwner   = '<fmt:message key="community.menu.SendRequestOwner"/>';
+locale.community.menu.SendRequestEmployee  = '<fmt:message key="community.menu.SendRequestEmployee"/>';
+locale.community.menu.SendRequestMember   = '<fmt:message key="community.menu.SendRequestMember"/>';
+locale.community.menu.AddPublisher   = '<fmt:message key="community.menu.AddPublisher"/>';
+
+locale.people= {};
+locale.people.menu = {};
+locale.people.menu.RefusalFriendship   = '<fmt:message key="people.menu.RefusalFriendship"/>';
+locale.people.menu.Unsubscribe      = '<fmt:message key="people.menu.Unsubscribe"/>';
+locale.people.menu.SendRequestFriendship  = '<fmt:message key="people.menu.SendRequestFriendship"/>';
+locale.people.menu.AddPublisher  = '<fmt:message key="people.menu.AddPublisher"/>';
+
+
 locale.participant = {};
 locale.participant.status = {};
 locale.participant.status.OK = '<fmt:message key="locale.participant.status.OK"/>';

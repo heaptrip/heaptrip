@@ -51,7 +51,7 @@
             $("#friends").html($("#friendTemplate").render(data.users));
 
             if ($('.func_refusal_friendship').length) {
-                var commands = Array(Array('Refusal friendship', '_user','refusal_friendship'));
+                var commands = Array(Array(locale.people.menu.RefusalFriendship, '_user','refusal_friendship'));
                 participants_menu('.func_refusal_friendship', commands);
             }
 
@@ -82,7 +82,7 @@
             $("#publishers").html($("#publisherTemplate").render(data.users));
 
             if ($('.func_unsubscribe_publisher').length) {
-                var commands = Array(Array('Unsubscribe', '_user','unsubscribe_from_publisher'));
+                var commands = Array(Array(locale.people.menu.Unsubscribe, '_user','unsubscribe_from_publisher'));
                 participants_menu('.func_unsubscribe_publisher', commands);
             }
 
@@ -112,8 +112,8 @@
 
             if ($('.func_search_people').length) {
                 var commands = Array(
-                        Array('sendRequestFriendship', '_search','request_friendship'),
-                        Array('addPublisher', '_search','add_publisher')
+                        Array(locale.people.menu.SendRequestFriendship, '_search','request_friendship'),
+                        Array(locale.people.menu.AddPublisher, '_search','add_publisher')
                 );
                 participants_menu('.func_search_people', commands);
             }
