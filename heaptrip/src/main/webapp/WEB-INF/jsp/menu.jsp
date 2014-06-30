@@ -51,13 +51,13 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/ct/questions"/>"
+            <a href="<c:url value="/nf/ct/questions"/>"
                class='${fn:contains(url, "/ct/questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/ct/events"/>" class='${fn:contains(url, "/ct/events") ? "active":"" }'>
+            <a href="<c:url value="/nf/ct/events"/>" class='${fn:contains(url, "/ct/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
@@ -75,13 +75,13 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/my/questions"/>"
+            <a href="<c:url value="/nf/my/questions"/>"
                class='${fn:contains(url, "/my/questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/my/events"/>" class='${fn:contains(url, "/my/events") ? "active":"" }'>
+            <a href="<c:url value="/nf/my/events"/>" class='${fn:contains(url, "/my/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
@@ -99,13 +99,13 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/fv/questions"/>"
+            <a href="<c:url value="/nf/fv/questions"/>"
                class='${fn:contains(url, "/fv/questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/fv/events"/>" class='${fn:contains(url, "/fv/events") ? "active":"" }'>
+            <a href="<c:url value="/nf/fv/events"/>" class='${fn:contains(url, "/fv/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>
         </li>
@@ -198,13 +198,13 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf/questions?guid=${catcher.id}"/>"
+            <a href="<c:url value="/nf/pf/questions?guid=${catcher.id}"/>"
                class='${fn:contains(url, "/pf/questions") ? "active":"" }'>
                 <fmt:message key="question.list.title"/>
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf/events?guid=${catcher.id}"/>"
+            <a href="<c:url value="/nf/pf/events?guid=${catcher.id}"/>"
                class='${fn:contains(url, "/pf/events") ? "active":"" }'>
                 <fmt:message key="event.list.title"/>
             </a>

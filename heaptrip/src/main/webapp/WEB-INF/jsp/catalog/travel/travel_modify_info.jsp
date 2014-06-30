@@ -4,6 +4,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
+<c:set var="tripId"
+       value='${param.id}'/>
+
+<c:url var="photosUrl" value="/ct/travel_photos">
+    <c:param name='id' value="${tripId}"/>
+</c:url>
+<c:url var="participantsUrl" value="/ct/travel_participants">
+    <c:param name='id' value="${tripId}"/>
+</c:url>
+<c:url var="postsUrl" value="/ct/travel_posts">
+    <c:param name='id' value="${tripId}"/>
+</c:url>
+
 
 <c:choose>
     <c:when test="${empty param.ul}">
@@ -53,7 +66,7 @@
 
         var url = '../rest/security/travel_remove';
 
-        custom_alert =  {
+        custom_alert = {
 
         }
 
@@ -324,29 +337,25 @@
     <a onClick="onTripSubmit(this)" class="button"><fmt:message
             key="page.action.save"/></a>
     <ul>
-        <!--
-            -->
+
         <li><a onClick="onEditTabClick(this,'tab1')"
                class='${fn:contains(param.tb, "info") || empty param.tb ? "active":"" }'><fmt:message
                 key="content.information"/><span></span></a></li>
-        <!--
-            -->
+
         <li><a onClick="onEditTabClick(this,'tab2')" class='${fn:contains(param.tb, "map") ? "active":"" }'><fmt:message
                 key="trip.route"/><span></span></a></li>
-        <!--
-            -->
-        <li><a href="/travel_edit_photo"><fmt:message
+
+        <li><a href="${photosUrl}" class='${fn:contains(url, "photo") ? "active":"" }'><fmt:message
                 key="content.photo"/><span></span></a></li>
-        <!--
-            -->
-        <li><a href="/travel_edit_participants"><fmt:message
+
+        <li><a href="${participantsUrl}" class='${fn:contains(url, "participant") ? "active":"" }'><fmt:message
                 key="content.participants"/><span></span></a></li>
-        <!--
-            -->
-        <li><a href="/travel_edit_posts"><fmt:message
+
+
+        <li><a href="${postsUrl}" class='${fn:contains(url, "post") ? "active":"" }'><fmt:message
                 key="post.list.title"/><span></span></a></li>
-        <!--
-        -->
+
+
     </ul>
 </nav>
 
@@ -519,7 +528,6 @@
 
 </div>
 <!-- #content-->
-
 
 
 </div>
