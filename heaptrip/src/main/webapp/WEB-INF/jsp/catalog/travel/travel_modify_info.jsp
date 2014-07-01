@@ -467,12 +467,10 @@
         <ul><!--
 						
     						-->
-            <li><span class="activ"><fmt:message key="content.googleMaps"/></span>
+            <li><span class="activ"><fmt:message key="content.webMaps"/></span>
 
                 <div class="tabs_content">
-                    <div id="google_map_canvas" style="height:100%; width:100%;">
-
-                    </div>
+                    <div id="map_canvas" style="height:450px; width:100px;"></div>
                 </div>
             </li>
             <!--

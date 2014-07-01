@@ -1,4 +1,4 @@
-(function($) {
+/*(function($) {
 	$.fn.extend({
 		onShow : function(callback, unbind) {
 			return this.each(function() {
@@ -184,4 +184,23 @@ function newControl(controlDiv, map) {
     controlText.style.paddingRight = '4px';
     controlText.innerHTML = '<input type="radio" checked="checked" name="edit" id="line"/><lable for="line">Пути</lable><input type="radio" name="edit" id="metka"/><lable for="metka">Метки</lable>';
     controlUI.appendChild(controlText);
-}
+}  */
+
+
+//$(window).bind("onPageReady", function(e, paramsJson) {
+
+    $(document).ready(function () {
+
+        var mapCanvas = $('#map_canvas');
+        mapCanvas.width($('#map_canvas').parent().width());
+        mapCanvas.height($('#map_canvas').parent().height());
+        $('#map_canvas').show();
+
+        map = new OpenLayers.Map("map_canvas");
+        map.addLayer(new OpenLayers.Layer.OSM());
+        map.zoomToMaxExtent();
+    });
+
+
+//});
+

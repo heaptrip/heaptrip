@@ -93,7 +93,7 @@
     <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
             <add-attribute
-                    value="http://maps.googleapis.com/maps/api/js?sensor=false&amp;language=ru&amp;libraries=drawing,geometry"/>
+                    value="http://www.openlayers.org/api/OpenLayers.js"/>
             <add-attribute value="/js/map.js"/>
         </put-list-attribute>
     </definition>
