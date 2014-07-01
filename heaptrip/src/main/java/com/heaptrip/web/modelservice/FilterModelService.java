@@ -1,6 +1,7 @@
 package com.heaptrip.web.modelservice;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.heaptrip.util.tuple.TreObject;
 import com.heaptrip.web.model.content.RegionModel;
@@ -8,7 +9,7 @@ import com.heaptrip.web.model.filter.CategoryTreeModel;
 
 public interface FilterModelService {
 
-	List<CategoryTreeModel> getCategories();
+    List<CategoryTreeModel> getCategories(Locale locale);
 
 	List<RegionModel> searchRegionsByText(String text);
 

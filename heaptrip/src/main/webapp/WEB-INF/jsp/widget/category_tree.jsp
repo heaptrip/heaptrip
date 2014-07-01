@@ -125,7 +125,7 @@
 </script>
 
 <div id="category" class="filtr">
-    <div id="category_zag" class="zag">""</div>
+    <div id="category_zag" class="zag"></div>
     <div class="content" style="display: block;">
         <div class="tree" style="height:205px;"></div>
         <tiles:insertAttribute name="category_tree_btn"/>

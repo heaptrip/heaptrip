@@ -51,7 +51,7 @@ public class FilterController extends ExceptionHandlerControler {
         uid = uid.isEmpty() ? null : uid;
 
         try {
-            List<CategoryTreeModel> categoryModels = filterModelService.getCategories();
+            List<CategoryTreeModel> categoryModels = filterModelService.getCategories(scopeService.getCurrentLocale());
             Map<String, Object> result = new HashMap<>();
             result.put("categories", categoryModels);
 

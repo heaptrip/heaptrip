@@ -1,9 +1,6 @@
 package com.heaptrip.web.modelservice;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.heaptrip.domain.entity.account.Account;
 import com.heaptrip.domain.entity.category.SimpleCategory;
@@ -11,6 +8,8 @@ import com.heaptrip.domain.entity.region.SimpleRegion;
 import com.heaptrip.domain.service.account.AccountService;
 import com.heaptrip.domain.service.account.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.heaptrip.domain.entity.account.user.User;
@@ -38,7 +37,8 @@ public class FilterModelServiceImpl extends RequestScopeServiceImpl implements F
     private UserService accountService;
 
     @Override
-    public List<CategoryTreeModel> getCategories() {
+    @Cacheable(value = "categories")
+    public List<CategoryTreeModel> getCategories(Locale locale) {
         List<Category> categories = categoryService.getCategories(getCurrentLocale());
         Map<String, CategoryTreeModel> map = new HashMap();
         map.put(null, new CategoryTreeModel());
