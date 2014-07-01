@@ -147,9 +147,9 @@
         $('#schedule_table > tbody  > tr')
                 .each(
                 function (iTR, tr) {
-                    var item = (tr.id ? {
-                        id: tr.id
-                    } : {});
+                    var item = (tr.id ? {id: tr.id } : {});
+
+
                     $(this)
                             .children('td')
                             .each(
@@ -197,11 +197,14 @@
                                 }
                             });
 
+                    item.members = $(tr).attr('members');
+
                     schedule.push(item);
 
                 });
 
         jsonData.schedule = schedule;
+
 
         var url = (tripId ? '../rest/security/travel_update'
                 : '../rest/security/travel_save');
@@ -409,7 +412,7 @@
                 </c:when>
                 <c:otherwise>
                     <c:forEach items="${trip.schedule}" var="scheduleItem">
-                        <tr id="${scheduleItem.id}">
+                        <tr id="${scheduleItem.id}" members="${scheduleItem.members}">
                             <td><fmt:message key="page.date.from"/> <input
                                     value="${scheduleItem.begin.text}" type="text"
                                     class="datepicker"> <br/> <fmt:message
