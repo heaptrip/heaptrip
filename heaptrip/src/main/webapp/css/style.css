@@ -1155,7 +1155,7 @@ article .table_inf th:first-child {
 }
 
 #article .tabs ul li div.tabs_content li img{
-	width: 199px; 
+	/*width: 199px;*/
 	height: 184px;
 	display: block;
 	-webkit-border-radius: 8px;
