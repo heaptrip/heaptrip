@@ -28,7 +28,7 @@
 
         <security:intercept-url pattern="/.*need_login.*" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/.*security.*" access="hasRole('ROLE_USER')"/>
-        <security:intercept-url pattern="/.*modify.*" access="hasRole('ROLE_USER')"/>
+        <security:intercept-url pattern="/.*modify_.*" access="hasRole('ROLE_USER')"/>
         <security:intercept-url pattern="/.*" access="permitAll"/>
 
 
