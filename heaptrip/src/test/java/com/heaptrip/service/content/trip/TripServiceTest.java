@@ -2,9 +2,6 @@ package com.heaptrip.service.content.trip;
 
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.content.Map;
-import com.heaptrip.domain.entity.content.Marker;
-import com.heaptrip.domain.entity.content.Point;
 import com.heaptrip.domain.entity.content.post.Post;
 import com.heaptrip.domain.entity.content.trip.TableItem;
 import com.heaptrip.domain.entity.content.trip.TableStatusEnum;
@@ -168,9 +165,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
         String summary = "Краткое описание тестовой поездки";
         String description = "Полное описание тестовой поездки";
         String routeText = "Описание маршрута";
-        Point[] points = new Point[]{new Point("1.1", "1.2"), new Point("2.1", "2.2"), new Point("3.1", "3.2")};
-        Marker[] markers = new Marker[]{new Marker("1.1", "1.2", "Ночлег"), new Marker("3.1", "3.2", "Последний рубеж")};
-        Map map = new Map(points, markers);
+        String map = "JSON with map";
         trip.getName().setValue(name, locale);
         trip.getSummary().setValue(summary, locale);
         trip.getDescription().setValue(description, locale);
@@ -198,21 +193,7 @@ public class TripServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertNotNull(trip.getRoute().getText().getValue(locale));
         Assert.assertEquals(trip.getRoute().getText().getValue(locale), routeText);
         Assert.assertNotNull(trip.getRoute().getMap());
-        Assert.assertNotNull(trip.getRoute().getMap().getPoints());
-        Assert.assertEquals(trip.getRoute().getMap().getPoints().length, points.length);
-        for (int i = 0; i < trip.getRoute().getMap().getPoints().length; i++) {
-            Point point = trip.getRoute().getMap().getPoints()[i];
-            Assert.assertEquals(point.getOb(), points[i].getOb());
-            Assert.assertEquals(point.getPb(), points[i].getPb());
-        }
-        Assert.assertNotNull(trip.getRoute().getMap().getMarkers());
-        Assert.assertEquals(trip.getRoute().getMap().getMarkers().length, markers.length);
-        for (int i = 0; i < trip.getRoute().getMap().getMarkers().length; i++) {
-            Marker marker = trip.getRoute().getMap().getMarkers()[i];
-            Assert.assertEquals(marker.getOb(), markers[i].getOb());
-            Assert.assertEquals(marker.getPb(), markers[i].getPb());
-            Assert.assertEquals(marker.getText(), markers[i].getText());
-        }
+        Assert.assertEquals(trip.getRoute().getMap(), map);
     }
 
     @Test(priority = 7, enabled = true)
