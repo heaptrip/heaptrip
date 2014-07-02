@@ -196,29 +196,32 @@ $(document).ready(function () {
     mapCanvas.height($('#map_canvas').parent().height());
     map = new OpenLayers.Map("map_canvas");
     map.addLayer(new OpenLayers.Layer.OSM());
-    //bounds = new OpenLayers.Bounds( ­77,03949, 38,9899, ­77,02625, 39,99684 );
-
-
-    /*new google.maps.LatLng(59.92749568088279, 30.3662109375),
-        new google.maps.LatLng(59.65109171169264, 31.080322265625),
-        new google.maps.LatLng(59.74532608213611,31.849365234375),
-        new google.maps.LatLng(59.92199002450385, 32.34375)      */
-
-
 
     bounds = new OpenLayers.Bounds();
     bounds.extend(new OpenLayers.LonLat(29.4, 60.0));
-    bounds.extend(new OpenLayers.LonLat(30.9, 59.9));
+    bounds.extend(new OpenLayers.LonLat(30.9, 59.8));
     bounds.toBBOX()
-
     bounds.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
+
+
+    //map.addLayer(markers);
+
+
+    map.addControl(
+        new OpenLayers.Control.MousePosition({
+            prefix: '<a target="_blank" ' +
+                'href="http://spatialreference.org/ref/epsg/4326/">' +
+                'EPSG:4326</a> coordinates: ',
+            separator: ' | ',
+            numDigits: 2,
+            emptyString: 'Mouse is not over map.'
+        })
+    );
+
+
     map.zoomToExtent(bounds, true);
 
 });
-
-
-
-
 
 
 //});
