@@ -3,7 +3,6 @@ package com.heaptrip.domain.entity.content.event;
 import com.heaptrip.domain.entity.Price;
 import com.heaptrip.domain.entity.content.Content;
 import com.heaptrip.domain.entity.content.ContentEnum;
-import com.heaptrip.domain.entity.content.Map;
 
 /**
  * Event
@@ -20,7 +19,7 @@ public class Event extends Content {
     private Price price;
 
     // google map
-    private Map map;
+    private String map;
 
     // show map or not
     private boolean showMap;
@@ -54,11 +53,11 @@ public class Event extends Content {
         this.price = price;
     }
 
-    public Map getMap() {
+    public String getMap() {
         return map;
     }
 
-    public void setMap(Map map) {
+    public void setMap(String map) {
         this.map = map;
     }
 

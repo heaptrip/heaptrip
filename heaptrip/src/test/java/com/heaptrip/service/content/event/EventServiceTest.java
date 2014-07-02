@@ -3,9 +3,6 @@ package com.heaptrip.service.content.event;
 import com.heaptrip.domain.entity.MultiLangText;
 import com.heaptrip.domain.entity.category.SimpleCategory;
 import com.heaptrip.domain.entity.content.ContentStatusEnum;
-import com.heaptrip.domain.entity.content.Map;
-import com.heaptrip.domain.entity.content.Marker;
-import com.heaptrip.domain.entity.content.Point;
 import com.heaptrip.domain.entity.content.event.Event;
 import com.heaptrip.domain.entity.content.event.EventType;
 import com.heaptrip.domain.exception.event.EventException;
@@ -110,9 +107,7 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
         String name = "Тестовое событие No1";
         String summary = "Краткое описание тестового события";
         String description = "Полное описание тестового события";
-        Point[] points = new Point[]{new Point("1.1", "1.2"), new Point("2.1", "2.2"), new Point("3.1", "3.2")};
-        Marker[] markers = new Marker[]{new Marker("1.1", "1.2", "Ночлег"), new Marker("3.1", "3.2", "Последний рубеж")};
-        Map map = new Map(points, markers);
+        String map = "JSON with map";
         event.getName().setValue(name, locale);
         event.getSummary().setValue(summary, locale);
         event.getDescription().setValue(description, locale);
@@ -137,21 +132,7 @@ public class EventServiceTest extends AbstractTestNGSpringContextTests {
         Assert.assertEquals(event.getTypes().length, EVENT_TYPE_IDS.length);
         // check map
         Assert.assertNotNull(event.getMap());
-        Assert.assertNotNull(event.getMap().getPoints());
-        Assert.assertEquals(event.getMap().getPoints().length, points.length);
-        for (int i = 0; i < event.getMap().getPoints().length; i++) {
-            Point point = event.getMap().getPoints()[i];
-            Assert.assertEquals(point.getOb(), points[i].getOb());
-            Assert.assertEquals(point.getPb(), points[i].getPb());
-        }
-        Assert.assertNotNull(event.getMap().getMarkers());
-        Assert.assertEquals(event.getMap().getMarkers().length, markers.length);
-        for (int i = 0; i < event.getMap().getMarkers().length; i++) {
-            Marker marker = event.getMap().getMarkers()[i];
-            Assert.assertEquals(marker.getOb(), markers[i].getOb());
-            Assert.assertEquals(marker.getPb(), markers[i].getPb());
-            Assert.assertEquals(marker.getText(), markers[i].getText());
-        }
+        Assert.assertEquals(event.getMap(), map);
         Assert.assertEquals(event.isShowMap(), true);
     }
 
