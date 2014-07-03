@@ -74,11 +74,11 @@ input {
 
 #path {
     background: #292929;
-   // border: 1px solid #404141;
+   /* border: 1px solid #404141;*/
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    //behavior: url(/pie/PIE.htc);
+    behavior: url(/pie/PIE.htc);
     position: absolute;
     left: 200px;
     top: 8px;
@@ -90,7 +90,7 @@ input {
     padding: 0 7px 0 7px;
     height: 18px;
     line-height: 18px;
-   // border: 1px solid #404141;
+   /* border: 1px solid #404141;*/
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;

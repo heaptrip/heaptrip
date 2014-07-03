@@ -474,7 +474,7 @@
             <li><span class="activ"><fmt:message key="content.webMaps"/></span>
 
                 <div class="tabs_content" style="height:450px; width:626px">
-                    <div id="map_canvas"></div>
+                    <div id="map_canvas" class="smallmap"></div>
                     <div id="map_data" style="display: none;">${trip.route.map}</div>
                 </div>
             </li>

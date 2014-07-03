@@ -95,6 +95,7 @@
             <add-attribute value="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"/>
             <add-attribute value="/js/lib/OpenLayers-2.13.1/OpenLayers.js"/>
             <add-attribute value="/js/lib/ole/lib/loader.js"/>
+           <add-attribute value="/js/lib/openlayers-fullscreen/lib/OpenLayers/Control/FullScreen.js"/>
             <add-attribute value="/js/map.js"/>
         </put-list-attribute>
     </definition>
@@ -129,8 +130,9 @@
 
     <definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
         <put-list-attribute name="styles" inherit="true">
-            <add-attribute value="/js/lib/ole/theme/geosilk/geosilk.css"/>
             <add-attribute value="/css/style.css"/>
+            <add-attribute value="/js/lib/ole/theme/geosilk/geosilk.css"/>
+            <add-attribute value="/js/lib/openlayers-fullscreen/css/fullscreen.css"/>
         </put-list-attribute>
     </definition>
 

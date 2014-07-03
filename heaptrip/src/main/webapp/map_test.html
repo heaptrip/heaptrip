@@ -7,8 +7,14 @@
 
     <link rel="stylesheet" href="./js/lib/ole/theme/geosilk/geosilk.css" type="text/css"/>
 
+
+    <link rel="stylesheet" href="./js/lib/openlayers-fullscreen/css/fullscreen.css" type="text/css">
+
     <script src="./js/lib/OpenLayers-2.13.1/OpenLayers.js"></script>
     <script type="text/javascript" src="./js/lib/ole/lib/loader.js"></script>
+
+    <script src="./js/lib/openlayers-fullscreen/lib/OpenLayers/Control/FullScreen.js"></script>
+
 
 
     <script type="text/javascript">
@@ -77,6 +83,11 @@
             editor.startEditMode();
 
             map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+            var fullScreenPanel = new OpenLayers.Control.Panel();
+            fullScreenPanel.addControls([new OpenLayers.Control.FullScreen()]);
+            map.addControl(fullScreenPanel);
+
             map.zoomToExtent(bounds, true);
 
         }
@@ -87,7 +98,8 @@
     <style type="text/css">
             /* Make map consume all available space */
         html, body, #map {
-            height: 100%;
+            height: 400px;
+            width: 500px;
             margin: 0;
         }
 
@@ -95,6 +107,6 @@
 
 </head>
 <body onload="init()">
-<div id="map"></div>
+<div id="map" class="smallmap"></div>
 </body>
 </html>

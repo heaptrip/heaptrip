@@ -87,6 +87,10 @@ $(document).ready(function () {
         })
     );
 
+    var fullScreenPanel = new OpenLayers.Control.Panel();
+    fullScreenPanel.addControls([new OpenLayers.Control.FullScreen()]);
+    map.addControl(fullScreenPanel);
+
     if (window.location.href.indexOf('modify') > 0) {
 
         var editor = new OpenLayers.Editor(getMap(), {
