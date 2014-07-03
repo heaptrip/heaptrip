@@ -21,7 +21,15 @@ var showMapData = function () {
         vectorLayer.removeAllFeatures();
         var geoJSON = new OpenLayers.Format.GeoJSON();
         vectorLayer.addFeatures(geoJSON.read(mapDataGeoJSON));
-        getMap().zoomToExtent(vectorLayer.getDataExtent())
+        if (mapDataGeoJSON.features.length == 1 && mapDataGeoJSON.features[0].geometry.type == 'Point') {
+            var bounds = new OpenLayers.Bounds();
+            bounds.extend(new OpenLayers.LonLat(mapDataGeoJSON.features[0].geometry.coordinates[0] - 10000, mapDataGeoJSON.features[0].geometry.coordinates[1] - 10000));
+            bounds.extend(new OpenLayers.LonLat(mapDataGeoJSON.features[0].geometry.coordinates[0] + 10000, mapDataGeoJSON.features[0].geometry.coordinates[1] + 10000));
+            getMap().zoomToExtent(bounds, true);
+        } else {
+            getMap().zoomToExtent(vectorLayer.getDataExtent())
+        }
+
     } else {
         var bounds = new OpenLayers.Bounds();
         bounds.extend(new OpenLayers.LonLat(29.4, 60.0));
