@@ -11,19 +11,37 @@
     <script type="text/javascript" src="./js/lib/ole/lib/loader.js"></script>
 
 
-
-
     <script type="text/javascript">
+
+
+        function read() {
+            var geoJSON = new OpenLayers.Format.GeoJSON();
+            json = geoJSON.write(vectorLayer.features);
+
+            console.log(json)
+        }
+
+        function write() {
+            vectorLayer.removeAllFeatures();
+            var geoJSON = new OpenLayers.Format.GeoJSON();
+            vectorLayer.addFeatures(geoJSON.read(json));
+            map.zoomToExtent(vectorLayer.getDataExtent())
+
+        }
 
         function init() {
 
             OpenLayers.Lang.setCode("ru");
 
-            var map = new OpenLayers.Map('map', {
+
+            vectorLayer = new OpenLayers.Layer.Vector("Vector");
+
+
+            map = new OpenLayers.Map('map', {
 
                 layers: [
                     new OpenLayers.Layer.OSM(
-                            "OSM"
+                            "Open Street Map"
                     ) ,
                     new OpenLayers.Layer.Google(
                             "Google Physical",
@@ -39,7 +57,7 @@
                     new OpenLayers.Layer.Google(
                             "Google Satellite",
                             {type: google.maps.MapTypeId.SATELLITE}
-                    )
+                    ), vectorLayer
                 ]
             });
 
@@ -51,9 +69,10 @@
             bounds.transform(new OpenLayers.Projection("EPSG:4326"), map.getProjectionObject());
 
 
-            var editor = new OpenLayers.Editor(map, {
-                activeControls: [ 'DragFeature', 'SelectFeature', 'Separator', 'DeleteFeature', 'DrawHole','TransformFeature','ModifyFeature', 'Separator', 'DrawText', 'Separator'],
-                featureTypes: ['regular', 'polygon', 'path', 'point']
+            editor = new OpenLayers.Editor(map, {
+                activeControls: [ 'DragFeature', 'SelectFeature', 'Separator', 'DeleteFeature', 'DrawHole', 'TransformFeature', 'ModifyFeature', 'Separator', 'DrawText', 'Separator'],
+                featureTypes: ['regular', 'polygon', 'path', 'point'],
+                editLayer: vectorLayer
             });
             editor.startEditMode();
 

@@ -92,8 +92,9 @@
 
     <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
-            <add-attribute
-                    value="http://www.openlayers.org/api/OpenLayers.js"/>
+            <add-attribute value="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"/>
+            <add-attribute value="/js/lib/OpenLayers-2.13.1/OpenLayers.js"/>
+            <add-attribute value="/js/lib/ole/lib/loader.js"/>
             <add-attribute value="/js/map.js"/>
         </put-list-attribute>
     </definition>
@@ -128,6 +129,7 @@
 
     <definition name="catalogStylesTemplate" extends="jqueryuiStylesTemplate">
         <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="/js/lib/ole/theme/geosilk/geosilk.css"/>
             <add-attribute value="/css/style.css"/>
         </put-list-attribute>
     </definition>
