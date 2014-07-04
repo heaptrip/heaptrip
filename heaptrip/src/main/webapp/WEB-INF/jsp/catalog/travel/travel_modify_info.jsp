@@ -118,7 +118,7 @@
         jsonData.summary = CKEDITOR.instances['desc_post'].getData(); // $("#desc_post").val();
         jsonData.description = CKEDITOR.instances['desc_full_post'].getData(); // $("#desc_full_post").val();
         $.extend(jsonData, {status: {value: statusValue}});
-        $.extend(jsonData, {route: {text: $("#desc_rout_post").val()}});
+        $.extend(jsonData, {route: {text: $("#desc_rout_post").val(), map: readMapData()}});
 
         var paramsJson = $.getParamFromURL();
 
@@ -235,6 +235,13 @@
         var hideTabId = (showTabId == 'tab1') ? 'tab2' : 'tab1';
         $("#" + hideTabId).hide();
         $("#" + showTabId).show();
+
+        $('#map_canvas').width($('#map_canvas').parent().parent().parent().width());
+
+        //$('#map_canvas').width(626);
+
+        //$('#map_canvas').height(450);
+
     }
 
 </script>
@@ -462,19 +469,15 @@
 
 <div id="tab2" style='display:${fn:contains(param.tb, "map") ? "true":"none" }'>
 
-
     <div class="tabs tabs_interactiv">
-        <ul><!--
-						
-    						-->
+        <ul>
             <li><span class="activ"><fmt:message key="content.webMaps"/></span>
 
-                <div class="tabs_content">
-                    <div id="map_canvas" style="height:450px; width:100px;"></div>
+                <div class="tabs_content" style="height:450px; width:626px">
+                    <div id="map_canvas" class="smallmap"></div>
+                    <div id="map_data" style="display: none;">${trip.route.map}</div>
                 </div>
             </li>
-            <!--
-                                        -->
             <li><span><fmt:message key="content.maps"/></span>
 
                 <div class="tabs_content">

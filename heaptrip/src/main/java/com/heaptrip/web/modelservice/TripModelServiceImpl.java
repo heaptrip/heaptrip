@@ -183,6 +183,7 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
         RouteModel routeModel = new RouteModel();
         if (route != null) {
             routeModel.setText(getMultiLangTextValue(route.getText(), locale, isOnlyThisLocale));
+            routeModel.setMap(route.getMap());
         }
         return routeModel;
     }
@@ -219,11 +220,15 @@ public class TripModelServiceImpl extends ContentModelServiceImpl implements Tri
 
     private Route convertRouteModelToRoute(RouteModel routeModel, Locale locale) {
         Route route = null;
-        if (routeModel != null && routeModel.getText() != null) {
+        if (routeModel != null) {
             route = new Route();
             if (routeModel.getText() != null) {
                 route.setText(new MultiLangText(routeModel.getText(), locale));
             }
+            if (routeModel.getMap() != null) {
+                route.setMap(routeModel.getMap());
+            }
+
         }
         return route;
     }

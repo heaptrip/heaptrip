@@ -38,13 +38,17 @@
                     // a string describing the status;
                     // and the jqXHR
                     success: function (response, textStatus, jqXHR) {
-
-                        if (response.status && response.status == 'success') {
-                            callbackSuccess(response.data, jqXHR);
-                        } else {
-                            callbackError(response.message, response.data,
-                                jqXHR);
+                        if (url.indexOf("rest") > 0) {
+                            if (response.status && response.status == 'success') {
+                                callbackSuccess(response.data, jqXHR);
+                            } else {
+                                callbackError(response.message, response.data,
+                                    jqXHR);
+                            }
+                        } else{
+                            callbackSuccess(response, jqXHR);
                         }
+
 
                     },
                     // A function to be called if the request fails.

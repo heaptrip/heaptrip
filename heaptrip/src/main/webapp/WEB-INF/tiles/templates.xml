@@ -92,8 +92,10 @@
 
     <definition name="contentWithMapScriptsTemplate" extends="contentScriptsTemplate">
         <put-list-attribute name="scripts" inherit="true">
-            <add-attribute
-                    value="http://www.openlayers.org/api/OpenLayers.js"/>
+            <add-attribute value="http://maps.google.com/maps/api/js?v=3&amp;sensor=false"/>
+            <add-attribute value="/js/lib/OpenLayers-2.13.1/OpenLayers.js"/>
+            <add-attribute value="/js/lib/ole/lib/loader.js"/>
+           <add-attribute value="/js/lib/openlayers-fullscreen/lib/OpenLayers/Control/FullScreen.js"/>
             <add-attribute value="/js/map.js"/>
         </put-list-attribute>
     </definition>
@@ -131,6 +133,14 @@
             <add-attribute value="/css/style.css"/>
         </put-list-attribute>
     </definition>
+
+    <definition name="catalogMapStylesTemplate" extends="catalogStylesTemplate">
+        <put-list-attribute name="styles" inherit="true">
+            <add-attribute value="/js/lib/openlayers-fullscreen/css/fullscreen.css"/>
+            <add-attribute value="/js/lib/ole/theme/geosilk/geosilk.css"/>
+        </put-list-attribute>
+    </definition>
+
 
     <definition name="catalogTemplate" template="/WEB-INF/jsp/content.jsp">
         <put-attribute name="catalog_tabs" value="/WEB-INF/jsp/menu.jsp"/>
@@ -206,7 +216,7 @@
 
     <definition name="travel_maps" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentWithMapScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="styles_ins" value="catalogMapStylesTemplate"/>
         <put-attribute name="main_content" value="travelMapsCatalogTemplate"/>
     </definition>
 
@@ -234,7 +244,7 @@
 
     <definition name="travel_modify_info" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="contentEditWithMapScriptsTemplate"/>
-        <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
+        <put-attribute name="styles_ins" value="catalogMapStylesTemplate"/>
         <put-attribute name="main_content" value="travelInfoEditCatalogTemplate"/>
     </definition>
 

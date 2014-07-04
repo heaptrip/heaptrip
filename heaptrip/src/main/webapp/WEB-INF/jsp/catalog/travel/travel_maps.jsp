@@ -9,7 +9,8 @@
         <li><span class="activ"><fmt:message key="content.webMaps"/></span>
 
             <div class="tabs_content">
-                <div id="map_canvas" style="height:450px; width:100px;"></div>
+                <div id="map_canvas" class="smallmap" style="height:450px;"></div>
+                <div id="map_data" style="display: none;">${trip.route.map}</div>
             </div>
         </li>
         <!--
