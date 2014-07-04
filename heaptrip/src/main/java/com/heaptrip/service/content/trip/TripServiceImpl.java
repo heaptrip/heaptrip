@@ -177,7 +177,7 @@ public class TripServiceImpl extends ContentServiceImpl implements TripService {
     public TableItem getLatestTableItem(String tripId) {
         Assert.notNull(tripId, "tripId must not be null");
         TableItem[] items = tripRepository.getTableItemsWithDateBeginAndDateEnd(tripId);
-        if (items != null) {
+        if (items != null && items.length > 0) {
             Arrays.sort(items, new TableItemDateEndComparator());
             return items[items.length - 1];
         }
