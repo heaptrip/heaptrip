@@ -4,6 +4,55 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 
+<script>
+
+    var onSendRequestFriendshipBtnClick = function (e) {
+        var url = '../rest/security/request_friendship';
+        var callbackSuccess = function (data) {
+            $(e).remove();
+        };
+        var callbackError = function (error) {
+            $alert(error);
+        };
+        $.postJSON(url, window.catcher.id, callbackSuccess, callbackError);
+    };
+
+    var onSendRefusalFriendshipBtnClick = function (e) {
+        var url = '../rest/security/refusal_of_friendship';
+        var callbackSuccess = function (data) {
+            $(e).remove();
+        };
+        var callbackError = function (error) {
+            $alert(error);
+        };
+        $.postJSON(url, window.catcher.id, callbackSuccess, callbackError);
+    };
+
+    var onAddPublisherBtnClick = function (e) {
+        var url = '../rest/security/add_publisher';
+        var callbackSuccess = function (data) {
+            $(e).remove();
+        };
+        var callbackError = function (error) {
+            $alert(error);
+        };
+        $.postJSON(url, window.catcher.id, callbackSuccess, callbackError);
+    };
+
+    var onSendUnsubscribeFromPublisherBtnClick = function (e) {
+        var url = '../rest/security/unsubscribe_from_publisher';
+        var callbackSuccess = function (data) {
+            $(e).remove();
+        };
+        var callbackError = function (error) {
+            $alert(error);
+        };
+        $.postJSON(url, window.catcher.id, callbackSuccess, callbackError);
+    };
+
+</script>
+
+
 <div id="container">
     <div id="contents">
 
@@ -14,26 +63,26 @@
                 </div>
 
                 <c:if test='${not empty principal && empty catcher}'>
-
                     <div class="right">
                         <a href="<c:url value="../pf/profile_modify_info?guid=${param.guid}"/>"
                            class="button"><fmt:message
                                 key="page.action.edit"/></a>
                     </div>
-
                 </c:if>
 
                 <div class="accountProfile">
                     <div class="my_avatar"><img src="<c:url value="../rest/image/medium/${account.image.id}"/>">
                         <c:choose>
                             <c:when test="${not empty principal && empty catcher}">
-                                <a id = "my_avatar_btn" class="button"><fmt:message key="page.action.uploadPhoto"/></a>
+                                <a id="my_avatar_btn" class="button"><fmt:message key="page.action.uploadPhoto"/></a>
                             </c:when>
                             <c:otherwise>
                                 <c:if test="${not empty principal && not empty catcher}">
                                     <div>
-                                        <a class="button" onclick="$.alert('not implement yet')"><fmt:message key="people.menu.SendRequestFriendship"/></a>
-                                        <a class="button" onclick="$.alert('not implement yet')"><fmt:message key="people.menu.AddPublisher"/></a>
+                                        <a class="button" onclick="onSendRequestFriendshipBtnClick(this)"> <fmt:message
+                                                key="people.menu.SendRequestFriendship"/></a>
+                                        <a class="button" onclick="onAddPublisherBtnClick(this)"><fmt:message
+                                                key="people.menu.AddPublisher"/></a>
                                     </div>
                                 </c:if>
                             </c:otherwise>
