@@ -18,14 +18,14 @@
 	text-align: left;
 }
 
-#nav ul{ 
+#nav ul{
     margin: 0;
     padding: 0;
     list-style: none;
-	position: relative;
-	left: 202px;
-	top: 4px;
-	width: 736px;
+    position: relative;
+    left: 202px;
+    top: 4px;
+    width: 736px;
 }
 
 #nav ul li{
@@ -42,8 +42,8 @@
     display: block;
     height: 29px;
     line-height: 29px;
-	margin: 0 2px;
-	padding: 0 10px;
+	margin: 0 1px;
+	padding: 0 8px;
     text-decoration: none;
     font-family: "Verdana";
     font-size: 15px;

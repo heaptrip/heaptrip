@@ -279,30 +279,30 @@
     </definition>
 
     <definition name="peopleTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/people.jsp"/>
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_people.jsp"/>
     </definition>
 
-    <definition name="people" extends="mainTemplate">
+    <definition name="profile_people" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="peopleTemplate"/>
     </definition>
 
     <definition name="communityPeopleTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/comm_people.jsp"/>
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_people.jsp"/>
     </definition>
 
-    <definition name="comm_people" extends="mainTemplate">
+    <definition name="community_people" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communityPeopleTemplate"/>
     </definition>
 
     <definition name="userSettingTemplate" extends="catalogTemplate">
-        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/options.jsp"/>
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/account/profile_modify_options.jsp"/>
     </definition>
 
-    <definition name="options" extends="mainTemplate">
+    <definition name="profile_modify_options" extends="mainTemplate">
         <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
         <put-attribute name="styles_ins" value="registrationCommunityStylesTemplate"/>
         <put-attribute name="main_content" value="userSettingTemplate"/>
@@ -318,6 +318,10 @@
         <put-attribute name="main_content" value="communitiesTemplate"/>
     </definition>
 
+    <definition name="communitySettingTemplate" extends="catalogTemplate">
+        <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_modify_options.jsp"/>
+    </definition>
+
     <definition name="communityInfoEditTemplate" extends="catalogTemplate">
         <put-attribute name="catalog_content" value="/WEB-INF/jsp/profile/community/community_modify_info.jsp"/>
     </definition>
@@ -326,6 +330,12 @@
         <put-attribute name="scripts_ins" value="contentEditScriptsTemplate"/>
         <put-attribute name="styles_ins" value="catalogStylesTemplate"/>
         <put-attribute name="main_content" value="communityInfoEditTemplate"/>
+    </definition>
+
+    <definition name="community_modify_options" extends="mainTemplate">
+        <put-attribute name="scripts_ins" value="profileListScriptsTemplate"/>
+        <put-attribute name="styles_ins" value="registrationCommunityStylesTemplate"/>
+        <put-attribute name="main_content" value="communitySettingTemplate"/>
     </definition>
 
 

@@ -59,7 +59,7 @@
 
         if ($('#sideRight').attr('filter') == 'read_only') {
             $("#category_zag").text(locale.wgt.categories);
-        }else
+        } else
             $("#category_zag").text(locale.wgt.categorySelect);
 
         var url = '../rest/categories';
@@ -94,9 +94,16 @@
                         if (!window.block) {
                             if (window.timeout)
                                 clearTimeout(window.timeout);
-                            window.timeout = setTimeout(function () {
-                                $.handParamToURL({ct: getSelectedCategories().join()});
-                            }, 1000);
+
+                            if ($('#sideRight').attr('filter') == 'edit') {
+                                    $.putLOCALParamToURL({ct: getSelectedCategories().join()});
+                            } else {
+                                window.timeout = setTimeout(function () {
+                                    $.handParamToURL({ct: getSelectedCategories().join()});
+                                }, 100);
+                            }
+
+
                         }
                     })
             $.allowLoading('getInitCategoryIds', {ct: data.userCategories ? data.userCategories.join() : $.getParamFromURL().ct});

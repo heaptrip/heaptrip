@@ -342,7 +342,7 @@
 </div>
 
 
-<aside id="sideRight">
+<aside id="sideRight" filter="edit">
     <tiles:insertDefinition name="categoryTree"/>
     <tiles:insertDefinition name="regionFilter"/>
 </aside>

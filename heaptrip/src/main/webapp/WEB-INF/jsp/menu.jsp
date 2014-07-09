@@ -6,7 +6,6 @@
 <nav id="nav">
 
 
-
 <div class="global_menu">
     <ul>
         <c:if test="${not empty principal}">
@@ -114,7 +113,7 @@
     <%--свой аккаунт--%>
     <c:if test="${mode eq 'PROFILE' && empty catcher}">
         <li>
-            <a href="<c:url value="/pf/profile"/>" class='${fn:contains(url, "/pf/profile") ? "active":"" }'>
+            <a href="<c:url value="/pf/profile"/>" class='${url eq "/heaptrip/pf/profile" ? "active":"" }'>
                 <fmt:message key="accountProfile.title"/>
             </a>
         </li>
@@ -125,7 +124,8 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf/people"/>" class='${fn:contains(url, "/pf/people") ? "active":"" }'>
+            <a href="<c:url value="/pf/profile_people"/>"
+               class='${fn:contains(url, "/pf/profile_people") ? "active":"" }'>
                 <fmt:message key="accountProfile.people"/>
             </a>
         </li>
@@ -135,7 +135,8 @@
             </a>
         </li>
         <li>
-            <a href="<c:url value="/pf/options"/>" class='${fn:contains(url, "/pf/options") ? "active":"" }'>
+            <a href="<c:url value="/pf/profile_modify_options"/>"
+               class='${fn:contains(url, "/pf/profile_modify_options") ? "active":"" }'>
                 <fmt:message key="accountProfile.options"/>
             </a>
         </li>
@@ -182,6 +183,12 @@
                     <fmt:message key="tiding.list.title"/>
                 </a>
             </li>
+            <li>
+                <a href="<c:url value="/pf/community_people?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "/pf/community_people") ? "active":"" }'>
+                    <fmt:message key="accountProfile.people"/>
+                </a>
+            </li>
 
         </c:if>
 
@@ -210,11 +217,16 @@
             </a>
         </li>
 
-        <li>
-            <a href="<c:url value="/pf/comm_people?guid=${catcher.id}"/>" class='${fn:contains(url, "/pf/comm_people") ? "active":"" }'>
-                <fmt:message key="accountProfile.people"/>
-            </a>
-        </li>
+        <%--тип чужого аккаунта сообщество и ползователь владелец сообщества--%>
+        <c:if test="${ catcher.typeAccount ne 'USER' &&  profileServiceWrapper.isUserOwnsCommunity(principal.id, catcher.id)}">
+            <li>
+                <a href="<c:url value="/pf/community_modify_options?guid=${catcher.id}"/>"
+                   class='${fn:contains(url, "/pf/community_modify_options") ? "active":"" }'>
+                    <fmt:message key="accountProfile.options"/>
+                </a>
+            </li>
+        </c:if>
+
     </c:if>
 
 </ul>

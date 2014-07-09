@@ -79,6 +79,13 @@ function buildRegionsTree(regionsDataArr) {
 
 $(window).bind("onPageReady", function (e, paramsJson) {
 
+    var localIds = getSelectedRegionsIds();
+    if (localIds.length > 0) {
+        if (localIds.join(',') == paramsJson.rg.split(',')) {
+            return;
+        }
+    }
+
     if (paramsJson.rg) {
         $('#region .tree').empty();
         buildRegionsTree(paramsJson.rg.split(','));

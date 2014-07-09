@@ -124,7 +124,7 @@ $(window).bind("onPageReady", function (e, paramsJson) {
         fromId: '1'
     };
 
-    var url = '../rest/find_comm_people';
+    var url = '../rest/find_community_people';
 
     var callbackSuccess = function (data) {
         if(data.owners){

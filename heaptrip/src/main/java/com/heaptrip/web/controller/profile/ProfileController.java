@@ -148,7 +148,7 @@ public class ProfileController extends ExceptionHandlerControler {
         }
     }
 
-    @RequestMapping(value = "find_comm_people", method = RequestMethod.POST)
+    @RequestMapping(value = "find_community_people", method = RequestMethod.POST)
     public
     @ResponseBody
     Map<String, ? extends Object> getCommunityPeoplesByCriteria(@RequestBody RelationCriteriaMap relationCriteriaMap) {

@@ -1,27 +1,26 @@
 #nav{
-	height: 37px;
-	background: #00BBFF;
-	border: 1px solid #0894C7;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	behavior: url(/pie/PIE.htc);
-	position: relative;
-	left: 0px;
-	margin-top: -36px;
-	z-index: 1;
-	text-align: left;
+    height: 37px;
+    background: #00BBFF;
+    border: 1px solid #0894C7;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    behavior: url(/pie/PIE.htc);
+    position: relative;
+    left: 0px;
+    margin-top: -36px;
+    z-index: 1;
+    text-align: left;
 }
 
-#nav ul{ 
+#nav ul{
     margin: 0;
     padding: 0;
     list-style: none;
-	position: relative;
-	left: 0px;
-	top: 4px;
-	width: 100%; 
-	text-align: center;
+    position: relative;
+    left: 202px;
+    top: 4px;
+    width: 736px;
 }
 
 #nav ul li{
@@ -38,8 +37,8 @@
     display: block;
     height: 29px;
     line-height: 29px;
-    margin: 0 2px;
-    padding: 0 10px;
+    margin: 0 1px;
+    padding: 0 8px;
     text-decoration: none;
     font-family: "Verdana";
     font-size: 15px;

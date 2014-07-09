@@ -7,7 +7,9 @@ import java.util.List;
  * Enumeration of supported languages
  */
 public enum LangEnum {
-    RU("ru"), EN("en"), DU("du"), FR("fr"), SW("sw");
+    RU("ru"), EN("en")
+    //, DU("du"), FR("fr"), SW("sw")
+    ;
 
     private String value;
 
