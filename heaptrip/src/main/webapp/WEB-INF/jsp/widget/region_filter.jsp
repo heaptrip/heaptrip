@@ -25,6 +25,9 @@ function getSelectedRegionsIds() {
 
 
 function create_tree(n) {
+
+    $("#region input[type=text]").val('');
+
     var i = 0;
     while (n[i]) {
         if (!$("#region .tree #" + n[i].id).length) {
