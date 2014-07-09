@@ -172,7 +172,7 @@
 
             <li>
                 <a href="<c:url value="/pf/community?guid=${catcher.id}"/>"
-                   class='${fn:contains(url, "/pf/community") ? "active":"" }'>
+                   class='${url eq "/heaptrip/pf/community" ? "active":"" }'>
                     <fmt:message key="accountProfile.title"/>
                 </a>
             </li>
