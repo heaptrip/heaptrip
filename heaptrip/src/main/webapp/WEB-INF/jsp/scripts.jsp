@@ -5,6 +5,16 @@
 <%@page import="com.heaptrip.domain.entity.LangEnum" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
+
+<script type="text/javascript" >
+
+    if(!console){
+        console = {};
+        console.log = function(){return;};
+    }
+
+</script>
+
 <tiles:useAttribute id="script" name="scripts" classname="java.util.List"/>
 
 <c:forEach var="script" items="${script}">
