@@ -45,7 +45,7 @@
                                 callbackError(response.message, response.data,
                                     jqXHR);
                             }
-                        } else{
+                        } else {
                             callbackSuccess(response, jqXHR);
                         }
 
@@ -239,13 +239,15 @@ var onLocaleChange = function (locale) {
     });
 })(jQuery);
 
+// $.alert('Сообщение пример')
 (function ($) {
     $.extend({
         alert: function (text) {
-            $('<div>' + text + '</div>').dialog(
+            $('<div><h5>' + text + '</h5></div>').dialog(
                 {
-                    maxWidth: 600,
-                    maxHeight: 500,
+                    minWidth: 500,
+                    title: 'Сообщение',
+                    minHeight: 200,
                     width: 500,
                     height: 200,
                     modal: true
@@ -254,6 +256,55 @@ var onLocaleChange = function (locale) {
         }
     });
 })(jQuery);
+
+
+// $.dialog('Сообщение пример',function(){$.alert('Да')},function(){$.alert('Нет')},function(){$.alert('Отмена')});
+(function ($) {
+    $.extend({
+        dialog: function (text, yesFnc, noFnc, cancelFnc) {
+            var conf = {
+                modal: true,
+                title: 'Сообщение',
+                zIndex: 10000,
+                //width: 500,
+                //height: 200,
+                minWidth: 500,
+                minHeight: 200,
+                width: 500,
+                height: 200,
+                buttons: { },
+                close: function (event, ui) {
+                    $(this).remove();
+                }
+            }
+
+            if (yesFnc) {
+                conf.buttons['Да'] = function () {
+                    yesFnc();
+                    $(this).dialog("close");
+                }
+            }
+
+            if (noFnc) {
+                conf.buttons['Нет'] = function () {
+                    noFnc();
+                    $(this).dialog("close");
+                }
+            }
+            if (cancelFnc) {
+                conf.buttons['Отмена'] = function () {
+                    cancelFnc();
+                    $(this).dialog("close");
+                }
+            }
+
+            $('<div></div>').appendTo('body')
+                .html('<div><h5>' + text + '</h5></div>')
+                .dialog(conf);
+        }
+    });
+})(jQuery);
+
 
 (function ($) {
     $.extend({
